@@ -390,11 +390,14 @@ const initAttendanceChart = (data) => {
       axisPointer: {
         type: 'shadow'
       },
-      formatter: '{b}: {c}次'
+      formatter: function(params) {
+        const data = sortedData[params[0].dataIndex]
+        return `${data.name}<br/>${data.grade}年级 - ${data.major}<br/>签到次数: ${data.attendanceCount}次`
+      }
     },
     grid: {
       left: '5%',
-      right: '5%',
+      right: '25%',
       bottom: '3%',
       top: '10%',
       containLabel: true
@@ -428,6 +431,17 @@ const initAttendanceChart = (data) => {
             return colors[params.dataIndex % colors.length]
           },
           borderRadius: [0, 4, 4, 0]
+        },
+        label: {
+          show: true,
+          position: 'right',
+          formatter: function(params) {
+            const data = sortedData[params.dataIndex]
+            return `${data.grade}年级\n${data.major}`
+          },
+          fontSize: 12,
+          color: '#666',
+          lineHeight: 16
         },
         emphasis: {
           itemStyle: {
