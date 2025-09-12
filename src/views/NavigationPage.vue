@@ -30,12 +30,12 @@
           </div>
         </div>
         
-        <div class="card stats-card" @click="showStats">
+        <div class="card stats-card" @click="goToDashboard">
           <div class="card-icon">
             <el-icon size="40"><DataAnalysis /></el-icon>
           </div>
           <div class="card-content">
-            <h3>学习统计</h3>
+            <h3>数据看板</h3>
             <p>查看学习数据分析</p>
           </div>
         </div>
@@ -79,8 +79,8 @@ const showProfile = () => {
   ElMessage.info('个人信息功能开发中...')
 }
 
-const showStats = () => {
-  ElMessage.info('学习统计功能开发中...')
+const goToDashboard = () => {
+  router.push('/dashboard')
 }
 
 const showSettings = () => {

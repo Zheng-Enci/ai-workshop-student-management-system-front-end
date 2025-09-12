@@ -28,16 +28,23 @@ const routes = [
         component: () => import('../views/AttendancePage.vue'),
         meta: { requiresAuth: true }
     },
+    {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('../views/DashboardPage.vue'),
+        meta: { requiresAuth: true }
+    },
 ]
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory('/'),
     routes,
 })
 
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token');
   
+  // 如果需要认证的页面
   if (to.meta.requiresAuth) {
     if (!token) {
       next('/login');
@@ -48,16 +55,20 @@ router.beforeEach(async (to, from, next) => {
       const isValid = await validateToken(token);
       if (!isValid) {
         localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
         next('/login');
         return;
       }
     } catch (error) {
+      console.warn('Token validation error:', error.message);
       localStorage.removeItem('token');
+      localStorage.removeItem('userInfo');
       next('/login');
       return;
     }
   }
   
+  // 如果已登录且访问登录/注册页面，跳转到导航页
   if ((to.path === '/login' || to.path === '/register') && token) {
     try {
       const isValid = await validateToken(token);
@@ -65,10 +76,15 @@ router.beforeEach(async (to, from, next) => {
         next('/navigation');
         return;
       } else {
+        // token无效，清除并继续访问登录页
         localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
       }
     } catch (error) {
+      // 验证失败，清除token但继续访问登录页
+      console.warn('Token validation failed:', error.message);
       localStorage.removeItem('token');
+      localStorage.removeItem('userInfo');
     }
   }
   
