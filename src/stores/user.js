@@ -5,6 +5,7 @@ export const useUserStore = defineStore('user', {
         isLoggedIn: false,
         userInfo: null,
         token: null,
+        studentLevel: null,
     }),
     actions: {
         setUserInfo(info, token) {
@@ -18,9 +19,13 @@ export const useUserStore = defineStore('user', {
                 localStorage.setItem('userInfo', JSON.stringify(info));
             }
         },
+        setStudentLevel(level) {
+            this.studentLevel = level;
+        },
         logout() {
             this.userInfo = null;
             this.token = null;
+            this.studentLevel = null;
             this.isLoggedIn = false;
             localStorage.removeItem('token');
             localStorage.removeItem('userInfo');

@@ -29,7 +29,11 @@ const rules = {
 const handleLogin = async () => {
   try {
     const response = await login(form.value);
-    userStore.setUserInfo(response.data, response.data.token);
+    const userInfo = {
+      ...response.data,
+      studentId: form.value.studentId
+    };
+    userStore.setUserInfo(userInfo, response.data.token);
     
     if (rememberMe.value) {
       localStorage.setItem('rememberedUser', JSON.stringify({
@@ -84,7 +88,7 @@ onMounted(() => {
             <span class="input-icon">
               <ElIcon><Lock /></ElIcon>
             </span>
-            <ElInput type="password" v-model="form.password" placeholder="请输入密码" class="custom-input" />
+            <ElInput type="password" v-model="form.password" placeholder="请输入密码" class="custom-input" show-password />
           </div>
         </ElFormItem>
         <ElFormItem class="remember-me">

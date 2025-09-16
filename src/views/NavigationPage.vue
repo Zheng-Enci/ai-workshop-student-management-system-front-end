@@ -4,13 +4,23 @@
       <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo">
       <h1>AI坊学生管理系统</h1>
       <div class="user-info">
-        <span class="welcome-text">欢迎，{{ userStore.userInfo?.name || '学生' }}</span>
+        <div class="user-details">
+          <span class="welcome-text">欢迎，{{ userStore.userInfo?.name || '学生' }}</span>
+          <div class="level-info" :class="getLevelClass(userStore.studentLevel?.levelCode)" v-if="userStore.studentLevel">
+            <el-icon class="level-icon" :class="getLevelClass(userStore.studentLevel?.levelCode)"><Star /></el-icon>
+            <span class="level-text" :class="getLevelClass(userStore.studentLevel?.levelCode)">{{ getLevelName(userStore.studentLevel.levelCode) }}</span>
+          </div>
+          <div class="attendance-info" v-if="attendanceCount !== null">
+            <el-icon class="attendance-icon"><Calendar /></el-icon>
+            <span class="attendance-text">已签到 {{ attendanceCount }} 次</span>
+          </div>
+        </div>
       </div>
     </div>
     
     <div class="main-content">
       <div class="feature-cards">
-        <div class="card attendance-card" @click="goToAttendance">
+        <div class="card attendance-card" @click="goToAttendance" :class="getCardClass('attendance')">
           <div class="card-icon">
             <el-icon size="40"><Check /></el-icon>
           </div>
@@ -20,7 +30,7 @@
           </div>
         </div>
         
-        <div class="card profile-card" @click="showProfile">
+        <div class="card profile-card" @click="showProfile" :class="getCardClass('profile')">
           <div class="card-icon">
             <el-icon size="40"><User /></el-icon>
           </div>
@@ -30,7 +40,7 @@
           </div>
         </div>
         
-        <div class="card stats-card" @click="goToDashboard">
+        <div class="card stats-card" @click="goToDashboard" :class="getCardClass('stats')">
           <div class="card-icon">
             <el-icon size="40"><DataAnalysis /></el-icon>
           </div>
@@ -40,13 +50,23 @@
           </div>
         </div>
         
-        <div class="card settings-card" @click="showSettings">
+        <div class="card settings-card" @click="showSettings" :class="getCardClass('settings')">
           <div class="card-icon">
             <el-icon size="40"><Setting /></el-icon>
           </div>
           <div class="card-content">
             <h3>系统设置</h3>
             <p>个性化设置选项</p>
+          </div>
+        </div>
+        
+        <div class="card admin-card" @click="goToAdmin" v-if="isAdmin" :class="getCardClass('admin')">
+          <div class="card-icon">
+            <el-icon size="40"><UserFilled /></el-icon>
+          </div>
+          <div class="card-content">
+            <h3>学生管理</h3>
+            <p>管理员控制台</p>
           </div>
         </div>
       </div>
@@ -62,21 +82,58 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Check, User, DataAnalysis, Setting, SwitchButton } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, Setting, SwitchButton, Calendar, Star, UserFilled } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import { getMyAttendanceCount, getStudentLevel } from '@/api/user'
 
 const router = useRouter()
 const userStore = useUserStore()
+const attendanceCount = ref(null)
+
+const isAdmin = computed(() => {
+  return userStore.studentLevel?.levelCode === 3
+})
+
+const getLevelName = (levelCode) => {
+  const levelMap = {
+    0: '社团成员',
+    1: '普通成员', 
+    2: '核心成员',
+    3: '管理员'
+  }
+  return levelMap[levelCode] || '未知等级'
+}
+
+const getLevelClass = (levelCode) => {
+  const levelClassMap = {
+    0: 'club-member',
+    1: 'normal-member',
+    2: 'core-member',
+    3: 'admin'
+  }
+  return levelClassMap[levelCode] || 'club-member'
+}
+
+const getCardClass = (cardType) => {
+  const levelCode = userStore.studentLevel?.levelCode || 0
+  const levelClassMap = {
+    0: 'club-member',
+    1: 'normal-member',
+    2: 'core-member',
+    3: 'admin'
+  }
+  return `${cardType}-${levelClassMap[levelCode]}`
+}
 
 const goToAttendance = () => {
   router.push('/attendance')
 }
 
 const showProfile = () => {
-  ElMessage.info('个人信息功能开发中...')
+  router.push('/profile')
 }
 
 const goToDashboard = () => {
@@ -85,6 +142,41 @@ const goToDashboard = () => {
 
 const showSettings = () => {
   ElMessage.info('系统设置功能开发中...')
+}
+
+const goToAdmin = () => {
+  router.push('/student-manager')
+}
+
+const loadAttendanceCount = async () => {
+  try {
+    const token = localStorage.getItem('token')
+    if (!token) return
+
+    const response = await getMyAttendanceCount(token)
+    if (response.code === 200) {
+      attendanceCount.value = response.data.count
+    }
+  } catch (error) {
+    if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userInfo')
+      router.push('/login')
+    }
+  }
+}
+
+const loadStudentLevel = async () => {
+  try {
+    if (!userStore.userInfo?.studentId) return
+
+    const response = await getStudentLevel(userStore.userInfo.studentId)
+    if (response.code === 200) {
+      userStore.setStudentLevel(response.data)
+    }
+  } catch (error) {
+    return
+  }
 }
 
 const handleLogout = async () => {
@@ -108,6 +200,8 @@ const handleLogout = async () => {
 }
 
 onMounted(() => {
+  loadAttendanceCount()
+  loadStudentLevel()
 })
 </script>
 
@@ -174,11 +268,114 @@ h1 {
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
 .welcome-text {
   color: white;
   font-size: 16px;
   font-weight: 600;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.attendance-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.attendance-icon {
+  font-size: 14px;
+  color: white;
+}
+
+.attendance-text {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.level-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.level-info.club-member {
+  background: rgba(33, 150, 243, 0.2);
+  border: 1px solid rgba(33, 150, 243, 0.3);
+}
+
+.level-info.normal-member {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.level-info.core-member {
+  background: rgba(255, 152, 0, 0.2);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+}
+
+.level-info.admin {
+  background: rgba(244, 67, 54, 0.2);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+.level-icon {
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.level-icon.club-member {
+  color: #2196F3;
+}
+
+.level-icon.normal-member {
+  color: #4CAF50;
+}
+
+.level-icon.core-member {
+  color: #FF9800;
+}
+
+.level-icon.admin {
+  color: #F44336;
+}
+
+.level-text {
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.level-text.club-member {
+  color: #2196F3;
+}
+
+.level-text.normal-member {
+  color: #4CAF50;
+}
+
+.level-text.core-member {
+  color: #FF9800;
+}
+
+.level-text.admin {
+  color: #F44336;
 }
 
 .main-content {
@@ -402,6 +599,199 @@ h1 {
 .settings-card .card-content p {
   color: white;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.admin-card {
+  background: linear-gradient(135deg, #E53E3E 0%, #C53030 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(229, 62, 62, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.admin-card:hover {
+  box-shadow: 
+    0 20px 40px rgba(229, 62, 62, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.admin-card .card-icon {
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  background: rgba(255, 255, 255, 0.2);
+  padding: 12px;
+  border-radius: 16px;
+  min-width: 64px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-card .card-content h3,
+.admin-card .card-content p {
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.attendance-club-member {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(76, 175, 80, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.attendance-normal-member {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(33, 150, 243, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.attendance-core-member {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(255, 152, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.attendance-admin {
+  background: linear-gradient(135deg, #E53E3E 0%, #C53030 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(229, 62, 62, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.profile-club-member {
+  background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(156, 39, 176, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.profile-normal-member {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(76, 175, 80, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.profile-core-member {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(33, 150, 243, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.profile-admin {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(255, 152, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.stats-club-member {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(255, 152, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.stats-normal-member {
+  background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(156, 39, 176, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.stats-core-member {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(76, 175, 80, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.stats-admin {
+  background: linear-gradient(135deg, #E53E3E 0%, #C53030 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(229, 62, 62, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.settings-club-member {
+  background: linear-gradient(135deg, #E53E3E 0%, #C53030 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(229, 62, 62, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.settings-normal-member {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(255, 152, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.settings-core-member {
+  background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(156, 39, 176, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.settings-admin {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(76, 175, 80, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.admin-club-member {
+  background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(96, 125, 139, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.admin-normal-member {
+  background: linear-gradient(135deg, #795548 0%, #5D4037 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(121, 85, 72, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.admin-core-member {
+  background: linear-gradient(135deg, #607D8B 0%, #455A64 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(96, 125, 139, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.admin-admin {
+  background: linear-gradient(135deg, #E53E3E 0%, #C53030 100%);
+  color: white;
+  box-shadow: 
+    0 8px 32px rgba(229, 62, 62, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .footer {

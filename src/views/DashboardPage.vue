@@ -10,6 +10,9 @@
         </div>
       </div>
       <div class="header-right">
+        <el-button @click="goToAttendanceAnalysis" type="primary" :icon="TrendCharts" class="analysis-btn">
+          今日签到分析
+        </el-button>
         <div class="slogan">
           <img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="slogan-img">
         </div>
@@ -24,7 +27,7 @@
           </div>
           <h2>打卡</h2>
           <p class="subtitle">总打卡情况</p>
-          
+
           <div class="top-students">
             <div ref="attendanceChart" class="attendance-chart"></div>
           </div>
@@ -56,13 +59,13 @@
             <div class="loading-spinner"></div>
           </div>
           <h2>学生总览</h2>
-          
+
           <div class="charts-container">
             <div class="chart-section">
               <h3>年级分布</h3>
               <div ref="gradeChart" class="chart"></div>
             </div>
-            
+
             <div class="chart-section">
               <h3>专业分布</h3>
               <div ref="majorChart" class="chart"></div>
@@ -77,6 +80,24 @@
                   现有成员人数
                 </span>
                 <span class="value">{{ totalStudents }}人</span>
+              </div>
+              <div class="level-stats">
+                <div class="level-item admin-level">
+                  <span class="level-label">管理员</span>
+                  <span class="level-value">{{ levelStats.admin }}人</span>
+                </div>
+                <div class="level-item core-level">
+                  <span class="level-label">核心成员</span>
+                  <span class="level-value">{{ levelStats.core }}人</span>
+                </div>
+                <div class="level-item normal-level">
+                  <span class="level-label">普通成员</span>
+                  <span class="level-value">{{ levelStats.normal }}人</span>
+                </div>
+                <div class="level-item club-level">
+                  <span class="level-label">社团成员</span>
+                  <span class="level-value">{{ levelStats.club }}人</span>
+                </div>
               </div>
               <div class="system-info">
                 <div class="system-name">人工智能创作坊</div>
@@ -100,13 +121,13 @@
         <img src="@/assets/WangZhanRuKouErWeiMa.png" alt="网站入口二维码" class="website-qr-code">
         <div class="website-qr-text">AI坊学生管理系统入口</div>
       </div>
-      
+
       <!-- 公众号二维码 -->
       <div class="wechat-qr-section">
         <img src="@/assets/ErWeiMa.png" alt="公众号二维码" class="qr-code">
         <div class="qr-text">扫码了解更多</div>
       </div>
-      
+
       <img src="@/assets/phone.png" alt="手机展示" class="phone-image">
     </div>
 
@@ -116,17 +137,19 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import { ArrowLeft, Calendar, Clock, User } from '@element-plus/icons-vue'
+import { ArrowLeft, Calendar, Clock, User, TrendCharts } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import * as echarts from 'echarts'
 import 'echarts-wordcloud'
-import { 
-  getGradeStatistics, 
-  getMajorStatistics, 
-  getTotalStudentCount, 
-  getTopStudents, 
-  getMonthlyAttendanceCount, 
-  getDailyAttendanceCount 
+import {
+  getGradeStatistics,
+  getMajorStatistics,
+  getTotalStudentCount,
+  getTopStudents,
+  getMonthlyAttendanceCount,
+  getDailyAttendanceCount,
+  getAllStudentsWithSpecialPassword,
+  getStudentLevel
 } from '@/api/user'
 
 const gradeChart = ref(null)
@@ -140,6 +163,12 @@ const totalStudents = ref(0)
 const todayCount = ref(0)
 const monthlyCount = ref(0)
 const isLoading = ref(false)
+const levelStats = ref({
+  admin: 0,
+  core: 0,
+  normal: 0,
+  club: 0
+})
 
 let gradeChartInstance = null
 let majorChartInstance = null
@@ -151,11 +180,58 @@ const goBack = () => {
   router.push('/navigation')
 }
 
+const goToAttendanceAnalysis = () => {
+  router.push('/attendance-analysis')
+}
+
+const loadLevelStats = async () => {
+  try {
+    const response = await getAllStudentsWithSpecialPassword('axiezhixingi')
+    if (response.code === 200 && response.data) {
+      const students = response.data
+      const stats = {
+        admin: 0,
+        core: 0,
+        normal: 0,
+        club: 0
+      }
+      
+      for (const student of students) {
+        const levelResponse = await getStudentLevel(student.studentId)
+        if (levelResponse.code === 200 && levelResponse.data) {
+          const levelCode = levelResponse.data.levelCode
+          switch (levelCode) {
+            case 3:
+              stats.admin++
+              break
+            case 2:
+              stats.core++
+              break
+            case 1:
+              stats.normal++
+              break
+            case 0:
+            default:
+              stats.club++
+              break
+          }
+        } else {
+          stats.club++
+        }
+      }
+      
+      levelStats.value = stats
+    }
+  } catch (error) {
+    ElMessage.error('获取等级统计失败')
+  }
+}
+
 const loadData = async (isInitialLoad = false) => {
   if (isInitialLoad) {
     isLoading.value = true
   }
-  
+
   try {
     const [
       gradeData,
@@ -186,8 +262,8 @@ const loadData = async (isInitialLoad = false) => {
     }
 
     if (topData.code === 200) {
-      topStudents.value = topData.data.slice(0, 5)
-      initAttendanceChart(topData.data.slice(0, 5))
+      topStudents.value = topData.data.slice(0, 10)
+      await initAttendanceChart(topData.data.slice(0, 10))
     }
 
     if (monthlyData.code === 200) {
@@ -197,6 +273,8 @@ const loadData = async (isInitialLoad = false) => {
     if (dailyData.code === 200) {
       animateNumber(todayCount, dailyData.data.count)
     }
+
+    await loadLevelStats()
   } catch (error) {
     ElMessage.error('数据加载失败：' + error.message)
   } finally {
@@ -212,38 +290,38 @@ const animateNumber = (ref, targetValue) => {
   const startValue = ref.value
   const duration = 1000
   const startTime = Date.now()
-  
+
   const updateValue = () => {
     const elapsed = Date.now() - startTime
     const progress = Math.min(elapsed / duration, 1)
     const easeOutQuart = 1 - Math.pow(1 - progress, 4)
     const currentValue = Math.round(startValue + (targetValue - startValue) * easeOutQuart)
-    
+
     ref.value = currentValue
-    
+
     if (progress < 1) {
       requestAnimationFrame(updateValue)
     } else {
       ref.value = targetValue
     }
   }
-  
+
   requestAnimationFrame(updateValue)
 }
 
 const initGradeChart = (data) => {
   if (!gradeChart.value) return
-  
+
   // 如果图表实例已存在，先销毁
   if (gradeChartInstance) {
     gradeChartInstance.dispose()
   }
-  
+
   gradeChartInstance = echarts.init(gradeChart.value)
-  
+
   // 按年级排序：1年级、2年级、3年级...
   const sortedData = [...data].sort((a, b) => a.grade - b.grade)
-  
+
   const option = {
     tooltip: {
       trigger: 'item',
@@ -287,20 +365,20 @@ const initGradeChart = (data) => {
       }
     ]
   }
-  
+
   gradeChartInstance.setOption(option)
 }
 
 const initMajorChart = (data) => {
   if (!majorChart.value) return
-  
+
   // 如果图表实例已存在，先销毁
   if (majorChartInstance) {
     majorChartInstance.dispose()
   }
-  
+
   majorChartInstance = echarts.init(majorChart.value)
-  
+
   // 准备词云数据，人数越多词越大，按人数排序确保稳定性
   const sortedData = [...data].sort((a, b) => b.count - a.count)
   const wordCloudData = sortedData.map((item, index) => ({
@@ -311,7 +389,7 @@ const initMajorChart = (data) => {
       color: getStableColor(index)
     }
   }))
-  
+
   const option = {
     tooltip: {
       trigger: 'item',
@@ -357,14 +435,14 @@ const initMajorChart = (data) => {
       }
     ]
   }
-  
+
   majorChartInstance.setOption(option)
 }
 
 // 为每个专业分配固定的颜色，确保颜色稳定
 const getStableColor = (index) => {
   const colors = [
-    '#667eea', '#764ba2', '#f093fb', '#f5576c', 
+    '#667eea', '#764ba2', '#f093fb', '#f5576c',
     '#4facfe', '#00f2fe', '#a8edea', '#fed6e3',
     '#ff9a9e', '#fecfef', '#fecfef', '#a8edea',
     '#d299c2', '#fad0c4', '#ffd1ff', '#a8e6cf'
@@ -372,18 +450,59 @@ const getStableColor = (index) => {
   return colors[index % colors.length]
 }
 
-const initAttendanceChart = (data) => {
+const initAttendanceChart = async (data) => {
   if (!attendanceChart.value) return
-  
-  // 如果图表实例已存在，先销毁
+
   if (attendanceChartInstance) {
     attendanceChartInstance.dispose()
   }
-  
+
   attendanceChartInstance = echarts.init(attendanceChart.value)
-  
+
   const sortedData = [...data].sort((a, b) => a.attendanceCount - b.attendanceCount)
   
+  const studentLevels = {}
+  
+  const allStudentsResponse = await getAllStudentsWithSpecialPassword('axiezhixingi')
+  const allStudents = allStudentsResponse.code === 200 ? allStudentsResponse.data : []
+  
+  await Promise.all(
+    sortedData.map(async (student) => {
+      try {
+        const matchedStudent = allStudents.find(s => s.name === student.name)
+        if (matchedStudent) {
+          const levelResponse = await getStudentLevel(matchedStudent.studentId)
+          if (levelResponse.code === 200 && levelResponse.data) {
+            studentLevels[student.name] = {
+              levelCode: levelResponse.data.levelCode,
+              levelName: levelResponse.data.levelName
+            }
+          } else {
+            studentLevels[student.name] = {
+              levelCode: 0,
+              levelName: '社团成员'
+            }
+          }
+        } else {
+          studentLevels[student.name] = {
+            levelCode: 0,
+            levelName: '社团成员'
+          }
+        }
+      } catch (error) {
+        studentLevels[student.name] = {
+          levelCode: 0,
+          levelName: '社团成员'
+        }
+      }
+    })
+  )
+  
+  const dataWithLevels = sortedData.map(student => {
+    const levelInfo = studentLevels[student.name] || { levelCode: 0, levelName: '社团成员' }
+    return { ...student, levelName: levelInfo.levelName }
+  })
+
   const option = {
     tooltip: {
       trigger: 'axis',
@@ -391,30 +510,32 @@ const initAttendanceChart = (data) => {
         type: 'shadow'
       },
       formatter: function(params) {
-        const data = sortedData[params[0].dataIndex]
-        return `${data.name}<br/>${data.grade}年级 - ${data.major}<br/>签到次数: ${data.attendanceCount}次`
+        const data = dataWithLevels[params[0].dataIndex]
+        return `${data.name} (${data.levelName})<br/>${data.grade}年级 - ${data.major}<br/>签到次数: ${data.attendanceCount}次`
       }
     },
     grid: {
-      left: '5%',
-      right: '25%',
+      left: '0%',
+      right: '15%',
       bottom: '3%',
-      top: '10%',
+      top: '0%',
       containLabel: true
     },
     xAxis: {
       type: 'value',
       axisLabel: {
+        fontSize: 12,
         formatter: '{value}次'
       }
     },
     yAxis: {
       type: 'category',
-      data: sortedData.map(item => item.name),
+      data: dataWithLevels.map(item => `${item.name} (${item.levelName})`),
       axisLabel: {
         interval: 0,
+        fontSize: 12,
         formatter: function(value) {
-          return value.length > 4 ? value.substring(0, 4) + '...' : value
+          return value
         }
       }
     },
@@ -422,12 +543,12 @@ const initAttendanceChart = (data) => {
       {
         name: '签到次数',
         type: 'bar',
-        data: sortedData.map(item => item.attendanceCount),
+        data: dataWithLevels.map(item => item.attendanceCount),
         barWidth: '60%',
         itemStyle: {
           color: function(params) {
-            // 打卡次数越多，颜色越亮（绿色系从深到浅）
-            const colors = ['#a5d6a7', '#81c784', '#66bb6a', '#45a049', '#4CAF50']
+            // 打卡次数越多，颜色越亮（绿色系从浅到深，按打卡次数排序）
+            const colors = ['#c8e6c9', '#a5d6a7', '#81c784', '#66bb6a', '#4caf50', '#45a049', '#388e3c', '#2e7d32', '#1b5e20', '#0d4f0d']
             return colors[params.dataIndex % colors.length]
           },
           borderRadius: [0, 4, 4, 0]
@@ -439,9 +560,10 @@ const initAttendanceChart = (data) => {
             const data = sortedData[params.dataIndex]
             return `${data.grade}年级\n${data.major}`
           },
-          fontSize: 12,
+          fontSize: 11,
           color: '#666',
-          lineHeight: 16
+          lineHeight: 14,
+          distance: 10
         },
         emphasis: {
           itemStyle: {
@@ -453,7 +575,7 @@ const initAttendanceChart = (data) => {
       }
     ]
   }
-  
+
   attendanceChartInstance.setOption(option)
 }
 
@@ -559,6 +681,23 @@ onUnmounted(() => {
 .header-right {
   display: flex;
   align-items: center;
+  gap: 20px;
+}
+
+.analysis-btn {
+  height: 40px;
+  padding: 0 20px;
+  font-weight: 600;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+}
+
+.analysis-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
 .slogan-img {
@@ -687,7 +826,7 @@ onUnmounted(() => {
 
 .attendance-chart {
   width: 100%;
-  height: 300px;
+  height: 450px;
 }
 
 .summary-stats {
@@ -715,6 +854,146 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.level-stats {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.level-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+  border-radius: 12px;
+  border: 1px solid #e1e8ff;
+  min-width: 90px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.level-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.level-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+}
+
+.level-label {
+  font-size: 13px;
+  color: #5a6c7d;
+  margin-bottom: 6px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.level-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #2c3e50;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.admin-level {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  border-color: #ff5252;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
+}
+
+.admin-level::before {
+  background: linear-gradient(90deg, #ff6b6b, #ff5252);
+}
+
+.admin-level:hover {
+  box-shadow: 0 4px 16px rgba(255, 107, 107, 0.3);
+}
+
+.admin-level .level-label {
+  color: #d32f2f;
+}
+
+.admin-level .level-value {
+  color: #b71c1c;
+}
+
+.core-level {
+  background: linear-gradient(135deg, #4ecdc4 0%, #7fdbda 100%);
+  border-color: #26a69a;
+  box-shadow: 0 2px 8px rgba(78, 205, 196, 0.2);
+}
+
+.core-level::before {
+  background: linear-gradient(90deg, #4ecdc4, #26a69a);
+}
+
+.core-level:hover {
+  box-shadow: 0 4px 16px rgba(78, 205, 196, 0.3);
+}
+
+.core-level .level-label {
+  color: #00695c;
+}
+
+.core-level .level-value {
+  color: #004d40;
+}
+
+.normal-level {
+  background: linear-gradient(135deg, #45b7d1 0%, #74c0fc 100%);
+  border-color: #2196f3;
+  box-shadow: 0 2px 8px rgba(69, 183, 209, 0.2);
+}
+
+.normal-level::before {
+  background: linear-gradient(90deg, #45b7d1, #2196f3);
+}
+
+.normal-level:hover {
+  box-shadow: 0 4px 16px rgba(69, 183, 209, 0.3);
+}
+
+.normal-level .level-label {
+  color: #1565c0;
+}
+
+.normal-level .level-value {
+  color: #0d47a1;
+}
+
+.club-level {
+  background: linear-gradient(135deg, #96ceb4 0%, #b8e6b8 100%);
+  border-color: #66bb6a;
+  box-shadow: 0 2px 8px rgba(150, 206, 180, 0.2);
+}
+
+.club-level::before {
+  background: linear-gradient(90deg, #96ceb4, #66bb6a);
+}
+
+.club-level:hover {
+  box-shadow: 0 4px 16px rgba(150, 206, 180, 0.3);
+}
+
+.club-level .level-label {
+  color: #2e7d32;
+}
+
+.club-level .level-value {
+  color: #1b5e20;
 }
 
 .label {
@@ -876,11 +1155,11 @@ onUnmounted(() => {
     grid-template-columns: 1fr;
     gap: 30px;
   }
-  
+
   .charts-container {
     grid-template-columns: 1fr;
   }
-  
+
   .phone-display {
     display: none;
   }
@@ -893,18 +1172,20 @@ onUnmounted(() => {
     gap: 20px;
     text-align: center;
   }
-  
+
   .main-content {
     padding: 20px;
   }
-  
+
   .punch-card, .overview-card {
     padding: 20px;
   }
-  
+
   .footer {
     padding: 15px 20px;
   }
 }
 </style>
+
+
 

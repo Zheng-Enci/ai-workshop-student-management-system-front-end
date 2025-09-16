@@ -92,7 +92,11 @@ const handleRegister = async () => {
       password: form.value.password
     });
     
-    userStore.setUserInfo(loginResponse.data, loginResponse.data.token);
+    const userInfo = {
+      ...loginResponse.data,
+      studentId: form.value.studentId
+    };
+    userStore.setUserInfo(userInfo, loginResponse.data.token);
     
     ElMessage.success('登录成功');
     router.push('/navigation');
@@ -207,7 +211,7 @@ onMounted(() => {
             <span class="input-icon">
               <ElIcon><Lock /></ElIcon>
             </span>
-            <ElInput type="password" v-model="form.password" placeholder="请输入密码（6-16位字符）" class="custom-input" />
+            <ElInput type="password" v-model="form.password" placeholder="请输入密码（6-16位字符）" class="custom-input" show-password />
           </div>
         </ElFormItem>
         
@@ -216,7 +220,7 @@ onMounted(() => {
             <span class="input-icon">
               <ElIcon><Lock /></ElIcon>
             </span>
-            <ElInput type="password" v-model="form.confirmPassword" placeholder="请再次输入密码确认" class="custom-input" />
+            <ElInput type="password" v-model="form.confirmPassword" placeholder="请再次输入密码确认" class="custom-input" show-password />
           </div>
         </ElFormItem>
         

@@ -34,6 +34,30 @@ const routes = [
         component: () => import('../views/DashboardPage.vue'),
         meta: { requiresAuth: true }
     },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('../views/ProfilePage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/admin',
+        name: 'Admin',
+        component: () => import('../views/AdminPage.vue'),
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/student-manager',
+        name: 'StudentManager',
+        component: () => import('../views/StudentManagerPage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/attendance-analysis',
+        name: 'AttendanceAnalysis',
+        component: () => import('../views/AttendanceAnalysisPage.vue'),
+        meta: { requiresAuth: true }
+    },
 ]
 
 const router = createRouter({
@@ -60,7 +84,6 @@ router.beforeEach(async (to, from, next) => {
         return;
       }
     } catch (error) {
-      console.warn('Token validation error:', error.message);
       localStorage.removeItem('token');
       localStorage.removeItem('userInfo');
       next('/login');
@@ -81,8 +104,6 @@ router.beforeEach(async (to, from, next) => {
         localStorage.removeItem('userInfo');
       }
     } catch (error) {
-      // 验证失败，清除token但继续访问登录页
-      console.warn('Token validation failed:', error.message);
       localStorage.removeItem('token');
       localStorage.removeItem('userInfo');
     }
