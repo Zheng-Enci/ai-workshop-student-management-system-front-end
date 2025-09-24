@@ -21,6 +21,9 @@ export const useUserStore = defineStore('user', {
         },
         setStudentLevel(level) {
             this.studentLevel = level;
+            if (level) {
+                localStorage.setItem('studentLevel', JSON.stringify(level));
+            }
         },
         logout() {
             this.userInfo = null;
@@ -29,18 +32,24 @@ export const useUserStore = defineStore('user', {
             this.isLoggedIn = false;
             localStorage.removeItem('token');
             localStorage.removeItem('userInfo');
+            localStorage.removeItem('studentLevel');
         },
         initFromStorage() {
             const token = localStorage.getItem('token');
             const userInfo = localStorage.getItem('userInfo');
+            const studentLevel = localStorage.getItem('studentLevel');
             if (token && userInfo) {
                 try {
                     this.token = token;
                     this.userInfo = JSON.parse(userInfo);
                     this.isLoggedIn = true;
+                    if (studentLevel) {
+                        this.studentLevel = JSON.parse(studentLevel);
+                    }
                 } catch (error) {
                     localStorage.removeItem('token');
                     localStorage.removeItem('userInfo');
+                    localStorage.removeItem('studentLevel');
                 }
             }
         }

@@ -366,4 +366,26 @@ export const getAllStudentsWithSpecialPassword = async (specialPassword) => {
   }
 }
 
+export const getMyAttendanceRecords = async () => {
+  try {
+    const response = await api.get('/api/v1/attendance/student-records', {
+      params: { studentId: JSON.parse(localStorage.getItem('userInfo') || '{}').studentId }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 401) {
+        throw new Error('Token无效，请重新登录')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取个人考勤记录失败')
+      }
+    } else {
+      throw new Error('网络错误，获取个人考勤记录失败')
+    }
+  }
+}
+
 export default api

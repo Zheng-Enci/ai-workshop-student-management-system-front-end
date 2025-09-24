@@ -60,6 +60,7 @@ const loading = ref(false)
 const result = ref(null)
 const userStore = useUserStore()
 const router = useRouter()
+const studentLevel = ref(0)
 const isInSignTime = ref(false)
 const currentTime = ref('')
 const nextSignTime = ref('')
@@ -105,6 +106,8 @@ const saveAttendanceStatus = () => {
   const today = new Date().toDateString()
   localStorage.setItem(`attendance_${today}`, JSON.stringify(attendanceStatus.value))
 }
+
+
 
 const checkSignTime = () => {
   const now = new Date()
@@ -185,7 +188,7 @@ const submitAttendance = async () => {
       
       result.value = {
         type: 'success',
-        message: res.message || '签到成功'
+        message: '签到成功！'
       }
     } else {
       throw new Error(res.message || '签到失败')
@@ -204,7 +207,14 @@ onMounted(() => {
   loadAttendanceStatus()
   checkSignTime()
   setInterval(checkSignTime, 60000)
+  loadStudentLevel()
 })
+
+const loadStudentLevel = () => {
+  const userInfo = userStore.userInfo || JSON.parse(localStorage.getItem('userInfo') || '{}')
+  studentLevel.value = userInfo.level || 0
+}
+
 </script>
 
 <style scoped>
@@ -295,6 +305,7 @@ h1 {
   width: 100%;
   gap: 20px;
 }
+
 
 .time-info {
   text-align: center;
@@ -471,17 +482,35 @@ h1 {
 .result-message {
   margin-top: auto;
   margin-bottom: 40px;
-  padding: 15px 25px;
+  padding: 20px 30px;
   border-radius: 25px;
   text-align: center;
   font-size: 16px;
-  max-width: 300px;
+  max-width: 350px;
+  line-height: 1.6;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .result-message.success {
-  background: rgba(103, 194, 58, 0.1);
+  background: linear-gradient(135deg, rgba(103, 194, 58, 0.1) 0%, rgba(103, 194, 58, 0.05) 100%);
   color: #67c23a;
-  border: 1px solid rgba(103, 194, 58, 0.2);
+  border: 1px solid rgba(103, 194, 58, 0.3);
+  animation: successPulse 0.6s ease-in-out;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .result-message.error {

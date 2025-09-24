@@ -69,7 +69,7 @@
                 <div class="rank-badge" v-if="index < 3">
                   <el-icon v-if="index === 0"><Trophy /></el-icon>
                   <el-icon v-else-if="index === 1"><Medal /></el-icon>
-                  <el-icon v-else><Award /></el-icon>
+                  <el-icon v-else><Trophy /></el-icon>
                 </div>
               </div>
             </div>
@@ -118,7 +118,6 @@ import {
   Clock, 
   Trophy, 
   Medal, 
-  Award, 
   TrendCharts 
 } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'

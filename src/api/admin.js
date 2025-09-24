@@ -220,4 +220,50 @@ export const makeupAttendance = async (token, studentId, attendanceTime) => {
   }
 }
 
+export const getStudentAttendanceRecords = async (studentId) => {
+  try {
+    const response = await api.get('/api/v1/attendance/student-records', {
+      params: { studentId }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取学生考勤记录失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生考勤记录失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生考勤记录失败')
+    }
+  }
+}
+
+export const makeupAttendanceWithSpecialPassword = async (specialPassword, targetStudentId, targetAttendanceDateTime) => {
+  try {
+    const response = await api.post('/api/v1/attendance/makeup-with-special-password', {
+      specialPassword: specialPassword,
+      targetStudentId: targetStudentId,
+      targetAttendanceDateTime: targetAttendanceDateTime
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '补卡失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '补卡失败')
+      }
+    } else {
+      throw new Error('网络错误，补卡失败')
+    }
+  }
+}
+
 export default api

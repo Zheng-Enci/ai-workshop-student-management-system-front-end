@@ -91,15 +91,26 @@
                 <el-icon class="attendance-icon"><Calendar /></el-icon>
                 <span class="count-text">{{ getStudentAttendanceCountFromCache(student.studentId) }}次</span>
               </div>
-              <el-button 
-                type="warning" 
-                size="small" 
-                @click="openMakeupDialog(student)"
-                class="makeup-btn"
-              >
-                <el-icon><Clock /></el-icon>
-                补卡
-              </el-button>
+              <div class="action-buttons">
+                <el-button 
+                  type="success" 
+                  size="small" 
+                  @click="openAttendanceRecordsDialog(student)"
+                  class="records-btn"
+                >
+                  <el-icon><Calendar /></el-icon>
+                  考勤记录
+                </el-button>
+                <el-button 
+                  type="warning" 
+                  size="small" 
+                  @click="openMakeupDialog(student)"
+                  class="makeup-btn"
+                >
+                  <el-icon><Clock /></el-icon>
+                  补卡
+                </el-button>
+              </div>
             </div>
           </div>
         </div>
@@ -193,6 +204,87 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      v-model="attendanceRecordsDialogVisible"
+      :title="`${selectedStudent?.name} 的考勤记录`"
+      width="90%"
+      :close-on-click-modal="false"
+      class="attendance-records-dialog"
+    >
+      <div class="attendance-records-container">
+        <div class="records-header">
+          <div class="student-info">
+            <div class="student-avatar-large">
+              {{ selectedStudent?.name?.charAt(0) }}
+            </div>
+            <div class="student-details">
+              <h3>{{ selectedStudent?.name }}</h3>
+              <p>学号：{{ selectedStudent?.studentId }}</p>
+              <p>专业：{{ selectedStudent?.major }} | 年级：{{ selectedStudent?.grade }}年级</p>
+            </div>
+          </div>
+          <div class="attendance-summary">
+            <div class="summary-item">
+              <span class="summary-label">总签到次数</span>
+              <span class="summary-value">{{ studentAttendanceRecords.length }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div v-if="studentAttendanceRecords.length === 0" class="no-records">
+          <el-icon class="no-records-icon"><Calendar /></el-icon>
+          <p>暂无考勤记录</p>
+        </div>
+        <div v-else class="calendar-container">
+          <el-calendar v-model="calendarValue" class="attendance-calendar">
+            <template #header="{ date }">
+              <div class="calendar-header">
+                <div class="header-title">{{ formatCalendarTitle(date) }}</div>
+                <div class="header-actions">
+                  <el-button size="small" @click="prevMonth">上个月</el-button>
+                  <el-button size="small" @click="goToday">今天</el-button>
+                  <el-button size="small" @click="nextMonth">下个月</el-button>
+                </div>
+              </div>
+            </template>
+            <template #date-cell="{ data }">
+              <div class="calendar-day">
+                <div class="day-number">{{ data.day.split('-').slice(2).join('-') }}</div>
+                <div class="attendance-dots">
+                  <div 
+                    v-for="record in getDayAttendanceRecords(data.day)" 
+                    :key="record.attendanceDateTime"
+                    class="attendance-dot"
+                    :class="getTimePeriodClass(record.attendanceDateTime)"
+                    :title="formatAttendanceTime(record.attendanceDateTime)"
+                  ></div>
+                </div>
+              </div>
+            </template>
+          </el-calendar>
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <div class="legend-dot morning"></div>
+              <span>早上 (8:00-11:00)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot afternoon"></div>
+              <span>下午 (14:00-17:00)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot evening"></div>
+              <span>晚上 (19:00-22:00)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="closeAttendanceRecordsDialog">关闭</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -202,7 +294,8 @@ import { ElMessage } from 'element-plus'
 import { User, Calendar, Star, Refresh, Loading, ArrowLeft, Clock, InfoFilled, Check } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { getManagedStudents, getStudentAttendanceCount, makeupAttendance } from '@/api/admin'
+import { getManagedStudents, getStudentAttendanceCount, makeupAttendance, getStudentAttendanceRecords } from '@/api/admin'
+import { getStudentLevel } from '@/api/user'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -215,6 +308,10 @@ const makeupForm = ref({
   attendanceTime: ''
 })
 const makeupLoading = ref(false)
+const attendanceRecordsDialogVisible = ref(false)
+const studentAttendanceRecords = ref([])
+const calendarValue = ref(new Date())
+const scrollPosition = ref(0)
 
 const timeShortcuts = [
   {
@@ -369,20 +466,137 @@ const submitMakeup = async () => {
   }
 }
 
-onMounted(() => {
+const openAttendanceRecordsDialog = async (student) => {
+  selectedStudent.value = student
+  scrollPosition.value = window.pageYOffset || document.documentElement.scrollTop
+  
+  const restoreScroll = () => {
+    setTimeout(() => {
+      window.scrollTo(0, scrollPosition.value)
+    }, 50)
+  }
+  
+  try {
+    loading.value = true
+    restoreScroll()
+    const response = await getStudentAttendanceRecords(student.studentId)
+    if (response.code === 200) {
+      studentAttendanceRecords.value = response.data || []
+      attendanceRecordsDialogVisible.value = true
+    } else {
+      ElMessage.error(response.message || '获取考勤记录失败')
+    }
+  } catch (error) {
+    ElMessage.error('获取考勤记录失败：' + error.message)
+  } finally {
+    loading.value = false
+    restoreScroll()
+  }
+}
+
+const closeAttendanceRecordsDialog = () => {
+  attendanceRecordsDialogVisible.value = false
+  setTimeout(() => {
+    window.scrollTo(0, scrollPosition.value)
+  }, 100)
+}
+
+const formatAttendanceTime = (timeString) => {
+  if (!timeString) return ''
+  const date = new Date(timeString)
+  return date.toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
+}
+
+const getTimePeriodClass = (timeString) => {
+  if (!timeString) return 'morning'
+  const date = new Date(timeString)
+  const hour = date.getHours()
+  
+  if (hour >= 8 && hour < 11) {
+    return 'morning'
+  } else if (hour >= 14 && hour < 17) {
+    return 'afternoon'
+  } else if (hour >= 19 && hour < 22) {
+    return 'evening'
+  } else {
+    return 'morning'
+  }
+}
+
+
+const getDayAttendanceRecords = (dateString) => {
+  if (!studentAttendanceRecords.value || studentAttendanceRecords.value.length === 0) return []
+  
+  const targetDate = new Date(dateString)
+  const year = targetDate.getFullYear()
+  const month = String(targetDate.getMonth() + 1).padStart(2, '0')
+  const day = String(targetDate.getDate()).padStart(2, '0')
+  const dateStr = `${year}-${month}-${day}`
+  
+  return studentAttendanceRecords.value.filter(record => {
+    const recordDate = new Date(record.attendanceDateTime)
+    const recordYear = recordDate.getFullYear()
+    const recordMonth = String(recordDate.getMonth() + 1).padStart(2, '0')
+    const recordDay = String(recordDate.getDate()).padStart(2, '0')
+    const recordDateStr = `${recordYear}-${recordMonth}-${recordDay}`
+    return recordDateStr === dateStr
+  })
+}
+
+const formatCalendarTitle = (date) => {
+  if (!date) return '2025年9月'
+  const dateObj = new Date(date)
+  if (isNaN(dateObj.getTime())) return '2025年9月'
+  const year = dateObj.getFullYear()
+  const month = dateObj.getMonth() + 1
+  return `${year}年${month}月`
+}
+
+const prevMonth = () => {
+  const date = new Date(calendarValue.value)
+  date.setMonth(date.getMonth() - 1)
+  calendarValue.value = date
+}
+
+const nextMonth = () => {
+  const date = new Date(calendarValue.value)
+  date.setMonth(date.getMonth() + 1)
+  calendarValue.value = date
+}
+
+const goToday = () => {
+  calendarValue.value = new Date()
+}
+
+onMounted(async () => {
   if (!userStore.userInfo?.studentId) {
     ElMessage.error('请先登录')
     router.push('/login')
     return
   }
   
-  if (userStore.studentLevel?.levelCode !== 3) {
-    ElMessage.error('您没有管理员权限')
+  try {
+    const levelResponse = await getStudentLevel(userStore.userInfo.studentId)
+    userStore.setStudentLevel(levelResponse.data)
+    
+    if (levelResponse.data.levelCode !== 3) {
+      ElMessage.error('您没有管理员权限')
+      router.push('/navigation')
+      return
+    }
+    
+    loadManagedStudents()
+  } catch (error) {
+    ElMessage.error('获取用户权限失败')
     router.push('/navigation')
-    return
   }
-  
-  loadManagedStudents()
 })
 </script>
 
@@ -641,6 +855,14 @@ h1 {
   gap: 8px;
 }
 
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  align-items: stretch;
+}
+
 .attendance-count {
   display: flex;
   align-items: center;
@@ -725,12 +947,33 @@ h1 {
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
-.makeup-btn {
-  margin-top: 8px;
+.records-btn {
   width: 100%;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  transition: all 0.3s ease;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.records-btn:hover {
+  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.makeup-btn {
+  width: 100%;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .makeup-dialog {
@@ -1070,6 +1313,635 @@ h1 {
   .submit-btn {
     width: 100%;
     height: 50px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    align-items: stretch;
+  }
+  
+  .records-btn,
+  .makeup-btn {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+  }
+}
+
+.attendance-records-dialog {
+  .el-dialog__header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 24px;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .el-dialog__title {
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  
+  .el-dialog__headerbtn .el-dialog__close {
+    color: white;
+    font-size: 20px;
+  }
+  
+  .el-dialog__body {
+    padding: 30px 24px;
+    background: #f8f9fa;
+  }
+  
+  .el-dialog__footer {
+    background: #f8f9fa;
+    padding: 20px 24px;
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+.attendance-records-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.student-avatar-large {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.student-details h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+}
+
+.student-details p {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin: 0 0 4px 0;
+}
+
+.attendance-summary {
+  text-align: center;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.summary-label {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.summary-value {
+  font-size: 24px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.no-records {
+  text-align: center;
+  padding: 60px 20px;
+  color: #7f8c8d;
+}
+
+.no-records-icon {
+  font-size: 48px;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+.no-records p {
+  font-size: 16px;
+  margin: 0;
+}
+
+.calendar-container {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-calendar {
+  width: 100%;
+}
+
+.attendance-calendar :deep(.el-calendar__header) {
+  display: none;
+}
+
+.attendance-calendar :deep(.el-calendar__body) {
+  padding: 0;
+}
+
+.attendance-calendar :deep(.el-calendar-table) {
+  border: none;
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th) {
+  background: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  padding: 12px 0;
+  border: none;
+  font-size: 14px;
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(1))::after {
+  content: '周日';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(2))::after {
+  content: '周一';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(3))::after {
+  content: '周二';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(4))::after {
+  content: '周三';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(5))::after {
+  content: '周四';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(6))::after {
+  content: '周五';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(7))::after {
+  content: '周六';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th) {
+  font-size: 0;
+}
+
+.attendance-calendar :deep(.el-calendar-table tbody td) {
+  border: 1px solid #e9ecef;
+  padding: 0;
+  height: 80px;
+  vertical-align: top;
+}
+
+.attendance-calendar :deep(.el-calendar-table tbody td.is-today) {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.attendance-calendar :deep(.el-calendar-table tbody td.is-selected) {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 8px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.calendar-day {
+  position: relative;
+  height: 100%;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 4px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.calendar-day:hover {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.day-number {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  z-index: 2;
+}
+
+.attendance-dots {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+}
+
+.attendance-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.attendance-dot:hover {
+  transform: scale(1.3);
+  z-index: 10;
+}
+
+.attendance-dot.morning {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3), 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+.attendance-dot.afternoon {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3), 0 0 0 2px rgba(245, 158, 11, 0.1);
+}
+
+.attendance-dot.evening {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3), 0 0 0 2px rgba(139, 92, 246, 0.1);
+}
+
+.attendance-dot:hover {
+  transform: scale(1.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(255, 255, 255, 0.8);
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px;
+  flex-wrap: wrap;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #495057;
+  font-weight: 500;
+  padding: 8px 16px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.legend-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.legend-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-dot.morning {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3), 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+.legend-dot.afternoon {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3), 0 0 0 2px rgba(245, 158, 11, 0.1);
+}
+
+.legend-dot.evening {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3), 0 0 0 2px rgba(139, 92, 246, 0.1);
+}
+
+.attendance-record-item {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.attendance-record-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  transition: all 0.4s ease;
+}
+
+.attendance-record-item.morning::before {
+  background: linear-gradient(90deg, #10B981 0%, #059669 100%);
+}
+
+.attendance-record-item.afternoon::before {
+  background: linear-gradient(90deg, #F59E0B 0%, #D97706 100%);
+}
+
+.attendance-record-item.evening::before {
+  background: linear-gradient(90deg, #8B5CF6 0%, #7C3AED 100%);
+}
+
+.attendance-record-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.attendance-record-item.morning:hover {
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+}
+
+.attendance-record-item.afternoon:hover {
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+}
+
+.attendance-record-item.evening:hover {
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+}
+
+.time-period-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.time-period-indicator.morning {
+  color: #10B981;
+}
+
+.time-period-indicator.afternoon {
+  color: #F59E0B;
+}
+
+.time-period-indicator.evening {
+  color: #8B5CF6;
+}
+
+.indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.time-period-indicator.morning .indicator-dot {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.time-period-indicator.afternoon .indicator-dot {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+}
+
+.time-period-indicator.evening .indicator-dot {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.4);
+}
+
+.record-content {
+  display: flex;
+  align-items: center;
+  padding: 0 20px 20px;
+  gap: 16px;
+}
+
+.student-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.student-avatar.morning {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.student-avatar.afternoon {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.student-avatar.evening {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.student-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-name {
+  font-weight: 700;
+  color: #1F2937;
+  font-size: 16px;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.student-id {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-weight: 500;
+  color: #6B7280;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.attendance-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6B7280;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.time-icon {
+  color: #9CA3AF;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.time-text {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  color: #6B7280;
+}
+
+@media (max-width: 768px) {
+  .records-header {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .calendar-container {
+    padding: 15px;
+  }
+  
+  .calendar-day {
+    min-height: 50px;
+  }
+  
+  .day-number {
+    font-size: 12px;
+  }
+  
+  .attendance-dot {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .calendar-legend {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .legend-item {
+    font-size: 13px;
+  }
+  
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .record-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 0 16px 16px;
+  }
+  
+  .attendance-time {
+    align-self: flex-end;
+    margin-top: 8px;
+  }
+  
+  .time-period-indicator {
+    padding: 10px 16px 6px;
+    font-size: 11px;
+  }
+  
+  .student-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .student-name {
+    font-size: 15px;
+  }
+  
+  .student-id {
+    font-size: 12px;
+  }
+  
+  .time-text {
+    font-size: 12px;
+  }
+  
+  .attendance-record-item {
+    margin-bottom: 12px;
+  }
+  
+  .calendar-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .header-title {
+    font-size: 18px;
+  }
+  
+  .header-actions {
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 </style>

@@ -256,18 +256,46 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="120" fixed="right">
+            <el-table-column label="操作" width="200" fixed="right">
               <template #default="{ row }">
-                <el-button
-                  type="primary"
-                  size="small"
-                  @click="openEditDialog(row)"
-                  :loading="isLoading"
-                  class="edit-btn"
-                >
-                  <el-icon><Edit /></el-icon>
-                  编辑
-                </el-button>
+                <div class="action-buttons">
+                  <el-tooltip content="编辑学生信息" placement="top">
+                    <el-button
+                      type="primary"
+                      size="small"
+                      @click="openEditDialog(row)"
+                      :loading="isLoading"
+                      class="action-btn edit-btn"
+                      circle
+                    >
+                      <el-icon><Edit /></el-icon>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip content="查看考勤记录" placement="top">
+                    <el-button
+                      type="success"
+                      size="small"
+                      @click="openAttendanceRecordsDialog(row)"
+                      :loading="isLoading"
+                      class="action-btn records-btn"
+                      circle
+                    >
+                      <el-icon><Clock /></el-icon>
+                    </el-button>
+                  </el-tooltip>
+                  <el-tooltip content="补卡操作" placement="top">
+                    <el-button
+                      type="warning"
+                      size="small"
+                      @click="openMakeupDialog(row)"
+                      :loading="isLoading"
+                      class="action-btn makeup-btn"
+                      circle
+                    >
+                      <el-icon><Plus /></el-icon>
+                    </el-button>
+                  </el-tooltip>
+                </div>
               </template>
             </el-table-column>
           </el-table>
@@ -408,6 +436,122 @@
       </template>
     </el-dialog>
 
+    <el-dialog
+      v-model="attendanceRecordsDialogVisible"
+      :title="`${currentStudentInfo.name} 的考勤记录`"
+      width="900px"
+      :close-on-click-modal="false"
+      class="attendance-records-dialog"
+    >
+      <div class="student-info-header">
+        <div class="student-avatar-large">
+          {{ currentStudentInfo.name?.charAt(0) }}
+        </div>
+        <div class="student-info">
+          <h3>{{ currentStudentInfo.name }}</h3>
+          <p>学号：{{ currentStudentInfo.studentId }}</p>
+          <p>专业：{{ currentStudentInfo.major }} | 年级：{{ currentStudentInfo.grade }}年级</p>
+        </div>
+        <div class="attendance-summary">
+          <div class="summary-item">
+            <span class="summary-label">总签到次数</span>
+            <span class="summary-value">{{ studentAttendanceRecords.length }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="attendance-records-container">
+        <div v-if="studentAttendanceRecords.length === 0" class="no-records">
+          <el-icon class="no-records-icon"><Calendar /></el-icon>
+          <p>暂无考勤记录</p>
+        </div>
+        <div v-else class="calendar-container">
+          <el-calendar v-model="calendarValue" class="attendance-calendar">
+            <template #date-cell="{ data }">
+              <div class="calendar-day">
+                <div class="day-number">{{ data.day.split('-').slice(2).join('-') }}</div>
+                <div class="attendance-dots">
+                  <div 
+                    v-for="record in getDayAttendanceRecords(data.day)" 
+                    :key="record.attendanceDateTime"
+                    class="attendance-dot"
+                    :class="getTimePeriodClass(record.attendanceDateTime)"
+                    :title="formatAttendanceTime(record.attendanceDateTime)"
+                  ></div>
+                </div>
+              </div>
+            </template>
+          </el-calendar>
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <div class="legend-dot morning"></div>
+              <span>早上 (8:00-11:00)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot afternoon"></div>
+              <span>下午 (14:00-17:00)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot evening"></div>
+              <span>晚上 (19:00-22:00)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="closeAttendanceRecordsDialog">关闭</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <el-dialog
+      v-model="makeupDialogVisible"
+      title="学生补卡"
+      width="500px"
+      :close-on-click-modal="false"
+      class="makeup-dialog"
+    >
+      <div class="makeup-form">
+        <div class="student-info-card">
+          <div class="student-avatar-medium">
+            {{ currentStudentInfo.name?.charAt(0) }}
+          </div>
+          <div class="student-info">
+            <h4>{{ currentStudentInfo.name }}</h4>
+            <p>学号：{{ currentStudentInfo.studentId }}</p>
+          </div>
+        </div>
+        
+        <el-form
+          ref="makeupFormRef"
+          :model="makeupForm"
+          :rules="makeupFormRules"
+          label-width="100px"
+          class="makeup-form-content"
+        >
+          <el-form-item label="补卡时间" prop="attendanceTime">
+            <el-date-picker
+              v-model="makeupForm.attendanceTime"
+              type="datetime"
+              placeholder="选择补卡时间"
+              format="YYYY-MM-DD HH:mm:ss"
+              value-format="YYYY-MM-DDTHH:mm:ss"
+              style="width: 100%"
+            />
+          </el-form-item>
+        </el-form>
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="cancelMakeup">取消</el-button>
+          <el-button type="primary" @click="confirmMakeup" :loading="isLoading">
+            确认补卡
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+
     <div class="admin-footer">
       <div class="footer-content">
         <div class="footer-left">
@@ -428,8 +572,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Lock, Key, Warning, User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock } from '@element-plus/icons-vue'
-import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getStudentAttendanceCount, getAdminInfo, assignStudentToAdmin } from '@/api/admin'
+import { Lock, Key, Warning, User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Plus } from '@element-plus/icons-vue'
+import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getStudentAttendanceCount, getAdminInfo, assignStudentToAdmin, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/admin'
 import { getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/user'
 
 const isAuthenticated = ref(false)
@@ -463,6 +607,16 @@ const editForm = ref({
 const currentEditStudentId = ref('')
 const todayAttendanceDialogVisible = ref(false)
 const todayAttendanceRecords = ref([])
+const attendanceRecordsDialogVisible = ref(false)
+const studentAttendanceRecords = ref([])
+const currentStudentInfo = ref({})
+const calendarValue = ref(new Date())
+const scrollPosition = ref(0)
+const makeupDialogVisible = ref(false)
+const makeupFormRef = ref()
+const makeupForm = ref({
+  attendanceTime: ''
+})
 
 const levelOptions = [
   { value: 0, label: '社团成员', color: 'info' },
@@ -515,6 +669,12 @@ const editFormRules = {
   ],
   password: [
     { min: 6, max: 16, message: '密码长度必须在6到16位之间', trigger: 'blur' }
+  ]
+}
+
+const makeupFormRules = {
+  attendanceTime: [
+    { required: true, message: '请选择补卡时间', trigger: 'change' }
   ]
 }
 
@@ -897,6 +1057,107 @@ const getTimePeriodName = (timeString) => {
   }
 }
 
+const getDayAttendanceRecords = (dateString) => {
+  if (!studentAttendanceRecords.value || studentAttendanceRecords.value.length === 0) return []
+  
+  const targetDate = new Date(dateString)
+  const year = targetDate.getFullYear()
+  const month = String(targetDate.getMonth() + 1).padStart(2, '0')
+  const day = String(targetDate.getDate()).padStart(2, '0')
+  const dateStr = `${year}-${month}-${day}`
+  
+  return studentAttendanceRecords.value.filter(record => {
+    const recordDate = new Date(record.attendanceDateTime)
+    const recordYear = recordDate.getFullYear()
+    const recordMonth = String(recordDate.getMonth() + 1).padStart(2, '0')
+    const recordDay = String(recordDate.getDate()).padStart(2, '0')
+    const recordDateStr = `${recordYear}-${recordMonth}-${recordDay}`
+    return recordDateStr === dateStr
+  })
+}
+
+const openAttendanceRecordsDialog = async (student) => {
+  currentStudentInfo.value = student
+  scrollPosition.value = window.pageYOffset || document.documentElement.scrollTop
+  
+  const restoreScroll = () => {
+    setTimeout(() => {
+      window.scrollTo(0, scrollPosition.value)
+    }, 50)
+  }
+  
+  try {
+    isLoading.value = true
+    restoreScroll()
+    const response = await getStudentAttendanceRecords(student.studentId)
+    if (response.code === 200) {
+      studentAttendanceRecords.value = response.data || []
+      attendanceRecordsDialogVisible.value = true
+    } else {
+      ElMessage.error(response.message || '获取考勤记录失败')
+    }
+  } catch (error) {
+    ElMessage.error('获取考勤记录失败：' + error.message)
+  } finally {
+    isLoading.value = false
+    restoreScroll()
+  }
+}
+
+const closeAttendanceRecordsDialog = () => {
+  attendanceRecordsDialogVisible.value = false
+  setTimeout(() => {
+    window.scrollTo(0, scrollPosition.value)
+  }, 100)
+}
+
+const openMakeupDialog = (student) => {
+  currentStudentInfo.value = student
+  makeupForm.value.attendanceTime = ''
+  makeupDialogVisible.value = true
+}
+
+const cancelMakeup = () => {
+  makeupDialogVisible.value = false
+  makeupFormRef.value?.resetFields()
+  currentStudentInfo.value = {}
+}
+
+const confirmMakeup = async () => {
+  if (!makeupFormRef.value) return
+  
+  try {
+    await makeupFormRef.value.validate()
+    
+    if (!specialPassword.value) {
+      ElMessage.error('特殊密码已失效，请重新登录')
+      return
+    }
+
+    isLoading.value = true
+    
+    const response = await makeupAttendanceWithSpecialPassword(
+      specialPassword.value,
+      currentStudentInfo.value.studentId.toString(),
+      makeupForm.value.attendanceTime
+    )
+    
+    if (response.code === 200) {
+      ElMessage.success('补卡成功')
+      makeupDialogVisible.value = false
+      await refreshData()
+    } else {
+      ElMessage.error(response.message || '补卡失败')
+    }
+  } catch (error) {
+    if (error.message) {
+      ElMessage.error(error.message)
+    }
+  } finally {
+    isLoading.value = false
+  }
+}
+
 const logout = () => {
   isAuthenticated.value = false
   specialPassword.value = ''
@@ -914,6 +1175,11 @@ const logout = () => {
   currentEditStudentId.value = ''
   todayAttendanceDialogVisible.value = false
   todayAttendanceRecords.value = []
+  attendanceRecordsDialogVisible.value = false
+  studentAttendanceRecords.value = []
+  currentStudentInfo.value = {}
+  makeupDialogVisible.value = false
+  makeupForm.value.attendanceTime = ''
   ElMessage.success('已退出管理员模式')
 }
 
@@ -1624,16 +1890,60 @@ onMounted(() => {
     border-radius: 0;
   }
   
-  .action-buttons {
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .edit-btn, .admin-btn {
-    width: 100%;
-    font-size: 12px;
-    padding: 4px 8px;
-  }
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.action-btn:active {
+  transform: translateY(0);
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.records-btn {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+}
+
+.records-btn:hover {
+  background: linear-gradient(135deg, #0ea572 0%, #047857 100%);
+}
+
+.makeup-btn {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: white;
+}
+
+.makeup-btn:hover {
+  background: linear-gradient(135deg, #e58e0a 0%, #c46205 100%);
 }
 
 @media (max-width: 1200px) {
@@ -1645,6 +1955,16 @@ onMounted(() => {
   .students-table {
     min-width: 1800px;
   }
+  
+  .action-buttons {
+    gap: 6px;
+  }
+  
+  .action-btn {
+    width: 28px;
+    height: 28px;
+  }
+}
 }
 
 .edit-dialog {
@@ -1730,23 +2050,6 @@ onMounted(() => {
   }
 }
 
-.edit-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  color: white;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.edit-btn:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-.edit-btn:active {
-  transform: translateY(0);
-}
 
 .today-attendance-dialog {
   .el-dialog__header {
@@ -1782,6 +2085,179 @@ onMounted(() => {
 .attendance-records-container {
   max-height: 500px;
   overflow-y: auto;
+}
+
+.calendar-container {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-calendar {
+  width: 100%;
+}
+
+.attendance-calendar :deep(.el-calendar__header) {
+  display: none;
+}
+
+.attendance-calendar :deep(.el-calendar__body) {
+  padding: 0;
+}
+
+.attendance-calendar :deep(.el-calendar-table) {
+  border: none;
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th) {
+  background: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  padding: 12px 0;
+  border: none;
+  font-size: 14px;
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(1))::after {
+  content: '周日';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(2))::after {
+  content: '周一';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(3))::after {
+  content: '周二';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(4))::after {
+  content: '周三';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(5))::after {
+  content: '周四';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(6))::after {
+  content: '周五';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th:nth-child(7))::after {
+  content: '周六';
+}
+
+.attendance-calendar :deep(.el-calendar-table thead th) {
+  font-size: 0;
+}
+
+.attendance-calendar :deep(.el-calendar-table tbody td) {
+  border: 1px solid #e9ecef;
+  padding: 0;
+  height: 80px;
+  vertical-align: top;
+}
+
+.attendance-calendar :deep(.el-calendar-table tbody td.is-today) {
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.attendance-calendar :deep(.el-calendar-table tbody td.is-selected) {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+.calendar-day {
+  position: relative;
+  height: 100%;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px;
+}
+
+.day-number {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.attendance-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.attendance-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.attendance-dot.morning {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  box-shadow: 0 0 4px rgba(16, 185, 129, 0.4);
+}
+
+.attendance-dot.afternoon {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  box-shadow: 0 0 4px rgba(245, 158, 11, 0.4);
+}
+
+.attendance-dot.evening {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  box-shadow: 0 0 4px rgba(139, 92, 246, 0.4);
+}
+
+.attendance-dot:hover {
+  transform: scale(1.2);
+}
+
+.calendar-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6B7280;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-dot.morning {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+}
+
+.legend-dot.afternoon {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+}
+
+.legend-dot.evening {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  box-shadow: 0 0 6px rgba(139, 92, 246, 0.4);
 }
 
 .no-records {
