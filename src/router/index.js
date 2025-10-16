@@ -4,58 +4,120 @@ import { validateToken } from '@/api/user';
 const routes = [
     {
         path: '/',
-        redirect: '/login',
+        name: 'Home',
+        component: () => import('../views/HomePage.vue')
     },
     {
         path: '/login',
         name: 'Login',
-        component: () => import('../views/LoginPage.vue')
+        component: () => import('../views/LoginPage/LoginPage.vue')
     },
     {
         path: '/register',
         name: 'Register',
-        component: () => import('../views/RegisterPage.vue')
+        component: () => import('../views/RegisterPage/RegisterPage.vue')
     },
     {
         path: '/navigation',
         name: 'Navigation',
-        component: () => import('../views/NavigationPage.vue'),
+        component: () => import('../views/NavigationPage/NavigationPage.vue'),
         meta: { requiresAuth: true }
     },
     {
         path: '/attendance',
         name: 'Attendance',
-        component: () => import('../views/AttendancePage.vue'),
+        component: () => import('../views/AttendancePage/AttendancePage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/attendance-mobile',
+        name: 'AttendanceMobile',
+        component: () => import('../views/AttendancePage/AttendancePageMobile.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/attendance-desktop',
+        name: 'AttendanceDesktop',
+        component: () => import('../views/AttendancePage/AttendancePageDesktop.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/attendance-tablet',
+        name: 'AttendanceTablet',
+        component: () => import('../views/AttendancePage/AttendancePageTablet.vue'),
         meta: { requiresAuth: true }
     },
     {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('../views/DashboardPage.vue'),
+        component: () => import('../views/DashboardPage/DashboardPage.vue'),
         meta: { requiresAuth: true }
     },
     {
         path: '/profile',
         name: 'Profile',
-        component: () => import('../views/ProfilePage.vue'),
+        component: () => import('../views/ProfilePage/ProfilePage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/profile/mobile',
+        name: 'ProfileMobile',
+        component: () => import('../views/ProfilePage/ProfilePageMobile.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/profile/desktop',
+        name: 'ProfileDesktop',
+        component: () => import('../views/ProfilePage/ProfilePageDesktop.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/profile/tablet',
+        name: 'ProfileTablet',
+        component: () => import('../views/ProfilePage/ProfilePageTablet.vue'),
         meta: { requiresAuth: true }
     },
     {
         path: '/admin',
         name: 'Admin',
-        component: () => import('../views/AdminPage.vue'),
-        meta: { requiresAuth: false }
+        component: () => import('../views/AdminPage/AdminPage.vue'),
+        meta: { requiresAuth: false },
+        children: [
+            {
+                path: '',
+                name: 'AdminDefault',
+                redirect: '/admin/auth'
+            },
+            {
+                path: 'auth',
+                name: 'AdminAuth',
+                component: () => import('../views/AdminPage/AdminAuthPage.vue'),
+                meta: { requiresAuth: false }
+            },
+            {
+                path: 'console',
+                name: 'AdminConsole',
+                component: () => import('../views/AdminPage/AdminConsolePage.vue'),
+                meta: { requiresAuth: false }
+            }
+        ]
     },
     {
         path: '/student-manager',
         name: 'StudentManager',
-        component: () => import('../views/StudentManagerPage.vue'),
+        component: () => import('../views/StudentManagerPage/StudentManagerPage.vue'),
         meta: { requiresAuth: true }
     },
     {
         path: '/attendance-analysis',
         name: 'AttendanceAnalysis',
-        component: () => import('../views/AttendanceAnalysisPage.vue'),
+        component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/attendance-analysis-mobile',
+        name: 'AttendanceAnalysisMobile',
+        component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageMobile.vue'),
         meta: { requiresAuth: true }
     },
 ]

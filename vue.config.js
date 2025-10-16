@@ -2,25 +2,33 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
     transpileDependencies: true,
     devServer: {
-        port: 8083, // 指定端口为8083
-        host: '0.0.0.0', // 允许外部访问
-        open: true, // 自动打开浏览器
-        allowedHosts: 'all', // 允许所有主机访问
-        hot: true, // 启用热模块替换
-        liveReload: true, // 启用实时重载
+        port: 8083,
+        host: '0.0.0.0',
+        open: true,
+        allowedHosts: 'all',
+        hot: true,
+        liveReload: true,
         client: {
-            webSocketURL: 'auto://0.0.0.0:0/ws' // 修复WebSocket连接问题
+            webSocketURL: 'auto://0.0.0.0:0/ws',
+            overlay: {
+                runtimeErrors: (error) => {
+                    const ignoreErrors = [
+                        'ResizeObserver loop completed with undelivered notifications.'
+                    ]
+                    return !ignoreErrors.includes(error.message)
+                }
+            }
         }
     },
-    publicPath: '/', // 确保publicPath正确
+    publicPath: '/',
     pages: {
         index: {
-            entry: 'src/main.js', // 明确指定入口文件为main.js
+            entry: 'src/main.js',
         }
     },
     configureWebpack: {
         resolve: {
-            extensions: ['.js', '.vue', '.json'] // 确保能正确解析.js文件
+            extensions: ['.js', '.vue', '.json']
         }
     }
 })

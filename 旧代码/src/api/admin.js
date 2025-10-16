@@ -1,27 +1,12 @@
 import axios from 'axios'
-import config from '@/config'
 
 const api = axios.create({
-  baseURL: config.API_BASE_URL,
-  timeout: 10000,
+  baseURL: 'http://10.0.48.241:7001',
+  timeout: 5000,
   headers: {
     'Content-Type': 'application/json'
   }
 })
-
-api.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.code === 'ECONNABORTED') {
-      throw new Error('请求超时，请检查网络连接')
-    } else if (error.code === 'ERR_NETWORK') {
-      throw new Error('网络连接失败，请检查服务器状态')
-    } else if (error.code === 'ERR_INTERNET_DISCONNECTED') {
-      throw new Error('网络连接已断开，请检查网络设置')
-    }
-    return Promise.reject(error)
-  }
-)
 
 export const getAllStudentsWithSpecialPassword = async (specialPassword) => {
   try {
