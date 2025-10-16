@@ -3,7 +3,7 @@
 
 export const config = {
   // API基础URL
-  API_BASE_URL: 'http://10.0.48.241:7001',
+  API_BASE_URL: 'http://10.0.48.168:7001',
   
   // 超级管理员特殊密码
   ADMIN_SPECIAL_PASSWORD: 'axiezhixingi',

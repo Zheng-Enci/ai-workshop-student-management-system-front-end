@@ -17,12 +17,12 @@
           <div class="stat-value">{{ todayAttendance }}人</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">本月工作日日均签到</div>
-          <div class="stat-value">{{ dailyAvgAttendance }}人</div>
+          <div class="stat-label">本月签到总人数</div>
+          <div class="stat-value">{{ monthlyAttendanceCount }}人</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">坊内成员人数</div>
-          <div class="stat-value">{{ workshopMembers }}人</div>
+          <div class="stat-value">{{ workshopMembersCount }}人</div>
         </div>
       </div>
 
@@ -46,6 +46,13 @@
           <div class="level-info">
             <span class="level-label">普通成员</span>
             <span class="level-value">{{ levelStats.normal }}人</span>
+          </div>
+        </div>
+        <div class="level-item club-level">
+          <el-icon><User /></el-icon>
+          <div class="level-info">
+            <span class="level-label">社团成员</span>
+            <span class="level-value">{{ clubMembers }}人</span>
           </div>
         </div>
       </div>
@@ -104,7 +111,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { ElMessage } from 'element-plus'
-import { ArrowLeft, Setting, Star, Avatar } from '@element-plus/icons-vue'
+import { ArrowLeft, Setting, Star, Avatar, User } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import * as echarts from 'echarts'
 import 'echarts-wordcloud'
@@ -133,12 +140,16 @@ const themeStore = useThemeStore()
 
 const todayAttendance = ref(0)
 const dailyAvgAttendance = ref(0)
+const attendanceRate = ref(0)
+const monthlyAttendanceCount = ref(0)
+const workshopMembersCount = ref(0)
 const workshopMembers = ref(0)
 const levelStats = ref({
   admin: 0,
   core: 0,
   normal: 0
 })
+const clubMembers = ref(0)
 
 const selectedTimeRange = ref('week')
 const selectedTopN = ref(15)
@@ -279,6 +290,9 @@ const loadData = async () => {
     if (monthlyData.code === 200 && monthlyData.data) {
       const dailyAvg = calculateDailyAvgAttendance(monthlyData.data.count)
       dailyAvgAttendance.value = dailyAvg
+      
+      // 保存月度数据，等levelStats加载完成后再计算签到率
+      monthlyAttendanceCount.value = monthlyData.data.count
     }
 
     if (dailyData.code === 200 && dailyData.data) {
@@ -286,6 +300,9 @@ const loadData = async () => {
     }
 
     await loadLevelStats()
+    
+    // 重新计算社团成员数量
+    calculateClubMembers()
   } catch (error) {
     ElMessage.error('数据加载失败: ' + (error.message || '未知错误'))
   }
@@ -310,9 +327,35 @@ const loadLevelStats = async () => {
     if (normalData.code === 200) {
       levelStats.value.normal = normalData.data
     }
+
+    // 计算社团成员数量
+    calculateClubMembers()
+    
+    // 计算签到率
+    if (monthlyAttendanceCount.value > 0) {
+      const rate = calculateAttendanceRate(monthlyAttendanceCount.value)
+      attendanceRate.value = rate
+    }
   } catch (error) {
     ElMessage.error('获取等级统计失败')
   }
+}
+
+const calculateClubMembers = () => {
+  clubMembers.value = workshopMembers.value - levelStats.value.admin - levelStats.value.core - levelStats.value.normal
+  // 坊内成员人数 = 管理员 + 核心成员 + 普通成员
+  workshopMembersCount.value = levelStats.value.admin + levelStats.value.core + levelStats.value.normal
+}
+
+const calculateAttendanceRate = (monthlyCount) => {
+  // 坊内成员总人数 = 管理员 + 核心成员 + 普通成员
+  const workshopMembersCount = levelStats.value.admin + levelStats.value.core + levelStats.value.normal
+  
+  if (workshopMembersCount === 0) {
+    return 0
+  }
+  
+  return parseFloat(((monthlyCount / workshopMembersCount) * 100).toFixed(1))
 }
 
 const loadRankingData = async () => {
@@ -795,6 +838,39 @@ onUnmounted(() => {
 
 .normal-level {
   background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+}
+
+.club-level {
+  background: linear-gradient(135deg, #96ceb4 0%, #b8e6b8 100%);
+}
+
+.club-level .el-icon {
+  color: #2e7d32;
+}
+
+.club-level .level-label {
+  color: #2e7d32;
+}
+
+.club-level .level-value {
+  color: #1b5e20;
+}
+
+/* 夜间模式下的club-level样式 */
+html.dark .club-level {
+  background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%);
+}
+
+html.dark .club-level .el-icon {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+html.dark .club-level .level-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+html.dark .club-level .level-value {
+  color: #ffffff;
 }
 
 .level-item .el-icon {
