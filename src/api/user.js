@@ -52,10 +52,8 @@ export const register = async (data) => {
   } catch (error) {
     if (error.response) {
       const status = error.response.status
-      if (status === 400) {
-        throw new Error('注册信息格式错误')
-      } else if (status === 409) {
-        throw new Error('学号已存在')
+      if (status === 400 || status === 409) {
+        throw new Error(error.response.data?.message || '注册失败')
       } else if (status >= 500) {
         throw new Error('服务器错误，请稍后重试')
       } else {
