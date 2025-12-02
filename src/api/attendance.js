@@ -23,52 +23,10 @@ api.interceptors.response.use(
   }
 )
 
-export const login = async (data) => {
-  try {
-    const response = await api.post('/api/v1/students/login', data)
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status === 401) {
-        throw new Error('学号或密码错误')
-      } else if (status === 403) {
-        throw new Error('账户已被禁用')
-      } else if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '登录失败')
-      }
-    } else {
-      throw new Error('网络错误，登录失败')
-    }
-  }
-}
-
-export const register = async (data) => {
-  try {
-    const response = await api.post('/api/v1/students', data)
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status === 400 || status === 409) {
-        throw new Error(error.response.data?.message || '注册失败')
-      } else if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '注册失败')
-      }
-    } else {
-      throw new Error('网络错误，注册失败')
-    }
-  }
-}
-
-export const signIn = async (token) => {
+export const signIn = async (token, verificationCode) => {
   try {
     const response = await api.post('/api/v1/attendance', {}, {
-      params: { token },
+      params: { token, verificationCode },
       headers: {
         'Content-Type': 'application/json'
       }
@@ -94,83 +52,53 @@ export const signIn = async (token) => {
   }
 }
 
-export const validateToken = async (token) => {
+export const makeupAttendance = async (token, studentId, attendanceTime) => {
   try {
-    const response = await api.post('/api/v1/students/validation-token', null, {
-      params: { token },
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+    const response = await api.post('/api/v1/attendance/makeup', {
+      studentId: studentId,
+      attendanceTime: attendanceTime
+    }, {
+      params: { token }
     })
-    return response.data.data || false
+    return response.data
   } catch (error) {
     if (error.response) {
       const status = error.response.status
-      if (status === 403) {
-        return false // Token已过期或无效
-      } else if (status === 401) {
-        return false // 未授权访问
+      if (status === 401) {
+        throw new Error('Token无效，请重新登录')
+      } else if (status === 400) {
+        throw new Error(error.response.data?.message || '补卡失败')
       } else if (status >= 500) {
         throw new Error('服务器错误，请稍后重试')
       } else {
-        return false // 其他错误也返回false
+        throw new Error(error.response.data?.message || '补卡失败')
       }
     } else {
-      throw new Error('网络错误，Token验证失败')
+      throw new Error('网络错误，补卡失败')
     }
   }
 }
 
-export const getGradeStatistics = async () => {
+export const makeupAttendanceWithSpecialPassword = async (specialPassword, targetStudentId, targetAttendanceDateTime) => {
   try {
-    const response = await api.get('/api/v1/students/grade-statistics')
+    const response = await api.post('/api/v1/attendance/makeup-with-special-password', {
+      specialPassword: specialPassword,
+      targetStudentId: targetStudentId,
+      targetAttendanceDateTime: targetAttendanceDateTime
+    })
     return response.data
   } catch (error) {
     if (error.response) {
       const status = error.response.status
-      if (status >= 500) {
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '补卡失败')
+      } else if (status >= 500) {
         throw new Error('服务器错误，请稍后重试')
       } else {
-        throw new Error(error.response.data?.message || '获取年级统计失败')
+        throw new Error(error.response.data?.message || '补卡失败')
       }
     } else {
-      throw new Error('网络错误，获取年级统计失败')
-    }
-  }
-}
-
-export const getMajorStatistics = async () => {
-  try {
-    const response = await api.get('/api/v1/students/major-statistics')
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '获取专业统计失败')
-      }
-    } else {
-      throw new Error('网络错误，获取专业统计失败')
-    }
-  }
-}
-
-export const getTotalStudentCount = async () => {
-  try {
-    const response = await api.get('/api/v1/students/total-count')
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '获取学生总数失败')
-      }
-    } else {
-      throw new Error('网络错误，获取学生总数失败')
+      throw new Error('网络错误，补卡失败')
     }
   }
 }
@@ -211,9 +139,11 @@ export const getMonthlyAttendanceCount = async () => {
   }
 }
 
-export const getDailyAttendanceCount = async () => {
+export const getDailyAttendanceCount = async (date) => {
   try {
-    const response = await api.get('/api/v1/attendance/daily-count')
+    const response = await api.get('/api/v1/attendance/daily-count', {
+      params: date ? { date } : {}
+    })
     return response.data
   } catch (error) {
     if (error.response) {
@@ -225,76 +155,6 @@ export const getDailyAttendanceCount = async () => {
       }
     } else {
       throw new Error('网络错误，获取日度考勤统计失败')
-    }
-  }
-}
-
-export const getStudentProfile = async (token) => {
-  try {
-    const response = await api.get('/api/v1/students/profile', {
-      params: { token }
-    })
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status === 401) {
-        throw new Error('Token无效，请重新登录')
-      } else if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '获取个人信息失败')
-      }
-    } else {
-      throw new Error('网络错误，获取个人信息失败')
-    }
-  }
-}
-
-export const updateStudentInfo = async (token, data) => {
-  try {
-    const response = await api.put('/api/v1/students/update-info', data, {
-      params: { token }
-    })
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status === 401) {
-        throw new Error('Token无效，请重新登录')
-      } else if (status === 400) {
-        throw new Error('参数验证失败，请检查输入信息')
-      } else if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '更新个人信息失败')
-      }
-    } else {
-      throw new Error('网络错误，更新个人信息失败')
-    }
-  }
-}
-
-export const changePassword = async (token, data) => {
-  try {
-    const response = await api.post('/api/v1/students/change-password', data, {
-      params: { token }
-    })
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status === 401) {
-        throw new Error('Token无效，请重新登录')
-      } else if (status === 400) {
-        throw new Error('原密码错误或参数验证失败')
-      } else if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '修改密码失败')
-      }
-    } else {
-      throw new Error('网络错误，修改密码失败')
     }
   }
 }
@@ -321,11 +181,9 @@ export const getMyAttendanceCount = async (token) => {
   }
 }
 
-export const getStudentLevel = async (studentId) => {
+export const getCurrentMonthTop10Students = async () => {
   try {
-    const response = await api.get('/api/v1/students/get-student-level', {
-      params: { 'student-id': studentId }
-    })
+    const response = await api.get('/api/v1/attendance/current-month-top10-students')
     return response.data
   } catch (error) {
     if (error.response) {
@@ -333,13 +191,37 @@ export const getStudentLevel = async (studentId) => {
       if (status >= 500) {
         throw new Error('服务器错误，请稍后重试')
       } else {
-        throw new Error(error.response.data?.message || '获取学生等级失败')
+        throw new Error(error.response.data?.message || '获取本月签到前十名失败')
       }
     } else {
-      throw new Error('网络错误，获取学生等级失败')
+      throw new Error('网络错误，获取本月签到前十名失败')
     }
   }
 }
+
+export const getAttendanceCountByStudentId = async (studentId) => {
+  try {
+    const response = await api.get('/api/v1/attendance/attendance-count-by-student-id', {
+      params: { studentId }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取学生签到次数失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生签到次数失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生签到次数失败')
+    }
+  }
+}
+
+export const getStudentAttendanceCount = getAttendanceCountByStudentId
 
 export const getTodayAttendanceRecords = async () => {
   try {
@@ -359,24 +241,24 @@ export const getTodayAttendanceRecords = async () => {
   }
 }
 
-export const getAllStudentsWithSpecialPassword = async (specialPassword) => {
+export const getStudentAttendanceRecords = async (studentId) => {
   try {
-    const response = await api.get('/api/v1/students/all-with-special-password', {
-      params: { 'special-password': specialPassword }
+    const response = await api.get('/api/v1/attendance/student-records', {
+      params: { studentId }
     })
     return response.data
   } catch (error) {
     if (error.response) {
       const status = error.response.status
       if (status === 400) {
-        throw new Error('特殊密码错误')
+        throw new Error(error.response.data?.message || '获取学生考勤记录失败')
       } else if (status >= 500) {
         throw new Error('服务器错误，请稍后重试')
       } else {
-        throw new Error(error.response.data?.message || '获取学生信息失败')
+        throw new Error(error.response.data?.message || '获取学生考勤记录失败')
       }
     } else {
-      throw new Error('网络错误，获取学生信息失败')
+      throw new Error('网络错误，获取学生考勤记录失败')
     }
   }
 }
@@ -403,24 +285,6 @@ export const getMyAttendanceRecords = async () => {
   }
 }
 
-export const getCurrentMonthTop10Students = async () => {
-  try {
-    const response = await api.get('/api/v1/attendance/current-month-top10-students')
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '获取本月签到前十名失败')
-      }
-    } else {
-      throw new Error('网络错误，获取本月签到前十名失败')
-    }
-  }
-}
-
 export const getTopStudentsByTimeRange = async (startTime, endTime, topN) => {
   try {
     const response = await api.get('/api/v1/attendance/get-top-students-by-attendance-count-in-time-range', {
@@ -437,6 +301,26 @@ export const getTopStudentsByTimeRange = async (startTime, endTime, topN) => {
       }
     } else {
       throw new Error('网络错误，获取签到排行失败')
+    }
+  }
+}
+
+export const getVerificationCode = async () => {
+  try {
+    const response = await api.get('/api/v1/attendance/verification-code')
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 403) {
+        throw new Error('IP地址不允许访问该接口')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取验证码失败')
+      }
+    } else {
+      throw new Error('网络错误，获取验证码失败')
     }
   }
 }
@@ -587,24 +471,3 @@ export const getDailyAttendanceCountInRange = async (startTime, endTime) => {
   }
 }
 
-export const getStudentCountByLevel = async (levelCode) => {
-  try {
-    const response = await api.get('/api/v1/students/student-count-by-level-code', {
-      params: {
-        'level-code': levelCode
-      }
-    })
-    return response.data
-  } catch (error) {
-    if (error.response) {
-      const status = error.response.status
-      if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
-      } else {
-        throw new Error(error.response.data?.message || '获取等级学生数量失败')
-      }
-    } else {
-      throw new Error('网络错误，获取等级学生数量失败')
-    }
-  }
-}

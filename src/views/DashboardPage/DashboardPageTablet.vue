@@ -143,9 +143,11 @@ import {
   getGradeStatistics,
   getMajorStatistics,
   getTotalStudentCount,
+  getStudentCountByLevel
+} from '@/api/student'
+import {
   getMonthlyAttendanceCount,
   getDailyAttendanceCount,
-  getStudentCountByLevel,
   getCurrentMonthTop10Students,
   getDailyRanking,
   getWeeklyRanking,
@@ -156,7 +158,7 @@ import {
   getLast7DaysRanking,
   getLast30DaysRanking,
   getCustomRangeRanking
-} from '@/api/user'
+} from '@/api/attendance'
 
 const router = useRouter()
 const themeStore = useThemeStore()

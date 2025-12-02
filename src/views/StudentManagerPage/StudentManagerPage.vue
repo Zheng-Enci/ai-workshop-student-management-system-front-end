@@ -470,8 +470,9 @@ import { User, Calendar, Star, Refresh, Loading, ArrowLeft, Clock, InfoFilled, C
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
-import { getManagedStudents, getStudentAttendanceCount, makeupAttendance, getStudentAttendanceRecords } from '@/api/admin'
-import { getStudentLevel } from '@/api/user'
+import { getManagedStudents } from '@/api/student'
+import { getStudentAttendanceCount, makeupAttendance, getStudentAttendanceRecords } from '@/api/attendance'
+import { getStudentLevel } from '@/api/student'
 import * as echarts from 'echarts'
 
 const router = useRouter()

@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElIcon, ElSelect, ElOption } from "element-plus";
 import { User, Lock, Phone, School, Collection, House } from "@element-plus/icons-vue";
 import { useRouter } from 'vue-router';
-import { register, login } from '@/api/user';
+import { register, login } from '@/api/student';
 import { useUserStore } from '@/stores/user';
 import { useThemeStore } from '@/stores/theme';
 

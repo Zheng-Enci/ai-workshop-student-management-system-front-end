@@ -1,0 +1,444 @@
+import axios from 'axios'
+import config from '@/config'
+
+const api = axios.create({
+  baseURL: config.API_BASE_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.code === 'ECONNABORTED') {
+      throw new Error('请求超时，请检查网络连接')
+    } else if (error.code === 'ERR_NETWORK') {
+      throw new Error('网络连接失败，请检查服务器状态')
+    } else if (error.code === 'ERR_INTERNET_DISCONNECTED') {
+      throw new Error('网络连接已断开，请检查网络设置')
+    }
+    return Promise.reject(error)
+  }
+)
+
+export const login = async (data) => {
+  try {
+    const response = await api.post('/api/v1/students/login', data)
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 401) {
+        throw new Error('学号或密码错误')
+      } else if (status === 403) {
+        throw new Error('账户已被禁用')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '登录失败')
+      }
+    } else {
+      throw new Error('网络错误，登录失败')
+    }
+  }
+}
+
+export const register = async (data) => {
+  try {
+    const response = await api.post('/api/v1/students', data)
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400 || status === 409) {
+        throw new Error(error.response.data?.message || '注册失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '注册失败')
+      }
+    } else {
+      throw new Error('网络错误，注册失败')
+    }
+  }
+}
+
+export const validateToken = async (token) => {
+  try {
+    const response = await api.post('/api/v1/students/validation-token', null, {
+      params: { token },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+    return response.data.data || false
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 403) {
+        return false
+      } else if (status === 401) {
+        return false
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        return false
+      }
+    } else {
+      throw new Error('网络错误，Token验证失败')
+    }
+  }
+}
+
+export const getStudentProfile = async (token) => {
+  try {
+    const response = await api.get('/api/v1/students/profile', {
+      params: { token }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 401) {
+        throw new Error('Token无效，请重新登录')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取个人信息失败')
+      }
+    } else {
+      throw new Error('网络错误，获取个人信息失败')
+    }
+  }
+}
+
+export const updateStudentInfo = async (token, data) => {
+  try {
+    const response = await api.put('/api/v1/students/update-info', data, {
+      params: { token }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 401) {
+        throw new Error('Token无效，请重新登录')
+      } else if (status === 400) {
+        throw new Error('参数验证失败，请检查输入信息')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '更新个人信息失败')
+      }
+    } else {
+      throw new Error('网络错误，更新个人信息失败')
+    }
+  }
+}
+
+export const changePassword = async (token, data) => {
+  try {
+    const response = await api.post('/api/v1/students/change-password', data, {
+      params: { token }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 401) {
+        throw new Error('Token无效，请重新登录')
+      } else if (status === 400) {
+        throw new Error('原密码错误或参数验证失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '修改密码失败')
+      }
+    } else {
+      throw new Error('网络错误，修改密码失败')
+    }
+  }
+}
+
+export const getGradeStatistics = async () => {
+  try {
+    const response = await api.get('/api/v1/students/grade-statistics')
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取年级统计失败')
+      }
+    } else {
+      throw new Error('网络错误，获取年级统计失败')
+    }
+  }
+}
+
+export const getMajorStatistics = async () => {
+  try {
+    const response = await api.get('/api/v1/students/major-statistics')
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取专业统计失败')
+      }
+    } else {
+      throw new Error('网络错误，获取专业统计失败')
+    }
+  }
+}
+
+export const getTotalStudentCount = async () => {
+  try {
+    const response = await api.get('/api/v1/students/total-count')
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生总数失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生总数失败')
+    }
+  }
+}
+
+export const getStudentCountByLevel = async (levelCode) => {
+  try {
+    const response = await api.get('/api/v1/students/student-count-by-level-code', {
+      params: {
+        'level-code': levelCode
+      }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取等级学生数量失败')
+      }
+    } else {
+      throw new Error('网络错误，获取等级学生数量失败')
+    }
+  }
+}
+
+export const getStudentLevel = async (studentId) => {
+  try {
+    const response = await api.get('/api/v1/students/get-student-level', {
+      params: { 'student-id': studentId }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生等级失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生等级失败')
+    }
+  }
+}
+
+export const getStudentDatabaseTableId = async (token) => {
+  try {
+    const response = await api.get('/api/v1/students/get-student-database-table-id', {
+      params: { token }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 401) {
+        throw new Error('Token无效，请重新登录')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生ID失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生ID失败')
+    }
+  }
+}
+
+export const getStudentNameByInfoId = async (studentInfoId) => {
+  try {
+    const response = await api.get('/api/v1/students/get-student-name-by-info-id', {
+      params: { 'student-info-id': studentInfoId }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生姓名失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生姓名失败')
+    }
+  }
+}
+
+export const getAllStudentsWithSpecialPassword = async (specialPassword) => {
+  try {
+    const response = await api.get('/api/v1/students/all-with-special-password', {
+      params: { 'special-password': specialPassword }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error('特殊密码错误')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生信息失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生信息失败')
+    }
+  }
+}
+
+export const setStudentLevel = async (specialPassword, studentId, levelCode) => {
+  try {
+    const response = await api.post('/api/v1/students/set-level', {
+      studentId: studentId,
+      levelCode: levelCode
+    }, {
+      params: { 'special-password': specialPassword }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '设置学生等级失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '设置学生等级失败')
+      }
+    } else {
+      throw new Error('网络错误，设置学生等级失败')
+    }
+  }
+}
+
+export const updateStudentWithSpecialPassword = async (specialPassword, studentId, studentData) => {
+  try {
+    const response = await api.put('/api/v1/students/update-with-special-password', studentData, {
+      params: { 
+        'special-password': specialPassword,
+        'student-id': studentId
+      }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '更新学生信息失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '更新学生信息失败')
+      }
+    } else {
+      throw new Error('网络错误，更新学生信息失败')
+    }
+  }
+}
+
+export const assignStudentToAdmin = async (specialPassword, studentId, adminStudentId) => {
+  try {
+    const response = await api.post('/api/v1/students/assign-student-to-admin', {
+      studentId: studentId,
+      adminStudentId: adminStudentId
+    }, {
+      params: { 'special-password': specialPassword }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '分配管理员失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '分配管理员失败')
+      }
+    } else {
+      throw new Error('网络错误，分配管理员失败')
+    }
+  }
+}
+
+export const getAdminInfo = async (managedStudentId) => {
+  try {
+    const response = await api.get('/api/v1/students/admin-info', {
+      params: { 'managed-student-id': managedStudentId }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取管理员信息失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取管理员信息失败')
+      }
+    } else {
+      throw new Error('网络错误，获取管理员信息失败')
+    }
+  }
+}
+
+export const getManagedStudents = async (adminStudentId) => {
+  try {
+    const response = await api.get('/api/v1/students/managed-students', {
+      params: { 'admin-student-id': adminStudentId }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取管理学生信息失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取管理学生信息失败')
+      }
+    } else {
+      throw new Error('网络错误，获取管理学生信息失败')
+    }
+  }
+}
+
+

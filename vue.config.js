@@ -9,7 +9,12 @@ module.exports = defineConfig({
         hot: true,
         liveReload: true,
         client: {
-            webSocketURL: 'auto://0.0.0.0:0/ws',
+            webSocketURL: {
+                hostname: '0.0.0.0',
+                pathname: '/ws',
+                port: 8083,
+                protocol: 'ws'
+            },
             overlay: {
                 runtimeErrors: (error) => {
                     const ignoreErrors = [

@@ -106,31 +106,49 @@
         </div>
       </div>
       
-      <div v-if="result && result.type" class="result-message-mobile" :class="result.type">
-        <div class="result-icon-mobile">
-          <el-icon v-if="result.type === 'success'"><Check /></el-icon>
-          <el-icon v-else><Warning /></el-icon>
+    </div>
+    
+    <el-dialog
+      v-if="showVerificationCodeDialog"
+      v-model="showVerificationCodeDialog"
+      title="输入签到验证码"
+      width="90%"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      destroy-on-close
+      class="verification-code-dialog-mobile"
+      @close="handleVerificationCodeDialogClose"
+    >
+      <div class="verification-code-content-mobile">
+        <div class="verification-code-hint-mobile">
+          <p>请输入6位数字验证码</p>
         </div>
-        <div class="result-content-mobile">
-          <div class="result-title-mobile">{{ result.type === 'success' ? '签到成功' : '签到失败' }}</div>
-          <div class="result-text-mobile">{{ result.message || '' }}</div>
+        <el-input
+          v-model="inputVerificationCode"
+          placeholder="请输入验证码"
+          maxlength="6"
+          class="verification-code-input-mobile"
+          @keyup.enter="confirmVerificationCode"
+        />
+        <div class="verification-code-actions-mobile">
+          <el-button @click.stop="cancelVerificationCode">取消</el-button>
+          <el-button type="primary" @click.stop="confirmVerificationCode" :loading="loading">确认</el-button>
         </div>
       </div>
-    </div>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Warning } from '@element-plus/icons-vue'
-import { signIn } from '@/api/user'
+import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon } from '@element-plus/icons-vue'
+import { signIn } from '@/api/attendance'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
 import { useRouter } from 'vue-router'
 
 const loading = ref(false)
-const result = ref(null)
 const userStore = useUserStore()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
@@ -140,6 +158,8 @@ const isInSignTime = ref(false)
 const currentTime = ref('')
 const nextSignTime = ref('')
 const timeInterval = ref(null)
+const showVerificationCodeDialog = ref(false)
+const inputVerificationCode = ref('')
 const attendanceStatus = ref({
   morning: null,
   afternoon: null,
@@ -286,29 +306,31 @@ const checkSignTime = () => {
 
 const submitAttendance = async () => {
   if (!isInSignTime.value) {
-    result.value = {
-      type: 'error',
-      message: `当前时间 ${currentTime.value} 不在签到时间内，下次签到时间：${nextSignTime.value}`
-    }
-    setTimeout(() => {
-      result.value = null
-    }, 5000)
+    ElMessage.error(`当前时间 ${currentTime.value} 不在签到时间内，下次签到时间：${nextSignTime.value}`)
     return
   }
   
   if (isCurrentSlotSigned()) {
-    result.value = {
-      type: 'error',
-      message: '当前时间段已签到，请等待下次签到时间'
-    }
-    setTimeout(() => {
-      result.value = null
-    }, 5000)
+    ElMessage.warning('当前时间段已签到，请等待下次签到时间')
+    return
+  }
+  
+  inputVerificationCode.value = ''
+  showVerificationCodeDialog.value = true
+}
+
+const confirmVerificationCode = async () => {
+  if (!inputVerificationCode.value || inputVerificationCode.value.length !== 6) {
+    ElMessage.error('请输入6位数字验证码')
+    return
+  }
+  
+  if (!/^\d{6}$/.test(inputVerificationCode.value)) {
+    ElMessage.error('验证码必须是6位数字')
     return
   }
   
   loading.value = true
-  result.value = null
   
   try {
     const token = userStore.token || localStorage.getItem('token')
@@ -316,10 +338,11 @@ const submitAttendance = async () => {
       ElMessage.error('请先登录')
       router.push('/login')
       loading.value = false
+      showVerificationCodeDialog.value = false
       return
     }
     
-    const res = await signIn(token)
+    const res = await signIn(token, inputVerificationCode.value)
     
     if (res.code === 200) {
       const currentSlot = getCurrentTimeSlot()
@@ -331,14 +354,9 @@ const submitAttendance = async () => {
         saveAttendanceStatus()
       }
       
-      result.value = {
-        type: 'success',
-        message: '签到成功！'
-      }
-      
-      setTimeout(() => {
-        result.value = null
-      }, 3000)
+      showVerificationCodeDialog.value = false
+      inputVerificationCode.value = ''
+      ElMessage.success('签到成功！')
     } else if (res.code === 400 && res.message && res.message.includes('已签到')) {
       const currentSlot = getCurrentTimeSlot()
       if (currentSlot && attendanceStatus.value) {
@@ -349,29 +367,35 @@ const submitAttendance = async () => {
         saveAttendanceStatus()
       }
       
-      result.value = {
-        type: 'success',
-        message: '您已签到，无需重复签到'
-      }
-      
-      setTimeout(() => {
-        result.value = null
-      }, 3000)
+      showVerificationCodeDialog.value = false
+      inputVerificationCode.value = ''
+      ElMessage.success('您已签到，无需重复签到')
     } else {
-      throw new Error(res.message || '签到失败')
+      if (res.message && (res.message.includes('验证码错误') || res.message.includes('验证码已过期'))) {
+        ElMessage.error(res.message)
+        inputVerificationCode.value = ''
+      } else {
+        ElMessage.error(res.message || '签到失败')
+      }
     }
   } catch (error) {
-    result.value = {
-      type: 'error',
-      message: error.message || '签到失败'
+    if (error.message && (error.message.includes('验证码错误') || error.message.includes('验证码已过期'))) {
+      ElMessage.error(error.message)
+      inputVerificationCode.value = ''
+    } else {
+      ElMessage.error(error.message || '签到失败')
     }
-    
-    setTimeout(() => {
-      result.value = null
-    }, 5000)
   } finally {
     loading.value = false
   }
+}
+
+const handleVerificationCodeDialogClose = () => {
+  inputVerificationCode.value = ''
+}
+
+const cancelVerificationCode = () => {
+  showVerificationCodeDialog.value = false
 }
 
 onMounted(async () => {
@@ -850,81 +874,84 @@ h1 {
   color: #4CAF50;
 }
 
-.result-message-mobile {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  border-radius: 12px;
-  text-align: left;
-  font-size: 14px;
-  max-width: 100%;
-  box-shadow: 0 3px 12px var(--shadow-color);
-  animation: slideUp-mobile 0.3s ease-out;
-  position: fixed;
-  top: 60px;
-  left: 12px;
-  right: 12px;
-  z-index: 1000;
-}
-
-.result-message-mobile.success {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
-  border: 1px solid rgba(76, 175, 80, 0.3);
-}
-
-.result-message-mobile.error {
-  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0.05) 100%);
-  border: 1px solid rgba(244, 67, 54, 0.3);
-}
-
-.result-icon-mobile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 16px;
-}
-
-.result-message-mobile.success .result-icon-mobile {
-  background: rgba(76, 175, 80, 0.2);
-  color: #4CAF50;
-}
-
-.result-message-mobile.error .result-icon-mobile {
-  background: rgba(244, 67, 54, 0.2);
-  color: #f44336;
-}
-
-.result-content-mobile {
-  flex: 1;
-}
-
-.result-title-mobile {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.result-message-mobile.success .result-title-mobile {
-  color: #4CAF50;
-}
-
-.result-message-mobile.error .result-title-mobile {
-  color: #f44336;
-}
-
-.result-text-mobile {
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.3;
-}
 
 @keyframes spin-mobile {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.verification-code-dialog-mobile {
+  border-radius: 16px;
+}
+
+.verification-code-content-mobile {
+  padding: 20px 0;
+}
+
+.verification-code-hint-mobile {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.verification-code-hint-mobile p {
+  margin: 8px 0;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+
+.verification-code-input-mobile {
+  margin-bottom: 20px;
+}
+
+.verification-code-input-mobile :deep(.el-input__wrapper) {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px var(--shadow-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.verification-code-input-mobile :deep(.el-input__wrapper:hover) {
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+}
+
+.verification-code-input-mobile :deep(.el-input__wrapper.is-focus) {
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 24px rgba(102, 126, 234, 0.3);
+}
+
+.verification-code-input-mobile :deep(.el-input__inner) {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.verification-code-input-mobile :deep(.el-input__inner::placeholder) {
+  color: var(--text-tertiary);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+.verification-code-actions-mobile {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.verification-code-actions-mobile .el-button {
+  flex: 1;
 }
 
 @keyframes pulse-mobile {
@@ -948,14 +975,4 @@ h1 {
   }
 }
 
-@keyframes slideUp-mobile {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 </style>

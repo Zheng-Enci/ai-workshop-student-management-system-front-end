@@ -155,7 +155,8 @@ import { Check, User, DataAnalysis, Setting, SwitchButton, Calendar, Star, UserF
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
-import { getMyAttendanceCount, getStudentLevel } from '@/api/user'
+import { getStudentLevel } from '@/api/student'
+import { getMyAttendanceCount } from '@/api/attendance'
 
 const router = useRouter()
 const userStore = useUserStore()

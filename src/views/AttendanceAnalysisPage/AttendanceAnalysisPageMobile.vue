@@ -155,7 +155,7 @@ import { ElMessage } from 'element-plus'
 import { ArrowLeft, User, Clock, TrendCharts, Trophy, PieChart } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
 import { useThemeStore } from '@/stores/theme'
-import { getTodayAttendanceRecords, getTopStudentsByTimeRange } from '@/api/user'
+import { getTodayAttendanceRecords, getTopStudentsByTimeRange } from '@/api/attendance'
 
 const router = useRouter()
 const themeStore = useThemeStore()

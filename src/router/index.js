@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
-import { validateToken } from '@/api/user';
+import { validateToken } from '@/api/student';
 
 const routes = [
     {

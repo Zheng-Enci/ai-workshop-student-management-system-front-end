@@ -128,7 +128,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Warning } from '@element-plus/icons-vue'
-import { signIn } from '@/api/user'
+import { signIn } from '@/api/attendance'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
 import { useRouter } from 'vue-router'

@@ -351,7 +351,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ArrowLeft, User, Edit, Lock, Calendar } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import { getStudentProfile, updateStudentInfo, changePassword, getMyAttendanceCount } from '@/api/user'
+import { getStudentProfile, updateStudentInfo, changePassword } from '@/api/student'
+import { getMyAttendanceCount } from '@/api/attendance'
 import { useThemeStore } from '@/stores/theme'
 
 const router = useRouter()

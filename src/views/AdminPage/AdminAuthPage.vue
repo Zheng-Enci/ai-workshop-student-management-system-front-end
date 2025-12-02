@@ -62,7 +62,7 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Lock, Key, Warning } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import { getAllStudentsWithSpecialPassword } from '@/api/admin'
+import { getAllStudentsWithSpecialPassword } from '@/api/student'
 import { useAdminStore } from '@/stores/admin'
 
 const router = useRouter()

@@ -150,7 +150,8 @@ import {
   TrendCharts 
 } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
-import { getTodayAttendanceRecords, getStudentLevel, getDailyAttendanceCountInRange } from '@/api/user'
+import { getStudentLevel } from '@/api/student'
+import { getTodayAttendanceRecords, getDailyAttendanceCountInRange } from '@/api/attendance'
 import { useThemeStore } from '@/stores/theme'
 
 const router = useRouter()

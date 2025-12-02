@@ -185,13 +185,16 @@
     </div>
 
     <div class="phone-display">
-      <!-- 网站入口二维码 -->
+      <div class="verification-code-card">
+        <div class="verification-code-label">签到验证码</div>
+        <div class="verification-code-value">{{ verificationCode || '加载中...' }}</div>
+      </div>
+
       <div v-if="currentQRType === 'website'" class="website-qr-section">
         <img src="@/assets/WangZhanRuKouErWeiMa.png" alt="网站入口二维码" class="website-qr-code">
         <div class="website-qr-text" style="color: #60a5fa !important; text-shadow: 0 0 8px rgba(96, 165, 250, 1) !important; font-weight: 800 !important;">AI坊学生管理系统入口</div>
       </div>
 
-      <!-- 公众号二维码 -->
       <div v-if="currentQRType === 'wechat'" class="wechat-qr-section">
         <img src="@/assets/ErWeiMa.png" alt="公众号二维码" class="qr-code">
         <div class="qr-text" style="color: #60a5fa !important; text-shadow: 0 0 8px rgba(96, 165, 250, 1) !important; font-weight: 800 !important;">扫码了解更多</div>
@@ -208,7 +211,7 @@
         </el-button>
       </div>
 
-      <img src="@/assets/phone.png" alt="手机展示" class="phone-image">
+      <img src="@/assets/Phone.png" alt="手机展示" class="phone-image">
     </div>
 
   </div>
@@ -226,9 +229,11 @@ import {
   getGradeStatistics,
   getMajorStatistics,
   getTotalStudentCount,
+  getStudentCountByLevel
+} from '@/api/student'
+import {
   getMonthlyAttendanceCount,
   getDailyAttendanceCount,
-  getStudentCountByLevel,
   getCurrentMonthTop10Students,
   getDailyRanking,
   getWeeklyRanking,
@@ -238,8 +243,9 @@ import {
   getYearlyRanking,
   getLast7DaysRanking,
   getLast30DaysRanking,
-  getCustomRangeRanking
-} from '@/api/user'
+  getCustomRangeRanking,
+  getVerificationCode
+} from '@/api/attendance'
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -250,6 +256,8 @@ const majorChart = ref(null)
 const attendanceChart = ref(null)
 const progressWidth = ref(0)
 const currentQRType = ref('website')
+const verificationCode = ref('')
+const verificationCodeInterval = ref(null)
 
 const switchQRType = () => {
   currentQRType.value = currentQRType.value === 'website' ? 'wechat' : 'website'
@@ -516,7 +524,6 @@ const calculateClubMembers = () => {
 }
 
 const calculateAttendanceRate = (monthlyCount) => {
-  // 坊内成员总人数 = 管理员 + 核心成员 + 普通成员
   const workshopMembersCount = levelStats.value.admin + levelStats.value.core + levelStats.value.normal
   
   if (workshopMembersCount === 0) {
@@ -524,6 +531,17 @@ const calculateAttendanceRate = (monthlyCount) => {
   }
   
   return parseFloat(((monthlyCount / workshopMembersCount) * 100).toFixed(1))
+}
+
+const loadVerificationCode = async () => {
+  try {
+    const response = await getVerificationCode()
+    if (response.code === 200 && response.data) {
+      verificationCode.value = response.data
+    }
+  } catch (error) {
+    verificationCode.value = ''
+  }
 }
 
 const loadData = async () => {
@@ -864,6 +882,13 @@ const startProgress = () => {
   }, 100)
 }
 
+const startVerificationCodeRefresh = () => {
+  loadVerificationCode()
+  verificationCodeInterval.value = setInterval(() => {
+    loadVerificationCode()
+  }, 500)
+}
+
 const handleResize = () => {
   if (gradeChartInstance) {
     gradeChartInstance.resize()
@@ -887,12 +912,16 @@ onMounted(async () => {
   loadUserPreferences()
   await loadData()
   startProgress()
+  startVerificationCodeRefresh()
   window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
   if (progressInterval.value) {
     clearInterval(progressInterval.value)
+  }
+  if (verificationCodeInterval.value) {
+    clearInterval(verificationCodeInterval.value)
   }
   if (gradeChartInstance) {
     gradeChartInstance.dispose()
@@ -1574,6 +1603,50 @@ html.dark .club-level .level-value {
   flex-direction: column;
   gap: 25px;
   align-items: center;
+}
+
+.verification-code-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  width: 150px;
+  min-height: 100px;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.verification-code-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-align: center;
+}
+
+.verification-code-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--primary-color);
+  text-align: center;
+  letter-spacing: 4px;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+.dark .verification-code-card {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.dark .verification-code-value {
+  color: #60a5fa;
+  text-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
 }
 
 .website-qr-section, .wechat-qr-section {

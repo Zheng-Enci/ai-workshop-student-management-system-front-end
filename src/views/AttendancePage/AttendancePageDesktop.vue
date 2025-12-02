@@ -153,15 +153,13 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import { ElMessage } from 'element-plus'
 import { Check, ArrowLeft, Clock, Calendar } from '@element-plus/icons-vue'
-import { signIn, getMyAttendanceRecords } from '@/api/user'
+import { getMyAttendanceRecords } from '@/api/attendance'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
 import { useRouter } from 'vue-router'
 import * as echarts from 'echarts'
 
-const loading = ref(false)
 const userStore = useUserStore()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
@@ -171,11 +169,6 @@ const isInSignTime = ref(false)
 const currentTime = ref('')
 const nextSignTime = ref('')
 const timeInterval = ref(null)
-const attendanceStatus = ref({
-  morning: false,
-  afternoon: false,
-  evening: false
-})
 
 const heatmapChart = ref(null)
 const lineChart = ref(null)
@@ -640,118 +633,6 @@ const generateHeatmapData = () => {
   return data
 }
 
-const getCurrentTimeSlot = () => {
-  const now = new Date()
-  const hour = now.getHours()
-  
-  if (hour >= 8 && hour < 11) return 'morning'
-  if (hour >= 14 && hour < 17) return 'afternoon'
-  if (hour >= 19 && hour < 22) return 'evening'
-  return null
-}
-
-const isCurrentSlotSigned = () => {
-  try {
-    const currentSlot = getCurrentTimeSlot()
-    if (!currentSlot) return false
-    if (!attendanceStatus.value || typeof attendanceStatus.value !== 'object') return false
-    return Boolean(attendanceStatus.value[currentSlot])
-  } catch (error) {
-    return false
-  }
-}
-
-const loadAttendanceStatus = () => {
-  const today = new Date().toDateString()
-  const saved = localStorage.getItem(`attendance_${today}`)
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved)
-      if (parsed && typeof parsed === 'object' && 
-          'morning' in parsed && 'afternoon' in parsed && 'evening' in parsed) {
-        attendanceStatus.value = parsed
-      } else {
-        attendanceStatus.value = { morning: false, afternoon: false, evening: false }
-      }
-    } catch (e) {
-      attendanceStatus.value = { morning: false, afternoon: false, evening: false }
-    }
-  } else {
-    attendanceStatus.value = { morning: false, afternoon: false, evening: false }
-  }
-}
-
-const syncAllAttendanceStatus = async () => {
-  try {
-    const today = new Date().toDateString()
-    const saved = localStorage.getItem(`attendance_${today}`)
-    
-    if (saved) {
-      try {
-        const status = JSON.parse(saved)
-        if (status && typeof status === 'object') {
-          attendanceStatus.value = {
-            morning: Boolean(status.morning),
-            afternoon: Boolean(status.afternoon),
-            evening: Boolean(status.evening)
-          }
-        }
-      } catch (e) {
-        attendanceStatus.value = { morning: false, afternoon: false, evening: false }
-      }
-    }
-  } catch (error) {
-    error
-  }
-}
-
-const refreshAttendanceStatus = async () => {
-  try {
-    const token = userStore.token || localStorage.getItem('token')
-    if (!token) return
-    
-    const today = new Date().toDateString()
-    
-    try {
-      const response = await signIn(token)
-      if (response && response.code === 400 && response.message && response.message.includes('已签到')) {
-        const currentSlot = getCurrentTimeSlot()
-        if (currentSlot && attendanceStatus.value) {
-          attendanceStatus.value[currentSlot] = true
-          saveAttendanceStatus()
-        }
-      }
-    } catch (error) {
-      const saved = localStorage.getItem(`attendance_${today}`)
-      if (saved) {
-        try {
-          const status = JSON.parse(saved)
-          if (status && typeof status === 'object') {
-            attendanceStatus.value = {
-              morning: Boolean(status.morning),
-              afternoon: Boolean(status.afternoon),
-              evening: Boolean(status.evening)
-            }
-          }
-        } catch (e) {
-          attendanceStatus.value = { morning: false, afternoon: false, evening: false }
-        }
-      }
-    }
-  } catch (error) {
-    error
-  }
-}
-
-const saveAttendanceStatus = () => {
-  const today = new Date().toDateString()
-  if (attendanceStatus.value && typeof attendanceStatus.value === 'object') {
-    localStorage.setItem(`attendance_${today}`, JSON.stringify(attendanceStatus.value))
-  } else {
-    const defaultStatus = { morning: false, afternoon: false, evening: false }
-    localStorage.setItem(`attendance_${today}`, JSON.stringify(defaultStatus))
-  }
-}
 
 const checkSignTime = () => {
   const now = new Date()
@@ -791,80 +672,17 @@ const checkSignTime = () => {
   
   isInSignTime.value = inTime
   nextSignTime.value = nextTime
-  
-  if (minute === 0 && second === 0) {
-    syncAllAttendanceStatus()
-  }
 }
 
-const submitAttendance = async () => {
-  if (!isInSignTime.value) {
-    ElMessage.error(`当前时间 ${currentTime.value} 不在签到时间内，下次签到时间：${nextSignTime.value}`)
-    return
-  }
-  
-  if (isCurrentSlotSigned()) {
-    ElMessage.error('当前时间段已签到，请等待下次签到时间')
-    return
-  }
-  
-  loading.value = true
-  
-  try {
-    const token = userStore.token || localStorage.getItem('token')
-    if (!token) {
-      ElMessage.error('请先登录')
-      router.push('/login')
-      loading.value = false
-      return
-    }
-    
-    const res = await signIn(token)
-    
-    if (res.code === 200) {
-      const currentSlot = getCurrentTimeSlot()
-      if (currentSlot && attendanceStatus.value) {
-        attendanceStatus.value[currentSlot] = true
-        saveAttendanceStatus()
-      }
-      
-      ElMessage.success('签到成功！')
-      
-      await refreshAttendanceStatus()
-    } else if (res.code === 400 && res.message && res.message.includes('已签到')) {
-      const currentSlot = getCurrentTimeSlot()
-      if (currentSlot && attendanceStatus.value) {
-        attendanceStatus.value[currentSlot] = true
-        saveAttendanceStatus()
-      }
-      
-      ElMessage.success('您已签到，无需重复签到')
-      
-      await refreshAttendanceStatus()
-    } else {
-      throw new Error(res.message || '签到失败')
-    }
-  } catch (error) {
-    ElMessage.error(error.message || '签到失败')
-  } finally {
-    loading.value = false
-  }
-}
 
 onMounted(async () => {
   try {
-    loadAttendanceStatus()
     checkSignTime()
     timeInterval.value = setInterval(checkSignTime, 1000)
     loadStudentLevel()
     await loadAttendanceRecords()
-    
-    setTimeout(async () => {
-      await syncAllAttendanceStatus()
-      await submitAttendance()
-    }, 1000)
   } catch (error) {
-    attendanceStatus.value = { morning: false, afternoon: false, evening: false }
+    error
   }
 })
 
