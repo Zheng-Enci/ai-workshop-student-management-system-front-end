@@ -21,28 +21,6 @@
       >
         返回导航
       </el-button>
-      
-            <div class="time-card-desktop">
-              <div class="time-info-desktop">
-                <div class="current-time-desktop">
-                  <el-icon class="time-icon-desktop"><Clock /></el-icon>
-                  <span>{{ currentTime }}</span>
-                </div>
-                <div v-if="!isInSignTime" class="next-time-desktop">
-                  <el-icon class="next-icon-desktop"><Calendar /></el-icon>
-                  <span>下次签到：{{ nextSignTime }}</span>
-                </div>
-              </div>
-            </div>
-            
-        <el-button 
-          type="primary" 
-          @click="showCalendar = true"
-          class="calendar-button-desktop"
-          :icon="Calendar"
-        >
-          签到记录
-        </el-button>
           </div>
           
           
@@ -73,92 +51,103 @@
                 <div class="chart-title-desktop">签到趋势图</div>
                 <div ref="lineChart" class="chart-content-desktop"></div>
               </div>
-            </div>
               
-      <el-dialog
-        v-if="showCalendar"
-        v-model="showCalendar"
-        title="签到记录"
-        width="80%"
-        class="calendar-dialog-desktop"
-        destroy-on-close
-        :close-on-click-modal="false"
-        @close="handleCalendarClose"
-      >
-        <el-calendar v-model="calendarValue" class="attendance-calendar-desktop" :range="[]" @click.stop>
-          <template #header="{ date }">
-            <div class="calendar-header-desktop">
-              <div class="header-title">{{ formatCalendarTitle(date) }}</div>
-              <div class="header-actions">
-                <el-button size="small" @click="prevMonth">上个月</el-button>
-                <el-button size="small" @click="goToday">今天</el-button>
-                <el-button size="small" @click="nextMonth">下个月</el-button>
+              <div class="chart-item-desktop">
+                <div class="chart-title-desktop">签到记录</div>
+                <div class="calendar-container-desktop">
+                  <el-calendar v-model="calendarValue" class="attendance-calendar-desktop" @click.stop>
+                    <template #header="{ date }">
+                      <div class="calendar-header-desktop">
+                        <div class="header-title">{{ formatCalendarTitle(date) }}</div>
+                        <div class="header-actions">
+                          <el-button size="small" @click="prevMonth">上个月</el-button>
+                          <el-button size="small" @click="goToday">今天</el-button>
+                          <el-button size="small" @click="nextMonth">下个月</el-button>
+                        </div>
+                      </div>
+                    </template>
+                    <template #date-cell="{ data }">
+                      <div class="calendar-cell-desktop" :class="{ 'has-attendance': getDateAttendanceTimes(data.day).length > 0 }">
+                        <div class="calendar-cell-wrapper-desktop">
+                          <div class="cell-date-desktop">{{ data.day.split('-')[2] }}</div>
+                          <div class="cell-status-desktop">
+                            <div class="time-slot-status">
+                              <div class="time-slot morning" :class="{ 'signed': isTimeSlotSigned(data.day, 'morning') }">
+                                <span class="time-label">早</span>
+                                <el-icon v-if="isTimeSlotSigned(data.day, 'morning')" class="slot-icon"><Check /></el-icon>
+                              </div>
+                              <div class="time-slot afternoon" :class="{ 'signed': isTimeSlotSigned(data.day, 'afternoon') }">
+                                <span class="time-label">午</span>
+                                <el-icon v-if="isTimeSlotSigned(data.day, 'afternoon')" class="slot-icon"><Check /></el-icon>
+                              </div>
+                              <div class="time-slot evening" :class="{ 'signed': isTimeSlotSigned(data.day, 'evening') }">
+                                <span class="time-label">晚</span>
+                                <el-icon v-if="isTimeSlotSigned(data.day, 'evening')" class="slot-icon"><Check /></el-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div 
+                          v-if="getDateAttendanceTimes(data.day).length > 0"
+                          class="custom-tooltip-desktop"
+                          :data-date="data.day"
+                        >
+                          <div class="tooltip-content-desktop">
+                            <div class="tooltip-times-desktop">
+                              <div v-for="(time, index) in getDateAttendanceTimes(data.day)" :key="index" class="tooltip-time-item-desktop">
+                                <span class="tooltip-time-slot-desktop">{{ getTimeSlotLabel(time) }}</span>
+                                <span class="tooltip-time-text-desktop">{{ formatAttendanceTime(time) }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+                  </el-calendar>
+                </div>
               </div>
             </div>
-          </template>
-          <template #date-cell="{ data }">
-            <div class="calendar-cell-desktop" @click="showDateDetails(data.day, $event)">
-              <div class="cell-date-desktop">{{ data.day.split('-')[2] }}</div>
-              <div class="cell-status-desktop">
-                <div class="time-slot-status">
-                  <div class="time-slot morning" :class="{ 'signed': isTimeSlotSigned(data.day, 'morning') }">
-                    <span class="time-label">早</span>
-                    <el-icon v-if="isTimeSlotSigned(data.day, 'morning')" class="slot-icon"><Check /></el-icon>
-        </div>
-                  <div class="time-slot afternoon" :class="{ 'signed': isTimeSlotSigned(data.day, 'afternoon') }">
-                    <span class="time-label">午</span>
-                    <el-icon v-if="isTimeSlotSigned(data.day, 'afternoon')" class="slot-icon"><Check /></el-icon>
-      </div>
-                  <div class="time-slot evening" :class="{ 'signed': isTimeSlotSigned(data.day, 'evening') }">
-                    <span class="time-label">晚</span>
-                    <el-icon v-if="isTimeSlotSigned(data.day, 'evening')" class="slot-icon"><Check /></el-icon>
-              </div>
-            </div>
-          </div>
-            </div>
-          </template>
-        </el-calendar>
-      </el-dialog>
 
-      <el-dialog
-        v-if="showDateDetailsDialog"
-        v-model="showDateDetailsDialog"
-        title="签到详情"
-        width="400px"
-        class="date-details-dialog-desktop"
-        destroy-on-close
-        :close-on-click-modal="false"
-        @click.stop
-        @close="handleDateDetailsClose"
-      >
-        <div class="date-details-content-desktop" @click.stop>
-          <div class="selected-date-desktop">{{ formatSelectedDate(selectedDate) }}</div>
-          <div class="attendance-times-desktop">
-            <div v-if="getDateAttendanceTimes(selectedDate).length === 0" class="no-attendance-desktop">
-              该日期无签到记录
-        </div>
-            <div v-else>
-              <div v-for="(time, index) in getDateAttendanceTimes(selectedDate)" :key="index" class="attendance-time-item-desktop">
-                <el-icon class="time-icon-desktop"><Clock /></el-icon>
-                <span class="time-text-desktop">{{ formatAttendanceTime(time) }}</span>
-                <span class="time-slot-label-desktop">{{ getTimeSlotLabel(time) }}</span>
-        </div>
-      </div>
-          </div>
-        </div>
-      </el-dialog>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import { Check, ArrowLeft, Clock, Calendar } from '@element-plus/icons-vue'
+import { ElButton, ElIcon, ElCalendar } from 'element-plus'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-calendar.css'
+import { Check, ArrowLeft } from '@element-plus/icons-vue'
 import { getMyAttendanceRecords } from '@/api/attendance'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
 import { useRouter } from 'vue-router'
-import * as echarts from 'echarts'
+// ECharts 按需引入
+import * as echarts from 'echarts/core'
+import { HeatmapChart, LineChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  CalendarComponent,
+  VisualMapComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+// 注册需要的组件
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  CalendarComponent,
+  VisualMapComponent,
+  HeatmapChart,
+  LineChart,
+  CanvasRenderer
+])
 
 const userStore = useUserStore()
 const themeStore = useThemeStore()
@@ -175,50 +164,10 @@ const lineChart = ref(null)
 const heatmapInstance = ref(null)
 const lineInstance = ref(null)
 const attendanceRecords = ref([])
-const showCalendar = ref(false)
 const calendarValue = ref(new Date())
-const showDateDetailsDialog = ref(false)
-const selectedDate = ref('')
 
 const goToNavigation = () => {
   router.push('/navigation')
-}
-
-const handleCalendarClose = () => {
-  showCalendar.value = false
-}
-
-const showDateDetails = (dateStr, event) => {
-  if (event) {
-    event.stopPropagation()
-    event.preventDefault()
-  }
-  
-  if (showDateDetailsDialog.value) {
-    return
-  }
-  
-  if (!dateStr) {
-    return
-  }
-  
-  selectedDate.value = dateStr
-  showDateDetailsDialog.value = true
-}
-
-const handleDateDetailsClose = () => {
-  showDateDetailsDialog.value = false
-  selectedDate.value = ''
-}
-
-const formatSelectedDate = (dateStr) => {
-  if (!dateStr) return ''
-  const date = new Date(dateStr)
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
-  return `${year}年${month}月${day}日 (${monthNames[month - 1]})`
 }
 
 const getDateAttendanceTimes = (dateStr) => {
@@ -351,17 +300,7 @@ const initHeatmapChart = () => {
   const option = {
     backgroundColor: 'transparent',
     tooltip: {
-      position: 'top',
-      backgroundColor: themeStore.isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
-      borderColor: themeStore.isDark ? '#333' : '#ddd',
-      textStyle: {
-        color: themeStore.isDark ? '#fff' : '#333'
-      },
-      formatter: function (params) {
-        const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        const timeSlots = ['上午', '下午', '晚上']
-        return `${weekDays[params.data[0]]} ${timeSlots[params.data[1]]}<br/>签到次数: ${params.data[2]}`
-      }
+      show: false
     },
     grid: {
       height: '60%',
@@ -471,10 +410,10 @@ const initLineChart = () => {
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
-      backgroundColor: themeStore.isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
-      borderColor: themeStore.isDark ? '#333' : '#ddd',
+      backgroundColor: themeStore.isDark ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.9)',
+      borderColor: themeStore.isDark ? '#ddd' : '#ddd',
       textStyle: {
-        color: themeStore.isDark ? '#fff' : '#333'
+        color: themeStore.isDark ? '#000' : '#333'
       },
       formatter: function (params) {
         const date = new Date(params[0].axisValue)
@@ -1028,86 +967,16 @@ h1 {
   gap: 20px;
 }
 
-.time-card-desktop {
+
+.calendar-container-desktop {
+  overflow: visible !important;
+  width: 100%;
+  padding: 20px;
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
   border-radius: 20px;
   border: 1px solid var(--glass-border);
   box-shadow: 0 8px 32px var(--shadow-color);
-  padding: 16px 24px;
-  text-align: center;
-  transition: all 0.3s ease;
-  min-width: 200px;
-}
-
-.time-card-desktop:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px var(--shadow-color);
-}
-
-.time-info-desktop {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.current-time-desktop {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 18px;
-  color: var(--text-primary);
-  font-weight: 600;
-  font-family: 'Courier New', monospace;
-}
-
-.time-icon-desktop {
-  color: var(--primary-color);
-  font-size: 20px;
-}
-
-.next-time-desktop {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.next-icon-desktop {
-  color: var(--text-tertiary);
-}
-
-.calendar-button-desktop {
-  height: 48px;
-  border-radius: 24px;
-  font-size: 14px;
-  font-weight: 600;
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  color: var(--text-primary);
-  box-shadow: 0 4px 16px var(--shadow-color);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0 20px;
-  min-width: 120px;
-}
-
-.calendar-button-desktop:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px var(--shadow-color);
-  background: var(--primary-color);
-  color: #ffffff;
-}
-
-.calendar-dialog-desktop {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  border: 1px solid var(--glass-border);
 }
 
 .attendance-calendar-desktop {
@@ -1122,6 +991,44 @@ h1 {
   justify-content: center;
   padding: 8px;
   position: relative;
+}
+
+.calendar-cell-desktop.has-attendance {
+  cursor: pointer;
+}
+
+.custom-tooltip-desktop {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.1s ease-in-out, visibility 0.1s ease-in-out, transform 0.1s ease-in-out;
+  transform: translateX(-50%) translateY(-4px) scale(0.95);
+  min-width: 200px;
+}
+
+.calendar-cell-desktop.has-attendance:hover .custom-tooltip-desktop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.custom-tooltip-desktop::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(102, 126, 234, 0.2);
+}
+
+html.dark .custom-tooltip-desktop::after {
+  border-top-color: rgba(102, 126, 234, 0.3);
 }
 
 .cell-date-desktop {
@@ -1435,104 +1342,36 @@ html.dark .slot-icon {
 }
 
 .calendar-cell-desktop {
-  cursor: pointer;
-  transition: all 0.2s ease;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.calendar-cell-desktop:hover {
+.calendar-cell-wrapper-desktop {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.calendar-cell-wrapper-desktop:hover {
   background-color: var(--bg-secondary);
   border-radius: 4px;
 }
 
-html.dark .calendar-cell-desktop:hover {
+html.dark .calendar-cell-wrapper-desktop:hover {
   background-color: var(--bg-secondary);
 }
 
-.date-details-dialog-desktop .el-dialog__body {
-  padding: 20px;
-}
-
-.date-details-content-desktop {
-  text-align: center;
-}
-
-.selected-date-desktop {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: var(--bg-secondary);
-  border-radius: 8px;
-}
-
-.attendance-times-desktop {
-  min-height: 100px;
-}
-
-.no-attendance-desktop {
-  color: var(--text-tertiary);
-  font-size: 14px;
-  padding: 20px;
-}
-
-.attendance-time-item-desktop {
-  display: flex;
-    align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 12px;
-  margin: 8px 0;
-  background-color: var(--bg-secondary);
-  border-radius: 6px;
-  border-left: 3px solid var(--success-color);
-}
-
-.time-icon-desktop {
-  color: var(--success-color);
-  font-size: 16px;
-}
-
-.time-text-desktop {
-  font-size: 16px;
-    font-weight: 500;
-  color: var(--text-primary);
-  font-family: 'Courier New', monospace;
-}
-
-.time-slot-label-desktop {
-  font-size: 12px;
-  color: var(--text-secondary);
-  background-color: var(--bg-tertiary);
-  padding: 2px 6px;
-  border-radius: 3px;
-}
-
-html.dark .selected-date-desktop {
-  color: var(--text-primary);
-  background-color: var(--bg-secondary);
-}
-
-html.dark .no-attendance-desktop {
-  color: var(--text-tertiary);
-}
-
-html.dark .attendance-time-item-desktop {
-  background-color: var(--bg-secondary);
-}
-
-html.dark .time-icon-desktop {
-  color: var(--success-color);
-}
-
-html.dark .time-text-desktop {
-  color: var(--text-primary);
-}
-
-html.dark .time-slot-label-desktop {
-  color: var(--text-secondary);
-  background-color: var(--bg-tertiary);
-}
 
 .calendar-header-desktop {
   display: flex;
@@ -1614,5 +1453,243 @@ html.dark .el-calendar-table th {
   font-size: 14px;
   font-weight: 500;
 }
+</style>
+
+<style>
+
+.date-tooltip-light {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+  color: #1a202c !important;
+  border: 1px solid rgba(102, 126, 234, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  padding: 12px 16px !important;
+  border-radius: 12px !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  backdrop-filter: blur(10px) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out !important;
+  animation: tooltipFadeIn 0.1s ease-in-out !important;
+}
+
+.date-tooltip-light::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  opacity: 0.6;
+}
+
+.date-tooltip-light .el-tooltip__arrow::before {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+  border: 1px solid rgba(102, 126, 234, 0.2) !important;
+}
+
+.date-tooltip-dark {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid rgba(102, 126, 234, 0.3) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  padding: 12px 16px !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out !important;
+  animation: tooltipFadeIn 0.1s ease-in-out !important;
+}
+
+.date-tooltip-dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  opacity: 0.8;
+}
+
+.date-tooltip-dark .el-tooltip__arrow::before {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%) !important;
+  border: 1px solid rgba(102, 126, 234, 0.3) !important;
+}
+
+.tooltip-content-desktop {
+  padding: 4px 0;
+  min-width: 200px;
+  position: relative;
+  z-index: 1;
+}
+
+.tooltip-times-desktop {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tooltip-time-item-desktop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+}
+
+.tooltip-time-item-desktop::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.tooltip-time-item-desktop:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.tooltip-time-item-desktop:hover::before {
+  transform: scaleY(1);
+}
+
+.tooltip-time-slot-desktop {
+  font-size: 12px;
+  font-weight: 600;
+  color: #667eea;
+  min-width: 36px;
+  padding: 4px 8px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 6px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.tooltip-time-item-desktop:hover .tooltip-time-slot-desktop {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+  color: #764ba2;
+  transform: scale(1.05);
+}
+
+.tooltip-time-text-desktop {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a202c;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Courier New', monospace;
+  letter-spacing: 0.3px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.tooltip-time-text-desktop::before {
+  content: '🕐';
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.tooltip-time-item-desktop:hover .tooltip-time-text-desktop::before {
+  opacity: 1;
+}
+
+html:not(.dark) .tooltip-time-item-desktop {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+html:not(.dark) .tooltip-time-item-desktop:hover {
+  background: rgba(102, 126, 234, 0.12);
+  border-color: rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+}
+
+html:not(.dark) .tooltip-time-slot-desktop {
+  color: #667eea;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
+}
+
+html:not(.dark) .tooltip-time-item-desktop:hover .tooltip-time-slot-desktop {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+  color: #764ba2;
+}
+
+html:not(.dark) .tooltip-time-text-desktop {
+  color: #1a202c;
+}
+
+html.dark .tooltip-time-item-desktop {
+  background: rgba(30, 30, 40, 0.8);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+html.dark .tooltip-time-item-desktop:hover {
+  background: rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+html.dark .tooltip-time-slot-desktop {
+  color: #8b9aff;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+}
+
+html.dark .tooltip-time-item-desktop:hover .tooltip-time-slot-desktop {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.35) 0%, rgba(118, 75, 162, 0.35) 100%);
+  color: #a78bfa;
+}
+
+html.dark .tooltip-time-text-desktop {
+  color: #e2e8f0;
+}
+
+html.dark .tooltip-time-text-desktop::before {
+  opacity: 0.8;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 确保 tooltip 瞬间显示和隐藏 */
+.date-tooltip-light,
+.date-tooltip-dark {
+  pointer-events: auto !important;
+}
+
+/* 优化 tooltip 的显示和隐藏动画，确保瞬间响应 */
+.el-popper.is-light[data-popper-placement^="top"],
+.el-popper.is-light[data-popper-placement^="bottom"],
+.el-popper.is-light[data-popper-placement^="left"],
+.el-popper.is-light[data-popper-placement^="right"] {
+  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out !important;
+}
+
 </style>
 

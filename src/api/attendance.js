@@ -307,7 +307,7 @@ export const getTopStudentsByTimeRange = async (startTime, endTime, topN) => {
 
 export const getVerificationCode = async () => {
   try {
-    const response = await api.get('/api/v1/attendance/verification-code')
+    const response = await axios.get(config.VERIFICATION_CODE_URL)
     return response.data
   } catch (error) {
     if (error.response) {
@@ -417,43 +417,45 @@ export const getDailyAttendanceCountInRange = async (startTime, endTime) => {
     
     const actualStartDate = startDate < PROJECT_LAUNCH_DATE ? PROJECT_LAUNCH_DATE : startDate
     const daysDiff = Math.ceil((endDate - actualStartDate) / (1000 * 60 * 60 * 24)) + 1
-    const result = []
     
+    const requests = []
     for (let i = 0; i < daysDiff; i++) {
       const currentDate = new Date(actualStartDate)
       currentDate.setDate(actualStartDate.getDate() + i)
       const dateStr = currentDate.toISOString().split('T')[0]
       
-      try {
-        const response = await api.get('/api/v1/attendance/daily-count', {
+      requests.push(
+        api.get('/api/v1/attendance/daily-count', {
           params: {
-            date: dateStr
+            data: dateStr
           }
-        })
-        
-        if (response.data && response.data.code === 200) {
-          result.push({
-            date: dateStr,
-            attendanceCount: response.data.data?.count || 0
-          })
-        } else {
-          result.push({
+        }).then(response => {
+          if (response.data && response.data.code === 200) {
+            return {
+              date: dateStr,
+              attendanceCount: response.data.data?.count || 0
+            }
+          } else {
+            return {
+              date: dateStr,
+              attendanceCount: 0
+            }
+          }
+        }).catch(() => {
+          return {
             date: dateStr,
             attendanceCount: 0
-          })
-        }
-      } catch (error) {
-        result.push({
-          date: dateStr,
-          attendanceCount: 0
+          }
         })
-      }
+      )
     }
+    
+    const results = await Promise.all(requests)
     
     return {
       code: 200,
       message: '获取成功',
-      data: result
+      data: results
     }
   } catch (error) {
     if (error.response) {

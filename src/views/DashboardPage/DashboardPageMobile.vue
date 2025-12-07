@@ -61,22 +61,19 @@
         <div class="section-header">
           <h3>排行榜</h3>
           <div class="controls">
-            <el-select v-model="selectedTimeRange" @change="loadRankingData" size="small">
-              <el-option label="今日" value="today"></el-option>
-              <el-option label="本周" value="week"></el-option>
-              <el-option label="本月" value="month"></el-option>
-              <el-option label="本季度" value="quarter"></el-option>
-              <el-option label="本年度" value="year"></el-option>
-              <el-option label="最近7天" value="last7days"></el-option>
-              <el-option label="最近30天" value="last30days"></el-option>
-              <el-option label="自定义" value="custom"></el-option>
-            </el-select>
-            <el-select v-model="selectedTopN" @change="loadRankingData" size="small">
-              <el-option label="前5名" :value="5"></el-option>
-              <el-option label="前10名" :value="10"></el-option>
-              <el-option label="前15名" :value="15"></el-option>
-              <el-option label="前20名" :value="20"></el-option>
-            </el-select>
+            <el-radio-group 
+              v-model="selectedTimeRange" 
+              @change="loadRankingData" 
+              size="small"
+              class="time-radio-group"
+            >
+              <el-radio-button label="week">本周</el-radio-button>
+              <el-radio-button label="month">本月</el-radio-button>
+              <el-radio-button label="year">本年度</el-radio-button>
+              <el-radio-button label="last7days">最近7天</el-radio-button>
+              <el-radio-button label="last30days">最近30天</el-radio-button>
+              <el-radio-button label="all">全部</el-radio-button>
+            </el-radio-group>
           </div>
         </div>
         <div class="chart-container">
@@ -110,11 +107,36 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-radio-group.css'
+import 'element-plus/theme-chalk/el-radio-button.css'
 import { ArrowLeft, Setting, Star, Avatar, User } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import * as echarts from 'echarts'
+// ECharts 按需引入
+import * as echarts from 'echarts/core'
+import { PieChart, BarChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
 import 'echarts-wordcloud'
+
+// 注册需要的组件
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  PieChart,
+  BarChart,
+  CanvasRenderer
+])
 import { useThemeStore } from '@/stores/theme'
 import {
   getGradeStatistics,
@@ -126,15 +148,12 @@ import {
   getMonthlyAttendanceCount,
   getDailyAttendanceCount,
   getCurrentMonthTop10Students,
-  getDailyRanking,
   getWeeklyRanking,
   getMonthlyRanking,
-  getQuarterlyRanking,
-  getSemesterRanking,
   getYearlyRanking,
+  getTopStudentsByTimeRange,
   getLast7DaysRanking,
-  getLast30DaysRanking,
-  getCustomRangeRanking
+  getLast30DaysRanking
 } from '@/api/attendance'
 
 const router = useRouter()
@@ -154,8 +173,7 @@ const levelStats = ref({
 const clubMembers = ref(0)
 
 const selectedTimeRange = ref('week')
-const selectedTopN = ref(15)
-const customDateRange = ref([])
+const selectedTopN = 16
 const rankingData = ref([])
 const attendanceChart = ref(null)
 const gradeChart = ref(null)
@@ -174,9 +192,7 @@ const toggleTheme = () => {
 
 const saveUserPreferences = () => {
   const preferences = {
-    selectedTimeRange: selectedTimeRange.value,
-    selectedTopN: selectedTopN.value,
-    customDateRange: customDateRange.value
+    selectedTimeRange: selectedTimeRange.value
   }
   localStorage.setItem('dashboardPreferences', JSON.stringify(preferences))
 }
@@ -187,25 +203,8 @@ const loadUserPreferences = () => {
     try {
       const preferences = JSON.parse(saved)
       selectedTimeRange.value = preferences.selectedTimeRange || 'week'
-      selectedTopN.value = preferences.selectedTopN || 15
-      
-      if (preferences.customDateRange && Array.isArray(preferences.customDateRange)) {
-        customDateRange.value = preferences.customDateRange.map(date => {
-          if (date instanceof Date) {
-            return date
-          } else if (typeof date === 'string') {
-            return new Date(date)
-          } else {
-            return null
-          }
-        }).filter(date => date && !isNaN(date.getTime()))
-      } else {
-        customDateRange.value = []
-      }
     } catch (error) {
       selectedTimeRange.value = 'week'
-      selectedTopN.value = 15
-      customDateRange.value = []
     }
   }
 }
@@ -365,68 +364,37 @@ const loadRankingData = async () => {
     let response
 
     switch (selectedTimeRange.value) {
-      case 'today': {
-        const today = new Date().toISOString().split('T')[0]
-        response = await getDailyRanking(today, selectedTopN.value)
-        break
-      }
       case 'week': {
         const now = new Date()
         const dayOfWeek = now.getDay()
-        const monday = new Date(now)
-        monday.setDate(now.getDate() - dayOfWeek + 1)
+        const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)
+        const monday = new Date(now.setDate(diff))
         const weekStart = monday.toISOString().split('T')[0]
-        response = await getWeeklyRanking(weekStart, selectedTopN.value)
+        response = await getWeeklyRanking(weekStart, selectedTopN)
         break
       }
       case 'month': {
         const currentDate = new Date()
         const currentYear = currentDate.getFullYear()
         const currentMonth = currentDate.getMonth() + 1
-        response = await getMonthlyRanking(currentYear, currentMonth, selectedTopN.value)
-        break
-      }
-      case 'quarter': {
-        const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3)
-        response = await getQuarterlyRanking(new Date().getFullYear(), currentQuarter, selectedTopN.value)
-        break
-      }
-      case 'semester': {
-        const currentSemester = new Date().getMonth() >= 1 && new Date().getMonth() <= 6 ? 1 : 2
-        response = await getSemesterRanking(new Date().getFullYear(), currentSemester, selectedTopN.value)
+        response = await getMonthlyRanking(currentYear, currentMonth, selectedTopN)
         break
       }
       case 'year':
-        response = await getYearlyRanking(new Date().getFullYear(), selectedTopN.value)
+        response = await getYearlyRanking(new Date().getFullYear(), selectedTopN)
         break
       case 'last7days':
-        response = await getLast7DaysRanking(selectedTopN.value)
+        response = await getLast7DaysRanking(selectedTopN)
         break
       case 'last30days':
-        response = await getLast30DaysRanking(selectedTopN.value)
+        response = await getLast30DaysRanking(selectedTopN)
         break
-      case 'custom': {
-        if (customDateRange.value && customDateRange.value.length === 2) {
-          try {
-            const startDateObj = new Date(customDateRange.value[0])
-            const endDateObj = new Date(customDateRange.value[1])
-            
-            if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
-              ElMessage.error('日期格式不正确')
-              return
-            }
-            
-            const startDate = startDateObj.toISOString().split('T')[0]
-            const endDate = endDateObj.toISOString().split('T')[0]
-            response = await getCustomRangeRanking(startDate, endDate, selectedTopN.value)
-          } catch (dateError) {
-            ElMessage.error('日期处理失败')
-            return
-          }
-        } else {
-          ElMessage.warning('请选择自定义日期范围')
-          return
-        }
+      case 'all': {
+        const PROJECT_LAUNCH_DATE = new Date('2024-09-09T00:00:00')
+        const now = new Date()
+        const startTime = PROJECT_LAUNCH_DATE.toISOString().split('T')[0] + 'T00:00:00'
+        const endTime = now.toISOString().split('T')[0] + 'T23:59:59'
+        response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
         break
       }
       default:
@@ -921,6 +889,19 @@ html.dark .club-level .level-value {
   flex-wrap: wrap;
 }
 
+.time-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.top-n-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .chart-container {
   height: 300px;
 }
@@ -998,5 +979,46 @@ html.dark .club-level .level-value {
   --header-bg: rgba(255, 255, 255, 0.05);
   --header-border: rgba(255, 255, 255, 0.1);
 }
+</style>
+
+<style>
+.time-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.time-radio-group .el-radio-button {
+  margin: 0;
+}
+
+.time-radio-group .el-radio-button__inner {
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 12px;
+}
+
+.time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background-color: #409eff;
+  border-color: #409eff;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+}
+
+html.dark .time-radio-group .el-radio-button__inner {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+html.dark .time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background-color: #667eea;
+  border-color: #667eea;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
 </style>
 

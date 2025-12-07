@@ -141,7 +141,12 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElDialog, ElInput } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-dialog.css'
+import 'element-plus/theme-chalk/el-input.css'
 import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon } from '@element-plus/icons-vue'
 import { signIn } from '@/api/attendance'
 import { useUserStore } from '@/stores/user'

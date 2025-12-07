@@ -35,20 +35,20 @@
             </div>
             <div class="timeline-controls">
               <div class="time-range-selector">
-                <el-select 
+                <el-radio-group 
                   v-model="selectedTimeRange" 
                   @change="handleTimeRangeChange"
-                  placeholder="选择时间范围"
                   size="small"
-                  class="time-select"
+                  class="time-radio-group"
                 >
-                  <el-option
-                    v-for="option in timeRangeOptions"
+                  <el-radio-button
+                    v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
                     :key="option.value"
-                    :label="option.label"
-                    :value="option.value"
-                  />
-                </el-select>
+                    :label="option.value"
+                  >
+                    {{ option.label }}
+                  </el-radio-button>
+                </el-radio-group>
               </div>
               
               <div class="custom-date-range" v-if="selectedTimeRange === 'custom'">
@@ -138,7 +138,13 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton, ElDatePicker } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-radio-group.css'
+import 'element-plus/theme-chalk/el-radio-button.css'
+import 'element-plus/theme-chalk/el-date-picker.css'
 import { 
   ArrowLeft, 
   Refresh, 
@@ -149,7 +155,27 @@ import {
   Star,
   TrendCharts 
 } from '@element-plus/icons-vue'
-import * as echarts from 'echarts'
+// ECharts 按需引入
+import * as echarts from 'echarts/core'
+import { PieChart as EChartsPieChart, LineChart, ScatterChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  EChartsPieChart,
+  LineChart,
+  ScatterChart,
+  CanvasRenderer
+])
 import { getStudentLevel } from '@/api/student'
 import { getTodayAttendanceRecords, getDailyAttendanceCountInRange } from '@/api/attendance'
 import { useThemeStore } from '@/stores/theme'
@@ -238,9 +264,13 @@ const ensureTimeNotBeforeLaunch = (time) => {
 
 const timeRangeOptions = [
   { label: '今日', value: 'today' },
+  { label: '昨天', value: 'yesterday' },
   { label: '本周', value: 'week' },
+  { label: '上周', value: 'lastWeek' },
   { label: '本月', value: 'month' },
   { label: '昨月', value: 'lastMonth' },
+  { label: '最近7天', value: 'last7days' },
+  { label: '最近30天', value: 'last30days' },
   { label: '本年度', value: 'year' },
   { label: '全部', value: 'all' },
   { label: '自定义', value: 'custom' }
@@ -264,9 +294,14 @@ const goBack = () => {
 const handleTimeRangeChange = async () => {
   try {
     await loadTimelineData()
-    setTimeout(async () => {
-      await initTimelineChart()
-    }, 100)
+    await nextTick()
+    if (timelineChartInstance) {
+      updateTimelineChart()
+    } else {
+      setTimeout(async () => {
+        await initTimelineChart()
+      }, 100)
+    }
   } catch (error) {
     ElMessage.error('加载时间线数据失败')
   }
@@ -276,9 +311,14 @@ const handleCustomDateChange = async () => {
   if (customDateRange.value && customDateRange.value.length === 2) {
     try {
       await loadTimelineData()
-      setTimeout(async () => {
-        await initTimelineChart()
-      }, 100)
+      await nextTick()
+      if (timelineChartInstance) {
+        updateTimelineChart()
+      } else {
+        setTimeout(async () => {
+          await initTimelineChart()
+        }, 100)
+      }
     } catch (error) {
       ElMessage.error('加载时间线数据失败')
     }
@@ -595,8 +635,12 @@ const initTimelineChart = async () => {
       
       timelineResizeObserver = new ResizeObserver(() => {
         window.requestAnimationFrame(() => {
-          if (timelineChartInstance) {
-            timelineChartInstance.resize()
+          if (timelineChartInstance && timelineChart.value) {
+            try {
+              timelineChartInstance.resize()
+            } catch (error) {
+              return
+            }
           }
         })
       })
@@ -634,6 +678,10 @@ const updateTimelineChart = () => {
         record.attendanceTime
       ]
     })
+
+    if (timeData.length === 0) {
+      return
+    }
 
     const maxTime = timeData.length > 0 ? Math.max(...timeData.map(item => item[0])) : 22
     const minTime = timeData.length > 0 ? Math.min(...timeData.map(item => item[0])) : 8
@@ -808,15 +856,33 @@ const updateTimelineChart = () => {
       ]
     }
 
-    timelineChartInstance.setOption(option, true)
+    try {
+      timelineChartInstance.setOption(option, true)
+    } catch (error) {
+      return
+    }
   } else {
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      return
+    }
+    
     const filteredData = data.filter(item => {
+      if (!item || !item.date) return false
       const itemDate = new Date(item.date)
       return itemDate >= PROJECT_LAUNCH_DATE
+    }).sort((a, b) => {
+      return new Date(a.date) - new Date(b.date)
     })
     
+    if (filteredData.length === 0) {
+      return
+    }
+    
     const dates = filteredData.map(item => item.date)
-    const counts = filteredData.map(item => item.attendanceCount)
+    const counts = filteredData.map(item => {
+      const count = item.attendanceCount
+      return typeof count === 'number' ? count : (parseInt(count) || 0)
+    })
     
     const option = {
       tooltip: {
@@ -955,7 +1021,11 @@ const updateTimelineChart = () => {
       ]
     }
 
-    timelineChartInstance.setOption(option, true)
+    try {
+      timelineChartInstance.setOption(option, true)
+    } catch (error) {
+      return
+    }
   }
 }
 
@@ -970,6 +1040,13 @@ const loadTimelineData = async () => {
         endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
         break
       }
+      case 'yesterday': {
+        const yesterday = new Date()
+        yesterday.setDate(yesterday.getDate() - 1)
+        startTime = ensureTimeNotBeforeLaunch(new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 0, 0, 0))
+        endTime = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 23, 59, 59)
+        break
+      }
       case 'week': {
         const now = new Date()
         const dayOfWeek = now.getDay()
@@ -977,6 +1054,19 @@ const loadTimelineData = async () => {
         const monday = new Date(now.setDate(diff))
         startTime = ensureTimeNotBeforeLaunch(new Date(monday.getFullYear(), monday.getMonth(), monday.getDate(), 0, 0, 0))
         endTime = new Date()
+        break
+      }
+      case 'lastWeek': {
+        const now = new Date()
+        const dayOfWeek = now.getDay()
+        const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)
+        const thisWeekMonday = new Date(now.setDate(diff))
+        const lastWeekMonday = new Date(thisWeekMonday)
+        lastWeekMonday.setDate(thisWeekMonday.getDate() - 7)
+        const lastWeekSunday = new Date(lastWeekMonday)
+        lastWeekSunday.setDate(lastWeekMonday.getDate() + 6)
+        startTime = ensureTimeNotBeforeLaunch(new Date(lastWeekMonday.getFullYear(), lastWeekMonday.getMonth(), lastWeekMonday.getDate(), 0, 0, 0))
+        endTime = new Date(lastWeekSunday.getFullYear(), lastWeekSunday.getMonth(), lastWeekSunday.getDate(), 23, 59, 59)
         break
       }
       case 'month': {
@@ -991,6 +1081,22 @@ const loadTimelineData = async () => {
         const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0)
         startTime = ensureTimeNotBeforeLaunch(new Date(lastMonth.getFullYear(), lastMonth.getMonth(), 1, 0, 0, 0))
         endTime = new Date(lastMonthEnd.getFullYear(), lastMonthEnd.getMonth(), lastMonthEnd.getDate(), 23, 59, 59)
+        break
+      }
+      case 'last7days': {
+        const now = new Date()
+        const sevenDaysAgo = new Date(now)
+        sevenDaysAgo.setDate(now.getDate() - 6)
+        startTime = ensureTimeNotBeforeLaunch(new Date(sevenDaysAgo.getFullYear(), sevenDaysAgo.getMonth(), sevenDaysAgo.getDate(), 0, 0, 0))
+        endTime = new Date()
+        break
+      }
+      case 'last30days': {
+        const now = new Date()
+        const thirtyDaysAgo = new Date(now)
+        thirtyDaysAgo.setDate(now.getDate() - 29)
+        startTime = ensureTimeNotBeforeLaunch(new Date(thirtyDaysAgo.getFullYear(), thirtyDaysAgo.getMonth(), thirtyDaysAgo.getDate(), 0, 0, 0))
+        endTime = new Date()
         break
       }
       case 'year': {
@@ -1025,6 +1131,10 @@ const loadTimelineData = async () => {
     
     if (response && response.code === 200) {
       timelineData.value = response.data || []
+      await nextTick()
+      if (timelineChartInstance) {
+        updateTimelineChart()
+      }
     }
   } catch (error) {
     ElMessage.error(error.message || '加载时间线数据失败')
@@ -1059,6 +1169,11 @@ const loadAttendanceData = async () => {
       setTimeout(() => {
         initChartsWithTheme()
       }, 200)
+      
+      if (selectedTimeRange.value === 'today' && timelineChartInstance) {
+        await nextTick()
+        updateTimelineChart()
+      }
     }
   } catch (error) {
     ElMessage.error(error.message || '加载签到数据失败')
@@ -1273,8 +1388,11 @@ onUnmounted(() => {
   flex: 1;
 }
 
-.time-select {
-  width: 100%;
+.time-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
 .custom-date-range {

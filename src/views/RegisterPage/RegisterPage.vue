@@ -1,6 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElIcon, ElSelect, ElOption } from "element-plus";
+import 'element-plus/theme-chalk/el-form.css'
+import 'element-plus/theme-chalk/el-form-item.css'
+import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-select.css'
+import 'element-plus/theme-chalk/el-option.css'
 import { User, Lock, Phone, School, Collection, House } from "@element-plus/icons-vue";
 import { useRouter } from 'vue-router';
 import { register, login } from '@/api/student';
@@ -21,13 +29,8 @@ const collegeOptions = [
   "博雅教育与艺术传媒学院",
   "外国语学院",
   "国 学 院",
-  "思想政治理论课教学部",
-  "教师进修学院",
-  "体 育 部",
   "国际教育学院",
   "继续教育学院",
-  "学研产企业学院",
-  "研究生辅考学院"
 ];
 
 const form = ref({
@@ -182,7 +185,7 @@ onMounted(() => {
         
         <ElForm ref="formRef" :model="form" :rules="rules" label-width="0px" class="register-form">
           <div class="form-row">
-            <ElFormItem prop="name" class="form-item-half">
+            <ElFormItem prop="name" class="form-item-half form-item">
               <div class="input-group">
                 <div class="input-icon">
                   <ElIcon><User /></ElIcon>
@@ -196,7 +199,7 @@ onMounted(() => {
               </div>
             </ElFormItem>
             
-            <ElFormItem prop="studentId" class="form-item-half">
+            <ElFormItem prop="studentId" class="form-item-half form-item">
               <div class="input-group">
                 <div class="input-icon">
                   <ElIcon><Collection /></ElIcon>
@@ -212,7 +215,7 @@ onMounted(() => {
           </div>
           
           <div class="form-row">
-            <ElFormItem prop="gender" class="form-item-half">
+            <ElFormItem prop="gender" class="form-item-half form-item">
               <div class="input-group">
                 <div class="input-icon">
                   <ElIcon><User /></ElIcon>
@@ -230,7 +233,7 @@ onMounted(() => {
               </div>
             </ElFormItem>
             
-            <ElFormItem prop="phoneNumber" class="form-item-half">
+            <ElFormItem prop="phoneNumber" class="form-item-half form-item">
               <div class="input-group">
                 <div class="input-icon">
                   <ElIcon><Phone /></ElIcon>
@@ -246,7 +249,7 @@ onMounted(() => {
           </div>
           
           <div class="form-row">
-            <ElFormItem prop="college" class="form-item-half">
+            <ElFormItem prop="college" class="form-item-half form-item">
               <div class="input-group">
                 <div class="input-icon">
                   <ElIcon><School /></ElIcon>
@@ -268,7 +271,7 @@ onMounted(() => {
               </div>
             </ElFormItem>
             
-            <ElFormItem prop="major" class="form-item-half">
+            <ElFormItem prop="major" class="form-item-half form-item">
               <div class="input-group">
                 <div class="input-icon">
                   <ElIcon><School /></ElIcon>
@@ -284,7 +287,7 @@ onMounted(() => {
           </div>
           
           <div class="form-row">
-            <ElFormItem prop="grade" class="form-item-half">
+            <ElFormItem prop="grade" class="form-item-half form-item">
               <div class="input-group">
                 <div class="input-icon">
                   <ElIcon><School /></ElIcon>
@@ -305,7 +308,7 @@ onMounted(() => {
               </div>
             </ElFormItem>
             
-            <ElFormItem prop="classNum" class="form-item-half">
+            <ElFormItem prop="classNum" class="form-item-half form-item">
               <div class="input-group">
                 <div class="input-icon">
                   <ElIcon><School /></ElIcon>
@@ -323,7 +326,7 @@ onMounted(() => {
             </ElFormItem>
           </div>
           
-          <ElFormItem prop="password">
+          <ElFormItem prop="password" class="form-item password-form-item">
             <div class="input-group">
               <div class="input-icon">
                 <ElIcon><Lock /></ElIcon>
@@ -339,7 +342,7 @@ onMounted(() => {
             </div>
           </ElFormItem>
           
-          <ElFormItem prop="confirmPassword">
+          <ElFormItem prop="confirmPassword" class="form-item last-input-form-item">
             <div class="input-group">
               <div class="input-icon">
                 <ElIcon><Lock /></ElIcon>
@@ -517,6 +520,22 @@ onMounted(() => {
   margin-bottom: 24px;
 }
 
+.form-item {
+  margin-bottom: 0;
+}
+
+.password-form-item {
+  margin-bottom: 16px;
+}
+
+.last-input-form-item {
+  margin-bottom: 20px;
+}
+
+.form-item :deep(.el-form-item__content) {
+  width: 100%;
+}
+
 .form-row {
   display: flex;
   gap: 16px;
@@ -527,8 +546,13 @@ onMounted(() => {
   flex: 1;
 }
 
+.form-item-half :deep(.el-form-item__content) {
+  width: 100%;
+}
+
 .input-group {
   position: relative;
+  width: 100%;
 }
 
 .input-icon {
@@ -546,7 +570,12 @@ onMounted(() => {
   width: 100%;
 }
 
+.custom-input :deep(.el-input) {
+  width: 100%;
+}
+
 .custom-input :deep(.el-input__wrapper) {
+  width: 100%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
@@ -583,7 +612,12 @@ onMounted(() => {
   z-index: 1;
 }
 
+.custom-select :deep(.el-select) {
+  width: 100%;
+}
+
 .custom-select :deep(.el-select__wrapper) {
+  width: 100%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;

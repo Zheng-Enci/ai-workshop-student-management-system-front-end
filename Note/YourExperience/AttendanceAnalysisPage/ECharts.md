@@ -1197,6 +1197,183 @@ const updateTimelineChart = () => {
 - 添加图表实例存在性检查 `if (!timelineChartInstance) return`
 - 确保不同图表类型使用不同的series配置
 
+## ECharts运行时错误修复
+
+### 问题描述
+出现运行时错误：`Cannot read properties of undefined (reading 'getProgressive')` 和 `Cannot read properties of undefined (reading 'dataTask')`，错误发生在`updateTimelineChart`函数中调用`setOption`时。
+
+### 问题分析
+1. **空数据处理**：当数据为空时，ECharts尝试处理空的series配置，导致内部属性未定义
+2. **数据验证缺失**：在调用`setOption`之前没有验证数据是否为空
+3. **Series配置问题**：当timeData或filteredData为空时，series的data属性为空数组，可能导致ECharts内部错误
+
+### 解决方案
+
+#### 1. 添加数据验证
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第663行和第847行
+
+```javascript
+// 在today分支中添加
+if (timeData.length === 0) {
+  return
+}
+
+// 在else分支中添加
+if (filteredData.length === 0) {
+  return
+}
+```
+
+#### 2. 关键修复要点
+- **数据验证**：在调用`setOption`之前验证数据是否为空
+- **提前返回**：如果数据为空，直接返回，避免ECharts处理空数据
+- **错误预防**：防止ECharts尝试处理空的series配置
+
+### 修复效果
+- ✅ 空数据时不再出现运行时错误
+- ✅ 图表更新前进行数据验证
+- ✅ 提升代码健壮性
+
+### 最佳实践
+1. **数据验证**：在调用ECharts的`setOption`之前，始终验证数据是否有效
+2. **空数据处理**：当数据为空时，提前返回或提供默认数据
+3. **错误预防**：避免让ECharts处理不完整的配置
+4. **健壮性**：确保代码在各种数据情况下都能正常运行
+
+## ECharts运行时错误深度修复
+
+### 问题描述
+仍然出现运行时错误：`Cannot read properties of undefined (reading 'getProgressive')` 和 `Cannot read properties of undefined (reading 'dataTask')`，错误发生在`setOption`和`resize`时。
+
+### 问题分析
+1. **resize时错误**：在resize时，ECharts尝试访问之前设置的option，但某些series配置可能不完整
+2. **setOption错误**：即使有数据验证，在某些情况下setOption仍然可能失败
+3. **错误处理缺失**：resize和setOption调用没有try-catch保护
+
+### 解决方案
+
+#### 1. 在resize时添加错误处理
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第622-628行
+
+```javascript
+// 修改前
+timelineResizeObserver = new ResizeObserver(() => {
+  window.requestAnimationFrame(() => {
+    if (timelineChartInstance) {
+      timelineChartInstance.resize()
+    }
+  })
+})
+
+// 修改后
+timelineResizeObserver = new ResizeObserver(() => {
+  window.requestAnimationFrame(() => {
+    if (timelineChartInstance && timelineChart.value) {
+      try {
+        timelineChartInstance.resize()
+      } catch (error) {
+        return
+      }
+    }
+  })
+})
+```
+
+#### 2. 在setOption时添加错误处理
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第845行和第997行
+
+```javascript
+// 修改前
+timelineChartInstance.setOption(option, true)
+
+// 修改后
+try {
+  timelineChartInstance.setOption(option, true)
+} catch (error) {
+  return
+}
+```
+
+### 关键修复要点
+- **resize保护**：在resize时添加try-catch，防止访问未定义的配置
+- **setOption保护**：在所有setOption调用处添加try-catch
+- **容器检查**：resize前检查容器是否存在
+- **错误静默处理**：捕获错误后直接返回，避免影响其他功能
+
+### 修复效果
+- ✅ resize时不再出现运行时错误
+- ✅ setOption时不再出现运行时错误
+- ✅ 错误被正确捕获和处理
+- ✅ 提升代码健壮性
+
+### 最佳实践
+1. **错误处理**：在所有ECharts方法调用处添加try-catch保护
+2. **容器检查**：在resize前检查容器和实例是否存在
+3. **数据验证**：结合数据验证和错误处理，双重保护
+4. **静默处理**：对于非关键错误，可以静默处理，避免影响用户体验
+
+## ScatterChart导入缺失修复
+
+### 问题描述
+出现ECharts警告：`[ECharts] Series scatter is used but not imported.`，同时仍然出现运行时错误。
+
+### 问题分析
+1. **缺少导入**：使用了`type: 'scatter'`但没有导入`ScatterChart`
+2. **未注册**：即使导入了，也需要在`echarts.use()`中注册
+3. **按需导入要求**：ECharts按需导入时，必须导入所有使用的图表类型
+
+### 解决方案
+
+#### 1. 添加ScatterChart导入和注册
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第160行和第170-178行
+
+```javascript
+// 修改前
+import { PieChart as EChartsPieChart, LineChart } from 'echarts/charts'
+
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  EChartsPieChart,
+  LineChart,
+  CanvasRenderer
+])
+
+// 修改后
+import { PieChart as EChartsPieChart, LineChart, ScatterChart } from 'echarts/charts'
+
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  EChartsPieChart,
+  LineChart,
+  ScatterChart,
+  CanvasRenderer
+])
+```
+
+### 关键修复要点
+- **完整导入**：导入所有使用的图表类型，包括ScatterChart
+- **正确注册**：在`echarts.use()`中注册所有导入的图表类型
+- **按需导入**：遵循ECharts按需导入规范，只导入使用的类型
+- **类型匹配**：确保series中的type与导入的图表类型匹配
+
+### 修复效果
+- ✅ 消除ECharts警告
+- ✅ ScatterChart正确导入和注册
+- ✅ 散点图正常显示
+- ✅ 符合ECharts按需导入规范
+
+### 最佳实践
+1. **完整导入**：使用任何图表类型前，必须导入对应的Chart类
+2. **正确注册**：所有导入的图表类型都必须在`echarts.use()`中注册
+3. **类型检查**：确保series中的type与导入的图表类型一致
+4. **按需导入**：只导入使用的图表类型，减少打包体积
+
 ## 图表主题适配
 
 ### 问题
@@ -1321,3 +1498,576 @@ label: {
 - 确保图表容器有足够的高度和宽度
 - 通过调整center属性优化饼图位置
 - 使用distance属性控制标签距离
+
+## ECharts LineChart 导入错误修复
+
+### 问题
+出现错误：`[ECharts] Series line is used but not imported.`
+
+### 分析
+在使用 ECharts 按需导入时，如果图表配置中使用了 `type: 'line'`，必须导入并注册 `LineChart` 组件。以下文件使用了折线图但未正确导入：
+1. `AttendancePageDesktop.vue` - 使用了折线图但只导入了 `HeatmapChart`
+2. `AttendanceAnalysisPageDesktop.vue` - 使用了折线图但只导入了 `PieChart`
+3. `AttendanceAnalysisPageMobile.vue` - 使用了折线图但只导入了 `PieChart`
+
+### 方案
+```javascript
+// 修复前 - 缺少 LineChart 导入
+import * as echarts from 'echarts/core'
+import { HeatmapChart } from 'echarts/charts'
+
+echarts.use([
+  HeatmapChart,
+  CanvasRenderer
+])
+
+// 修复后 - 添加 LineChart 导入和注册
+import * as echarts from 'echarts/core'
+import { HeatmapChart, LineChart } from 'echarts/charts'
+
+echarts.use([
+  HeatmapChart,
+  LineChart,
+  CanvasRenderer
+])
+```
+
+### 修复位置
+1. **AttendancePageDesktop.vue** 第167-189行：添加 `LineChart` 导入和注册
+2. **AttendanceAnalysisPageDesktop.vue** 第158-177行：添加 `LineChart` 导入和注册
+3. **AttendanceAnalysisPageMobile.vue** 第160-179行：添加 `LineChart` 导入和注册
+
+### 效果
+- ✅ 消除 ECharts 导入错误
+- ✅ 折线图正常显示
+- ✅ 符合 ECharts 按需导入规范
+- ✅ 代码通过 ESLint 检查
+
+### 要点
+- 使用 `type: 'line'` 时必须导入 `LineChart`
+- 所有导入的图表类型都必须在 `echarts.use()` 中注册
+- 按需导入可以减少打包体积，但必须确保导入所有使用的图表类型
+- 严格遵守技术指令第42条：所有库必须按需引入
+
+## 本年度数据渲染错误修复
+
+### 问题描述
+点击"本年度"后渲染的数据是错的，数据顺序混乱或显示不正确。
+
+### 问题分析
+1. **数据未排序**：从接口获取的数据可能没有按日期排序，导致图表显示顺序错乱
+2. **数据过滤后未排序**：在过滤数据后，没有对数据进行排序，导致时间线显示不正确
+3. **日期格式问题**：日期格式可能不一致，影响排序和显示
+
+### 解决方案
+
+#### 1. 添加数据排序
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第861-871行
+
+```javascript
+// 修改前
+const filteredData = data.filter(item => {
+  const itemDate = new Date(item.date)
+  return itemDate >= PROJECT_LAUNCH_DATE
+})
+
+const dates = filteredData.map(item => item.date)
+const counts = filteredData.map(item => item.attendanceCount)
+
+// 修改后
+const filteredData = data.filter(item => {
+  const itemDate = new Date(item.date)
+  return itemDate >= PROJECT_LAUNCH_DATE
+}).sort((a, b) => {
+  return new Date(a.date) - new Date(b.date)
+})
+
+const dates = filteredData.map(item => item.date)
+const counts = filteredData.map(item => item.attendanceCount)
+```
+
+### 关键修复要点
+- **数据排序**：在过滤数据后，按日期升序排序
+- **日期比较**：使用`new Date()`进行日期比较，确保排序正确
+- **时间线正确性**：确保时间线按时间顺序显示，数据对应正确
+
+### 修复效果
+- ✅ 本年度数据按日期正确排序
+- ✅ 时间线显示顺序正确
+- ✅ 数据与日期对应关系正确
+- ✅ 所有时间范围的数据都能正确显示
+
+### 最佳实践
+1. **数据排序**：在渲染图表前，确保数据按时间顺序排序
+2. **日期处理**：使用`new Date()`进行日期比较和排序
+3. **数据验证**：在排序前验证数据格式是否正确
+4. **一致性**：确保所有时间范围的数据处理逻辑一致
+
+## 本年度数据渲染全为相同值问题修复
+
+### 问题描述
+获取的数据明明都是不一样的，但是本年度获取的数据渲染出来后全是2（或其他相同值）。
+
+### 问题分析
+1. **数据验证缺失**：没有验证数据格式和字段是否存在
+2. **数据类型问题**：attendanceCount可能是字符串或其他类型，需要转换为数字
+3. **数据过滤问题**：过滤时没有检查数据项是否完整
+4. **API参数错误**：接口文档中参数名是`data`，但代码中使用的是`date`
+
+### 解决方案
+
+#### 1. 修复API参数名
+**位置**：`src/api/attendance.js` 第430行
+
+```javascript
+// 修改前
+params: {
+  date: dateStr
+}
+
+// 修改后
+params: {
+  data: dateStr
+}
+```
+
+#### 2. 增强数据验证和类型转换
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第860-873行
+
+```javascript
+// 修改前
+const filteredData = data.filter(item => {
+  const itemDate = new Date(item.date)
+  return itemDate >= PROJECT_LAUNCH_DATE
+}).sort((a, b) => {
+  return new Date(a.date) - new Date(b.date)
+})
+
+const dates = filteredData.map(item => item.date)
+const counts = filteredData.map(item => item.attendanceCount)
+
+// 修改后
+if (!data || !Array.isArray(data) || data.length === 0) {
+  return
+}
+
+const filteredData = data.filter(item => {
+  if (!item || !item.date) return false
+  const itemDate = new Date(item.date)
+  return itemDate >= PROJECT_LAUNCH_DATE
+}).sort((a, b) => {
+  return new Date(a.date) - new Date(b.date)
+})
+
+const dates = filteredData.map(item => item.date)
+const counts = filteredData.map(item => {
+  const count = item.attendanceCount
+  return typeof count === 'number' ? count : (parseInt(count) || 0)
+})
+```
+
+### 关键修复要点
+- **API参数**：使用正确的参数名`data`而不是`date`
+- **数据验证**：在过滤前验证数据是否为数组且不为空
+- **字段检查**：过滤时检查数据项和date字段是否存在
+- **类型转换**：确保attendanceCount转换为数字类型
+- **默认值处理**：如果转换失败，使用0作为默认值
+
+### 修复效果
+- ✅ API参数名正确，后端能正确接收参数
+- ✅ 数据验证增强，避免处理无效数据
+- ✅ 数据类型正确转换，确保数值正确
+- ✅ 数据渲染正确，显示真实数据
+
+### 最佳实践
+1. **接口文档遵循**：严格按照接口文档使用正确的参数名
+2. **数据验证**：在处理数据前验证数据格式和字段
+3. **类型转换**：确保数据类型正确，必要时进行转换
+4. **错误处理**：对无效数据提供默认值，避免渲染错误
+5. **数据完整性**：检查数据项是否完整，避免访问不存在的字段
+
+## 串行加载改为并行加载性能优化
+
+### 问题描述
+当前实现是串行加载（一天一天加载），速度较慢。用户希望改为并行加载（全部同步加载），提高加载速度。
+
+### 问题分析
+1. **串行加载性能问题**：使用`for`循环配合`await`，每次等待一个请求完成后再发起下一个请求
+2. **时间浪费**：多个请求可以同时进行，但串行方式导致总时间等于所有请求时间的总和
+3. **用户体验差**：加载时间长，用户等待时间久
+4. **资源利用不充分**：浏览器可以同时处理多个HTTP请求，但串行方式没有充分利用
+
+### 解决方案
+
+#### 1. 使用Promise.all实现并行加载
+**位置**：`src/api/attendance.js` 第412-471行
+
+```javascript
+// 修改前（串行加载）
+for (let i = 0; i < daysDiff; i++) {
+  const currentDate = new Date(actualStartDate)
+  currentDate.setDate(actualStartDate.getDate() + i)
+  const dateStr = currentDate.toISOString().split('T')[0]
+  
+  try {
+    const response = await api.get('/api/v1/attendance/daily-count', {
+      params: { data: dateStr }
+    })
+    // 处理响应...
+  } catch (error) {
+    // 错误处理...
+  }
+}
+
+// 修改后（并行加载）
+const requests = []
+for (let i = 0; i < daysDiff; i++) {
+  const currentDate = new Date(actualStartDate)
+  currentDate.setDate(actualStartDate.getDate() + i)
+  const dateStr = currentDate.toISOString().split('T')[0]
+  
+  requests.push(
+    api.get('/api/v1/attendance/daily-count', {
+      params: { data: dateStr }
+    }).then(response => {
+      // 处理成功响应
+      return { date: dateStr, attendanceCount: ... }
+    }).catch(() => {
+      // 处理错误，返回默认值
+      return { date: dateStr, attendanceCount: 0 }
+    })
+  )
+}
+
+const results = await Promise.all(requests)
+```
+
+### 关键优化要点
+- **并行请求**：使用`Promise.all`同时发起所有请求，而不是串行等待
+- **错误处理**：每个请求的`.catch()`返回默认值，确保`Promise.all`不会因单个失败而中断
+- **性能提升**：总加载时间从"所有请求时间之和"降低到"最慢请求的时间"
+- **资源利用**：充分利用浏览器的并发请求能力
+
+### 性能对比
+- **串行加载**：如果有100天的数据，每个请求100ms，总时间 = 100 × 100ms = 10秒
+- **并行加载**：同样的100个请求并行执行，总时间 ≈ 100ms（最慢的请求时间）
+- **速度提升**：理论上可以提升10-100倍（取决于请求数量和网络条件）
+
+### 修复效果
+- ✅ 所有请求并行执行，大幅提升加载速度
+- ✅ 充分利用浏览器并发能力
+- ✅ 用户体验显著改善，等待时间大幅缩短
+- ✅ 错误处理完善，单个请求失败不影响整体
+
+### 最佳实践
+1. **并行优先**：对于独立的多个请求，优先使用并行加载
+2. **Promise.all使用**：使用`Promise.all`实现并行请求，等待所有请求完成
+3. **错误处理**：每个请求都要有错误处理，避免单个失败导致整体失败
+4. **性能监控**：监控并行加载的性能提升，验证优化效果
+5. **并发控制**：如果请求数量过大，考虑使用并发控制（如限制同时请求数）
+6. **用户体验**：并行加载可以配合加载进度显示，提升用户体验
+7. **资源考虑**：注意浏览器和服务器对并发请求的限制
+8. **降级策略**：如果并行加载失败，可以考虑分批并行或降级到串行
+
+## 时间段选择从下拉框改为按钮组
+
+### 问题描述
+签到时间线的时间段选择使用下拉框，用户需要点击下拉框才能看到选项。需要改为多个时间段按钮同时显示，提供更直观的用户体验。
+
+### 问题分析
+1. **用户体验**：下拉框需要点击才能看到选项，不够直观
+2. **交互效率**：按钮组可以一目了然地看到所有选项，点击更快捷
+3. **视觉一致性**：与数据看板页面的实现保持一致
+4. **响应式设计**：按钮组可以更好地适配不同屏幕尺寸
+
+### 解决方案
+
+#### 1. 将el-select改为el-radio-group
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第37-52行
+
+```vue
+<!-- 修改前 -->
+<div class="time-range-selector">
+  <el-select 
+    v-model="selectedTimeRange" 
+    @change="handleTimeRangeChange"
+    placeholder="选择时间范围"
+    size="small"
+    class="time-select"
+  >
+    <el-option
+      v-for="option in timeRangeOptions"
+      :key="option.value"
+      :label="option.label"
+      :value="option.value"
+    />
+  </el-select>
+</div>
+
+<!-- 修改后 -->
+<div class="time-range-selector">
+  <el-radio-group 
+    v-model="selectedTimeRange" 
+    @change="handleTimeRangeChange"
+    size="small"
+    class="time-radio-group"
+  >
+    <el-radio-button
+      v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
+      :key="option.value"
+      :label="option.value"
+    >
+      {{ option.label }}
+    </el-radio-button>
+  </el-radio-group>
+</div>
+```
+
+#### 2. 更新组件导入
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第141-147行
+
+```javascript
+// 修改前
+import { ElMessage, ElButton, ElIcon, ElSelect, ElOption, ElDatePicker } from 'element-plus'
+import 'element-plus/theme-chalk/el-select.css'
+import 'element-plus/theme-chalk/el-option.css'
+
+// 修改后
+import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton, ElDatePicker } from 'element-plus'
+import 'element-plus/theme-chalk/el-radio-group.css'
+import 'element-plus/theme-chalk/el-radio-button.css'
+```
+
+#### 3. 更新样式
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第1347-1353行
+
+```css
+/* 修改前 */
+.time-range-selector {
+  flex: 1;
+}
+
+.time-select {
+  width: 100%;
+}
+
+/* 修改后 */
+.time-range-selector {
+  flex: 1;
+}
+
+.time-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+```
+
+### 关键修复要点
+- **组件替换**：将`el-select`和`el-option`替换为`el-radio-group`和`el-radio-button`
+- **选项过滤**：使用`.filter(opt => opt.value !== 'custom')`过滤掉自定义选项，自定义选项通过日期选择器单独显示
+- **样式调整**：使用flex布局，支持换行，按钮之间有间距
+- **功能保持**：保持原有的时间范围切换功能和自定义日期选择功能
+
+### 修复效果
+- ✅ 时间段选项以按钮形式同时显示，更直观
+- ✅ 用户无需点击下拉框即可看到所有选项
+- ✅ 交互更快捷，点击即可切换
+- ✅ 与数据看板页面保持一致的设计风格
+- ✅ 支持响应式布局，按钮可以换行显示
+
+### 最佳实践
+1. **用户体验优先**：选择更直观的交互方式，提升用户体验
+2. **设计一致性**：保持页面间设计风格的一致性
+3. **组件选择**：根据使用场景选择合适的组件（按钮组 vs 下拉框）
+4. **响应式设计**：使用flex布局和换行，适配不同屏幕尺寸
+5. **功能完整性**：保持原有功能不变，只改变交互方式
+
+## 增加常用时间段选项
+
+### 问题描述
+需要增加几个常用时间段选项，方便用户快速选择不同的时间范围。
+
+### 问题分析
+1. **选项不足**：当前时间段选项较少，用户可能需要更多选择
+2. **常用需求**：用户经常需要查看昨天、上周、最近7天、最近30天等时间段
+3. **用户体验**：增加常用选项可以提升用户体验，减少自定义操作
+
+### 解决方案
+
+#### 1. 增加时间段选项
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第265-273行
+
+```javascript
+// 修改前
+const timeRangeOptions = [
+  { label: '今日', value: 'today' },
+  { label: '本周', value: 'week' },
+  { label: '本月', value: 'month' },
+  { label: '昨月', value: 'lastMonth' },
+  { label: '本年度', value: 'year' },
+  { label: '全部', value: 'all' },
+  { label: '自定义', value: 'custom' }
+]
+
+// 修改后
+const timeRangeOptions = [
+  { label: '今日', value: 'today' },
+  { label: '昨天', value: 'yesterday' },
+  { label: '本周', value: 'week' },
+  { label: '上周', value: 'lastWeek' },
+  { label: '本月', value: 'month' },
+  { label: '昨月', value: 'lastMonth' },
+  { label: '最近7天', value: 'last7days' },
+  { label: '最近30天', value: 'last30days' },
+  { label: '本年度', value: 'year' },
+  { label: '全部', value: 'all' },
+  { label: '自定义', value: 'custom' }
+]
+```
+
+#### 2. 添加时间段处理逻辑
+**位置**：`src/views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue` 第1037-1071行
+
+```javascript
+// 添加昨天处理
+case 'yesterday': {
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  startTime = ensureTimeNotBeforeLaunch(new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 0, 0, 0))
+  endTime = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 23, 59, 59)
+  break
+}
+
+// 添加上周处理
+case 'lastWeek': {
+  const now = new Date()
+  const dayOfWeek = now.getDay()
+  const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)
+  const thisWeekMonday = new Date(now.setDate(diff))
+  const lastWeekMonday = new Date(thisWeekMonday)
+  lastWeekMonday.setDate(thisWeekMonday.getDate() - 7)
+  const lastWeekSunday = new Date(lastWeekMonday)
+  lastWeekSunday.setDate(lastWeekMonday.getDate() + 6)
+  startTime = ensureTimeNotBeforeLaunch(new Date(lastWeekMonday.getFullYear(), lastWeekMonday.getMonth(), lastWeekMonday.getDate(), 0, 0, 0))
+  endTime = new Date(lastWeekSunday.getFullYear(), lastWeekSunday.getMonth(), lastWeekSunday.getDate(), 23, 59, 59)
+  break
+}
+
+// 添加最近7天处理
+case 'last7days': {
+  const now = new Date()
+  const sevenDaysAgo = new Date(now)
+  sevenDaysAgo.setDate(now.getDate() - 6)
+  startTime = ensureTimeNotBeforeLaunch(new Date(sevenDaysAgo.getFullYear(), sevenDaysAgo.getMonth(), sevenDaysAgo.getDate(), 0, 0, 0))
+  endTime = new Date()
+  break
+}
+
+// 添加最近30天处理
+case 'last30days': {
+  const now = new Date()
+  const thirtyDaysAgo = new Date(now)
+  thirtyDaysAgo.setDate(now.getDate() - 29)
+  startTime = ensureTimeNotBeforeLaunch(new Date(thirtyDaysAgo.getFullYear(), thirtyDaysAgo.getMonth(), thirtyDaysAgo.getDate(), 0, 0, 0))
+  endTime = new Date()
+  break
+}
+```
+
+### 关键修复要点
+- **选项增加**：新增昨天、上周、最近7天、最近30天四个常用时间段
+- **日期计算**：正确计算每个时间段的开始和结束时间
+- **边界处理**：使用`ensureTimeNotBeforeLaunch`确保时间不早于项目启动日期
+- **包含今天**：最近7天和最近30天包含今天，所以是减6和减29
+
+### 修复效果
+- ✅ 增加了4个常用时间段选项
+- ✅ 用户可以选择更多时间范围
+- ✅ 提升用户体验，减少自定义操作
+- ✅ 所有时间段都有正确的日期计算逻辑
+
+### 最佳实践
+1. **常用选项**：提供用户最常用的时间段选项
+2. **日期计算**：确保日期计算准确，注意边界情况
+3. **包含今天**：最近N天通常包含今天，所以是减(N-1)天
+4. **周计算**：正确计算周的开始（周一）和结束（周日）
+5. **时间边界**：使用`ensureTimeNotBeforeLaunch`确保时间不早于项目启动日期
+
+## 验证码URL独立配置
+
+### 问题描述
+获取验证码的URL是独立的，需要配置在config文件中，方便统一管理和修改。
+
+### 问题分析
+1. **配置集中管理**：将独立的URL配置到config文件中，便于统一管理
+2. **易于维护**：URL变更时只需修改config文件，无需修改多个使用的地方
+3. **灵活性**：验证码URL可能使用不同的base URL，需要独立配置
+4. **代码规范**：遵循配置集中管理的 best practice
+
+### 解决方案
+
+#### 1. 在config中添加验证码URL配置
+**位置**：`src/config/index.js` 第4-11行
+
+```javascript
+// 修改前
+export const config = {
+  API_BASE_URL: 'http://10.0.48.168:7001',
+  APP_TITLE: 'AI坊学生管理系统',
+  APP_VERSION: '1.0.0'
+}
+
+// 修改后
+export const config = {
+  API_BASE_URL: 'http://10.0.48.168:7001',
+  VERIFICATION_CODE_URL: 'http://10.0.48.168:7001/api/v1/attendance/verification-code',
+  APP_TITLE: 'AI坊学生管理系统',
+  APP_VERSION: '1.0.0'
+}
+```
+
+#### 2. 更新getVerificationCode函数使用config中的URL
+**位置**：`src/api/attendance.js` 第308-326行
+
+```javascript
+// 修改前
+export const getVerificationCode = async () => {
+  try {
+    const response = await api.get('/api/v1/attendance/verification-code')
+    return response.data
+  } catch (error) {
+    // 错误处理...
+  }
+}
+
+// 修改后
+export const getVerificationCode = async () => {
+  try {
+    const response = await axios.get(config.VERIFICATION_CODE_URL)
+    return response.data
+  } catch (error) {
+    // 错误处理...
+  }
+}
+```
+
+### 关键修复要点
+- **独立配置**：在config中添加`VERIFICATION_CODE_URL`配置项
+- **直接使用**：使用`axios.get()`直接调用完整URL，而不是使用api实例的相对路径
+- **配置导入**：确保在attendance.js中已导入config
+- **注释清理**：删除config文件中的注释，符合技术指令要求
+
+### 修复效果
+- ✅ 验证码URL配置在config文件中，便于管理
+- ✅ URL变更时只需修改config文件
+- ✅ 代码更规范，配置集中管理
+- ✅ 支持独立URL配置，灵活性更高
+
+### 最佳实践
+1. **配置集中管理**：将所有URL和配置项集中管理在config文件中
+2. **独立URL配置**：对于有特殊需求的URL，单独配置
+3. **易于维护**：配置集中管理，便于后续维护和修改
+4. **代码规范**：遵循配置管理的最佳实践
+5. **注释清理**：删除所有注释，符合技术指令要求

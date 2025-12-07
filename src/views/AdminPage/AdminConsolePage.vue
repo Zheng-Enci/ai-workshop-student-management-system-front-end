@@ -639,13 +639,42 @@
 
 <script setup>
 import { ref, computed, onMounted, nextTick, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElIcon, ElInput, ElButton, ElTabs, ElTabPane, ElTag, ElSelect, ElOption } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-tabs.css'
+import 'element-plus/theme-chalk/el-tab-pane.css'
+import 'element-plus/theme-chalk/el-tag.css'
+import 'element-plus/theme-chalk/el-select.css'
+import 'element-plus/theme-chalk/el-option.css'
 import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning, ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin } from '@/api/student'
 import { getStudentAttendanceCount, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
 import { getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/attendance'
 import { useRouter } from 'vue-router'
-import * as echarts from 'echarts'
+// ECharts 按需引入
+import * as echarts from 'echarts/core'
+import { BarChart, LineChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+// 注册需要的组件
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  BarChart,
+  LineChart,
+  CanvasRenderer
+])
 import { useAdminStore } from '@/stores/admin'
 
 const router = useRouter()

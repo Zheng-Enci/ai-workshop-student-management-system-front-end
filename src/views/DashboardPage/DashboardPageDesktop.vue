@@ -25,47 +25,20 @@
             <div class="chart-header">
               <div class="controls-section">
                 <div class="time-range-selector">
-                  <el-select 
+                  <el-radio-group 
                     v-model="selectedTimeRange" 
                     @change="handleTimeRangeChange"
-                    placeholder="选择时间段"
                     size="small"
-                    class="time-select"
+                    class="time-radio-group"
                   >
-                    <el-option
-                      v-for="option in timeRangeOptions"
+                    <el-radio-button
+                      v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
                       :key="option.value"
-                      :label="option.label"
-                      :value="option.value"
-                    />
-                  </el-select>
-                </div>
-                
-                <div class="top-n-selector">
-                  <el-input-number
-                    v-model="selectedTopN"
-                    @change="handleTopNChange"
-                    :min="1"
-                    :max="100"
-                    :step="1"
-                    size="small"
-                    class="top-n-input"
-                    placeholder="排行数量"
-                  />
-                  <span class="top-n-label">名</span>
-                </div>
-                
-                <div class="custom-date-range" v-if="selectedTimeRange === 'custom'">
-                  <el-date-picker
-                    v-model="customDateRange"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    size="small"
-                    @change="handleCustomDateChange"
-                    class="custom-date-picker"
-                  />
+                      :label="option.value"
+                    >
+                      {{ option.label }}
+                    </el-radio-button>
+                  </el-radio-group>
                 </div>
               </div>
             </div>
@@ -187,12 +160,16 @@
     <div class="phone-display">
       <div class="verification-code-card">
         <div class="verification-code-label">签到验证码</div>
-        <div class="verification-code-value">{{ verificationCode || '加载中...' }}</div>
+        <div class="verification-code-value">
+          <span v-if="verificationCodeStatus === 'loading'">获取中...</span>
+          <span v-else-if="verificationCodeStatus === 'success'">{{ verificationCode }}</span>
+          <span v-else-if="verificationCodeStatus === 'error'" class="error-text">本机无权获取</span>
+        </div>
       </div>
 
       <div v-if="currentQRType === 'website'" class="website-qr-section">
-        <img src="@/assets/WangZhanRuKouErWeiMa.png" alt="网站入口二维码" class="website-qr-code">
-        <div class="website-qr-text" style="color: #60a5fa !important; text-shadow: 0 0 8px rgba(96, 165, 250, 1) !important; font-weight: 800 !important;">AI坊学生管理系统入口</div>
+        <img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="website-qr-code">
+        <div class="website-qr-text" style="color: #60a5fa !important; text-shadow: 0 0 8px rgba(96, 165, 250, 1) !important; font-weight: 800 !important;">手机端签到入口</div>
       </div>
 
       <div v-if="currentQRType === 'wechat'" class="wechat-qr-section">
@@ -207,7 +184,7 @@
           class="qr-switch-btn"
           type="primary"
         >
-          {{ currentQRType === 'website' ? '切换到公众号' : '切换到网站入口' }}
+          {{ currentQRType === 'website' ? '切换到公众号' : '切换到签到入口' }}
         </el-button>
       </div>
 
@@ -219,11 +196,36 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-radio-group.css'
+import 'element-plus/theme-chalk/el-radio-button.css'
 import { ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
-import * as echarts from 'echarts'
+// ECharts 按需引入
+import * as echarts from 'echarts/core'
+import { PieChart, BarChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
 import 'echarts-wordcloud'
+
+// 注册需要的组件
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  PieChart,
+  BarChart,
+  CanvasRenderer
+])
 import { useThemeStore } from '@/stores/theme'
 import {
   getGradeStatistics,
@@ -235,15 +237,12 @@ import {
   getMonthlyAttendanceCount,
   getDailyAttendanceCount,
   getCurrentMonthTop10Students,
-  getDailyRanking,
   getWeeklyRanking,
   getMonthlyRanking,
-  getQuarterlyRanking,
-  getSemesterRanking,
   getYearlyRanking,
+  getTopStudentsByTimeRange,
   getLast7DaysRanking,
   getLast30DaysRanking,
-  getCustomRangeRanking,
   getVerificationCode
 } from '@/api/attendance'
 
@@ -257,7 +256,11 @@ const attendanceChart = ref(null)
 const progressWidth = ref(0)
 const currentQRType = ref('website')
 const verificationCode = ref('')
+const verificationCodeStatus = ref('loading')
 const verificationCodeInterval = ref(null)
+const verificationCodeRetryCount = ref(0)
+const verificationCodeHasSuccess = ref(false)
+const MAX_RETRY_COUNT = 8
 
 const switchQRType = () => {
   currentQRType.value = currentQRType.value === 'website' ? 'wechat' : 'website'
@@ -279,19 +282,15 @@ const levelStats = ref({
 const clubMembers = ref(0)
 
 const selectedTimeRange = ref('week')
-const selectedTopN = ref(15)
-const customDateRange = ref([])
+const selectedTopN = 16
 
 const timeRangeOptions = [
-  { label: '今日', value: 'today' },
   { label: '本周', value: 'week' },
   { label: '本月', value: 'month' },
-  { label: '本季度', value: 'quarter' },
-  { label: '本学期', value: 'semester' },
   { label: '本年度', value: 'year' },
   { label: '最近7天', value: 'last7days' },
   { label: '最近30天', value: 'last30days' },
-  { label: '自定义', value: 'custom' }
+  { label: '全部', value: 'all' }
 ]
 
 
@@ -308,23 +307,9 @@ const handleTimeRangeChange = async () => {
   await loadRankingData()
 }
 
-const handleTopNChange = async () => {
-  saveUserPreferences()
-  await loadRankingData()
-}
-
-const handleCustomDateChange = async () => {
-  if (customDateRange.value && customDateRange.value.length === 2) {
-    saveUserPreferences()
-    await loadRankingData()
-  }
-}
-
 const saveUserPreferences = () => {
   const preferences = {
-    timeRange: selectedTimeRange.value,
-    topN: selectedTopN.value,
-    customDateRange: customDateRange.value
+    timeRange: selectedTimeRange.value
   }
   localStorage.setItem('dashboardPreferences', JSON.stringify(preferences))
 }
@@ -335,12 +320,8 @@ const loadUserPreferences = () => {
     try {
       const preferences = JSON.parse(saved)
       selectedTimeRange.value = preferences.timeRange || 'week'
-      selectedTopN.value = preferences.topN || 15
-      customDateRange.value = preferences.customDateRange || []
     } catch (error) {
       selectedTimeRange.value = 'week'
-      selectedTopN.value = 15
-      customDateRange.value = []
     }
   }
 }
@@ -399,48 +380,32 @@ const loadRankingData = async () => {
     let response
     
     switch (selectedTimeRange.value) {
-      case 'today': {
-        const today = new Date().toISOString().split('T')[0]
-        response = await getDailyRanking(today, selectedTopN.value)
-        break
-      }
       case 'week': {
         const weekStart = getCurrentWeekStart()
-        response = await getWeeklyRanking(weekStart, selectedTopN.value)
+        response = await getWeeklyRanking(weekStart, selectedTopN)
         break
       }
       case 'month': {
         const now = new Date()
-        response = await getMonthlyRanking(now.getFullYear(), now.getMonth() + 1, selectedTopN.value)
-        break
-      }
-      case 'quarter': {
-        const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3)
-        response = await getQuarterlyRanking(new Date().getFullYear(), currentQuarter, selectedTopN.value)
-        break
-      }
-      case 'semester': {
-        const currentSemester = new Date().getMonth() >= 1 && new Date().getMonth() <= 6 ? 1 : 2
-        response = await getSemesterRanking(new Date().getFullYear(), currentSemester, selectedTopN.value)
+        response = await getMonthlyRanking(now.getFullYear(), now.getMonth() + 1, selectedTopN)
         break
       }
       case 'year':
-        response = await getYearlyRanking(new Date().getFullYear(), selectedTopN.value)
+        response = await getYearlyRanking(new Date().getFullYear(), selectedTopN)
         break
       case 'last7days':
-        response = await getLast7DaysRanking(selectedTopN.value)
+        response = await getLast7DaysRanking(selectedTopN)
         break
-      case 'last30days':
-        response = await getLast30DaysRanking(selectedTopN.value)
+      case 'last30days': {
+        response = await getLast30DaysRanking(selectedTopN)
         break
-      case 'custom': {
-        if (customDateRange.value && customDateRange.value.length === 2) {
-          const startDate = customDateRange.value[0].toISOString().split('T')[0]
-          const endDate = customDateRange.value[1].toISOString().split('T')[0]
-          response = await getCustomRangeRanking(startDate, endDate, selectedTopN.value)
-        } else {
-          return
-        }
+      }
+      case 'all': {
+        const PROJECT_LAUNCH_DATE = new Date('2024-09-09T00:00:00')
+        const now = new Date()
+        const startTime = PROJECT_LAUNCH_DATE.toISOString().split('T')[0] + 'T00:00:00'
+        const endTime = now.toISOString().split('T')[0] + 'T23:59:59'
+        response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
         break
       }
       default:
@@ -534,13 +499,45 @@ const calculateAttendanceRate = (monthlyCount) => {
 }
 
 const loadVerificationCode = async () => {
+  if (!verificationCodeHasSuccess.value && verificationCodeRetryCount.value >= MAX_RETRY_COUNT) {
+    verificationCodeStatus.value = 'error'
+    return
+  }
+
   try {
     const response = await getVerificationCode()
     if (response.code === 200 && response.data) {
-      verificationCode.value = response.data
+      if (verificationCode.value !== response.data) {
+        verificationCode.value = response.data
+        verificationCodeStatus.value = 'success'
+      }
+      verificationCodeHasSuccess.value = true
+      verificationCodeRetryCount.value = 0
+    } else {
+      if (!verificationCodeHasSuccess.value) {
+        verificationCodeRetryCount.value++
+        if (verificationCodeRetryCount.value >= MAX_RETRY_COUNT) {
+          verificationCode.value = ''
+          verificationCodeStatus.value = 'error'
+          if (verificationCodeInterval.value) {
+            clearInterval(verificationCodeInterval.value)
+            verificationCodeInterval.value = null
+          }
+        }
+      }
     }
   } catch (error) {
-    verificationCode.value = ''
+    if (!verificationCodeHasSuccess.value) {
+      verificationCodeRetryCount.value++
+      if (verificationCodeRetryCount.value >= MAX_RETRY_COUNT) {
+        verificationCode.value = ''
+        verificationCodeStatus.value = 'error'
+        if (verificationCodeInterval.value) {
+          clearInterval(verificationCodeInterval.value)
+          verificationCodeInterval.value = null
+        }
+      }
+    }
   }
 }
 
@@ -587,8 +584,14 @@ const loadData = async () => {
     await loadRankingData()
     await loadLevelStats()
     
-    // 重新计算社团成员数量
     calculateClubMembers()
+    
+    watch(selectedTimeRange, async (newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        saveUserPreferences()
+        await loadRankingData()
+      }
+    })
   } catch (error) {
     ElMessage.error('数据加载失败：' + error.message)
   }
@@ -1124,7 +1127,7 @@ onUnmounted(() => {
 
 .chart-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -1136,35 +1139,20 @@ onUnmounted(() => {
   flex-wrap: wrap;
 }
 
-.time-range-selector,
-.top-n-selector {
+.time-range-selector {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.time-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
 }
 
-.time-select {
-  min-width: 120px;
-}
-
-.top-n-input {
-  width: 100px;
-}
-
-.top-n-label {
-  margin-left: 8px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.custom-date-range {
-  display: flex;
-  align-items: center;
-}
-
-.custom-date-picker {
-  min-width: 240px;
-}
 
 .chart-header h3 {
   font-size: 18px;
@@ -1311,7 +1299,7 @@ onUnmounted(() => {
 
 .attendance-chart {
   width: 100%;
-  height: 450px;
+  height: 550px;
 }
 
 .summary-stats {
@@ -1636,6 +1624,19 @@ html.dark .club-level .level-value {
   letter-spacing: 4px;
   font-family: 'Courier New', monospace;
   text-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  transition: opacity 0.3s ease;
+}
+
+.verification-code-value span {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.verification-code-value .error-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  letter-spacing: 0;
+  text-shadow: none;
 }
 
 .dark .verification-code-card {
@@ -1952,6 +1953,94 @@ html.dark .qr-switch-btn.el-button--primary {
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-color: transparent;
   color: white;
+}
+</style>
+
+<style>
+.time-select-dropdown {
+  z-index: 3000 !important;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  padding: 8px 0;
+  min-width: auto !important;
+}
+
+.time-select-dropdown .el-select-dropdown__item {
+  color: #606266 !important;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  margin: 2px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  background-color: #ffffff !important;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  user-select: none;
+}
+
+.time-select-dropdown .el-select-dropdown__item span {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none !important;
+}
+
+.time-select-dropdown .el-select-dropdown__item:hover {
+  background-color: #f5f7fa !important;
+  color: #409eff !important;
+}
+
+.time-select-dropdown .el-select-dropdown__item.selected {
+  color: #409eff !important;
+  font-weight: 600 !important;
+  background-color: #ecf5ff !important;
+}
+
+.time-select-dropdown .el-select-dropdown__item.selected:hover {
+  background-color: #d9ecff !important;
+}
+
+html.dark .time-select-dropdown {
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+html.dark .time-select-dropdown .el-select-dropdown__item {
+  color: #e2e8f0 !important;
+  background-color: #1e293b !important;
+}
+
+html.dark .time-select-dropdown {
+  background: #1e293b;
+}
+
+html.dark .time-select-dropdown .el-select-dropdown__item:hover {
+  background-color: #334155 !important;
+  color: #818cf8;
+}
+
+html.dark .time-select-dropdown .el-select-dropdown__item.selected {
+  color: #818cf8 !important;
+  font-weight: 600 !important;
+  background-color: rgba(102, 126, 234, 0.2) !important;
+}
+
+html.dark .time-select-dropdown .el-select-dropdown__item.selected:hover {
+  background-color: rgba(102, 126, 234, 0.3) !important;
 }
 </style>
 

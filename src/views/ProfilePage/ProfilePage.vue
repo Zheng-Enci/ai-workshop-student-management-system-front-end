@@ -18,15 +18,13 @@ const detectDevice = () => {
   
   if (screenWidth < 768) {
     router.replace('/profile/mobile')
-  } else if (screenWidth >= 768 && screenWidth < 1024) {
-    router.replace('/profile/tablet')
   } else {
     router.replace('/profile/desktop')
   }
 }
 
 onMounted(() => {
-  setTimeout(detectDevice, 1000)
+  detectDevice()
 })
 </script>
 

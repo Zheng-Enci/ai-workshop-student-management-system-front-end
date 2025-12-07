@@ -9,56 +9,35 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import { ElIcon } from 'element-plus'
+import 'element-plus/theme-chalk/el-icon.css'
 import { Loading } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
 const detectDeviceType = () => {
-  const userAgent = navigator.userAgent.toLowerCase()
   const screenWidth = window.innerWidth
   
-  const isMobile = /android.*mobile|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent) || 
-                   (screenWidth < 768)
-  
-  const isTablet = /ipad|android(?!.*mobile)|tablet|kindle|silk/i.test(userAgent) || 
-                   (screenWidth >= 768 && screenWidth <= 1024)
-  
-  const isDesktop = screenWidth > 1024
-  
-  if (isMobile) {
+  if (screenWidth < 768) {
     return 'mobile'
-  } else if (isTablet) {
-    return 'tablet'
-  } else if (isDesktop) {
-    return 'desktop'
   } else {
-    return screenWidth < 768 ? 'mobile' : screenWidth <= 1024 ? 'tablet' : 'desktop'
+    return 'desktop'
   }
 }
 
 const redirectToDevicePage = () => {
   const deviceType = detectDeviceType()
   
-  switch (deviceType) {
-    case 'mobile':
-      router.replace('/attendance-mobile')
-      break
-    case 'tablet':
-      router.replace('/attendance-tablet')
-      break
-    case 'desktop':
-      router.replace('/attendance-desktop')
-      break
-    default:
-      router.replace('/attendance-desktop')
+  if (deviceType === 'mobile') {
+    router.replace('/attendance-mobile')
+  } else {
+    router.replace('/attendance-desktop')
   }
 }
 
 onMounted(() => {
-  setTimeout(() => {
-    redirectToDevicePage()
-  }, 500)
+  redirectToDevicePage()
 })
 </script>
 

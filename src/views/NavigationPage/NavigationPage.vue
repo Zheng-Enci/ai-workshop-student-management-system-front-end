@@ -150,7 +150,10 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElButton, ElIcon } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
 import { Check, User, DataAnalysis, Setting, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -247,24 +250,10 @@ const loadStudentLevel = async () => {
   }
 }
 
-const handleLogout = async () => {
-  try {
-    await ElMessageBox.confirm(
-      '确定要退出登录吗？',
-      '确认退出',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-    )
-    
-    userStore.logout()
-    ElMessage.success('已退出登录')
-    router.push('/login')
-  } catch {
-    ElMessage.info('已取消退出')
-  }
+const handleLogout = () => {
+  userStore.logout()
+  ElMessage.success('已退出登录')
+  router.push('/login')
 }
 
 onMounted(() => {

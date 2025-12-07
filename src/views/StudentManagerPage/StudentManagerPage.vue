@@ -465,7 +465,11 @@
 
 <script setup>
 import { ref, onMounted, computed, nextTick, watch } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElInput } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-input.css'
 import { User, Calendar, Star, Refresh, Loading, ArrowLeft, Clock, InfoFilled, Check, Search, Sort, TrendCharts } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -473,7 +477,26 @@ import { useThemeStore } from '@/stores/theme'
 import { getManagedStudents } from '@/api/student'
 import { getStudentAttendanceCount, makeupAttendance, getStudentAttendanceRecords } from '@/api/attendance'
 import { getStudentLevel } from '@/api/student'
-import * as echarts from 'echarts'
+// ECharts 按需引入
+import * as echarts from 'echarts/core'
+import { LineChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+// 注册需要的组件
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  LineChart,
+  CanvasRenderer
+])
 
 const router = useRouter()
 const userStore = useUserStore()

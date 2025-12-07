@@ -103,8 +103,8 @@
           <p>如有问题或建议，请联系开发团队</p>
           <div class="qr-codes">
             <div class="qr-item">
-              <img src="@/assets/WangZhanRuKouErWeiMa.png" alt="网站入口" class="qr-image">
-              <p>网站入口</p>
+              <img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="qr-image">
+              <p>手机端签到入口</p>
             </div>
             <div class="qr-item">
               <img src="@/assets/ErWeiMa.png" alt="公众号" class="qr-image">
@@ -127,19 +127,6 @@
               </div>
             </div>
             <div class="doc-links-right">
-              <div class="doc-item-right">
-                <div class="doc-icon">
-                  <el-icon><Document /></el-icon>
-                </div>
-                <div class="doc-content">
-                  <h4>CSDN技术博客</h4>
-                  <p>分享技术文章和开发经验</p>
-                  <a href="https://blog.csdn.net/2301_79239314" target="_blank" class="doc-link">
-                    <el-icon><Link /></el-icon>
-                    访问博客
-                  </a>
-                </div>
-              </div>
               <div class="doc-item-right">
                 <div class="doc-icon">
                   <el-icon><Reading /></el-icon>
@@ -195,7 +182,7 @@
               </div>
               <div class="update-content">
                 <h4>多端适配系统</h4>
-                <p>完美支持手机、平板、电脑等各种设备，无论您使用什么设备都能获得最佳的使用体验</p>
+                <p>完美支持手机、电脑等各种设备，无论您使用什么设备都能获得最佳的使用体验</p>
               </div>
             </div>
             <div class="update-item">
@@ -312,7 +299,7 @@
               </div>
               <div class="update-content">
                 <h4>多端适配优化</h4>
-                <p>排行榜页面支持桌面版、平板版、移动版三种设备适配，确保每个设备都有最佳的使用体验和视觉效果</p>
+                <p>排行榜页面支持桌面版、移动版两种设备适配，确保每个设备都有最佳的使用体验和视觉效果</p>
               </div>
             </div>
           </div>
@@ -366,7 +353,7 @@
               </div>
               <div class="update-content">
                 <h4>自适应图表显示</h4>
-                <p>图表会根据屏幕大小自动调整，无论是手机、平板还是电脑，都能获得最佳的查看体验</p>
+                <p>图表会根据屏幕大小自动调整，无论是手机还是电脑，都能获得最佳的查看体验</p>
               </div>
             </div>
             <div class="update-item">
@@ -411,7 +398,7 @@
               </div>
               <div class="update-content">
                 <h4>多端适配页面</h4>
-                <p>为签到页面和个人资料页面新增了专门的移动端、平板端、电脑端页面，确保每个设备都有最佳的使用体验</p>
+                <p>为签到页面和个人资料页面新增了专门的移动端、电脑端页面，确保每个设备都有最佳的使用体验</p>
               </div>
             </div>
             <div class="update-item">
@@ -443,6 +430,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElButton, ElIcon, ElDialog } from 'element-plus'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-dialog.css'
 import { 
   User, Calendar, TrendCharts, Setting, ArrowRight, Document, Reading, Link,
   Star, FolderOpened, Monitor, MagicStick, Moon, View, Cpu, Lock, Key,
@@ -865,29 +856,61 @@ const handleClose = () => {
 }
 
 .documentation-section {
-  background: var(--glass-bg);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
   backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: 32px 28px;
-  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 40px 36px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.documentation-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.documentation-section:hover::before {
+  opacity: 1;
 }
 
 .documentation-section:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px var(--shadow-hover);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.documentation-section h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
 }
 
 .documentation-section p {
-  font-size: 14px;
-  color: var(--text-tertiary);
-  margin: 0 0 25px 0;
-  line-height: 1.6;
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0 0 32px 0;
+  line-height: 1.7;
+  font-weight: 500;
 }
 
 .documentation-layout {
   display: flex;
-  gap: 30px;
+  gap: 32px;
   align-items: flex-start;
 }
 
@@ -897,128 +920,221 @@ const handleClose = () => {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 30px;
-  background: var(--bg-primary);
-  border-radius: 20px;
-  border: 1px solid var(--glass-border);
-  transition: all 0.3s ease;
+  padding: 36px 32px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.developer-profile-large::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.developer-profile-large:hover::after {
+  opacity: 1;
 }
 
 .developer-profile-large:hover {
-  background: var(--bg-secondary);
-  border-color: var(--primary-color);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px var(--shadow-hover);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(102, 126, 234, 0.2);
 }
 
 .profile-avatar-large {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .avatar-image-large {
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
-  border: 4px solid var(--primary-color);
-  box-shadow: 0 8px 24px var(--shadow-color);
-  transition: all 0.3s ease;
+  border: 5px solid transparent;
+  background: linear-gradient(135deg, #667eea, #764ba2) padding-box,
+              linear-gradient(135deg, #667eea, #764ba2) border-box;
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.25),
+              0 0 0 8px rgba(102, 126, 234, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   object-fit: cover;
+  position: relative;
+  z-index: 1;
 }
 
 .avatar-image-large:hover {
-  transform: scale(1.05);
-  box-shadow: 0 12px 32px var(--shadow-hover);
+  transform: scale(1.08) rotate(2deg);
+  box-shadow: 0 16px 48px rgba(102, 126, 234, 0.35),
+              0 0 0 12px rgba(102, 126, 234, 0.15);
+}
+
+.profile-info-large {
+  position: relative;
+  z-index: 1;
 }
 
 .profile-info-large h4 {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0 0 12px 0;
-  color: var(--text-primary);
-  background: var(--primary-gradient);
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: -0.3px;
 }
 
 .profile-info-large p {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-secondary);
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.8;
+  font-weight: 500;
 }
 
 .doc-links-right {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .doc-item-right {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  padding: 24px;
-  background: var(--bg-primary);
-  border-radius: 16px;
-  border: 1px solid var(--glass-border);
-  transition: all 0.3s ease;
+  gap: 20px;
+  padding: 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.doc-item-right::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #667eea, #764ba2);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.doc-item-right:hover::before {
+  transform: scaleY(1);
 }
 
 .doc-item-right:hover {
-  background: var(--bg-secondary);
-  border-color: var(--primary-color);
-  transform: translateX(8px);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateX(12px) translateY(-2px);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.2);
 }
 
 .doc-icon {
-  width: 52px;
-  height: 52px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 14px;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 24px;
   color: white;
   flex-shrink: 0;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.doc-item-right:hover .doc-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
 }
 
 .doc-content {
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .doc-content h4 {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0 0 10px 0;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
   color: var(--text-primary);
+  letter-spacing: -0.2px;
 }
 
 .doc-content p {
   font-size: 14px;
   color: var(--text-secondary);
-  margin: 0 0 14px 0;
-  line-height: 1.5;
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+  font-weight: 500;
 }
 
 .doc-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--primary-color);
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(102, 126, 234, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.doc-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.doc-link:hover::before {
+  left: 100%;
 }
 
 .doc-link:hover {
-  color: var(--primary-color);
+  color: white;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.doc-link .el-icon {
+  transition: transform 0.3s ease;
 }
 
 .doc-link .el-icon {
@@ -1246,6 +1362,98 @@ const handleClose = () => {
   .footer-content p:last-child {
     font-size: 16px;
   }
+}
+
+html.dark .documentation-section {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+html.dark .documentation-section h3 {
+  background: linear-gradient(135deg, #8b9eff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html.dark .documentation-section p {
+  color: var(--text-secondary);
+}
+
+html.dark .developer-profile-large {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.8) 100%);
+  border-color: rgba(102, 126, 234, 0.25);
+}
+
+html.dark .developer-profile-large:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+  border-color: rgba(102, 126, 234, 0.4);
+}
+
+html.dark .avatar-image-large {
+  border: 5px solid transparent;
+  background: linear-gradient(135deg, #8b9eff, #a78bfa) padding-box,
+              linear-gradient(135deg, #8b9eff, #a78bfa) border-box;
+  box-shadow: 0 12px 32px rgba(139, 158, 255, 0.3),
+              0 0 0 8px rgba(139, 158, 255, 0.15);
+}
+
+html.dark .avatar-image-large:hover {
+  box-shadow: 0 16px 48px rgba(139, 158, 255, 0.4),
+              0 0 0 12px rgba(139, 158, 255, 0.2);
+}
+
+html.dark .profile-info-large h4 {
+  background: linear-gradient(135deg, #8b9eff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html.dark .profile-info-large p {
+  color: var(--text-secondary);
+}
+
+html.dark .doc-item-right {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.8) 100%);
+  border-color: rgba(102, 126, 234, 0.25);
+}
+
+html.dark .doc-item-right:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+  border-color: rgba(102, 126, 234, 0.4);
+}
+
+html.dark .doc-item-right::before {
+  background: linear-gradient(180deg, #8b9eff, #a78bfa);
+}
+
+html.dark .doc-icon {
+  background: linear-gradient(135deg, #8b9eff 0%, #a78bfa 100%);
+  box-shadow: 0 6px 20px rgba(139, 158, 255, 0.35);
+}
+
+html.dark .doc-item-right:hover .doc-icon {
+  box-shadow: 0 8px 24px rgba(139, 158, 255, 0.45);
+}
+
+html.dark .doc-content h4 {
+  color: var(--text-primary);
+}
+
+html.dark .doc-content p {
+  color: var(--text-secondary);
+}
+
+html.dark .doc-link {
+  color: #8b9eff;
+  background: rgba(139, 158, 255, 0.12);
+}
+
+html.dark .doc-link:hover {
+  color: white;
+  background: linear-gradient(135deg, #8b9eff, #a78bfa);
+  box-shadow: 0 4px 12px rgba(139, 158, 255, 0.35);
 }
 
 @media (min-width: 1024px) {

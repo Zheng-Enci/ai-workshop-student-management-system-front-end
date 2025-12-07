@@ -1,6 +1,13 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElCheckbox, ElIcon } from "element-plus";
+import 'element-plus/theme-chalk/el-form.css'
+import 'element-plus/theme-chalk/el-form-item.css'
+import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-checkbox.css'
+import 'element-plus/theme-chalk/el-icon.css'
 import { User, Lock, House } from "@element-plus/icons-vue";
 import { useRouter } from 'vue-router';
 import { login } from '@/api/student';
@@ -96,7 +103,7 @@ onMounted(() => {
         </div>
         
         <ElForm :model="form" :rules="rules" label-width="0px" class="login-form">
-          <ElFormItem prop="studentId">
+          <ElFormItem prop="studentId" class="form-item">
             <div class="input-group">
               <div class="input-icon">
                 <ElIcon><User /></ElIcon>
@@ -110,7 +117,7 @@ onMounted(() => {
             </div>
           </ElFormItem>
           
-          <ElFormItem prop="password">
+          <ElFormItem prop="password" class="form-item">
             <div class="input-group">
               <div class="input-icon">
                 <ElIcon><Lock /></ElIcon>
@@ -293,8 +300,17 @@ onMounted(() => {
   margin-bottom: 24px;
 }
 
+.form-item {
+  margin-bottom: 0;
+}
+
+.form-item :deep(.el-form-item__content) {
+  width: 100%;
+}
+
 .input-group {
   position: relative;
+  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -312,7 +328,12 @@ onMounted(() => {
   width: 100%;
 }
 
+.custom-input :deep(.el-input) {
+  width: 100%;
+}
+
 .custom-input :deep(.el-input__wrapper) {
+  width: 100%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;

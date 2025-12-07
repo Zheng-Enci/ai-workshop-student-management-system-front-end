@@ -151,9 +151,33 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElSegmented } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-segmented.css'
 import { ArrowLeft, User, Clock, TrendCharts, Trophy, PieChart } from '@element-plus/icons-vue'
-import * as echarts from 'echarts'
+// ECharts 按需引入
+import * as echarts from 'echarts/core'
+import { PieChart as EChartsPieChart, LineChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+
+// 注册需要的组件
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  EChartsPieChart,
+  LineChart,
+  CanvasRenderer
+])
 import { useThemeStore } from '@/stores/theme'
 import { getTodayAttendanceRecords, getTopStudentsByTimeRange } from '@/api/attendance'
 

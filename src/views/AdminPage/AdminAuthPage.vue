@@ -59,7 +59,11 @@
 
 <script setup>
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElInput } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-input.css'
 import { Lock, Key, Warning } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { getAllStudentsWithSpecialPassword } from '@/api/student'

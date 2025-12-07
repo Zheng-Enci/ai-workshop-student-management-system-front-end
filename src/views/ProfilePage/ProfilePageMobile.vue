@@ -49,10 +49,18 @@
           </div>
         </div>
 
-        <div class="form-section">
+        <div class="form-section" v-if="!showPasswordSection">
           <div class="section-header">
+            <div class="section-title-wrapper">
+              <div>
             <h3>基本信息</h3>
             <p>管理您的个人资料信息</p>
+              </div>
+            </div>
+            <div class="security-badge">
+              <el-icon class="badge-icon"><Lock /></el-icon>
+              <span>安全保护</span>
+            </div>
           </div>
           
           <el-form 
@@ -64,6 +72,7 @@
             <div class="form-grid">
               <div class="form-item">
                 <label class="form-label">姓名</label>
+                <el-form-item prop="name">
                 <el-input 
                   v-model="formData.name" 
                   :disabled="!isEditing"
@@ -71,10 +80,12 @@
                   maxlength="20"
                   class="form-input"
                 />
+                </el-form-item>
               </div>
               
               <div class="form-item">
                 <label class="form-label">学号</label>
+                <el-form-item prop="studentId">
                 <el-input 
                   v-model="formData.studentId" 
                   :disabled="!isEditing"
@@ -82,10 +93,12 @@
                   maxlength="10"
                   class="form-input"
                 />
+                </el-form-item>
               </div>
               
               <div class="form-item">
                 <label class="form-label">性别</label>
+                <el-form-item prop="gender">
                 <el-select 
                   v-model="formData.gender" 
                   :disabled="!isEditing"
@@ -95,10 +108,12 @@
                   <el-option label="男" value="男" />
                   <el-option label="女" value="女" />
                 </el-select>
+                </el-form-item>
               </div>
               
               <div class="form-item">
                 <label class="form-label">手机号</label>
+                <el-form-item prop="phoneNumber">
                 <el-input 
                   v-model="formData.phoneNumber" 
                   :disabled="!isEditing"
@@ -106,10 +121,12 @@
                   maxlength="11"
                   class="form-input"
                 />
+                </el-form-item>
               </div>
               
               <div class="form-item">
                 <label class="form-label">学院</label>
+                <el-form-item prop="college">
                 <el-input 
                   v-model="formData.college" 
                   :disabled="!isEditing"
@@ -117,10 +134,12 @@
                   maxlength="50"
                   class="form-input"
                 />
+                </el-form-item>
               </div>
               
               <div class="form-item">
                 <label class="form-label">专业</label>
+                <el-form-item prop="major">
                 <el-input 
                   v-model="formData.major" 
                   :disabled="!isEditing"
@@ -128,10 +147,12 @@
                   maxlength="50"
                   class="form-input"
                 />
+                </el-form-item>
               </div>
               
               <div class="form-item">
                 <label class="form-label">年级</label>
+                <el-form-item prop="grade">
                 <el-select 
                   v-model="formData.grade" 
                   :disabled="!isEditing"
@@ -144,10 +165,12 @@
                   <el-option label="4年级" :value="4" />
                   <el-option label="5年级" :value="5" />
                 </el-select>
+                </el-form-item>
               </div>
               
               <div class="form-item">
                 <label class="form-label">班级</label>
+                <el-form-item prop="classNum">
                 <el-input-number 
                   v-model="formData.classNum" 
                   :disabled="!isEditing"
@@ -156,14 +179,30 @@
                   placeholder="请输入班级"
                   class="form-input"
                 />
+                </el-form-item>
+              </div>
+              
+              <div class="form-item">
+                <label class="form-label">当前密码</label>
+                <el-form-item prop="password">
+                  <el-input 
+                    v-model="formData.password" 
+                    type="password"
+                    :disabled="!isEditing"
+                    placeholder="请输入当前密码以确认身份"
+                    maxlength="16"
+                    show-password
+                    class="form-input"
+                  />
+                </el-form-item>
               </div>
             </div>
 
             <div v-if="isEditing" class="form-actions">
-              <el-button @click="resetForm" :disabled="isLoading" class="reset-btn">
+              <el-button @click.prevent="resetForm" :disabled="isLoading" class="reset-btn">
                 重置
               </el-button>
-              <el-button type="primary" @click="showPasswordConfirmDialog" :loading="isLoading" class="save-btn">
+              <el-button type="primary" @click="saveProfile" :loading="isLoading" :disabled="isLoading" class="save-btn">
                 保存修改
               </el-button>
             </div>
@@ -185,39 +224,38 @@
                 <p>定期修改密码有助于保护账户安全</p>
               </div>
             </div>
-            <el-button type="primary" :icon="Lock" @click="showPasswordDialog" class="security-btn">
-              修改密码
+            <el-button type="primary" :icon="Lock" @click="togglePasswordSection" class="security-btn">
+              {{ showPasswordSection ? '返回基本信息' : '修改密码' }}
             </el-button>
-          </div>
-        </div>
       </div>
     </div>
 
-    <el-dialog
-      v-model="passwordDialogVisible"
-      width="90%"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :show-close="false"
-      center
-      class="password-dialog"
-    >
-      <div class="password-content">
-        <div class="password-header">
-          <div class="password-icon">
-            <el-icon><Lock /></el-icon>
-          </div>
+        <div class="password-section" v-if="showPasswordSection">
+          <div class="section-header security-header">
+            <div class="section-title-wrapper">
+              <el-icon class="section-icon security-icon-large"><Lock /></el-icon>
+              <div>
           <h3>修改密码</h3>
           <p>为了账户安全，请设置新密码</p>
+              </div>
+            </div>
+            <div class="security-tip">
+              <el-icon class="tip-icon"><Lock /></el-icon>
+              <span>您的密码将被加密存储</span>
+            </div>
         </div>
         
         <el-form
           ref="passwordFormRef"
           :model="passwordForm"
           :rules="passwordRules"
-          class="password-form"
+            class="profile-form"
         >
-          <div class="form-group">
+            <div class="form-item">
+              <label class="form-label">
+                <el-icon class="label-icon"><Lock /></el-icon>
+                原密码
+              </label>
             <el-form-item prop="oldPassword">
               <el-input
                 v-model="passwordForm.oldPassword"
@@ -225,25 +263,37 @@
                 placeholder="请输入原密码"
                 maxlength="16"
                 show-password
-                class="password-input"
+                  class="form-input security-input"
               />
             </el-form-item>
           </div>
           
-          <div class="form-group">
+            <div class="form-item">
+              <label class="form-label">
+                <el-icon class="label-icon"><Lock /></el-icon>
+                新密码
+              </label>
             <el-form-item prop="newPassword">
               <el-input
                 v-model="passwordForm.newPassword"
                 type="password"
-                placeholder="请输入新密码"
+                  placeholder="请输入新密码（6-16位字符）"
                 maxlength="16"
                 show-password
-                class="password-input"
+                  class="form-input security-input"
               />
             </el-form-item>
+              <div class="security-hint">
+                <el-icon class="hint-icon"><Lock /></el-icon>
+                <span>建议使用字母、数字和特殊字符组合</span>
+              </div>
           </div>
           
-          <div class="form-group">
+            <div class="form-item">
+              <label class="form-label">
+                <el-icon class="label-icon"><Lock /></el-icon>
+                确认新密码
+              </label>
             <el-form-item prop="confirmPassword">
               <el-input
                 v-model="passwordForm.confirmPassword"
@@ -251,86 +301,45 @@
                 placeholder="请再次输入新密码"
                 maxlength="16"
                 show-password
-                class="password-input"
+                  class="form-input security-input"
               />
             </el-form-item>
           </div>
-        </el-form>
         
-        <div class="password-actions">
-          <el-button @click="cancelPasswordChange" :disabled="isPasswordLoading" class="cancel-btn">
+            <div class="form-actions">
+              <el-button @click="cancelPasswordChange" :disabled="isPasswordLoading" class="reset-btn">
             取消
           </el-button>
           <el-button 
             type="primary" 
             @click="confirmPasswordChange" 
             :loading="isPasswordLoading"
-            class="confirm-btn"
+                class="save-btn"
           >
             确认修改
           </el-button>
         </div>
+          </el-form>
       </div>
-    </el-dialog>
-
-    <el-dialog
-      v-model="passwordConfirmDialogVisible"
-      width="90%"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :show-close="false"
-      center
-      class="confirm-dialog"
-    >
-      <div class="confirm-content">
-        <div class="confirm-header">
-          <div class="confirm-icon">
-            <el-icon><Lock /></el-icon>
           </div>
-          <h3>身份验证</h3>
-          <p>请输入密码以确认身份</p>
         </div>
         
-        <el-form
-          ref="passwordConfirmFormRef"
-          :model="passwordConfirmForm"
-          :rules="passwordConfirmRules"
-          class="confirm-form"
-        >
-          <el-form-item prop="password">
-            <el-input
-              v-model="passwordConfirmForm.password"
-              type="password"
-              placeholder="请输入当前密码"
-              maxlength="16"
-              show-password
-              class="password-input"
-            />
-          </el-form-item>
-        </el-form>
-        
-        <div class="confirm-actions">
-          <el-button @click="cancelPasswordConfirm" :disabled="isPasswordConfirmLoading" class="cancel-btn">
-            取消
-          </el-button>
-          <el-button 
-            type="primary" 
-            @click="confirmPasswordAndSave" 
-            :loading="isPasswordConfirmLoading"
-            class="confirm-btn"
-          >
-            确认
-          </el-button>
-        </div>
-      </div>
-    </el-dialog>
 
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElInputNumber } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-form.css'
+import 'element-plus/theme-chalk/el-form-item.css'
+import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-select.css'
+import 'element-plus/theme-chalk/el-option.css'
+import 'element-plus/theme-chalk/el-input-number.css'
 import { ArrowLeft, User, Edit, Lock, Calendar } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { getStudentProfile, updateStudentInfo, changePassword } from '@/api/student'
@@ -341,13 +350,10 @@ const router = useRouter()
 const themeStore = useThemeStore()
 const formRef = ref()
 const passwordFormRef = ref()
-const passwordConfirmFormRef = ref()
 const isLoading = ref(false)
 const isEditing = ref(false)
-const passwordDialogVisible = ref(false)
+const showPasswordSection = ref(false)
 const isPasswordLoading = ref(false)
-const passwordConfirmDialogVisible = ref(false)
-const isPasswordConfirmLoading = ref(false)
 const attendanceCount = ref(null)
 
 const formData = reactive({
@@ -358,7 +364,8 @@ const formData = reactive({
   college: '',
   major: '',
   grade: null,
-  classNum: null
+  classNum: null,
+  password: ''
 })
 
 const passwordForm = reactive({
@@ -367,9 +374,6 @@ const passwordForm = reactive({
   confirmPassword: ''
 })
 
-const passwordConfirmForm = reactive({
-  password: ''
-})
 
 const rules = {
   name: [
@@ -427,12 +431,6 @@ const passwordRules = {
   ]
 }
 
-const passwordConfirmRules = {
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 16, message: '密码长度在6到16个字符', trigger: 'blur' }
-  ]
-}
 
 const originalData = ref({})
 
@@ -483,18 +481,9 @@ const loadProfile = async () => {
 
 const toggleEditMode = () => {
   if (isEditing.value) {
-    ElMessageBox.confirm(
-      '确定要取消编辑吗？未保存的修改将丢失。',
-      '确认取消',
-      {
-        confirmButtonText: '确定',
-        cancelButtonText: '继续编辑',
-        type: 'warning'
-      }
-    ).then(() => {
-      resetForm()
-      isEditing.value = false
-    }).catch(() => {})
+    resetForm()
+    isEditing.value = false
+    ElMessage.success('已取消编辑')
   } else {
     isEditing.value = true
   }
@@ -502,14 +491,17 @@ const toggleEditMode = () => {
 
 const resetForm = () => {
   Object.assign(formData, originalData.value)
+  formData.password = ''
   if (formRef.value) {
     formRef.value.clearValidate()
   }
 }
 
-const showPasswordDialog = () => {
-  passwordDialogVisible.value = true
+const togglePasswordSection = () => {
+  showPasswordSection.value = !showPasswordSection.value
+  if (showPasswordSection.value) {
   resetPasswordForm()
+  }
 }
 
 const resetPasswordForm = () => {
@@ -522,7 +514,7 @@ const resetPasswordForm = () => {
 }
 
 const cancelPasswordChange = () => {
-  passwordDialogVisible.value = false
+  showPasswordSection.value = false
   resetPasswordForm()
 }
 
@@ -552,7 +544,7 @@ const confirmPasswordChange = async () => {
     
     if (response.code === 200) {
       ElMessage.success('密码修改成功')
-      passwordDialogVisible.value = false
+      showPasswordSection.value = false
       resetPasswordForm()
     } else {
       ElMessage.error(response.message || '修改密码失败')
@@ -569,33 +561,25 @@ const confirmPasswordChange = async () => {
   }
 }
 
-const showPasswordConfirmDialog = () => {
-  passwordConfirmDialogVisible.value = true
-  resetPasswordConfirmForm()
-}
-
-const resetPasswordConfirmForm = () => {
-  passwordConfirmForm.password = ''
-  if (passwordConfirmFormRef.value) {
-    passwordConfirmFormRef.value.clearValidate()
-  }
-}
-
-const cancelPasswordConfirm = () => {
-  passwordConfirmDialogVisible.value = false
-  resetPasswordConfirmForm()
-}
-
-const confirmPasswordAndSave = async () => {
-  if (!passwordConfirmFormRef.value) return
-  
-  try {
-    await passwordConfirmFormRef.value.validate()
-  } catch (error) {
+const saveProfile = async () => {
+  if (isLoading.value) {
+    ElMessage.warning('系统正在加载中，请稍后重试')
     return
   }
-
-  isPasswordConfirmLoading.value = true
+  
+  if (!formRef.value) {
+    ElMessage.warning('表单未初始化，请稍后重试')
+    return
+  }
+  
+  try {
+    await formRef.value.validate()
+  } catch (error) {
+    ElMessage.warning('请先完善表单信息')
+    return
+  }
+  
+  isLoading.value = true
   try {
     const token = localStorage.getItem('token')
     if (!token) {
@@ -604,21 +588,18 @@ const confirmPasswordAndSave = async () => {
       return
     }
 
-    const updateData = { 
-      ...formData,
-      password: passwordConfirmForm.password
-    }
+    const updateData = { ...formData }
 
     const response = await updateStudentInfo(token, updateData)
+    
     if (response.code === 200) {
       ElMessage.success('个人信息更新成功')
       if (response.data && response.data.token) {
         localStorage.setItem('token', response.data.token)
       }
       originalData.value = { ...formData }
+      formData.password = ''
       isEditing.value = false
-      passwordConfirmDialogVisible.value = false
-      resetPasswordConfirmForm()
     } else {
       ElMessage.error(response.message || '更新个人信息失败')
     }
@@ -630,7 +611,7 @@ const confirmPasswordAndSave = async () => {
       router.push('/login')
     }
   } finally {
-    isPasswordConfirmLoading.value = false
+    isLoading.value = false
   }
 }
 
@@ -865,6 +846,51 @@ onMounted(() => {
 
 .section-header {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-gradient);
+  opacity: 0.6;
+}
+
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-icon {
+  font-size: 20px;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.security-icon-large {
+  font-size: 24px;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.15);
+  padding: 8px;
+  border-radius: 8px;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
 }
 
 .section-header h3 {
@@ -878,6 +904,85 @@ onMounted(() => {
   font-size: 12px;
   color: #64748b;
   margin: 0;
+}
+
+.security-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #667eea;
+  align-self: flex-start;
+}
+
+.security-badge .badge-icon {
+  font-size: 14px;
+}
+
+.security-header {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.security-tip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 6px;
+  font-size: 12px;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.security-tip .tip-icon {
+  font-size: 14px;
+}
+
+.label-icon {
+  font-size: 13px;
+  color: #667eea;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.security-input {
+  border: 2px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+}
+
+.security-input:hover {
+  border-color: rgba(102, 126, 234, 0.4);
+}
+
+.security-input:focus-within {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.security-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: rgba(102, 126, 234, 0.05);
+  border-left: 2px solid #667eea;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.security-hint .hint-icon {
+  font-size: 12px;
+  color: #667eea;
 }
 
 .form-grid {
@@ -987,95 +1092,7 @@ onMounted(() => {
   width: 100%;
 }
 
-.confirm-dialog {
-  border-radius: 12px;
-  overflow: hidden;
-}
 
-.confirm-content {
-  padding: 0;
-}
-
-.confirm-header {
-  text-align: center;
-  padding: 20px 20px 16px;
-  background: #3b82f6;
-  color: white;
-}
-
-.confirm-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 12px;
-  font-size: 18px;
-}
-
-.confirm-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 6px 0;
-  color: white;
-}
-
-.confirm-header p {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0;
-}
-
-.confirm-form {
-  padding: 20px;
-}
-
-.password-input {
-  width: 100%;
-}
-
-.confirm-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 0 20px 20px;
-}
-
-.cancel-btn {
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  border: 1px solid #d1d5db;
-  color: #374151;
-  height: 44px;
-  background: white;
-}
-
-html.dark .cancel-btn {
-  background: #334155;
-  border: 1px solid #475569;
-  color: #e2e8f0;
-}
-
-.confirm-btn {
-  background: #3b82f6;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  height: 44px;
-  color: white;
-}
-
-:deep(.confirm-dialog .el-dialog__body) {
-  padding: 0;
-}
-
-:deep(.confirm-dialog .el-dialog__header) {
-  display: none;
-}
 
 .password-dialog {
   border-radius: 12px;
@@ -1581,6 +1598,76 @@ html.dark .student-id {
 
 html.dark .section-title h3 {
   color: #e2e8f0;
+}
+
+html.dark .section-header {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+html.dark .section-icon {
+  color: #818cf8;
+  background: rgba(129, 140, 248, 0.15);
+  border-color: rgba(129, 140, 248, 0.3);
+}
+
+html.dark .security-icon-large {
+  color: #818cf8;
+  background: rgba(129, 140, 248, 0.2);
+  border-color: rgba(129, 140, 248, 0.4);
+  box-shadow: 0 2px 6px rgba(129, 140, 248, 0.3);
+}
+
+html.dark .section-header h3 {
+  color: #e2e8f0;
+}
+
+html.dark .section-header p {
+  color: #cbd5e1;
+}
+
+html.dark .security-badge {
+  background: rgba(129, 140, 248, 0.15);
+  border-color: rgba(129, 140, 248, 0.4);
+  color: #818cf8;
+}
+
+html.dark .security-header {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.18) 0%, rgba(167, 139, 250, 0.18) 100%);
+  border-color: rgba(129, 140, 248, 0.4);
+}
+
+html.dark .security-tip {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.4);
+  color: #34d399;
+}
+
+html.dark .label-icon {
+  color: #818cf8;
+}
+
+html.dark .security-input {
+  border-color: rgba(129, 140, 248, 0.3);
+}
+
+html.dark .security-input:hover {
+  border-color: rgba(129, 140, 248, 0.5);
+}
+
+html.dark .security-input:focus-within {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.2);
+}
+
+html.dark .security-hint {
+  background: rgba(129, 140, 248, 0.1);
+  border-left-color: #818cf8;
+  color: #cbd5e1;
+}
+
+html.dark .security-hint .hint-icon {
+  color: #818cf8;
 }
 
 html.dark .form-label {

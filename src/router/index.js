@@ -42,12 +42,6 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: '/attendance-tablet',
-        name: 'AttendanceTablet',
-        component: () => import('../views/AttendancePage/AttendancePageTablet.vue'),
-        meta: { requiresAuth: true }
-    },
-    {
         path: '/dashboard',
         name: 'Dashboard',
         component: () => import('../views/DashboardPage/DashboardPage.vue'),
@@ -69,12 +63,6 @@ const routes = [
         path: '/profile/desktop',
         name: 'ProfileDesktop',
         component: () => import('../views/ProfilePage/ProfilePageDesktop.vue'),
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/profile/tablet',
-        name: 'ProfileTablet',
-        component: () => import('../views/ProfilePage/ProfilePageTablet.vue'),
         meta: { requiresAuth: true }
     },
     {
