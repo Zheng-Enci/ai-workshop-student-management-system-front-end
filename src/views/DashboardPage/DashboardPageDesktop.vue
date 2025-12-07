@@ -508,7 +508,7 @@ const loadVerificationCode = async () => {
     const response = await getVerificationCode()
     if (response.code === 200 && response.data) {
       if (verificationCode.value !== response.data) {
-        verificationCode.value = response.data
+      verificationCode.value = response.data
         verificationCodeStatus.value = 'success'
       }
       verificationCodeHasSuccess.value = true
@@ -530,7 +530,7 @@ const loadVerificationCode = async () => {
     if (!verificationCodeHasSuccess.value) {
       verificationCodeRetryCount.value++
       if (verificationCodeRetryCount.value >= MAX_RETRY_COUNT) {
-        verificationCode.value = ''
+    verificationCode.value = ''
         verificationCodeStatus.value = 'error'
         if (verificationCodeInterval.value) {
           clearInterval(verificationCodeInterval.value)

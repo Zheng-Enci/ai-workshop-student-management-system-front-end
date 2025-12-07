@@ -164,97 +164,34 @@
         <div class="update-section">
           <h3 class="section-title">
             <el-icon><Star /></el-icon>
-            核心架构升级
+            性能优化升级
           </h3>
           <div class="update-items">
             <div class="update-item">
               <div class="update-icon primary">
-                <el-icon><FolderOpened /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>系统架构优化</h4>
-                <p>重新优化了系统内部结构，让各个功能模块更加清晰，提升了系统的稳定性和运行效率</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon secondary">
-                <el-icon><Monitor /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>多端适配系统</h4>
-                <p>完美支持手机、电脑等各种设备，无论您使用什么设备都能获得最佳的使用体验</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon tertiary">
-                <el-icon><Setting /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>状态管理升级</h4>
-                <p>优化了系统内部的数据管理机制，让系统运行更加流畅，响应速度更快</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="update-section">
-          <h3 class="section-title">
-            <el-icon><MagicStick /></el-icon>
-            用户体验升级
-          </h3>
-          <div class="update-items">
-            <div class="update-item">
-              <div class="update-icon quaternary">
-                <el-icon><Moon /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>智能主题系统</h4>
-                <p>新增智能主题切换功能，系统会根据时间自动切换白天和夜间模式，保护您的眼睛，同时记住您的个人偏好</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon primary">
-                <el-icon><View /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>全新首页</h4>
-                <p>新增了独立的首页，采用现代化的玻璃质感设计，让您一眼就能了解系统的主要功能和特色</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon secondary">
                 <el-icon><Cpu /></el-icon>
               </div>
               <div class="update-content">
-                <h4>主题样式系统</h4>
-                <p>新增了完整的主题样式系统，支持白天夜间模式无缝切换，所有页面都有一致的视觉效果</p>
+                <h4>按需导入优化</h4>
+                <p>将部分库从全量导入改为按需导入，大幅减少初始加载体积，显著提升网站加载速度，让您更快地访问系统</p>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="update-section">
-          <h3 class="section-title">
-            <el-icon><Lock /></el-icon>
-            路由系统改进
-          </h3>
-          <div class="update-items">
+            <div class="update-item">
+              <div class="update-icon secondary">
+                <el-icon><Setting /></el-icon>
+              </div>
+              <div class="update-content">
+                <h4>组件优化</h4>
+                <p>优化了多个组件的实现方式，提升了组件的渲染效率和交互响应速度，让系统运行更加流畅</p>
+              </div>
+            </div>
             <div class="update-item">
               <div class="update-icon tertiary">
-                <el-icon><Key /></el-icon>
+                <el-icon><Tools /></el-icon>
               </div>
               <div class="update-content">
-                <h4>管理员路由重构</h4>
-                <p>重新设计了管理员功能页面，增加了更严格的安全验证流程，确保系统数据的安全性和隐私保护</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon quaternary">
-                <el-icon><Monitor /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>多端路由支持</h4>
-                <p>优化了页面跳转逻辑，增强了用户身份验证，让您在系统内的导航更加安全和便捷</p>
+                <h4>Bug修复</h4>
+                <p>修复了本次更新过程中出现的相关bug，确保系统稳定运行，提升用户体验</p>
               </div>
             </div>
           </div>
@@ -263,43 +200,25 @@
         <div class="update-section">
           <h3 class="section-title">
             <el-icon><TrendCharts /></el-icon>
-            数据看板升级
+            数据看板优化
           </h3>
           <div class="update-items">
             <div class="update-item">
-              <div class="update-icon primary">
-                <el-icon><TrendCharts /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>多时间段排行榜</h4>
-                <p>新增9种时间段选择：今日、本周、本月、本季度、本学期、本年度、最近7天、最近30天、自定义时间范围，让您灵活查看不同时期的签到排行</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon secondary">
-                <el-icon><Setting /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>个性化排行设置</h4>
-                <p>支持自定义显示前N名（1-100名可调），系统会记住您的选择偏好，下次访问时自动恢复设置，让数据查看更加个性化</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon tertiary">
-                <el-icon><DataAnalysis /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>智能统计指标</h4>
-                <p>优化统计指标，将"本月签到总人数"改为"本月工作日日均签到人数"，排除节假日和周末，更准确地反映签到活跃度</p>
-              </div>
-            </div>
-            <div class="update-item">
               <div class="update-icon quaternary">
-                <el-icon><Monitor /></el-icon>
+                <el-icon><Picture /></el-icon>
               </div>
               <div class="update-content">
-                <h4>多端适配优化</h4>
-                <p>排行榜页面支持桌面版、移动版两种设备适配，确保每个设备都有最佳的使用体验和视觉效果</p>
+                <h4>二维码更新</h4>
+                <p>将数据看板页面的首页入口二维码改为手机端签到页入口二维码，方便用户快速访问签到功能</p>
+              </div>
+            </div>
+            <div class="update-item">
+              <div class="update-icon primary">
+                <el-icon><Loading /></el-icon>
+              </div>
+              <div class="update-content">
+                <h4>验证码刷新优化</h4>
+                <p>优化了验证码的刷新机制，实现智能重试和状态管理，提升验证码获取的稳定性和用户体验</p>
               </div>
             </div>
           </div>
@@ -308,106 +227,25 @@
         <div class="update-section">
           <h3 class="section-title">
             <el-icon><PieChart /></el-icon>
-            热力图与趋势图升级
+            签到分析优化
           </h3>
           <div class="update-items">
             <div class="update-item">
-              <div class="update-icon primary">
-                <el-icon><PieChart /></el-icon>
+              <div class="update-icon secondary">
+                <el-icon><Lightning /></el-icon>
               </div>
               <div class="update-content">
-                <h4>考勤热力图升级</h4>
-                <p>全新的考勤分析页面，新增热力图功能，通过颜色深浅直观显示不同时段的签到活跃度，让您一眼就能看出签到高峰时段和规律</p>
+                <h4>全量同步加载</h4>
+                <p>将签到分析页面的签到趋势数据加载方式从串行改为全量同步加载，大幅提升数据加载速度，让您更快地查看分析结果</p>
               </div>
             </div>
             <div class="update-item">
-              <div class="update-icon secondary">
+              <div class="update-icon tertiary">
                 <el-icon><Clock /></el-icon>
               </div>
               <div class="update-content">
-                <h4>智能时间线图表</h4>
-                <p>新增时间线图表功能，支持今日、本周、本月、昨月、本年度、全部和自定义时间范围选择，结合散点图和趋势线双重展示，让您灵活分析不同时期的签到规律</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon tertiary">
-                <el-icon><Histogram /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>考勤热力图功能</h4>
-                <p>新增考勤热力图展示，通过颜色深浅直观显示不同时段的签到活跃度，让您一眼就能看出签到高峰时段和规律</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon tertiary">
-                <el-icon><Moon /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>图表主题适配</h4>
-                <p>所有图表完美支持暗色/亮色主题切换，图表颜色、文字、背景都会根据当前主题自动适配，确保在任何模式下都有最佳的视觉效果</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon quaternary">
-                <el-icon><Grid /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>自适应图表显示</h4>
-                <p>图表会根据屏幕大小自动调整，无论是手机还是电脑，都能获得最佳的查看体验</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon primary">
-                <el-icon><DataBoard /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>AI坊文明公约</h4>
-                <p>新增AI坊文明公约展示模块，详细说明环境保障机制和使用规范，让所有用户了解并遵守坊内管理规则</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon secondary">
-                <el-icon><Picture /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>二维码切换功能</h4>
-                <p>新增网站入口和公众号二维码切换功能，用户可以方便地在两种二维码之间切换，提升用户体验</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="update-section">
-          <h3 class="section-title">
-            <el-icon><Document /></el-icon>
-            新增页面
-          </h3>
-          <div class="update-items">
-            <div class="update-item">
-              <div class="update-icon primary">
-                <el-icon><View /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>独立首页</h4>
-                <p>新增了独立的首页，作为系统的入口页面，展示系统介绍和功能特色，让新用户更好地了解系统</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon secondary">
-                <el-icon><Monitor /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>多端适配页面</h4>
-                <p>为签到页面和个人资料页面新增了专门的移动端、电脑端页面，确保每个设备都有最佳的使用体验</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon tertiary">
-                <el-icon><Lock /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>管理员认证页面</h4>
-                <p>新增了管理员认证页面和控制台页面，分离了认证和管理功能，让管理员操作更加安全便捷</p>
+                <h4>时间段选择优化</h4>
+                <p>优化了时间段选择功能，新增常用时间段选项，使用按钮组替代下拉框，提升操作便捷性</p>
               </div>
             </div>
           </div>
@@ -419,7 +257,7 @@
               <el-icon><Trophy /></el-icon>
               更新总结
             </h3>
-            <p>本次更新带来了全新的使用体验，让系统更加智能、美观、易用。我们专注于提升您的使用感受，让每一次操作都更加流畅和愉悦。</p>
+            <p>本次更新主要聚焦于性能优化和用户体验提升，通过按需导入、全量同步加载等技术手段，显著提升了系统加载速度和运行效率。同时优化了多个组件的实现方式，修复了相关bug，让系统更加稳定可靠。</p>
           </div>
         </div>
       </div>
@@ -436,8 +274,8 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import { 
   User, Calendar, TrendCharts, Setting, ArrowRight, Document, Reading, Link,
-  Star, FolderOpened, Monitor, MagicStick, Moon, View, Cpu, Lock, Key,
-  Trophy, DataAnalysis, PieChart, Clock, Grid, DataBoard, Picture, Histogram
+  Star, Cpu, Trophy, PieChart, Clock, Picture,
+  Tools, Loading, Lightning
 } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
 
