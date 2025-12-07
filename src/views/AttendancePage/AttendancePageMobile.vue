@@ -981,3 +981,31 @@ h1 {
 }
 
 </style>
+
+<style>
+.verification-code-dialog-mobile.el-dialog {
+  background-color: #ffffff !important;
+}
+
+.verification-code-dialog-mobile.el-dialog .el-dialog__header {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.verification-code-dialog-mobile.el-dialog .el-dialog__body {
+  background-color: #ffffff !important;
+}
+
+html.dark .verification-code-dialog-mobile.el-dialog {
+  background-color: #0f172a !important;
+}
+
+html.dark .verification-code-dialog-mobile.el-dialog .el-dialog__header {
+  background-color: #0f172a !important;
+  border-bottom: 1px solid #334155 !important;
+}
+
+html.dark .verification-code-dialog-mobile.el-dialog .el-dialog__body {
+  background-color: #0f172a !important;
+}
+</style>

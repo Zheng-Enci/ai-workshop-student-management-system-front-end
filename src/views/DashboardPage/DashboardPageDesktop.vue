@@ -1064,7 +1064,7 @@ onUnmounted(() => {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 40px;
-  padding: 40px 240px 40px 40px;
+  padding: 10px 240px 40px 40px;
   min-height: calc(100vh - 200px);
 }
 
@@ -1739,17 +1739,17 @@ html.dark .club-level .level-value {
   left: 0;
   right: 0;
   background: #667eea;
-  padding: 15px 40px;
+  padding: 8px 40px;
   z-index: 1000;
 }
 
 .progress-bar {
   width: 100%;
-  height: 6px;
+  height: 4px;
   background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
+  border-radius: 2px;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .progress-fill {
@@ -1932,10 +1932,14 @@ html.dark .mechanism-section p {
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.3s ease;
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border-color: transparent !important;
+  color: white !important;
 }
 
 .qr-switch-btn:hover {
   transform: translateY(-2px);
+  background: linear-gradient(135deg, #5568d3, #6a3d8f) !important;
 }
 
 html.dark .qr-switch-btn {
