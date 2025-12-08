@@ -115,18 +115,56 @@ const router = createRouter({
     routes,
 })
 
+let tokenValidationCache = {
+  token: null,
+  isValid: false,
+  timestamp: 0
+}
+
+const CACHE_DURATION = 5000
+
+const getCachedValidation = (token) => {
+  const now = Date.now()
+  if (tokenValidationCache.token === token && 
+      (now - tokenValidationCache.timestamp) < CACHE_DURATION) {
+    return tokenValidationCache.isValid
+  }
+  return null
+}
+
+const setCachedValidation = (token, isValid) => {
+  tokenValidationCache = {
+    token,
+    isValid,
+    timestamp: Date.now()
+  }
+}
+
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem('token');
   
-  // 如果需要认证的页面
   if (to.meta.requiresAuth) {
     if (!token) {
       next('/login');
       return;
     }
     
+    const cachedResult = getCachedValidation(token)
+    if (cachedResult !== null) {
+      if (!cachedResult) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
+        tokenValidationCache = { token: null, isValid: false, timestamp: 0 }
+        next('/login');
+        return;
+      }
+      next();
+      return;
+    }
+    
     try {
       const isValid = await validateToken(token);
+      setCachedValidation(token, isValid)
       if (!isValid) {
         localStorage.removeItem('token');
         localStorage.removeItem('userInfo');
@@ -134,6 +172,7 @@ router.beforeEach(async (to, from, next) => {
         return;
       }
     } catch (error) {
+      setCachedValidation(token, false)
       localStorage.removeItem('token');
       localStorage.removeItem('userInfo');
       next('/login');
@@ -141,21 +180,33 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   
-  // 如果已登录且访问登录/注册页面，跳转到导航页
   if ((to.path === '/login' || to.path === '/register') && token) {
-    try {
-      const isValid = await validateToken(token);
-      if (isValid) {
+    const cachedResult = getCachedValidation(token)
+    if (cachedResult !== null) {
+      if (cachedResult) {
         next('/navigation');
         return;
       } else {
-        // token无效，清除并继续访问登录页
+        localStorage.removeItem('token');
+        localStorage.removeItem('userInfo');
+        tokenValidationCache = { token: null, isValid: false, timestamp: 0 }
+      }
+    } else {
+      try {
+        const isValid = await validateToken(token);
+        setCachedValidation(token, isValid)
+        if (isValid) {
+          next('/navigation');
+          return;
+        } else {
+          localStorage.removeItem('token');
+          localStorage.removeItem('userInfo');
+        }
+      } catch (error) {
+        setCachedValidation(token, false)
         localStorage.removeItem('token');
         localStorage.removeItem('userInfo');
       }
-    } catch (error) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userInfo');
     }
   }
   

@@ -1739,3 +1739,229 @@ const loadVerificationCode = async () => {
 3. **平滑过渡**：使用CSS过渡效果，使更新更平滑
 4. **用户体验**：减少视觉闪烁，提升用户体验
 5. **性能优化**：通过值比较避免不必要的DOM更新，提升性能
+
+## 时间段按钮选中状态背景色缺失问题修复
+
+### 问题
+数据看板页面排行榜的时间段按钮（使用 `el-radio-group` 和 `el-radio-button`）在点击后没有显示不同的背景色，用户无法直观地看到当前选中的时间段。
+
+### 分析
+1. **样式缺失**：`.time-radio-group` 只定义了基础布局样式（flex、gap等），缺少按钮的样式定义
+2. **选中状态样式缺失**：缺少 `.el-radio-button__inner` 的基础样式和选中状态的样式
+3. **夜间模式缺失**：缺少夜间模式的样式适配
+4. **视觉反馈不足**：用户无法通过背景色变化识别当前选中的时间段
+
+### 方案
+添加完整的时间段按钮样式定义：
+
+**位置**：`src/views/DashboardPage/DashboardPageDesktop.vue` 第1156-1188行
+
+```css
+.time-radio-group .el-radio-button {
+  margin: 0;
+}
+
+.time-radio-group .el-radio-button__inner {
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  background-color: #ffffff;
+  border-color: #dcdfe6;
+  color: #606266;
+}
+
+.time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background-color: #409eff;
+  border-color: #409eff;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+}
+
+html.dark .time-radio-group .el-radio-button__inner {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+html.dark .time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background-color: #667eea;
+  border-color: #667eea;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+```
+
+### 效果
+- ✅ 时间段按钮有明确的未选中状态样式（白色背景/深色背景）
+- ✅ 选中状态有明显的背景色变化（蓝色/紫色）
+- ✅ 白天模式和夜间模式都有正确的样式适配
+- ✅ 添加阴影效果增强视觉反馈
+- ✅ 过渡动画使状态切换更平滑
+
+### 要点
+- **选中状态选择器**：使用 `:checked + .el-radio-button__inner` 和 `.is-active .el-radio-button__inner` 选择器来定义选中状态的样式
+- **白天模式**：选中时使用蓝色背景（#409eff），未选中时使用白色背景
+- **夜间模式**：选中时使用紫色背景（#667eea），未选中时使用深色背景（#1e293b）
+- **过渡效果**：添加 `transition` 实现平滑的颜色变化
+- **阴影效果**：选中状态添加阴影以增强视觉反馈
+- **样式优先级**：使用 `!important` 确保样式优先级足够高，避免被 Element Plus 默认样式覆盖
+- **双重选择器**：同时使用 `:checked` 和 `.is-active` 选择器，确保在不同情况下都能正确应用样式
+
+### 白天模式背景色不显示问题修复
+
+#### 问题
+时间段按钮在白天模式下点击后背景色不显示，只有夜间模式才能看到背景色变化。
+
+#### 分析
+1. **样式优先级不足**：Element Plus 的默认样式优先级更高，覆盖了自定义样式
+2. **缺少 !important**：自定义样式没有使用 `!important`，无法覆盖默认样式
+3. **选择器不够全面**：只使用了 `:checked` 选择器，可能还需要 `.is-active` 类选择器
+
+#### 方案
+**位置**：`src/views/DashboardPage/DashboardPageDesktop.vue` 第1160-1195行
+
+1. **为所有样式添加 !important**：
+```css
+.time-radio-group .el-radio-button__inner {
+  background-color: #ffffff !important;
+  border-color: #dcdfe6 !important;
+  color: #606266 !important;
+}
+
+.time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background-color: #409eff !important;
+  border-color: #409eff !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3) !important;
+}
+```
+
+2. **添加 .is-active 类选择器**：
+```css
+.time-radio-group .el-radio-button.is-active .el-radio-button__inner {
+  background-color: #409eff !important;
+  border-color: #409eff !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3) !important;
+}
+```
+
+3. **夜间模式也添加 !important**：
+```css
+html.dark .time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background-color: #667eea !important;
+  border-color: #667eea !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4) !important;
+}
+
+html.dark .time-radio-group .el-radio-button.is-active .el-radio-button__inner {
+  background-color: #667eea !important;
+  border-color: #667eea !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4) !important;
+}
+```
+
+#### 效果
+- ✅ 白天模式下选中状态背景色正确显示
+- ✅ 夜间模式下选中状态背景色正常显示
+- ✅ 使用 `!important` 确保样式优先级足够高
+- ✅ 双重选择器确保在不同情况下都能正确应用样式
+
+#### 关键要点
+- **样式优先级**：Element Plus 的默认样式优先级较高，需要使用 `!important` 来覆盖
+- **双重选择器**：同时使用 `:checked` 和 `.is-active` 选择器，确保样式能够正确应用
+- **一致性**：白天模式和夜间模式都使用 `!important`，保持一致性
+- **全局样式块**：Element Plus 组件的样式必须放在全局样式块（非 scoped）中，才能正确覆盖默认样式
+- **样式位置**：scoped 样式无法覆盖第三方组件样式，需要将样式移到全局样式块中
+
+### 样式位置问题修复
+
+#### 问题
+时间段按钮的样式在 scoped 样式块中，导致白天模式下选中状态背景色不显示，只有夜间模式才能看到。
+
+#### 分析
+1. **scoped 样式限制**：scoped 样式无法直接覆盖 Element Plus 组件的默认样式
+2. **样式位置错误**：时间段按钮的样式在 scoped 样式块中（第1149-1202行），无法正确应用
+3. **全局样式块缺失**：虽然已经有全局样式块（第2010行之后），但时间段按钮的样式没有放在那里
+
+#### 方案
+将时间段按钮的样式从 scoped 样式块移到全局样式块中：
+
+**位置**：`src/views/DashboardPage/DashboardPageDesktop.vue`
+
+1. **从 scoped 样式块中移除**（第1149-1202行）
+2. **添加到全局样式块中**（第2096行之前）
+
+```css
+<style>
+.time-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.time-radio-group .el-radio-button {
+  margin: 0;
+}
+
+.time-radio-group .el-radio-button__inner {
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  background-color: #ffffff !important;
+  border-color: #dcdfe6 !important;
+  color: #606266 !important;
+}
+
+.time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background-color: #409eff !important;
+  border-color: #409eff !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3) !important;
+}
+
+.time-radio-group .el-radio-button.is-active .el-radio-button__inner {
+  background-color: #409eff !important;
+  border-color: #409eff !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3) !important;
+}
+
+html.dark .time-radio-group .el-radio-button__inner {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark .time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
+  background-color: #667eea !important;
+  border-color: #667eea !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4) !important;
+}
+
+html.dark .time-radio-group .el-radio-button.is-active .el-radio-button__inner {
+  background-color: #667eea !important;
+  border-color: #667eea !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4) !important;
+}
+</style>
+```
+
+#### 效果
+- ✅ 白天模式下选中状态背景色正确显示
+- ✅ 夜间模式下选中状态背景色正常显示
+- ✅ 样式在全局样式块中，能够正确覆盖 Element Plus 默认样式
+- ✅ 所有样式都使用 `!important`，确保优先级足够高
+
+#### 关键要点
+- **样式位置**：Element Plus 组件的样式必须放在全局样式块（非 scoped）中
+- **scoped 限制**：scoped 样式无法覆盖第三方组件的默认样式
+- **全局样式块**：使用 `<style>`（非 scoped）来覆盖第三方组件样式
+- **参考经验**：参考 NavigationPage 的经验，使用全局样式块覆盖 Element Plus 组件样式
