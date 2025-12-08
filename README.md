@@ -15,6 +15,18 @@
 
 ---
 
+## 🌐 在线演示
+
+**项目已部署并运行在以下地址：**
+
+- 🚀 **生产环境**: [https://10257qh6684dd.vicp.fun/](https://10257qh6684dd.vicp.fun/)
+- 📱 **移动端访问**: 支持响应式设计，自动适配移动设备
+- 💻 **桌面端访问**: 完美支持桌面浏览器
+
+> 💡 **提示**: 访问在线演示需要有效的账号和 Token，请先注册或登录。
+
+---
+
 ## 📖 项目简介
 
 AI坊学生管理系统是一个基于 Vue3 和 Spring Boot 构建的现代化学生管理系统，提供智能化的学生信息管理、考勤统计、数据分析等功能。本项目为前端部分，采用 Vue3 Composition API、Element Plus UI 组件库和 ECharts 数据可视化，支持响应式设计，完美适配桌面端和移动端。
@@ -212,9 +224,9 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 export const config = {
   // 开发环境：http://10.0.48.168:7001
-  // 生产环境：https://your-domain.com/zheng_en_ci
+  // 生产环境：https://10257qh6684dd.vicp.fun/zheng_en_ci
   API_BASE_URL: isProduction 
-    ? 'https://your-domain.com/zheng_en_ci'
+    ? 'https://10257qh6684dd.vicp.fun/zheng_en_ci'
     : 'http://10.0.48.168:7001',
   
   // 验证码接口（统一使用开发环境地址）
@@ -224,6 +236,8 @@ export const config = {
   APP_VERSION: '1.0.0'
 }
 ```
+
+> 📌 **生产环境说明**: 项目已部署在 [https://10257qh6684dd.vicp.fun/](https://10257qh6684dd.vicp.fun/)，生产环境的 API 基础地址为 `https://10257qh6684dd.vicp.fun/zheng_en_ci`
 
 ### 路由配置
 
