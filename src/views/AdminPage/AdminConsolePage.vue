@@ -4505,11 +4505,30 @@ html.dark .time-slot-admin.signed .time-label-admin {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
+html.dark .makeup-date-picker-popper {
+  background-color: #000000 !important;
+  opacity: 1 !important;
+}
+
 html.dark .makeup-date-picker-popper .el-picker-panel {
-  background: var(--admin-bg-primary) !important;
+  background-color: #000000 !important;
+  opacity: 1 !important;
 }
 
 html.dark .makeup-date-picker-popper .el-picker-panel__body {
-  background: var(--admin-bg-primary) !important;
+  background-color: #000000 !important;
+  opacity: 1 !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-picker__header {
+  background-color: #000000 !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-picker__time-header {
+  background-color: #000000 !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-table {
+  background-color: #000000 !important;
 }
 </style>
