@@ -49,6 +49,8 @@
 </template>
 
 <script setup>
+import { ElIcon } from 'element-plus'
+import 'element-plus/theme-chalk/el-icon.css'
 import { Lock } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
 

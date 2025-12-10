@@ -1,4 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
+const path = require('path')
 module.exports = defineConfig({
     transpileDependencies: true,
     devServer: {
@@ -33,7 +34,11 @@ module.exports = defineConfig({
     },
     configureWebpack: {
         resolve: {
-            extensions: ['.js', '.vue', '.json']
+            extensions: ['.js', '.vue', '.json'],
+            alias: {
+                '@fullcalendar/core/internal.js': path.resolve(__dirname, 'node_modules/@fullcalendar/core/internal.js'),
+                '@fullcalendar/core/internal': path.resolve(__dirname, 'node_modules/@fullcalendar/core/internal.js')
+            }
         }
     }
 })

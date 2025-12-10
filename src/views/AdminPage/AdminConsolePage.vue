@@ -411,6 +411,7 @@
       :destroy-on-close="true"
       :append-to-body="true"
       :teleported="true"
+      modal-class="attendance-records-overlay"
       class="attendance-records-dialog"
     >
       <div class="student-info-header">
@@ -431,62 +432,33 @@
       </div>
       
       <div class="attendance-records-container">
-        <div class="calendar-container">
-          <el-calendar v-model="calendarValue" class="attendance-calendar-admin">
-            <template #header>
-              <div class="calendar-header-admin">
-                <el-button-group class="calendar-nav-buttons">
-                  <el-button @click="selectDate('prev-month')" size="small">
-                    <el-icon><ArrowLeft /></el-icon>
-                  </el-button>
-                  <el-button @click="selectDate('today')" size="small">今天</el-button>
-                  <el-button @click="selectDate('next-month')" size="small">
-                    <el-icon><ArrowRight /></el-icon>
-                  </el-button>
-                </el-button-group>
-                <span class="calendar-title-admin">{{ formatCalendarTitle(calendarValue) }}</span>
+        <el-calendar v-model="calendarValue" :locale="zhCn" class="attendance-calendar-admin attendance-fullcalendar">
+          <template #header="{ date }">
+            <div class="calendar-header-admin">
+              <div class="header-title-admin">{{ formatCalendarTitle(date) }}</div>
+              <div class="header-actions-admin">
+                <el-button size="small" @click="prevMonth">上个月</el-button>
+                <el-button size="small" @click="goToday">今天</el-button>
+                <el-button size="small" @click="nextMonth">下个月</el-button>
               </div>
-            </template>
-            <template #date-cell="{ data }">
-              <div class="calendar-cell-admin" @click="showDateDetails(data.day, $event)">
-                <div class="cell-date-admin">{{ data.day.split('-')[2] }}</div>
-                <div class="cell-status-admin">
-                  <div class="time-slot-status-admin">
-                    <div class="time-slot-admin morning" :class="{ 'signed': isTimeSlotSigned(data.day, 'morning') }">
-                      <span class="time-label-admin">早</span>
-                    </div>
-                    <div class="time-slot-admin afternoon" :class="{ 'signed': isTimeSlotSigned(data.day, 'afternoon') }">
-                      <span class="time-label-admin">午</span>
-                    </div>
-                    <div class="time-slot-admin evening" :class="{ 'signed': isTimeSlotSigned(data.day, 'evening') }">
-                      <span class="time-label-admin">晚</span>
-                    </div>
-                  </div>
-                </div>
+            </div>
+          </template>
+          <template #date-cell="{ data }">
+            <div class="calendar-cell-admin" @click="openDateDetails(data.day)">
+              <div class="cell-date-admin">{{ data.day.split('-')[2] }}</div>
+              <div class="time-slot-status-admin">
+                <span
+                  v-for="slot in calendarSlots"
+                  :key="slot.key"
+                  class="time-slot-admin"
+                  :class="{ signed: isSlotSigned(data.day, slot.key) }"
+                >
+                  <span class="time-label-admin">{{ slot.label }}</span>
+                </span>
               </div>
-            </template>
-          </el-calendar>
-          
-          <div class="calendar-legend">
-            <div class="legend-item">
-              <div class="legend-dot morning"></div>
-              <span>早上 (8:00-11:00)</span>
             </div>
-            <div class="legend-item">
-              <div class="legend-dot afternoon"></div>
-              <span>下午 (14:00-17:00)</span>
-            </div>
-            <div class="legend-item">
-              <div class="legend-dot evening"></div>
-              <span>晚上 (19:00-22:00)</span>
-            </div>
-          </div>
-          
-          <div v-if="filteredStudentAttendanceRecords.length === 0" class="no-records-overlay">
-            <el-icon class="no-records-icon"><Calendar /></el-icon>
-            <p>该月份暂无考勤记录</p>
-          </div>
-        </div>
+          </template>
+        </el-calendar>
       </div>
       <template #footer>
         <div class="dialog-footer">
@@ -555,6 +527,7 @@
             <el-date-picker
               v-model="makeupForm.attendanceTime"
               type="datetime"
+              :locale="zhCn"
               placeholder="选择补卡时间"
               format="YYYY-MM-DD HH:mm:ss"
               value-format="YYYY-MM-DDTHH:mm:ss"
@@ -581,6 +554,7 @@
       :close-on-click-modal="false"
       :append-to-body="true"
       :teleported="true"
+      modal-class="heatmap-overlay"
       class="heatmap-dialog"
     >
       <div class="student-info-header">
@@ -622,6 +596,7 @@
       :close-on-click-modal="false"
       :append-to-body="true"
       :teleported="true"
+      modal-class="trend-overlay"
       class="trend-dialog"
     >
       <div class="student-info-header">
@@ -659,7 +634,7 @@
 
 <script setup>
 import { ref, computed, onMounted, nextTick, watch } from 'vue'
-import { ElMessage, ElIcon, ElInput, ElButton, ElTabs, ElTabPane, ElTag, ElSelect, ElOption } from 'element-plus'
+import { ElMessage, ElIcon, ElInput, ElButton, ElTabs, ElTabPane, ElTag, ElSelect, ElOption, ElTooltip, ElPagination, ElFormItem, ElInputNumber, ElForm, ElDialog, ElCalendar, ElDatePicker } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -679,30 +654,32 @@ import 'element-plus/theme-chalk/el-input-number.css'
 import 'element-plus/theme-chalk/el-date-picker.css'
 import 'element-plus/theme-chalk/el-button-group.css'
 import 'element-plus/theme-chalk/el-overlay.css'
-import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning, ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import 'element-plus/theme-chalk/el-calendar.css'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning } from '@element-plus/icons-vue'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin } from '@/api/student'
 import { getStudentAttendanceCount, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
 import { getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/attendance'
 import { useRouter } from 'vue-router'
-// ECharts 按需引入
 import * as echarts from 'echarts/core'
-import { BarChart, LineChart } from 'echarts/charts'
+import { BarChart, LineChart, HeatmapChart } from 'echarts/charts'
 import {
   TitleComponent,
   TooltipComponent,
   GridComponent,
-  LegendComponent
+  LegendComponent,
+  VisualMapComponent
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-
-// 注册需要的组件
 echarts.use([
   TitleComponent,
   TooltipComponent,
   GridComponent,
   LegendComponent,
+  VisualMapComponent,
   BarChart,
   LineChart,
+  HeatmapChart,
   CanvasRenderer
 ])
 import { useAdminStore } from '@/stores/admin'
@@ -746,6 +723,11 @@ const currentStudentInfo = ref({})
 const calendarValue = ref(new Date())
 const scrollPosition = ref(0)
 const allStudentAttendanceRecords = ref([])
+const calendarSlots = [
+  { key: 'morning', label: '早' },
+  { key: 'afternoon', label: '午' },
+  { key: 'evening', label: '晚' }
+]
 const makeupDialogVisible = ref(false)
 const makeupFormRef = ref()
 const makeupForm = ref({
@@ -1187,6 +1169,17 @@ const getTimePeriodName = (timeString) => {
 }
 
 
+const isSlotSigned = (dateStr, slotKey) => {
+  const times = getDateAttendanceTimes(dateStr)
+  if (!times.length) return false
+  return times.some(time => getTimePeriodClass(time) === slotKey)
+}
+
+const openDateDetails = (dateStr) => {
+  selectedDate.value = dateStr
+  showDateDetailsDialog.value = true
+}
+
 const openAttendanceRecordsDialog = async (student) => {
   currentStudentInfo.value = student
   scrollPosition.value = window.pageYOffset || document.documentElement.scrollTop
@@ -1196,9 +1189,11 @@ const openAttendanceRecordsDialog = async (student) => {
     const response = await getStudentAttendanceRecords(student.studentId)
     if (response.code === 200) {
       allStudentAttendanceRecords.value = response.data || []
+      const firstRecordDate = allStudentAttendanceRecords.value[0]?.attendanceDateTime
+      const baseDate = firstRecordDate ? new Date(firstRecordDate) : new Date()
+      calendarValue.value = new Date(baseDate.getFullYear(), baseDate.getMonth(), 1)
+      selectedDate.value = firstRecordDate ? firstRecordDate.split('T')[0] : new Date().toISOString().split('T')[0]
       attendanceRecordsDialogVisible.value = true
-      
-      // 等待DOM更新后初始化图表
       await nextTick()
       initHeatmapChart()
       initLineChart()
@@ -1213,7 +1208,6 @@ const openAttendanceRecordsDialog = async (student) => {
 }
 
 const closeAttendanceRecordsDialog = () => {
-  // 立即销毁ECharts实例，避免渲染冲突
   if (heatmapInstance.value) {
     heatmapInstance.value.dispose()
     heatmapInstance.value = null
@@ -1223,95 +1217,37 @@ const closeAttendanceRecordsDialog = () => {
     lineInstance.value = null
   }
   
-  // 先关闭弹窗，避免computed属性继续计算
   attendanceRecordsDialogVisible.value = false
   
-  // 然后清空数据，避免在弹窗关闭过程中触发computed
   setTimeout(() => {
     calendarValue.value = new Date()
     allStudentAttendanceRecords.value = []
     currentStudentInfo.value = {}
   }, 0)
   
-  // 恢复滚动位置（使用立即滚动，避免动画冲突）
   window.scrollTo(0, scrollPosition.value)
 }
 
 const closeHeatmapDialog = () => {
-  // 先销毁ECharts实例，避免渲染冲突
   if (heatmapInstance.value) {
     heatmapInstance.value.dispose()
     heatmapInstance.value = null
   }
   
-  // 关闭弹窗
   heatmapDialogVisible.value = false
   
-  // 恢复滚动位置（使用立即滚动，避免动画冲突）
   window.scrollTo(0, scrollPosition.value)
 }
 
 const closeTrendDialog = () => {
-  // 先销毁ECharts实例，避免渲染冲突
   if (lineInstance.value) {
     lineInstance.value.dispose()
     lineInstance.value = null
   }
   
-  // 关闭弹窗
   trendDialogVisible.value = false
   
-  // 恢复滚动位置（使用立即滚动，避免动画冲突）
   window.scrollTo(0, scrollPosition.value)
-}
-
-const showDateDetails = (date, event) => {
-  event.stopPropagation()
-  selectedDate.value = date
-  showDateDetailsDialog.value = true
-}
-
-const formatCalendarTitle = (date) => {
-  if (!date) {
-    return '未知日期'
-  }
-  
-  let dateObj
-  if (date instanceof Date) {
-    dateObj = date
-  } else if (typeof date === 'string') {
-    dateObj = new Date(date)
-  } else if (typeof date === 'number') {
-    dateObj = new Date(date)
-  } else {
-    return '未知日期'
-  }
-  
-  if (isNaN(dateObj.getTime())) {
-    return '未知日期'
-  }
-  
-  const year = dateObj.getFullYear()
-  const month = dateObj.getMonth() + 1
-  return `${year}年${month}月`
-}
-
-const selectDate = (type) => {
-  const currentDate = new Date(calendarValue.value)
-  
-  switch (type) {
-    case 'prev-month':
-      currentDate.setMonth(currentDate.getMonth() - 1)
-      break
-    case 'next-month':
-      currentDate.setMonth(currentDate.getMonth() + 1)
-      break
-    case 'today':
-      currentDate.setTime(Date.now())
-      break
-  }
-  
-  calendarValue.value = currentDate
 }
 
 const formatSelectedDate = (dateStr) => {
@@ -1323,6 +1259,30 @@ const formatSelectedDate = (dateStr) => {
   return `${year}年${month}月${day}日`
 }
 
+const formatCalendarTitle = (date) => {
+  if (!date) return ''
+  const d = new Date(date)
+  const year = d.getFullYear()
+  const month = d.getMonth() + 1
+  return `${year}年${month}月`
+}
+
+const prevMonth = () => {
+  const date = new Date(calendarValue.value)
+  date.setMonth(date.getMonth() - 1)
+  calendarValue.value = date
+}
+
+const nextMonth = () => {
+  const date = new Date(calendarValue.value)
+  date.setMonth(date.getMonth() + 1)
+  calendarValue.value = date
+}
+
+const goToday = () => {
+  calendarValue.value = new Date()
+}
+
 const getTimeSlotLabel = (timeStr) => {
   if (!timeStr) return ''
   const date = new Date(timeStr)
@@ -1332,19 +1292,6 @@ const getTimeSlotLabel = (timeStr) => {
   if (hour >= 14 && hour < 17) return '下午'
   if (hour >= 19 && hour < 22) return '晚上'
   return '其他'
-}
-
-const isTimeSlotSigned = (dateStr, timeSlot) => {
-  const times = getDateAttendanceTimes(dateStr)
-  return times.some(time => {
-    const hour = new Date(time).getHours()
-    switch (timeSlot) {
-      case 'morning': return hour >= 8 && hour < 11
-      case 'afternoon': return hour >= 14 && hour < 17
-      case 'evening': return hour >= 19 && hour < 22
-      default: return false
-    }
-  })
 }
 
 const getDateAttendanceTimes = (dateStr) => {
@@ -1623,7 +1570,6 @@ const generateHeatmapData = () => {
   const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
   const timeSlots = ['上午', '下午', '晚上']
   
-  // 使用完整数据而不是过滤后的数据
   const records = allStudentAttendanceRecords.value || []
   
   if (!records || !Array.isArray(records) || records.length === 0) {
@@ -1663,7 +1609,6 @@ const generateHeatmapData = () => {
 const generateLineData = () => {
   const dateMap = new Map()
   
-  // 使用完整数据而不是过滤后的数据
   const records = allStudentAttendanceRecords.value || []
   
   if (!records || !Array.isArray(records) || records.length === 0) {
@@ -2821,8 +2766,32 @@ html.dark .option-icon {
   }
 }
 
+:deep(.attendance-records-overlay),
+:deep(.heatmap-overlay),
+:deep(.trend-overlay) {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3000 !important;
+}
+
+:deep(.attendance-records-overlay .el-overlay-dialog),
+:deep(.heatmap-overlay .el-overlay-dialog),
+:deep(.trend-overlay .el-overlay-dialog) {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3001 !important;
+}
+
 .heatmap-dialog,
-.trend-dialog {
+.trend-dialog,
+.attendance-records-dialog {
   .el-dialog__header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -2957,48 +2926,35 @@ html.dark .option-icon {
 }
 
 .attendance-records-container {
-  max-height: 500px;
-  overflow-y: auto;
+  margin-top: 16px;
+  min-height: 620px;
 }
 
-.calendar-container {
-  background: white;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  position: relative;
+:deep(.attendance-fullcalendar) {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
-.no-records-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-}
-
-.no-records-overlay .no-records-icon {
-  font-size: 48px;
-  color: var(--admin-text-secondary);
+:deep(.attendance-fullcalendar .fc-toolbar) {
   margin-bottom: 12px;
 }
 
-.no-records-overlay p {
-  margin: 0;
-  font-size: 16px;
-  color: var(--admin-text-primary);
-  font-weight: 500;
+:deep(.attendance-fullcalendar .fc-daygrid-day) {
+  cursor: pointer;
 }
 
-.attendance-calendar-admin {
-  width: 100%;
-  background: transparent;
+:deep(.attendance-fullcalendar .fc-daygrid-day.fc-day-today) {
+  background: rgba(102, 126, 234, 0.08);
+}
+
+:deep(.attendance-fullcalendar .fc-event) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  padding: 2px 6px;
 }
 
 .charts-section {
@@ -3646,8 +3602,113 @@ html.dark .student-avatar.evening {
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
+.attendance-calendar-admin {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--admin-border-color);
+}
+
+.calendar-header-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: var(--admin-bg-primary);
+  border-bottom: 1px solid var(--admin-border-color);
+}
+
+.header-title-admin {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+}
+
+.header-actions-admin {
+  display: flex;
+  gap: 8px;
+}
+
+.attendance-calendar-admin :deep(.el-calendar__body) {
+  padding: 0;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table thead th) {
+  font-size: 0;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table thead th:nth-child(1))::after {
+  content: '周日';
+  font-size: 14px;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table thead th:nth-child(2))::after {
+  content: '周一';
+  font-size: 14px;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table thead th:nth-child(3))::after {
+  content: '周二';
+  font-size: 14px;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table thead th:nth-child(4))::after {
+  content: '周三';
+  font-size: 14px;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table thead th:nth-child(5))::after {
+  content: '周四';
+  font-size: 14px;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table thead th:nth-child(6))::after {
+  content: '周五';
+  font-size: 14px;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table thead th:nth-child(7))::after {
+  content: '周六';
+  font-size: 14px;
+}
+
+.attendance-calendar-admin :deep(.el-calendar-table td) {
+  vertical-align: top;
+}
+
+.calendar-cell-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  min-height: 96px;
+  cursor: pointer;
+}
+
+.calendar-cell-admin:hover {
+  background: var(--admin-bg-secondary);
+}
+
+.cell-date-admin {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
 html.dark .attendance-calendar-admin {
   background-color: var(--admin-bg-primary) !important;
+  color: var(--admin-text-primary) !important;
+}
+
+html.dark .calendar-header-admin {
+  background-color: var(--admin-bg-primary) !important;
+  border-bottom-color: var(--admin-border-color) !important;
+}
+
+html.dark .header-title-admin {
   color: var(--admin-text-primary) !important;
 }
 
