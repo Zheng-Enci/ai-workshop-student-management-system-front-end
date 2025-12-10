@@ -278,11 +278,14 @@
     </div>
 
     <el-dialog
+      v-if="editDialogVisible"
       v-model="editDialogVisible"
       title="修改学生信息"
       width="600px"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
+      :append-to-body="true"
+      :teleported="true"
       class="edit-dialog"
     >
       <el-form
@@ -351,10 +354,13 @@
     </el-dialog>
 
     <el-dialog
+      v-if="todayAttendanceDialogVisible"
       v-model="todayAttendanceDialogVisible"
       title="今日签到记录"
       width="800px"
       :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
       class="today-attendance-dialog"
     >
       <div class="attendance-records-container">
@@ -397,11 +403,14 @@
     </el-dialog>
 
     <el-dialog
+      v-if="attendanceRecordsDialogVisible"
       v-model="attendanceRecordsDialogVisible"
       :title="`${currentStudentInfo.name} 的考勤记录`"
       width="900px"
       :close-on-click-modal="false"
       :destroy-on-close="true"
+      :append-to-body="true"
+      :teleported="true"
       class="attendance-records-dialog"
     >
       <div class="student-info-header">
@@ -494,6 +503,8 @@
       class="date-details-dialog-admin"
       destroy-on-close
       :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
     >
       <div class="date-details-content-admin" @click.stop>
         <div class="selected-date-admin">{{ formatSelectedDate(selectedDate) }}</div>
@@ -513,10 +524,13 @@
     </el-dialog>
 
     <el-dialog
+      v-if="makeupDialogVisible"
       v-model="makeupDialogVisible"
       title="学生补卡"
       width="500px"
       :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
       class="makeup-dialog"
     >
       <div class="makeup-form">
@@ -560,10 +574,13 @@
     </el-dialog>
 
     <el-dialog
+      v-if="heatmapDialogVisible"
       v-model="heatmapDialogVisible"
       :title="`${currentStudentInfo.name} 的签到热力图`"
       width="1200px"
       :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
       class="heatmap-dialog"
     >
       <div class="student-info-header">
@@ -598,10 +615,13 @@
     </el-dialog>
 
     <el-dialog
+      v-if="trendDialogVisible"
       v-model="trendDialogVisible"
       :title="`${currentStudentInfo.name} 的签到趋势图`"
       width="1200px"
       :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
       class="trend-dialog"
     >
       <div class="student-info-header">
@@ -649,6 +669,7 @@ import 'element-plus/theme-chalk/el-tab-pane.css'
 import 'element-plus/theme-chalk/el-tag.css'
 import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
+import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
@@ -657,6 +678,7 @@ import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/el-input-number.css'
 import 'element-plus/theme-chalk/el-date-picker.css'
 import 'element-plus/theme-chalk/el-button-group.css'
+import 'element-plus/theme-chalk/el-overlay.css'
 import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning, ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin } from '@/api/student'
 import { getStudentAttendanceCount, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
@@ -3779,4 +3801,5 @@ html.dark .time-slot-admin.signed .time-label-admin {
 .el-dialog__footer {
   transition: none !important;
 }
+
 </style>
