@@ -3162,11 +3162,14 @@ html.dark .option-icon {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   border: 1px solid #e5e7eb;
   overflow: hidden;
+  background: #ffffff !important;
+  opacity: 1 !important;
 }
 
 .makeup-date-picker :deep(.el-picker-panel__body) {
   padding: 16px;
-  background: white;
+  background: #ffffff !important;
+  opacity: 1 !important;
 }
 
 .makeup-date-picker :deep(.el-date-picker__time-header) {
@@ -4370,15 +4373,42 @@ html.dark .time-slot-admin.signed .time-label-admin {
 <style>
 .makeup-date-picker-popper {
   min-width: 420px !important;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
 }
 
 .makeup-date-picker-popper .el-picker-panel {
   width: 100% !important;
   min-width: 420px !important;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
 }
 
 .makeup-date-picker-popper .el-picker-panel__body {
   padding: 20px !important;
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.makeup-date-picker-popper .el-date-picker__header {
+  background-color: #ffffff !important;
+}
+
+.makeup-date-picker-popper .el-date-picker__time-header {
+  background-color: #ffffff !important;
+}
+
+.makeup-date-picker-popper .el-date-table {
+  background-color: #ffffff !important;
+}
+
+.makeup-date-picker-popper .el-date-table th,
+.makeup-date-picker-popper .el-date-table td {
+  background-color: transparent !important;
+}
+
+.makeup-date-picker-popper .el-date-table-cell {
+  background-color: transparent !important;
 }
 
 .makeup-date-picker-popper .el-date-table {
