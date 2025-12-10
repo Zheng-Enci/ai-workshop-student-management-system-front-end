@@ -531,8 +531,14 @@
               placeholder="选择补卡时间"
               format="YYYY-MM-DD HH:mm:ss"
               value-format="YYYY-MM-DDTHH:mm:ss"
-              style="width: 100%"
-            />
+              class="makeup-date-picker"
+              popper-class="makeup-date-picker-popper"
+              clearable
+            >
+              <template #prefix-icon>
+                <el-icon><Calendar /></el-icon>
+              </template>
+            </el-date-picker>
           </el-form-item>
         </el-form>
       </div>
@@ -1643,10 +1649,118 @@ const generateLineData = () => {
   }
 }
 
-const openMakeupDialog = (student) => {
+// 月份名称映射表
+const monthMap = {
+  'January': '一月',
+  'February': '二月',
+  'March': '三月',
+  'April': '四月',
+  'May': '五月',
+  'June': '六月',
+  'July': '七月',
+  'August': '八月',
+  'September': '九月',
+  'October': '十月',
+  'November': '十一月',
+  'December': '十二月'
+}
+
+let makeupMonthObserver = null
+
+const openMakeupDialog = async (student) => {
   currentStudentInfo.value = student
   makeupForm.value.attendanceTime = ''
   makeupDialogVisible.value = true
+  await nextTick()
+  
+  // 星期名称映射表
+  const weekMap = {
+    'Sun': '日',
+    'Mon': '一',
+    'Tue': '二',
+    'Wed': '三',
+    'Thu': '四',
+    'Fri': '五',
+    'Sat': '六',
+    'Sunday': '日',
+    'Monday': '一',
+    'Tuesday': '二',
+    'Wednesday': '三',
+    'Thursday': '四',
+    'Friday': '五',
+    'Saturday': '六'
+  }
+  
+  const setPlaceholderAndMonth = () => {
+    const popper = document.querySelector('.makeup-date-picker-popper')
+    if (popper) {
+      // 设置占位符
+      const dateInputs = popper.querySelectorAll('.el-date-picker__editor-wrap .el-input__inner')
+      if (dateInputs.length >= 2) {
+        dateInputs[0].setAttribute('placeholder', '选择日期')
+        dateInputs[1].setAttribute('placeholder', '选择时间')
+      }
+      
+      // 将月份名称改为中文
+      const headerLabels = popper.querySelectorAll('.el-date-picker__header-label')
+      headerLabels.forEach(label => {
+        const text = label.textContent.trim()
+        // 匹配 "2025 December" 或 "December 2025" 格式
+        for (const [enMonth, cnMonth] of Object.entries(monthMap)) {
+          if (text.includes(enMonth)) {
+            // 替换月份名称
+            const newText = text.replace(enMonth, cnMonth)
+            label.textContent = newText
+            break
+          }
+        }
+      })
+      
+      // 将星期名称改为中文
+      // 注意：由于 CSS 的 ::after 伪元素已经设置了中文，这里主要是确保原文本被隐藏
+      const weekHeaders = popper.querySelectorAll('.el-date-table th')
+      weekHeaders.forEach((th) => {
+        const text = th.textContent.trim()
+        // 检查是否包含英文星期名称
+        for (const [enWeek] of Object.entries(weekMap)) {
+          if (text.includes(enWeek)) {
+            // 如果文本内容包含英文星期名称，隐藏原文本（CSS ::after 会显示中文）
+            if (th.textContent.trim() === enWeek || th.textContent.trim().includes(enWeek)) {
+              th.style.fontSize = '0'
+            }
+            break
+          }
+        }
+      })
+    }
+  }
+  
+  // 使用多个延迟确保日期选择器面板已渲染
+  setTimeout(setPlaceholderAndMonth, 100)
+  setTimeout(setPlaceholderAndMonth, 300)
+  setTimeout(setPlaceholderAndMonth, 500)
+  
+  // 监听日期选择器面板的变化，当月份切换时也要更新
+  setTimeout(() => {
+    const popper = document.querySelector('.makeup-date-picker-popper')
+    if (popper) {
+      // 先断开之前的观察器
+      if (makeupMonthObserver) {
+        makeupMonthObserver.disconnect()
+      }
+      
+      // 创建新的观察器
+      makeupMonthObserver = new MutationObserver(() => {
+        setPlaceholderAndMonth()
+      })
+      
+      makeupMonthObserver.observe(popper, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      })
+    }
+  }, 500)
 }
 
 const openHeatmapDialog = async (student) => {
@@ -1715,6 +1829,11 @@ const cancelMakeup = () => {
   makeupDialogVisible.value = false
   makeupFormRef.value?.resetFields()
   currentStudentInfo.value = {}
+  // 断开月份名称观察器
+  if (makeupMonthObserver) {
+    makeupMonthObserver.disconnect()
+    makeupMonthObserver = null
+  }
 }
 
 const confirmMakeup = async () => {
@@ -1741,6 +1860,11 @@ const confirmMakeup = async () => {
     if (response.code === 200) {
       ElMessage.success('补卡成功')
       makeupDialogVisible.value = false
+      // 断开月份名称观察器
+      if (makeupMonthObserver) {
+        makeupMonthObserver.disconnect()
+        makeupMonthObserver = null
+      }
       await refreshData()
     } else {
       ElMessage.error(response.message || '补卡失败')
@@ -2905,6 +3029,384 @@ html.dark .option-icon {
   }
 }
 
+.makeup-dialog {
+  .el-dialog__header {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    color: white;
+    padding: 20px 24px;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .el-dialog__title {
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  
+  .el-dialog__headerbtn .el-dialog__close {
+    color: white;
+    font-size: 20px;
+  }
+  
+  .el-dialog__body {
+    padding: 30px 24px;
+    background: #f8f9fa;
+  }
+  
+  .el-dialog__footer {
+    background: #f8f9fa;
+    padding: 20px 24px;
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+.makeup-form {
+  .student-info-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .student-avatar-medium {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  }
+  
+  .student-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .student-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+  }
+}
+
+.makeup-form-content {
+  .el-form-item__label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+  }
+  
+  .makeup-date-picker {
+    width: 100%;
+  }
+  
+  .makeup-date-picker :deep(.el-input__wrapper) {
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+    padding: 0 12px;
+    min-height: 42px;
+  }
+  
+  .makeup-date-picker :deep(.el-input__wrapper:hover) {
+    border-color: #F59E0B;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
+  }
+  
+  .makeup-date-picker :deep(.el-input.is-focus .el-input__wrapper) {
+    border-color: #F59E0B;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  }
+  
+  .makeup-date-picker :deep(.el-input__inner) {
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 8px;
+  }
+  
+  .makeup-date-picker :deep(.el-input__prefix) {
+    color: #F59E0B;
+    padding-left: 12px;
+  }
+  
+  .makeup-date-picker :deep(.el-input__suffix) {
+    padding-right: 12px;
+  }
+  
+  .makeup-date-picker :deep(.el-input__suffix .el-icon) {
+    color: #9ca3af;
+    transition: color 0.3s ease;
+  }
+  
+  .makeup-date-picker :deep(.el-input__suffix:hover .el-icon) {
+    color: #F59E0B;
+  }
+}
+
+.makeup-date-picker :deep(.el-picker-panel) {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.makeup-date-picker :deep(.el-picker-panel__body) {
+  padding: 16px;
+  background: white;
+}
+
+.makeup-date-picker :deep(.el-date-picker__time-header) {
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 12px;
+}
+
+.makeup-date-picker :deep(.el-date-picker__editor-wrap) {
+  padding: 0 8px;
+}
+
+.makeup-date-picker :deep(.el-date-picker__editor-wrap .el-input__wrapper) {
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.makeup-date-picker :deep(.el-date-picker__editor-wrap .el-input__wrapper:hover) {
+  border-color: #F59E0B;
+}
+
+.makeup-date-picker :deep(.el-date-picker__header) {
+  margin-bottom: 12px;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.makeup-date-picker :deep(.el-date-picker__header-label) {
+  font-weight: 600;
+  font-size: 15px;
+  color: #1f2937;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.makeup-date-picker :deep(.el-date-picker__header-label:hover) {
+  background: #f9fafb;
+  color: #F59E0B;
+}
+
+.makeup-date-picker :deep(.el-picker-panel__icon-btn) {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  color: #6b7280;
+}
+
+.makeup-date-picker :deep(.el-picker-panel__icon-btn:hover) {
+  background: #f9fafb;
+  color: #F59E0B;
+}
+
+.makeup-date-picker :deep(.el-date-table) {
+  font-size: 14px;
+}
+
+.makeup-date-picker :deep(.el-date-table th) {
+  padding: 8px 0;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0 !important;
+  position: relative;
+}
+
+.makeup-date-picker :deep(.el-date-table th:nth-child(1))::after {
+  content: '日';
+  font-size: 13px;
+  display: block;
+}
+
+.makeup-date-picker :deep(.el-date-table th:nth-child(2))::after {
+  content: '一';
+  font-size: 13px;
+  display: block;
+}
+
+.makeup-date-picker :deep(.el-date-table th:nth-child(3))::after {
+  content: '二';
+  font-size: 13px;
+  display: block;
+}
+
+.makeup-date-picker :deep(.el-date-table th:nth-child(4))::after {
+  content: '三';
+  font-size: 13px;
+  display: block;
+}
+
+.makeup-date-picker :deep(.el-date-table th:nth-child(5))::after {
+  content: '四';
+  font-size: 13px;
+  display: block;
+}
+
+.makeup-date-picker :deep(.el-date-table th:nth-child(6))::after {
+  content: '五';
+  font-size: 13px;
+  display: block;
+}
+
+.makeup-date-picker :deep(.el-date-table th:nth-child(7))::after {
+  content: '六';
+  font-size: 13px;
+  display: block;
+}
+
+.makeup-date-picker :deep(.el-date-table th) {
+  font-size: 0;
+}
+
+.makeup-date-picker :deep(.el-date-table-cell) {
+  height: 36px;
+  padding: 0;
+}
+
+.makeup-date-picker :deep(.el-date-table-cell__text) {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.makeup-date-picker :deep(.el-date-table td.available:hover .el-date-table-cell__text) {
+  background: #fef3c7;
+  color: #F59E0B;
+}
+
+.makeup-date-picker :deep(.el-date-table td.today .el-date-table-cell__text) {
+  color: #F59E0B;
+  font-weight: 600;
+}
+
+.makeup-date-picker :deep(.el-date-table td.current:not(.disabled) .el-date-table-cell__text) {
+  background: #F59E0B;
+  color: white;
+}
+
+.makeup-date-picker :deep(.el-date-table td.prev-month .el-date-table-cell__text),
+.makeup-date-picker :deep(.el-date-table td.next-month .el-date-table-cell__text) {
+  color: #d1d5db;
+}
+
+html.dark .makeup-form {
+  .student-info-card {
+    background: var(--admin-bg-secondary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .student-info h4 {
+    color: var(--admin-text-primary);
+  }
+  
+  .student-info p {
+    color: var(--admin-text-secondary);
+  }
+}
+
+html.dark .makeup-form-content {
+  .el-form-item__label {
+    color: var(--admin-text-primary);
+  }
+  
+  .makeup-date-picker :deep(.el-input__wrapper) {
+    background: var(--admin-bg-secondary);
+    border-color: var(--admin-border-color);
+  }
+  
+  .makeup-date-picker :deep(.el-input__wrapper:hover) {
+    border-color: #F59E0B;
+  }
+  
+  .makeup-date-picker :deep(.el-input.is-focus .el-input__wrapper) {
+    border-color: #F59E0B;
+  }
+  
+  .makeup-date-picker :deep(.el-input__inner) {
+    color: var(--admin-text-primary);
+  }
+  
+  .makeup-date-picker :deep(.el-picker-panel) {
+    background: var(--admin-bg-primary);
+    border-color: var(--admin-border-color);
+  }
+  
+  .makeup-date-picker :deep(.el-picker-panel__body) {
+    background: var(--admin-bg-primary);
+  }
+  
+  .makeup-date-picker :deep(.el-date-picker__time-header) {
+    border-bottom-color: var(--admin-border-color);
+  }
+  
+  .makeup-date-picker :deep(.el-date-picker__editor-wrap .el-input__wrapper) {
+    background: var(--admin-bg-secondary);
+    border-color: var(--admin-border-color);
+  }
+  
+  .makeup-date-picker :deep(.el-date-picker__header-label) {
+    color: var(--admin-text-primary);
+  }
+  
+  .makeup-date-picker :deep(.el-date-picker__header-label:hover) {
+    background: var(--admin-bg-secondary);
+  }
+  
+  .makeup-date-picker :deep(.el-picker-panel__icon-btn) {
+    color: var(--admin-text-secondary);
+  }
+  
+  .makeup-date-picker :deep(.el-picker-panel__icon-btn:hover) {
+    background: var(--admin-bg-secondary);
+  }
+  
+  .makeup-date-picker :deep(.el-date-table th) {
+    color: var(--admin-text-secondary);
+  }
+  
+  .makeup-date-picker :deep(.el-date-table-cell__text) {
+    color: var(--admin-text-primary);
+  }
+  
+  .makeup-date-picker :deep(.el-date-table td.available:hover .el-date-table-cell__text) {
+    background: rgba(245, 158, 11, 0.2);
+    color: #F59E0B;
+  }
+  
+  .makeup-date-picker :deep(.el-date-table td.prev-month .el-date-table-cell__text),
+  .makeup-date-picker :deep(.el-date-table td.next-month .el-date-table-cell__text) {
+    color: var(--admin-text-tertiary);
+  }
+}
+
 .attendance-records-dialog {
   .el-dialog__header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -3863,4 +4365,121 @@ html.dark .time-slot-admin.signed .time-label-admin {
   transition: none !important;
 }
 
+</style>
+
+<style>
+.makeup-date-picker-popper {
+  min-width: 420px !important;
+}
+
+.makeup-date-picker-popper .el-picker-panel {
+  width: 100% !important;
+  min-width: 420px !important;
+}
+
+.makeup-date-picker-popper .el-picker-panel__body {
+  padding: 20px !important;
+}
+
+.makeup-date-picker-popper .el-date-table {
+  width: 100% !important;
+}
+
+.makeup-date-picker-popper .el-date-table th,
+.makeup-date-picker-popper .el-date-table td {
+  padding: 8px 4px !important;
+}
+
+/* 星期显示中文化 */
+.makeup-date-picker-popper .el-date-table th {
+  font-size: 0 !important;
+  position: relative;
+}
+
+.makeup-date-picker-popper .el-date-table th:nth-child(1)::after {
+  content: '日' !important;
+  font-size: 13px !important;
+  display: block;
+}
+
+.makeup-date-picker-popper .el-date-table th:nth-child(2)::after {
+  content: '一' !important;
+  font-size: 13px !important;
+  display: block;
+}
+
+.makeup-date-picker-popper .el-date-table th:nth-child(3)::after {
+  content: '二' !important;
+  font-size: 13px !important;
+  display: block;
+}
+
+.makeup-date-picker-popper .el-date-table th:nth-child(4)::after {
+  content: '三' !important;
+  font-size: 13px !important;
+  display: block;
+}
+
+.makeup-date-picker-popper .el-date-table th:nth-child(5)::after {
+  content: '四' !important;
+  font-size: 13px !important;
+  display: block;
+}
+
+.makeup-date-picker-popper .el-date-table th:nth-child(6)::after {
+  content: '五' !important;
+  font-size: 13px !important;
+  display: block;
+}
+
+.makeup-date-picker-popper .el-date-table th:nth-child(7)::after {
+  content: '六' !important;
+  font-size: 13px !important;
+  display: block;
+}
+
+.makeup-date-picker-popper .el-date-table-cell {
+  height: 40px !important;
+}
+
+.makeup-date-picker-popper .el-date-table-cell__text {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 15px !important;
+}
+
+.makeup-date-picker-popper .el-date-picker__header {
+  padding: 12px 0 !important;
+  margin-bottom: 16px !important;
+}
+
+.makeup-date-picker-popper .el-date-picker__header-label {
+  font-size: 16px !important;
+  padding: 6px 12px !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+.makeup-date-picker-popper .el-picker-panel__icon-btn {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.makeup-date-picker-popper .el-date-picker__time-header {
+  padding: 16px 0 !important;
+  margin-bottom: 16px !important;
+}
+
+.makeup-date-picker-popper .el-date-picker__editor-wrap .el-input__inner::placeholder {
+  color: #9ca3af;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+html.dark .makeup-date-picker-popper .el-picker-panel {
+  background: var(--admin-bg-primary) !important;
+}
+
+html.dark .makeup-date-picker-popper .el-picker-panel__body {
+  background: var(--admin-bg-primary) !important;
+}
 </style>
