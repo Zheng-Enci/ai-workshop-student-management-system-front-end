@@ -413,6 +413,7 @@
       :teleported="true"
       modal-class="attendance-records-overlay"
       class="attendance-records-dialog"
+      @close="closeAttendanceRecordsDialog"
     >
       <div class="student-info-header">
         <div class="student-avatar-large">
@@ -503,8 +504,10 @@
       :close-on-click-modal="false"
       :append-to-body="true"
       :teleported="true"
+      :destroy-on-close="true"
       modal-class="heatmap-overlay"
       class="heatmap-dialog"
+      @close="closeHeatmapDialog"
     >
       <div class="student-info-header">
         <div class="student-avatar-large">
@@ -545,8 +548,10 @@
       :close-on-click-modal="false"
       :append-to-body="true"
       :teleported="true"
+      :destroy-on-close="true"
       modal-class="trend-overlay"
       class="trend-dialog"
+      @close="closeTrendDialog"
     >
       <div class="student-info-header">
         <div class="student-avatar-large">
@@ -1392,6 +1397,18 @@ const openAttendanceRecordsDialog = async (student) => {
 }
 
 const closeAttendanceRecordsDialog = () => {
+  // 先直接操作DOM隐藏对话框，避免闪烁
+  const dialogWrapper = document.querySelector('.attendance-records-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  // 立即设置v-model为false
+  attendanceRecordsDialogVisible.value = false
+  
+  // 立即清理，不延迟
   if (heatmapInstance.value) {
     heatmapInstance.value.dispose()
     heatmapInstance.value = null
@@ -1400,38 +1417,62 @@ const closeAttendanceRecordsDialog = () => {
     lineInstance.value.dispose()
     lineInstance.value = null
   }
+  calendarValue.value = new Date()
+  allStudentAttendanceRecords.value = []
+  currentStudentInfo.value = {}
   
-  attendanceRecordsDialogVisible.value = false
-  
-  setTimeout(() => {
-    calendarValue.value = new Date()
-    allStudentAttendanceRecords.value = []
-    currentStudentInfo.value = {}
-  }, 0)
-  
-  window.scrollTo(0, scrollPosition.value)
+  // 恢复滚动位置
+  requestAnimationFrame(() => {
+    window.scrollTo(0, scrollPosition.value)
+  })
 }
 
 const closeHeatmapDialog = () => {
+  // 先直接操作DOM隐藏对话框，避免闪烁
+  const dialogWrapper = document.querySelector('.heatmap-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  // 立即设置v-model为false
+  heatmapDialogVisible.value = false
+  
+  // 立即销毁图表实例，不延迟
   if (heatmapInstance.value) {
     heatmapInstance.value.dispose()
     heatmapInstance.value = null
   }
   
-  heatmapDialogVisible.value = false
-  
-  window.scrollTo(0, scrollPosition.value)
+  // 恢复滚动位置
+  requestAnimationFrame(() => {
+    window.scrollTo(0, scrollPosition.value)
+  })
 }
 
 const closeTrendDialog = () => {
+  // 先直接操作DOM隐藏对话框，避免闪烁
+  const dialogWrapper = document.querySelector('.trend-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  // 立即设置v-model为false
+  trendDialogVisible.value = false
+  
+  // 立即销毁图表实例，不延迟
   if (lineInstance.value) {
     lineInstance.value.dispose()
     lineInstance.value = null
   }
   
-  trendDialogVisible.value = false
-  
-  window.scrollTo(0, scrollPosition.value)
+  // 恢复滚动位置
+  requestAnimationFrame(() => {
+    window.scrollTo(0, scrollPosition.value)
+  })
 }
 
 const formatDateForDisplay = (dateStr) => {
@@ -3196,6 +3237,10 @@ html.dark .option-icon {
   align-items: center !important;
   justify-content: center !important;
   z-index: 3000 !important;
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
 }
 
 :deep(.makeup-overlay .el-overlay-dialog),
@@ -3208,16 +3253,59 @@ html.dark .option-icon {
   align-items: center !important;
   justify-content: center !important;
   z-index: 3001 !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+/* 禁用所有可能的过渡效果 */
+:deep(.el-fade-in),
+:deep(.el-fade-in-linear),
+:deep(.el-zoom-in-center),
+:deep(.el-zoom-in-top),
+:deep(.el-zoom-in-bottom) {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
 }
 
 .heatmap-dialog,
 .trend-dialog,
 .attendance-records-dialog {
+  .el-dialog__wrapper {
+    transition: none !important;
+    animation: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  
+  .el-dialog {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  
+  .el-overlay {
+    transition: none !important;
+    animation: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  
   .el-dialog__header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 20px 24px;
     border-radius: 8px 8px 0 0;
+    transition: none !important;
+    animation: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
   }
   
   .el-dialog__title {
@@ -3234,12 +3322,20 @@ html.dark .option-icon {
   .el-dialog__body {
     padding: 30px 24px;
     background: #f8f9fa;
+    transition: none !important;
+    animation: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
   }
   
   .el-dialog__footer {
     background: #f8f9fa;
     padding: 20px 24px;
     border-radius: 0 0 8px 8px;
+    transition: none !important;
+    animation: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
   }
 }
 
@@ -4365,22 +4461,67 @@ html.dark .time-slot-admin.signed .time-label-admin {
 /* 完全禁用弹窗过渡动画，避免闪烁 */
 .el-dialog__wrapper {
   transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
 }
 
 .el-dialog {
   transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+.el-overlay {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
 }
 
 .el-dialog__body {
   transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
 }
 
 .el-dialog__header {
   transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
 }
 
 .el-dialog__footer {
   transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+/* 禁用 BaseTransition 组件的过渡动画 */
+.el-fade-in,
+.el-fade-in-linear,
+.el-zoom-in-center,
+.el-zoom-in-top,
+.el-zoom-in-bottom {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+/* 禁用所有可能的过渡类 */
+[class*="el-fade"],
+[class*="el-zoom"],
+[class*="transition"] {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
 }
 
 .makeup-dialog {
