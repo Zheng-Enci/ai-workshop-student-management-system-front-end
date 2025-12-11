@@ -1069,17 +1069,7 @@ const initDialogHeatmapChart = () => {
   const option = {
     backgroundColor: 'transparent',
     tooltip: {
-      position: 'top',
-      backgroundColor: themeStore.isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
-      borderColor: themeStore.isDark ? '#333' : '#ddd',
-      textStyle: {
-        color: themeStore.isDark ? '#fff' : '#333'
-      },
-      formatter: function (params) {
-        const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        const timeSlots = ['上午', '下午', '晚上']
-        return `${weekDays[params.data[0]]} ${timeSlots[params.data[1]]}<br/>签到次数: ${params.data[2]}`
-      }
+      show: false
     },
     grid: {
       height: '60%',
@@ -1151,7 +1141,7 @@ const initDialogHeatmapChart = () => {
       data: heatmapData,
       label: {
         show: true,
-        color: themeStore.isDark ? '#ccc' : '#666',
+        color: '#000000',
         fontSize: 10
       },
       emphasis: {
@@ -1301,17 +1291,7 @@ const initHeatmapChart = () => {
   const option = {
     backgroundColor: 'transparent',
     tooltip: {
-      position: 'top',
-      backgroundColor: themeStore.isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
-      borderColor: themeStore.isDark ? '#333' : '#ddd',
-      textStyle: {
-        color: themeStore.isDark ? '#fff' : '#333'
-      },
-      formatter: function (params) {
-        const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        const timeSlots = ['上午', '下午', '晚上']
-        return `${weekDays[params.data[0]]} ${timeSlots[params.data[1]]}<br/>签到次数: ${params.data[2]}`
-      }
+      show: false
     },
     grid: {
       height: '60%',
@@ -1383,7 +1363,7 @@ const initHeatmapChart = () => {
       data: heatmapData,
       label: {
         show: true,
-        color: themeStore.isDark ? '#ccc' : '#666',
+        color: '#000000',
         fontSize: 10
       },
       emphasis: {

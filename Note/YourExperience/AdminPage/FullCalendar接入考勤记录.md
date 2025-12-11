@@ -72,6 +72,8 @@
   ```
 - **错误提示**：若运行时出现 `[ECharts] Component visualMap is used but not imported` 或 `[ECharts] Series heatmap is used but not imported` 警告，检查是否遗漏了相应的组件导入和注册。
 - **典型案例**：StudentManagerPage.vue 中使用了热力图（`type: 'heatmap'`）和 `visualMap` 配置项，但只导入了 `LineChart`，导致运行时出现 "[ECharts] Component visualMap is used but not imported" 和 "[ECharts] Series heatmap is used but not imported" 警告。修复方法：从 `echarts/charts` 导入 `HeatmapChart`，从 `echarts/components` 导入 `VisualMapComponent`，并在 `echarts.use()` 中注册这两个组件。
+- **禁用 tooltip**：如果需要在 ECharts 图表中禁用 tooltip（鼠标悬停提示），可以将 `tooltip` 配置设置为 `{ show: false }`。例如，热力图不需要显示 tooltip 时，可以这样配置：`tooltip: { show: false }`。这样可以完全禁用鼠标悬停时的提示信息显示。
+- **设置标签颜色**：在 ECharts 热力图中，可以通过 `series[].label.color` 设置数字标签的颜色。如果需要设置为纯黑色，可以使用 `color: '#000000'`。例如：`label: { show: true, color: '#000000', fontSize: 10 }`。这样可以确保数字在所有主题下都清晰可见。
 
 ## Element Plus DatePicker 美化
 - **图标添加**：使用 `prefix-icon` 插槽添加日历图标，提升视觉识别度：`<template #prefix-icon><el-icon><Calendar /></el-icon></template>`
