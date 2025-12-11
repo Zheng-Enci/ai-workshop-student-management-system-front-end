@@ -479,7 +479,7 @@
       :teleported="true"
     >
       <div class="date-details-content-admin" @click.stop>
-        <div class="selected-date-admin">{{ formatSelectedDate(selectedDate) }}</div>
+        <div class="selected-date-admin">{{ formatDateForDisplay(selectedDate) }}</div>
         <div class="attendance-times-admin">
           <div v-if="getDateAttendanceTimes(selectedDate).length === 0" class="no-attendance-admin">
             该日期无签到记录
@@ -493,63 +493,6 @@
           </div>
         </div>
       </div>
-    </el-dialog>
-
-    <el-dialog
-      v-if="makeupDialogVisible"
-      v-model="makeupDialogVisible"
-      title="学生补卡"
-      width="500px"
-      :close-on-click-modal="false"
-      :append-to-body="true"
-      :teleported="true"
-      class="makeup-dialog"
-    >
-      <div class="makeup-form">
-        <div class="student-info-card">
-          <div class="student-avatar-medium">
-            {{ currentStudentInfo.name?.charAt(0) }}
-          </div>
-          <div class="student-info">
-            <h4>{{ currentStudentInfo.name }}</h4>
-            <p>学号：{{ currentStudentInfo.studentId }}</p>
-          </div>
-        </div>
-        
-        <el-form
-          ref="makeupFormRef"
-          :model="makeupForm"
-          :rules="makeupFormRules"
-          label-width="100px"
-          class="makeup-form-content"
-        >
-          <el-form-item label="补卡时间" prop="attendanceTime">
-            <el-date-picker
-              v-model="makeupForm.attendanceTime"
-              type="datetime"
-              :locale="zhCn"
-              placeholder="选择补卡时间"
-              format="YYYY-MM-DD HH:mm:ss"
-              value-format="YYYY-MM-DDTHH:mm:ss"
-              class="makeup-date-picker"
-              popper-class="makeup-date-picker-popper"
-              clearable
-            >
-              <template #prefix-icon>
-                <el-icon><Calendar /></el-icon>
-              </template>
-            </el-date-picker>
-          </el-form-item>
-        </el-form>
-      </div>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="cancelMakeup">取消</el-button>
-          <el-button type="primary" @click="confirmMakeup" :loading="isLoading">
-            确认补卡
-          </el-button>
-        </div>
-      </template>
     </el-dialog>
 
     <el-dialog
@@ -635,6 +578,153 @@
         </div>
       </template>
     </el-dialog>
+
+    <el-dialog
+      v-if="makeupDialogVisible"
+      v-model="makeupDialogVisible"
+      :title="null"
+      :close-on-click-modal="false"
+      class="makeup-dialog"
+      :show-close="false"
+      :modal="true"
+      :append-to-body="true"
+      :teleported="true"
+      modal-class="makeup-overlay"
+      :destroy-on-close="true"
+    >
+      <div class="makeup-header">
+        <div class="header-icon">
+          <el-icon size="28"><Clock /></el-icon>
+        </div>
+        <div class="header-content">
+          <h3>学生补卡</h3>
+          <p>为指定学生进行补卡操作</p>
+        </div>
+      </div>
+      
+      <div class="makeup-content">
+        <div class="student-info-card">
+          <div class="student-avatar">
+            <el-icon size="36"><User /></el-icon>
+          </div>
+          <div class="student-details">
+            <div class="student-name">{{ makeupSelectedStudent?.name }}</div>
+            <div class="student-id">{{ makeupSelectedStudent?.studentId }}</div>
+            <div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 · {{ makeupSelectedStudent?.major }}</div>
+          </div>
+        </div>
+        
+        <div v-if="makeupStep === 'date'" class="makeup-step-content">
+          <div class="step-title">第一步：选择补卡日期</div>
+          <div class="date-shortcuts">
+            <el-button
+              v-for="shortcut in datetimeShortcuts"
+              :key="shortcut.key"
+              size="small"
+              :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
+              @click="selectDatetimeShortcut(shortcut)"
+              class="date-shortcut-btn"
+            >
+              <el-icon><Clock /></el-icon>
+              <span>{{ shortcut.label }}</span>
+            </el-button>
+          </div>
+          <el-form
+            ref="makeupFormRef"
+            :model="makeupForm"
+            :rules="makeupDateFormRules"
+            label-width="100px"
+            class="makeup-form-content"
+          >
+            <el-form-item label="选择日期" prop="selectedDate">
+              <el-date-picker
+                ref="datePickerRef"
+                v-model="makeupForm.selectedDate"
+                type="date"
+                :locale="zhCn"
+                placeholder="请选择日期"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+                class="makeup-date-picker"
+                popper-class="makeup-date-picker-popper"
+                clearable
+                @change="handleDateChange"
+                style="width: 100%"
+              >
+                <template #prefix-icon>
+                  <el-icon><Calendar /></el-icon>
+                </template>
+              </el-date-picker>
+            </el-form-item>
+          </el-form>
+        </div>
+        
+        <div v-if="makeupStep === 'hour'" class="makeup-step-content">
+          <div class="step-title">第二步：选择补卡时间</div>
+          <div class="selected-date-display">
+            <el-icon><Calendar /></el-icon>
+            <span>已选择日期：{{ formatSelectedDate() }}</span>
+          </div>
+          <div class="hour-buttons-group">
+            <div class="hour-label">选择时间：</div>
+            <div class="hour-buttons-container">
+              <template v-for="(slot, slotIndex) in timeSlots" :key="slot.key">
+                <div class="time-slot-buttons" :data-slot="slot.key">
+                  <div class="time-slot-label">{{ slot.label }}</div>
+              <el-button
+                    v-for="hour in slot.hours"
+                :key="hour"
+                size="small"
+                :type="isHourSelected(hour) ? 'primary' : 'default'"
+                @click="selectHour(hour)"
+                class="hour-btn"
+              >
+                {{ String(hour).padStart(2, '0') }}:00
+              </el-button>
+                </div>
+                <div v-if="slotIndex < timeSlots.length - 1" class="time-slot-divider"></div>
+              </template>
+            </div>
+            <div class="form-tip">
+              <el-icon><Warning /></el-icon>
+              <span>补卡时间必须在有效签到时间段内（早上 08:00-11:00、下午 14:00-17:00、晚上 19:00-22:00），且不能晚于当前时间</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="makeup-footer">
+        <el-button 
+          @click="cancelMakeup" 
+          class="cancel-btn"
+          size="large"
+        >
+          取消
+        </el-button>
+        <el-button 
+          v-if="makeupStep === 'date'"
+          type="primary" 
+          @click="confirmDateStep"
+          :disabled="!makeupForm.selectedDate"
+          class="submit-btn"
+          size="large"
+        >
+          确认
+        </el-button>
+        <el-button 
+          v-if="makeupStep === 'hour'"
+          type="primary" 
+          @click="submitMakeup" 
+          :loading="makeupLoading"
+          :disabled="makeupForm.selectedHour === null"
+          class="submit-btn"
+          size="large"
+        >
+          <el-icon v-if="!makeupLoading"><Clock /></el-icon>
+          {{ makeupLoading ? '处理中...' : '确认补卡' }}
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -657,10 +747,12 @@ import 'element-plus/theme-chalk/el-form-item.css'
 import 'element-plus/theme-chalk/el-pagination.css'
 import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/el-input-number.css'
-import 'element-plus/theme-chalk/el-date-picker.css'
 import 'element-plus/theme-chalk/el-button-group.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-calendar.css'
+import 'element-plus/theme-chalk/el-date-picker.css'
+import 'element-plus/theme-chalk/el-date-picker-panel.css'
+import 'element-plus/theme-chalk/el-scrollbar.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning } from '@element-plus/icons-vue'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin } from '@/api/student'
@@ -734,11 +826,6 @@ const calendarSlots = [
   { key: 'afternoon', label: '午' },
   { key: 'evening', label: '晚' }
 ]
-const makeupDialogVisible = ref(false)
-const makeupFormRef = ref()
-const makeupForm = ref({
-  attendanceTime: ''
-})
 
 const filteredStudentAttendanceRecords = computed(() => {
   if (!allStudentAttendanceRecords.value || allStudentAttendanceRecords.value.length === 0) {
@@ -767,6 +854,96 @@ const heatmapInstance = ref(null)
 const lineInstance = ref(null)
 const showDateDetailsDialog = ref(false)
 const selectedDate = ref('')
+const makeupDialogVisible = ref(false)
+const makeupLoading = ref(false)
+const makeupSelectedStudent = ref(null)
+const makeupStep = ref('date')
+const makeupFormRef = ref()
+const datePickerRef = ref()
+const makeupForm = ref({
+  attendanceTime: '',
+  selectedDate: '',
+  selectedHour: null
+})
+// 日期时间段快捷选项（包含日期和时间段）
+const datetimeShortcuts = [
+  {
+    key: 'today-morning',
+    label: '今天早上',
+    dateOffset: 0,
+    timeSlot: 'morning',
+    defaultHour: 8
+  },
+  {
+    key: 'today-afternoon',
+    label: '今天下午',
+    dateOffset: 0,
+    timeSlot: 'afternoon',
+    defaultHour: 14
+  },
+  {
+    key: 'today-evening',
+    label: '今天晚上',
+    dateOffset: 0,
+    timeSlot: 'evening',
+    defaultHour: 19
+  },
+  {
+    key: 'yesterday-morning',
+    label: '昨天早上',
+    dateOffset: -1,
+    timeSlot: 'morning',
+    defaultHour: 8
+  },
+  {
+    key: 'yesterday-afternoon',
+    label: '昨天下午',
+    dateOffset: -1,
+    timeSlot: 'afternoon',
+    defaultHour: 14
+  },
+  {
+    key: 'yesterday-evening',
+    label: '昨天晚上',
+    dateOffset: -1,
+    timeSlot: 'evening',
+    defaultHour: 19
+  }
+]
+
+// 获取快捷选项的日期值
+const getShortcutDate = (shortcut) => {
+  const date = new Date()
+  date.setDate(date.getDate() + shortcut.dateOffset)
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+// 按早中晚分类的所有可签到时间
+const timeSlots = [
+  {
+    label: '早上',
+    key: 'morning',
+    hours: [8, 9, 10, 11]
+  },
+  {
+    label: '下午',
+    key: 'afternoon',
+    hours: [14, 15, 16, 17]
+  },
+  {
+    label: '晚上',
+    key: 'evening',
+    hours: [19, 20, 21, 22]
+  }
+]
+
+// 所有可签到时间（扁平化，用于验证）
+const validHours = timeSlots.flatMap(slot => slot.hours)
+const makeupDateFormRules = {
+  selectedDate: [
+    { required: true, message: '请选择日期', trigger: 'change' }
+  ]
+}
 
 const levelOptions = [
   { value: 0, label: '社团成员', color: 'info' },
@@ -819,12 +996,6 @@ const editFormRules = {
   ],
   password: [
     { min: 6, max: 16, message: '密码长度必须在6到16位之间', trigger: 'blur' }
-  ]
-}
-
-const makeupFormRules = {
-  attendanceTime: [
-    { required: true, message: '请选择补卡时间', trigger: 'change' }
   ]
 }
 
@@ -1256,7 +1427,7 @@ const closeTrendDialog = () => {
   window.scrollTo(0, scrollPosition.value)
 }
 
-const formatSelectedDate = (dateStr) => {
+const formatDateForDisplay = (dateStr) => {
   if (!dateStr) return ''
   const date = new Date(dateStr)
   const year = date.getFullYear()
@@ -1649,120 +1820,6 @@ const generateLineData = () => {
   }
 }
 
-// 月份名称映射表
-const monthMap = {
-  'January': '一月',
-  'February': '二月',
-  'March': '三月',
-  'April': '四月',
-  'May': '五月',
-  'June': '六月',
-  'July': '七月',
-  'August': '八月',
-  'September': '九月',
-  'October': '十月',
-  'November': '十一月',
-  'December': '十二月'
-}
-
-let makeupMonthObserver = null
-
-const openMakeupDialog = async (student) => {
-  currentStudentInfo.value = student
-  makeupForm.value.attendanceTime = ''
-  makeupDialogVisible.value = true
-  await nextTick()
-  
-  // 星期名称映射表
-  const weekMap = {
-    'Sun': '日',
-    'Mon': '一',
-    'Tue': '二',
-    'Wed': '三',
-    'Thu': '四',
-    'Fri': '五',
-    'Sat': '六',
-    'Sunday': '日',
-    'Monday': '一',
-    'Tuesday': '二',
-    'Wednesday': '三',
-    'Thursday': '四',
-    'Friday': '五',
-    'Saturday': '六'
-  }
-  
-  const setPlaceholderAndMonth = () => {
-    const popper = document.querySelector('.makeup-date-picker-popper')
-    if (popper) {
-      // 设置占位符
-      const dateInputs = popper.querySelectorAll('.el-date-picker__editor-wrap .el-input__inner')
-      if (dateInputs.length >= 2) {
-        dateInputs[0].setAttribute('placeholder', '选择日期')
-        dateInputs[1].setAttribute('placeholder', '选择时间')
-      }
-      
-      // 将月份名称改为中文
-      const headerLabels = popper.querySelectorAll('.el-date-picker__header-label')
-      headerLabels.forEach(label => {
-        const text = label.textContent.trim()
-        // 匹配 "2025 December" 或 "December 2025" 格式
-        for (const [enMonth, cnMonth] of Object.entries(monthMap)) {
-          if (text.includes(enMonth)) {
-            // 替换月份名称
-            const newText = text.replace(enMonth, cnMonth)
-            label.textContent = newText
-            break
-          }
-        }
-      })
-      
-      // 将星期名称改为中文
-      // 注意：由于 CSS 的 ::after 伪元素已经设置了中文，这里主要是确保原文本被隐藏
-      const weekHeaders = popper.querySelectorAll('.el-date-table th')
-      weekHeaders.forEach((th) => {
-        const text = th.textContent.trim()
-        // 检查是否包含英文星期名称
-        for (const [enWeek] of Object.entries(weekMap)) {
-          if (text.includes(enWeek)) {
-            // 如果文本内容包含英文星期名称，隐藏原文本（CSS ::after 会显示中文）
-            if (th.textContent.trim() === enWeek || th.textContent.trim().includes(enWeek)) {
-              th.style.fontSize = '0'
-            }
-            break
-          }
-        }
-      })
-    }
-  }
-  
-  // 使用多个延迟确保日期选择器面板已渲染
-  setTimeout(setPlaceholderAndMonth, 100)
-  setTimeout(setPlaceholderAndMonth, 300)
-  setTimeout(setPlaceholderAndMonth, 500)
-  
-  // 监听日期选择器面板的变化，当月份切换时也要更新
-  setTimeout(() => {
-    const popper = document.querySelector('.makeup-date-picker-popper')
-    if (popper) {
-      // 先断开之前的观察器
-      if (makeupMonthObserver) {
-        makeupMonthObserver.disconnect()
-      }
-      
-      // 创建新的观察器
-      makeupMonthObserver = new MutationObserver(() => {
-        setPlaceholderAndMonth()
-      })
-      
-      makeupMonthObserver.observe(popper, {
-        childList: true,
-        subtree: true,
-        characterData: true
-      })
-    }
-  }, 500)
-}
-
 const openHeatmapDialog = async (student) => {
   currentStudentInfo.value = student
   scrollPosition.value = window.pageYOffset || document.documentElement.scrollTop
@@ -1825,63 +1882,293 @@ const openTrendDialog = async (student) => {
   }
 }
 
-const cancelMakeup = () => {
-  makeupDialogVisible.value = false
-  makeupFormRef.value?.resetFields()
-  currentStudentInfo.value = {}
-  // 断开月份名称观察器
-  if (makeupMonthObserver) {
-    makeupMonthObserver.disconnect()
-    makeupMonthObserver = null
-  }
-}
-
-const confirmMakeup = async () => {
-  if (!makeupFormRef.value) return
-  
-  try {
-    await makeupFormRef.value.validate()
-    
-    const adminPassword = adminStore.getAdminPassword()
-    if (!adminPassword) {
-      ElMessage.error('身份验证已过期，请重新登录')
-      router.push('/admin/auth')
-      return
-    }
-
-    isLoading.value = true
-    
-    const response = await makeupAttendanceWithSpecialPassword(
-      adminPassword,
-      currentStudentInfo.value.studentId.toString(),
-      makeupForm.value.attendanceTime
-    )
-    
-    if (response.code === 200) {
-      ElMessage.success('补卡成功')
-      makeupDialogVisible.value = false
-      // 断开月份名称观察器
-      if (makeupMonthObserver) {
-        makeupMonthObserver.disconnect()
-        makeupMonthObserver = null
-      }
-      await refreshData()
-    } else {
-      ElMessage.error(response.message || '补卡失败')
-    }
-  } catch (error) {
-    if (error.message) {
-      ElMessage.error(error.message)
-    }
-  } finally {
-    isLoading.value = false
-  }
-}
-
 const logout = () => {
   adminStore.clearAdminPassword()
   router.push('/admin/auth')
   ElMessage.success('已退出管理员模式')
+}
+
+const monthMap = {
+  'January': '一月',
+  'February': '二月',
+  'March': '三月',
+  'April': '四月',
+  'May': '五月',
+  'June': '六月',
+  'July': '七月',
+  'August': '八月',
+  'September': '九月',
+  'October': '十月',
+  'November': '十一月',
+  'December': '十二月'
+}
+
+const weekDayMap = {
+  'Sun': '日',
+  'Sunday': '日',
+  'Mon': '一',
+  'Monday': '一',
+  'Tue': '二',
+  'Tuesday': '二',
+  'Wed': '三',
+  'Wednesday': '三',
+  'Thu': '四',
+  'Thursday': '四',
+  'Fri': '五',
+  'Friday': '五',
+  'Sat': '六',
+  'Saturday': '六'
+}
+
+let monthObserver = null
+
+const setChineseMonth = () => {
+  const popper = document.querySelector('.makeup-date-picker-popper')
+  if (popper) {
+    const headerLabels = popper.querySelectorAll('.el-date-picker__header-label')
+    headerLabels.forEach(label => {
+      const text = label.textContent.trim()
+      for (const [enMonth, cnMonth] of Object.entries(monthMap)) {
+        if (text.includes(enMonth)) {
+          const newText = text.replace(enMonth, cnMonth)
+          label.textContent = newText
+          break
+        }
+      }
+    })
+  }
+}
+
+const setChineseWeekDays = () => {
+  const popper = document.querySelector('.makeup-date-picker-popper')
+  if (popper) {
+    const weekDayCells = popper.querySelectorAll('.el-date-table th')
+    weekDayCells.forEach((cell) => {
+      const text = cell.textContent.trim()
+      if (text) {
+        for (const [enDay, cnDay] of Object.entries(weekDayMap)) {
+          if (text === enDay || text.includes(enDay)) {
+            const childNodes = Array.from(cell.childNodes)
+            childNodes.forEach(node => {
+              if (node.nodeType === Node.TEXT_NODE) {
+                node.textContent = ''
+              } else if (node.nodeType === Node.ELEMENT_NODE) {
+                node.style.display = 'none'
+                node.style.fontSize = '0'
+                node.style.opacity = '0'
+                node.style.visibility = 'hidden'
+              }
+            })
+            if (!cell.querySelector('.chinese-weekday')) {
+              const cnSpan = document.createElement('span')
+              cnSpan.className = 'chinese-weekday'
+              cnSpan.textContent = cnDay
+              cnSpan.style.cssText = 'font-size: 20px !important; font-weight: 600 !important; display: block !important; position: absolute !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; color: #606266 !important; line-height: 1 !important; width: 100% !important; text-align: center !important;'
+              cell.appendChild(cnSpan)
+            }
+            break
+          }
+        }
+      }
+    })
+  }
+}
+
+const openMakeupDialog = async (student) => {
+  makeupSelectedStudent.value = student
+  makeupForm.value.attendanceTime = ''
+  makeupForm.value.selectedDate = ''
+  makeupForm.value.selectedHour = null
+  makeupStep.value = 'date'
+  makeupDialogVisible.value = true
+  await nextTick()
+  
+  setTimeout(() => {
+    const datePickerInput = document.querySelector('.makeup-date-picker input')
+    if (datePickerInput) {
+      datePickerInput.focus()
+      datePickerInput.click()
+    }
+    
+    setChineseMonth()
+    setChineseWeekDays()
+    
+    setTimeout(() => {
+      setChineseMonth()
+      setChineseWeekDays()
+    }, 200)
+    
+    setTimeout(() => {
+      setChineseMonth()
+      setChineseWeekDays()
+    }, 500)
+    
+    setTimeout(() => {
+      setChineseMonth()
+      setChineseWeekDays()
+    }, 800)
+  }, 100)
+  
+  if (monthObserver) {
+    monthObserver.disconnect()
+  }
+  
+  monthObserver = new MutationObserver(() => {
+    setChineseMonth()
+    setChineseWeekDays()
+  })
+  
+  setTimeout(() => {
+    const popper = document.querySelector('.makeup-date-picker-popper')
+    if (popper) {
+      monthObserver.observe(popper, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      })
+    }
+  }, 200)
+}
+
+const cancelMakeup = () => {
+  if (monthObserver) {
+    monthObserver.disconnect()
+    monthObserver = null
+  }
+  makeupDialogVisible.value = false
+  makeupFormRef.value?.resetFields()
+  makeupSelectedStudent.value = null
+  makeupForm.value.selectedDate = ''
+  makeupForm.value.selectedHour = null
+  makeupStep.value = 'date'
+}
+
+const handleDateChange = () => {
+}
+
+const formatSelectedDate = () => {
+  if (!makeupForm.value.selectedDate) return ''
+  const date = new Date(makeupForm.value.selectedDate)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}年${month}月${day}日`
+}
+
+const confirmDateStep = async () => {
+  if (!makeupFormRef.value) return
+  try {
+    await makeupFormRef.value.validate()
+    makeupStep.value = 'hour'
+    makeupForm.value.selectedHour = null
+  } catch {
+    return
+  }
+}
+
+const selectDatetimeShortcut = (shortcut) => {
+  // 设置日期
+  const dateValue = getShortcutDate(shortcut)
+  makeupForm.value.selectedDate = dateValue
+  
+  // 设置默认时间（该时间段的首个时间）
+  makeupForm.value.selectedHour = shortcut.defaultHour
+  
+  // 更新补卡时间
+  updateAttendanceTime()
+  
+  // 自动切换到时间选择步骤
+  makeupStep.value = 'hour'
+}
+
+const isDatetimeShortcutSelected = (shortcut) => {
+  if (!makeupForm.value.selectedDate || makeupForm.value.selectedHour === null) return false
+  
+  // 检查日期是否匹配
+  const shortcutDate = getShortcutDate(shortcut)
+  if (makeupForm.value.selectedDate !== shortcutDate) return false
+  
+  // 检查时间段是否匹配
+  const selectedSlot = timeSlots.find(slot => slot.hours.includes(makeupForm.value.selectedHour))
+  if (!selectedSlot || selectedSlot.key !== shortcut.timeSlot) return false
+  
+  return true
+}
+
+const selectHour = (hour) => {
+  if (!validHours.includes(hour)) return
+  makeupForm.value.selectedHour = hour
+  updateAttendanceTime()
+}
+
+const isHourSelected = (hour) => {
+  if (makeupForm.value.selectedHour === null) return false
+  return makeupForm.value.selectedHour === hour
+}
+
+const updateAttendanceTime = () => {
+  if (makeupForm.value.selectedDate && makeupForm.value.selectedHour !== null) {
+    const dateStr = makeupForm.value.selectedDate
+    const hourStr = String(makeupForm.value.selectedHour).padStart(2, '0')
+    makeupForm.value.attendanceTime = `${dateStr}T${hourStr}:00:00`
+  } else {
+    makeupForm.value.attendanceTime = ''
+  }
+}
+
+const validateAttendanceTime = (dateStr, hour) => {
+  const selectedTime = new Date(`${dateStr}T${String(hour).padStart(2, '0')}:00:00`)
+  const now = new Date()
+  if (selectedTime > now) {
+    ElMessage.warning('补卡时间不能晚于当前时间')
+    return false
+  }
+  return true
+}
+
+const submitMakeup = async () => {
+  if (makeupLoading.value) return
+  if (makeupForm.value.selectedHour === null) {
+    ElMessage.warning('请选择补卡时间')
+    return
+  }
+  if (!makeupForm.value.selectedDate) {
+    ElMessage.warning('请选择补卡日期')
+    return
+  }
+  if (!validateAttendanceTime(makeupForm.value.selectedDate, makeupForm.value.selectedHour)) {
+    return
+  }
+  updateAttendanceTime()
+  if (!makeupForm.value.attendanceTime) {
+    ElMessage.warning('补卡时间不完整')
+    return
+  }
+  const adminPassword = adminStore.getAdminPassword()
+  if (!adminPassword) {
+    ElMessage.error('身份验证已过期，请重新登录')
+    router.push('/admin/auth')
+    return
+  }
+  makeupLoading.value = true
+  try {
+    const response = await makeupAttendanceWithSpecialPassword(
+      adminPassword,
+      makeupSelectedStudent.value.studentId,
+      makeupForm.value.attendanceTime
+    )
+    if (response.code === 200) {
+      ElMessage.success('补卡成功')
+      cancelMakeup()
+      await loadStudentAttendanceCounts()
+    } else {
+      ElMessage.error(response.message || '补卡失败')
+    }
+  } catch (error) {
+    ElMessage.error(error.message || '补卡失败')
+  } finally {
+    makeupLoading.value = false
+  }
 }
 
 onMounted(async () => {
@@ -2174,6 +2461,7 @@ html.dark {
   align-items: center;
   gap: 15px;
 }
+
 
 .search-input {
   width: 250px;
@@ -2890,6 +3178,7 @@ html.dark .option-icon {
   }
 }
 
+:deep(.makeup-overlay),
 :deep(.attendance-records-overlay),
 :deep(.heatmap-overlay),
 :deep(.trend-overlay) {
@@ -2902,6 +3191,7 @@ html.dark .option-icon {
   z-index: 3000 !important;
 }
 
+:deep(.makeup-overlay .el-overlay-dialog),
 :deep(.attendance-records-overlay .el-overlay-dialog),
 :deep(.heatmap-overlay .el-overlay-dialog),
 :deep(.trend-overlay .el-overlay-dialog) {
@@ -3029,384 +3319,11 @@ html.dark .option-icon {
   }
 }
 
-.makeup-dialog {
-  .el-dialog__header {
-    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-    color: white;
-    padding: 20px 24px;
-    border-radius: 8px 8px 0 0;
-  }
-  
-  .el-dialog__title {
-    color: white;
-    font-weight: 700;
-    font-size: 18px;
-  }
-  
-  .el-dialog__headerbtn .el-dialog__close {
-    color: white;
-    font-size: 20px;
-  }
-  
-  .el-dialog__body {
-    padding: 30px 24px;
-    background: #f8f9fa;
-  }
-  
-  .el-dialog__footer {
-    background: #f8f9fa;
-    padding: 20px 24px;
-    border-radius: 0 0 8px 8px;
-  }
-}
-
-.makeup-form {
-  .student-info-card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  }
-  
-  .student-avatar-medium {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    font-weight: 700;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-  }
-  
-  .student-info h4 {
-    margin: 0 0 4px 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: #2c3e50;
-  }
-  
-  .student-info p {
-    margin: 0;
-    font-size: 14px;
-    color: #6b7280;
-  }
-}
-
 .makeup-form-content {
   .el-form-item__label {
     font-weight: 600;
     color: #2c3e50;
     font-size: 14px;
-  }
-  
-  .makeup-date-picker {
-    width: 100%;
-  }
-  
-  .makeup-date-picker :deep(.el-input__wrapper) {
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: white;
-    padding: 0 12px;
-    min-height: 42px;
-  }
-  
-  .makeup-date-picker :deep(.el-input__wrapper:hover) {
-    border-color: #F59E0B;
-    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
-  }
-  
-  .makeup-date-picker :deep(.el-input.is-focus .el-input__wrapper) {
-    border-color: #F59E0B;
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
-  }
-  
-  .makeup-date-picker :deep(.el-input__inner) {
-    color: #1f2937;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 0 8px;
-  }
-  
-  .makeup-date-picker :deep(.el-input__prefix) {
-    color: #F59E0B;
-    padding-left: 12px;
-  }
-  
-  .makeup-date-picker :deep(.el-input__suffix) {
-    padding-right: 12px;
-  }
-  
-  .makeup-date-picker :deep(.el-input__suffix .el-icon) {
-    color: #9ca3af;
-    transition: color 0.3s ease;
-  }
-  
-  .makeup-date-picker :deep(.el-input__suffix:hover .el-icon) {
-    color: #F59E0B;
-  }
-}
-
-.makeup-date-picker :deep(.el-picker-panel) {
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
-  background: #ffffff !important;
-  opacity: 1 !important;
-}
-
-.makeup-date-picker :deep(.el-picker-panel__body) {
-  padding: 16px;
-  background: #ffffff !important;
-  opacity: 1 !important;
-}
-
-.makeup-date-picker :deep(.el-date-picker__time-header) {
-  padding: 12px 0;
-  border-bottom: 1px solid #f3f4f6;
-  margin-bottom: 12px;
-}
-
-.makeup-date-picker :deep(.el-date-picker__editor-wrap) {
-  padding: 0 8px;
-}
-
-.makeup-date-picker :deep(.el-date-picker__editor-wrap .el-input__wrapper) {
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
-  transition: all 0.2s ease;
-}
-
-.makeup-date-picker :deep(.el-date-picker__editor-wrap .el-input__wrapper:hover) {
-  border-color: #F59E0B;
-}
-
-.makeup-date-picker :deep(.el-date-picker__header) {
-  margin-bottom: 12px;
-  padding: 8px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.makeup-date-picker :deep(.el-date-picker__header-label) {
-  font-weight: 600;
-  font-size: 15px;
-  color: #1f2937;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.makeup-date-picker :deep(.el-date-picker__header-label:hover) {
-  background: #f9fafb;
-  color: #F59E0B;
-}
-
-.makeup-date-picker :deep(.el-picker-panel__icon-btn) {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  color: #6b7280;
-}
-
-.makeup-date-picker :deep(.el-picker-panel__icon-btn:hover) {
-  background: #f9fafb;
-  color: #F59E0B;
-}
-
-.makeup-date-picker :deep(.el-date-table) {
-  font-size: 14px;
-}
-
-.makeup-date-picker :deep(.el-date-table th) {
-  padding: 8px 0;
-  font-weight: 600;
-  color: #6b7280;
-  font-size: 0 !important;
-  position: relative;
-}
-
-.makeup-date-picker :deep(.el-date-table th:nth-child(1))::after {
-  content: '日';
-  font-size: 13px;
-  display: block;
-}
-
-.makeup-date-picker :deep(.el-date-table th:nth-child(2))::after {
-  content: '一';
-  font-size: 13px;
-  display: block;
-}
-
-.makeup-date-picker :deep(.el-date-table th:nth-child(3))::after {
-  content: '二';
-  font-size: 13px;
-  display: block;
-}
-
-.makeup-date-picker :deep(.el-date-table th:nth-child(4))::after {
-  content: '三';
-  font-size: 13px;
-  display: block;
-}
-
-.makeup-date-picker :deep(.el-date-table th:nth-child(5))::after {
-  content: '四';
-  font-size: 13px;
-  display: block;
-}
-
-.makeup-date-picker :deep(.el-date-table th:nth-child(6))::after {
-  content: '五';
-  font-size: 13px;
-  display: block;
-}
-
-.makeup-date-picker :deep(.el-date-table th:nth-child(7))::after {
-  content: '六';
-  font-size: 13px;
-  display: block;
-}
-
-.makeup-date-picker :deep(.el-date-table th) {
-  font-size: 0;
-}
-
-.makeup-date-picker :deep(.el-date-table-cell) {
-  height: 36px;
-  padding: 0;
-}
-
-.makeup-date-picker :deep(.el-date-table-cell__text) {
-  width: 32px;
-  height: 32px;
-  line-height: 32px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  font-weight: 500;
-}
-
-.makeup-date-picker :deep(.el-date-table td.available:hover .el-date-table-cell__text) {
-  background: #fef3c7;
-  color: #F59E0B;
-}
-
-.makeup-date-picker :deep(.el-date-table td.today .el-date-table-cell__text) {
-  color: #F59E0B;
-  font-weight: 600;
-}
-
-.makeup-date-picker :deep(.el-date-table td.current:not(.disabled) .el-date-table-cell__text) {
-  background: #F59E0B;
-  color: white;
-}
-
-.makeup-date-picker :deep(.el-date-table td.prev-month .el-date-table-cell__text),
-.makeup-date-picker :deep(.el-date-table td.next-month .el-date-table-cell__text) {
-  color: #d1d5db;
-}
-
-html.dark .makeup-form {
-  .student-info-card {
-    background: var(--admin-bg-secondary);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .student-info h4 {
-    color: var(--admin-text-primary);
-  }
-  
-  .student-info p {
-    color: var(--admin-text-secondary);
-  }
-}
-
-html.dark .makeup-form-content {
-  .el-form-item__label {
-    color: var(--admin-text-primary);
-  }
-  
-  .makeup-date-picker :deep(.el-input__wrapper) {
-    background: var(--admin-bg-secondary);
-    border-color: var(--admin-border-color);
-  }
-  
-  .makeup-date-picker :deep(.el-input__wrapper:hover) {
-    border-color: #F59E0B;
-  }
-  
-  .makeup-date-picker :deep(.el-input.is-focus .el-input__wrapper) {
-    border-color: #F59E0B;
-  }
-  
-  .makeup-date-picker :deep(.el-input__inner) {
-    color: var(--admin-text-primary);
-  }
-  
-  .makeup-date-picker :deep(.el-picker-panel) {
-    background: var(--admin-bg-primary);
-    border-color: var(--admin-border-color);
-  }
-  
-  .makeup-date-picker :deep(.el-picker-panel__body) {
-    background: var(--admin-bg-primary);
-  }
-  
-  .makeup-date-picker :deep(.el-date-picker__time-header) {
-    border-bottom-color: var(--admin-border-color);
-  }
-  
-  .makeup-date-picker :deep(.el-date-picker__editor-wrap .el-input__wrapper) {
-    background: var(--admin-bg-secondary);
-    border-color: var(--admin-border-color);
-  }
-  
-  .makeup-date-picker :deep(.el-date-picker__header-label) {
-    color: var(--admin-text-primary);
-  }
-  
-  .makeup-date-picker :deep(.el-date-picker__header-label:hover) {
-    background: var(--admin-bg-secondary);
-  }
-  
-  .makeup-date-picker :deep(.el-picker-panel__icon-btn) {
-    color: var(--admin-text-secondary);
-  }
-  
-  .makeup-date-picker :deep(.el-picker-panel__icon-btn:hover) {
-    background: var(--admin-bg-secondary);
-  }
-  
-  .makeup-date-picker :deep(.el-date-table th) {
-    color: var(--admin-text-secondary);
-  }
-  
-  .makeup-date-picker :deep(.el-date-table-cell__text) {
-    color: var(--admin-text-primary);
-  }
-  
-  .makeup-date-picker :deep(.el-date-table td.available:hover .el-date-table-cell__text) {
-    background: rgba(245, 158, 11, 0.2);
-    color: #F59E0B;
-  }
-  
-  .makeup-date-picker :deep(.el-date-table td.prev-month .el-date-table-cell__text),
-  .makeup-date-picker :deep(.el-date-table td.next-month .el-date-table-cell__text) {
-    color: var(--admin-text-tertiary);
   }
 }
 
@@ -4368,167 +4285,797 @@ html.dark .time-slot-admin.signed .time-label-admin {
   transition: none !important;
 }
 
-</style>
+.makeup-dialog {
+  --el-dialog-width: 550px;
+  width: 28%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
 
-<style>
+.makeup-dialog .el-dialog__body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.makeup-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.header-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.header-content p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.makeup-content {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.date-shortcuts {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.date-shortcut-btn {
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  border: 2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-shortcut-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.date-shortcut-btn.el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+}
+
+.date-shortcut-btn.el-button--primary:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.student-info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #e5e7eb;
+}
+
+.student-avatar {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.student-details {
+  flex: 1;
+}
+
+.student-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.student-id {
+  font-size: 14px;
+  color: #6b7280;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 4px;
+}
+
+.student-grade {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.makeup-step-content {
+  padding: 20px 0;
+}
+
+.step-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.selected-date-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  color: #0369a1;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.selected-date-display .el-icon {
+  font-size: 20px;
+}
+
+.hour-buttons-group {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.hour-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.hour-buttons-container {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  padding: 24px;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.time-slot-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.time-slot-label {
+  min-width: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-right: 12px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.time-slot-divider {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, transparent, #d1d5db, transparent);
+  margin: 0 20px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .time-slot-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #d1d5db, transparent);
+    margin: 12px 0;
+  }
+}
+
+.hour-btn {
+  min-width: 80px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  padding: 12px 20px;
+  border: 2px solid #e5e7eb;
+  background: white;
+  color: #374151;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.hour-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.hour-btn:hover::before {
+  left: 100%;
+}
+
+.hour-btn:hover {
+  border-color: #F59E0B;
+  color: #F59E0B;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25), 0 2px 4px rgba(245, 158, 11, 0.15);
+  background: linear-gradient(135deg, #fff5e6 0%, #fffbf0 100%);
+}
+
+.hour-btn.el-button--primary {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  border-color: #F59E0B;
+  color: white;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35), 0 2px 6px rgba(245, 158, 11, 0.2);
+  position: relative;
+}
+
+.hour-btn.el-button--primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.hour-btn.el-button--primary:hover {
+  background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4), 0 3px 8px rgba(245, 158, 11, 0.25);
+}
+
+.form-tip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  color: #92400e;
+  font-size: 13px;
+}
+
+.form-tip .el-icon {
+  font-size: 16px;
+}
+
+.makeup-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+  background: white;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  background: #f8f9fa;
+}
+
+.cancel-btn {
+  border-radius: 8px;
+}
+
+.submit-btn {
+  border-radius: 8px;
+}
+
+.makeup-form-content .el-form-item__label {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.makeup-form-content .el-input__inner,
+.makeup-form-content .el-select .el-input__inner {
+  border-radius: 8px;
+  border: 2px solid #e1e8ed;
+  transition: all 0.3s ease;
+}
+
+.makeup-form-content .el-input__inner:focus,
+.makeup-form-content .el-select .el-input__inner:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+html.dark .student-info-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+html.dark .student-name {
+  color: #e2e8f0;
+}
+
+html.dark .student-id {
+  color: #cbd5e1;
+}
+
+html.dark .student-grade {
+  color: #94a3b8;
+}
+
+html.dark .step-title {
+  color: #e2e8f0;
+}
+
+html.dark .selected-date-display {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #60a5fa;
+}
+
+html.dark .hour-buttons-group {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+html.dark .hour-label {
+  color: #cbd5e1;
+}
+
+html.dark .hour-buttons-container {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-color: #334155;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .time-slot-divider {
+  background: linear-gradient(to bottom, transparent, #475569, transparent);
+}
+
+html.dark .time-slot-label {
+  color: #e2e8f0;
+}
+
+html.dark .hour-btn {
+  background: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+html.dark .hour-btn:hover {
+  border-color: #F59E0B;
+  color: #F59E0B;
+  background: #2a2a2a;
+}
+
+html.dark .hour-btn.el-button--primary {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  border-color: #F59E0B;
+  color: white;
+}
+
+html.dark .hour-btn.el-button--primary:hover {
+  background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+}
+
+html.dark .date-shortcut-btn {
+  background: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+html.dark .date-shortcut-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  background: #2a2a2a;
+}
+
+html.dark .date-shortcut-btn.el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  color: white;
+}
+
+html.dark .hour-btn:hover {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: #F59E0B;
+  color: #F59E0B;
+}
+
+html.dark .form-tip {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #fde68a;
+}
+
+html.dark .makeup-footer {
+  background: #1e293b;
+  border-top-color: #334155;
+}
+
+html.dark .makeup-content {
+  background: transparent;
+}
+
+html.dark .makeup-form-content .el-form-item__label {
+  color: #e2e8f0;
+}
+
+html.dark .makeup-form-content .el-input__inner,
+html.dark .makeup-form-content .el-select .el-input__inner {
+  background: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+html.dark .makeup-form-content .el-input__inner:focus,
+html.dark .makeup-form-content .el-select .el-input__inner:focus {
+  border-color: #667eea;
+}
+
 .makeup-date-picker-popper {
-  min-width: 420px !important;
+  min-width: 750px !important;
   background-color: #ffffff !important;
   opacity: 1 !important;
+  z-index: 2001 !important;
+  max-width: 800px !important;
+  pointer-events: auto !important;
+  position: relative !important;
 }
 
 .makeup-date-picker-popper .el-picker-panel {
   width: 100% !important;
-  min-width: 420px !important;
+  min-width: 750px !important;
   background-color: #ffffff !important;
   opacity: 1 !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .makeup-date-picker-popper .el-picker-panel__body {
-  padding: 20px !important;
+  padding: 40px !important;
   background-color: #ffffff !important;
   opacity: 1 !important;
-}
-
-.makeup-date-picker-popper .el-date-picker__header {
-  background-color: #ffffff !important;
-}
-
-.makeup-date-picker-popper .el-date-picker__time-header {
-  background-color: #ffffff !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .makeup-date-picker-popper .el-date-table {
   background-color: #ffffff !important;
-}
-
-.makeup-date-picker-popper .el-date-table th,
-.makeup-date-picker-popper .el-date-table td {
-  background-color: transparent !important;
-}
-
-.makeup-date-picker-popper .el-date-table-cell {
-  background-color: transparent !important;
-}
-
-.makeup-date-picker-popper .el-date-table {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1 !important;
   width: 100% !important;
 }
 
-.makeup-date-picker-popper .el-date-table th,
-.makeup-date-picker-popper .el-date-table td {
-  padding: 8px 4px !important;
+.makeup-date-picker-popper .el-date-table tr {
+  height: 80px !important;
 }
 
-/* 星期显示中文化 */
+.makeup-date-picker-popper .el-date-table td {
+  padding: 6px !important;
+}
+
+.makeup-date-picker-popper .el-date-table th,
+.makeup-date-picker-popper .el-date-table td {
+  background-color: transparent !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
 .makeup-date-picker-popper .el-date-table th {
   font-size: 0 !important;
-  position: relative;
+  position: relative !important;
+  height: 56px !important;
+  padding: 16px 0 !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.makeup-date-picker-popper .el-date-table th > * {
+  font-size: 0 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 .makeup-date-picker-popper .el-date-table th:nth-child(1)::after {
   content: '日' !important;
-  font-size: 13px !important;
-  display: block;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #606266 !important;
+  line-height: 1 !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 
 .makeup-date-picker-popper .el-date-table th:nth-child(2)::after {
   content: '一' !important;
-  font-size: 13px !important;
-  display: block;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #606266 !important;
+  line-height: 1 !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 
 .makeup-date-picker-popper .el-date-table th:nth-child(3)::after {
   content: '二' !important;
-  font-size: 13px !important;
-  display: block;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #606266 !important;
+  line-height: 1 !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 
 .makeup-date-picker-popper .el-date-table th:nth-child(4)::after {
   content: '三' !important;
-  font-size: 13px !important;
-  display: block;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #606266 !important;
+  line-height: 1 !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 
 .makeup-date-picker-popper .el-date-table th:nth-child(5)::after {
   content: '四' !important;
-  font-size: 13px !important;
-  display: block;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #606266 !important;
+  line-height: 1 !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 
 .makeup-date-picker-popper .el-date-table th:nth-child(6)::after {
   content: '五' !important;
-  font-size: 13px !important;
-  display: block;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #606266 !important;
+  line-height: 1 !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 
 .makeup-date-picker-popper .el-date-table th:nth-child(7)::after {
   content: '六' !important;
-  font-size: 13px !important;
-  display: block;
-}
-
-.makeup-date-picker-popper .el-date-table-cell {
-  height: 40px !important;
-}
-
-.makeup-date-picker-popper .el-date-table-cell__text {
-  width: 36px !important;
-  height: 36px !important;
-  line-height: 36px !important;
-  font-size: 15px !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #606266 !important;
+  line-height: 1 !important;
+  width: 100% !important;
+  text-align: center !important;
 }
 
 .makeup-date-picker-popper .el-date-picker__header {
-  padding: 12px 0 !important;
-  margin-bottom: 16px !important;
+  margin-bottom: 24px !important;
+  padding: 0 8px !important;
 }
 
 .makeup-date-picker-popper .el-date-picker__header-label {
-  font-size: 16px !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  color: #303133;
   padding: 6px 12px !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
 .makeup-date-picker-popper .el-picker-panel__icon-btn {
-  width: 36px !important;
-  height: 36px !important;
+  width: 44px !important;
+  height: 44px !important;
+  font-size: 20px !important;
 }
 
-.makeup-date-picker-popper .el-date-picker__time-header {
+.makeup-date-picker-popper .el-date-table-cell {
+  height: 80px !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  padding: 6px !important;
+}
+
+.makeup-date-picker-popper .el-date-table-cell__text {
+  width: 72px !important;
+  height: 72px !important;
+  line-height: 72px !important;
+  font-size: 28px !important;
+  font-weight: 500 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  border-radius: 12px !important;
+}
+
+.makeup-date-picker-popper .el-date-table td.available {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.makeup-date-picker :deep(.el-date-table) {
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+  width: 100% !important;
+}
+
+.makeup-date-picker :deep(.el-date-table tr) {
+  height: 80px !important;
+}
+
+.makeup-date-picker :deep(.el-date-table th) {
+  pointer-events: auto;
+  height: 56px !important;
   padding: 16px 0 !important;
-  margin-bottom: 16px !important;
+  font-size: 0 !important;
 }
 
-.makeup-date-picker-popper .el-date-picker__editor-wrap .el-input__inner::placeholder {
-  color: #9ca3af;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+.makeup-date-picker :deep(.el-date-table td) {
+  pointer-events: auto;
+  cursor: pointer;
+  padding: 6px !important;
+}
+
+.makeup-date-picker :deep(.el-date-table-cell) {
+  height: 80px !important;
+  padding: 6px !important;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.makeup-date-picker :deep(.el-date-table-cell__text) {
+  width: 72px !important;
+  height: 72px !important;
+  line-height: 72px !important;
+  font-size: 28px !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease;
+  font-weight: 500 !important;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.makeup-date-picker :deep(.el-date-table td.available) {
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 html.dark .makeup-date-picker-popper {
-  background-color: #000000 !important;
-  opacity: 1 !important;
+  background-color: #1e293b !important;
 }
 
 html.dark .makeup-date-picker-popper .el-picker-panel {
-  background-color: #000000 !important;
-  opacity: 1 !important;
+  background-color: #1e293b !important;
 }
 
 html.dark .makeup-date-picker-popper .el-picker-panel__body {
-  background-color: #000000 !important;
-  opacity: 1 !important;
-}
-
-html.dark .makeup-date-picker-popper .el-date-picker__header {
-  background-color: #000000 !important;
-}
-
-html.dark .makeup-date-picker-popper .el-date-picker__time-header {
-  background-color: #000000 !important;
+  background-color: #1e293b !important;
 }
 
 html.dark .makeup-date-picker-popper .el-date-table {
-  background-color: #000000 !important;
+  background-color: #1e293b !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-table th::after {
+  color: #cbd5e1 !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-picker__header-label {
+  color: #e2e8f0 !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-table-cell__text {
+  color: #e2e8f0 !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-table td.current .el-date-table-cell__text {
+  color: white !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell__text {
+  color: white !important;
+}
+
+
+</style>
+
+<style>
+
+html.dark .makeup-date-picker-popper .el-date-table-cell__text {
+  color: #e2e8f0 !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-table td.current .el-date-table-cell__text {
+  color: white !important;
+}
+
+html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell__text {
+  color: white !important;
 }
 </style>
