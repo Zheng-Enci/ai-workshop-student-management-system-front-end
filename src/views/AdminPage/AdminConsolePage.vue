@@ -1017,7 +1017,7 @@ const filteredStudents = computed(() => {
         (student.phoneNumber && String(student.phoneNumber).includes(keyword)) ||
         (student.college && student.college.toLowerCase().includes(keyword)) ||
         (student.major && student.major.toLowerCase().includes(keyword))
-      )
+  )
     } catch (error) {
       console.error('Filter student error:', error, student)
       return false
@@ -1417,13 +1417,13 @@ const closeAttendanceRecordsDialog = () => {
     lineInstance.value.dispose()
     lineInstance.value = null
   }
-  calendarValue.value = new Date()
-  allStudentAttendanceRecords.value = []
-  currentStudentInfo.value = {}
+    calendarValue.value = new Date()
+    allStudentAttendanceRecords.value = []
+    currentStudentInfo.value = {}
   
   // 恢复滚动位置
   requestAnimationFrame(() => {
-    window.scrollTo(0, scrollPosition.value)
+  window.scrollTo(0, scrollPosition.value)
   })
 }
 
@@ -1447,7 +1447,7 @@ const closeHeatmapDialog = () => {
   
   // 恢复滚动位置
   requestAnimationFrame(() => {
-    window.scrollTo(0, scrollPosition.value)
+  window.scrollTo(0, scrollPosition.value)
   })
 }
 
@@ -1471,7 +1471,7 @@ const closeTrendDialog = () => {
   
   // 恢复滚动位置
   requestAnimationFrame(() => {
-    window.scrollTo(0, scrollPosition.value)
+  window.scrollTo(0, scrollPosition.value)
   })
 }
 
