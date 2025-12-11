@@ -208,8 +208,9 @@
       v-if="makeupDialogVisible"
       :modal="true"
       :append-to-body="true"
+      :teleported="true"
+      modal-class="makeup-overlay"
       :destroy-on-close="true"
-      :transition="false"
     >
       <div class="makeup-header">
         <div class="header-icon">
@@ -286,8 +287,9 @@
       v-if="attendanceRecordsDialogVisible"
       :modal="true"
       :append-to-body="true"
+      :teleported="true"
+      modal-class="attendance-records-overlay"
       :destroy-on-close="true"
-      :transition="false"
     >
       <div class="attendance-records-container">
         <div class="records-header">
@@ -375,6 +377,9 @@
       class="date-details-dialog-desktop"
       destroy-on-close
       :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
+      modal-class="date-details-overlay"
       @click.stop
       @close="handleDateDetailsClose"
     >
@@ -403,6 +408,9 @@
       class="heatmap-dialog"
       destroy-on-close
       :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
+      modal-class="heatmap-overlay"
       @close="closeHeatmapDialog"
     >
       <div class="heatmap-dialog-content">
@@ -436,6 +444,9 @@
       class="trend-chart-dialog"
       destroy-on-close
       :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
+      modal-class="trend-overlay"
       @close="closeTrendChartDialog"
     >
       <div class="trend-chart-dialog-content">
@@ -465,11 +476,19 @@
 
 <script setup>
 import { ref, onMounted, computed, nextTick, watch } from 'vue'
-import { ElMessage, ElButton, ElIcon, ElInput } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElInput, ElDialog, ElDatePicker, ElCalendar } from 'element-plus'
+import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-dialog.css'
+import 'element-plus/theme-chalk/el-overlay.css'
+import 'element-plus/theme-chalk/el-date-picker.css'
+import 'element-plus/theme-chalk/el-date-picker-panel.css'
+import 'element-plus/theme-chalk/el-time-picker.css'
+import 'element-plus/theme-chalk/el-scrollbar.css'
+import 'element-plus/theme-chalk/el-calendar.css'
 import { User, Calendar, Star, Refresh, Loading, ArrowLeft, Clock, InfoFilled, Check, Search, Sort, TrendCharts } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -2689,6 +2708,34 @@ h1 {
 .el-overlay {
   transition: none !important;
   animation: none !important;
+}
+
+/* 弹窗遮罩和容器定位修复 */
+:deep(.makeup-overlay),
+:deep(.attendance-records-overlay),
+:deep(.heatmap-overlay),
+:deep(.trend-overlay),
+:deep(.date-details-overlay) {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3000 !important;
+}
+
+:deep(.makeup-overlay .el-overlay-dialog),
+:deep(.attendance-records-overlay .el-overlay-dialog),
+:deep(.heatmap-overlay .el-overlay-dialog),
+:deep(.trend-overlay .el-overlay-dialog),
+:deep(.date-details-overlay .el-overlay-dialog) {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3001 !important;
 }
 
 .attendance-records-container {
