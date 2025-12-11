@@ -1004,13 +1004,20 @@ const filteredStudents = computed(() => {
     return students.value
   }
   const keyword = searchKeyword.value.toLowerCase()
-  return students.value.filter(student => 
-    student.name.toLowerCase().includes(keyword) ||
-    student.studentId.toString().includes(keyword) ||
-    student.phoneNumber.includes(keyword) ||
-    student.college.toLowerCase().includes(keyword) ||
-    student.major.toLowerCase().includes(keyword)
-  )
+  return students.value.filter(student => {
+    try {
+      return (
+        (student.name && student.name.toLowerCase().includes(keyword)) ||
+        (student.studentId && String(student.studentId).toLowerCase().includes(keyword)) ||
+        (student.phoneNumber && String(student.phoneNumber).includes(keyword)) ||
+        (student.college && student.college.toLowerCase().includes(keyword)) ||
+        (student.major && student.major.toLowerCase().includes(keyword))
+      )
+    } catch (error) {
+      console.error('Filter student error:', error, student)
+      return false
+    }
+  })
 })
 
 const getLevelStudents = (levelCode) => {
@@ -3328,34 +3335,104 @@ html.dark .option-icon {
 }
 
 .attendance-records-dialog {
+  max-height: calc(90vh - 20px);
+  
   .el-dialog__header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    padding: 20px 24px;
+    padding: 12px 16px;
     border-radius: 8px 8px 0 0;
   }
   
   .el-dialog__body {
-    padding: 30px 24px;
+    padding: 16px 12px;
     background: #f8f9fa;
   }
   
   .el-dialog__footer {
     background: #f8f9fa;
-    padding: 20px 24px;
+    padding: 12px 16px;
     border-radius: 0 0 8px 8px;
   }
 }
 
+.student-info-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.student-avatar-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.student-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-info h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 3px 0;
+}
+
+.student-info p {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 1px 0;
+  line-height: 1.3;
+}
+
+.attendance-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.summary-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.summary-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #667eea;
+}
+
 .attendance-records-container {
-  margin-top: 16px;
-  min-height: 620px;
+  margin-top: 8px;
 }
 
 :deep(.attendance-fullcalendar) {
   background: rgba(255, 255, 255, 0.92);
-  border-radius: 12px;
-  padding: 12px;
+  border-radius: 10px;
+  padding: 6px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
@@ -3481,7 +3558,7 @@ html.dark .option-icon {
   display: flex;
   flex-direction: row;
   gap: 2px;
-  margin-top: 4px;
+  margin-top: 2px;
   justify-content: center;
 }
 
@@ -3489,13 +3566,13 @@ html.dark .option-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 3px;
-  border-radius: 4px;
+  padding: 1px 2px;
+  border-radius: 3px;
   background-color: #f5f5f5;
-  border: 2px solid #e0e0e0;
-  min-width: 24px;
-  width: 24px;
-  height: 20px;
+  border: 1px solid #e0e0e0;
+  min-width: 20px;
+  width: 20px;
+  height: 16px;
   transition: all 0.3s ease;
 }
 
@@ -3506,7 +3583,7 @@ html.dark .option-icon {
 }
 
 .time-label-admin {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
   color: #666666;
   line-height: 1;
@@ -4036,13 +4113,13 @@ html.dark .student-avatar.evening {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 10px 12px;
   background-color: var(--admin-bg-primary);
   border-bottom: 1px solid var(--admin-border-color);
 }
 
 .header-title-admin {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--admin-text-primary);
 }
@@ -4102,11 +4179,11 @@ html.dark .student-avatar.evening {
 .calendar-cell-admin {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 8px;
-  border-radius: 8px;
+  gap: 3px;
+  padding: 4px;
+  border-radius: 6px;
   transition: all 0.2s ease;
-  min-height: 96px;
+  min-height: 60px;
   cursor: pointer;
 }
 
@@ -4115,9 +4192,30 @@ html.dark .student-avatar.evening {
 }
 
 .cell-date-admin {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--admin-text-primary);
+}
+
+html.dark .student-info-header {
+  background: var(--admin-bg-primary);
+  border-color: var(--admin-border-color);
+}
+
+html.dark .student-info h3 {
+  color: var(--admin-text-primary);
+}
+
+html.dark .student-info p {
+  color: var(--admin-text-secondary);
+}
+
+html.dark .summary-label {
+  color: var(--admin-text-secondary);
+}
+
+html.dark .summary-value {
+  color: var(--admin-primary-color);
 }
 
 html.dark .attendance-calendar-admin {
