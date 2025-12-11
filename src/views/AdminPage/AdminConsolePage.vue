@@ -161,6 +161,15 @@
                 <el-icon><TrendCharts /></el-icon>
                 趋势图
               </el-button>
+              <el-button 
+                type="success" 
+                size="small" 
+                @click="openPointsDialog(student)"
+                class="points-btn"
+              >
+                <el-icon><Edit /></el-icon>
+                修改积分
+              </el-button>
             </div>
           </div>
           
@@ -730,6 +739,70 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      v-if="pointsDialogVisible"
+      v-model="pointsDialogVisible"
+      title="修改积分"
+      width="600px"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :append-to-body="true"
+      :teleported="true"
+      class="points-dialog"
+    >
+      <div v-if="pointsSelectedStudent" class="points-student-info">
+        <div class="student-info-card">
+          <div class="student-avatar-card">
+            {{ pointsSelectedStudent.name.charAt(0) }}
+          </div>
+          <div class="student-info-details">
+            <div class="student-name-card">{{ pointsSelectedStudent.name }}</div>
+            <div class="student-id-card">学号：{{ pointsSelectedStudent.studentId }}</div>
+            <div class="student-major-card">{{ pointsSelectedStudent.major }} | {{ pointsSelectedStudent.grade }}年级</div>
+          </div>
+        </div>
+      </div>
+      <el-form
+        ref="pointsFormRef"
+        :model="pointsForm"
+        :rules="pointsFormRules"
+        label-width="100px"
+        class="points-form"
+      >
+        <el-form-item label="积分变动" prop="changePoints">
+          <el-input-number
+            v-model="pointsForm.changePoints"
+            :min="-9999"
+            :max="9999"
+            placeholder="请输入积分变动值（正数为加分，负数为扣分）"
+            style="width: 100%"
+          />
+          <div class="form-tip">
+            <el-icon><Warning /></el-icon>
+            <span>正数表示加分，负数表示扣分</span>
+          </div>
+        </el-form-item>
+        <el-form-item label="改分理由" prop="adjustReason">
+          <el-input
+            v-model="pointsForm.adjustReason"
+            type="textarea"
+            :rows="4"
+            placeholder="请输入详细的改分理由（最多500字符）"
+            maxlength="500"
+            show-word-limit
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="cancelPoints" :disabled="pointsLoading">取消</el-button>
+          <el-button type="primary" @click="confirmPoints" :loading="pointsLoading">
+            确认修改
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -763,6 +836,7 @@ import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserF
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin } from '@/api/student'
 import { getStudentAttendanceCount, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
 import { getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/attendance'
+import { createPointsRecord } from '@/api/points'
 import { useRouter } from 'vue-router'
 import * as echarts from 'echarts/core'
 import { BarChart, LineChart, HeatmapChart } from 'echarts/charts'
@@ -869,6 +943,14 @@ const makeupForm = ref({
   attendanceTime: '',
   selectedDate: '',
   selectedHour: null
+})
+const pointsDialogVisible = ref(false)
+const pointsLoading = ref(false)
+const pointsSelectedStudent = ref(null)
+const pointsFormRef = ref()
+const pointsForm = ref({
+  changePoints: null,
+  adjustReason: ''
 })
 // 日期时间段快捷选项（包含日期和时间段）
 const datetimeShortcuts = [
@@ -1001,6 +1083,17 @@ const editFormRules = {
   ],
   password: [
     { min: 6, max: 16, message: '密码长度必须在6到16位之间', trigger: 'blur' }
+  ]
+}
+
+const pointsFormRules = {
+  changePoints: [
+    { required: true, message: '请输入积分变动值', trigger: 'blur' },
+    { type: 'number', message: '积分变动值必须为数字', trigger: 'blur' }
+  ],
+  adjustReason: [
+    { required: true, message: '请输入改分理由', trigger: 'blur' },
+    { max: 500, message: '改分理由不能超过500个字符', trigger: 'blur' }
   ]
 }
 
@@ -2219,6 +2312,73 @@ const submitMakeup = async () => {
   }
 }
 
+const openPointsDialog = (student) => {
+  if (!student || !student.id) {
+    ElMessage.warning('学生信息不完整，无法修改积分')
+    return
+  }
+  pointsSelectedStudent.value = student
+  pointsForm.value = {
+    changePoints: null,
+    adjustReason: ''
+  }
+  pointsDialogVisible.value = true
+}
+
+const cancelPoints = () => {
+  pointsDialogVisible.value = false
+  pointsFormRef.value?.resetFields()
+  pointsSelectedStudent.value = null
+  pointsForm.value = {
+    changePoints: null,
+    adjustReason: ''
+  }
+}
+
+const confirmPoints = async () => {
+  if (!pointsFormRef.value) return
+  
+  try {
+    await pointsFormRef.value.validate()
+    
+    const adminPassword = adminStore.getAdminPassword()
+    if (!adminPassword) {
+      ElMessage.error('身份验证已过期，请重新登录')
+      router.push('/admin/auth')
+      return
+    }
+
+    if (!pointsSelectedStudent.value || !pointsSelectedStudent.value.id) {
+      ElMessage.error('学生信息不完整')
+      return
+    }
+
+    pointsLoading.value = true
+    
+    const response = await createPointsRecord(
+      adminPassword,
+      pointsForm.value.adjustReason.trim(),
+      parseInt(pointsForm.value.changePoints),
+      pointsSelectedStudent.value.id
+    )
+    
+    if (response.code === 200) {
+      ElMessage.success('积分记录创建成功')
+      pointsDialogVisible.value = false
+      pointsFormRef.value?.resetFields()
+      pointsSelectedStudent.value = null
+    } else {
+      ElMessage.error(response.message || '积分记录创建失败')
+    }
+  } catch (error) {
+    if (error.message) {
+      ElMessage.error(error.message)
+    }
+  } finally {
+    pointsLoading.value = false
+  }
+}
+
 onMounted(async () => {
   document.title = '超级管理员控制台 - AI坊学生管理系统'
   
@@ -2722,7 +2882,8 @@ html.dark {
 .records-btn,
 .makeup-btn,
 .heatmap-btn,
-.trend-btn {
+.trend-btn,
+.points-btn {
   border-radius: 10px;
   font-size: 12px;
   font-weight: 700;
@@ -2738,7 +2899,8 @@ html.dark {
 .records-btn:hover,
 .makeup-btn:hover,
 .heatmap-btn:hover,
-.trend-btn:hover {
+.trend-btn:hover,
+.points-btn:hover {
   background: rgba(255, 255, 255, 0.35);
   transform: translateY(-2px) scale(1.05);
   box-shadow: 0 8px 25px var(--shadow-hover);
@@ -3088,6 +3250,11 @@ html.dark .option-icon {
   color: white;
 }
 
+.points-btn {
+  background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
+  color: white;
+}
+
 @media (max-width: 1200px) {
   .students-cards-container {
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
@@ -3224,6 +3391,158 @@ html.dark .option-icon {
     padding: 20px 24px;
     border-radius: 0 0 8px 8px;
   }
+}
+
+.points-dialog {
+  .el-dialog__header {
+    background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
+    color: white;
+    padding: 20px 24px;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .el-dialog__title {
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  
+  .el-dialog__headerbtn .el-dialog__close {
+    color: white;
+    font-size: 20px;
+  }
+  
+  .el-dialog__body {
+    padding: 30px 24px;
+    background: #f8f9fa;
+  }
+  
+  .el-dialog__footer {
+    background: #f8f9fa;
+    padding: 20px 24px;
+    border-radius: 0 0 8px 8px;
+  }
+}
+
+.points-student-info {
+  margin-bottom: 24px;
+}
+
+.student-info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e1e8ed;
+}
+
+.student-avatar-card {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 24px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.student-info-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-name-card {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1a202c;
+  margin-bottom: 4px;
+}
+
+.student-id-card {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.student-major-card {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.points-form {
+  .el-form-item__label {
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .el-input__inner,
+  .el-textarea__inner {
+    border-radius: 8px;
+    border: 2px solid #e1e8ed;
+    transition: all 0.3s ease;
+  }
+  
+  .el-input__inner:focus,
+  .el-textarea__inner:focus {
+    border-color: #67c23a;
+    box-shadow: 0 0 0 2px rgba(103, 194, 58, 0.2);
+  }
+  
+  .el-input-number {
+    width: 100%;
+  }
+  
+  .el-input-number .el-input__inner {
+    text-align: left;
+  }
+}
+
+.form-tip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.form-tip .el-icon {
+  font-size: 14px;
+  color: #e6a23c;
+}
+
+html.dark .points-dialog .el-dialog__body {
+  background: var(--admin-bg-secondary);
+}
+
+html.dark .student-info-card {
+  background: var(--admin-bg-primary);
+  border-color: var(--admin-border-color);
+}
+
+html.dark .student-name-card {
+  color: var(--admin-text-primary);
+}
+
+html.dark .student-id-card,
+html.dark .student-major-card {
+  color: var(--admin-text-secondary);
+}
+
+html.dark .points-form .el-form-item__label {
+  color: var(--admin-text-primary);
+}
+
+html.dark .form-tip {
+  color: var(--admin-text-tertiary);
 }
 
 :deep(.makeup-overlay),

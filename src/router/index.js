@@ -108,6 +108,12 @@ const routes = [
         component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageMobile.vue'),
         meta: { requiresAuth: true }
     },
+    {
+        path: '/points-dashboard',
+        name: 'PointsDashboard',
+        component: () => import('../views/PointsDashboardPage/PointsDashboardPage.vue'),
+        meta: { requiresAuth: true }
+    },
 ]
 
 const router = createRouter({

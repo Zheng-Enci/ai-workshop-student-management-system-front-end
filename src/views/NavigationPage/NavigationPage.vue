@@ -105,6 +105,22 @@
           </div>
         </div>
         
+        <div class="feature-card" @click="goToPointsDashboard">
+          <div class="card-background"></div>
+          <div class="card-content">
+            <div class="card-icon">
+              <el-icon size="28"><Trophy /></el-icon>
+            </div>
+            <div class="card-text">
+              <h3>积分看板</h3>
+              <p>查看积分排行榜</p>
+            </div>
+            <div class="card-arrow">
+              <el-icon><ArrowRight /></el-icon>
+            </div>
+          </div>
+        </div>
+        
         <div class="feature-card" @click="showSettings">
           <div class="card-background"></div>
           <div class="card-content">
@@ -154,7 +170,7 @@ import { ElMessage, ElButton, ElIcon } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import { Check, User, DataAnalysis, Setting, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, Setting, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
@@ -209,6 +225,10 @@ const goToDashboard = () => {
 
 const goToAttendanceAnalysis = () => {
   router.push('/attendance-analysis')
+}
+
+const goToPointsDashboard = () => {
+  router.push('/points-dashboard')
 }
 
 const showSettings = () => {
