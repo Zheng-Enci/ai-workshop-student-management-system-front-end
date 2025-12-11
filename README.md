@@ -138,7 +138,7 @@ front-end/
 ├── Note/                  # 项目文档和经验总结
 │   ├── YourExperience/   # 开发经验文档
 │   ├── 你的身份.md       # 开发规范
-│   └── 接口文档.md       # API 接口文档
+│   └── 接口文档/         # API 接口文档（@Note/接口文档）
 ├── .gitignore            # Git 忽略文件
 ├── babel.config.js       # Babel 配置
 ├── jsconfig.json         # JavaScript 配置
@@ -352,7 +352,7 @@ API 接口定义在 `src/api/` 目录下：
 
 ## 📚 相关文档
 
-- [接口文档](./Note/接口文档.md) - 完整的后端 API 接口文档
+- [接口文档](Note/接口文档/接口文档.md) - 完整的后端 API 接口文档
 - [开发经验](./Note/YourExperience/) - 开发过程中积累的经验总结
 - [开发规范](./Note/你的身份.md) - 项目开发规范和最佳实践
 
