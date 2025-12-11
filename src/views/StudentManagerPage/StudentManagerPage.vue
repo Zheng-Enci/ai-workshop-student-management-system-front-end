@@ -498,12 +498,13 @@ import { getStudentAttendanceCount, makeupAttendance, getStudentAttendanceRecord
 import { getStudentLevel } from '@/api/student'
 // ECharts 按需引入
 import * as echarts from 'echarts/core'
-import { LineChart } from 'echarts/charts'
+import { LineChart, HeatmapChart } from 'echarts/charts'
 import {
   TitleComponent,
   TooltipComponent,
   GridComponent,
-  LegendComponent
+  LegendComponent,
+  VisualMapComponent
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 
@@ -513,7 +514,9 @@ echarts.use([
   TooltipComponent,
   GridComponent,
   LegendComponent,
+  VisualMapComponent,
   LineChart,
+  HeatmapChart,
   CanvasRenderer
 ])
 

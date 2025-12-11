@@ -17,7 +17,7 @@
 
 ## 按需导入常见问题与排查方法
 - **核心经验**：从全量导入改为按需导入后，容易出现遗漏导入的问题，导致页面出现 bug。**关键排查方法：查看浏览器控制台的警告和错误信息，根据提示补充缺失的导入。**
-- **Element Plus 组件遗漏**：若出现 `Failed to resolve component: el-xxx` 错误，说明组件未导入，需从 `element-plus` 导入对应组件（如 `ElCalendar`、`ElDialog` 等）并导入相应样式文件。
+- **Element Plus 组件遗漏**：若出现 `Failed to resolve component: el-xxx` 错误，说明组件未导入，需从 `element-plus` 导入对应组件（如 `ElCalendar`、`ElDialog`、`ElDatePicker` 等）并导入相应样式文件。
 - **ECharts 组件遗漏**：若出现 `[ECharts] Component xxx is used but not imported` 或 `[ECharts] Series xxx is used but not imported` 警告，需导入对应组件（如 `VisualMapComponent`、`HeatmapChart` 等）并在 `echarts.use()` 中注册。
 - **排查步骤**：
   1. 打开浏览器开发者工具控制台
@@ -26,6 +26,7 @@
   4. 补充相应的导入语句
   5. 刷新页面验证问题是否解决
 - **预防措施**：在开发新功能时，建议先查看第三方库的文档，了解需要导入哪些组件，避免遗漏。
+- **典型案例**：StudentManagerPage.vue 中使用了 `<el-date-picker>`、`<el-dialog>`、`<el-calendar>` 组件，但 script 中只导入了 `ElMessage, ElButton, ElIcon, ElInput`，导致运行时出现 "Failed to resolve component" 错误。修复方法：在导入语句中添加 `ElDialog, ElDatePicker, ElCalendar`，并导入对应的样式文件 `el-dialog.css`、`el-date-picker.css`、`el-calendar.css`。
 
 ## 兼容性补充
 - daygrid 样式需使用 `@fullcalendar/daygrid/index.css`，新版包未导出 `main.css`，错误路径会触发构建期模块未找到。
@@ -70,6 +71,7 @@
   ])
   ```
 - **错误提示**：若运行时出现 `[ECharts] Component visualMap is used but not imported` 或 `[ECharts] Series heatmap is used but not imported` 警告，检查是否遗漏了相应的组件导入和注册。
+- **典型案例**：StudentManagerPage.vue 中使用了热力图（`type: 'heatmap'`）和 `visualMap` 配置项，但只导入了 `LineChart`，导致运行时出现 "[ECharts] Component visualMap is used but not imported" 和 "[ECharts] Series heatmap is used but not imported" 警告。修复方法：从 `echarts/charts` 导入 `HeatmapChart`，从 `echarts/components` 导入 `VisualMapComponent`，并在 `echarts.use()` 中注册这两个组件。
 
 ## Element Plus DatePicker 美化
 - **图标添加**：使用 `prefix-icon` 插槽添加日历图标，提升视觉识别度：`<template #prefix-icon><el-icon><Calendar /></el-icon></template>`
