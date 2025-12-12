@@ -1383,25 +1383,24 @@ html.dark .ranking-label {
   justify-content: center;
   z-index: 10;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  animation: rank-badge-pulse 2s ease-in-out infinite;
 }
 
 .side-student.rank-1 .side-rank-badge {
   background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
   box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), 0 0 20px rgba(251, 191, 36, 0.3);
-  animation: rank-badge-pulse 2s ease-in-out infinite, rank-badge-glow-gold 3s ease-in-out infinite;
+  animation: rank-badge-glow-gold 3s ease-in-out infinite;
 }
 
 .side-student.rank-2 .side-rank-badge {
   background: linear-gradient(135deg, #94a3b8 0%, #64748b 50%, #475569 100%);
   box-shadow: 0 4px 16px rgba(148, 163, 184, 0.4), 0 0 20px rgba(148, 163, 184, 0.3);
-  animation: rank-badge-pulse 2.2s ease-in-out infinite, rank-badge-glow-silver 3.2s ease-in-out infinite;
+  animation: rank-badge-glow-silver 3.2s ease-in-out infinite;
 }
 
 .side-student.rank-3 .side-rank-badge {
   background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #92400e 100%);
   box-shadow: 0 4px 16px rgba(217, 119, 6, 0.4), 0 0 20px rgba(217, 119, 6, 0.3);
-  animation: rank-badge-pulse 2.4s ease-in-out infinite, rank-badge-glow-bronze 3.4s ease-in-out infinite;
+  animation: rank-badge-glow-bronze 3.4s ease-in-out infinite;
 }
 
 .side-rank-badge .rank-number {
@@ -2048,15 +2047,6 @@ html.dark .ranking-label {
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes rank-badge-pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
   }
 }
 
