@@ -163,89 +163,26 @@
       <div class="update-log-content">
         <div class="update-section">
           <h3 class="section-title">
-            <el-icon><Star /></el-icon>
-            性能优化升级
+            <el-icon><Trophy /></el-icon>
+            积分看板功能
           </h3>
           <div class="update-items">
             <div class="update-item">
               <div class="update-icon primary">
-                <el-icon><Cpu /></el-icon>
+                <el-icon><TrendCharts /></el-icon>
               </div>
               <div class="update-content">
-                <h4>按需导入优化</h4>
-                <p>将部分库从全量导入改为按需导入，大幅减少初始加载体积，显著提升网站加载速度，让您更快地访问系统</p>
+                <h4>增加了积分看板页面</h4>
+                <p>新增积分看板页面，展示学生积分排行榜和优秀成员信息，支持签到积分、活动积分和总积分三种排行榜查看，提供数据可视化图表展示</p>
               </div>
             </div>
             <div class="update-item">
               <div class="update-icon secondary">
-                <el-icon><Setting /></el-icon>
+                <el-icon><Star /></el-icon>
               </div>
               <div class="update-content">
-                <h4>组件优化</h4>
-                <p>优化了多个组件的实现方式，提升了组件的渲染效率和交互响应速度，让系统运行更加流畅</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon tertiary">
-                <el-icon><Tools /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>Bug修复</h4>
-                <p>修复了本次更新过程中出现的相关bug，确保系统稳定运行，提升用户体验</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="update-section">
-          <h3 class="section-title">
-            <el-icon><TrendCharts /></el-icon>
-            数据看板优化
-          </h3>
-          <div class="update-items">
-            <div class="update-item">
-              <div class="update-icon quaternary">
-                <el-icon><Picture /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>二维码更新</h4>
-                <p>将数据看板页面的首页入口二维码改为手机端签到页入口二维码，方便用户快速访问签到功能</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon primary">
-                <el-icon><Loading /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>验证码刷新优化</h4>
-                <p>优化了验证码的刷新机制，实现智能重试和状态管理，提升验证码获取的稳定性和用户体验</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="update-section">
-          <h3 class="section-title">
-            <el-icon><PieChart /></el-icon>
-            签到分析优化
-          </h3>
-          <div class="update-items">
-            <div class="update-item">
-              <div class="update-icon secondary">
-                <el-icon><Lightning /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>全量同步加载</h4>
-                <p>将签到分析页面的签到趋势数据加载方式从串行改为全量同步加载，大幅提升数据加载速度，让您更快地查看分析结果</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon tertiary">
-                <el-icon><Clock /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>时间段选择优化</h4>
-                <p>优化了时间段选择功能，新增常用时间段选项，使用按钮组替代下拉框，提升操作便捷性</p>
+                <h4>增加积分功能</h4>
+                <p>实现完整的积分系统，包括签到积分计算、活动积分记录、总积分统计等功能，支持积分排行榜展示和优秀成员展示</p>
               </div>
             </div>
           </div>
@@ -257,7 +194,7 @@
               <el-icon><Trophy /></el-icon>
               更新总结
             </h3>
-            <p>本次更新主要聚焦于性能优化和用户体验提升，通过按需导入、全量同步加载等技术手段，显著提升了系统加载速度和运行效率。同时优化了多个组件的实现方式，修复了相关bug，让系统更加稳定可靠。</p>
+            <p>本次更新新增积分看板页面和积分功能，为学生提供更全面的数据展示和激励体系。积分看板支持签到积分、活动积分和总积分三种排行榜查看，展示优秀成员信息，提供数据可视化图表展示，让教育管理更加高效、便捷、智能。</p>
           </div>
         </div>
       </div>
@@ -274,8 +211,7 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import { 
   User, Calendar, TrendCharts, Setting, ArrowRight, Document, Reading, Link,
-  Star, Cpu, Trophy, PieChart, Clock, Picture,
-  Tools, Loading, Lightning
+  Star, Trophy
 } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
 
