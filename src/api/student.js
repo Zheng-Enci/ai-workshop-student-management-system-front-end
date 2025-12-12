@@ -300,6 +300,29 @@ export const getStudentNameByInfoId = async (studentInfoId) => {
   }
 }
 
+export const getStudentPublicFieldValueById = async (studentInfoId, fieldName) => {
+  try {
+    const response = await api.get('/api/v1/students/public-field-value-by-id', {
+      params: {
+        'student-info-id': studentInfoId,
+        'field-name': fieldName
+      }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生信息失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生信息失败')
+    }
+  }
+}
+
 export const getAllStudentsWithSpecialPassword = async (specialPassword) => {
   try {
     const response = await api.get('/api/v1/students/all-with-special-password', {

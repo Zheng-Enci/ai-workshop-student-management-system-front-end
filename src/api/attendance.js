@@ -473,3 +473,25 @@ export const getDailyAttendanceCountInRange = async (startTime, endTime) => {
   }
 }
 
+export const getAttendanceTopRanking = async (top = 50) => {
+  try {
+    const response = await api.get('/api/v1/attendance/top-ranking', {
+      params: { top }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取签到次数排名失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取签到次数排名失败')
+      }
+    } else {
+      throw new Error('网络错误，获取签到次数排名失败')
+    }
+  }
+}
+

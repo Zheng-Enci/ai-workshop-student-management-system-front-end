@@ -51,3 +51,50 @@ export const createPointsRecord = async (specialPassword, adjustReason, changePo
   }
 }
 
+export const getPointsTopRanking = async (top = 50) => {
+  try {
+    const response = await api.get('/api/v1/points/top-ranking', {
+      params: { top }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取活动积分排名失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取活动积分排名失败')
+      }
+    } else {
+      throw new Error('网络错误，获取活动积分排名失败')
+    }
+  }
+}
+
+export const getTopAdjustRecordsByStudentInfoId = async (studentInfoId, top = 3) => {
+  try {
+    const response = await api.get('/api/v1/points/top-n-adjust-reason-and-points-and-create-time-records-by-student-info-id-order-by-adjust-points-desc', {
+      params: {
+        'target-student-info-id': studentInfoId,
+        top
+      }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取积分记录失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取积分记录失败')
+      }
+    } else {
+      throw new Error('网络错误，获取积分记录失败')
+    }
+  }
+}
+

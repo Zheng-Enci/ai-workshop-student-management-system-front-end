@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import PointsDashboardPageDesktop from './PointsDashboardPageDesktop.vue'
 import PointsDashboardPageMobile from './PointsDashboardPageMobile.vue'
 
@@ -29,6 +29,10 @@ const detectDevice = () => {
 onMounted(() => {
   detectDevice()
   window.addEventListener('resize', detectDevice)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', detectDevice)
 })
 </script>
 
