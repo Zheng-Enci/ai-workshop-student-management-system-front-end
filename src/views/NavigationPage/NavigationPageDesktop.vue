@@ -85,64 +85,110 @@
           </div>
         </div>
         
-        <div class="navigation-grid">
-          <div class="nav-card" @click="goToAttendance">
-            <div class="nav-icon">
-              <el-icon size="28"><Check /></el-icon>
+        <div class="navigation-sections">
+          <!-- 个人中心分组 -->
+          <div class="nav-section">
+            <div class="section-header">
+              <div class="section-title">
+                <el-icon class="section-icon"><User /></el-icon>
+                <span>个人中心</span>
+              </div>
+              <div class="section-divider"></div>
             </div>
-            <div class="nav-content">
-              <div class="nav-label">签到记录</div>
-              <div class="nav-description">查看签到历史记录</div>
-            </div>
-          </div>
-          
-          <div class="nav-card" @click="showProfile">
-            <div class="nav-icon">
-              <el-icon size="28"><User /></el-icon>
-            </div>
-            <div class="nav-content">
-              <div class="nav-label">个人信息</div>
-              <div class="nav-description">编辑个人资料信息</div>
-            </div>
-          </div>
-          
-          <div class="nav-card" @click="goToDashboard">
-            <div class="nav-icon">
-              <el-icon size="28"><DataAnalysis /></el-icon>
-            </div>
-            <div class="nav-content">
-              <div class="nav-label">数据看板</div>
-              <div class="nav-description">查看数据统计图表</div>
-            </div>
-          </div>
-          
-          <div class="nav-card" @click="goToAttendanceAnalysis">
-            <div class="nav-icon">
-              <el-icon size="28"><TrendCharts /></el-icon>
-            </div>
-            <div class="nav-content">
-              <div class="nav-label">签到分析</div>
-              <div class="nav-description">查看签到时段分析</div>
-            </div>
-          </div>
-          
-          <div class="nav-card" @click="goToPointsDashboard">
-            <div class="nav-icon">
-              <el-icon size="28"><Trophy /></el-icon>
-            </div>
-            <div class="nav-content">
-              <div class="nav-label">积分看板</div>
-              <div class="nav-description">查看积分排行榜</div>
+            <div class="navigation-grid">
+              <div class="nav-card" @click="goToAttendance">
+                <div class="nav-icon">
+                  <el-icon size="28"><Check /></el-icon>
+                </div>
+                <div class="nav-content">
+                  <div class="nav-label">签到记录</div>
+                  <div class="nav-description">查看签到历史记录</div>
+                </div>
+              </div>
+              
+              <div class="nav-card" @click="showProfile">
+                <div class="nav-icon">
+                  <el-icon size="28"><User /></el-icon>
+                </div>
+                <div class="nav-content">
+                  <div class="nav-label">个人信息</div>
+                  <div class="nav-description">编辑个人资料信息</div>
+                </div>
+              </div>
+              
+              <div class="nav-card" @click="goToScoreChangeRecords">
+                <div class="nav-icon">
+                  <el-icon size="28"><Document /></el-icon>
+                </div>
+                <div class="nav-content">
+                  <div class="nav-label">改分记录</div>
+                  <div class="nav-description">查看所有积分调整记录</div>
+                </div>
+              </div>
             </div>
           </div>
-          
-          <div class="nav-card" @click="goToAdmin" v-if="isAdmin">
-            <div class="nav-icon">
-              <el-icon size="28"><UserFilled /></el-icon>
+
+          <!-- 数据查看分组 -->
+          <div class="nav-section">
+            <div class="section-header">
+              <div class="section-title">
+                <el-icon class="section-icon"><DataAnalysis /></el-icon>
+                <span>数据查看</span>
+              </div>
+              <div class="section-divider"></div>
             </div>
-            <div class="nav-content">
-              <div class="nav-label">学生管理</div>
-              <div class="nav-description">管理学生信息</div>
+            <div class="navigation-grid">
+              <div class="nav-card" @click="goToDashboard">
+                <div class="nav-icon">
+                  <el-icon size="28"><DataAnalysis /></el-icon>
+                </div>
+                <div class="nav-content">
+                  <div class="nav-label">数据看板</div>
+                  <div class="nav-description">查看数据统计图表</div>
+                </div>
+              </div>
+              
+              <div class="nav-card" @click="goToAttendanceAnalysis">
+                <div class="nav-icon">
+                  <el-icon size="28"><TrendCharts /></el-icon>
+                </div>
+                <div class="nav-content">
+                  <div class="nav-label">签到分析</div>
+                  <div class="nav-description">查看签到时段分析</div>
+                </div>
+              </div>
+              
+              <div class="nav-card" @click="goToPointsDashboard">
+                <div class="nav-icon">
+                  <el-icon size="28"><Trophy /></el-icon>
+                </div>
+                <div class="nav-content">
+                  <div class="nav-label">积分看板</div>
+                  <div class="nav-description">查看积分排行榜</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 管理功能分组（管理员可见） -->
+          <div class="nav-section" v-if="isAdmin">
+            <div class="section-header">
+              <div class="section-title">
+                <el-icon class="section-icon"><UserFilled /></el-icon>
+                <span>管理功能</span>
+              </div>
+              <div class="section-divider"></div>
+            </div>
+            <div class="navigation-grid">
+              <div class="nav-card" @click="goToAdmin">
+                <div class="nav-icon">
+                  <el-icon size="28"><UserFilled /></el-icon>
+                </div>
+                <div class="nav-content">
+                  <div class="nav-label">学生管理</div>
+                  <div class="nav-description">管理学生信息</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -157,7 +203,7 @@ import { ElMessage, ElButton, ElIcon } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, Trophy, Coin } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, Trophy, Coin, Document } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
@@ -221,6 +267,10 @@ const goToAttendanceAnalysis = () => {
 
 const goToPointsDashboard = () => {
   router.push('/points-dashboard')
+}
+
+const goToScoreChangeRecords = () => {
+  router.push('/score-change-records-desktop')
 }
 
 const goToAdmin = () => {
@@ -808,13 +858,74 @@ onMounted(() => {
   color: var(--text-secondary);
 }
 
-.navigation-grid {
+.navigation-sections {
   width: 100%;
   max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 0 20px;
+}
+
+.nav-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.section-icon {
+  font-size: 20px;
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.section-divider {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(102, 126, 234, 0.3) 0%, rgba(102, 126, 234, 0.1) 50%, transparent 100%);
+  position: relative;
+}
+
+.section-divider::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.4);
+  box-shadow: 0 0 12px rgba(102, 126, 234, 0.6);
+}
+
+.navigation-grid {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  padding: 0 20px;
 }
 
 .nav-card {

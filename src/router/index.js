@@ -138,6 +138,12 @@ const routes = [
         component: () => import('../views/PointsDashboardPage/PointsDashboardPageDesktop.vue'),
         meta: { requiresAuth: true }
     },
+    {
+        path: '/score-change-records-desktop',
+        name: 'ScoreChangeRecordsDesktop',
+        component: () => import('../views/ScoreChangeRecordsPage/ScoreChangeRecordsPageDesktop.vue'),
+        meta: { requiresAuth: true }
+    },
 ]
 
 const router = createRouter({

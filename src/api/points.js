@@ -122,3 +122,27 @@ export const getTotalPointsByStudentInfoId = async (studentInfoId) => {
   }
 }
 
+export const getAllAdjustRecordsByStudentInfoId = async (studentInfoId) => {
+  try {
+    const response = await api.get('/api/v1/points/all-adjust-reason-and-adjust-point-and-create-time-records-by-student-info-id', {
+      params: {
+        'target-student-info-id': studentInfoId
+      }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取改分记录失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取改分记录失败')
+      }
+    } else {
+      throw new Error('网络错误，获取改分记录失败')
+    }
+  }
+}
+
