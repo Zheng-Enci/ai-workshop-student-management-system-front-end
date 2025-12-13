@@ -475,27 +475,71 @@ export const uploadAvatar = async (token, file) => {
     const formData = new FormData()
     formData.append('file', file)
     
+    // 根据接口文档：token 作为 Query 参数，file 在 FormData 中
+    // 这是之前能成功工作的版本
     const response = await api.post('/api/v1/students/avatar', formData, {
       params: { token },
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        // 删除默认的 Content-Type，让 axios 自动处理 FormData
+        'Content-Type': false
+      },
+      timeout: 60000
     })
+    
+    console.log('上传成功，服务器响应:', response.data)
     return response.data
   } catch (error) {
+    console.error('上传头像API错误:', error)
+    console.error('错误详情:', {
+      response: error.response,
+      responseStatus: error.response?.status,
+      responseData: error.response?.data,
+      request: error.request,
+      message: error.message,
+      code: error.code
+    })
+    
+    // 处理异常（如token无效、文件为空等）
     if (error.response) {
+      // 服务器返回了响应
       const status = error.response.status
-      if (status === 401) {
-        throw new Error('Token无效，请重新登录')
-      } else if (status === 400) {
-        throw new Error(error.response.data?.message || '头像上传失败')
-      } else if (status >= 500) {
-        throw new Error('服务器错误，请稍后重试')
+      const data = error.response.data
+      
+      let errorMessage = '头像上传失败'
+      if (data) {
+        if (typeof data === 'string') {
+          errorMessage = data
+        } else if (data.message) {
+          errorMessage = data.message
+        } else if (data.msg) {
+          errorMessage = data.msg
+        } else if (data.error) {
+          errorMessage = data.error
+        } else {
+          errorMessage = JSON.stringify(data) || `服务器错误 (${status})`
+        }
       } else {
-        throw new Error(error.response.data?.message || '头像上传失败')
+        // 响应体为空，根据状态码给出提示
+        if (status === 400) {
+          errorMessage = '请求参数错误，请检查文件格式和大小（最大2MB）'
+        } else if (status === 401) {
+          errorMessage = 'Token无效，请重新登录'
+        } else if (status === 413) {
+          errorMessage = '文件太大，请选择小于2MB的图片'
+        } else if (status >= 500) {
+          errorMessage = '服务器错误，请稍后重试'
+        } else {
+          errorMessage = `服务器错误 (${status})`
+        }
       }
+      
+      throw new Error(errorMessage)
+    } else if (error.request) {
+      // 请求已发出但没有收到响应
+      throw new Error('网络错误，无法连接到服务器')
     } else {
-      throw new Error('网络错误，头像上传失败')
+      // 请求配置错误
+      throw new Error('网络错误，头像上传失败：' + error.message)
     }
   }
 }
