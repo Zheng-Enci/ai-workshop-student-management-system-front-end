@@ -467,9 +467,10 @@ onMounted(() => {
 .main-content {
   position: relative;
   z-index: 10;
-  padding: 60px;
+  padding: 0 60px 60px 60px;
   max-width: 1400px;
   margin: 0 auto;
+  margin-top: -20px;
 }
 
 .content-header {
