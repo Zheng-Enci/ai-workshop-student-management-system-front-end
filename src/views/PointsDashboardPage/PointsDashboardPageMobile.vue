@@ -1435,6 +1435,36 @@ html.dark .ranking-label {
   overflow: hidden;
 }
 
+.side-avatar::before {
+  content: '';
+  position: absolute;
+  top: -200%;
+  left: -200%;
+  width: 400%;
+  height: 400%;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: avatarShine 3s infinite linear;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes avatarShine {
+  0% {
+    top: -200%;
+    left: -200%;
+  }
+  100% {
+    top: 200%;
+    left: 200%;
+  }
+}
+
 .side-avatar.has-avatar {
   background: transparent;
 }
@@ -1448,10 +1478,14 @@ html.dark .ranking-label {
   height: 100%;
   object-fit: cover;
   border-radius: 12px;
+  position: relative;
+  z-index: 0;
 }
 
 .side-avatar .avatar-icon {
   color: white;
+  position: relative;
+  z-index: 0;
 }
 
 .side-rank-badge {
