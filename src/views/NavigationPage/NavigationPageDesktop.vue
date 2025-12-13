@@ -7,7 +7,8 @@
     </div>
     
     <div class="header">
-      <div class="header-content">
+      <div class="header-top">
+        <div class="header-left">
         <el-button @click="goToHome" class="home-btn" type="primary" :icon="House" circle></el-button>
         <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo" @click="toggleTheme" title="切换主题模式">
         <div class="title-section">
@@ -16,150 +17,136 @@
         </div>
       </div>
       
-      <div class="user-profile">
-        <div class="user-avatar">
-          <el-icon size="24"><User /></el-icon>
+        <div class="header-center">
+          <div class="page-title-wrapper">
+            <div class="page-title">功能导航</div>
+          </div>
         </div>
-        <div class="user-details">
-          <div class="user-name">{{ userStore.userInfo?.name || '学生' }}</div>
-          <div class="user-level" :class="getLevelClass(userStore.studentLevel?.levelCode)" v-if="userStore.studentLevel">
-            <el-icon class="level-icon"><Star /></el-icon>
-            <span>{{ getLevelName(userStore.studentLevel.levelCode) }}</span>
-          </div>
-          <div class="attendance-count" v-if="attendanceCount !== null">
-            <el-icon class="attendance-icon"><Calendar /></el-icon>
-            <span>已签到 {{ attendanceCount }} 次</span>
-          </div>
+        
+        <div class="header-right">
+          <el-button type="danger" @click="handleLogout" class="logout-btn" plain>
+            <el-icon><SwitchButton /></el-icon>
+            退出登录
+          </el-button>
         </div>
       </div>
     </div>
     
     <div class="main-content">
-      <div class="content-header">
-        <h2>功能导航</h2>
-        <p>选择您需要的功能模块</p>
-      </div>
-      
-      <div class="feature-grid">
-        <div class="feature-card primary-card" @click="goToAttendance">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="32"><Check /></el-icon>
+      <div class="center-hub-layout">
+        <div class="center-info-card">
+          <div class="center-left-section">
+            <div class="center-avatar">
+              <el-icon size="32"><User /></el-icon>
             </div>
-            <div class="card-text">
-              <h3>签到记录</h3>
-              <p>查看详细签到记录和历史数据</p>
+            <div class="center-user-info">
+              <div class="center-user-name">{{ userStore.userInfo?.name || '学生' }}</div>
+              <div class="center-user-level" :class="getLevelClass(userStore.studentLevel?.levelCode)" v-if="userStore.studentLevel">
+                <el-icon class="level-icon" size="14"><Star /></el-icon>
+                <span>{{ getLevelName(userStore.studentLevel.levelCode) }}</span>
+              </div>
+              <div class="center-attendance" v-if="attendanceCount !== null">
+                <el-icon class="attendance-icon" size="16"><Calendar /></el-icon>
+                <span>已签到 {{ attendanceCount }} 次</span>
+              </div>
             </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+          </div>
+          
+          <div class="center-points-section" v-if="!pointsLoading && (totalPoints !== null || signInPoints !== null || activityPoints !== null)">
+            <div class="center-points-grid">
+              <div class="center-point-item total-points">
+                <div class="center-point-icon">
+                  <el-icon size="20"><Coin /></el-icon>
+                </div>
+                <div class="center-point-info">
+                  <div class="center-point-label">总积分</div>
+                  <div class="center-point-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
+                </div>
+              </div>
+              <div class="center-point-item activity-points">
+                <div class="center-point-icon">
+                  <el-icon size="20"><Trophy /></el-icon>
+                </div>
+                <div class="center-point-info">
+                  <div class="center-point-label">活动积分</div>
+                  <div class="center-point-value">{{ activityPoints !== null ? activityPoints : 0 }}</div>
+                </div>
+              </div>
+              <div class="center-point-item signin-points">
+                <div class="center-point-icon">
+                  <el-icon size="20"><Calendar /></el-icon>
+                </div>
+                <div class="center-point-info">
+                  <div class="center-point-label">签到积分</div>
+                  <div class="center-point-value">{{ signInPoints !== null ? signInPoints : 0 }}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         
-        <div class="feature-card" @click="showProfile">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
+        <div class="navigation-grid">
+          <div class="nav-card" @click="goToAttendance">
+            <div class="nav-icon">
+              <el-icon size="28"><Check /></el-icon>
+            </div>
+            <div class="nav-content">
+              <div class="nav-label">签到记录</div>
+              <div class="nav-description">查看签到历史记录</div>
+            </div>
+          </div>
+          
+          <div class="nav-card" @click="showProfile">
+            <div class="nav-icon">
               <el-icon size="28"><User /></el-icon>
             </div>
-            <div class="card-text">
-              <h3>个人信息</h3>
-              <p>查看和编辑个人资料</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+            <div class="nav-content">
+              <div class="nav-label">个人信息</div>
+              <div class="nav-description">编辑个人资料信息</div>
             </div>
           </div>
-        </div>
-        
-        <div class="feature-card" @click="goToDashboard">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
+          
+          <div class="nav-card" @click="goToDashboard">
+            <div class="nav-icon">
               <el-icon size="28"><DataAnalysis /></el-icon>
             </div>
-            <div class="card-text">
-              <h3>数据看板</h3>
-              <p>查看学习数据分析</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+            <div class="nav-content">
+              <div class="nav-label">数据看板</div>
+              <div class="nav-description">查看数据统计图表</div>
             </div>
           </div>
-        </div>
-        
-        <div class="feature-card" @click="goToAttendanceAnalysis">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
+          
+          <div class="nav-card" @click="goToAttendanceAnalysis">
+            <div class="nav-icon">
               <el-icon size="28"><TrendCharts /></el-icon>
             </div>
-            <div class="card-text">
-              <h3>签到分析</h3>
-              <p>查看签到数据分析</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+            <div class="nav-content">
+              <div class="nav-label">签到分析</div>
+              <div class="nav-description">查看签到时段分析</div>
             </div>
           </div>
-        </div>
-        
-        <div class="feature-card" @click="goToPointsDashboard">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
+          
+          <div class="nav-card" @click="goToPointsDashboard">
+            <div class="nav-icon">
               <el-icon size="28"><Trophy /></el-icon>
             </div>
-            <div class="card-text">
-              <h3>积分看板</h3>
-              <p>查看积分排行榜</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+            <div class="nav-content">
+              <div class="nav-label">积分看板</div>
+              <div class="nav-description">查看积分排行榜</div>
             </div>
           </div>
-        </div>
-        
-        <div class="feature-card" @click="showSettings">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="28"><Setting /></el-icon>
-            </div>
-            <div class="card-text">
-              <h3>系统设置</h3>
-              <p>个性化设置选项</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
-            </div>
-          </div>
-        </div>
-        
-        <div class="feature-card admin-card" @click="goToAdmin" v-if="isAdmin">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
+          
+          <div class="nav-card" @click="goToAdmin" v-if="isAdmin">
+            <div class="nav-icon">
               <el-icon size="28"><UserFilled /></el-icon>
             </div>
-            <div class="card-text">
-              <h3>学生管理</h3>
-              <p>管理员控制台</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+            <div class="nav-content">
+              <div class="nav-label">学生管理</div>
+              <div class="nav-description">管理学生信息</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    <div class="footer">
-      <el-button type="danger" @click="handleLogout" class="logout-btn" plain>
-        <el-icon><SwitchButton /></el-icon>
-        退出登录
-      </el-button>
     </div>
   </div>
 </template>
@@ -170,18 +157,23 @@ import { ElMessage, ElButton, ElIcon } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import { Check, User, DataAnalysis, Setting, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, Trophy, Coin } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
-import { getStudentLevel } from '@/api/student'
+import { getStudentLevel, getStudentDatabaseTableId } from '@/api/student'
 import { getMyAttendanceCount } from '@/api/attendance'
+import { getTotalPointsByStudentInfoId } from '@/api/points'
 
 const router = useRouter()
 const userStore = useUserStore()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 const attendanceCount = ref(null)
+const signInPoints = ref(null)
+const activityPoints = ref(null)
+const totalPoints = ref(null)
+const pointsLoading = ref(false)
 
 const isAdmin = computed(() => {
   return userStore.studentLevel?.levelCode === 3
@@ -231,10 +223,6 @@ const goToPointsDashboard = () => {
   router.push('/points-dashboard')
 }
 
-const showSettings = () => {
-  ElMessage.info('系统设置功能开发中...')
-}
-
 const goToAdmin = () => {
   router.push('/student-manager')
 }
@@ -247,6 +235,8 @@ const loadAttendanceCount = async () => {
     const response = await getMyAttendanceCount(token)
     if (response.code === 200) {
       attendanceCount.value = response.data.count
+      // 计算签到积分：签到次数 × 0.64（四舍五入）
+      signInPoints.value = Math.round(response.data.count * 0.64)
     }
   } catch (error) {
     if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
@@ -254,6 +244,58 @@ const loadAttendanceCount = async () => {
       localStorage.removeItem('userInfo')
       router.push('/login')
     }
+  }
+}
+
+const loadPoints = async () => {
+  try {
+    pointsLoading.value = true
+    const token = localStorage.getItem('token')
+    if (!token) {
+      pointsLoading.value = false
+      return
+    }
+
+    // 并行加载签到次数和学生数据库ID
+    const [attendanceResponse, studentIdResponse] = await Promise.all([
+      getMyAttendanceCount(token).catch(() => ({ code: 0, data: { count: 0 } })),
+      getStudentDatabaseTableId(token).catch(() => ({ code: 0, data: null }))
+    ])
+
+    // 计算签到积分
+    if (attendanceResponse.code === 200) {
+      signInPoints.value = Math.round(attendanceResponse.data.count * 0.64)
+    } else {
+      signInPoints.value = 0
+    }
+
+    // 获取活动积分
+    if (studentIdResponse.code === 200 && studentIdResponse.data) {
+      const activityResponse = await getTotalPointsByStudentInfoId(studentIdResponse.data).catch(() => ({ code: 0, data: 0 }))
+      if (activityResponse.code === 200) {
+        activityPoints.value = activityResponse.data || 0
+      } else {
+        activityPoints.value = 0
+      }
+    } else {
+      activityPoints.value = 0
+    }
+
+    // 计算总积分
+    totalPoints.value = (signInPoints.value || 0) + (activityPoints.value || 0)
+  } catch (error) {
+    if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userInfo')
+      router.push('/login')
+    } else {
+      // 发生错误时设置为0，避免显示null
+      signInPoints.value = 0
+      activityPoints.value = 0
+      totalPoints.value = 0
+    }
+  } finally {
+    pointsLoading.value = false
   }
 }
 
@@ -279,6 +321,7 @@ const handleLogout = () => {
 onMounted(() => {
   loadAttendanceCount()
   loadStudentLevel()
+  loadPoints()
 })
 </script>
 
@@ -344,186 +387,455 @@ onMounted(() => {
 .header {
   position: relative;
   z-index: 10;
-  padding: 40px 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.header-content {
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 60px;
+  position: relative;
+}
+
+.header-left {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .home-btn {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   background: var(--primary-color);
   border: none;
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.home-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
 }
 
 .logo {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 16px;
+  border-radius: 14px;
 }
 
 .logo:hover {
-  transform: scale(1.1) rotate(5deg);
-  filter: brightness(1.2);
+  transform: scale(1.05) rotate(3deg);
+  filter: brightness(1.15);
 }
 
 .title-section h1 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   margin: 0;
   background: linear-gradient(135deg, #667eea, #764ba2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: -0.5px;
 }
 
 .title-section p {
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-secondary);
   margin: 4px 0 0 0;
   font-weight: 500;
 }
 
-.user-profile {
+.page-title-wrapper {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 24px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  gap: 14px;
+  position: relative;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 1px rgba(102, 126, 234, 0.1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
-.user-avatar {
-  width: 48px;
-  height: 48px;
+.page-title-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.page-title-wrapper:hover::before {
+  left: 100%;
+}
+
+.page-title-wrapper:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12));
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    0 12px 48px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 0 1px rgba(102, 126, 234, 0.2),
+    0 0 40px rgba(102, 126, 234, 0.15);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.page-title-badge {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  box-shadow: 
+    0 0 16px rgba(102, 126, 234, 1),
+    0 0 32px rgba(102, 126, 234, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  animation: badge-pulse 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.page-title-badge::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(102, 126, 234, 0.4);
+  animation: badge-ripple 2.5s ease-in-out infinite;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  position: relative;
+  animation: gradient-shift 5s ease-in-out infinite;
+  white-space: nowrap;
+  text-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.page-title-accent {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #764ba2, #667eea);
+  box-shadow: 
+    0 0 16px rgba(118, 75, 162, 1),
+    0 0 32px rgba(118, 75, 162, 0.6),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  animation: badge-pulse 2.5s ease-in-out infinite 0.6s;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.page-title-accent::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(118, 75, 162, 0.4);
+  animation: badge-ripple 2.5s ease-in-out infinite 0.6s;
+}
+
+@keyframes badge-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes badge-ripple {
+  0% {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+  }
+  100% {
+    width: 30px;
+    height: 30px;
+    opacity: 0;
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: brightness(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: brightness(1.15);
+  }
+}
+
+.main-content {
+  position: relative;
+  z-index: 10;
+  padding: 40px 60px 60px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 300px);
+  overflow: visible;
+}
+
+.center-hub-layout {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  margin: 0 auto;
+}
+
+.center-info-card {
+  width: 100%;
+  max-width: 900px;
+  padding: 32px 40px;
+  background: transparent;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.center-left-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.center-avatar {
+  width: 70px;
+  height: 70px;
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  flex-shrink: 0;
 }
 
-.user-details {
+.center-user-info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+  align-items: flex-start;
 }
 
-.user-name {
-  font-size: 16px;
-  font-weight: 600;
+.center-user-name {
+  font-size: 20px;
+  font-weight: 700;
   color: var(--text-primary);
+  text-align: left;
 }
 
-.user-level {
+.center-user-level {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.user-level.club-member {
+.center-user-level.club-member {
   color: var(--info-color);
 }
 
-.user-level.normal-member {
+.center-user-level.normal-member {
   color: var(--success-color);
 }
 
-.user-level.core-member {
+.center-user-level.core-member {
   color: var(--warning-color);
 }
 
-.user-level.admin {
+.center-user-level.admin {
   color: var(--danger-color);
 }
 
-.attendance-count {
+.center-points-section {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  padding-left: 32px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.center-points-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+
+.center-point-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 6px;
-  font-size: 14px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  min-width: 90px;
+}
+
+.center-point-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+.center-point-item.total-points {
+  border-top: 3px solid #667eea;
+}
+
+.center-point-item.activity-points {
+  border-top: 3px solid #ffc107;
+}
+
+.center-point-item.signin-points {
+  border-top: 3px solid #4caf50;
+}
+
+.center-point-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.center-point-item.total-points .center-point-icon {
+  background: rgba(102, 126, 234, 0.2);
+  color: #667eea;
+}
+
+.center-point-item.activity-points .center-point-icon {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+}
+
+.center-point-item.signin-points .center-point-icon {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.center-point-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.center-point-label {
+  font-size: 12px;
   color: var(--text-secondary);
-}
-
-.main-content {
-  position: relative;
-  z-index: 10;
-  padding: 0 60px 60px 60px;
-  max-width: 1400px;
-  margin: 0 auto;
-  margin-top: -20px;
-}
-
-.content-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
-
-.content-header h2 {
-  font-size: 36px;
-  font-weight: 700;
-  margin: 0 0 12px 0;
-  color: var(--text-primary);
-}
-
-.content-header p {
-  font-size: 18px;
-  color: var(--text-secondary);
-  margin: 0;
   font-weight: 500;
 }
 
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
+.center-point-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-.feature-card {
-  position: relative;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  padding: 32px;
+.center-attendance {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.navigation-grid {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 0 20px;
+}
+
+.nav-card {
+  padding: 28px 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
   overflow: hidden;
 }
 
-.feature-card:hover {
-  transform: translateY(-8px);
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
-.feature-card:hover .card-arrow {
-  transform: translateX(8px);
-}
-
-.card-background {
+.nav-card::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -531,22 +843,23 @@ onMounted(() => {
   bottom: 0;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
-.feature-card:hover .card-background {
+.nav-card:hover::before {
   opacity: 1;
 }
 
-.card-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 20px;
+.nav-card:hover {
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
 }
 
-.card-icon {
+.nav-icon {
+  position: relative;
+  z-index: 2;
   width: 64px;
   height: 64px;
   background: rgba(255, 255, 255, 0.1);
@@ -555,79 +868,81 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   color: var(--primary-color);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.feature-card:hover .card-icon {
-  background: rgba(102, 126, 234, 0.2);
-  transform: scale(1.1);
+.nav-card:hover .nav-icon {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
 }
 
-.card-text {
-  flex: 1;
-}
-
-.card-text h3 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0 0 8px 0;
-  color: var(--text-primary);
-}
-
-.card-text p {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.5;
-}
-
-.card-arrow {
-  color: var(--text-tertiary);
-  transition: all 0.3s ease;
-}
-
-.primary-card {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-  border-color: rgba(102, 126, 234, 0.3);
-}
-
-.primary-card:hover {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.25), rgba(118, 75, 162, 0.25));
-  border-color: rgba(102, 126, 234, 0.5);
-}
-
-.admin-card {
-  background: linear-gradient(135deg, rgba(244, 67, 54, 0.1), rgba(229, 62, 62, 0.1));
-  border-color: rgba(244, 67, 54, 0.2);
-}
-
-.admin-card:hover {
-  background: linear-gradient(135deg, rgba(244, 67, 54, 0.2), rgba(229, 62, 62, 0.2));
-  border-color: rgba(244, 67, 54, 0.4);
-}
-
-.footer {
+.nav-content {
   position: relative;
-  z-index: 10;
-  padding: 40px 60px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+}
+
+.nav-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.nav-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.nav-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-card:hover .nav-icon {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+}
+
+
+
+.header-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .logout-btn {
-  padding: 12px 32px;
-  border-radius: 12px;
+  padding: 10px 28px;
+  border-radius: 10px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--danger-color) !important;
   border-color: var(--danger-color) !important;
 }
 
 .logout-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(245, 108, 108, 0.3);
+  box-shadow: 0 6px 20px rgba(245, 108, 108, 0.25);
   background-color: var(--danger-color) !important;
   color: white !important;
 }

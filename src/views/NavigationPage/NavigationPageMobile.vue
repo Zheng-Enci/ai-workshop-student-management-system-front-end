@@ -32,6 +32,36 @@
           </div>
         </div>
       </div>
+      
+      <div class="points-display" v-if="!pointsLoading && (totalPoints !== null || signInPoints !== null || activityPoints !== null)">
+        <div class="points-card total-points">
+          <div class="points-icon">
+            <el-icon size="18"><Coin /></el-icon>
+          </div>
+          <div class="points-content">
+            <div class="points-label">总积分</div>
+            <div class="points-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
+          </div>
+        </div>
+        <div class="points-card activity-points">
+          <div class="points-icon">
+            <el-icon size="18"><Trophy /></el-icon>
+          </div>
+          <div class="points-content">
+            <div class="points-label">活动积分</div>
+            <div class="points-value">{{ activityPoints !== null ? activityPoints : 0 }}</div>
+          </div>
+        </div>
+        <div class="points-card signin-points">
+          <div class="points-icon">
+            <el-icon size="18"><Calendar /></el-icon>
+          </div>
+          <div class="points-content">
+            <div class="points-label">签到积分</div>
+            <div class="points-value">{{ signInPoints !== null ? signInPoints : 0 }}</div>
+          </div>
+        </div>
+      </div>
     </div>
     
     <div class="main-content">
@@ -121,22 +151,6 @@
           </div>
         </div>
         
-        <div class="feature-card" @click="showSettings">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="28"><Setting /></el-icon>
-            </div>
-            <div class="card-text">
-              <h3>系统设置</h3>
-              <p>个性化设置选项</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
-            </div>
-          </div>
-        </div>
-        
         <div class="feature-card admin-card" @click="goToAdmin" v-if="isAdmin">
           <div class="card-background"></div>
           <div class="card-content">
@@ -170,18 +184,23 @@ import { ElMessage, ElButton, ElIcon } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import { Check, User, DataAnalysis, Setting, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy, Coin } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
-import { getStudentLevel } from '@/api/student'
+import { getStudentLevel, getStudentDatabaseTableId } from '@/api/student'
 import { getMyAttendanceCount } from '@/api/attendance'
+import { getTotalPointsByStudentInfoId } from '@/api/points'
 
 const router = useRouter()
 const userStore = useUserStore()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 const attendanceCount = ref(null)
+const signInPoints = ref(null)
+const activityPoints = ref(null)
+const totalPoints = ref(null)
+const pointsLoading = ref(false)
 
 const isAdmin = computed(() => {
   return userStore.studentLevel?.levelCode === 3
@@ -231,10 +250,6 @@ const goToPointsDashboard = () => {
   router.push('/points-dashboard')
 }
 
-const showSettings = () => {
-  ElMessage.info('系统设置功能开发中...')
-}
-
 const goToAdmin = () => {
   router.push('/student-manager')
 }
@@ -247,6 +262,8 @@ const loadAttendanceCount = async () => {
     const response = await getMyAttendanceCount(token)
     if (response.code === 200) {
       attendanceCount.value = response.data.count
+      // 计算签到积分：签到次数 × 0.64（四舍五入）
+      signInPoints.value = Math.round(response.data.count * 0.64)
     }
   } catch (error) {
     if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
@@ -254,6 +271,58 @@ const loadAttendanceCount = async () => {
       localStorage.removeItem('userInfo')
       router.push('/login')
     }
+  }
+}
+
+const loadPoints = async () => {
+  try {
+    pointsLoading.value = true
+    const token = localStorage.getItem('token')
+    if (!token) {
+      pointsLoading.value = false
+      return
+    }
+
+    // 并行加载签到次数和学生数据库ID
+    const [attendanceResponse, studentIdResponse] = await Promise.all([
+      getMyAttendanceCount(token).catch(() => ({ code: 0, data: { count: 0 } })),
+      getStudentDatabaseTableId(token).catch(() => ({ code: 0, data: null }))
+    ])
+
+    // 计算签到积分
+    if (attendanceResponse.code === 200) {
+      signInPoints.value = Math.round(attendanceResponse.data.count * 0.64)
+    } else {
+      signInPoints.value = 0
+    }
+
+    // 获取活动积分
+    if (studentIdResponse.code === 200 && studentIdResponse.data) {
+      const activityResponse = await getTotalPointsByStudentInfoId(studentIdResponse.data).catch(() => ({ code: 0, data: 0 }))
+      if (activityResponse.code === 200) {
+        activityPoints.value = activityResponse.data || 0
+      } else {
+        activityPoints.value = 0
+      }
+    } else {
+      activityPoints.value = 0
+    }
+
+    // 计算总积分
+    totalPoints.value = (signInPoints.value || 0) + (activityPoints.value || 0)
+  } catch (error) {
+    if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userInfo')
+      router.push('/login')
+    } else {
+      // 发生错误时设置为0，避免显示null
+      signInPoints.value = 0
+      activityPoints.value = 0
+      totalPoints.value = 0
+    }
+  } finally {
+    pointsLoading.value = false
   }
 }
 
@@ -279,6 +348,7 @@ const handleLogout = () => {
 onMounted(() => {
   loadAttendanceCount()
   loadStudentLevel()
+  loadPoints()
 })
 </script>
 
@@ -474,6 +544,110 @@ onMounted(() => {
   gap: 4px;
   font-size: 12px;
   color: var(--text-secondary);
+}
+
+.points-display {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 0 20px;
+}
+
+.points-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: manipulation;
+}
+
+.points-card:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.points-card.total-points {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.points-card.total-points:active {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+}
+
+.points-card.activity-points {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 152, 0, 0.15));
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+.points-card.activity-points:active {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 152, 0, 0.2));
+}
+
+.points-card.signin-points {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(56, 142, 60, 0.15));
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.points-card.signin-points:active {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(56, 142, 60, 0.2));
+}
+
+.points-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.points-card.total-points .points-icon {
+  background: rgba(102, 126, 234, 0.25);
+  color: #667eea;
+}
+
+.points-card.activity-points .points-icon {
+  background: rgba(255, 193, 7, 0.25);
+  color: #ffc107;
+}
+
+.points-card.signin-points .points-icon {
+  background: rgba(76, 175, 80, 0.25);
+  color: #4caf50;
+}
+
+.points-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.points-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.points-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  word-break: break-word;
 }
 
 .main-content {

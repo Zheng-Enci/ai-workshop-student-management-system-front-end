@@ -98,3 +98,27 @@ export const getTopAdjustRecordsByStudentInfoId = async (studentInfoId, top = 3)
   }
 }
 
+export const getTotalPointsByStudentInfoId = async (studentInfoId) => {
+  try {
+    const response = await api.get('/api/v1/points/total-points-by-student-info-id', {
+      params: {
+        'target-student-info-id': studentInfoId
+      }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 400) {
+        throw new Error(error.response.data?.message || '获取活动积分失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取活动积分失败')
+      }
+    } else {
+      throw new Error('网络错误，获取活动积分失败')
+    }
+  }
+}
+
