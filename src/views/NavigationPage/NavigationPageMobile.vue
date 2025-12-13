@@ -87,8 +87,8 @@
                   <el-icon size="32"><Check /></el-icon>
                 </div>
                 <div class="card-text">
-                  <h3>签到记录</h3>
-                  <p>查看签到历史记录</p>
+                  <h3>学生签到</h3>
+                  <p>进行AI坊实践签到</p>
                 </div>
                 <div class="card-arrow">
                   <el-icon><ArrowRight /></el-icon>

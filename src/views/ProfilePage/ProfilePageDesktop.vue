@@ -24,30 +24,36 @@
         
         <div class="profile-header">
           <div class="user-info-section">
-            <div class="avatar-container" @click="handleAvatarClick">
-              <div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
-                <img 
-                  v-if="avatarUrl && !avatarLoading" 
-                  :src="avatarUrl" 
-                  alt="头像" 
-                  class="avatar-image"
-                  @error="handleAvatarError"
+            <div class="avatar-wrapper">
+              <div class="avatar-container" @click="handleAvatarClick">
+                <div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
+                  <img 
+                    v-if="avatarUrl && !avatarLoading" 
+                    :src="avatarUrl" 
+                    alt="头像" 
+                    class="avatar-image"
+                    @error="handleAvatarError"
+                  />
+                  <el-icon v-else class="avatar-icon"><User /></el-icon>
+                  <div v-if="avatarLoading" class="avatar-loading-spinner"></div>
+                </div>
+                <div class="avatar-status"></div>
+                <div class="avatar-upload-overlay">
+                  <el-icon class="upload-icon"><Camera /></el-icon>
+                  <span class="upload-text">点击上传头像</span>
+                </div>
+                <input 
+                  ref="fileInputRef"
+                  type="file" 
+                  accept="image/*" 
+                  style="display: none"
+                  @change="handleFileSelect"
                 />
-                <el-icon v-else class="avatar-icon"><User /></el-icon>
-                <div v-if="avatarLoading" class="avatar-loading-spinner"></div>
               </div>
-              <div class="avatar-status"></div>
-              <div class="avatar-upload-overlay">
-                <el-icon class="upload-icon"><Camera /></el-icon>
-                <span class="upload-text">点击上传头像</span>
+              <div class="avatar-tip">
+                <el-icon class="tip-icon"><Camera /></el-icon>
+                <span class="tip-text">{{ avatarUrl ? '点击头像修改头像' : '点击头像上传头像' }}</span>
               </div>
-              <input 
-                ref="fileInputRef"
-                type="file" 
-                accept="image/*" 
-                style="display: none"
-                @change="handleFileSelect"
-              />
             </div>
             <div class="user-details">
               <h2>{{ formData.name || '用户' }}</h2>
@@ -1685,6 +1691,13 @@ onMounted(() => {
   gap: 24px;
 }
 
+.avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 .avatar-container {
   position: relative;
   display: flex;
@@ -1774,6 +1787,52 @@ onMounted(() => {
   font-size: 12px;
   color: white;
   font-weight: 500;
+}
+
+.avatar-tip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.1) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  animation: fadeIn 0.3s ease;
+}
+
+.avatar-tip .tip-icon {
+  font-size: 16px;
+  color: #3b82f6;
+}
+
+.avatar-tip .tip-text {
+  font-size: 13px;
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html.dark .avatar-tip {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(29, 78, 216, 0.15) 100%);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+html.dark .avatar-tip .tip-icon,
+html.dark .avatar-tip .tip-text {
+  color: #60a5fa;
 }
 
 .avatar-loading {
