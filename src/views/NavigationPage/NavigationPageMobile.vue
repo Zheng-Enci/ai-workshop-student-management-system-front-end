@@ -65,104 +65,151 @@
     </div>
     
     <div class="main-content">
-      <div class="content-header">
-        <h2>功能导航</h2>
-        <p>选择您需要的功能模块</p>
-      </div>
-      
-      <div class="feature-grid">
-        <div class="feature-card primary-card" @click="goToAttendance">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="32"><Check /></el-icon>
+      <div class="navigation-sections">
+        <!-- 个人中心分组 -->
+        <div class="nav-section">
+          <div class="section-header">
+            <div class="section-title">
+              <el-icon class="section-icon"><User /></el-icon>
+              <span>个人中心</span>
             </div>
-            <div class="card-text">
-              <h3>学生签到</h3>
-              <p>进行AI坊实践签到</p>
+            <div class="section-divider"></div>
+          </div>
+          <div class="feature-grid">
+            <div class="feature-card primary-card" @click="goToAttendance">
+              <div class="card-background"></div>
+              <div class="card-content">
+                <div class="card-icon">
+                  <el-icon size="32"><Check /></el-icon>
+                </div>
+                <div class="card-text">
+                  <h3>签到记录</h3>
+                  <p>查看签到历史记录</p>
+                </div>
+                <div class="card-arrow">
+                  <el-icon><ArrowRight /></el-icon>
+                </div>
+              </div>
             </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+            
+            <div class="feature-card" @click="showProfile">
+              <div class="card-background"></div>
+              <div class="card-content">
+                <div class="card-icon">
+                  <el-icon size="28"><User /></el-icon>
+                </div>
+                <div class="card-text">
+                  <h3>个人信息</h3>
+                  <p>编辑个人资料信息</p>
+                </div>
+                <div class="card-arrow">
+                  <el-icon><ArrowRight /></el-icon>
+                </div>
+              </div>
+            </div>
+            
+            <div class="feature-card" @click="goToScoreChangeRecords">
+              <div class="card-background"></div>
+              <div class="card-content">
+                <div class="card-icon">
+                  <el-icon size="28"><Document /></el-icon>
+                </div>
+                <div class="card-text">
+                  <h3>改分记录</h3>
+                  <p>查看所有积分调整记录</p>
+                </div>
+                <div class="card-arrow">
+                  <el-icon><ArrowRight /></el-icon>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="feature-card" @click="showProfile">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="28"><User /></el-icon>
+
+        <!-- 数据查看分组 -->
+        <div class="nav-section">
+          <div class="section-header">
+            <div class="section-title">
+              <el-icon class="section-icon"><DataAnalysis /></el-icon>
+              <span>数据查看</span>
             </div>
-            <div class="card-text">
-              <h3>个人信息</h3>
-              <p>查看和编辑个人资料</p>
+            <div class="section-divider"></div>
+          </div>
+          <div class="feature-grid">
+            <div class="feature-card" @click="goToDashboard">
+              <div class="card-background"></div>
+              <div class="card-content">
+                <div class="card-icon">
+                  <el-icon size="28"><DataAnalysis /></el-icon>
+                </div>
+                <div class="card-text">
+                  <h3>数据看板</h3>
+                  <p>查看数据统计图表</p>
+                </div>
+                <div class="card-arrow">
+                  <el-icon><ArrowRight /></el-icon>
+                </div>
+              </div>
             </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+            
+            <div class="feature-card" @click="goToAttendanceAnalysis">
+              <div class="card-background"></div>
+              <div class="card-content">
+                <div class="card-icon">
+                  <el-icon size="28"><TrendCharts /></el-icon>
+                </div>
+                <div class="card-text">
+                  <h3>签到分析</h3>
+                  <p>查看签到时段分析</p>
+                </div>
+                <div class="card-arrow">
+                  <el-icon><ArrowRight /></el-icon>
+                </div>
+              </div>
+            </div>
+            
+            <div class="feature-card" @click="goToPointsDashboard">
+              <div class="card-background"></div>
+              <div class="card-content">
+                <div class="card-icon">
+                  <el-icon size="28"><Trophy /></el-icon>
+                </div>
+                <div class="card-text">
+                  <h3>积分看板</h3>
+                  <p>查看积分排行榜</p>
+                </div>
+                <div class="card-arrow">
+                  <el-icon><ArrowRight /></el-icon>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="feature-card" @click="goToDashboard">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="28"><DataAnalysis /></el-icon>
+
+        <!-- 管理功能分组（管理员可见） -->
+        <div class="nav-section" v-if="isAdmin">
+          <div class="section-header">
+            <div class="section-title">
+              <el-icon class="section-icon"><UserFilled /></el-icon>
+              <span>管理功能</span>
             </div>
-            <div class="card-text">
-              <h3>数据看板</h3>
-              <p>查看学习数据分析</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
-            </div>
+            <div class="section-divider"></div>
           </div>
-        </div>
-        
-        <div class="feature-card" @click="goToAttendanceAnalysis">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="28"><TrendCharts /></el-icon>
-            </div>
-            <div class="card-text">
-              <h3>签到分析</h3>
-              <p>查看签到数据分析</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
-            </div>
-          </div>
-        </div>
-        
-        <div class="feature-card" @click="goToPointsDashboard">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="28"><Trophy /></el-icon>
-            </div>
-            <div class="card-text">
-              <h3>积分看板</h3>
-              <p>查看积分排行榜</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
-            </div>
-          </div>
-        </div>
-        
-        <div class="feature-card admin-card" @click="goToAdmin" v-if="isAdmin">
-          <div class="card-background"></div>
-          <div class="card-content">
-            <div class="card-icon">
-              <el-icon size="28"><UserFilled /></el-icon>
-            </div>
-            <div class="card-text">
-              <h3>学生管理</h3>
-              <p>管理员控制台</p>
-            </div>
-            <div class="card-arrow">
-              <el-icon><ArrowRight /></el-icon>
+          <div class="feature-grid">
+            <div class="feature-card admin-card" @click="goToAdmin">
+              <div class="card-background"></div>
+              <div class="card-content">
+                <div class="card-icon">
+                  <el-icon size="28"><UserFilled /></el-icon>
+                </div>
+                <div class="card-text">
+                  <h3>学生管理</h3>
+                  <p>管理学生信息</p>
+                </div>
+                <div class="card-arrow">
+                  <el-icon><ArrowRight /></el-icon>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -184,7 +231,7 @@ import { ElMessage, ElButton, ElIcon } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy, Coin } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy, Coin, Document } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
@@ -248,6 +295,10 @@ const goToAttendanceAnalysis = () => {
 
 const goToPointsDashboard = () => {
   router.push('/points-dashboard')
+}
+
+const goToScoreChangeRecords = () => {
+  router.push('/score-change-records-desktop')
 }
 
 const goToAdmin = () => {
@@ -665,23 +716,65 @@ onMounted(() => {
   padding: 40px 20px;
 }
 
-.content-header {
-  text-align: center;
-  margin-bottom: 32px;
+.navigation-sections {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.content-header h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0 0 12px 0;
-  color: var(--text-primary);
+.nav-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.content-header p {
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
-  color: var(--text-secondary);
-  margin: 0;
-  font-weight: 500;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.section-icon {
+  font-size: 18px;
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.section-divider {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(102, 126, 234, 0.3) 0%, rgba(102, 126, 234, 0.1) 50%, transparent 100%);
+  position: relative;
+}
+
+.section-divider::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(102, 126, 234, 0.4);
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.6);
 }
 
 .feature-grid {
