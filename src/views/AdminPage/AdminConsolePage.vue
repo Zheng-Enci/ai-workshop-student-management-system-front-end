@@ -758,7 +758,9 @@
       :close-on-press-escape="false"
       :append-to-body="true"
       :teleported="true"
+      modal-class="points-dialog-overlay"
       class="points-dialog"
+      @close="handlePointsDialogClose"
     >
       <div v-if="pointsSelectedStudent" class="points-student-info">
         <div class="student-info-card">
@@ -2403,6 +2405,15 @@ const openPointsDialog = (student) => {
     ElMessage.warning('学生信息不完整，无法修改积分')
     return
   }
+  
+  // 恢复遮罩层样式，确保可以正常显示
+  const dialogWrapper = document.querySelector('.points-dialog-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = ''      // 清空内联样式
+    dialogWrapper.style.visibility = ''   // 清空内联样式
+    dialogWrapper.style.opacity = ''      // 清空内联样式
+  }
+  
   pointsSelectedStudent.value = student
   pointsForm.value = {
     changePoints: null,
@@ -2411,14 +2422,28 @@ const openPointsDialog = (student) => {
   pointsDialogVisible.value = true
 }
 
+const handlePointsDialogClose = () => {
+  // 先直接操作DOM隐藏遮罩层，避免闪烁
+  const dialogWrapper = document.querySelector('.points-dialog-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  // 延迟清空数据，确保弹窗完全关闭后再清空
+  setTimeout(() => {
+    pointsFormRef.value?.resetFields()
+    pointsSelectedStudent.value = null
+    pointsForm.value = {
+      changePoints: null,
+      adjustReason: ''
+    }
+  }, 0)
+}
+
 const cancelPoints = () => {
   pointsDialogVisible.value = false
-  pointsFormRef.value?.resetFields()
-  pointsSelectedStudent.value = null
-  pointsForm.value = {
-    changePoints: null,
-    adjustReason: ''
-  }
 }
 
 const confirmPoints = async () => {
@@ -2451,8 +2476,7 @@ const confirmPoints = async () => {
     if (response.code === 200) {
       ElMessage.success('积分记录创建成功')
       pointsDialogVisible.value = false
-      pointsFormRef.value?.resetFields()
-      pointsSelectedStudent.value = null
+      // 数据清空由 handlePointsDialogClose 处理
     } else {
       ElMessage.error(response.message || '积分记录创建失败')
     }
@@ -3537,6 +3561,30 @@ html.dark .option-icon {
     padding: 20px 24px;
     border-radius: 0 0 8px 8px;
   }
+}
+
+/* 修改积分弹窗遮罩层样式，禁用过渡动画避免闪烁 */
+:deep(.points-dialog-overlay) {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3000 !important;
+  transition: none !important;  /* 禁用过渡动画 */
+  animation: none !important;   /* 禁用动画 */
+}
+
+:deep(.points-dialog-overlay .el-overlay-dialog) {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3001 !important;
+  transition: none !important;  /* 禁用过渡动画 */
+  animation: none !important;   /* 禁用动画 */
 }
 
 .points-dialog {
