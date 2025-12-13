@@ -170,6 +170,15 @@
                 <el-icon><Edit /></el-icon>
                 修改积分
               </el-button>
+              <el-button 
+                type="info" 
+                size="small" 
+                @click="openScoreChangeRecordsDialog(student)"
+                class="score-records-btn"
+              >
+                <el-icon><Document /></el-icon>
+                改分记录
+              </el-button>
             </div>
           </div>
           
@@ -803,6 +812,77 @@
         </div>
       </template>
     </el-dialog>
+
+    <!-- 改分记录查看弹窗 -->
+    <el-dialog
+      v-if="scoreChangeRecordsDialogVisible"
+      v-model="scoreChangeRecordsDialogVisible"
+      :title="`${currentScoreChangeRecordsStudent?.name || '学生'} 的改分记录`"
+      width="900px"
+      :close-on-click-modal="false"
+      :destroy-on-close="true"
+      :append-to-body="true"
+      :teleported="true"
+      modal-class="score-change-records-overlay"
+      class="score-change-records-dialog"
+      @close="closeScoreChangeRecordsDialog"
+    >
+      <div class="student-info-header">
+        <div class="student-avatar-large">
+          {{ currentScoreChangeRecordsStudent?.name?.charAt(0) || '学' }}
+        </div>
+        <div class="student-info">
+          <h3>{{ currentScoreChangeRecordsStudent?.name || '学生' }}</h3>
+          <p>学号：{{ currentScoreChangeRecordsStudent?.studentId }}</p>
+          <p v-if="currentScoreChangeRecordsStudent?.major && currentScoreChangeRecordsStudent?.grade">
+            专业：{{ currentScoreChangeRecordsStudent.major }} | 年级：{{ currentScoreChangeRecordsStudent.grade }}年级
+          </p>
+        </div>
+        <div class="attendance-summary">
+          <div class="summary-item">
+            <span class="summary-label">总记录数</span>
+            <span class="summary-value">{{ scoreChangeRecords.length }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">总调整分数</span>
+            <span class="summary-value" :class="{ positive: totalScoreChangePoints >= 0, negative: totalScoreChangePoints < 0 }">
+              {{ totalScoreChangePoints > 0 ? `+${totalScoreChangePoints}` : totalScoreChangePoints }}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div v-if="scoreChangeRecordsLoading" class="records-loading">
+        <el-icon class="is-loading"><Loading /></el-icon>
+        <span>加载中...</span>
+      </div>
+      <div v-else-if="scoreChangeRecords.length === 0" class="records-empty">
+        <el-icon><Box /></el-icon>
+        <span>暂无改分记录</span>
+      </div>
+      <div v-else class="score-change-records-container">
+        <div class="records-grid">
+          <div
+            v-for="(record, index) in sortedScoreChangeRecords"
+            :key="index"
+            class="record-card"
+          >
+            <div class="record-header">
+              <span class="record-time">{{ formatTime(record.createTime) }}</span>
+              <span class="record-points-badge" :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
+                {{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
+              </span>
+            </div>
+            <div class="record-reason-text">{{ record.adjustReason }}</div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="closeScoreChangeRecordsDialog">关闭</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -832,11 +912,11 @@ import 'element-plus/theme-chalk/el-date-picker.css'
 import 'element-plus/theme-chalk/el-date-picker-panel.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning } from '@element-plus/icons-vue'
+import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning, Document, Loading, Box } from '@element-plus/icons-vue'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin } from '@/api/student'
 import { getStudentAttendanceCount, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
 import { getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/attendance'
-import { createPointsRecord } from '@/api/points'
+import { createPointsRecord, getAllAdjustRecordsByStudentInfoId } from '@/api/points'
 import { useRouter } from 'vue-router'
 import * as echarts from 'echarts/core'
 import { BarChart, LineChart, HeatmapChart } from 'echarts/charts'
@@ -952,6 +1032,12 @@ const pointsForm = ref({
   changePoints: null,
   adjustReason: ''
 })
+
+// 改分记录查看相关
+const scoreChangeRecordsDialogVisible = ref(false)
+const scoreChangeRecordsLoading = ref(false)
+const scoreChangeRecords = ref([])
+const currentScoreChangeRecordsStudent = ref(null)
 // 日期时间段快捷选项（包含日期和时间段）
 const datetimeShortcuts = [
   {
@@ -2376,6 +2462,66 @@ const confirmPoints = async () => {
     }
   } finally {
     pointsLoading.value = false
+  }
+}
+
+const openScoreChangeRecordsDialog = async (student) => {
+  if (!student || !student.id) {
+    ElMessage.warning('学生信息不完整，无法查看改分记录')
+    return
+  }
+  
+  currentScoreChangeRecordsStudent.value = student
+  scoreChangeRecordsDialogVisible.value = true
+  scoreChangeRecordsLoading.value = true
+  scoreChangeRecords.value = []
+  
+  try {
+    const response = await getAllAdjustRecordsByStudentInfoId(student.id)
+    if (response.code === 200 && Array.isArray(response.data)) {
+      scoreChangeRecords.value = response.data
+    } else {
+      scoreChangeRecords.value = []
+    }
+  } catch (error) {
+    console.error('获取改分记录失败:', error)
+    ElMessage.error('获取改分记录失败：' + (error.message || '未知错误'))
+    scoreChangeRecords.value = []
+  } finally {
+    scoreChangeRecordsLoading.value = false
+  }
+}
+
+const closeScoreChangeRecordsDialog = () => {
+  scoreChangeRecordsDialogVisible.value = false
+  currentScoreChangeRecordsStudent.value = null
+  scoreChangeRecords.value = []
+}
+
+const sortedScoreChangeRecords = computed(() => {
+  return [...scoreChangeRecords.value].sort((a, b) => {
+    const timeA = new Date(a.createTime).getTime()
+    const timeB = new Date(b.createTime).getTime()
+    return timeB - timeA // 最新的在前
+  })
+})
+
+const totalScoreChangePoints = computed(() => {
+  return scoreChangeRecords.value.reduce((sum, r) => sum + r.adjustPoints, 0)
+})
+
+const formatTime = (timeString) => {
+  if (!timeString) return '--'
+  try {
+    const date = new Date(timeString)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    return `${year}-${month}-${day} ${hours}:${minutes}`
+  } catch (error) {
+    return timeString
   }
 }
 
@@ -5635,5 +5781,133 @@ html.dark .makeup-date-picker-popper .el-date-table td.current .el-date-table-ce
 
 html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell__text {
   color: white !important;
+}
+
+/* 改分记录查看弹窗样式 */
+.score-change-records-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.score-change-records-dialog {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.score-change-records-container {
+  width: 100%;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 16px 0;
+}
+
+.records-loading,
+.records-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  color: var(--admin-text-secondary);
+}
+
+.records-loading .el-icon {
+  font-size: 40px;
+  color: var(--admin-primary-color);
+}
+
+.records-empty .el-icon {
+  font-size: 56px;
+  color: var(--admin-text-tertiary);
+  opacity: 0.5;
+}
+
+.records-loading span,
+.records-empty span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.records-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.record-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  border-radius: 12px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.record-card:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.08) 100%);
+  border-color: rgba(102, 126, 234, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.record-time {
+  font-size: 13px;
+  color: var(--admin-text-secondary);
+  font-weight: 500;
+  word-break: break-word;
+  flex: 1;
+  min-width: 0;
+}
+
+.record-points-badge {
+  font-size: 16px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 8px;
+  min-width: 70px;
+  text-align: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.record-points-badge.positive {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.record-points-badge.negative {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.record-reason-text {
+  font-size: 14px;
+  color: var(--admin-text-primary);
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.summary-value.positive {
+  color: #10b981;
+}
+
+.summary-value.negative {
+  color: #ef4444;
+}
+
+.score-records-btn {
+  margin-left: 8px;
 }
 </style>
