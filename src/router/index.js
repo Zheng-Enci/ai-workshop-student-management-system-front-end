@@ -24,6 +24,18 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
+        path: '/navigation-mobile',
+        name: 'NavigationMobile',
+        component: () => import('../views/NavigationPage/NavigationPageMobile.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/navigation-desktop',
+        name: 'NavigationDesktop',
+        component: () => import('../views/NavigationPage/NavigationPageDesktop.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
         path: '/attendance',
         name: 'Attendance',
         component: () => import('../views/AttendancePage/AttendancePage.vue'),
@@ -112,6 +124,18 @@ const routes = [
         path: '/points-dashboard',
         name: 'PointsDashboard',
         component: () => import('../views/PointsDashboardPage/PointsDashboardPage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/points-dashboard-mobile',
+        name: 'PointsDashboardMobile',
+        component: () => import('../views/PointsDashboardPage/PointsDashboardPageMobile.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/points-dashboard-desktop',
+        name: 'PointsDashboardDesktop',
+        component: () => import('../views/PointsDashboardPage/PointsDashboardPageDesktop.vue'),
         meta: { requiresAuth: true }
     },
 ]
