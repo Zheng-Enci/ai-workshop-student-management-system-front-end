@@ -36,7 +36,7 @@
       <div class="points-display" v-if="!pointsLoading && (totalPoints !== null || signInPoints !== null || activityPoints !== null)">
         <div class="points-card total-points">
           <div class="points-icon">
-            <el-icon size="18"><Coin /></el-icon>
+            <el-icon size="16"><Coin /></el-icon>
           </div>
           <div class="points-content">
             <div class="points-label">总积分</div>
@@ -45,7 +45,7 @@
         </div>
         <div class="points-card activity-points">
           <div class="points-icon">
-            <el-icon size="18"><Trophy /></el-icon>
+            <el-icon size="16"><Trophy /></el-icon>
           </div>
           <div class="points-content">
             <div class="points-label">活动积分</div>
@@ -54,7 +54,7 @@
         </div>
         <div class="points-card signin-points">
           <div class="points-icon">
-            <el-icon size="18"><Calendar /></el-icon>
+            <el-icon size="16"><Calendar /></el-icon>
           </div>
           <div class="points-content">
             <div class="points-label">签到积分</div>
@@ -550,23 +550,27 @@ onMounted(() => {
   position: relative;
   z-index: 10;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  flex-direction: row;
+  gap: 8px;
   margin-top: 16px;
   padding: 0 20px;
 }
 
 .points-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 8px;
   background: rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border-radius: 12px;
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   touch-action: manipulation;
+  flex: 1;
+  min-width: 0;
 }
 
 .points-card:active {
@@ -602,10 +606,10 @@ onMounted(() => {
 }
 
 .points-icon {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background: rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -631,23 +635,28 @@ onMounted(() => {
 .points-content {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 4px;
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
 .points-label {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
   font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .points-value {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
   line-height: 1.2;
   word-break: break-word;
+  text-align: center;
 }
 
 .main-content {
