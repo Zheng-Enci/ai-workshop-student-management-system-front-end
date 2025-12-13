@@ -464,4 +464,50 @@ export const getManagedStudents = async (adminStudentId) => {
   }
 }
 
+/**
+ * 上传学生头像
+ * @param {String} token - JWT token
+ * @param {File} file - 头像文件
+ * @returns {Promise} Promise对象
+ */
+export const uploadAvatar = async (token, file) => {
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+    
+    const response = await api.post('/api/v1/students/avatar', formData, {
+      params: { token },
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 401) {
+        throw new Error('Token无效，请重新登录')
+      } else if (status === 400) {
+        throw new Error(error.response.data?.message || '头像上传失败')
+      } else if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '头像上传失败')
+      }
+    } else {
+      throw new Error('网络错误，头像上传失败')
+    }
+  }
+}
+
+/**
+ * 获取头像URL（辅助函数）
+ * @param {Number} studentInfoId - 学生数据库表主键ID
+ * @returns {String} 头像URL
+ */
+export const getAvatarUrl = (studentInfoId) => {
+  if (!studentInfoId) return null
+  return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}`
+}
+
 

@@ -36,8 +36,12 @@
       <div class="center-hub-layout">
         <div class="center-info-card">
           <div class="center-left-section">
-            <div class="center-avatar">
-              <el-icon size="32"><User /></el-icon>
+            <div class="center-avatar" @click="showProfile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }">
+              <img v-if="hasAvatar && avatarUrl" :src="avatarUrl" alt="用户头像" class="avatar-image" />
+              <el-icon v-else size="32" class="avatar-icon"><User /></el-icon>
+              <div v-if="avatarLoading" class="avatar-loading">
+                <el-icon class="loading-icon"><Loading /></el-icon>
+              </div>
             </div>
             <div class="center-user-info">
               <div class="center-user-name">{{ userStore.userInfo?.name || '学生' }}</div>
@@ -203,11 +207,11 @@ import { ElMessage, ElButton, ElIcon } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, Trophy, Coin, Document } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, Trophy, Coin, Document, Loading } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
-import { getStudentLevel, getStudentDatabaseTableId } from '@/api/student'
+import { getStudentLevel, getStudentDatabaseTableId, getAvatarUrl } from '@/api/student'
 import { getMyAttendanceCount } from '@/api/attendance'
 import { getTotalPointsByStudentInfoId } from '@/api/points'
 
@@ -220,6 +224,10 @@ const signInPoints = ref(null)
 const activityPoints = ref(null)
 const totalPoints = ref(null)
 const pointsLoading = ref(false)
+const avatarUrl = ref(null)
+const hasAvatar = ref(false)
+const avatarLoading = ref(false)
+const avatarTipShown = ref(false)
 
 const isAdmin = computed(() => {
   return userStore.studentLevel?.levelCode === 3
@@ -362,6 +370,103 @@ const loadStudentLevel = async () => {
   }
 }
 
+const showDefaultAvatar = () => {
+  hasAvatar.value = false
+  avatarUrl.value = null
+  // 显示提示消息（只显示一次）
+  if (!avatarTipShown.value) {
+    ElMessage({
+      message: '您还没有上传头像，请前往个人信息页面上传头像',
+      type: 'info',
+      duration: 4000,
+      showClose: true
+    })
+    avatarTipShown.value = true
+  }
+}
+
+const loadUserAvatar = async () => {
+  try {
+    avatarLoading.value = true
+    const token = localStorage.getItem('token')
+    if (!token) {
+      showDefaultAvatar()
+      avatarLoading.value = false
+      return
+    }
+
+    // 获取学生数据库ID
+    const idResponse = await getStudentDatabaseTableId(token)
+    if (idResponse.code !== 200 || !idResponse.data) {
+      showDefaultAvatar()
+      avatarLoading.value = false
+      return
+    }
+
+    const studentInfoId = idResponse.data
+    const avatarUrlString = getAvatarUrl(studentInfoId)
+    
+    if (!avatarUrlString) {
+      showDefaultAvatar()
+      avatarLoading.value = false
+      return
+    }
+
+    // 使用fetch检测头像是否存在（更可靠的方式）
+    try {
+      const response = await fetch(avatarUrlString, { method: 'GET' })
+      if (response.ok) {
+        const contentType = response.headers.get('content-type')
+        // 检查响应是否为图片类型
+        if (contentType && contentType.startsWith('image/')) {
+          // 头像存在，使用Image对象加载
+          const img = new Image()
+          img.onload = () => {
+            avatarUrl.value = avatarUrlString
+            hasAvatar.value = true
+            avatarLoading.value = false
+          }
+          img.onerror = () => {
+            showDefaultAvatar()
+            avatarLoading.value = false
+          }
+          img.src = avatarUrlString
+        } else {
+          // 返回的不是图片（可能是JSON错误信息），头像不存在
+          showDefaultAvatar()
+          avatarLoading.value = false
+        }
+      } else {
+        // 响应状态码不是200（可能是400），头像不存在
+        showDefaultAvatar()
+        avatarLoading.value = false
+      }
+    } catch (fetchError) {
+      // fetch失败，可能是网络错误或CORS问题，使用Image对象作为fallback
+      const img = new Image()
+      img.onload = () => {
+        avatarUrl.value = avatarUrlString
+        hasAvatar.value = true
+        avatarLoading.value = false
+      }
+      img.onerror = () => {
+        showDefaultAvatar()
+        avatarLoading.value = false
+      }
+      img.src = avatarUrlString
+    }
+  } catch (error) {
+    if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userInfo')
+      router.push('/login')
+    } else {
+      showDefaultAvatar()
+    }
+    avatarLoading.value = false
+  }
+}
+
 const handleLogout = () => {
   userStore.logout()
   ElMessage.success('已退出登录')
@@ -372,6 +477,7 @@ onMounted(() => {
   loadAttendanceCount()
   loadStudentLevel()
   loadPoints()
+  loadUserAvatar()
 })
 </script>
 
@@ -717,6 +823,63 @@ onMounted(() => {
   color: white;
   box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
   flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.center-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
+}
+
+.center-avatar.has-avatar {
+  background: transparent;
+}
+
+.center-avatar.no-avatar {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-icon {
+  color: white;
+}
+
+
+.avatar-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+}
+
+.loading-icon {
+  font-size: 24px;
+  color: white;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .center-user-info {

@@ -124,3 +124,5 @@ rankingList.value = list.map((item) => ({
 
 
 
+
+
