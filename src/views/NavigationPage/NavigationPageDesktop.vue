@@ -48,7 +48,7 @@
               <el-icon size="32"><Check /></el-icon>
             </div>
             <div class="card-text">
-              <h3>学生签到</h3>
+              <h3>签到记录</h3>
               <p>查看详细签到记录和历史数据</p>
             </div>
             <div class="card-arrow">
