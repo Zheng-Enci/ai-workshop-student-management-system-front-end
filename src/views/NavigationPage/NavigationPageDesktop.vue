@@ -49,7 +49,7 @@
             </div>
             <div class="card-text">
               <h3>学生签到</h3>
-              <p>进行AI坊实践签到，查看详细签到记录和历史数据</p>
+              <p>查看详细签到记录和历史数据</p>
             </div>
             <div class="card-arrow">
               <el-icon><ArrowRight /></el-icon>
