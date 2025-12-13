@@ -104,6 +104,15 @@
             </div>
           </div>
         </div>
+        
+        <div class="desktop-tip-card-mobile">
+          <div class="tip-icon-mobile">
+            <el-icon><Monitor /></el-icon>
+          </div>
+          <div class="tip-content-mobile">
+            <p class="tip-text-mobile">💡 提示：如需查看详细签到记录和历史数据，请在电脑端访问</p>
+          </div>
+        </div>
       </div>
       
     </div>
@@ -147,7 +156,7 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-input.css'
-import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon } from '@element-plus/icons-vue'
+import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor } from '@element-plus/icons-vue'
 import { signIn } from '@/api/attendance'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
@@ -879,6 +888,45 @@ h1 {
   color: #4CAF50;
 }
 
+.desktop-tip-card-mobile {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 3px 12px var(--shadow-color);
+  padding: 12px 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.tip-icon-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(102, 126, 234, 0.1);
+  color: var(--primary-color);
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.tip-content-mobile {
+  flex: 1;
+  min-width: 0;
+}
+
+.tip-text-mobile {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  word-break: break-word;
+}
 
 @keyframes spin-mobile {
   from { transform: rotate(0deg); }
