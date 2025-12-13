@@ -19,7 +19,7 @@
       <div class="user-profile">
         <div class="user-avatar" @click="showProfile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }">
           <img v-if="hasAvatar && avatarUrl" :src="avatarUrl" alt="用户头像" class="avatar-image" />
-          <el-icon v-else size="24" class="avatar-icon"><User /></el-icon>
+          <el-icon v-else size="28" class="avatar-icon"><User /></el-icon>
           <div v-if="avatarLoading" class="avatar-loading">
             <el-icon class="loading-icon"><Loading /></el-icon>
           </div>
@@ -644,10 +644,10 @@ onMounted(() => {
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -677,7 +677,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 12px;
 }
 
 .avatar-icon {

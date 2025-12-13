@@ -1604,7 +1604,7 @@ onMounted(() => {
   width: 64px;
   height: 64px;
   background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1617,7 +1617,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 12px;
 }
 
 .avatar-icon {
@@ -1661,7 +1661,7 @@ onMounted(() => {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2219,7 +2219,7 @@ html.dark .avatar-tip .tip-text {
 .student-avatar-large {
   width: 60px;
   height: 60px;
-  border-radius: 50%;
+  border-radius: 12px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;

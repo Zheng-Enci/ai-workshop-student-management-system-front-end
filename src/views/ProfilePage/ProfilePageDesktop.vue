@@ -1710,7 +1710,7 @@ onMounted(() => {
   width: 90px;
   height: 90px;
   background: var(--primary-gradient);
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1730,7 +1730,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 12px;
 }
 
 .avatar-icon {
@@ -1757,7 +1757,7 @@ onMounted(() => {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-  border-radius: 50%;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
