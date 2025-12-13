@@ -164,16 +164,20 @@
                   <div class="side-rank-badge" v-if="!student.placeholder && idx < 3">
                     <span class="rank-number">{{ idx + 1 }}</span>
                   </div>
-                  <div class="side-name">
-                    {{ student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`) }}
+                  <div class="side-avatar-wrapper">
+                    <div class="side-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
+                      <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
+                      <el-icon v-else size="28" class="avatar-icon"><User /></el-icon>
+                    </div>
+                    <div class="side-name">
+                      {{ student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`) }}
+                    </div>
                   </div>
                   <div class="side-meta" v-if="!student.placeholder">
                     <div class="meta-line meta-line-first">{{ student.college || '--' }}</div>
-                    <div class="meta-line-row">
-                      <div class="meta-line meta-line-second" v-if="student.major">{{ student.major }}</div>
-                      <div class="meta-line meta-line-second" v-if="student.grade">{{ student.grade }} 年级</div>
-                      <div class="meta-line meta-line-second" v-if="!student.major && !student.grade">--</div>
-                    </div>
+                    <div class="meta-line meta-line-second" v-if="student.major">{{ student.major }}</div>
+                    <div class="meta-line meta-line-second" v-if="student.grade">{{ student.grade }} 年级</div>
+                    <div class="meta-line meta-line-second" v-if="!student.major && !student.grade">--</div>
                   </div>
                   <div class="side-points">
                     <div class="points-total-row">
@@ -275,7 +279,7 @@ import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/display.css'
-import { ArrowLeft, ArrowRight, Loading, Box, View } from '@element-plus/icons-vue'
+import { ArrowLeft, ArrowRight, Loading, Box, View, User } from '@element-plus/icons-vue'
 import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'
 import {
@@ -284,7 +288,7 @@ import {
 import { CanvasRenderer } from 'echarts/renderers'
 import { getAttendanceTopRanking } from '@/api/attendance'
 import { getPointsTopRanking, getTopAdjustRecordsByStudentInfoId } from '@/api/points'
-import { getStudentPublicFieldValueById } from '@/api/student'
+import { getStudentPublicFieldValueById, getAvatarUrl } from '@/api/student'
 
 echarts.use([
   GridComponent,
@@ -671,6 +675,11 @@ const initTotalChart = async (data) => {
   totalChartInstance.setOption(option)
 }
 
+const handleAvatarError = (student) => {
+  student.hasAvatar = false
+  student.avatarUrl = null
+}
+
 const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
   const infoPromises = rankingList.map(async (item) => {
     const studentId = item[idField] || item.targetStudentInfoId
@@ -696,6 +705,27 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
       }
       if (collegeResponse.code === 200 && collegeResponse.data) {
         item.college = collegeResponse.data
+      }
+      
+      // 加载头像
+      const avatarUrlString = getAvatarUrl(studentId)
+      if (avatarUrlString) {
+        // 先设置URL，让浏览器尝试加载
+        item.avatarUrl = avatarUrlString
+        item.hasAvatar = true
+        // 使用Image对象验证头像是否存在
+        const img = new Image()
+        img.onload = () => {
+          item.hasAvatar = true
+        }
+        img.onerror = () => {
+          item.hasAvatar = false
+          item.avatarUrl = null
+        }
+        img.src = avatarUrlString
+      } else {
+        item.hasAvatar = false
+        item.avatarUrl = null
       }
     } catch (error) {
       return item
@@ -1371,6 +1401,47 @@ html.dark .ranking-label {
   overflow: hidden;
 }
 
+.side-avatar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.side-avatar {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.side-avatar.has-avatar {
+  background: transparent;
+}
+
+.side-avatar.no-avatar {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.side-avatar .avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.side-avatar .avatar-icon {
+  color: white;
+}
+
 .side-rank-badge {
   position: absolute;
   top: -8px;
@@ -1415,9 +1486,11 @@ html.dark .ranking-label {
   font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  word-break: break-all;
+  word-break: break-word;
   line-height: 1.4;
   letter-spacing: 0.2px;
+  flex: 1;
+  min-width: 0;
 }
 
 .side-student.rank-1 .side-name {
@@ -1446,13 +1519,13 @@ html.dark .ranking-label {
 
 .side-meta {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 4px;
   font-size: 12px;
   color: var(--text-primary);
   min-height: 0;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .side-meta .meta-line {
@@ -1486,13 +1559,6 @@ html.dark .ranking-label {
   color: var(--text-secondary);
 }
 
-.side-meta .meta-line-row {
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
 
 .side-points {
   display: flex;
