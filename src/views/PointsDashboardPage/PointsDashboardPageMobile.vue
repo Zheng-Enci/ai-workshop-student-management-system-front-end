@@ -220,9 +220,8 @@
 
     <!-- 改分记录弹窗 -->
     <el-dialog
-      v-if="recordsDialogVisible"
       v-model="recordsDialogVisible"
-      :title="`${currentStudent?.name || '学生'}的改分记录`"
+      :title="dialogTitle"
       width="95%"
       :close-on-press-escape="true"
       :show-close="true"
@@ -234,18 +233,10 @@
       class="records-dialog"
       @close="handleRecordsDialogClose"
     >
-      <div v-if="recordsLoading" class="records-loading">
-        <el-icon class="is-loading"><Loading /></el-icon>
-        <span>加载中...</span>
-      </div>
-      <div v-else-if="allRecords.length === 0" class="records-empty">
-        <el-icon><Box /></el-icon>
-        <span>暂无改分记录</span>
-      </div>
-      <div v-else class="records-grid">
+      <div v-if="showRecordsContent" class="records-grid">
         <div
-          v-for="(record, index) in allRecords"
-          :key="index"
+          v-for="record in allRecords"
+          :key="record.id"
           class="record-card"
         >
           <div class="record-header">
@@ -322,7 +313,8 @@ const recordsDialogVisible = ref(false)
 const currentStudent = ref(null)
 const allRecords = ref([])
 const recordsLoading = ref(false)
-const isClosingRecordsDialog = ref(false)
+const dialogTitle = ref('改分记录')
+const showRecordsContent = ref(true)
 
 const signInChart = ref(null)
 const activityChart = ref(null)
@@ -955,11 +947,18 @@ watch(() => themeStore.isDarkMode, () => {
 })
 
 const openRecordsDialog = async (student) => {
-  // 重置关闭状态
-  isClosingRecordsDialog.value = false
+  // 恢复遮罩层样式，确保可以正常显示
+  const dialogWrapper = document.querySelector('.records-dialog-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = ''
+    dialogWrapper.style.visibility = ''
+    dialogWrapper.style.opacity = ''
+  }
   
   // 设置当前学生
   currentStudent.value = student
+  dialogTitle.value = `${student?.name || '学生'}的改分记录`
+  showRecordsContent.value = true
   recordsDialogVisible.value = true
   recordsLoading.value = true
   allRecords.value = []
@@ -983,21 +982,22 @@ const openRecordsDialog = async (student) => {
 }
 
 const handleRecordsDialogClose = () => {
-  // 防止重复关闭
-  if (isClosingRecordsDialog.value) return
-  isClosingRecordsDialog.value = true
+  // 先直接操作DOM隐藏遮罩层，避免闪烁
+  const dialogWrapper = document.querySelector('.records-dialog-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
   
-  // 先关闭弹窗，避免在弹窗关闭过程中触发响应式更新
-  // 注意：这里不需要手动设置 recordsDialogVisible.value = false
-  // 因为 @close 事件触发时，v-model 已经自动设置为 false
+  // 立即清空 allRecords，避免 v-for 在关闭动画过程中重新渲染
+  allRecords.value = []
   
-  // 使用 setTimeout(0) 延迟清空数据，确保弹窗完全关闭后再清空
-  // 这样可以避免在弹窗关闭过程中触发响应式更新，造成闪烁
+  // 延迟清空其他数据，确保弹窗完全关闭后再清空
   setTimeout(() => {
-    allRecords.value = []
     recordsLoading.value = false
     currentStudent.value = null
-    isClosingRecordsDialog.value = false
+    dialogTitle.value = '改分记录'
   }, 0)
 }
 
@@ -1954,6 +1954,8 @@ html.dark .ranking-label {
   align-items: center !important;
   justify-content: center !important;
   z-index: 3000 !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 :deep(.records-dialog-overlay .el-overlay-dialog) {
@@ -1963,6 +1965,8 @@ html.dark .ranking-label {
   align-items: center !important;
   justify-content: center !important;
   z-index: 3001 !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 .records-loading,
@@ -1999,7 +2003,6 @@ html.dark .ranking-label {
   border: 1px solid rgba(102, 126, 234, 0.15);
   border-radius: 12px;
   padding: 12px;
-  backdrop-filter: blur(10px);
   box-shadow: var(--shadow-sm);
   width: 100%;
   box-sizing: border-box;
