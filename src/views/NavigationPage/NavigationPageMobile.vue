@@ -298,7 +298,7 @@ const goToPointsDashboard = () => {
 }
 
 const goToScoreChangeRecords = () => {
-  router.push('/score-change-records-desktop')
+  router.push('/score-change-records')
 }
 
 const goToAdmin = () => {

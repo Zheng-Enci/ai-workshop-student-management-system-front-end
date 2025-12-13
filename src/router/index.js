@@ -139,6 +139,18 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
+        path: '/score-change-records',
+        name: 'ScoreChangeRecords',
+        component: () => import('../views/ScoreChangeRecordsPage/ScoreChangeRecordsPage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/score-change-records-mobile',
+        name: 'ScoreChangeRecordsMobile',
+        component: () => import('../views/ScoreChangeRecordsPage/ScoreChangeRecordsPageMobile.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
         path: '/score-change-records-desktop',
         name: 'ScoreChangeRecordsDesktop',
         component: () => import('../views/ScoreChangeRecordsPage/ScoreChangeRecordsPageDesktop.vue'),
