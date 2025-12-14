@@ -448,6 +448,7 @@ const cropBoxRef = ref(null)
 const originalImageFile = ref(null)
 const cropImage = ref(null)
 const scale = ref(1)
+const minScale = ref(0.1) // 动态最小缩放比例，根据图片和裁剪框尺寸计算
 const imageX = ref(0)
 const imageY = ref(0)
 const isCropping = ref(false)
@@ -790,8 +791,15 @@ const initCrop = () => {
     cropBox.style.left = (wrapperWidth - cropSize) / 2 + 'px'
     cropBox.style.top = (wrapperHeight - cropSize) / 2 + 'px'
     console.log('裁剪框位置:', cropBox.style.left, cropBox.style.top, '尺寸:', cropSize)
+    
+    // 计算动态最小缩放比例：使图片最小边等于裁剪框边长
+    const imgMinSide = Math.min(img.width, img.height)
+    minScale.value = cropSize / imgMinSide
+    console.log('动态最小缩放比例:', minScale.value, '图片最小边:', imgMinSide, '裁剪框尺寸:', cropSize)
   } else {
     console.error('裁剪框引用不存在')
+    // 如果裁剪框不存在，使用默认最小缩放
+    minScale.value = 0.1
   }
   
   // 先绘制一次，确保内容显示
@@ -936,7 +944,7 @@ const setupCropEvents = () => {
     
     const oldScale = scale.value
     const delta = e.deltaY > 0 ? -0.01 : 0.01
-    const newScale = Math.max(0.1, Math.min(5, scale.value + delta))
+    const newScale = Math.max(minScale.value, Math.min(5, scale.value + delta))
     
     if (newScale === oldScale) {
       // 已达到缩放限制，不执行
@@ -1043,7 +1051,7 @@ const zoomIn = () => {
  */
 const zoomOut = () => {
   const oldScale = scale.value
-  const newScale = Math.max(0.1, scale.value - 0.01)
+  const newScale = Math.max(minScale.value, scale.value - 0.01)
   
   if (newScale === oldScale) {
     // 已达到最小缩放，不执行
