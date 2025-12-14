@@ -1645,7 +1645,7 @@ html.dark .ranking-label {
 .unified-legend .legend-section {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 9px;
   flex-wrap: wrap;
 }
 
