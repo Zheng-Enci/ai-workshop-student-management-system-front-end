@@ -17,13 +17,20 @@
       </div>
       
       <div class="user-profile">
-        <div class="user-avatar" @click="showProfile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }">
+        <div class="user-avatar" @click="handleAvatarClick" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }">
           <img v-if="hasAvatar && avatarUrl" :src="avatarUrl" alt="用户头像" class="avatar-image" />
           <el-icon v-else size="28" class="avatar-icon"><User /></el-icon>
           <div v-if="avatarLoading" class="avatar-loading">
             <el-icon class="loading-icon"><Loading /></el-icon>
           </div>
         </div>
+        <input 
+          ref="fileInputRef"
+          type="file" 
+          accept="image/*" 
+          style="display: none"
+          @change="handleFileSelect"
+        />
         <div class="user-details">
           <div class="user-name">{{ userStore.userInfo?.name || '学生' }}</div>
           <div class="user-level" :class="getLevelClass(userStore.studentLevel?.levelCode)" v-if="userStore.studentLevel">
@@ -232,14 +239,17 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
+import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-popper.css'
+import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy, Coin, Document, Loading } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
-import { getStudentLevel, getStudentDatabaseTableId, getAvatarUrl } from '@/api/student'
+import { getStudentLevel, getStudentDatabaseTableId, getAvatarUrl, uploadAvatar } from '@/api/student'
 import { getMyAttendanceCount } from '@/api/attendance'
 import { getTotalPointsByStudentInfoId } from '@/api/points'
 
@@ -256,6 +266,8 @@ const avatarUrl = ref(null)
 const hasAvatar = ref(false)
 const avatarLoading = ref(false)
 const avatarTipShown = ref(false)
+const fileInputRef = ref(null)
+const isUploading = ref(false)
 
 const isAdmin = computed(() => {
   return userStore.studentLevel?.levelCode === 3
@@ -291,6 +303,153 @@ const goToHome = () => {
 
 const showProfile = () => {
   router.push('/profile')
+}
+
+const handleAvatarClick = () => {
+  fileInputRef.value?.click()
+}
+
+const handleFileSelect = async (event) => {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  // 文件类型验证
+  if (!file.type.startsWith('image/')) {
+    ElMessage.error('请选择图片文件')
+    event.target.value = ''
+    return
+  }
+
+  // 文件大小验证（限制10MB）
+  if (file.size > 10 * 1024 * 1024) {
+    ElMessage.error('图片大小不能超过10MB')
+    event.target.value = ''
+    return
+  }
+
+  try {
+    // 压缩并上传
+    const compressedFile = await compressImage(file)
+    await uploadAvatarFile(compressedFile)
+  } catch (error) {
+    console.error('头像上传失败:', error)
+    ElMessage.error('头像上传失败：' + (error.message || '未知错误'))
+  } finally {
+    // 清空文件选择，允许重复选择同一文件
+    event.target.value = ''
+  }
+}
+
+/**
+ * 压缩图片直到小于2MB
+ */
+const compressImage = (file, maxSize = 2 * 1024 * 1024) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    
+    reader.onload = (e) => {
+      const img = new Image()
+      
+      img.onload = () => {
+        let width = img.width
+        let height = img.height
+        const minDimension = 100
+        const quality = 0.9
+        
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+        
+        const tryCompress = () => {
+          canvas.width = width
+          canvas.height = height
+          
+          ctx.drawImage(img, 0, 0, width, height)
+          
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) {
+                reject(new Error('图片压缩失败'))
+                return
+              }
+              
+              if (blob.size <= maxSize) {
+                const compressedFile = new File([blob], file.name, {
+                  type: file.type || 'image/jpeg',
+                  lastModified: Date.now()
+                })
+                resolve(compressedFile)
+                return
+              }
+              
+              if (width > minDimension && height > minDimension) {
+                width = Math.max(minDimension, Math.floor(width * 0.5))
+                height = Math.max(minDimension, Math.floor(height * 0.5))
+                tryCompress()
+                return
+              }
+              
+              const compressedFile = new File([blob], file.name, {
+                type: file.type || 'image/jpeg',
+                lastModified: Date.now()
+              })
+              resolve(compressedFile)
+            },
+            file.type || 'image/jpeg',
+            quality
+          )
+        }
+        
+        tryCompress()
+      }
+      
+      img.onerror = () => {
+        reject(new Error('图片加载失败'))
+      }
+      
+      img.src = e.target.result
+    }
+    
+    reader.onerror = () => {
+      reject(new Error('文件读取失败'))
+    }
+    
+    reader.readAsDataURL(file)
+  })
+}
+
+const uploadAvatarFile = async (file) => {
+  isUploading.value = true
+  try {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      ElMessage.error('请先登录')
+      router.push('/login')
+      return
+    }
+
+    const response = await uploadAvatar(token, file)
+    
+    if (response && response.code === 200) {
+      ElMessage.success('头像上传成功')
+      // 上传成功后刷新头像
+      setTimeout(async () => {
+        await loadUserAvatar()
+      }, 500)
+    } else {
+      ElMessage.error(response?.message || '头像上传失败')
+    }
+  } catch (error) {
+    console.error('头像上传错误:', error)
+    const errorMessage = error.response?.data?.message || error.message || '头像上传失败'
+    ElMessage.error('头像上传失败：' + errorMessage)
+    if (errorMessage.includes('Token无效') || errorMessage.includes('请重新登录')) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('userInfo')
+      router.push('/login')
+    }
+  } finally {
+    isUploading.value = false
+  }
 }
 
 const goToDashboard = () => {
@@ -403,9 +562,8 @@ const showDefaultAvatar = () => {
   avatarUrl.value = null
   // 显示提示消息（只显示一次）
   if (!avatarTipShown.value) {
-    ElMessage({
-      message: '您还没有上传头像，请前往个人信息页面上传头像',
-      type: 'info',
+    ElMessage.info({
+      message: '您还没有上传头像，点击头像上传头像',
       duration: 4000,
       showClose: true
     })
@@ -607,7 +765,7 @@ onMounted(() => {
   height: 56px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 16px;
+  border-radius: 0;
 }
 
 .logo:active {
