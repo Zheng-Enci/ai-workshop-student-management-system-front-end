@@ -678,7 +678,9 @@ const handleFileSelect = async (event) => {
     ElMessage.error('图片加载失败：' + error.message)
   } finally {
     // 清空文件选择，允许重复选择同一文件
-    event.target.value = ''
+    if (event.target) {
+      event.target.value = ''
+    }
   }
 }
 
@@ -810,6 +812,64 @@ const initCrop = () => {
 }
 
 /**
+ * 限制图片位置，确保图片始终覆盖裁剪框
+ */
+const constrainImagePosition = () => {
+  if (!cropCanvasRef.value || !cropImage.value || !cropBoxRef.value) {
+    return
+  }
+  
+  const canvas = cropCanvasRef.value
+  const img = cropImage.value
+  const cropBox = cropBoxRef.value
+  
+  // 获取裁剪框位置和尺寸
+  const cropRect = cropBox.getBoundingClientRect()
+  const canvasRect = canvas.getBoundingClientRect()
+  
+  let cropX, cropY, cropSize
+  
+  if (cropRect.width > 0) {
+    cropX = cropRect.left - canvasRect.left
+    cropY = cropRect.top - canvasRect.top
+    cropSize = cropRect.width
+  } else {
+    // 使用样式计算的位置
+    cropX = parseFloat(cropBox.style.left) || 0
+    cropY = parseFloat(cropBox.style.top) || 0
+    cropSize = parseFloat(cropBox.style.width) || 300
+  }
+  
+  // 计算图片的显示尺寸（考虑缩放）
+  const imgWidth = img.width * scale.value
+  const imgHeight = img.height * scale.value
+  
+  // 计算裁剪框的边界
+  const cropLeft = cropX
+  const cropRight = cropX + cropSize
+  const cropTop = cropY
+  const cropBottom = cropY + cropSize
+  
+  // 限制图片位置，确保图片始终覆盖裁剪框
+  // 图片左边缘不能超过裁剪框左边缘（向右拖动时限制）
+  if (imageX.value > cropLeft) {
+    imageX.value = cropLeft
+  }
+  // 图片右边缘不能小于裁剪框右边缘（向左拖动时限制）
+  if (imageX.value + imgWidth < cropRight) {
+    imageX.value = cropRight - imgWidth
+  }
+  // 图片上边缘不能超过裁剪框上边缘（向下拖动时限制）
+  if (imageY.value > cropTop) {
+    imageY.value = cropTop
+  }
+  // 图片下边缘不能小于裁剪框下边缘（向上拖动时限制）
+  if (imageY.value + imgHeight < cropBottom) {
+    imageY.value = cropBottom - imgHeight
+  }
+}
+
+/**
  * 绘制裁剪画布
  */
 const drawCropCanvas = () => {
@@ -915,6 +975,8 @@ const setupCropEvents = () => {
       const deltaY = e.clientY - dragStartY.value
       imageX.value = dragStartImageX.value + deltaX
       imageY.value = dragStartImageY.value + deltaY
+      // 应用边界限制
+      constrainImagePosition()
       drawCropCanvas()
     }
   }
@@ -971,6 +1033,8 @@ const setupCropEvents = () => {
     }
     
     scale.value = newScale
+    // 应用边界限制
+    constrainImagePosition()
     drawCropCanvas()
   }
   
@@ -1042,6 +1106,8 @@ const zoomIn = () => {
   }
   
   scale.value = newScale
+  // 应用边界限制
+  constrainImagePosition()
   drawCropCanvas()
   console.log('放大到:', newScale)
 }
@@ -1078,6 +1144,8 @@ const zoomOut = () => {
   }
   
   scale.value = newScale
+  // 应用边界限制
+  constrainImagePosition()
   drawCropCanvas()
   console.log('缩小到:', newScale)
 }
