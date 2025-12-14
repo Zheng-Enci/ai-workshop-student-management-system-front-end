@@ -9,9 +9,7 @@
         </div>
       </div>
       <div class="header-right">
-        <div class="slogan">
-          <img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="slogan-img">
-        </div>
+        <!-- 手机端不显示slogan图片 -->
       </div>
     </div>
 
