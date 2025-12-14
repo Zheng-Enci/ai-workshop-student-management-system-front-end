@@ -228,19 +228,17 @@
                         <div class="points-formula" v-else>
                           <span class="points-placeholder">待公布</span>
                         </div>
-                        <el-tooltip content="查看全部改分记录" placement="top" :show-after="300">
-                          <el-button 
-                            v-if="!student.placeholder"
-                            size="small" 
-                            type="primary" 
-                            plain 
-                            @click="openRecordsDialog(student)"
-                            class="view-records-btn"
-                            circle
-                          >
-                            <el-icon><View /></el-icon>
-                          </el-button>
-                        </el-tooltip>
+                        <el-button
+                          v-if="!student.placeholder"
+                          size="small" 
+                          type="primary" 
+                          plain 
+                          @click="openRecordsDialog(student)"
+                          class="view-records-btn"
+                          circle
+                        >
+                          <el-icon><View /></el-icon>
+                        </el-button>
                       </div>
                     </div>
                   </div>
@@ -294,7 +292,7 @@
 import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
-import { ElButton, ElIcon, ElDialog, ElTooltip } from 'element-plus'
+import { ElButton, ElIcon, ElDialog } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -305,7 +303,6 @@ import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
-import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
 import { ArrowLeft, ArrowRight, Loading, Box, View, User } from '@element-plus/icons-vue'
 import * as echarts from 'echarts/core'
@@ -2147,6 +2144,17 @@ html.dark .ranking-label {
   border: 1px solid rgba(102, 126, 234, 0.35);
   box-shadow: var(--shadow-primary);
   touch-action: manipulation;
+}
+
+.view-records-btn:hover,
+.view-records-btn:focus {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: var(--shadow-primary);
+}
+
+.view-records-btn:active {
+  transform: scale(0.95);
 }
 
 .view-records-btn :deep(.el-button__inner) {
