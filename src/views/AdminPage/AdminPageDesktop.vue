@@ -75,6 +75,22 @@
   
   <!-- 管理控制台界面 -->
   <div v-else class="admin-console">
+    <div class="admin-header">
+      <div class="header-left">
+        <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo" @click="toggleTheme" title="切换主题模式">
+        <div class="title-section">
+          <h1>超级管理员控制台</h1>
+          <p>Super Admin Console</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <el-button @click="logout" type="danger" size="small" class="logout-btn">
+          <el-icon><SwitchButton /></el-icon>
+          退出登录
+        </el-button>
+      </div>
+    </div>
+    
     <div class="admin-stats">
       <div class="stat-card">
         <div class="stat-icon">
@@ -347,10 +363,6 @@
         </div>
         <div class="footer-right">
           <span>超级管理员模式</span>
-          <el-button @click="logout" type="danger" size="small" class="logout-btn">
-            <el-icon><SwitchButton /></el-icon>
-            退出管理
-          </el-button>
         </div>
       </div>
     </div>
@@ -1001,8 +1013,11 @@ echarts.use([
   CanvasRenderer
 ])
 import { useAdminStore } from '@/stores/admin'
+import { useThemeStore } from '@/stores/theme'
 
 const adminStore = useAdminStore()
+const themeStore = useThemeStore()
+const { toggleTheme } = themeStore
 
 const isAuthenticated = ref(false)
 const specialPassword = ref('')
@@ -3181,6 +3196,54 @@ html.dark {
   background: var(--admin-primary-gradient);
   min-height: 100vh;
   position: relative;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--admin-border-color);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+.title-section h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: var(--admin-text-primary);
+}
+
+.title-section p {
+  font-size: 14px;
+  color: var(--admin-text-secondary);
+  margin: 0;
+  font-weight: 500;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .admin-stats {
