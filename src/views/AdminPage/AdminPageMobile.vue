@@ -1523,9 +1523,10 @@ onMounted(async () => {
 }
 
 .level-tabs-mobile {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   margin-top: 0;
   padding-top: 10px;
+  padding-bottom: 10px;
   position: relative;
   z-index: 0;
   clear: both;
@@ -1619,6 +1620,10 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-top: 0;
+  padding-top: 0;
+  position: relative;
+  z-index: 0;
 }
 
 .student-item-mobile {
