@@ -84,8 +84,8 @@ const routes = [
         meta: { requiresAuth: false },
         children: [
             {
-                path: '',
-                name: 'AdminDefault',
+                path: 'desktop',
+                name: 'AdminDesktop',
                 component: () => import('../views/AdminPage/AdminPageDesktop.vue'),
                 meta: { requiresAuth: false }
             }
