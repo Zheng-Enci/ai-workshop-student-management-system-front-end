@@ -1431,7 +1431,7 @@ html.dark {
 .slogan {
   display: flex;
   align-items: center;
-  padding: 16px 16px 8px 16px;
+  padding: 16px 16px 0px 16px;
   margin-right: 8px;
 }
 
@@ -2061,7 +2061,7 @@ html.dark .ranking-label {
   font-size: 12px;
   font-weight: 600;
   flex-shrink: 0;
-  margin: 0 2px;
+  margin: 0 1px;
 }
 
 .points-plus {
@@ -2069,7 +2069,7 @@ html.dark .ranking-label {
   font-size: 12px;
   font-weight: 600;
   flex-shrink: 0;
-  margin: 0 2px;
+  margin: 0 1px;
 }
 
 .points-total-main {
