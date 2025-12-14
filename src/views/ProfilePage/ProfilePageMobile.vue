@@ -356,6 +356,8 @@
           width="90%"
           :close-on-click-modal="false"
           :close-on-press-escape="false"
+          modal-class="crop-dialog-overlay"
+          class="crop-dialog"
         >
           <div class="crop-container">
             <div class="crop-wrapper" ref="cropWrapperRef">
@@ -790,6 +792,14 @@ const saveProfile = async () => {
 const showCropDialog = async (file) => {
   return new Promise((resolve, reject) => {
     try {
+      // 恢复遮罩层样式，确保可以正常显示
+      const dialogWrapper = document.querySelector('.crop-dialog-overlay')
+      if (dialogWrapper) {
+        dialogWrapper.style.display = ''
+        dialogWrapper.style.visibility = ''
+        dialogWrapper.style.opacity = ''
+      }
+      
       const reader = new FileReader()
       reader.onload = (e) => {
         const img = new Image()
@@ -1325,15 +1335,30 @@ const resetCrop = () => {
 const cancelCrop = () => {
   removeCropEvents()
   
-  cropDialogVisible.value = false
+  // 先直接操作DOM隐藏遮罩层，避免闪烁
+  const dialogWrapper = document.querySelector('.crop-dialog-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  // 立即清空 cropImage，避免在关闭动画过程中重新渲染
   cropImage.value = null
-  originalImageFile.value = null
-  scale.value = 1
-  imageX.value = 0
-  imageY.value = 0
-  isDragging.value = false
-  isPinching.value = false
-  initialPinchDistance.value = 0
+  
+  // 关闭弹窗
+  cropDialogVisible.value = false
+  
+  // 延迟清空其他数据，确保弹窗完全关闭后再清空
+  setTimeout(() => {
+    originalImageFile.value = null
+    scale.value = 1
+    imageX.value = 0
+    imageY.value = 0
+    isDragging.value = false
+    isPinching.value = false
+    initialPinchDistance.value = 0
+  }, 0)
 }
 
 /**
@@ -2846,6 +2871,53 @@ html.dark .password-header {
 }
 
 /* 裁剪对话框样式 */
+/* 完全禁用裁剪对话框过渡动画，避免闪烁 */
+.crop-dialog :deep(.el-dialog__wrapper) {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+.crop-dialog :deep(.el-dialog) {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+.crop-dialog :deep(.el-dialog__body) {
+  transition: none !important;
+  animation: none !important;
+}
+
+.crop-dialog :deep(.el-dialog__header) {
+  transition: none !important;
+  animation: none !important;
+}
+
+.crop-dialog :deep(.el-dialog__footer) {
+  transition: none !important;
+  animation: none !important;
+}
+
+.crop-dialog :deep(.el-overlay) {
+  transition: none !important;
+  animation: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+:deep(.crop-dialog-overlay) {
+  transition: none !important;
+  animation: none !important;
+}
+
+:deep(.crop-dialog-overlay .el-overlay-dialog) {
+  transition: none !important;
+  animation: none !important;
+}
+
 .crop-container {
   display: flex;
   flex-direction: column;
