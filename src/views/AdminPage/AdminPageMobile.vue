@@ -153,21 +153,19 @@
         </div>
         
         <div class="level-tabs-mobile">
-          <el-tabs v-model="activeLevelTab" type="card" class="level-tabs-container-mobile">
-            <el-tab-pane 
-              v-for="level in levelOptions" 
-              :key="level.value" 
-              :label="level.label" 
-              :name="level.value.toString()"
+          <div class="level-buttons-container-mobile">
+            <el-button
+              v-for="level in levelOptions"
+              :key="level.value"
+              :type="activeLevelTab === level.value.toString() ? 'primary' : 'default'"
+              :class="['level-button-mobile', { 'is-active': activeLevelTab === level.value.toString() }]"
+              @click="activeLevelTab = level.value.toString()"
+              class="level-btn-mobile"
             >
-              <template #label>
-                <el-tag :type="level.color" size="small" class="tab-label-mobile">
-                  {{ level.label }}
-                  <span class="tab-count-mobile">({{ getLevelStudents(level.value).length }})</span>
-                </el-tag>
-              </template>
-            </el-tab-pane>
-          </el-tabs>
+              <span class="button-label-mobile">{{ level.label }}</span>
+              <span class="button-count-mobile">({{ getLevelStudents(level.value).length }})</span>
+            </el-button>
+          </div>
         </div>
 
         <div class="students-list-mobile">
@@ -414,14 +412,11 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { ElMessage, ElIcon, ElInput, ElButton, ElTabs, ElTabPane, ElTag, ElSelect, ElOption, ElPagination, ElDialog, ElForm, ElFormItem, ElInputNumber } from 'element-plus'
+import { ElMessage, ElIcon, ElInput, ElButton, ElSelect, ElOption, ElPagination, ElDialog, ElForm, ElFormItem, ElInputNumber } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-button.css'
-import 'element-plus/theme-chalk/el-tabs.css'
-import 'element-plus/theme-chalk/el-tab-pane.css'
-import 'element-plus/theme-chalk/el-tag.css'
 import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
 import 'element-plus/theme-chalk/base.css'
@@ -1532,88 +1527,70 @@ onMounted(async () => {
   clear: both;
 }
 
-.level-tabs-container-mobile {
-  background: transparent;
-  position: relative;
-}
-
-.level-tabs-container-mobile :deep(.el-tabs__header) {
-  margin: 0;
-  position: relative;
-}
-
-.level-tabs-container-mobile :deep(.el-tabs__nav-wrap) {
+.level-buttons-container-mobile {
   background: var(--admin-glass-bg);
+  backdrop-filter: blur(20px);
   border-radius: 12px;
   padding: 8px;
   border: 1px solid var(--admin-glass-border);
-}
-
-.level-tabs-container-mobile :deep(.el-tabs__nav) {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 }
 
-.level-tabs-container-mobile :deep(.el-tabs__item) {
-  padding: 14px 16px;
-  font-size: 14px;
-  flex: 1 1 calc(50% - 4px);
-  min-width: 0;
-  max-width: calc(50% - 4px);
-  text-align: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: transparent;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  border: 1px solid transparent;
+.level-btn-mobile {
+  width: 100%;
   min-height: 48px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--admin-text-primary);
+  box-sizing: border-box;
 }
 
-.level-tabs-container-mobile :deep(.el-tabs__item:hover) {
+.level-btn-mobile:hover {
   background: rgba(255, 255, 255, 0.05);
   border-color: var(--admin-glass-border);
 }
 
-.level-tabs-container-mobile :deep(.el-tabs__item.is-active) {
+.level-btn-mobile.is-active {
   background: var(--admin-primary-gradient);
   border-color: var(--admin-primary-color);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-}
-
-.level-tabs-container-mobile :deep(.el-tabs__item.is-active .tab-label-mobile) {
   color: white;
 }
 
-.level-tabs-container-mobile :deep(.el-tabs__item.is-active .tab-count-mobile) {
-  background: rgba(255, 255, 255, 0.25);
-  color: white;
-}
-
-.level-tabs-container-mobile :deep(.el-tabs__active-bar) {
-  display: none;
-}
-
-.tab-label-mobile {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.button-label-mobile {
+  font-size: 16px;
   font-weight: 600;
-  font-size: 14px;
   transition: color 0.3s ease;
 }
 
-.tab-count-mobile {
+.level-btn-mobile.is-active .button-label-mobile {
+  color: white;
+}
+
+.button-count-mobile {
   background: var(--admin-glass-bg);
   padding: 3px 8px;
   border-radius: 12px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   transition: all 0.3s ease;
+  color: var(--admin-text-primary);
+}
+
+.level-btn-mobile.is-active .button-count-mobile {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
 }
 
 .students-list-mobile {
