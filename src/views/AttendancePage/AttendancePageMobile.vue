@@ -18,6 +18,13 @@
       
       <div class="attendance-header-mobile">
         <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo-mobile" @click="toggleTheme" title="切换主题模式">
+        <div class="user-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }">
+          <img v-if="hasAvatar && avatarUrl" :src="avatarUrl" alt="用户头像" class="avatar-image-mobile" />
+          <el-icon v-else size="24" class="avatar-icon-mobile"><User /></el-icon>
+          <div v-if="avatarLoading" class="avatar-loading-mobile">
+            <el-icon class="loading-icon-mobile"><Loading /></el-icon>
+          </div>
+        </div>
         <h1>AI坊学生签到</h1>
         <p class="subtitle">智能签到系统</p>
       </div>
@@ -156,11 +163,12 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-input.css'
-import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor } from '@element-plus/icons-vue'
+import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor, User } from '@element-plus/icons-vue'
 import { signIn } from '@/api/attendance'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
 import { useRouter } from 'vue-router'
+import { getStudentDatabaseTableId, getAvatarUrl } from '@/api/student'
 
 const loading = ref(false)
 const userStore = useUserStore()
@@ -179,6 +187,92 @@ const attendanceStatus = ref({
   afternoon: null,
   evening: null
 })
+
+// 头像相关
+const hasAvatar = ref(false)
+const avatarUrl = ref(null)
+const avatarLoading = ref(false)
+
+const showDefaultAvatar = () => {
+  hasAvatar.value = false
+  avatarUrl.value = null
+}
+
+const loadUserAvatar = async () => {
+  try {
+    avatarLoading.value = true
+    const token = localStorage.getItem('token')
+    if (!token) {
+      showDefaultAvatar()
+      avatarLoading.value = false
+      return
+    }
+
+    // 获取学生数据库ID
+    const idResponse = await getStudentDatabaseTableId(token)
+    if (idResponse.code !== 200 || !idResponse.data) {
+      showDefaultAvatar()
+      avatarLoading.value = false
+      return
+    }
+
+    const studentInfoId = idResponse.data
+    const avatarUrlString = getAvatarUrl(studentInfoId)
+    
+    if (!avatarUrlString) {
+      showDefaultAvatar()
+      avatarLoading.value = false
+      return
+    }
+
+    // 使用fetch检测头像是否存在
+    try {
+      const response = await fetch(avatarUrlString, { method: 'GET' })
+      if (response.ok) {
+        const contentType = response.headers.get('content-type')
+        // 检查响应是否为图片类型
+        if (contentType && contentType.startsWith('image/')) {
+          // 头像存在，使用Image对象加载
+          const img = new Image()
+          img.onload = () => {
+            avatarUrl.value = avatarUrlString
+            hasAvatar.value = true
+            avatarLoading.value = false
+          }
+          img.onerror = () => {
+            showDefaultAvatar()
+            avatarLoading.value = false
+          }
+          img.src = avatarUrlString
+        } else {
+          // 返回的不是图片，头像不存在
+          showDefaultAvatar()
+          avatarLoading.value = false
+        }
+      } else {
+        // 响应状态码不是200，头像不存在
+        showDefaultAvatar()
+        avatarLoading.value = false
+      }
+    } catch (fetchError) {
+      // fetch失败，使用Image对象作为fallback
+      const img = new Image()
+      img.onload = () => {
+        avatarUrl.value = avatarUrlString
+        hasAvatar.value = true
+        avatarLoading.value = false
+      }
+      img.onerror = () => {
+        showDefaultAvatar()
+        avatarLoading.value = false
+      }
+      img.src = avatarUrlString
+    }
+  } catch (error) {
+    showDefaultAvatar()
+    avatarLoading.value = false
+  }
+}
 
 const goToNavigation = () => {
   router.push('/navigation')
@@ -418,6 +512,7 @@ onMounted(async () => {
     checkSignTime()
     timeInterval.value = setInterval(checkSignTime, 1000)
     loadStudentLevel()
+    loadUserAvatar()
     setTimeout(async () => {
       await syncAllAttendanceStatus()
     }, 500)
@@ -542,6 +637,68 @@ const loadStudentLevel = () => {
   border-radius: 20px;
   border: 1px solid var(--glass-border);
   box-shadow: 0 6px 24px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar-mobile {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.user-avatar-mobile.has-avatar {
+  background: transparent;
+}
+
+.user-avatar-mobile.no-avatar {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.user-avatar-mobile .avatar-image-mobile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.user-avatar-mobile .avatar-icon-mobile {
+  color: white;
+}
+
+.user-avatar-mobile .avatar-loading-mobile {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.user-avatar-mobile .loading-icon-mobile {
+  color: white;
+  font-size: 20px;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .nav-button-mobile {
@@ -576,7 +733,7 @@ const loadStudentLevel = () => {
   margin-bottom: 12px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 12px;
+  border-radius: 0;
   box-shadow: 0 3px 12px var(--shadow-color);
 }
 
