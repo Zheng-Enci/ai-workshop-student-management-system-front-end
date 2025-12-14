@@ -1,6 +1,9 @@
 <template>
   <!-- 身份验证界面 -->
   <div v-if="!isAuthenticated" class="auth-section">
+    <div class="auth-page-header">
+      <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo" @click="toggleTheme" title="切换主题模式">
+    </div>
     <div class="auth-card">
       <div class="auth-header">
         <div class="auth-icon-container">
@@ -59,6 +62,9 @@
 
   <!-- 加载界面 -->
   <div v-else-if="!isDataLoaded" class="admin-loading">
+    <div class="loading-page-header">
+      <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="loading-logo" @click="toggleTheme" title="切换主题模式">
+    </div>
     <div class="loading-container">
       <div class="loading-spinner">
         <div class="spinner-ring"></div>
@@ -2806,12 +2812,33 @@ html.dark {
 /* 身份验证界面样式 */
 .auth-section {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 200px);
+  min-height: 100vh;
   padding: 40px;
   position: relative;
   overflow: hidden;
+}
+
+.auth-page-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+
+.auth-logo {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0;
+}
+
+.auth-logo:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
 }
 
 .auth-section :deep(.el-message--success) {
@@ -3109,9 +3136,30 @@ html.dark {
   height: 100%;
   background: var(--admin-primary-gradient);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+
+.loading-page-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10000;
+}
+
+.loading-logo {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0;
+}
+
+.loading-logo:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
 }
 
 .loading-container {
