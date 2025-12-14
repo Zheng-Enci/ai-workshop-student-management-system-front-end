@@ -5,8 +5,7 @@
         <el-button @click="goBack" class="back-btn" type="primary" :icon="ArrowLeft" circle></el-button>
         <img src="@/assets/AiWorkShop_icon.png" alt="AI坊" class="logo" @click="toggleTheme" title="切换主题模式">
         <div class="title-section">
-          <h1>积分看板</h1>
-          <p>Points Dashboard</p>
+          <h1 class="main-title">在0与1之间，见证每一位创造者的光芒</h1>
         </div>
       </div>
       <div class="header-right">
@@ -145,68 +144,105 @@
         <div class="dashboard-side">
           <div class="side-card">
             <div class="side-card-header">
-              <div class="side-card-title">优秀成员</div>
-              <div class="side-card-subtitle">总积分前8名，含签到积分与积分记录（每人最多展示3条记录）</div>
+              <div class="card-header-left">
+                <div class="side-card-title">优秀成员</div>
+                <div class="side-card-subtitle">总积分前32名</div>
+              </div>
+              <div class="unified-legend" v-if="topStudents.length > 0">
+                <div class="legend-section">
+                  <div class="legend-item">
+                    <span class="legend-dot legend-club-member"></span>
+                    <span class="legend-text">社团成员</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-normal-member"></span>
+                    <span class="legend-text">普通成员</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-core-member"></span>
+                    <span class="legend-text">核心成员</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-admin"></span>
+                    <span class="legend-text">管理员</span>
+                  </div>
+                </div>
+                <div class="legend-section">
+                  <div class="legend-item">
+                    <el-icon class="hint-icon"><View /></el-icon>
+                    <span class="legend-text">点击眼睛图标可查看全部改分记录</span>
+                  </div>
+                </div>
+                <div class="legend-section">
+                  <div class="legend-item">
+                    <span class="legend-dot legend-total"></span>
+                    <span class="legend-text">总积分</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-signin"></span>
+                    <span class="legend-text">总签到积分</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-activity"></span>
+                    <span class="legend-text">总活动积分</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="side-card-body" v-if="topStudents.length > 0">
               <div
-                v-for="(student, idx) in topStudents"
+                v-for="student in topStudents"
                 :key="student.studentInfoId || student.placeholderId"
                 class="side-student"
                 :class="{ 
                   'is-placeholder': student.placeholder,
-                  'rank-1': idx === 0 && !student.placeholder,
-                  'rank-2': idx === 1 && !student.placeholder,
-                  'rank-3': idx === 2 && !student.placeholder
+                  'level-club-member': !student.placeholder && student.levelCode === 0,
+                  'level-normal-member': !student.placeholder && student.levelCode === 1,
+                  'level-core-member': !student.placeholder && student.levelCode === 2,
+                  'level-admin': !student.placeholder && student.levelCode === 3
                 }"
               >
                 <div class="side-info">
-                  <div class="side-rank-badge" v-if="!student.placeholder && idx < 3">
-                    <span class="rank-number">{{ idx + 1 }}</span>
-                  </div>
-                  <div class="side-avatar-wrapper">
+                  <div class="side-avatar-section">
                     <div class="side-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
                       <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
-                      <el-icon v-else size="26" class="avatar-icon"><User /></el-icon>
+                      <el-icon v-else size="18" class="avatar-icon"><User /></el-icon>
                     </div>
                     <div class="side-name">
                       {{ student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`) }}
                     </div>
                   </div>
-                  <div class="side-meta" v-if="!student.placeholder">
-                    <div class="meta-line meta-line-first">{{ student.college || '--' }}</div>
-                    <div class="meta-line meta-line-second" v-if="student.major">{{ student.major }}</div>
-                    <div class="meta-line meta-line-second" v-if="student.grade">{{ student.grade }} 年级</div>
-                    <div class="meta-line meta-line-second" v-if="!student.major && !student.grade">--</div>
-                  </div>
-                  <div class="side-points">
-                    <div class="points-total-row">
-                      <span class="points-total">
-                        {{ student.placeholder ? '--' : `${student.totalPoints}分` }}
-                      </span>
-                      <el-button 
-                        v-if="!student.placeholder"
-                        size="small" 
-                        type="primary" 
-                        plain 
-                        @click="openRecordsDialog(student)"
-                        class="view-records-btn"
-                      >
-                        <el-icon><View /></el-icon>
-                        <span>查看全部记录</span>
-                      </el-button>
+                  <div class="side-content">
+                    <div class="side-meta" v-if="!student.placeholder">
+                      <div class="meta-line meta-line-second" v-if="student.major">{{ student.major }}</div>
+                      <div class="meta-line meta-line-second" v-if="student.grade">{{ formatGrade(student.grade) }}</div>
+                      <div class="meta-line meta-line-second" v-if="!student.major && !student.grade">--</div>
                     </div>
-                    <span class="points-detail">
-                      {{ student.placeholder ? '待公布' : `总签到积分 ${student.signInPoints} · 总活动积分 ${student.activityPoints}` }}
-                    </span>
-                  </div>
-                  <div class="side-records" v-if="!student.placeholder && topStudentRecords[student.studentInfoId]?.length">
-                    <div class="record-list">
-                      <div v-for="(rec, rIdx) in topStudentRecords[student.studentInfoId]" :key="rIdx" class="record-item">
-                        <span class="record-points" :class="{ positive: rec.adjustPoints >= 0, negative: rec.adjustPoints < 0 }">
-                          {{ rec.adjustPoints > 0 ? `+${rec.adjustPoints}` : rec.adjustPoints }}
-                        </span>
-                        <span class="record-reason">{{ rec.adjustReason }}</span>
+                    <div class="side-points">
+                      <div class="points-total-row">
+                        <div class="points-formula" v-if="!student.placeholder">
+                          <span class="points-total points-total-main">{{ student.totalPoints }}</span>
+                          <span class="points-equals">=</span>
+                          <span class="points-number points-signin">{{ student.signInPoints }}</span>
+                          <span class="points-plus">+</span>
+                          <span class="points-number points-activity">{{ student.activityPoints }}</span>
+                        </div>
+                        <div class="points-formula" v-else>
+                          <span class="points-placeholder">待公布</span>
+                        </div>
+                        <el-tooltip content="查看全部改分记录" placement="top" :show-after="300">
+                          <el-button 
+                            v-if="!student.placeholder"
+                            size="small" 
+                            type="primary" 
+                            plain 
+                            @click="openRecordsDialog(student)"
+                            class="view-records-btn"
+                            circle
+                          >
+                            <el-icon><View /></el-icon>
+                          </el-button>
+                        </el-tooltip>
                       </div>
                     </div>
                   </div>
@@ -260,7 +296,7 @@
 import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
-import { ElButton, ElIcon, ElDialog } from 'element-plus'
+import { ElButton, ElIcon, ElDialog, ElTooltip } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -271,6 +307,7 @@ import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
 import { ArrowLeft, ArrowRight, Loading, Box, View, User } from '@element-plus/icons-vue'
 import * as echarts from 'echarts/core'
@@ -281,7 +318,7 @@ import {
 import { CanvasRenderer } from 'echarts/renderers'
 import { getAttendanceTopRanking } from '@/api/attendance'
 import { getPointsTopRanking, getTopAdjustRecordsByStudentInfoId } from '@/api/points'
-import { getStudentPublicFieldValueById, getAvatarUrl } from '@/api/student'
+import { getStudentPublicFieldValueById, getAvatarUrl, getStudentLevelByInfoId } from '@/api/student'
 
 echarts.use([
   GridComponent,
@@ -301,13 +338,12 @@ const tabLabelMap = {
   activity: '活动积分排行榜'
 }
 const currentTabLabel = computed(() => tabLabelMap[activeTab.value] || '')
-const selectedTopN = 16
+const selectedTopN = 35
 const totalRankingTopN = 50
 const signInRanking = ref([])
 const activityRanking = ref([])
 const totalRanking = ref([])
 const topStudents = ref([])
-const topStudentRecords = ref({})
 const signInLoading = ref(false)
 const activityLoading = ref(false)
 const totalLoading = ref(false)
@@ -354,6 +390,7 @@ const initSignInChart = async (data) => {
 
   const sortedData = [...data].sort((a, b) => a.signInPoints - b.signInPoints)
   const isDark = themeStore.isDarkMode
+  const maxValue = sortedData.length > 0 ? sortedData[sortedData.length - 1].signInPoints : null
 
   const option = {
     tooltip: {
@@ -368,6 +405,7 @@ const initSignInChart = async (data) => {
     },
     xAxis: {
       type: 'value',
+      max: maxValue,
       axisLabel: {
         fontSize: 10,
         formatter: '{value}分',
@@ -421,24 +459,23 @@ const initSignInChart = async (data) => {
           position: 'right',
           formatter: function(params) {
             const item = sortedData[params.dataIndex]
-            let line1 = item.college || '--'
-            let line2 = ''
+            let line1 = ''
             if (item.major) {
-              line2 += item.major
+              line1 += item.major
             }
             if (item.major && item.grade) {
-              line2 += ' '
+              line1 += ' '
             }
             if (item.grade) {
               if (!item.major) {
-                line2 += ' '
+                line1 += ' '
               }
-              line2 += `${item.grade} 年级`
+              line1 += formatGrade(item.grade)
             }
-            if (!line2) {
-              line2 = '--'
+            if (!line1) {
+              line1 = '--'
             }
-            return `${line1}\n${line2}`
+            return line1
           },
           fontSize: 9,
           color: isDark ? '#ffffff' : '#666',
@@ -466,6 +503,7 @@ const initActivityChart = async (data) => {
 
   const sortedData = [...data].sort((a, b) => a.activityPoints - b.activityPoints)
   const isDark = themeStore.isDarkMode
+  const maxValue = sortedData.length > 0 ? sortedData[sortedData.length - 1].activityPoints : null
 
   const option = {
     tooltip: {
@@ -480,6 +518,7 @@ const initActivityChart = async (data) => {
     },
     xAxis: {
       type: 'value',
+      max: maxValue,
       axisLabel: {
         fontSize: 10,
         formatter: '{value}分',
@@ -533,24 +572,23 @@ const initActivityChart = async (data) => {
           position: 'right',
           formatter: function(params) {
             const item = sortedData[params.dataIndex]
-            let line1 = item.college || '--'
-            let line2 = ''
+            let line1 = ''
             if (item.major) {
-              line2 += item.major
+              line1 += item.major
             }
             if (item.major && item.grade) {
-              line2 += ' '
+              line1 += ' '
             }
             if (item.grade) {
               if (!item.major) {
-                line2 += ' '
+                line1 += ' '
               }
-              line2 += `${item.grade} 年级`
+              line1 += formatGrade(item.grade)
             }
-            if (!line2) {
-              line2 = '--'
+            if (!line1) {
+              line1 = '--'
             }
-            return `${line1}\n${line2}`
+            return line1
           },
           fontSize: 9,
           color: isDark ? '#ffffff' : '#666',
@@ -578,6 +616,7 @@ const initTotalChart = async (data) => {
 
   const sortedData = [...data].sort((a, b) => a.totalPoints - b.totalPoints)
   const isDark = themeStore.isDarkMode
+  const firstPlaceTotalPoints = sortedData.length > 0 ? sortedData[sortedData.length - 1].totalPoints : null
 
   const option = {
     tooltip: {
@@ -601,6 +640,7 @@ const initTotalChart = async (data) => {
     },
     xAxis: {
       type: 'value',
+      max: firstPlaceTotalPoints,
       axisLabel: {
         fontSize: 10,
         formatter: '{value}分',
@@ -674,18 +714,19 @@ const handleAvatarError = (student) => {
   student.avatarUrl = null
 }
 
+
 const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
   const infoPromises = rankingList.map(async (item) => {
     const studentId = item[idField] || item.targetStudentInfoId
     if (!studentId) return item
     
     try {
-      // 查询必要的字段：name, grade, major, college（接口不支持studentId字段）
-      const [nameResponse, gradeResponse, majorResponse, collegeResponse] = await Promise.all([
+      // 查询必要的字段：name, grade, major（接口不支持studentId字段）
+      const [nameResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
         getStudentPublicFieldValueById(studentId, 'name').catch(() => ({ code: 400, data: null })),
         getStudentPublicFieldValueById(studentId, 'grade').catch(() => ({ code: 400, data: null })),
         getStudentPublicFieldValueById(studentId, 'major').catch(() => ({ code: 400, data: null })),
-        getStudentPublicFieldValueById(studentId, 'college').catch(() => ({ code: 400, data: null }))
+        getStudentLevelByInfoId(studentId).catch(() => ({ code: 400, data: null }))
       ])
       
       if (nameResponse.code === 200 && nameResponse.data) {
@@ -697,8 +738,8 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
       if (majorResponse.code === 200 && majorResponse.data) {
         item.major = majorResponse.data
       }
-      if (collegeResponse.code === 200 && collegeResponse.data) {
-        item.college = collegeResponse.data
+      if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
+        item.levelCode = parseInt(levelResponse.data)
       }
       
       // 加载头像
@@ -800,7 +841,7 @@ const loadActivityRanking = async () => {
   }
 }
 
-const padTopStudents = (list, targetLength = 8) => {
+const padTopStudents = (list, targetLength = 12) => {
   const filled = [...list]
   while (filled.length < targetLength) {
     filled.push({
@@ -854,11 +895,11 @@ const loadTotalRanking = async () => {
       
       eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
       totalRanking.value = eligibleStudents.slice(0, selectedTopN)
-      // 加载所有需要显示的学生信息（包括前16名）
+      // 加载所有需要显示的学生信息（包括前40名）
       await loadStudentInfo(totalRanking.value, 'studentInfoId')
-      // 从已加载信息的总排行榜中取前8名用于侧边栏显示
-      const topList = totalRanking.value.slice(0, 8)
-      topStudents.value = padTopStudents(topList, 8)
+      // 从已加载信息的总排行榜中取前32名用于侧边栏显示
+      const topList = totalRanking.value.slice(0, 32)
+      topStudents.value = padTopStudents(topList, 32)
       totalLoading.value = false
       await nextTick()
       if (totalRanking.value.length > 0) {
@@ -875,19 +916,6 @@ const loadTotalRanking = async () => {
           initChartWithRetry()
         }, 200)
       }
-
-      // 加载top10的积分记录（最多3条）
-      const recordPromises = topStudents.value.map(async (item) => {
-        const res = await getTopAdjustRecordsByStudentInfoId(item.studentInfoId, 3).catch(() => ({ code: 400, data: [] }))
-        if (res.code === 200 && Array.isArray(res.data)) {
-          return { id: item.studentInfoId, records: res.data.slice(0, 3) }
-        }
-        return { id: item.studentInfoId, records: [] }
-      })
-      const recordResults = await Promise.all(recordPromises)
-      const recordMap = {}
-      recordResults.forEach(({ id, records }) => { recordMap[id] = records })
-      topStudentRecords.value = recordMap
     }
   } catch (error) {
     totalRanking.value = []
@@ -1031,6 +1059,21 @@ const handleRecordsDialogClose = () => {
   }, 0)
 }
 
+const formatGrade = (grade) => {
+  if (!grade) return ''
+  const gradeNum = parseInt(grade)
+  if (isNaN(gradeNum)) return grade
+  const gradeMap = {
+    1: '大一',
+    2: '大二',
+    3: '大三',
+    4: '大四',
+    5: '大五',
+    6: '大六'
+  }
+  return gradeMap[gradeNum] || `${gradeNum}年级`
+}
+
 const formatTime = (timeString) => {
   if (!timeString) return '--'
   try {
@@ -1086,17 +1129,8 @@ html.dark {
   --shadow-primary: 0 2px 8px rgba(102, 126, 234, 0.2);
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.12);
   --shadow-button: 0 8px 32px rgba(102, 126, 234, 0.3);
-  --shadow-rank-1: 0 4px 16px rgba(251, 191, 36, 0.2), 0 2px 8px rgba(251, 191, 36, 0.1);
-  --shadow-rank-2: 0 4px 16px rgba(148, 163, 184, 0.2), 0 2px 8px rgba(148, 163, 184, 0.1);
-  --shadow-rank-3: 0 4px 16px rgba(217, 119, 6, 0.2), 0 2px 8px rgba(217, 119, 6, 0.1);
 }
 
-html.light {
-  /* 排名前3使用彩色阴影，保持原有颜色但增强不透明度 */
-  --shadow-rank-1: 0 4px 20px rgba(251, 191, 36, 0.45), 0 2px 12px rgba(251, 191, 36, 0.3), 0 1px 4px rgba(251, 191, 36, 0.2);
-  --shadow-rank-2: 0 4px 20px rgba(148, 163, 184, 0.45), 0 2px 12px rgba(148, 163, 184, 0.3), 0 1px 4px rgba(148, 163, 184, 0.2);
-  --shadow-rank-3: 0 4px 20px rgba(217, 119, 6, 0.45), 0 2px 12px rgba(217, 119, 6, 0.3), 0 1px 4px rgba(217, 119, 6, 0.2);
-}
 
 .points-dashboard-container {
   min-height: 100vh;
@@ -1112,16 +1146,26 @@ html.light {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 12px;
+  padding: 12px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  min-height: 60px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 12px;
+  position: absolute;
+  left: 12px;
+  z-index: 1;
+}
+
+.header-left .back-btn,
+.header-left .logo {
+  flex-shrink: 0;
 }
 
 .header-right {
@@ -1167,6 +1211,29 @@ html.dark .slogan-img {
   touch-action: manipulation;
 }
 
+.title-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.title-section .main-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  display: block;
+}
+
 .title-section h1 {
   font-size: 20px;
   font-weight: 700;
@@ -1180,7 +1247,7 @@ html.dark .slogan-img {
 .title-section p {
   font-size: 12px;
   color: var(--text-secondary);
-  margin: 2px 0 0 0;
+  margin: 6px 0 0 0;
   font-weight: 500;
 }
 
@@ -1287,7 +1354,7 @@ html.dark .ranking-label {
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
   border: 1px solid rgba(102, 126, 234, 0.2);
   border-radius: 16px;
-  padding: 16px;
+  padding: 0 16px 16px 16px;
   backdrop-filter: blur(20px);
   box-shadow: var(--shadow-lg);
   width: 100%;
@@ -1297,52 +1364,67 @@ html.dark .ranking-label {
 }
 
 .side-card-header {
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  margin-top: 1%;
+  padding-top: 0;
+  padding-bottom: 10px;
   border-bottom: 1px solid rgba(102, 126, 234, 0.15);
   flex-shrink: 0;
 }
 
+.card-header-left {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
 .side-card-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--text-primary);
   background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   text-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
   position: relative;
   display: inline-block;
 }
 
 .side-card-subtitle {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
-  margin-top: 4px;
+  margin-top: 3px;
   opacity: 0.85;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 .side-card-body {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-auto-rows: min-content;
-  gap: 12px;
+  gap: 6px;
   width: 100%;
   align-items: start;
   position: relative;
-  overflow: visible;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  padding-top: 10px;
 }
 
 
 .side-student {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 12px;
-  border-radius: 12px;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 8px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   border: 1.5px solid rgba(102, 126, 234, 0.2);
   box-shadow: var(--shadow-card), 0 2px 8px rgba(102, 126, 234, 0.1);
@@ -1351,7 +1433,27 @@ html.dark .ranking-label {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: card-enter 0.6s ease-out backwards;
   width: 100%;
-  min-height: auto;
+  min-height: 0;
+}
+
+.side-student.level-club-member {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.06) 100%);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.side-student.level-normal-member {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.side-student.level-core-member {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.06) 100%);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.side-student.level-admin {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%);
+  border-color: rgba(239, 68, 68, 0.3);
 }
 
 .side-student:nth-child(1) { animation-delay: 0.1s; }
@@ -1362,33 +1464,11 @@ html.dark .ranking-label {
 .side-student:nth-child(6) { animation-delay: 0.6s; }
 .side-student:nth-child(7) { animation-delay: 0.7s; }
 .side-student:nth-child(8) { animation-delay: 0.8s; }
+.side-student:nth-child(9) { animation-delay: 0.9s; }
+.side-student:nth-child(10) { animation-delay: 1.0s; }
+.side-student:nth-child(11) { animation-delay: 1.1s; }
+.side-student:nth-child(12) { animation-delay: 1.2s; }
 
-.side-student.rank-1 {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.25) 0%, rgba(245, 158, 11, 0.18) 50%, rgba(234, 179, 8, 0.15) 100%);
-  border-color: rgba(251, 191, 36, 0.5);
-  border-width: 2px;
-  box-shadow: var(--shadow-rank-1), 0 0 20px rgba(251, 191, 36, 0.2);
-  transform: scale(1.02);
-  animation: card-float-gold 4s ease-in-out infinite, card-glow-breathe-gold 3s ease-in-out infinite;
-}
-
-.side-student.rank-2 {
-  background: linear-gradient(135deg, rgba(148, 163, 184, 0.22) 0%, rgba(100, 116, 139, 0.16) 50%, rgba(71, 85, 105, 0.12) 100%);
-  border-color: rgba(148, 163, 184, 0.45);
-  border-width: 2px;
-  box-shadow: var(--shadow-rank-2), 0 0 15px rgba(148, 163, 184, 0.15);
-  transform: scale(1.01);
-  animation: card-float-silver 4.2s ease-in-out infinite, card-glow-breathe-silver 3.2s ease-in-out infinite;
-}
-
-.side-student.rank-3 {
-  background: linear-gradient(135deg, rgba(217, 119, 6, 0.22) 0%, rgba(180, 83, 9, 0.16) 50%, rgba(154, 52, 18, 0.12) 100%);
-  border-color: rgba(217, 119, 6, 0.45);
-  border-width: 2px;
-  box-shadow: var(--shadow-rank-3), 0 0 15px rgba(217, 119, 6, 0.15);
-  transform: scale(1.01);
-  animation: card-float-bronze 4.4s ease-in-out infinite, card-glow-breathe-bronze 3.4s ease-in-out infinite;
-}
 
 .side-student.is-placeholder {
   opacity: 0.6;
@@ -1413,18 +1493,19 @@ html.dark .ranking-label {
   overflow: hidden;
 }
 
-.side-avatar-wrapper {
+.side-avatar-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
+  gap: 4px;
+  margin-bottom: 0;
 }
 
 .side-avatar {
-  width: 52px;
-  height: 52px;
+  width: 42px;
+  height: 42px;
   background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1477,7 +1558,7 @@ html.dark .ranking-label {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 8px;
   position: relative;
   z-index: 0;
 }
@@ -1488,97 +1569,44 @@ html.dark .ranking-label {
   z-index: 0;
 }
 
-.side-rank-badge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.side-student.rank-1 .side-rank-badge {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-  box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), 0 0 20px rgba(251, 191, 36, 0.3);
-  animation: rank-badge-glow-gold 3s ease-in-out infinite;
-}
-
-.side-student.rank-2 .side-rank-badge {
-  background: linear-gradient(135deg, #94a3b8 0%, #64748b 50%, #475569 100%);
-  box-shadow: 0 4px 16px rgba(148, 163, 184, 0.4), 0 0 20px rgba(148, 163, 184, 0.3);
-  animation: rank-badge-glow-silver 3.2s ease-in-out infinite;
-}
-
-.side-student.rank-3 .side-rank-badge {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #92400e 100%);
-  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.4), 0 0 20px rgba(217, 119, 6, 0.3);
-  animation: rank-badge-glow-bronze 3.4s ease-in-out infinite;
-}
-
-.side-rank-badge .rank-number {
-  font-size: 18px;
-  font-weight: 900;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  line-height: 1;
-}
 
 .side-name {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--text-primary);
   word-break: break-word;
   overflow-wrap: break-word;
-  line-height: 1.3;
+  line-height: 1.2;
   letter-spacing: 0.1px;
   hyphens: auto;
-  flex: 1;
+  text-align: center;
   min-width: 0;
 }
 
-.side-student.rank-1 .side-name {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 800;
-}
 
-.side-student.rank-2 .side-name {
-  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 800;
-}
-
-.side-student.rank-3 .side-name {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 800;
+.side-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
 }
 
 .side-meta {
   display: flex;
   flex-direction: row;
-  gap: 4px;
-  font-size: 12px;
+  gap: 2px;
+  font-size: 9px;
   color: var(--text-primary);
   min-height: 0;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 }
 
 .side-meta .meta-line {
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.08) 100%);
   border: 1px solid rgba(102, 126, 234, 0.2);
   line-height: 1.3;
@@ -1589,7 +1617,7 @@ html.dark .ranking-label {
   font-weight: 500;
   box-shadow: var(--shadow-primary);
   position: relative;
-  font-size: 11px;
+  font-size: 10px;
   white-space: nowrap;
 }
 
@@ -1603,17 +1631,90 @@ html.dark .ranking-label {
 
 .side-meta .meta-line-second {
   min-height: 0;
+  font-size: 9px;
+  color: var(--text-secondary);
+}
+
+.unified-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border-bottom: none;
+}
+
+.unified-legend .legend-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.unified-legend .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.unified-legend .legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.unified-legend .legend-club-member {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%);
+}
+
+.unified-legend .legend-normal-member {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.6) 100%);
+}
+
+.unified-legend .legend-core-member {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.8) 0%, rgba(251, 191, 36, 0.6) 100%);
+}
+
+.unified-legend .legend-admin {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.6) 100%);
+}
+
+.unified-legend .legend-total {
+  background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+}
+
+.unified-legend .legend-signin {
+  background: linear-gradient(135deg, #10b981, #059669, #047857);
+}
+
+.unified-legend .legend-activity {
+  background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+}
+
+.unified-legend .legend-text {
   font-size: 11px;
   color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.unified-legend .hint-icon {
+  font-size: 13px;
+  color: var(--primary-color);
+  flex-shrink: 0;
 }
 
 
 .side-points {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  margin-top: 4px;
-  padding-top: 6px;
+  gap: 3px;
+  padding-top: 4px;
   border-top: 1px solid rgba(102, 126, 234, 0.1);
   flex-shrink: 0;
 }
@@ -1626,59 +1727,136 @@ html.dark .ranking-label {
   flex-wrap: wrap;
 }
 
+.points-formula {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
 .points-total {
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 800;
+  letter-spacing: 0.1px;
+  flex-shrink: 0;
+}
+
+.points-equals {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
+.points-plus {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
+.points-total-main {
   color: var(--primary-color);
   background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 0.3px;
-  flex-shrink: 0;
   text-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
   animation: points-gradient-flow 3s ease infinite;
 }
 
-.side-student.rank-1 .points-total {
-  font-size: 18px;
-  background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
-  animation: points-gradient-flow 3s ease infinite;
-}
-
-.side-student.rank-2 .points-total {
-  font-size: 17px;
-  background: linear-gradient(135deg, #94a3b8, #64748b, #475569);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 8px rgba(148, 163, 184, 0.4);
-  animation: points-gradient-flow 3.2s ease infinite;
-}
-
-.side-student.rank-3 .points-total {
-  font-size: 17px;
-  background: linear-gradient(135deg, #d97706, #b45309, #92400e);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 8px rgba(217, 119, 6, 0.4);
-  animation: points-gradient-flow 3.4s ease infinite;
-}
 
 .points-detail {
-  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.points-number {
+  font-weight: 700;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+.points-number.points-signin {
+  color: #10b981;
+  background: linear-gradient(135deg, #10b981, #059669, #047857);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.points-number.points-activity {
+  color: #f59e0b;
+  background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.points-separator {
   color: var(--text-secondary);
-  opacity: 0.8;
-  line-height: 1.4;
+  opacity: 0.5;
+  font-size: 9px;
+}
+
+.points-placeholder {
+  font-size: 10px;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.points-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  padding: 6px 0;
+  font-size: 10px;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+}
+
+.points-legend .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-secondary);
+  font-size: 10px;
+}
+
+.points-legend .legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.points-legend .legend-total {
+  background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+}
+
+.points-legend .legend-signin {
+  background: linear-gradient(135deg, #10b981, #059669, #047857);
+}
+
+.points-legend .legend-activity {
+  background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+}
+
+.points-legend .legend-text {
+  font-size: 10px;
+  color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .side-records {
@@ -1959,12 +2137,11 @@ html.dark .ranking-label {
 }
 
 .view-records-btn {
-  font-size: 10px;
-  padding: 8px 12px;
-  min-height: 36px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  min-height: 22px;
   flex-shrink: 0;
-  border-radius: 6px;
-  font-weight: 500;
   backdrop-filter: blur(10px);
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
   border: 1px solid rgba(102, 126, 234, 0.35);
@@ -1975,19 +2152,15 @@ html.dark .ranking-label {
 .view-records-btn :deep(.el-button__inner) {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   color: var(--primary-color);
 }
 
 .view-records-btn .el-icon {
-  margin-right: 6px;
-  font-size: 14px;
+  font-size: 11px;
   color: var(--primary-color);
 }
 
-.view-records-btn .el-icon {
-  margin-right: 4px;
-}
 
 .records-dialog :deep(.el-dialog__body) {
   padding: 16px;
@@ -2155,86 +2328,6 @@ html.dark .ranking-label {
   }
 }
 
-@keyframes rank-badge-glow-gold {
-  0%, 100% {
-    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), 0 0 20px rgba(251, 191, 36, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.6), 0 0 30px rgba(251, 191, 36, 0.5);
-  }
-}
-
-@keyframes rank-badge-glow-silver {
-  0%, 100% {
-    box-shadow: 0 4px 16px rgba(148, 163, 184, 0.4), 0 0 20px rgba(148, 163, 184, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(148, 163, 184, 0.6), 0 0 30px rgba(148, 163, 184, 0.5);
-  }
-}
-
-@keyframes rank-badge-glow-bronze {
-  0%, 100% {
-    box-shadow: 0 4px 16px rgba(217, 119, 6, 0.4), 0 0 20px rgba(217, 119, 6, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(217, 119, 6, 0.6), 0 0 30px rgba(217, 119, 6, 0.5);
-  }
-}
-
-@keyframes card-float-gold {
-  0%, 100% {
-    transform: scale(1.02) translateY(0);
-  }
-  50% {
-    transform: scale(1.02) translateY(-4px);
-  }
-}
-
-@keyframes card-float-silver {
-  0%, 100% {
-    transform: scale(1.01) translateY(0);
-  }
-  50% {
-    transform: scale(1.01) translateY(-3px);
-  }
-}
-
-@keyframes card-float-bronze {
-  0%, 100% {
-    transform: scale(1.01) translateY(0);
-  }
-  50% {
-    transform: scale(1.01) translateY(-3px);
-  }
-}
-
-@keyframes card-glow-breathe-gold {
-  0%, 100% {
-    box-shadow: var(--shadow-rank-1), 0 0 20px rgba(251, 191, 36, 0.2);
-  }
-  50% {
-    box-shadow: var(--shadow-rank-1), 0 0 30px rgba(251, 191, 36, 0.4);
-  }
-}
-
-@keyframes card-glow-breathe-silver {
-  0%, 100% {
-    box-shadow: var(--shadow-rank-2), 0 0 15px rgba(148, 163, 184, 0.15);
-  }
-  50% {
-    box-shadow: var(--shadow-rank-2), 0 0 25px rgba(148, 163, 184, 0.3);
-  }
-}
-
-@keyframes card-glow-breathe-bronze {
-  0%, 100% {
-    box-shadow: var(--shadow-rank-3), 0 0 15px rgba(217, 119, 6, 0.15);
-  }
-  50% {
-    box-shadow: var(--shadow-rank-3), 0 0 25px rgba(217, 119, 6, 0.3);
-  }
-}
 
 @keyframes points-gradient-flow {
   0% {

@@ -258,6 +258,26 @@ export const getStudentLevel = async (studentId) => {
   }
 }
 
+export const getStudentLevelByInfoId = async (studentInfoId) => {
+  try {
+    const response = await api.get('/api/v1/students/get-student-level-by-info-id', {
+      params: { 'student-info-id': studentInfoId }
+    })
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status >= 500) {
+        throw new Error('服务器错误，请稍后重试')
+      } else {
+        throw new Error(error.response.data?.message || '获取学生等级失败')
+      }
+    } else {
+      throw new Error('网络错误，获取学生等级失败')
+    }
+  }
+}
+
 export const getStudentDatabaseTableId = async (token) => {
   try {
     const response = await api.get('/api/v1/students/get-student-database-table-id', {

@@ -5,8 +5,7 @@
         <el-button @click="goBack" class="back-btn" type="primary" :icon="ArrowLeft" circle></el-button>
         <img src="@/assets/AiWorkShop_icon.png" alt="AI坊" class="logo" @click="toggleTheme" title="切换主题模式">
         <div class="title-section">
-          <h1>积分看板</h1>
-          <p>Points Dashboard</p>
+          <h1 class="main-title">在0与1之间，见证每一位创造者的光芒</h1>
         </div>
       </div>
       <div class="header-right">
@@ -145,68 +144,111 @@
         <div class="dashboard-side">
           <div class="side-card">
             <div class="side-card-header">
-              <div class="side-card-title">优秀成员</div>
-              <div class="side-card-subtitle">总积分前8名，含签到积分与积分记录（每人最多展示3条记录）</div>
+              <div class="card-header-left">
+                <div class="side-card-title">优秀成员</div>
+                <div class="side-card-subtitle">总积分前32名</div>
+              </div>
+              <div class="unified-legend" v-if="topStudents.length > 0">
+                <div class="legend-section">
+                  <div class="legend-item">
+                    <span class="legend-dot legend-club-member"></span>
+                    <span class="legend-text">社团成员</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-normal-member"></span>
+                    <span class="legend-text">普通成员</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-core-member"></span>
+                    <span class="legend-text">核心成员</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-admin"></span>
+                    <span class="legend-text">管理员</span>
+                  </div>
+                </div>
+                <div class="legend-section">
+                  <div class="legend-item">
+                    <el-icon class="hint-icon"><View /></el-icon>
+                    <span class="legend-text">点击眼睛图标可查看全部改分记录</span>
+                  </div>
+                </div>
+                <div class="legend-section">
+                  <div class="legend-item">
+                    <span class="legend-dot legend-total"></span>
+                    <span class="legend-text">总积分</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-signin"></span>
+                    <span class="legend-text">总签到积分</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot legend-activity"></span>
+                    <span class="legend-text">总活动积分</span>
+                  </div>
+                </div>
+              </div>
+              <div class="random-quote-container" v-if="topStudents.length > 0">
+                <div class="random-quote" :class="{ 'fade-in': showQuote }">
+                  {{ currentQuote }}
+                </div>
+              </div>
             </div>
             <div class="side-card-body" v-if="topStudents.length > 0">
               <div
-                v-for="(student, idx) in topStudents"
+                v-for="student in topStudents"
                 :key="student.studentInfoId || student.placeholderId"
                 class="side-student"
                 :class="{ 
                   'is-placeholder': student.placeholder,
-                  'rank-1': idx === 0 && !student.placeholder,
-                  'rank-2': idx === 1 && !student.placeholder,
-                  'rank-3': idx === 2 && !student.placeholder
+                  'level-club-member': !student.placeholder && student.levelCode === 0,
+                  'level-normal-member': !student.placeholder && student.levelCode === 1,
+                  'level-core-member': !student.placeholder && student.levelCode === 2,
+                  'level-admin': !student.placeholder && student.levelCode === 3
                 }"
               >
                 <div class="side-info">
-                  <div class="side-rank-badge" v-if="!student.placeholder && idx < 3">
-                    <span class="rank-number">{{ idx + 1 }}</span>
-                  </div>
-                  <div class="side-avatar-wrapper">
+                  <div class="side-avatar-section">
                     <div class="side-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
                       <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
-                      <el-icon v-else size="28" class="avatar-icon"><User /></el-icon>
+                      <el-icon v-else size="24" class="avatar-icon"><User /></el-icon>
                     </div>
                     <div class="side-name">
                       {{ student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`) }}
                     </div>
                   </div>
-                  <div class="side-meta" v-if="!student.placeholder">
-                    <div class="meta-line meta-line-first">{{ student.college || '--' }}</div>
-                    <div class="meta-line meta-line-second" v-if="student.major">{{ student.major }}</div>
-                    <div class="meta-line meta-line-second" v-if="student.grade">{{ student.grade }} 年级</div>
-                    <div class="meta-line meta-line-second" v-if="!student.major && !student.grade">--</div>
-                  </div>
-                  <div class="side-points">
-                    <div class="points-total-row">
-                      <span class="points-total">
-                        {{ student.placeholder ? '--' : `${student.totalPoints}分` }}
-                      </span>
-                      <el-button 
-                        v-if="!student.placeholder"
-                        size="small" 
-                        type="primary" 
-                        plain 
-                        @click="openRecordsDialog(student)"
-                        class="view-records-btn"
-                      >
-                        <el-icon><View /></el-icon>
-                        <span>查看全部记录</span>
-                      </el-button>
+                  <div class="side-content">
+                    <div class="side-meta" v-if="!student.placeholder">
+                      <div class="meta-line meta-line-second" v-if="student.major">{{ student.major }}</div>
+                      <div class="meta-line meta-line-second" v-else>--</div>
+                      <div class="meta-line meta-line-second" v-if="student.grade">{{ formatGrade(student.grade) }}</div>
+                      <div class="meta-line meta-line-second" v-else>--</div>
                     </div>
-                    <span class="points-detail">
-                      {{ student.placeholder ? '待公布' : `总签到积分 ${student.signInPoints} · 总活动积分 ${student.activityPoints}` }}
-                    </span>
-                  </div>
-                  <div class="side-records" v-if="!student.placeholder && topStudentRecords[student.studentInfoId]?.length">
-                    <div class="record-list">
-                      <div v-for="(rec, rIdx) in topStudentRecords[student.studentInfoId]" :key="rIdx" class="record-item">
-                        <span class="record-points" :class="{ positive: rec.adjustPoints >= 0, negative: rec.adjustPoints < 0 }">
-                          {{ rec.adjustPoints > 0 ? `+${rec.adjustPoints}` : rec.adjustPoints }}
-                        </span>
-                        <span class="record-reason">{{ rec.adjustReason }}</span>
+                    <div class="side-points">
+                      <div class="points-total-row">
+                        <div class="points-formula" v-if="!student.placeholder">
+                          <span class="points-total points-total-main">{{ student.totalPoints }}</span>
+                          <span class="points-equals">=</span>
+                          <span class="points-number points-signin">{{ student.signInPoints }}</span>
+                          <span class="points-plus">+</span>
+                          <span class="points-number points-activity">{{ student.activityPoints }}</span>
+                        </div>
+                        <div class="points-formula" v-else>
+                          <span class="points-placeholder">待公布</span>
+                        </div>
+                        <el-tooltip content="查看全部改分记录" placement="top" :show-after="300">
+                          <el-button 
+                            v-if="!student.placeholder"
+                            size="small" 
+                            type="primary" 
+                            plain 
+                            @click="openRecordsDialog(student)"
+                            class="view-records-btn"
+                            circle
+                          >
+                            <el-icon><View /></el-icon>
+                          </el-button>
+                        </el-tooltip>
                       </div>
                     </div>
                   </div>
@@ -267,7 +309,7 @@
 import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
-import { ElButton, ElIcon, ElDialog } from 'element-plus'
+import { ElButton, ElIcon, ElDialog, ElTooltip } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -278,6 +320,7 @@ import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
 import { ArrowLeft, ArrowRight, Loading, Box, View, User } from '@element-plus/icons-vue'
 import * as echarts from 'echarts/core'
@@ -288,7 +331,7 @@ import {
 import { CanvasRenderer } from 'echarts/renderers'
 import { getAttendanceTopRanking } from '@/api/attendance'
 import { getPointsTopRanking, getTopAdjustRecordsByStudentInfoId } from '@/api/points'
-import { getStudentPublicFieldValueById, getAvatarUrl } from '@/api/student'
+import { getStudentPublicFieldValueById, getAvatarUrl, getStudentLevelByInfoId } from '@/api/student'
 
 echarts.use([
   GridComponent,
@@ -308,16 +351,203 @@ const tabLabelMap = {
   activity: '活动积分排行榜'
 }
 const currentTabLabel = computed(() => tabLabelMap[activeTab.value] || '')
-const selectedTopN = 16
+const selectedTopN = 40
 const totalRankingTopN = 50
 const signInRanking = ref([])
 const activityRanking = ref([])
 const totalRanking = ref([])
 const topStudents = ref([])
-const topStudentRecords = ref({})
 const signInLoading = ref(false)
 const activityLoading = ref(false)
 const totalLoading = ref(false)
+
+// 随机文案相关 - 128句技术相关激励文案
+const quotes = [
+  '每一行代码，都是向梦想更近一步',
+  '今天的代码，是明天产品的基石',
+  '不要等待需求，要主动创造价值',
+  '坚持不是看到bug才修复，而是持续优化代码',
+  '你的代码，终将成就更好的产品',
+  '代码不会发光，发光的是写代码的你',
+  '上线不是终点，bug也不是末日',
+  '只有写出来的功能，没有等出来的产品',
+  '相信自己，你比想象中更会编程',
+  '每一次调试，都是成长的机会',
+  '编程到无能为力，重构到感动自己',
+  '代码虽多行则将至，bug虽难修则必成',
+  '不经历bug，怎么见彩虹',
+  '越写代码，越幸运',
+  '成功没有捷径，只有敲代码',
+  '今天的你，决定了明天的代码质量',
+  '不要害怕报错，害怕的是从未尝试',
+  '梦想照进现实，需要代码来实现',
+  '坚持写代码就是胜利，放弃才是失败',
+  '你的编程潜力无限，只待你去发掘',
+  '每一次报错，都是为了更好地理解代码',
+  '写代码的人，运气都不会太差',
+  '相信自己，你值得拥有最好的技术栈',
+  '不要停止学习新技术，不要固守旧技术',
+  '成功的人找方法，失败的人找借口',
+  '只有拼尽全力，才能写出优雅的代码',
+  '你的坚持，终将写出好代码',
+  '梦想不会逃跑，会逃跑的永远是bug',
+  '努力的意义，是让自己随时有能力重构代码',
+  '没有框架的孩子，必须手写代码',
+  '你现在的学习，是为了将来有更多技术选择',
+  '不要在该学技术的年纪选择安逸',
+  '成功就是简单的代码重复优化',
+  '每一个不曾写代码的日子，都是对技术的辜负',
+  '你的代码，时间会给你答案',
+  '不要因为走得太远，而忘记为什么写代码',
+  '相信自己，没有什么功能实现不了',
+  '每一次代码提交，都是对未来的投资',
+  '成功不是偶然，而是持续写代码',
+  '不要等待机会，要主动创造产品',
+  '写代码的人，终将被技术温柔以待',
+  '梦想还是要有的，万一用代码实现了呢',
+  '今天的代码，是明天成功的资本',
+  '不要害怕bug，bug是成长的阶梯',
+  '你的代码，终将照亮前行的路',
+  '坚持到底写代码，就是胜利',
+  '相信自己，你比想象中更会解决问题',
+  '每一次代码优化，都在为成功铺路',
+  '不要轻言放弃，否则对不起代码',
+  '你的坚持，终将换来成功',
+  '不要停止写代码，成功就在前方',
+  '相信自己，没有什么功能做不到',
+  '每一次重构代码，都是突破的机会',
+  '写代码的人，终将收获成功',
+  '不要害怕报错，报错是成功之母',
+  '你的代码，时间会证明一切',
+  '相信自己，你值得拥有成功',
+  '每一次代码提交，都在向目标靠近',
+  '不要等待需求，要主动抓住机会',
+  '你的坚持，终将成就梦想',
+  '不要因为困难而放弃，要因为坚持而成功',
+  '每一次学习新技术，都是对未来的投资',
+  '不要停止编码，成功就在前方',
+  '你的代码，终将换来回报',
+  '不要害怕新技术，新技术是成长的机会',
+  '每一次代码审查，都在为成功铺路',
+  '不要等待机会，要主动创造产品',
+  '你的坚持，终将成就更好的代码',
+  '每一次提交代码，都在向梦想靠近',
+  '你的代码，终将照亮前行的路',
+  '不要停止学习新技术，成功就在前方',
+  '每一次重构代码，都是突破的机会',
+  '你的坚持，终将换来成功',
+  '不要等待需求，要主动抓住机会',
+  '相信自己，你值得拥有成功',
+  '每一次性能优化，都在为成功铺路',
+  '不要因为困难而放弃，要因为坚持而成功',
+  '你的代码，时间会证明一切',
+  '不要停止编码，不要回顾旧代码',
+  '每一次单元测试，都在向目标靠近',
+  '不要害怕新技术，新技术是成长的机会',
+  '你的代码，终将换来回报',
+  '不要等待机会，要主动创造产品',
+  '每一次学习算法，都是对未来的投资',
+  '不要因为走得太远，而忘记为什么写代码',
+  '你的坚持，终将成就梦想',
+  '不要轻言放弃，否则对不起代码',
+  '每一次架构设计，都是突破的机会',
+  '你的代码，时间会给你答案',
+  '相信自己，没有什么功能做不到',
+  '每一次代码提交，都在向梦想靠近',
+  '你的坚持，终将成就更好的代码',
+  '每一次学习设计模式，都是对未来的投资',
+  '你的代码，终将换来成功',
+  '相信自己，你值得拥有最好的技术',
+  '每一次代码审查，都在向目标靠近',
+  '写代码的人，运气都不会太差',
+  '相信自己，你比想象中更会编程',
+  '写代码的人，终将被技术温柔以待',
+  '每一次Git提交，都是对代码质量的承诺',
+  '不要害怕技术债务，重构是成长的必经之路',
+  '你的代码注释，是给未来自己的礼物',
+  '每一次代码Review，都在提升团队水平',
+  '不要停止思考，算法是程序员的灵魂',
+  '你的测试覆盖率，决定了代码的可靠性',
+  '每一次性能调优，都在追求极致体验',
+  '不要忽视代码规范，细节决定成败',
+  '你的设计模式，让代码更优雅',
+  '每一次学习新技术栈，都在拓宽技术边界',
+  '不要害怕开源，分享让技术更美好',
+  '你的代码架构，决定了系统的可扩展性',
+  '每一次解决技术难题，都在突破自我',
+  '不要停止探索，技术世界永无止境',
+  '你的代码质量，体现了你的专业素养',
+  '每一次技术分享，都在传播知识',
+  '不要害怕挑战，复杂问题需要耐心',
+  '你的代码风格，是个人品牌的体现',
+  '每一次优化算法，都在追求效率',
+  '不要停止实践，理论需要代码验证',
+  '你的技术选型，决定了项目的未来',
+  '每一次代码重构，都在追求完美',
+  '不要害怕新技术，拥抱变化才能进步',
+  '你的代码可读性，体现了你的责任心',
+  '每一次技术突破，都在创造价值',
+  '不要停止学习，技术更新日新月异',
+  '你的代码文档，是团队协作的桥梁',
+  '每一次技术选型，都在权衡利弊',
+  '不要害怕失败，错误是最好的老师',
+  '你的代码版本控制，记录了成长的轨迹'
+]
+
+const currentQuote = ref('')
+const showQuote = ref(false)
+let quoteTimer = null
+let lastQuoteIndex = -1
+
+// 获取随机文案（避免连续显示相同文案）
+const getRandomQuote = () => {
+  let randomIndex
+  // 如果只有一条文案，直接返回
+  if (quotes.length === 1) {
+    return quotes[0]
+  }
+  // 确保不连续显示相同的文案
+  do {
+    randomIndex = Math.floor(Math.random() * quotes.length)
+  } while (randomIndex === lastQuoteIndex && quotes.length > 1)
+  
+  lastQuoteIndex = randomIndex
+  return quotes[randomIndex]
+}
+
+// 更新文案（带淡入淡出效果）
+const updateQuote = () => {
+  showQuote.value = false
+  setTimeout(() => {
+    currentQuote.value = getRandomQuote()
+    showQuote.value = true
+  }, 400) // 淡出时间
+}
+
+// 启动文案轮播
+const startQuoteRotation = () => {
+  // 立即显示第一条
+  currentQuote.value = getRandomQuote()
+  showQuote.value = true
+  
+  // 每隔一段时间刷新（5-8秒随机间隔，增加自然感）
+  const scheduleNext = () => {
+    const delay = 5000 + Math.random() * 3000 // 5-8秒随机
+    quoteTimer = setTimeout(() => {
+      updateQuote()
+      scheduleNext()
+    }, delay)
+  }
+  scheduleNext()
+}
+
+// 停止文案轮播
+const stopQuoteRotation = () => {
+  if (quoteTimer) {
+    clearTimeout(quoteTimer)
+    quoteTimer = null
+  }
+}
 
 // 改分记录弹窗相关
 const recordsDialogVisible = ref(false)
@@ -360,6 +590,7 @@ const initSignInChart = async (data) => {
 
   const sortedData = [...data].sort((a, b) => a.signInPoints - b.signInPoints)
   const isDark = themeStore.isDarkMode
+  const maxValue = sortedData.length > 0 ? sortedData[sortedData.length - 1].signInPoints : null
 
   const option = {
     tooltip: {
@@ -374,6 +605,7 @@ const initSignInChart = async (data) => {
     },
     xAxis: {
       type: 'value',
+      max: maxValue,
       axisLabel: {
         fontSize: 12,
         formatter: '{value}分',
@@ -427,24 +659,23 @@ const initSignInChart = async (data) => {
           position: 'right',
           formatter: function(params) {
             const item = sortedData[params.dataIndex]
-            let line1 = item.college || '--'
-            let line2 = ''
+            let line1 = ''
             if (item.major) {
-              line2 += item.major
+              line1 += item.major
             }
             if (item.major && item.grade) {
-              line2 += ' '
+              line1 += ' '
             }
             if (item.grade) {
               if (!item.major) {
-                line2 += ' '
+                line1 += ' '
               }
-              line2 += `${item.grade} 年级`
+              line1 += formatGrade(item.grade)
             }
-            if (!line2) {
-              line2 = '--'
+            if (!line1) {
+              line1 = '--'
             }
-            return `${line1}\n${line2}`
+            return line1
           },
           fontSize: 11,
           color: isDark ? '#ffffff' : '#666',
@@ -472,6 +703,7 @@ const initActivityChart = async (data) => {
 
   const sortedData = [...data].sort((a, b) => a.activityPoints - b.activityPoints)
   const isDark = themeStore.isDarkMode
+  const maxValue = sortedData.length > 0 ? sortedData[sortedData.length - 1].activityPoints : null
 
   const option = {
     tooltip: {
@@ -486,6 +718,7 @@ const initActivityChart = async (data) => {
     },
     xAxis: {
       type: 'value',
+      max: maxValue,
       axisLabel: {
         fontSize: 12,
         formatter: '{value}分',
@@ -539,24 +772,23 @@ const initActivityChart = async (data) => {
           position: 'right',
           formatter: function(params) {
             const item = sortedData[params.dataIndex]
-            let line1 = item.college || '--'
-            let line2 = ''
+            let line1 = ''
             if (item.major) {
-              line2 += item.major
+              line1 += item.major
             }
             if (item.major && item.grade) {
-              line2 += ' '
+              line1 += ' '
             }
             if (item.grade) {
               if (!item.major) {
-                line2 += ' '
+                line1 += ' '
               }
-              line2 += `${item.grade} 年级`
+              line1 += formatGrade(item.grade)
             }
-            if (!line2) {
-              line2 = '--'
+            if (!line1) {
+              line1 = '--'
             }
-            return `${line1}\n${line2}`
+            return line1
           },
           fontSize: 11,
           color: isDark ? '#ffffff' : '#666',
@@ -584,6 +816,7 @@ const initTotalChart = async (data) => {
 
   const sortedData = [...data].sort((a, b) => a.totalPoints - b.totalPoints)
   const isDark = themeStore.isDarkMode
+  const maxValue = sortedData.length > 0 ? sortedData[sortedData.length - 1].totalPoints : null
 
   const option = {
     tooltip: {
@@ -607,6 +840,7 @@ const initTotalChart = async (data) => {
     },
     xAxis: {
       type: 'value',
+      max: maxValue,
       axisLabel: {
         fontSize: 12,
         formatter: '{value}分',
@@ -680,18 +914,19 @@ const handleAvatarError = (student) => {
   student.avatarUrl = null
 }
 
+
 const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
   const infoPromises = rankingList.map(async (item) => {
     const studentId = item[idField] || item.targetStudentInfoId
     if (!studentId) return item
     
     try {
-      // 查询必要的字段：name, grade, major, college（接口不支持studentId字段）
-      const [nameResponse, gradeResponse, majorResponse, collegeResponse] = await Promise.all([
+      // 查询必要的字段：name, grade, major（接口不支持studentId字段）
+      const [nameResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
         getStudentPublicFieldValueById(studentId, 'name').catch(() => ({ code: 400, data: null })),
         getStudentPublicFieldValueById(studentId, 'grade').catch(() => ({ code: 400, data: null })),
         getStudentPublicFieldValueById(studentId, 'major').catch(() => ({ code: 400, data: null })),
-        getStudentPublicFieldValueById(studentId, 'college').catch(() => ({ code: 400, data: null }))
+        getStudentLevelByInfoId(studentId).catch(() => ({ code: 400, data: null }))
       ])
       
       if (nameResponse.code === 200 && nameResponse.data) {
@@ -703,8 +938,8 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
       if (majorResponse.code === 200 && majorResponse.data) {
         item.major = majorResponse.data
       }
-      if (collegeResponse.code === 200 && collegeResponse.data) {
-        item.college = collegeResponse.data
+      if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
+        item.levelCode = parseInt(levelResponse.data)
       }
       
       // 加载头像
@@ -806,7 +1041,7 @@ const loadActivityRanking = async () => {
   }
 }
 
-const padTopStudents = (list, targetLength = 8) => {
+const padTopStudents = (list, targetLength = 12) => {
   const filled = [...list]
   while (filled.length < targetLength) {
     filled.push({
@@ -860,11 +1095,11 @@ const loadTotalRanking = async () => {
       
       eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
       totalRanking.value = eligibleStudents.slice(0, selectedTopN)
-      // 加载所有需要显示的学生信息（包括前16名）
+      // 加载所有需要显示的学生信息（包括前40名）
       await loadStudentInfo(totalRanking.value, 'studentInfoId')
-      // 从已加载信息的总排行榜中取前8名用于侧边栏显示
-      const topList = totalRanking.value.slice(0, 8)
-      topStudents.value = padTopStudents(topList, 8)
+      // 从已加载信息的总排行榜中取前32名用于侧边栏显示
+      const topList = totalRanking.value.slice(0, 32)
+      topStudents.value = padTopStudents(topList, 32)
       totalLoading.value = false
       await nextTick()
       if (totalRanking.value.length > 0) {
@@ -881,19 +1116,6 @@ const loadTotalRanking = async () => {
           initChartWithRetry()
         }, 200)
       }
-
-      // 加载top10的积分记录（最多3条）
-      const recordPromises = topStudents.value.map(async (item) => {
-        const res = await getTopAdjustRecordsByStudentInfoId(item.studentInfoId, 3).catch(() => ({ code: 400, data: [] }))
-        if (res.code === 200 && Array.isArray(res.data)) {
-          return { id: item.studentInfoId, records: res.data.slice(0, 3) }
-        }
-        return { id: item.studentInfoId, records: [] }
-      })
-      const recordResults = await Promise.all(recordPromises)
-      const recordMap = {}
-      recordResults.forEach(({ id, records }) => { recordMap[id] = records })
-      topStudentRecords.value = recordMap
     }
   } catch (error) {
     totalRanking.value = []
@@ -1029,6 +1251,21 @@ const handleRecordsDialogClose = () => {
   }, 0)
 }
 
+const formatGrade = (grade) => {
+  if (!grade) return ''
+  const gradeNum = parseInt(grade)
+  if (isNaN(gradeNum)) return grade
+  const gradeMap = {
+    1: '大一',
+    2: '大二',
+    3: '大三',
+    4: '大四',
+    5: '大五',
+    6: '大六'
+  }
+  return gradeMap[gradeNum] || `${gradeNum}年级`
+}
+
 const formatTime = (timeString) => {
   if (!timeString) return '--'
   try {
@@ -1048,9 +1285,11 @@ onMounted(async () => {
   await nextTick()
   await loadTotalRanking()
   window.addEventListener('resize', handleResize)
+  startQuoteRotation()
 })
 
 onUnmounted(() => {
+  stopQuoteRotation()
   if (signInChartInstance) {
     signInChartInstance.dispose()
   }
@@ -1084,17 +1323,8 @@ html.dark {
   --shadow-primary: 0 2px 8px rgba(102, 126, 234, 0.2);
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.12);
   --shadow-button: 0 8px 32px rgba(102, 126, 234, 0.3);
-  --shadow-rank-1: 0 4px 16px rgba(251, 191, 36, 0.2), 0 2px 8px rgba(251, 191, 36, 0.1);
-  --shadow-rank-2: 0 4px 16px rgba(148, 163, 184, 0.2), 0 2px 8px rgba(148, 163, 184, 0.1);
-  --shadow-rank-3: 0 4px 16px rgba(217, 119, 6, 0.2), 0 2px 8px rgba(217, 119, 6, 0.1);
 }
 
-html.light {
-  /* 排名前3使用彩色阴影，保持原有颜色但增强不透明度 */
-  --shadow-rank-1: 0 4px 20px rgba(251, 191, 36, 0.45), 0 2px 12px rgba(251, 191, 36, 0.3), 0 1px 4px rgba(251, 191, 36, 0.2);
-  --shadow-rank-2: 0 4px 20px rgba(148, 163, 184, 0.45), 0 2px 12px rgba(148, 163, 184, 0.3), 0 1px 4px rgba(148, 163, 184, 0.2);
-  --shadow-rank-3: 0 4px 20px rgba(217, 119, 6, 0.45), 0 2px 12px rgba(217, 119, 6, 0.3), 0 1px 4px rgba(217, 119, 6, 0.2);
-}
 
 .points-dashboard-container {
   height: 100vh;
@@ -1111,22 +1341,36 @@ html.light {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 10px 24px;
+  padding: 12px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  min-height: 72px;
+  flex-shrink: 0;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 12px;
+  position: absolute;
+  left: 24px;
+  z-index: 1;
+}
+
+.header-left .back-btn,
+.header-left .logo {
+  flex-shrink: 0;
 }
 
 .header-right {
   display: flex;
   align-items: center;
   gap: 20px;
+  position: absolute;
+  right: 24px;
+  z-index: 1;
 }
 
 .slogan {
@@ -1160,6 +1404,29 @@ html.dark .slogan-img {
   border-radius: 16px;
 }
 
+.title-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.title-section .main-title {
+  font-size: 48px;
+  font-weight: 800;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  display: block;
+}
+
 .title-section h1 {
   font-size: 32px;
   font-weight: 700;
@@ -1173,7 +1440,7 @@ html.dark .slogan-img {
 .title-section p {
   font-size: 16px;
   color: var(--text-secondary);
-  margin: 4px 0 0 0;
+  margin: 8px 0 0 0;
   font-weight: 500;
 }
 
@@ -1273,7 +1540,7 @@ html.dark .ranking-label {
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
   border: 1px solid rgba(102, 126, 234, 0.2);
   border-radius: 20px;
-  padding: 24px;
+  padding: 0 24px 24px 24px;
   backdrop-filter: blur(20px);
   box-shadow: var(--shadow-lg);
   width: 100%;
@@ -1284,62 +1551,132 @@ html.dark .ranking-label {
 }
 
 .side-card-header {
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  margin-top: 1%;
+  padding-top: 0;
+  padding-bottom: 10px;
   border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.random-quote-container {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: fit-content;
+  padding: 12px 18px;
+  background: transparent;
+  border-radius: 12px;
+  border: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 0;
+}
+
+.random-quote {
+  font-size: 13.5px;
+  color: var(--text-primary);
+  line-height: 1.8;
+  text-align: right;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.random-quote.fade-in {
+  opacity: 0.95;
+}
+
+.card-header-left {
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
 }
 
 .side-card-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--text-primary);
   background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.6px;
   text-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
   position: relative;
   display: inline-block;
 }
 
 .side-card-subtitle {
-  font-size: 13px;
+  font-size: 11px;
   color: var(--text-secondary);
-  margin-top: 6px;
+  margin-top: 4px;
   opacity: 0.85;
 }
 
 .side-card-body {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-auto-rows: min-content;
+  gap: 6px;
   width: 100%;
-  align-items: stretch;
+  align-items: start;
   position: relative;
   overflow: hidden;
   flex: 1;
   min-height: 0;
+  padding-top: 10px;
 }
 
 
 .side-student {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 14px;
-  border-radius: 18px;
+  gap: 7px;
+  padding: 12px;
+  border-radius: 10px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   border: 1.5px solid rgba(102, 126, 234, 0.2);
   box-shadow: var(--shadow-card), 0 2px 8px rgba(102, 126, 234, 0.1);
   position: relative;
   overflow: visible;
   min-height: 0;
-  height: 100%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: card-enter 0.6s ease-out backwards;
+}
+
+.side-student.level-club-member {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.06) 100%);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.side-student.level-normal-member {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.side-student.level-core-member {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.06) 100%);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.side-student.level-admin {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%);
+  border-color: rgba(239, 68, 68, 0.3);
 }
 
 .side-student:nth-child(1) { animation-delay: 0.1s; }
@@ -1350,33 +1687,11 @@ html.dark .ranking-label {
 .side-student:nth-child(6) { animation-delay: 0.6s; }
 .side-student:nth-child(7) { animation-delay: 0.7s; }
 .side-student:nth-child(8) { animation-delay: 0.8s; }
+.side-student:nth-child(9) { animation-delay: 0.9s; }
+.side-student:nth-child(10) { animation-delay: 1.0s; }
+.side-student:nth-child(11) { animation-delay: 1.1s; }
+.side-student:nth-child(12) { animation-delay: 1.2s; }
 
-.side-student.rank-1 {
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.25) 0%, rgba(245, 158, 11, 0.18) 50%, rgba(234, 179, 8, 0.15) 100%);
-  border-color: rgba(251, 191, 36, 0.5);
-  border-width: 2px;
-  box-shadow: var(--shadow-rank-1), 0 0 20px rgba(251, 191, 36, 0.2);
-  transform: scale(1.02);
-  animation: card-float-gold 4s ease-in-out infinite, card-glow-breathe-gold 3s ease-in-out infinite;
-}
-
-.side-student.rank-2 {
-  background: linear-gradient(135deg, rgba(148, 163, 184, 0.22) 0%, rgba(100, 116, 139, 0.16) 50%, rgba(71, 85, 105, 0.12) 100%);
-  border-color: rgba(148, 163, 184, 0.45);
-  border-width: 2px;
-  box-shadow: var(--shadow-rank-2), 0 0 15px rgba(148, 163, 184, 0.15);
-  transform: scale(1.01);
-  animation: card-float-silver 4.2s ease-in-out infinite, card-glow-breathe-silver 3.2s ease-in-out infinite;
-}
-
-.side-student.rank-3 {
-  background: linear-gradient(135deg, rgba(217, 119, 6, 0.22) 0%, rgba(180, 83, 9, 0.16) 50%, rgba(154, 52, 18, 0.12) 100%);
-  border-color: rgba(217, 119, 6, 0.45);
-  border-width: 2px;
-  box-shadow: var(--shadow-rank-3), 0 0 15px rgba(217, 119, 6, 0.15);
-  transform: scale(1.01);
-  animation: card-float-bronze 4.4s ease-in-out infinite, card-glow-breathe-bronze 3.4s ease-in-out infinite;
-}
 
 .side-student.is-placeholder {
   opacity: 0.6;
@@ -1392,7 +1707,7 @@ html.dark .ranking-label {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   flex: 1;
   justify-content: flex-start;
   position: relative;
@@ -1401,18 +1716,19 @@ html.dark .ranking-label {
   overflow: hidden;
 }
 
-.side-avatar-wrapper {
+.side-avatar-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 4px;
+  gap: 7px;
+  margin-bottom: 0;
 }
 
 .side-avatar {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   background: linear-gradient(135deg, #667eea, #764ba2);
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1465,7 +1781,7 @@ html.dark .ranking-label {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 8px;
   position: relative;
   z-index: 0;
 }
@@ -1476,107 +1792,56 @@ html.dark .ranking-label {
   z-index: 0;
 }
 
-.side-rank-badge {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.side-student.rank-1 .side-rank-badge {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-  box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), 0 0 20px rgba(251, 191, 36, 0.3);
-  animation: rank-badge-glow-gold 3s ease-in-out infinite;
-}
-
-.side-student.rank-2 .side-rank-badge {
-  background: linear-gradient(135deg, #94a3b8 0%, #64748b 50%, #475569 100%);
-  box-shadow: 0 4px 16px rgba(148, 163, 184, 0.4), 0 0 20px rgba(148, 163, 184, 0.3);
-  animation: rank-badge-glow-silver 3.2s ease-in-out infinite;
-}
-
-.side-student.rank-3 .side-rank-badge {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #92400e 100%);
-  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.4), 0 0 20px rgba(217, 119, 6, 0.3);
-  animation: rank-badge-glow-bronze 3.4s ease-in-out infinite;
-}
-
-.side-rank-badge .rank-number {
-  font-size: 24px;
-  font-weight: 900;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  line-height: 1;
-}
 
 .side-name {
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--text-primary);
   word-break: break-word;
-  line-height: 1.4;
-  letter-spacing: 0.2px;
+  line-height: 1.3;
+  letter-spacing: 0.1px;
   flex: 1;
   min-width: 0;
 }
 
-.side-student.rank-1 .side-name {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 800;
-}
 
-.side-student.rank-2 .side-name {
-  background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 800;
-}
-
-.side-student.rank-3 .side-name {
-  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 800;
+.side-content {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex: 1;
+  min-width: 0;
 }
 
 .side-meta {
   display: flex;
   flex-direction: row;
   gap: 4px;
-  font-size: 12px;
+  font-size: 10px;
   color: var(--text-primary);
   min-height: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .side-meta .meta-line {
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 2px 4px;
+  border-radius: 4px;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.08) 100%);
   border: 1px solid rgba(102, 126, 234, 0.2);
   line-height: 1.3;
   cursor: default;
   width: fit-content;
-  max-width: 100%;
+  flex: 0 0 auto;
   box-sizing: border-box;
   font-weight: 500;
   box-shadow: var(--shadow-primary);
   position: relative;
-  font-size: 11px;
+  font-size: 10px;
   white-space: nowrap;
+  text-align: center;
 }
 
 
@@ -1589,17 +1854,90 @@ html.dark .ranking-label {
 
 .side-meta .meta-line-second {
   min-height: 0;
-  font-size: 11px;
+  font-size: 9px;
   color: var(--text-secondary);
+}
+
+.unified-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border-bottom: none;
+}
+
+.unified-legend .legend-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.unified-legend .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.unified-legend .legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.unified-legend .legend-club-member {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%);
+}
+
+.unified-legend .legend-normal-member {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.6) 100%);
+}
+
+.unified-legend .legend-core-member {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.8) 0%, rgba(251, 191, 36, 0.6) 100%);
+}
+
+.unified-legend .legend-admin {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.6) 100%);
+}
+
+.unified-legend .legend-total {
+  background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+}
+
+.unified-legend .legend-signin {
+  background: linear-gradient(135deg, #10b981, #059669, #047857);
+}
+
+.unified-legend .legend-activity {
+  background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+}
+
+.unified-legend .legend-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.unified-legend .hint-icon {
+  font-size: 14px;
+  color: var(--primary-color);
+  flex-shrink: 0;
 }
 
 
 .side-points {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  margin-top: 4px;
-  padding-top: 6px;
+  gap: 3px;
+  padding-top: 7px;
   border-top: 1px solid rgba(102, 126, 234, 0.1);
   flex-shrink: 0;
 }
@@ -1608,63 +1946,96 @@ html.dark .ranking-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
+.points-formula {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
 .points-total {
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 800;
+  letter-spacing: 0.2px;
+  flex-shrink: 0;
+}
+
+.points-equals {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
+.points-plus {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
+.points-total-main {
   color: var(--primary-color);
   background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
   text-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
   animation: points-gradient-flow 3s ease infinite;
 }
 
-.side-student.rank-1 .points-total {
-  font-size: 22px;
-  background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
-  animation: points-gradient-flow 3s ease infinite;
-}
-
-.side-student.rank-2 .points-total {
-  font-size: 21px;
-  background: linear-gradient(135deg, #94a3b8, #64748b, #475569);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 8px rgba(148, 163, 184, 0.4);
-  animation: points-gradient-flow 3.2s ease infinite;
-}
-
-.side-student.rank-3 .points-total {
-  font-size: 21px;
-  background: linear-gradient(135deg, #d97706, #b45309, #92400e);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 2px 8px rgba(217, 119, 6, 0.4);
-  animation: points-gradient-flow 3.4s ease infinite;
-}
 
 .points-detail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.points-number {
+  font-weight: 700;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.points-number.points-signin {
+  color: #10b981;
+  background: linear-gradient(135deg, #10b981, #059669, #047857);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.points-number.points-activity {
+  color: #f59e0b;
+  background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.points-separator {
+  color: var(--text-secondary);
+  opacity: 0.5;
+  font-size: 10px;
+}
+
+.points-placeholder {
   font-size: 11px;
   color: var(--text-secondary);
-  opacity: 0.8;
-  line-height: 1.4;
+  opacity: 0.6;
 }
 
 .side-records {
@@ -1965,11 +2336,10 @@ html.dark .ranking-label {
 }
 
 .view-records-btn {
-  font-size: 12px;
-  padding: 8px 16px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
   flex-shrink: 0;
-  border-radius: 8px;
-  font-weight: 500;
   backdrop-filter: blur(10px);
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
   border: 1px solid rgba(102, 126, 234, 0.35);
@@ -1979,18 +2349,13 @@ html.dark .ranking-label {
 .view-records-btn :deep(.el-button__inner) {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   color: var(--primary-color);
 }
 
 .view-records-btn .el-icon {
-  margin-right: 6px;
-  font-size: 14px;
+  font-size: 12px;
   color: var(--primary-color);
-}
-
-.view-records-btn .el-icon {
-  margin-right: 4px;
 }
 
 .records-dialog :deep(.el-dialog__body) {
@@ -2150,86 +2515,6 @@ html.dark .ranking-label {
   }
 }
 
-@keyframes rank-badge-glow-gold {
-  0%, 100% {
-    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4), 0 0 20px rgba(251, 191, 36, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.6), 0 0 30px rgba(251, 191, 36, 0.5);
-  }
-}
-
-@keyframes rank-badge-glow-silver {
-  0%, 100% {
-    box-shadow: 0 4px 16px rgba(148, 163, 184, 0.4), 0 0 20px rgba(148, 163, 184, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(148, 163, 184, 0.6), 0 0 30px rgba(148, 163, 184, 0.5);
-  }
-}
-
-@keyframes rank-badge-glow-bronze {
-  0%, 100% {
-    box-shadow: 0 4px 16px rgba(217, 119, 6, 0.4), 0 0 20px rgba(217, 119, 6, 0.3);
-  }
-  50% {
-    box-shadow: 0 4px 20px rgba(217, 119, 6, 0.6), 0 0 30px rgba(217, 119, 6, 0.5);
-  }
-}
-
-@keyframes card-float-gold {
-  0%, 100% {
-    transform: scale(1.02) translateY(0);
-  }
-  50% {
-    transform: scale(1.02) translateY(-4px);
-  }
-}
-
-@keyframes card-float-silver {
-  0%, 100% {
-    transform: scale(1.01) translateY(0);
-  }
-  50% {
-    transform: scale(1.01) translateY(-3px);
-  }
-}
-
-@keyframes card-float-bronze {
-  0%, 100% {
-    transform: scale(1.01) translateY(0);
-  }
-  50% {
-    transform: scale(1.01) translateY(-3px);
-  }
-}
-
-@keyframes card-glow-breathe-gold {
-  0%, 100% {
-    box-shadow: var(--shadow-rank-1), 0 0 20px rgba(251, 191, 36, 0.2);
-  }
-  50% {
-    box-shadow: var(--shadow-rank-1), 0 0 30px rgba(251, 191, 36, 0.4);
-  }
-}
-
-@keyframes card-glow-breathe-silver {
-  0%, 100% {
-    box-shadow: var(--shadow-rank-2), 0 0 15px rgba(148, 163, 184, 0.15);
-  }
-  50% {
-    box-shadow: var(--shadow-rank-2), 0 0 25px rgba(148, 163, 184, 0.3);
-  }
-}
-
-@keyframes card-glow-breathe-bronze {
-  0%, 100% {
-    box-shadow: var(--shadow-rank-3), 0 0 15px rgba(217, 119, 6, 0.15);
-  }
-  50% {
-    box-shadow: var(--shadow-rank-3), 0 0 25px rgba(217, 119, 6, 0.3);
-  }
-}
 
 @keyframes points-gradient-flow {
   0% {
