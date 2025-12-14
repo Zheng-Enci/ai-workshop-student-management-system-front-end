@@ -1,5 +1,64 @@
 <template>
-  <div v-cloak v-if="!isDataLoaded" class="admin-loading">
+  <!-- 身份验证界面 -->
+  <div v-if="!isAuthenticated" class="auth-section">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-icon-container">
+          <el-icon class="auth-icon"><Key /></el-icon>
+          <div class="icon-ring"></div>
+        </div>
+        <h2>身份验证</h2>
+        <p>请输入特殊密码以访问管理员功能</p>
+        <div class="auth-status-indicator">
+          <div class="status-icon">
+            <div class="status-dot"></div>
+            <div class="status-pulse"></div>
+          </div>
+          <span class="status-text">等待验证</span>
+          <div class="status-animation">
+            <div class="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="auth-form">
+        <div class="input-container">
+          <el-input
+            v-model="specialPassword"
+            type="password"
+            placeholder="请输入特殊密码"
+            show-password
+            size="large"
+            @keyup.enter="authenticate"
+            class="password-input"
+          >
+            <template #prefix>
+              <el-icon><Lock /></el-icon>
+            </template>
+          </el-input>
+        </div>
+        <el-button 
+          type="primary" 
+          size="large" 
+          @click="authenticate"
+          :loading="authLoading"
+          class="auth-button"
+        >
+          <span>验证身份</span>
+        </el-button>
+      </div>
+      <div v-if="authError" class="error-message">
+        <el-icon><Warning /></el-icon>
+        {{ authError }}
+      </div>
+    </div>
+  </div>
+
+  <!-- 加载界面 -->
+  <div v-else-if="!isDataLoaded" class="admin-loading">
     <div class="loading-container">
       <div class="loading-spinner">
         <div class="spinner-ring"></div>
@@ -14,7 +73,8 @@
     </div>
   </div>
   
-  <div v-cloak v-else class="admin-console">
+  <!-- 管理控制台界面 -->
+  <div v-else class="admin-console">
     <div class="admin-stats">
       <div class="stat-card">
         <div class="stat-icon">
@@ -914,12 +974,11 @@ import 'element-plus/theme-chalk/el-date-picker.css'
 import 'element-plus/theme-chalk/el-date-picker-panel.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning, Document, Loading, Box } from '@element-plus/icons-vue'
+import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning, Document, Loading, Box, Key, Lock } from '@element-plus/icons-vue'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin } from '@/api/student'
 import { getStudentAttendanceCount, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
 import { getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/attendance'
 import { createPointsRecord, getAllAdjustRecordsByStudentInfoId } from '@/api/points'
-import { useRouter } from 'vue-router'
 import * as echarts from 'echarts/core'
 import { BarChart, LineChart, HeatmapChart } from 'echarts/charts'
 import {
@@ -943,9 +1002,12 @@ echarts.use([
 ])
 import { useAdminStore } from '@/stores/admin'
 
-const router = useRouter()
 const adminStore = useAdminStore()
 
+const isAuthenticated = ref(false)
+const specialPassword = ref('')
+const authError = ref('')
+const authLoading = ref(false)
 const isLoading = ref(false)
 const isDataLoaded = ref(false)
 const loadingProgress = ref(0)
@@ -1226,7 +1288,8 @@ const changeLevel = async (studentId, newLevel) => {
   const adminPassword = adminStore.getAdminPassword()
   if (!adminPassword) {
     ElMessage.error('身份验证已过期，请重新登录')
-    router.push('/admin/auth')
+    isAuthenticated.value = false
+    adminStore.clearAdminPassword()
     return
   }
 
@@ -1277,7 +1340,8 @@ const changeAdmin = async (studentId, newAdminId) => {
   const adminPassword = adminStore.getAdminPassword()
   if (!adminPassword) {
     ElMessage.error('身份验证已过期，请重新登录')
-    router.push('/admin/auth')
+    isAuthenticated.value = false
+    adminStore.clearAdminPassword()
     return
   }
 
@@ -1394,7 +1458,8 @@ const refreshData = async () => {
   const adminPassword = adminStore.getAdminPassword()
   if (!adminPassword) {
     ElMessage.error('身份验证已过期，请重新登录')
-    router.push('/admin/auth')
+    isAuthenticated.value = false
+    adminStore.clearAdminPassword()
     return
   }
 
@@ -1448,7 +1513,8 @@ const confirmEdit = async () => {
     const adminPassword = adminStore.getAdminPassword()
     if (!adminPassword) {
       ElMessage.error('身份验证已过期，请重新登录')
-      router.push('/admin/auth')
+      isAuthenticated.value = false
+      adminStore.clearAdminPassword()
       return
     }
 
@@ -2111,9 +2177,45 @@ const openTrendDialog = async (student) => {
   }
 }
 
+const authenticate = async () => {
+  if (!specialPassword.value.trim()) {
+    authError.value = '请输入特殊密码'
+    return
+  }
+
+  authLoading.value = true
+  authError.value = ''
+
+  try {
+    const response = await getAllStudentsWithSpecialPassword(specialPassword.value)
+    
+    if (response.code === 200) {
+      adminStore.setAdminPassword(specialPassword.value)
+      ElMessage.success('身份验证成功')
+      isAuthenticated.value = true
+      // 验证成功后加载数据
+      await loadAllData(specialPassword.value)
+    } else {
+      authError.value = '密码错误，请重新输入'
+    }
+  } catch (error) {
+    if (error.message === '特殊密码错误') {
+      authError.value = '密码错误，请重新输入'
+    } else {
+      authError.value = '验证失败，请重试'
+    }
+  } finally {
+    authLoading.value = false
+  }
+}
+
 const logout = () => {
   adminStore.clearAdminPassword()
-  router.push('/admin/auth')
+  isAuthenticated.value = false
+  isDataLoaded.value = false
+  specialPassword.value = ''
+  authError.value = ''
+  students.value = []
   ElMessage.success('已退出管理员模式')
 }
 
@@ -2376,7 +2478,8 @@ const submitMakeup = async () => {
   const adminPassword = adminStore.getAdminPassword()
   if (!adminPassword) {
     ElMessage.error('身份验证已过期，请重新登录')
-    router.push('/admin/auth')
+    isAuthenticated.value = false
+    adminStore.clearAdminPassword()
     return
   }
   makeupLoading.value = true
@@ -2455,7 +2558,8 @@ const confirmPoints = async () => {
     const adminPassword = adminStore.getAdminPassword()
     if (!adminPassword) {
       ElMessage.error('身份验证已过期，请重新登录')
-      router.push('/admin/auth')
+      isAuthenticated.value = false
+      adminStore.clearAdminPassword()
       return
     }
 
@@ -2553,17 +2657,19 @@ onMounted(async () => {
   document.title = '超级管理员控制台 - AI坊学生管理系统'
   
   const adminPassword = adminStore.getAdminPassword()
-  if (!adminPassword) {
-    ElMessage.error('身份验证已过期，请重新登录')
-    router.push('/admin/auth')
-    return
-  }
-
-  try {
-    await loadAllData(adminPassword)
-  } catch (error) {
-    ElMessage.error('加载数据失败：' + error.message)
-    router.push('/admin/auth')
+  if (adminPassword) {
+    // 如果已有密码，直接验证并加载数据
+    isAuthenticated.value = true
+    try {
+      await loadAllData(adminPassword)
+    } catch (error) {
+      ElMessage.error('加载数据失败：' + error.message)
+      isAuthenticated.value = false
+      adminStore.clearAdminPassword()
+    }
+  } else {
+    // 没有密码，显示身份验证界面
+    isAuthenticated.value = false
   }
 })
 
@@ -2588,7 +2694,8 @@ const loadAllData = async (adminPassword) => {
     const response = await getAllStudentsWithSpecialPassword(adminPassword)
     if (response.code !== 200) {
       ElMessage.error('身份验证失败，请重新登录')
-      router.push('/admin/auth')
+      isAuthenticated.value = false
+      adminStore.clearAdminPassword()
       return
     }
     
@@ -2615,7 +2722,8 @@ const loadAllData = async (adminPassword) => {
     
   } catch (error) {
     ElMessage.error('加载数据失败：' + error.message)
-    router.push('/admin/auth')
+    isAuthenticated.value = false
+    adminStore.clearAdminPassword()
   }
 }
 </script>
@@ -2641,6 +2749,20 @@ const loadAllData = async (adminPassword) => {
   --admin-shadow-hover: rgba(0, 0, 0, 0.15);
   --admin-glass-bg: rgba(255, 255, 255, 0.95);
   --admin-glass-border: rgba(255, 255, 255, 0.3);
+  
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --primary-gradient: linear-gradient(135deg, #667eea, #764ba2);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-hover: rgba(0, 0, 0, 0.15);
+  --border-color: #e2e8f0;
+  --bg-primary: #ffffff;
+  --text-primary: #1a202c;
+  --text-secondary: #2d3748;
+  --text-tertiary: #4a5568;
+  --danger-color: #f56c6c;
 }
 
 html.dark {
@@ -2655,7 +2777,315 @@ html.dark {
   --admin-shadow-hover: rgba(0, 0, 0, 0.6);
   --admin-glass-bg: rgba(15, 23, 42, 0.8);
   --admin-glass-border: rgba(255, 255, 255, 0.1);
+  
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --bg-primary: #0f172a;
+  --text-primary: #e2e8f0;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --border-color: #334155;
+  --danger-color: #f56c6c;
 }
+
+/* 身份验证界面样式 */
+.auth-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 200px);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-section :deep(.el-message--success) {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.auth-section :deep(.el-message--success .el-message__content) {
+  color: white !important;
+}
+
+.auth-section :deep(.el-message--success .el-icon) {
+  color: white !important;
+}
+
+.auth-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 25px 50px var(--shadow-color);
+  border: 1px solid var(--glass-border);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 32px 64px var(--shadow-hover);
+}
+
+.auth-icon-container {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.auth-icon {
+  font-size: 56px;
+  color: var(--primary-color);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.auth-icon:hover {
+  transform: scale(1.1);
+  color: var(--secondary-color);
+}
+
+.icon-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.auth-icon-container:hover .icon-ring {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.auth-status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 16px 24px;
+  background: var(--glass-bg);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.auth-status-indicator:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--shadow-hover);
+}
+
+.status-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+.status-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+.status-text {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.status-animation {
+  display: flex;
+  align-items: center;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.loading-dots span {
+  width: 6px;
+  height: 6px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  animation: loading-dots 1.4s ease-in-out infinite both;
+}
+
+.loading-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes status-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes loading-dots {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.input-container {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.password-input {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.password-input :deep(.el-input__wrapper) {
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-primary);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.password-input :deep(.el-input__wrapper:hover) {
+  border-color: var(--primary-color);
+  box-shadow: 0 6px 20px var(--shadow-color);
+}
+
+.password-input :deep(.el-input__wrapper.is-focus) {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--shadow-color);
+}
+
+.password-input :deep(.el-input__inner) {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.password-input :deep(.el-input__inner::placeholder) {
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.password-input :deep(.el-input__prefix) {
+  color: var(--text-secondary);
+}
+
+.auth-button {
+  position: relative;
+  overflow: hidden;
+  background: var(--primary-gradient);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px var(--shadow-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: white;
+  font-weight: 600;
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.auth-button:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px var(--shadow-hover);
+  color: white;
+}
+
+.auth-button:active {
+  transform: translateY(0);
+  color: white;
+}
+
+.auth-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  letter-spacing: -0.5px;
+}
+
+.auth-header p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--danger-color);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(245, 108, 108, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 108, 108, 0.2);
+}
+
 .admin-loading {
   position: fixed;
   top: 0;
@@ -3425,111 +3855,12 @@ html.dark .option-icon {
   color: white;
 }
 
-@media (max-width: 1200px) {
-  .students-cards-container {
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    gap: 16px;
-  }
-}
-
-@media (max-width: 768px) {
-  .admin-console {
-    padding: 20px;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .header-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .search-input {
-    width: 100%;
-  }
-  
-  .students-cards-container {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin: 0 -20px;
-  }
-  
-  .student-card {
-    margin: 0 20px;
-    padding: 16px;
-    border-radius: 16px;
-  }
-  
-  .student-main-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  
-  .student-primary-info {
-    width: 100%;
-  }
-  
-  .attendance-count {
-    align-self: flex-end;
-  }
-  
-  .student-detail-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  
-  .student-details {
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  
-  .student-actions {
-    width: 100%;
-    justify-content: flex-end;
-  }
-  
-  .student-management-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-  
-  .level-management,
-  .admin-management {
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  
-  .edit-action {
-    width: 100%;
-  }
-  
-  .edit-btn {
-    width: 100%;
-  }
-  
-  .table-footer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .admin-footer {
-    padding: 15px 20px;
-  }
-  
-  .footer-content {
-    flex-direction: column;
-    text-align: center;
-  }
+.admin-footer {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 40px;
+  margin-top: 40px;
 }
 
 .edit-dialog {
@@ -4616,46 +4947,6 @@ html.dark .form-tip {
   color: #6B7280;
 }
 
-@media (max-width: 768px) {
-  .record-content {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 0 16px 16px;
-  }
-  
-  .attendance-time {
-    align-self: flex-end;
-    margin-top: 8px;
-  }
-  
-  .time-period-indicator {
-    padding: 10px 16px 6px;
-    font-size: 11px;
-  }
-  
-  .student-avatar {
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-  
-  .student-name {
-    font-size: 15px;
-  }
-  
-  .student-id {
-    font-size: 12px;
-  }
-  
-  .time-text {
-    font-size: 12px;
-  }
-  
-  .attendance-record-item {
-    margin-bottom: 12px;
-  }
-}
 
 html.dark .attendance-record-item {
   background: var(--bg-secondary);
@@ -5260,14 +5551,6 @@ html.dark .time-slot-admin.signed .time-label-admin {
   flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
-  .time-slot-divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #d1d5db, transparent);
-    margin: 12px 0;
-  }
-}
 
 .hour-btn {
   min-width: 80px;

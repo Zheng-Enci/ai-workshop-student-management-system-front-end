@@ -86,18 +86,7 @@ const routes = [
             {
                 path: '',
                 name: 'AdminDefault',
-                redirect: '/admin/auth'
-            },
-            {
-                path: 'auth',
-                name: 'AdminAuth',
-                component: () => import('../views/AdminPage/AdminAuthPage.vue'),
-                meta: { requiresAuth: false }
-            },
-            {
-                path: 'console',
-                name: 'AdminConsole',
-                component: () => import('../views/AdminPage/AdminConsolePage.vue'),
+                component: () => import('../views/AdminPage/AdminPageDesktop.vue'),
                 meta: { requiresAuth: false }
             }
         ]
