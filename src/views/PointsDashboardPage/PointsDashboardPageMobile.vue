@@ -1217,7 +1217,7 @@ html.dark .slogan-img {
 .title-section .main-title {
   font-size: 24px;
   font-weight: 800;
-  margin: 0;
+  margin: 8px 0 0 0;
   padding: 0;
   line-height: 1.2;
   background: linear-gradient(135deg, #667eea, #764ba2);
