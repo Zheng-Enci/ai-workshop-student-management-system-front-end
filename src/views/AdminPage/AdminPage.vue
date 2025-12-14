@@ -29,10 +29,14 @@ const detectDeviceType = () => {
 
 const redirectToDevicePage = () => {
   // 执行设备检测（符合项目要求，入口文件需要做设备检测）
-  detectDeviceType()
+  const deviceType = detectDeviceType()
   
-  // 管理员页面只有电脑端，所以统一跳转到电脑端
-  router.replace('/admin/desktop')
+  // 根据设备类型跳转到对应的页面
+  if (deviceType === 'mobile') {
+    router.replace('/admin/mobile')
+  } else {
+    router.replace('/admin/desktop')
+  }
 }
 
 onMounted(() => {

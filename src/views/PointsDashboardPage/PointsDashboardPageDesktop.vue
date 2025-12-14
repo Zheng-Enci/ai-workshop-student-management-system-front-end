@@ -1292,7 +1292,7 @@ const handleRecordsDialogClose = () => {
   }
   
   // 立即清空 allRecords，避免 v-for 在关闭动画过程中重新渲染
-  allRecords.value = []
+    allRecords.value = []
   
   // 延迟清空其他数据，确保弹窗完全关闭后再清空
   setTimeout(() => {

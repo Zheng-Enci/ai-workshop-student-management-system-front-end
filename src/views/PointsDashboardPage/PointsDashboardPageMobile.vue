@@ -228,17 +228,17 @@
                         <div class="points-formula" v-else>
                           <span class="points-placeholder">待公布</span>
                         </div>
-                        <el-button
-                          v-if="!student.placeholder"
-                          size="small" 
-                          type="primary" 
-                          plain 
-                          @click="openRecordsDialog(student)"
-                          class="view-records-btn"
-                          circle
-                        >
-                          <el-icon><View /></el-icon>
-                        </el-button>
+                          <el-button 
+                            v-if="!student.placeholder"
+                            size="small" 
+                            type="primary" 
+                            plain 
+                            @click="openRecordsDialog(student)"
+                            class="view-records-btn"
+                            circle
+                          >
+                            <el-icon><View /></el-icon>
+                          </el-button>
                       </div>
                     </div>
                   </div>

@@ -84,6 +84,12 @@ const routes = [
         meta: { requiresAuth: false }
     },
     {
+        path: '/admin/mobile',
+        name: 'AdminMobile',
+        component: () => import('../views/AdminPage/AdminPageMobile.vue'),
+        meta: { requiresAuth: false }
+    },
+    {
         path: '/admin/desktop',
         name: 'AdminDesktop',
         component: () => import('../views/AdminPage/AdminPageDesktop.vue'),
