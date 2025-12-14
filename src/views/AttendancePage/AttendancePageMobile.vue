@@ -18,7 +18,7 @@
       
       <div class="attendance-header-mobile">
         <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo-mobile" @click="toggleTheme" title="切换主题模式">
-        <div class="user-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }">
+        <div class="user-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }" @click="handleAvatarClick">
           <img v-if="hasAvatar && avatarUrl" :src="avatarUrl" alt="用户头像" class="avatar-image-mobile" />
           <el-icon v-else size="24" class="avatar-icon-mobile"><User /></el-icon>
           <div v-if="avatarLoading" class="avatar-loading-mobile">
@@ -158,11 +158,14 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { ElMessage, ElButton, ElIcon, ElDialog, ElInput } from 'element-plus'
+import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-popper.css'
+import 'element-plus/theme-chalk/el-overlay.css'
 import { Check, Loading, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor, User } from '@element-plus/icons-vue'
 import { signIn } from '@/api/attendance'
 import { useUserStore } from '@/stores/user'
@@ -192,10 +195,24 @@ const attendanceStatus = ref({
 const hasAvatar = ref(false)
 const avatarUrl = ref(null)
 const avatarLoading = ref(false)
+const avatarTipShown = ref(false)
 
 const showDefaultAvatar = () => {
   hasAvatar.value = false
   avatarUrl.value = null
+  // 提示用户上传头像（只显示一次）
+  if (!avatarTipShown.value) {
+    ElMessage.info({
+      message: '您还没有上传头像，点击头像即可上传',
+      duration: 4000,
+      showClose: true
+    })
+    avatarTipShown.value = true
+  }
+}
+
+const handleAvatarClick = () => {
+  router.push('/profile')
 }
 
 const loadUserAvatar = async () => {
@@ -653,8 +670,10 @@ const loadStudentLevel = () => {
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .user-avatar-mobile.has-avatar {
@@ -662,7 +681,7 @@ const loadStudentLevel = () => {
 }
 
 .user-avatar-mobile.no-avatar {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: transparent;
 }
 
 .user-avatar-mobile .avatar-image-mobile {
@@ -673,7 +692,7 @@ const loadStudentLevel = () => {
 }
 
 .user-avatar-mobile .avatar-icon-mobile {
-  color: white;
+  color: var(--text-primary);
 }
 
 .user-avatar-mobile .avatar-loading-mobile {
@@ -734,7 +753,8 @@ const loadStudentLevel = () => {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 0;
-  box-shadow: 0 3px 12px var(--shadow-color);
+  background: transparent;
+  box-shadow: none;
 }
 
 .logo-mobile:hover {
