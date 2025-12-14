@@ -1246,6 +1246,14 @@ const openRecordsDialog = async (student) => {
   // 重置关闭状态
   isClosingRecordsDialog.value = false
   
+  // 恢复遮罩层样式，确保可以正常显示
+  const dialogWrapper = document.querySelector('.records-dialog-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = ''
+    dialogWrapper.style.visibility = ''
+    dialogWrapper.style.opacity = ''
+  }
+  
   // 设置当前学生
   currentStudent.value = student
   recordsDialogVisible.value = true
@@ -1275,14 +1283,19 @@ const handleRecordsDialogClose = () => {
   if (isClosingRecordsDialog.value) return
   isClosingRecordsDialog.value = true
   
-  // 先关闭弹窗，避免在弹窗关闭过程中触发响应式更新
-  // 注意：这里不需要手动设置 recordsDialogVisible.value = false
-  // 因为 @close 事件触发时，v-model 已经自动设置为 false
+  // 先直接操作DOM隐藏遮罩层，避免闪烁
+  const dialogWrapper = document.querySelector('.records-dialog-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
   
-  // 使用 setTimeout(0) 延迟清空数据，确保弹窗完全关闭后再清空
-  // 这样可以避免在弹窗关闭过程中触发响应式更新，造成闪烁
+  // 立即清空 allRecords，避免 v-for 在关闭动画过程中重新渲染
+  allRecords.value = []
+  
+  // 延迟清空其他数据，确保弹窗完全关闭后再清空
   setTimeout(() => {
-    allRecords.value = []
     recordsLoading.value = false
     currentStudent.value = null
     isClosingRecordsDialog.value = false
@@ -2499,6 +2512,8 @@ html.dark .ranking-label {
   align-items: center !important;
   justify-content: center !important;
   z-index: 3000 !important;
+  transition: none !important;  /* 禁用过渡动画 */
+  animation: none !important;   /* 禁用动画 */
 }
 
 :deep(.records-dialog-overlay .el-overlay-dialog) {
@@ -2508,6 +2523,8 @@ html.dark .ranking-label {
   align-items: center !important;
   justify-content: center !important;
   z-index: 3001 !important;
+  transition: none !important;  /* 禁用过渡动画 */
+  animation: none !important;   /* 禁用动画 */
 }
 
 .records-loading,
