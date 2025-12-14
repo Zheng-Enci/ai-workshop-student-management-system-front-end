@@ -170,8 +170,9 @@
       <div class="students-cards-container">
         <div class="student-card" v-for="student in currentLevelStudents" :key="student.studentId">
           <div class="student-main-row">
-            <div class="student-avatar">
-              {{ student.name.charAt(0) }}
+            <div class="student-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
+              <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
+              <span v-else class="avatar-text">{{ student.name.charAt(0) }}</span>
             </div>
             <div class="student-primary-info">
               <div class="student-name">{{ student.name }}</div>
@@ -993,7 +994,7 @@ import 'element-plus/theme-chalk/el-date-picker-panel.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, UserFilled, Clock, Warning, Document, Loading, Box, Key, Lock } from '@element-plus/icons-vue'
-import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin } from '@/api/student'
+import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, updateStudentWithSpecialPassword, getAdminInfo, assignStudentToAdmin, getAvatarUrl } from '@/api/student'
 import { getStudentAttendanceCount, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
 import { getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/attendance'
 import { createPointsRecord, getAllAdjustRecordsByStudentInfoId } from '@/api/points'
@@ -1454,6 +1455,58 @@ const loadStudentAdmins = async () => {
   } catch (error) {
     ElMessage.warning('部分学生管理员信息加载失败，请刷新重试')
   }
+}
+
+/**
+ * 加载学生头像
+ */
+const loadStudentAvatars = async () => {
+  if (!students.value.length) return
+
+  try {
+    const avatarPromises = students.value.map(async (student) => {
+      // 使用学生表主键ID（id字段）获取头像
+      const studentInfoId = student.id
+      if (!studentInfoId) {
+        student.hasAvatar = false
+        student.avatarUrl = null
+        return
+      }
+
+      const avatarUrlString = getAvatarUrl(studentInfoId)
+      if (avatarUrlString) {
+        // 添加时间戳参数，强制浏览器重新加载图片（绕过缓存）
+        const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
+        // 先设置URL，让浏览器尝试加载
+        student.avatarUrl = avatarUrlWithTimestamp
+        student.hasAvatar = true
+        // 使用Image对象验证头像是否存在
+        const img = new Image()
+        img.onload = () => {
+          student.hasAvatar = true
+        }
+        img.onerror = () => {
+          student.hasAvatar = false
+          student.avatarUrl = null
+        }
+        img.src = avatarUrlWithTimestamp
+      } else {
+        student.hasAvatar = false
+        student.avatarUrl = null
+      }
+    })
+    await Promise.all(avatarPromises)
+  } catch (error) {
+    console.error('加载学生头像失败:', error)
+  }
+}
+
+/**
+ * 处理头像加载错误
+ */
+const handleAvatarError = (student) => {
+  student.hasAvatar = false
+  student.avatarUrl = null
 }
 
 const loadStatistics = async () => {
@@ -2703,7 +2756,7 @@ watch(calendarValue, async () => {
 })
 
 const loadAllData = async (adminPassword) => {
-  const totalSteps = 5
+  const totalSteps = 6
   
   const updateProgress = (step, status) => {
     loadingProgress.value = (step / totalSteps) * 100
@@ -2735,7 +2788,10 @@ const loadAllData = async (adminPassword) => {
     updateProgress(5, '正在加载管理员信息...')
     await loadStudentAdmins()
     
-    updateProgress(5, '数据加载完成！')
+    updateProgress(6, '正在加载学生头像...')
+    await loadStudentAvatars()
+    
+    updateProgress(6, '数据加载完成！')
     
     setTimeout(() => {
       isDataLoaded.value = true
@@ -3489,6 +3545,21 @@ html.dark {
   box-shadow: 0 6px 20px var(--admin-shadow-color);
   border: 2px solid var(--admin-glass-border);
   transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.student-avatar .avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.student-avatar .avatar-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
 }
 
 .student-card:hover .student-avatar {
