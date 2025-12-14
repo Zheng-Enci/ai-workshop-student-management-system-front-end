@@ -160,7 +160,7 @@
         </div>
 
         <div class="students-list-mobile">
-          <div class="student-item-mobile" v-for="student in paginatedStudents" :key="student.studentId">
+          <div class="student-item-mobile" v-for="student in currentLevelStudents" :key="student.studentId">
             <div class="student-main-info-mobile">
               <div class="student-avatar-mobile" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
                 <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image-mobile" @error="handleAvatarError(student)" />
@@ -260,17 +260,6 @@
           </div>
         </div>
 
-        <div class="pagination-mobile" v-if="currentLevelStudents.length > pageSize">
-          <el-pagination
-            v-model:current-page="currentPage"
-            v-model:page-size="pageSize"
-            :page-sizes="[10, 20, 50]"
-            :total="currentLevelStudents.length"
-            layout="prev, pager, next"
-            small
-            class="pagination-component-mobile"
-          />
-        </div>
       </div>
     </div>
 
@@ -403,7 +392,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { ElMessage, ElIcon, ElInput, ElButton, ElSelect, ElOption, ElPagination, ElDialog, ElForm, ElFormItem, ElInputNumber } from 'element-plus'
+import { ElMessage, ElIcon, ElInput, ElButton, ElSelect, ElOption, ElDialog, ElForm, ElFormItem, ElInputNumber } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -411,7 +400,6 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
 import 'element-plus/theme-chalk/base.css'
-import 'element-plus/theme-chalk/el-pagination.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
@@ -437,8 +425,6 @@ const loadingProgress = ref(0)
 const loadingStatus = ref('正在验证身份...')
 const students = ref([])
 const searchKeyword = ref('')
-const currentPage = ref(1)
-const pageSize = ref(10)
 const totalStudents = ref(0)
 const todayCount = ref(0)
 const monthlyCount = ref(0)
@@ -517,11 +503,6 @@ const currentLevelStudents = computed(() => {
   return getLevelStudents(currentLevel)
 })
 
-const paginatedStudents = computed(() => {
-  const start = (currentPage.value - 1) * pageSize.value
-  const end = start + pageSize.value
-  return currentLevelStudents.value.slice(start, end)
-})
 
 const loadStudentLevels = async () => {
   if (!students.value.length) return
@@ -1803,18 +1784,6 @@ onMounted(async () => {
   font-style: italic;
 }
 
-.pagination-mobile {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-}
-
-.pagination-component-mobile {
-  background: var(--admin-glass-bg);
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid var(--admin-glass-border);
-}
 
 .edit-dialog-mobile :deep(.el-dialog) {
   border-radius: 20px;
