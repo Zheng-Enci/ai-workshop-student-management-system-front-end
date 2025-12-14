@@ -5,7 +5,7 @@
         <el-button @click="goBack" class="back-btn" type="primary" :icon="ArrowLeft" circle></el-button>
         <img src="@/assets/AiWorkShop_icon.png" alt="AI坊" class="logo" @click="toggleTheme" title="切换主题模式">
         <div class="title-section">
-          <h1 class="main-title">在0与1之间，见证每一位创造者的光芒</h1>
+          <h1 class="main-title">在0与1之间，见证每一位创作者的光芒</h1>
         </div>
       </div>
       <div class="header-right">
@@ -211,7 +211,7 @@
                   <div class="side-avatar-section">
                     <div class="side-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
                       <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
-                      <el-icon v-else size="24" class="avatar-icon"><User /></el-icon>
+                      <el-icon v-else size="26" class="avatar-icon"><User /></el-icon>
                     </div>
                     <div class="side-name">
                       {{ student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`) }}
@@ -945,8 +945,10 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
       // 加载头像
       const avatarUrlString = getAvatarUrl(studentId)
       if (avatarUrlString) {
+        // 添加时间戳参数，强制浏览器重新加载图片（绕过缓存）
+        const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
         // 先设置URL，让浏览器尝试加载
-        item.avatarUrl = avatarUrlString
+        item.avatarUrl = avatarUrlWithTimestamp
         item.hasAvatar = true
         // 使用Image对象验证头像是否存在
         const img = new Image()
@@ -957,7 +959,7 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
           item.hasAvatar = false
           item.avatarUrl = null
         }
-        img.src = avatarUrlString
+        img.src = avatarUrlWithTimestamp
       } else {
         item.hasAvatar = false
         item.avatarUrl = null
@@ -1192,6 +1194,42 @@ const handleResize = () => {
   }
 }
 
+// 自动刷新定时器
+let refreshTimer = null
+
+// 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
+const refreshData = async () => {
+  // 总是刷新总积分排行榜（包含优秀成员数据）
+  await loadTotalRanking()
+  
+  // 根据当前激活的 tab 刷新对应的排行榜
+  if (activeTab.value === 'signIn') {
+    await loadSignInRanking()
+  } else if (activeTab.value === 'activity') {
+    await loadActivityRanking()
+  }
+}
+
+// 启动自动刷新
+const startAutoRefresh = () => {
+  // 清除已存在的定时器
+  if (refreshTimer) {
+    clearInterval(refreshTimer)
+  }
+  // 设置定时器，每隔60秒（60000毫秒）刷新一次
+  refreshTimer = setInterval(() => {
+    refreshData()
+  }, 60000)
+}
+
+// 停止自动刷新
+const stopAutoRefresh = () => {
+  if (refreshTimer) {
+    clearInterval(refreshTimer)
+    refreshTimer = null
+  }
+}
+
 watch(() => themeStore.isDarkMode, () => {
   setTimeout(() => {
     if (activeTab.value === 'signIn' && signInRanking.value.length > 0) {
@@ -1286,10 +1324,14 @@ onMounted(async () => {
   await loadTotalRanking()
   window.addEventListener('resize', handleResize)
   startQuoteRotation()
+  // 启动自动刷新
+  startAutoRefresh()
 })
 
 onUnmounted(() => {
   stopQuoteRotation()
+  // 停止自动刷新
+  stopAutoRefresh()
   if (signInChartInstance) {
     signInChartInstance.dispose()
   }
@@ -1376,7 +1418,7 @@ html.dark {
 .slogan {
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 16px 16px 8px 16px;
   margin-right: 8px;
 }
 
@@ -1401,7 +1443,7 @@ html.dark .slogan-img {
   width: 64px;
   height: 64px;
   cursor: pointer;
-  border-radius: 16px;
+  border-radius: 0;
 }
 
 .title-section {
@@ -1413,7 +1455,7 @@ html.dark .slogan-img {
 }
 
 .title-section .main-title {
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 800;
   margin: 0;
   padding: 0;
@@ -1552,7 +1594,7 @@ html.dark .ranking-label {
 
 .side-card-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 12px;
@@ -1608,7 +1650,7 @@ html.dark .ranking-label {
 }
 
 .side-card-title {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
   color: var(--text-primary);
   background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
@@ -1650,7 +1692,6 @@ html.dark .ranking-label {
   padding: 12px;
   border-radius: 10px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
-  border: 1.5px solid rgba(102, 126, 234, 0.2);
   box-shadow: var(--shadow-card), 0 2px 8px rgba(102, 126, 234, 0.1);
   position: relative;
   overflow: visible;
@@ -1659,24 +1700,55 @@ html.dark .ranking-label {
   animation: card-enter 0.6s ease-out backwards;
 }
 
+.side-student::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  padding: 1.5px;
+  background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(102, 126, 234, 0.08) 100%);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .side-student.level-club-member {
   background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.06) 100%);
-  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.side-student.level-club-member::before {
+  background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(59, 130, 246, 0.12) 100%);
 }
 
 .side-student.level-normal-member {
   background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%);
-  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.side-student.level-normal-member::before {
+  background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(34, 197, 94, 0.12) 100%);
 }
 
 .side-student.level-core-member {
   background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.06) 100%);
-  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.side-student.level-core-member::before {
+  background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(251, 191, 36, 0.12) 100%);
 }
 
 .side-student.level-admin {
   background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%);
-  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.side-student.level-admin::before {
+  background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(239, 68, 68, 0.12) 100%);
 }
 
 .side-student:nth-child(1) { animation-delay: 0.1s; }
@@ -1695,10 +1767,13 @@ html.dark .ranking-label {
 
 .side-student.is-placeholder {
   opacity: 0.6;
-  border-style: dashed;
-  border-color: rgba(102, 126, 234, 0.2);
   box-shadow: none;
   background: rgba(255, 255, 255, 0.02);
+  border: 1.5px dashed rgba(102, 126, 234, 0.2);
+}
+
+.side-student.is-placeholder::before {
+  display: none;
 }
 
 
@@ -1725,8 +1800,8 @@ html.dark .ranking-label {
 }
 
 .side-avatar {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   background: linear-gradient(135deg, #667eea, #764ba2);
   border-radius: 8px;
   display: flex;
@@ -1860,25 +1935,27 @@ html.dark .ranking-label {
 
 .unified-legend {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
   flex: 1;
   min-width: 0;
   padding: 0;
   border-bottom: none;
+  align-items: center;
 }
 
 .unified-legend .legend-section {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .unified-legend .legend-item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   color: var(--text-secondary);
   font-size: 12px;
 }

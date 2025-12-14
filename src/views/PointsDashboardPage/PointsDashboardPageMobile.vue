@@ -5,7 +5,7 @@
         <el-button @click="goBack" class="back-btn" type="primary" :icon="ArrowLeft" circle></el-button>
         <img src="@/assets/AiWorkShop_icon.png" alt="AI坊" class="logo" @click="toggleTheme" title="切换主题模式">
         <div class="title-section">
-          <h1 class="main-title">在0与1之间，见证每一位创造者的光芒</h1>
+          <h1 class="main-title">在0与1之间，见证每一位创作者的光芒</h1>
         </div>
       </div>
       <div class="header-right">
@@ -1177,7 +1177,7 @@ html.dark {
 .slogan {
   display: flex;
   align-items: center;
-  padding: 4px 8px;
+  padding: 12px 8px 4px 8px;
   margin-right: 4px;
 }
 
@@ -1207,7 +1207,7 @@ html.dark .slogan-img {
   min-width: 48px;
   min-height: 48px;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 0;
   touch-action: manipulation;
 }
 
@@ -1220,7 +1220,7 @@ html.dark .slogan-img {
 }
 
 .title-section .main-title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 800;
   margin: 0;
   padding: 0;
@@ -1365,7 +1365,7 @@ html.dark .ranking-label {
 
 .side-card-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 12px;
@@ -1383,7 +1383,7 @@ html.dark .ranking-label {
 }
 
 .side-card-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--text-primary);
   background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
@@ -1637,25 +1637,27 @@ html.dark .ranking-label {
 
 .unified-legend {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 14px;
   flex: 1;
   min-width: 0;
   padding: 0;
   border-bottom: none;
+  align-items: center;
 }
 
 .unified-legend .legend-section {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
 .unified-legend .legend-item {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 7px;
   color: var(--text-secondary);
   font-size: 11px;
 }
