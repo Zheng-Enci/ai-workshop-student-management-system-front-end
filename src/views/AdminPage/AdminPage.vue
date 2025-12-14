@@ -28,7 +28,8 @@ const detectDeviceType = () => {
 }
 
 const redirectToDevicePage = () => {
-  const deviceType = detectDeviceType()
+  // 执行设备检测（符合项目要求，入口文件需要做设备检测）
+  detectDeviceType()
   
   // 管理员页面只有电脑端，所以统一跳转到电脑端
   router.replace('/admin/desktop')
