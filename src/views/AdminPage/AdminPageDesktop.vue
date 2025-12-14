@@ -3530,10 +3530,11 @@ html.dark {
   gap: 16px;
 }
 
-.student-avatar {
+/* 学生卡片中的头像样式 - 使用更具体的选择器确保优先级 */
+.student-card .student-avatar {
   width: 48px;
   height: 48px;
-  border-radius: 50%;
+  border-radius: 25% !important;
   background: var(--admin-primary-gradient);
   display: flex;
   align-items: center;
@@ -3549,14 +3550,14 @@ html.dark {
   position: relative;
 }
 
-.student-avatar .avatar-image {
+.student-card .student-avatar .avatar-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 25% !important;
 }
 
-.student-avatar .avatar-text {
+.student-card .student-avatar .avatar-text {
   font-size: 18px;
   font-weight: 700;
   color: white;
@@ -3565,6 +3566,12 @@ html.dark {
 .student-card:hover .student-avatar {
   transform: scale(1.1) rotate(5deg);
   box-shadow: 0 10px 30px var(--shadow-hover);
+}
+
+.student-card .student-avatar .avatar-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
 }
 
 .student-primary-info {
