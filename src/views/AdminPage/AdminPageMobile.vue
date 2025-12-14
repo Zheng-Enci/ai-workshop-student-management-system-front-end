@@ -80,15 +80,6 @@
     
     <div v-else class="admin-console-mobile">
       <div class="admin-header-mobile">
-        <el-button 
-          type="primary" 
-          @click="goToNavigation" 
-          class="nav-button-mobile"
-          :icon="ArrowLeft"
-          size="small"
-        >
-          返回
-        </el-button>
         <div class="header-content-mobile">
           <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo-mobile" @click="toggleTheme" title="切换主题模式">
           <div class="title-section-mobile">
@@ -426,17 +417,15 @@ import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
 import 'element-plus/theme-chalk/el-input-number.css'
 import 'element-plus/theme-chalk/el-overlay.css'
-import { ArrowLeft, User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, Clock, Warning, Key, Lock } from '@element-plus/icons-vue'
+import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, Clock, Warning, Key, Lock } from '@element-plus/icons-vue'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, getAdminInfo, assignStudentToAdmin, getAvatarUrl, updateStudentWithSpecialPassword } from '@/api/student'
 import { getStudentAttendanceCount, getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/attendance'
 import { useAdminStore } from '@/stores/admin'
 import { useThemeStore } from '@/stores/theme'
-import { useRouter } from 'vue-router'
 
 const adminStore = useAdminStore()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
-const router = useRouter()
 
 const isAuthenticated = ref(false)
 const specialPassword = ref('')
@@ -791,9 +780,6 @@ const logout = () => {
   ElMessage.success('已退出管理员模式')
 }
 
-const goToNavigation = () => {
-  router.push('/navigation')
-}
 
 const editFormRules = {
   name: [
@@ -1383,8 +1369,11 @@ onMounted(async () => {
   gap: 10px;
 }
 
-.nav-button-mobile {
-  flex-shrink: 0;
+.header-content-mobile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
 }
 
 .header-content-mobile {
@@ -1549,23 +1538,56 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
   background: transparent;
   color: var(--admin-text-primary);
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.level-btn-mobile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.level-btn-mobile:hover::before {
+  opacity: 1;
 }
 
 .level-btn-mobile:hover {
-  background: rgba(255, 255, 255, 0.05);
   border-color: var(--admin-glass-border);
+  transform: translateY(-1px);
+}
+
+.level-btn-mobile:active {
+  transform: translateY(0) scale(0.98);
+  transition: all 0.15s ease;
 }
 
 .level-btn-mobile.is-active {
   background: var(--admin-primary-gradient);
   border-color: var(--admin-primary-color);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
   color: white;
+  transform: translateY(-2px);
+}
+
+.level-btn-mobile.is-active::before {
+  opacity: 0;
+}
+
+.level-btn-mobile.is-active:hover {
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
+  transform: translateY(-3px);
 }
 
 .button-label-mobile {
