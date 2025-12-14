@@ -1536,9 +1536,20 @@ onMounted(async () => {
   border: 1px solid var(--admin-glass-border);
 }
 
+.level-tabs-container-mobile :deep(.el-tabs__nav) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
 .level-tabs-container-mobile :deep(.el-tabs__item) {
   padding: 8px 12px;
   font-size: 12px;
+  flex: 1 1 calc(50% - 2.5px);
+  min-width: 0;
+  max-width: calc(50% - 2.5px);
+  text-align: center;
+  justify-content: center;
 }
 
 .tab-label-mobile {
