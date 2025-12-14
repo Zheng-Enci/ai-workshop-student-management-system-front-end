@@ -1498,7 +1498,10 @@ onMounted(async () => {
 }
 
 .section-header-mobile {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 10px;
 }
 
 .section-header-mobile h2 {
@@ -1511,6 +1514,8 @@ onMounted(async () => {
 .header-actions-mobile {
   display: flex;
   gap: 10px;
+  position: relative;
+  z-index: 2;
 }
 
 .search-input-mobile {
@@ -1519,14 +1524,21 @@ onMounted(async () => {
 
 .level-tabs-mobile {
   margin-bottom: 20px;
+  margin-top: 0;
+  padding-top: 10px;
+  position: relative;
+  z-index: 0;
+  clear: both;
 }
 
 .level-tabs-container-mobile {
   background: transparent;
+  position: relative;
 }
 
 .level-tabs-container-mobile :deep(.el-tabs__header) {
   margin: 0;
+  position: relative;
 }
 
 .level-tabs-container-mobile :deep(.el-tabs__nav-wrap) {
@@ -1570,7 +1582,6 @@ onMounted(async () => {
   background: var(--admin-primary-gradient);
   border-color: var(--admin-primary-color);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-  transform: translateY(-2px);
 }
 
 .level-tabs-container-mobile :deep(.el-tabs__item.is-active .tab-label-mobile) {
