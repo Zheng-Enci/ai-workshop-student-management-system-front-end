@@ -131,7 +131,7 @@
               placeholder="搜索学生"
               clearable
               class="search-input-mobile"
-              size="small"
+              size="default"
             >
               <template #prefix>
                 <el-icon><Search /></el-icon>
@@ -1486,6 +1486,9 @@ onMounted(async () => {
   position: relative;
   z-index: 1;
   padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .section-header-mobile h2 {
@@ -1493,6 +1496,8 @@ onMounted(async () => {
   font-weight: 700;
   color: var(--admin-text-primary);
   margin: 0 0 15px 0;
+  text-align: center;
+  width: 100%;
 }
 
 .header-actions-mobile {
@@ -1500,10 +1505,14 @@ onMounted(async () => {
   gap: 10px;
   position: relative;
   z-index: 2;
+  justify-content: center;
+  align-items: center;
 }
 
 .search-input-mobile {
-  flex: 1;
+  flex: 0 1 auto;
+  max-width: 200px;
+  min-width: 150px;
 }
 
 .level-tabs-mobile {
