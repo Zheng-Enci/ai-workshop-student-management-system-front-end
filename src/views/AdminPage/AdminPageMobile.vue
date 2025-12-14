@@ -1525,18 +1525,29 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
+  align-items: stretch;
+  justify-items: start;
+}
+
+.level-buttons-container-mobile > * {
+  display: flex;
+  width: 100%;
 }
 
 .level-btn-mobile {
-  width: 100%;
+  width: fit-content;
+  min-width: calc(100% - 2px);
+  max-width: 100%;
+  height: 100%;
   min-height: 48px;
-  padding: 14px 16px;
+  padding: 0 !important;
+  margin: 0 !important;
   border-radius: 10px;
   font-size: 16px;
   font-weight: 600;
-  display: flex;
+  display: flex !important;
   align-items: center;
-  justify-content: center;
+  justify-content: center !important;
   gap: 8px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid transparent;
@@ -1545,6 +1556,20 @@ onMounted(async () => {
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+  text-align: center !important;
+}
+
+.level-btn-mobile :deep(.el-button__inner) {
+  width: 100%;
+  height: 100%;
+  min-height: 48px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center !important;
+  gap: 8px;
+  padding: 14px 16px !important;
+  margin: 0 !important;
+  text-align: center !important;
 }
 
 .level-btn-mobile::before {
@@ -1594,6 +1619,7 @@ onMounted(async () => {
   font-size: 16px;
   font-weight: 600;
   transition: color 0.3s ease;
+  flex-shrink: 0;
 }
 
 .level-btn-mobile.is-active .button-label-mobile {
