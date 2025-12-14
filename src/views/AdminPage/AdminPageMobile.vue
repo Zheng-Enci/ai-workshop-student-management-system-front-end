@@ -1532,39 +1532,76 @@ onMounted(async () => {
 .level-tabs-container-mobile :deep(.el-tabs__nav-wrap) {
   background: var(--admin-glass-bg);
   border-radius: 12px;
-  padding: 5px;
+  padding: 8px;
   border: 1px solid var(--admin-glass-border);
 }
 
 .level-tabs-container-mobile :deep(.el-tabs__nav) {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 8px;
 }
 
 .level-tabs-container-mobile :deep(.el-tabs__item) {
-  padding: 8px 12px;
-  font-size: 12px;
-  flex: 1 1 calc(50% - 2.5px);
+  padding: 14px 16px;
+  font-size: 14px;
+  flex: 1 1 calc(50% - 4px);
   min-width: 0;
-  max-width: calc(50% - 2.5px);
+  max-width: calc(50% - 4px);
   text-align: center;
   justify-content: center;
+  border-radius: 10px;
+  background: transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.level-tabs-container-mobile :deep(.el-tabs__item:hover) {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--admin-glass-border);
+}
+
+.level-tabs-container-mobile :deep(.el-tabs__item.is-active) {
+  background: var(--admin-primary-gradient);
+  border-color: var(--admin-primary-color);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
+}
+
+.level-tabs-container-mobile :deep(.el-tabs__item.is-active .tab-label-mobile) {
+  color: white;
+}
+
+.level-tabs-container-mobile :deep(.el-tabs__item.is-active .tab-count-mobile) {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+.level-tabs-container-mobile :deep(.el-tabs__active-bar) {
+  display: none;
 }
 
 .tab-label-mobile {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-weight: 600;
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .tab-count-mobile {
   background: var(--admin-glass-bg);
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
   font-weight: 700;
+  transition: all 0.3s ease;
 }
 
 .students-list-mobile {
