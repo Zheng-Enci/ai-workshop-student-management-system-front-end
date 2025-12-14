@@ -81,15 +81,13 @@ const routes = [
         path: '/admin',
         name: 'Admin',
         component: () => import('../views/AdminPage/AdminPage.vue'),
-        meta: { requiresAuth: false },
-        children: [
-            {
-                path: 'desktop',
-                name: 'AdminDesktop',
-                component: () => import('../views/AdminPage/AdminPageDesktop.vue'),
-                meta: { requiresAuth: false }
-            }
-        ]
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/admin/desktop',
+        name: 'AdminDesktop',
+        component: () => import('../views/AdminPage/AdminPageDesktop.vue'),
+        meta: { requiresAuth: false }
     },
     {
         path: '/student-manager',
