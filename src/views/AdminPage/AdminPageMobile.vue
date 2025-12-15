@@ -417,14 +417,35 @@
         </div>
       </div>
       
+      <div class="month-selector-mobile" v-if="getAvailableMonths.length > 0">
+        <span class="selector-label-mobile">选择月份：</span>
+        <el-select
+          v-model="selectedMonth"
+          placeholder="请选择月份"
+          size="default"
+          class="month-select-mobile"
+        >
+          <el-option
+            label="全部"
+            value=""
+          />
+          <el-option
+            v-for="month in getAvailableMonths"
+            :key="month.value"
+            :label="month.label"
+            :value="month.value"
+          />
+        </el-select>
+      </div>
+      
       <div class="attendance-records-list-mobile">
-        <div v-if="studentAttendanceRecords.length === 0" class="no-records-mobile">
+        <div v-if="filteredAttendanceRecords.length === 0" class="no-records-mobile">
           <el-icon class="no-records-icon-mobile"><Calendar /></el-icon>
-          <p>暂无考勤记录</p>
+          <p>{{ selectedMonth ? '该月份暂无考勤记录' : '暂无考勤记录' }}</p>
         </div>
         <div v-else class="records-by-date-mobile">
           <div 
-            v-for="group in groupRecordsByDate(studentAttendanceRecords)" 
+            v-for="group in groupRecordsByDate(filteredAttendanceRecords)" 
             :key="group.date"
             class="date-group-mobile"
           >
@@ -525,6 +546,7 @@ const todayAttendanceRecords = ref([])
 const attendanceRecordsDialogVisible = ref(false)
 const currentStudentInfo = ref({})
 const studentAttendanceRecords = ref([])
+const selectedMonth = ref('')
 
 const levelOptions = [
   { value: 0, label: '社团成员', color: 'info' },
@@ -995,11 +1017,21 @@ const getTimePeriodName = (timeString) => {
 
 const openAttendanceRecordsDialog = async (student) => {
   currentStudentInfo.value = student
+  selectedMonth.value = ''
   try {
     isLoading.value = true
     const response = await getStudentAttendanceRecords(student.studentId)
     if (response.code === 200) {
       studentAttendanceRecords.value = response.data || []
+      if (studentAttendanceRecords.value.length > 0) {
+        const firstRecord = studentAttendanceRecords.value[0]
+        if (firstRecord.attendanceDateTime) {
+          const date = new Date(firstRecord.attendanceDateTime)
+          const year = date.getFullYear()
+          const month = String(date.getMonth() + 1).padStart(2, '0')
+          selectedMonth.value = `${year}-${month}`
+        }
+      }
       attendanceRecordsDialogVisible.value = true
     } else {
       ElMessage.error(response.message || '获取考勤记录失败')
@@ -1015,6 +1047,7 @@ const closeAttendanceRecordsDialog = () => {
   attendanceRecordsDialogVisible.value = false
   currentStudentInfo.value = {}
   studentAttendanceRecords.value = []
+  selectedMonth.value = ''
 }
 
 const formatRecordDate = (dateTime) => {
@@ -1034,6 +1067,48 @@ const formatRecordTime = (dateTime) => {
   const seconds = String(date.getSeconds()).padStart(2, '0')
   return `${hours}:${minutes}:${seconds}`
 }
+
+const getAvailableMonths = computed(() => {
+  if (!studentAttendanceRecords.value || studentAttendanceRecords.value.length === 0) {
+    return []
+  }
+  const monthsSet = new Set()
+  studentAttendanceRecords.value.forEach(record => {
+    if (record.attendanceDateTime) {
+      const date = new Date(record.attendanceDateTime)
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const monthKey = `${year}-${String(month).padStart(2, '0')}`
+      monthsSet.add(monthKey)
+    }
+  })
+  return Array.from(monthsSet).sort((a, b) => {
+    const dateA = new Date(a + '-01')
+    const dateB = new Date(b + '-01')
+    return dateB - dateA
+  }).map(monthKey => {
+    const [year, month] = monthKey.split('-')
+    const monthNum = parseInt(month)
+    return {
+      value: monthKey,
+      label: `${year}年${monthNum}月`
+    }
+  })
+})
+
+const filteredAttendanceRecords = computed(() => {
+  if (!selectedMonth.value) {
+    return studentAttendanceRecords.value
+  }
+  return studentAttendanceRecords.value.filter(record => {
+    if (!record.attendanceDateTime) return false
+    const date = new Date(record.attendanceDateTime)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const monthKey = `${year}-${month}`
+    return monthKey === selectedMonth.value
+  })
+})
 
 const groupRecordsByDate = (records) => {
   const grouped = {}
@@ -2218,6 +2293,29 @@ onMounted(async () => {
   font-size: 20px;
   font-weight: 700;
   color: var(--admin-primary-color);
+}
+
+.month-selector-mobile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: var(--admin-glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--admin-glass-border);
+  margin-bottom: 20px;
+}
+
+.selector-label-mobile {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+  white-space: nowrap;
+}
+
+.month-select-mobile {
+  flex: 1;
+  max-width: 200px;
 }
 
 .attendance-records-list-mobile {
