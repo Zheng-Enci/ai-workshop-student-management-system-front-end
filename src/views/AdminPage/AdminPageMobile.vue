@@ -1297,6 +1297,23 @@ const monthMap = {
   'December': '十二月'
 }
 
+const weekDayMap = {
+  'Sun': '日',
+  'Sunday': '日',
+  'Mon': '一',
+  'Monday': '一',
+  'Tue': '二',
+  'Tuesday': '二',
+  'Wed': '三',
+  'Wednesday': '三',
+  'Thu': '四',
+  'Thursday': '四',
+  'Fri': '五',
+  'Friday': '五',
+  'Sat': '六',
+  'Saturday': '六'
+}
+
 let monthObserverMobile = null
 
 const setChineseMonthMobile = () => {
@@ -1310,6 +1327,24 @@ const setChineseMonthMobile = () => {
           const newText = text.replace(enMonth, cnMonth)
           label.textContent = newText
           break
+        }
+      }
+    })
+  }
+}
+
+const setChineseWeekDaysMobile = () => {
+  const popper = document.querySelector('.makeup-date-picker-popper-mobile')
+  if (popper) {
+    const weekDayCells = popper.querySelectorAll('.el-date-table th')
+    weekDayCells.forEach((cell) => {
+      const text = cell.textContent.trim()
+      if (text) {
+        for (const [enDay, cnDay] of Object.entries(weekDayMap)) {
+          if (text === enDay || text.includes(enDay)) {
+            cell.textContent = cnDay
+            break
+          }
         }
       }
     })
@@ -1337,17 +1372,21 @@ const openMakeupDialog = (student) => {
     }
     
     setChineseMonthMobile()
+    setChineseWeekDaysMobile()
     
     setTimeout(() => {
       setChineseMonthMobile()
+      setChineseWeekDaysMobile()
     }, 200)
     
     setTimeout(() => {
       setChineseMonthMobile()
+      setChineseWeekDaysMobile()
     }, 500)
     
     setTimeout(() => {
       setChineseMonthMobile()
+      setChineseWeekDaysMobile()
     }, 800)
   }, 100)
   
@@ -1357,6 +1396,7 @@ const openMakeupDialog = (student) => {
   
   monthObserverMobile = new MutationObserver(() => {
     setChineseMonthMobile()
+    setChineseWeekDaysMobile()
   })
   
   setTimeout(() => {
@@ -2866,6 +2906,7 @@ onMounted(async () => {
 .makeup-date-picker-popper-mobile {
   z-index: 2001 !important;
 }
+
 
 .selected-date-display-mobile {
   display: flex;
