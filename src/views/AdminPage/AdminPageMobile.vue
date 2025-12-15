@@ -730,24 +730,6 @@
       class="trend-dialog-mobile"
       @close="closeTrendDialog"
     >
-      <div class="student-info-header-mobile">
-        <div class="student-avatar-large-mobile">
-          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
-          <span v-else class="avatar-text-large-mobile">{{ currentStudentInfo.name?.charAt(0) }}</span>
-        </div>
-        <div class="student-info-mobile">
-          <h3>{{ currentStudentInfo.name }}</h3>
-          <p>学号：{{ currentStudentInfo.studentId }}</p>
-          <p>{{ currentStudentInfo.grade }}年级 | {{ currentStudentInfo.major }}</p>
-        </div>
-        <div class="attendance-summary-mobile">
-          <div class="summary-item-mobile">
-            <span class="summary-label-mobile">总签到次数</span>
-            <span class="summary-value-mobile">{{ allStudentAttendanceRecords.length }}</span>
-          </div>
-        </div>
-      </div>
-      
       <div class="chart-container-mobile">
         <div class="chart-item-mobile">
           <div ref="lineChart" class="chart-content-mobile"></div>
@@ -2254,6 +2236,8 @@ const initLineChart = () => {
   const lineData = generateLineData()
   
   if (!lineData || !lineData.dates || !lineData.values || lineData.dates.length === 0) {
+    lineInstance.value.dispose()
+    lineInstance.value = null
     return
   }
   
