@@ -4717,6 +4717,7 @@ onMounted(async () => {
   margin-top: 8px;
   font-size: 12px;
   color: var(--admin-text-secondary);
+  height: 10px;
 }
 
 .form-tip-mobile .el-icon {
