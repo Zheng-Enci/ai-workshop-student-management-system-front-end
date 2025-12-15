@@ -2,12 +2,15 @@
   <div class="admin-mobile-container">
     <div v-if="!isAuthenticated" class="auth-section-mobile">
       <div class="auth-page-header-mobile">
-        <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo-mobile" @click="toggleTheme" title="切换主题模式">
+        <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo-mobile" @click="toggleTheme"
+             title="切换主题模式">
       </div>
       <div class="auth-card-mobile">
         <div class="auth-header-mobile">
           <div class="auth-icon-container-mobile">
-            <el-icon class="auth-icon-mobile"><Key /></el-icon>
+            <el-icon class="auth-icon-mobile">
+              <Key/>
+            </el-icon>
             <div class="icon-ring-mobile"></div>
           </div>
           <h2>身份验证</h2>
@@ -30,31 +33,35 @@
         <div class="auth-form-mobile">
           <div class="input-container-mobile">
             <el-input
-              v-model="specialPassword"
-              type="password"
-              placeholder="请输入特殊密码"
-              show-password
-              size="large"
-              @keyup.enter="authenticate"
-              class="password-input-mobile"
+                v-model="specialPassword"
+                type="password"
+                placeholder="请输入特殊密码"
+                show-password
+                size="large"
+                @keyup.enter="authenticate"
+                class="password-input-mobile"
             >
               <template #prefix>
-                <el-icon><Lock /></el-icon>
+                <el-icon>
+                  <Lock/>
+                </el-icon>
               </template>
             </el-input>
           </div>
-          <el-button 
-            type="primary" 
-            size="large" 
-            @click="authenticate"
-            :loading="authLoading"
-            class="auth-button-mobile"
+          <el-button
+              type="primary"
+              size="large"
+              @click="authenticate"
+              :loading="authLoading"
+              class="auth-button-mobile"
           >
             <span>验证身份</span>
           </el-button>
         </div>
         <div v-if="authError" class="error-message-mobile">
-          <el-icon><Warning /></el-icon>
+          <el-icon>
+            <Warning/>
+          </el-icon>
           {{ authError }}
         </div>
       </div>
@@ -62,7 +69,8 @@
 
     <div v-else-if="!isDataLoaded" class="admin-loading-mobile">
       <div class="loading-page-header-mobile">
-        <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="loading-logo-mobile" @click="toggleTheme" title="切换主题模式">
+        <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="loading-logo-mobile" @click="toggleTheme"
+             title="切换主题模式">
       </div>
       <div class="loading-container-mobile">
         <div class="loading-spinner-mobile">
@@ -77,25 +85,30 @@
         <div class="loading-status-mobile">{{ loadingStatus }}</div>
       </div>
     </div>
-    
+
     <div v-else class="admin-console-mobile">
       <div class="admin-header-mobile">
         <div class="header-content-mobile">
-          <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo-mobile" @click="toggleTheme" title="切换主题模式">
+          <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo-mobile" @click="toggleTheme"
+               title="切换主题模式">
           <div class="title-section-mobile">
             <h1>超级管理员</h1>
             <p>Super Admin</p>
           </div>
         </div>
         <el-button @click="logout" type="danger" size="small" class="logout-btn-mobile">
-          <el-icon><SwitchButton /></el-icon>
+          <el-icon>
+            <SwitchButton/>
+          </el-icon>
         </el-button>
       </div>
-      
+
       <div class="admin-stats-mobile">
         <div class="stat-card-mobile">
           <div class="stat-icon-mobile">
-            <el-icon><User /></el-icon>
+            <el-icon>
+              <User/>
+            </el-icon>
           </div>
           <div class="stat-content-mobile">
             <div class="stat-value-mobile">{{ totalStudents }}</div>
@@ -104,7 +117,9 @@
         </div>
         <div class="stat-card-mobile" @click="showTodayAttendance" style="cursor: pointer;">
           <div class="stat-icon-mobile">
-            <el-icon><Calendar /></el-icon>
+            <el-icon>
+              <Calendar/>
+            </el-icon>
           </div>
           <div class="stat-content-mobile">
             <div class="stat-value-mobile">{{ todayCount }}</div>
@@ -113,7 +128,9 @@
         </div>
         <div class="stat-card-mobile">
           <div class="stat-icon-mobile">
-            <el-icon><TrendCharts /></el-icon>
+            <el-icon>
+              <TrendCharts/>
+            </el-icon>
           </div>
           <div class="stat-content-mobile">
             <div class="stat-value-mobile">{{ monthlyCount }}</div>
@@ -127,31 +144,35 @@
           <h2>学生信息管理</h2>
           <div class="header-actions-mobile">
             <el-input
-              v-model="searchKeyword"
-              placeholder="搜索学生"
-              clearable
-              class="search-input-mobile"
-              size="default"
+                v-model="searchKeyword"
+                placeholder="搜索学生"
+                clearable
+                class="search-input-mobile"
+                size="default"
             >
               <template #prefix>
-                <el-icon><Search /></el-icon>
+                <el-icon>
+                  <Search/>
+                </el-icon>
               </template>
             </el-input>
             <el-button @click="refreshData" :loading="isLoading" type="primary" size="small">
-              <el-icon><Refresh /></el-icon>
+              <el-icon>
+                <Refresh/>
+              </el-icon>
             </el-button>
           </div>
         </div>
-        
+
         <div class="level-tabs-mobile">
           <div class="level-buttons-container-mobile">
             <el-button
-              v-for="level in levelOptions"
-              :key="level.value"
-              :type="activeLevelTab === level.value.toString() ? 'primary' : 'default'"
-              :class="['level-button-mobile', { 'is-active': activeLevelTab === level.value.toString() }]"
-              @click="activeLevelTab = level.value.toString()"
-              class="level-btn-mobile"
+                v-for="level in levelOptions"
+                :key="level.value"
+                :type="activeLevelTab === level.value.toString() ? 'primary' : 'default'"
+                :class="['level-button-mobile', { 'is-active': activeLevelTab === level.value.toString() }]"
+                @click="activeLevelTab = level.value.toString()"
+                class="level-btn-mobile"
             >
               <span class="button-label-mobile">{{ level.label }}</span>
               <span class="button-count-mobile">({{ getLevelStudents(level.value).length }})</span>
@@ -162,8 +183,10 @@
         <div class="students-list-mobile">
           <div class="student-item-mobile" v-for="student in currentLevelStudents" :key="student.studentId">
             <div class="student-main-info-mobile">
-              <div class="student-avatar-mobile" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
-                <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image-mobile" @error="handleAvatarError(student)" />
+              <div class="student-avatar-mobile"
+                   :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
+                <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像"
+                     class="avatar-image-mobile" @error="handleAvatarError(student)"/>
                 <span v-else class="avatar-text-mobile">{{ student.name.charAt(0) }}</span>
               </div>
               <div class="student-primary-info-mobile">
@@ -176,96 +199,147 @@
                 </div>
               </div>
               <div class="attendance-count-mobile">
-                <el-icon class="attendance-icon-mobile"><Calendar /></el-icon>
+                <el-icon class="attendance-icon-mobile">
+                  <Calendar/>
+                </el-icon>
                 <span class="count-text-mobile">{{ studentAttendanceCounts[student.studentId] || 0 }}次</span>
               </div>
             </div>
-            
+
             <div class="student-actions-mobile">
-              <el-button 
-                type="success" 
-                size="small" 
-                @click="openAttendanceRecordsDialog(student)"
-                class="action-btn-mobile"
-              >
-                <el-icon><Calendar /></el-icon>
-                考勤
-              </el-button>
-              <el-button 
-                type="warning" 
-                size="small" 
-                @click="openMakeupDialog(student)"
-                class="action-btn-mobile"
-              >
-                <el-icon><Clock /></el-icon>
-                补卡
-              </el-button>
-              <el-button 
-                type="info" 
-                size="small" 
-                @click="openHeatmapDialog(student)"
-                class="action-btn-mobile"
-              >
-                <el-icon><TrendCharts /></el-icon>
-                热力图
-              </el-button>
-              <el-button 
-                type="info" 
-                size="small" 
-                @click="openTrendDialog(student)"
-                class="action-btn-mobile"
-              >
-                <el-icon><TrendCharts /></el-icon>
-                趋势图
-              </el-button>
-              <el-button 
-                type="primary" 
-                size="small" 
-                @click="openEditDialog(student)"
-                class="action-btn-mobile"
-              >
-                <el-icon><Edit /></el-icon>
-                编辑
-              </el-button>
-              <el-button 
-                type="success" 
-                size="small" 
-                @click="openPointsDialog(student)"
-                class="action-btn-mobile"
-              >
-                <el-icon><Edit /></el-icon>
-                添加积分
-              </el-button>
-              <el-button 
-                type="info" 
-                size="small" 
-                @click="openScoreChangeRecordsDialog(student)"
-                class="action-btn-mobile"
-              >
-                <el-icon><Calendar /></el-icon>
-                查看积分
-              </el-button>
+              <div>
+                <span
+                    style="display: inline-block; padding: 4px 0; background-color: transparent; color: #409eff; border: 1px solid transparent; border-radius: 4px; font-size: 12px; font-weight: 500; letter-spacing: 1px;"
+                >考勤</span>
+                <div style="display: flex; gap: 5px; flex-wrap: nowrap; margin-bottom: 10px;">
+                  <el-button
+                      type="success"
+                      size="small"
+                      @click="openAttendanceRecordsDialog(student)"
+                      style="flex: 1; min-width: 0; font-size: 12px; padding: 8px 4px;"
+                  >
+                    <el-icon style="font-size: 12px;">
+                      <Calendar/>
+                    </el-icon>
+                    考勤
+                  </el-button>
+                  <el-button
+                      type="warning"
+                      size="small"
+                      @click="openMakeupDialog(student)"
+                      style="flex: 1; min-width: 0; font-size: 12px; padding: 8px 4px;"
+                  >
+                    <el-icon style="font-size: 12px;">
+                      <Clock/>
+                    </el-icon>
+                    补卡
+                  </el-button>
+                  <el-button
+                      type="info"
+                      size="small"
+                      @click="openHeatmapDialog(student)"
+                      style="flex: 1; min-width: 0; font-size: 12px; padding: 8px 4px;"
+                  >
+                    <el-icon style="font-size: 12px;">
+                      <TrendCharts/>
+                    </el-icon>
+                    热力图
+                  </el-button>
+                  <el-button
+                      type="info"
+                      size="small"
+                      @click="openTrendDialog(student)"
+                      style="flex: 1; min-width: 0; font-size: 12px; padding: 8px 4px;"
+                  >
+                    <el-icon style="font-size: 12px;">
+                      <TrendCharts/>
+                    </el-icon>
+                    趋势图
+                  </el-button>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <span
+                      style="
+                      display: inline-block; padding: 4px 0;
+                      background-color: transparent; color: #409eff;
+                      border: 1px solid transparent; border-radius: 4px;
+                      font-size: 12px; font-weight: 500; letter-spacing: 1px;
+                    "
+                  >积分</span>
+                </div>
+                <div style="display: flex; width: 64%;">
+                  <el-button
+                      type="success"
+                      size="small"
+                      @click="openPointsDialog(student)"
+                      style="flex: 1; min-width: 0; font-size: 12px; padding: 8px 4px;"
+                  >
+                    <el-icon>
+                      <Edit/>
+                    </el-icon>
+                    添加积分
+                  </el-button>
+                  <el-button
+                      type="info"
+                      size="small"
+                      @click="openScoreChangeRecordsDialog(student)"
+                      style="flex: 1; min-width: 0; font-size: 12px; padding: 8px 4px;"
+                  >
+                    <el-icon>
+                      <Calendar/>
+                    </el-icon>
+                    查看积分
+                  </el-button>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <span
+                      style="
+                      display: inline-block; padding: 4px 0;
+                      background-color: transparent; color: #409eff;
+                      border: 1px solid transparent; border-radius: 4px;
+                      font-size: 12px; font-weight: 500; letter-spacing: 1px;
+                    "
+                  >个人信息</span>
+                </div>
+                <div>
+                  <el-button
+                      type="primary"
+                      size="small"
+                      @click="openEditDialog(student)"
+                      class="action-btn-mobile"
+                  >
+                    <el-icon>
+                      <Edit/>
+                    </el-icon>
+                    编辑
+                  </el-button>
+                </div>
+              </div>
             </div>
-            
+
             <div class="student-management-mobile">
               <div class="level-management-mobile">
                 <span class="management-label-mobile">等级：</span>
                 <el-select
-                  :model-value="studentLevels[student.studentId] || 0"
-                  @change="(value) => changeLevel(student.studentId, value)"
-                  size="small"
-                  class="level-select-mobile"
+                    :model-value="studentLevels[student.studentId] || 0"
+                    @change="(value) => changeLevel(student.studentId, value)"
+                    size="small"
+                    class="level-select-mobile"
                 >
                   <el-option
-                    v-for="option in levelOptions"
-                    :key="option.value"
-                    :label="option.label"
-                    :value="option.value"
+                      v-for="option in levelOptions"
+                      :key="option.value"
+                      :label="option.label"
+                      :value="option.value"
                   >
                     <el-tag
-                      :type="option.color"
-                      size="small"
-                      style="width: 100%; text-align: center;"
+                        :type="option.color"
+                        size="small"
+                        style="width: 100%; text-align: center;"
                     >
                       {{ option.label }}
                     </el-tag>
@@ -275,19 +349,19 @@
               <div class="admin-management-mobile" v-if="(studentLevels[student.studentId] || 0) !== 3">
                 <span class="management-label-mobile">管理员：</span>
                 <el-select
-                  v-if="adminOptions.length > 0"
-                  :model-value="studentAdmins[student.studentId]?.adminStudentId || ''"
-                  @change="(value) => changeAdmin(student.studentId, value)"
-                  size="small"
-                  class="admin-select-mobile"
-                  placeholder="分配管理员"
-                  clearable
+                    v-if="adminOptions.length > 0"
+                    :model-value="studentAdmins[student.studentId]?.adminStudentId || ''"
+                    @change="(value) => changeAdmin(student.studentId, value)"
+                    size="small"
+                    class="admin-select-mobile"
+                    placeholder="分配管理员"
+                    clearable
                 >
                   <el-option
-                    v-for="option in adminOptions"
-                    :key="option.value"
-                    :label="option.label"
-                    :value="option.value"
+                      v-for="option in adminOptions"
+                      :key="option.value"
+                      :label="option.label"
+                      :value="option.value"
                   />
                 </el-select>
                 <span v-else class="no-admin-mobile">暂无可用的管理员</span>
@@ -300,70 +374,70 @@
     </div>
 
     <el-dialog
-      v-if="editDialogVisible"
-      v-model="editDialogVisible"
-      title="修改学生信息"
-      width="90%"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :append-to-body="true"
-      :teleported="true"
-      modal-class="edit-dialog-overlay-mobile"
-      class="edit-dialog-mobile"
-      @close="cancelEdit"
+        v-if="editDialogVisible"
+        v-model="editDialogVisible"
+        title="修改学生信息"
+        width="90%"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :append-to-body="true"
+        :teleported="true"
+        modal-class="edit-dialog-overlay-mobile"
+        class="edit-dialog-mobile"
+        @close="cancelEdit"
     >
       <el-form
-        ref="editFormRef"
-        :model="editForm"
-        :rules="editFormRules"
-        label-width="80px"
-        class="edit-form-mobile"
+          ref="editFormRef"
+          :model="editForm"
+          :rules="editFormRules"
+          label-width="80px"
+          class="edit-form-mobile"
       >
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="editForm.name" placeholder="请输入学生姓名" />
+          <el-input v-model="editForm.name" placeholder="请输入学生姓名"/>
         </el-form-item>
         <el-form-item label="学号" prop="studentId">
-          <el-input v-model="editForm.studentId" placeholder="请输入学号" />
+          <el-input v-model="editForm.studentId" placeholder="请输入学号"/>
         </el-form-item>
         <el-form-item label="性别" prop="gender">
           <el-select v-model="editForm.gender" placeholder="请选择性别" style="width: 100%">
-            <el-option label="男" value="男" />
-            <el-option label="女" value="女" />
+            <el-option label="男" value="男"/>
+            <el-option label="女" value="女"/>
           </el-select>
         </el-form-item>
         <el-form-item label="手机号" prop="phoneNumber">
-          <el-input v-model="editForm.phoneNumber" placeholder="请输入手机号" />
+          <el-input v-model="editForm.phoneNumber" placeholder="请输入手机号"/>
         </el-form-item>
         <el-form-item label="学院" prop="college">
-          <el-input v-model="editForm.college" placeholder="请输入学院" />
+          <el-input v-model="editForm.college" placeholder="请输入学院"/>
         </el-form-item>
         <el-form-item label="专业" prop="major">
-          <el-input v-model="editForm.major" placeholder="请输入专业" />
+          <el-input v-model="editForm.major" placeholder="请输入专业"/>
         </el-form-item>
         <el-form-item label="年级" prop="grade">
           <el-select v-model="editForm.grade" placeholder="请选择年级" style="width: 100%">
-            <el-option label="1年级" :value="1" />
-            <el-option label="2年级" :value="2" />
-            <el-option label="3年级" :value="3" />
-            <el-option label="4年级" :value="4" />
-            <el-option label="5年级" :value="5" />
+            <el-option label="1年级" :value="1"/>
+            <el-option label="2年级" :value="2"/>
+            <el-option label="3年级" :value="3"/>
+            <el-option label="4年级" :value="4"/>
+            <el-option label="5年级" :value="5"/>
           </el-select>
         </el-form-item>
         <el-form-item label="班级" prop="classNum">
           <el-input-number
-            v-model="editForm.classNum"
-            :min="1"
-            :max="100"
-            placeholder="请输入班级"
-            style="width: 100%"
+              v-model="editForm.classNum"
+              :min="1"
+              :max="100"
+              placeholder="请输入班级"
+              style="width: 100%"
           />
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input
-            v-model="editForm.password"
-            type="password"
-            placeholder="请输入新密码（6-16位）"
-            show-password
+              v-model="editForm.password"
+              type="password"
+              placeholder="请输入新密码（6-16位）"
+              show-password
           />
         </el-form-item>
       </el-form>
@@ -378,36 +452,40 @@
     </el-dialog>
 
     <el-dialog
-      v-if="todayAttendanceDialogVisible"
-      v-model="todayAttendanceDialogVisible"
-      title="今日签到记录"
-      width="90%"
-      :close-on-click-modal="false"
-      :append-to-body="true"
-      :teleported="true"
-      :modal-class="'today-attendance-overlay-mobile'"
-      @close="closeTodayAttendanceDialog"
-      class="today-attendance-dialog-mobile"
+        v-if="todayAttendanceDialogVisible"
+        v-model="todayAttendanceDialogVisible"
+        title="今日签到记录"
+        width="90%"
+        :close-on-click-modal="false"
+        :append-to-body="true"
+        :teleported="true"
+        :modal-class="'today-attendance-overlay-mobile'"
+        @close="closeTodayAttendanceDialog"
+        class="today-attendance-dialog-mobile"
     >
       <div class="attendance-records-container-mobile">
         <div v-if="todayAttendanceRecords.length === 0" class="no-records-mobile">
-          <el-icon class="no-records-icon-mobile"><Calendar /></el-icon>
+          <el-icon class="no-records-icon-mobile">
+            <Calendar/>
+          </el-icon>
           <p>今日暂无签到记录</p>
         </div>
         <div v-else class="records-list-mobile">
-          <div 
-            v-for="(record, index) in todayAttendanceRecords" 
-            :key="index"
-            class="attendance-record-item-mobile"
-            :class="getTimePeriodClass(record.attendanceTime)"
+          <div
+              v-for="(record, index) in todayAttendanceRecords"
+              :key="index"
+              class="attendance-record-item-mobile"
+              :class="getTimePeriodClass(record.attendanceTime)"
           >
             <div class="time-period-indicator-mobile" :class="getTimePeriodClass(record.attendanceTime)">
               <div class="indicator-dot-mobile"></div>
               <span class="period-text-mobile">{{ getTimePeriodName(record.attendanceTime) }}</span>
             </div>
             <div class="record-content-mobile">
-              <div class="student-avatar-mobile-record" :class="{ 'has-avatar': record.hasAvatar && record.avatarUrl, 'no-avatar': !record.hasAvatar || !record.avatarUrl }">
-                <img v-if="record.hasAvatar && record.avatarUrl" :src="record.avatarUrl" alt="头像" class="avatar-image-mobile-record" @error="handleTodayRecordAvatarError(record)" />
+              <div class="student-avatar-mobile-record"
+                   :class="{ 'has-avatar': record.hasAvatar && record.avatarUrl, 'no-avatar': !record.hasAvatar || !record.avatarUrl }">
+                <img v-if="record.hasAvatar && record.avatarUrl" :src="record.avatarUrl" alt="头像"
+                     class="avatar-image-mobile-record" @error="handleTodayRecordAvatarError(record)"/>
                 <span v-else class="avatar-text-mobile-record">{{ record.name.charAt(0) }}</span>
               </div>
               <div class="student-details-mobile-record">
@@ -415,7 +493,9 @@
                 <div class="student-id-mobile-record">{{ record.scheduleId }}</div>
               </div>
               <div class="attendance-time-mobile">
-                <el-icon class="time-icon-mobile"><Clock /></el-icon>
+                <el-icon class="time-icon-mobile">
+                  <Clock/>
+                </el-icon>
                 <span class="time-text-mobile">{{ formatAttendanceTime(record.attendanceTime) }}</span>
               </div>
             </div>
@@ -430,19 +510,20 @@
     </el-dialog>
 
     <el-dialog
-      v-if="attendanceRecordsDialogVisible"
-      v-model="attendanceRecordsDialogVisible"
-      :title="`${currentStudentInfo.name} 的考勤记录`"
-      width="90%"
-      :close-on-click-modal="false"
-      :append-to-body="true"
-      :teleported="true"
-      class="attendance-records-dialog-mobile"
-      @close="closeAttendanceRecordsDialog"
+        v-if="attendanceRecordsDialogVisible"
+        v-model="attendanceRecordsDialogVisible"
+        :title="`${currentStudentInfo.name} 的考勤记录`"
+        width="90%"
+        :close-on-click-modal="false"
+        :append-to-body="true"
+        :teleported="true"
+        class="attendance-records-dialog-mobile"
+        @close="closeAttendanceRecordsDialog"
     >
       <div class="student-info-header-mobile">
         <div class="student-avatar-large-mobile">
-          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
+          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl"
+               alt="头像" class="avatar-image-large-mobile"/>
           <span v-else class="avatar-text-large-mobile">{{ currentStudentInfo.name?.charAt(0) }}</span>
         </div>
         <div class="student-info-mobile">
@@ -457,50 +538,54 @@
           </div>
         </div>
       </div>
-      
+
       <div class="month-selector-mobile" v-if="getAvailableMonths.length > 0">
         <span class="selector-label-mobile">选择月份：</span>
         <el-select
-          v-model="selectedMonth"
-          placeholder="请选择月份"
-          size="default"
-          class="month-select-mobile"
+            v-model="selectedMonth"
+            placeholder="请选择月份"
+            size="default"
+            class="month-select-mobile"
         >
           <el-option
-            label="全部"
-            value=""
+              label="全部"
+              value=""
           />
           <el-option
-            v-for="month in getAvailableMonths"
-            :key="month.value"
-            :label="month.label"
-            :value="month.value"
+              v-for="month in getAvailableMonths"
+              :key="month.value"
+              :label="month.label"
+              :value="month.value"
           />
         </el-select>
       </div>
-      
+
       <div class="attendance-records-list-mobile">
         <div v-if="filteredAttendanceRecords.length === 0" class="no-records-mobile">
-          <el-icon class="no-records-icon-mobile"><Calendar /></el-icon>
+          <el-icon class="no-records-icon-mobile">
+            <Calendar/>
+          </el-icon>
           <p>{{ selectedMonth ? '该月份暂无考勤记录' : '暂无考勤记录' }}</p>
         </div>
         <div v-else class="records-by-date-mobile">
-          <div 
-            v-for="group in groupRecordsByDate(filteredAttendanceRecords)" 
-            :key="group.date"
-            class="date-group-mobile"
+          <div
+              v-for="group in groupRecordsByDate(filteredAttendanceRecords)"
+              :key="group.date"
+              class="date-group-mobile"
           >
             <div class="date-header-mobile">
-              <el-icon class="date-icon-mobile"><Calendar /></el-icon>
+              <el-icon class="date-icon-mobile">
+                <Calendar/>
+              </el-icon>
               <span class="date-text-mobile">{{ group.date }}</span>
               <span class="date-count-mobile">({{ group.records.length }}次)</span>
             </div>
             <div class="records-list-mobile">
-              <div 
-                v-for="(record, index) in group.records" 
-                :key="index"
-                class="attendance-record-item-mobile"
-                :class="getTimePeriodClass(record.attendanceDateTime)"
+              <div
+                  v-for="(record, index) in group.records"
+                  :key="index"
+                  class="attendance-record-item-mobile"
+                  :class="getTimePeriodClass(record.attendanceDateTime)"
               >
                 <div class="time-period-indicator-mobile" :class="getTimePeriodClass(record.attendanceDateTime)">
                   <div class="indicator-dot-mobile"></div>
@@ -508,7 +593,9 @@
                 </div>
                 <div class="record-content-mobile">
                   <div class="attendance-time-mobile">
-                    <el-icon class="time-icon-mobile"><Clock /></el-icon>
+                    <el-icon class="time-icon-mobile">
+                      <Clock/>
+                    </el-icon>
                     <span class="time-text-mobile">{{ formatRecordTime(record.attendanceDateTime) }}</span>
                   </div>
                 </div>
@@ -525,25 +612,28 @@
     </el-dialog>
 
     <el-dialog
-      v-if="makeupDialogVisible"
-      v-model="makeupDialogVisible"
-      title="学生补卡"
-      width="90%"
-      :close-on-click-modal="false"
-      :append-to-body="true"
-      :teleported="true"
-      class="makeup-dialog-mobile"
-      @close="cancelMakeup"
+        v-if="makeupDialogVisible"
+        v-model="makeupDialogVisible"
+        title="学生补卡"
+        width="90%"
+        :close-on-click-modal="false"
+        :append-to-body="true"
+        :teleported="true"
+        class="makeup-dialog-mobile"
+        @close="cancelMakeup"
     >
       <div class="makeup-student-info-mobile">
         <div class="makeup-student-avatar-mobile">
-          <img v-if="makeupSelectedStudent?.hasAvatar && makeupSelectedStudent?.avatarUrl" :src="makeupSelectedStudent.avatarUrl" alt="头像" class="makeup-avatar-image-mobile" />
+          <img v-if="makeupSelectedStudent?.hasAvatar && makeupSelectedStudent?.avatarUrl"
+               :src="makeupSelectedStudent.avatarUrl" alt="头像" class="makeup-avatar-image-mobile"/>
           <span v-else class="makeup-avatar-text-mobile">{{ makeupSelectedStudent?.name?.charAt(0) }}</span>
         </div>
         <div class="makeup-student-details-mobile">
           <div class="makeup-student-name-mobile">{{ makeupSelectedStudent?.name }}</div>
           <div class="makeup-student-id-mobile">{{ makeupSelectedStudent?.studentId }}</div>
-          <div class="makeup-student-grade-mobile">{{ makeupSelectedStudent?.grade }}年级 · {{ makeupSelectedStudent?.major }}</div>
+          <div class="makeup-student-grade-mobile">{{ makeupSelectedStudent?.grade }}年级 ·
+            {{ makeupSelectedStudent?.major }}
+          </div>
         </div>
       </div>
 
@@ -553,14 +643,16 @@
           <div class="shortcut-row-mobile">
             <div class="shortcut-buttons-mobile">
               <el-button
-                v-for="shortcut in yesterdayShortcuts"
-                :key="shortcut.key"
-                size="small"
-                :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
-                @click="selectDatetimeShortcut(shortcut)"
-                class="date-shortcut-btn-mobile"
+                  v-for="shortcut in yesterdayShortcuts"
+                  :key="shortcut.key"
+                  size="small"
+                  :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
+                  @click="selectDatetimeShortcut(shortcut)"
+                  class="date-shortcut-btn-mobile"
               >
-                <el-icon><Clock /></el-icon>
+                <el-icon>
+                  <Clock/>
+                </el-icon>
                 <span>{{ shortcut.label }}</span>
               </el-button>
             </div>
@@ -568,43 +660,47 @@
           <div class="shortcut-row-mobile">
             <div class="shortcut-buttons-mobile">
               <el-button
-                v-for="shortcut in todayShortcuts"
-                :key="shortcut.key"
-                size="small"
-                :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
-                @click="selectDatetimeShortcut(shortcut)"
-                class="date-shortcut-btn-mobile"
+                  v-for="shortcut in todayShortcuts"
+                  :key="shortcut.key"
+                  size="small"
+                  :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
+                  @click="selectDatetimeShortcut(shortcut)"
+                  class="date-shortcut-btn-mobile"
               >
-                <el-icon><Clock /></el-icon>
+                <el-icon>
+                  <Clock/>
+                </el-icon>
                 <span>{{ shortcut.label }}</span>
               </el-button>
             </div>
           </div>
         </div>
         <el-form
-          ref="makeupFormRef"
-          :model="makeupForm"
-          :rules="makeupDateFormRules"
-          label-width="0"
-          class="makeup-form-content-mobile"
+            ref="makeupFormRef"
+            :model="makeupForm"
+            :rules="makeupDateFormRules"
+            label-width="0"
+            class="makeup-form-content-mobile"
         >
           <el-form-item prop="selectedDate">
             <el-date-picker
-              v-model="makeupForm.selectedDate"
-              type="date"
-              :locale="zhCn"
-              placeholder="请选择日期"
-              format="YYYY-MM-DD"
-              value-format="YYYY-MM-DD"
-              class="makeup-date-picker-mobile"
-              popper-class="makeup-date-picker-popper-mobile"
-              clearable
-              @change="handleDateChange"
-              @focus="handleDatePickerFocus"
-              style="width: 100%"
+                v-model="makeupForm.selectedDate"
+                type="date"
+                :locale="zhCn"
+                placeholder="请选择日期"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+                class="makeup-date-picker-mobile"
+                popper-class="makeup-date-picker-popper-mobile"
+                clearable
+                @change="handleDateChange"
+                @focus="handleDatePickerFocus"
+                style="width: 100%"
             >
               <template #prefix-icon>
-                <el-icon><Calendar /></el-icon>
+                <el-icon>
+                  <Calendar/>
+                </el-icon>
               </template>
             </el-date-picker>
           </el-form-item>
@@ -614,7 +710,9 @@
       <div v-if="makeupStep === 'hour'" class="makeup-step-content-mobile">
         <div class="step-title-mobile">第二步：选择补卡时间</div>
         <div class="selected-date-display-mobile">
-          <el-icon><Calendar /></el-icon>
+          <el-icon>
+            <Calendar/>
+          </el-icon>
           <span>已选择日期：{{ formatSelectedDate() }}</span>
         </div>
         <div class="hour-buttons-group-mobile">
@@ -625,12 +723,12 @@
                 <div class="time-slot-label-mobile">{{ slot.label }}</div>
                 <div class="hour-buttons-row-mobile">
                   <el-button
-                    v-for="hour in slot.hours"
-                    :key="hour"
-                    size="small"
-                    :type="isHourSelected(hour) ? 'primary' : 'default'"
-                    @click="selectHour(hour)"
-                    class="hour-btn-mobile"
+                      v-for="hour in slot.hours"
+                      :key="hour"
+                      size="small"
+                      :type="isHourSelected(hour) ? 'primary' : 'default'"
+                      @click="selectHour(hour)"
+                      class="hour-btn-mobile"
                   >
                     {{ String(hour).padStart(2, '0') }}:00
                   </el-button>
@@ -640,7 +738,9 @@
             </template>
           </div>
           <div class="form-tip-mobile">
-            <el-icon><Warning /></el-icon>
+            <el-icon>
+              <Warning/>
+            </el-icon>
             <span>补卡时间必须在有效签到时间段内（早上 08:00-11:00、下午 14:00-17:00、晚上 19:00-22:00），且不能晚于当前时间</span>
           </div>
         </div>
@@ -648,31 +748,33 @@
 
       <template #footer>
         <div class="makeup-footer-mobile">
-          <el-button 
-            @click="cancelMakeup" 
-            class="cancel-btn-mobile"
-            size="default"
+          <el-button
+              @click="cancelMakeup"
+              class="cancel-btn-mobile"
+              size="default"
           >
             取消
           </el-button>
-          <el-button 
-            v-if="makeupStep === 'date'"
-            type="primary"
-            @click="nextStep"
-            :disabled="!makeupForm.selectedDate"
-            size="default"
+          <el-button
+              v-if="makeupStep === 'date'"
+              type="primary"
+              @click="nextStep"
+              :disabled="!makeupForm.selectedDate"
+              size="default"
           >
             下一步
           </el-button>
-          <el-button 
-            v-if="makeupStep === 'hour'"
-            type="primary"
-            @click="submitMakeup"
-            :loading="makeupLoading"
-            :disabled="makeupForm.selectedHour === null"
-            size="default"
+          <el-button
+              v-if="makeupStep === 'hour'"
+              type="primary"
+              @click="submitMakeup"
+              :loading="makeupLoading"
+              :disabled="makeupForm.selectedHour === null"
+              size="default"
           >
-            <el-icon v-if="!makeupLoading"><Clock /></el-icon>
+            <el-icon v-if="!makeupLoading">
+              <Clock/>
+            </el-icon>
             {{ makeupLoading ? '处理中...' : '确认补卡' }}
           </el-button>
         </div>
@@ -680,21 +782,22 @@
     </el-dialog>
 
     <el-dialog
-      v-if="heatmapDialogVisible"
-      v-model="heatmapDialogVisible"
-      :title="`${currentStudentInfo.name} 的签到热力图`"
-      width="90%"
-      :close-on-click-modal="false"
-      :append-to-body="true"
-      :teleported="true"
-      :destroy-on-close="true"
-      modal-class="heatmap-overlay-mobile"
-      class="heatmap-dialog-mobile"
-      @close="closeHeatmapDialog"
+        v-if="heatmapDialogVisible"
+        v-model="heatmapDialogVisible"
+        :title="`${currentStudentInfo.name} 的签到热力图`"
+        width="90%"
+        :close-on-click-modal="false"
+        :append-to-body="true"
+        :teleported="true"
+        :destroy-on-close="true"
+        modal-class="heatmap-overlay-mobile"
+        class="heatmap-dialog-mobile"
+        @close="closeHeatmapDialog"
     >
       <div class="student-info-header-mobile">
         <div class="student-avatar-large-mobile">
-          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
+          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl"
+               alt="头像" class="avatar-image-large-mobile"/>
           <span v-else class="avatar-text-large-mobile">{{ currentStudentInfo.name?.charAt(0) }}</span>
         </div>
         <div class="student-info-mobile">
@@ -709,17 +812,17 @@
           </div>
         </div>
       </div>
-      
+
       <div class="chart-container-mobile">
         <div class="chart-item-mobile">
           <div class="heatmap-wrapper-mobile">
             <div ref="heatmapChart" class="chart-content-mobile"></div>
             <div class="daily-averages-mobile">
               <div class="averages-title-mobile">概率</div>
-              <div 
-                v-for="(prob, index) in calculateDayProbabilities" 
-                :key="index"
-                class="average-item-mobile"
+              <div
+                  v-for="(prob, index) in calculateDayProbabilities"
+                  :key="index"
+                  class="average-item-mobile"
               >
                 {{ prob }}%
               </div>
@@ -727,7 +830,7 @@
           </div>
         </div>
       </div>
-      
+
       <template #footer>
         <div class="dialog-footer-mobile">
           <el-button @click="closeHeatmapDialog">关闭</el-button>
@@ -736,21 +839,22 @@
     </el-dialog>
 
     <el-dialog
-      v-if="trendDialogVisible"
-      v-model="trendDialogVisible"
-      :title="`${currentStudentInfo.name} 的签到趋势图`"
-      width="90%"
-      :close-on-click-modal="false"
-      :append-to-body="true"
-      :teleported="true"
-      :destroy-on-close="true"
-      modal-class="trend-overlay-mobile"
-      class="trend-dialog-mobile"
-      @close="closeTrendDialog"
+        v-if="trendDialogVisible"
+        v-model="trendDialogVisible"
+        :title="`${currentStudentInfo.name} 的签到趋势图`"
+        width="90%"
+        :close-on-click-modal="false"
+        :append-to-body="true"
+        :teleported="true"
+        :destroy-on-close="true"
+        modal-class="trend-overlay-mobile"
+        class="trend-dialog-mobile"
+        @close="closeTrendDialog"
     >
       <div class="student-info-header-mobile">
         <div class="student-avatar-large-mobile">
-          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
+          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl"
+               alt="头像" class="avatar-image-large-mobile"/>
           <span v-else class="avatar-text-large-mobile">{{ currentStudentInfo.name?.charAt(0) }}</span>
         </div>
         <div class="student-info-mobile">
@@ -765,7 +869,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="chart-container-mobile">
         <div class="chart-item-mobile">
           <div ref="lineChart" class="chart-content-mobile"></div>
@@ -778,59 +882,65 @@
 
     <!-- 添加积分记录对话框 -->
     <el-dialog
-      v-if="pointsDialogVisible"
-      v-model="pointsDialogVisible"
-      title="添加积分记录"
-      width="90%"
-      :close-on-click-modal="false"
-      :append-to-body="true"
-      :teleported="true"
-      :destroy-on-close="true"
-      modal-class="points-overlay-mobile"
-      class="points-dialog-mobile"
-      @close="handlePointsDialogClose"
+        v-if="pointsDialogVisible"
+        v-model="pointsDialogVisible"
+        title="添加积分记录"
+        width="90%"
+        :close-on-click-modal="false"
+        :append-to-body="true"
+        :teleported="true"
+        :destroy-on-close="true"
+        modal-class="points-overlay-mobile"
+        class="points-dialog-mobile"
+        @close="handlePointsDialogClose"
     >
       <div v-if="pointsSelectedStudent" class="points-student-info-mobile">
         <div class="student-info-card-mobile">
           <div class="student-avatar-card-mobile">
-            <img v-if="pointsSelectedStudent.hasAvatar && pointsSelectedStudent.avatarUrl" :src="pointsSelectedStudent.avatarUrl" alt="头像" class="avatar-image-card-mobile" />
+            <img v-if="pointsSelectedStudent.hasAvatar && pointsSelectedStudent.avatarUrl"
+                 :src="pointsSelectedStudent.avatarUrl" alt="头像" class="avatar-image-card-mobile"/>
             <span v-else class="avatar-text-card-mobile">{{ pointsSelectedStudent.name?.charAt(0) }}</span>
           </div>
           <div class="student-info-details-mobile">
             <div class="student-name-card-mobile">{{ pointsSelectedStudent.name }}</div>
             <div class="student-id-card-mobile">学号：{{ pointsSelectedStudent.studentId }}</div>
-            <div class="student-major-card-mobile">{{ pointsSelectedStudent.major }} | {{ pointsSelectedStudent.grade }}年级</div>
+            <div class="student-major-card-mobile">{{ pointsSelectedStudent.major }} | {{
+                pointsSelectedStudent.grade
+              }}年级
+            </div>
           </div>
         </div>
       </div>
       <el-form
-        ref="pointsFormRef"
-        :model="pointsForm"
-        :rules="pointsFormRules"
-        label-position="top"
-        class="points-form-mobile"
+          ref="pointsFormRef"
+          :model="pointsForm"
+          :rules="pointsFormRules"
+          label-position="top"
+          class="points-form-mobile"
       >
         <el-form-item label="积分变动" prop="changePoints">
           <el-input-number
-            v-model="pointsForm.changePoints"
-            :min="-9999"
-            :max="9999"
-            placeholder="请输入积分变动值（正数为加分，负数为扣分）"
-            style="width: 100%"
+              v-model="pointsForm.changePoints"
+              :min="-9999"
+              :max="9999"
+              placeholder="请输入积分变动值（正数为加分，负数为扣分）"
+              style="width: 100%"
           />
           <div class="form-tip-mobile">
-            <el-icon><Warning /></el-icon>
+            <el-icon>
+              <Warning/>
+            </el-icon>
             <span>正数表示加分，负数表示扣分</span>
           </div>
         </el-form-item>
         <el-form-item label="改分理由" prop="adjustReason">
           <el-input
-            v-model="pointsForm.adjustReason"
-            type="textarea"
-            :rows="4"
-            placeholder="请输入详细的改分理由（最多500字符）"
-            maxlength="500"
-            show-word-limit
+              v-model="pointsForm.adjustReason"
+              type="textarea"
+              :rows="4"
+              placeholder="请输入详细的改分理由（最多500字符）"
+              maxlength="500"
+              show-word-limit
           />
         </el-form-item>
       </el-form>
@@ -846,22 +956,25 @@
 
     <!-- 查看积分记录对话框 -->
     <el-dialog
-      v-if="scoreChangeRecordsDialogVisible"
-      v-model="scoreChangeRecordsDialogVisible"
-      :title="`${currentScoreChangeRecordsStudent?.name || '学生'} 的积分记录`"
-      width="90%"
-      :close-on-click-modal="false"
-      :destroy-on-close="true"
-      :append-to-body="true"
-      :teleported="true"
-      modal-class="score-change-records-overlay-mobile"
-      class="score-change-records-dialog-mobile"
-      @close="closeScoreChangeRecordsDialog"
+        v-if="scoreChangeRecordsDialogVisible"
+        v-model="scoreChangeRecordsDialogVisible"
+        :title="`${currentScoreChangeRecordsStudent?.name || '学生'} 的积分记录`"
+        width="90%"
+        :close-on-click-modal="false"
+        :destroy-on-close="true"
+        :append-to-body="true"
+        :teleported="true"
+        modal-class="score-change-records-overlay-mobile"
+        class="score-change-records-dialog-mobile"
+        @close="closeScoreChangeRecordsDialog"
     >
       <div class="student-info-header-mobile">
         <div class="student-avatar-large-mobile">
-          <img v-if="currentScoreChangeRecordsStudent?.hasAvatar && currentScoreChangeRecordsStudent?.avatarUrl" :src="currentScoreChangeRecordsStudent.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
-          <span v-else class="avatar-text-large-mobile">{{ currentScoreChangeRecordsStudent?.name?.charAt(0) || '学' }}</span>
+          <img v-if="currentScoreChangeRecordsStudent?.hasAvatar && currentScoreChangeRecordsStudent?.avatarUrl"
+               :src="currentScoreChangeRecordsStudent.avatarUrl" alt="头像" class="avatar-image-large-mobile"/>
+          <span v-else class="avatar-text-large-mobile">{{
+              currentScoreChangeRecordsStudent?.name?.charAt(0) || '学'
+            }}</span>
         </div>
         <div class="student-info-mobile">
           <h3>{{ currentScoreChangeRecordsStudent?.name || '学生' }}</h3>
@@ -877,31 +990,37 @@
           </div>
           <div class="summary-item-mobile">
             <span class="summary-label-mobile">总调整分数</span>
-            <span class="summary-value-mobile" :class="{ positive: totalScoreChangePoints >= 0, negative: totalScoreChangePoints < 0 }">
+            <span class="summary-value-mobile"
+                  :class="{ positive: totalScoreChangePoints >= 0, negative: totalScoreChangePoints < 0 }">
               {{ totalScoreChangePoints > 0 ? `+${totalScoreChangePoints}` : totalScoreChangePoints }}
             </span>
           </div>
         </div>
       </div>
-      
+
       <div v-if="scoreChangeRecordsLoading" class="records-loading-mobile">
-        <el-icon class="is-loading"><Loading /></el-icon>
+        <el-icon class="is-loading">
+          <Loading/>
+        </el-icon>
         <span>加载中...</span>
       </div>
       <div v-else-if="scoreChangeRecords.length === 0" class="records-empty-mobile">
-        <el-icon><Box /></el-icon>
+        <el-icon>
+          <Box/>
+        </el-icon>
         <span>暂无积分记录</span>
       </div>
       <div v-else class="score-change-records-container-mobile">
         <div class="records-list-mobile">
           <div
-            v-for="(record, index) in sortedScoreChangeRecords"
-            :key="index"
-            class="record-card-mobile"
+              v-for="(record, index) in sortedScoreChangeRecords"
+              :key="index"
+              class="record-card-mobile"
           >
             <div class="record-header-mobile">
               <span class="record-time-mobile">{{ formatScoreChangeTime(record.createTime) }}</span>
-              <span class="record-points-badge-mobile" :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
+              <span class="record-points-badge-mobile"
+                    :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
                 {{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
               </span>
             </div>
@@ -919,8 +1038,20 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue'
-import { ElMessage, ElIcon, ElInput, ElButton, ElSelect, ElOption, ElDialog, ElForm, ElFormItem, ElInputNumber, ElDatePicker } from 'element-plus'
+import {ref, computed, onMounted, nextTick} from 'vue'
+import {
+  ElMessage,
+  ElIcon,
+  ElInput,
+  ElButton,
+  ElSelect,
+  ElOption,
+  ElDialog,
+  ElForm,
+  ElFormItem,
+  ElInputNumber,
+  ElDatePicker
+} from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -936,20 +1067,50 @@ import 'element-plus/theme-chalk/el-date-picker.css'
 import 'element-plus/theme-chalk/el-date-picker-panel.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import 'element-plus/theme-chalk/el-overlay.css'
-import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, Clock, Warning, Key, Lock, Loading, Box } from '@element-plus/icons-vue'
+import {
+  User,
+  Calendar,
+  TrendCharts,
+  Search,
+  Refresh,
+  SwitchButton,
+  Edit,
+  Clock,
+  Warning,
+  Key,
+  Lock,
+  Loading,
+  Box
+} from '@element-plus/icons-vue'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, getAdminInfo, assignStudentToAdmin, getAvatarUrl, updateStudentWithSpecialPassword } from '@/api/student'
-import { getStudentAttendanceCount, getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
-import { createPointsRecord, getAllAdjustRecordsByStudentInfoId } from '@/api/points'
+import {
+  getAllStudentsWithSpecialPassword,
+  setStudentLevel,
+  getStudentLevel,
+  getAdminInfo,
+  assignStudentToAdmin,
+  getAvatarUrl,
+  updateStudentWithSpecialPassword
+} from '@/api/student'
+import {
+  getStudentAttendanceCount,
+  getDailyAttendanceCount,
+  getMonthlyAttendanceCount,
+  getTodayAttendanceRecords,
+  getStudentAttendanceRecords,
+  makeupAttendanceWithSpecialPassword
+} from '@/api/attendance'
+import {createPointsRecord, getAllAdjustRecordsByStudentInfoId} from '@/api/points'
 import * as echarts from 'echarts/core'
-import { LineChart, HeatmapChart } from 'echarts/charts'
+import {LineChart, HeatmapChart} from 'echarts/charts'
 import {
   TitleComponent,
   TooltipComponent,
   GridComponent,
   VisualMapComponent
 } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
+import {CanvasRenderer} from 'echarts/renderers'
+
 echarts.use([
   TitleComponent,
   TooltipComponent,
@@ -959,12 +1120,12 @@ echarts.use([
   HeatmapChart,
   CanvasRenderer
 ])
-import { useAdminStore } from '@/stores/admin'
-import { useThemeStore } from '@/stores/theme'
+import {useAdminStore} from '@/stores/admin'
+import {useThemeStore} from '@/stores/theme'
 
 const adminStore = useAdminStore()
 const themeStore = useThemeStore()
-const { toggleTheme } = themeStore
+const {toggleTheme} = themeStore
 
 const isAuthenticated = ref(false)
 const specialPassword = ref('')
@@ -1034,20 +1195,20 @@ const currentScoreChangeRecordsStudent = ref(null)
 const scoreChangeRecords = ref([])
 
 const levelOptions = [
-  { value: 0, label: '社团成员', color: 'info' },
-  { value: 1, label: '普通成员', color: 'success' },
-  { value: 2, label: '核心成员', color: 'warning' },
-  { value: 3, label: '管理员', color: 'danger' }
+  {value: 0, label: '社团成员', color: 'info'},
+  {value: 1, label: '普通成员', color: 'success'},
+  {value: 2, label: '核心成员', color: 'warning'},
+  {value: 3, label: '管理员', color: 'danger'}
 ]
 
 const adminOptions = computed(() => {
   if (!students.value.length) return []
-  
+
   const adminStudents = students.value.filter(student => {
     const level = studentLevels.value[student.studentId] || 0
     return level === 3
   })
-  
+
   return adminStudents.map(student => ({
     value: student.studentId,
     label: `${student.name} (${student.studentId})`,
@@ -1063,11 +1224,11 @@ const filteredStudents = computed(() => {
   return students.value.filter(student => {
     try {
       return (
-        (student.name && student.name.toLowerCase().includes(keyword)) ||
-        (student.studentId && String(student.studentId).toLowerCase().includes(keyword)) ||
-        (student.phoneNumber && String(student.phoneNumber).includes(keyword)) ||
-        (student.college && student.college.toLowerCase().includes(keyword)) ||
-        (student.major && student.major.toLowerCase().includes(keyword))
+          (student.name && student.name.toLowerCase().includes(keyword)) ||
+          (student.studentId && String(student.studentId).toLowerCase().includes(keyword)) ||
+          (student.phoneNumber && String(student.phoneNumber).includes(keyword)) ||
+          (student.college && student.college.toLowerCase().includes(keyword)) ||
+          (student.major && student.major.toLowerCase().includes(keyword))
       )
     } catch (error) {
       return false
@@ -1163,7 +1324,7 @@ const loadStudentAvatars = async () => {
         if (student.id) {
           const studentInfoId = student.id
           const avatarUrlString = getAvatarUrl(studentInfoId)
-          
+
           if (avatarUrlString) {
             const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
             const img = new Image()
@@ -1206,11 +1367,11 @@ const loadStatistics = async () => {
       getDailyAttendanceCount(),
       getMonthlyAttendanceCount()
     ])
-    
+
     if (dailyData.code === 200) {
       todayCount.value = dailyData.data.count || 0
     }
-    
+
     if (monthlyData.code === 200) {
       monthlyCount.value = monthlyData.data.count || 0
     }
@@ -1316,7 +1477,7 @@ const authenticate = async () => {
 
   try {
     const response = await getAllStudentsWithSpecialPassword(specialPassword.value)
-    
+
     if (response.code === 200) {
       adminStore.setAdminPassword(specialPassword.value)
       ElMessage.success('身份验证成功')
@@ -1349,33 +1510,33 @@ const logout = () => {
 
 const editFormRules = {
   name: [
-    { required: true, message: '请输入学生姓名', trigger: 'blur' }
+    {required: true, message: '请输入学生姓名', trigger: 'blur'}
   ],
   studentId: [
-    { required: true, message: '请输入学号', trigger: 'blur' },
-    { pattern: /^[2-3][0-9]\d{8}$/, message: '学号格式不正确（以20-30开头的10位数字）', trigger: 'blur' }
+    {required: true, message: '请输入学号', trigger: 'blur'},
+    {pattern: /^[2-3][0-9]\d{8}$/, message: '学号格式不正确（以20-30开头的10位数字）', trigger: 'blur'}
   ],
   gender: [
-    { required: true, message: '请选择性别', trigger: 'change' }
+    {required: true, message: '请选择性别', trigger: 'change'}
   ],
   phoneNumber: [
-    { required: true, message: '请输入手机号', trigger: 'blur' },
-    { pattern: /^1[3456789]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
+    {required: true, message: '请输入手机号', trigger: 'blur'},
+    {pattern: /^1[3456789]\d{9}$/, message: '手机号格式不正确', trigger: 'blur'}
   ],
   college: [
-    { required: true, message: '请输入学院', trigger: 'blur' }
+    {required: true, message: '请输入学院', trigger: 'blur'}
   ],
   major: [
-    { required: true, message: '请输入专业', trigger: 'blur' }
+    {required: true, message: '请输入专业', trigger: 'blur'}
   ],
   grade: [
-    { required: true, message: '请选择年级', trigger: 'change' }
+    {required: true, message: '请选择年级', trigger: 'change'}
   ],
   classNum: [
-    { required: true, message: '请输入班级', trigger: 'blur' }
+    {required: true, message: '请输入班级', trigger: 'blur'}
   ],
   password: [
-    { min: 6, max: 16, message: '密码长度必须在6到16位之间', trigger: 'blur' }
+    {min: 6, max: 16, message: '密码长度必须在6到16位之间', trigger: 'blur'}
   ]
 }
 
@@ -1402,9 +1563,9 @@ const cancelEdit = () => {
     dialogWrapper.style.visibility = 'hidden'
     dialogWrapper.style.opacity = '0'
   }
-  
+
   editDialogVisible.value = false
-  
+
   setTimeout(() => {
     editFormRef.value?.resetFields()
     currentEditStudentId.value = ''
@@ -1413,10 +1574,10 @@ const cancelEdit = () => {
 
 const confirmEdit = async () => {
   if (!editFormRef.value) return
-  
+
   try {
     await editFormRef.value.validate()
-    
+
     const adminPassword = adminStore.getAdminPassword()
     if (!adminPassword) {
       ElMessage.error('身份验证已过期，请重新登录')
@@ -1426,13 +1587,13 @@ const confirmEdit = async () => {
     }
 
     isLoading.value = true
-    
+
     const response = await updateStudentWithSpecialPassword(
-      adminPassword,
-      currentEditStudentId.value,
-      editForm.value
+        adminPassword,
+        currentEditStudentId.value,
+        editForm.value
     )
-    
+
     if (response.code === 200) {
       ElMessage.success('学生信息修改成功')
       editDialogVisible.value = false
@@ -1500,7 +1661,7 @@ const loadTodayAttendanceAvatars = async () => {
         if (student && student.id) {
           const studentInfoId = student.id
           const avatarUrlString = getAvatarUrl(studentInfoId)
-          
+
           if (avatarUrlString) {
             const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
             const img = new Image()
@@ -1555,7 +1716,7 @@ const getTimePeriodClass = (timeString) => {
   if (!timeString) return 'morning'
   const date = new Date(timeString)
   const hour = date.getHours()
-  
+
   if (hour >= 8 && hour < 11) {
     return 'morning'
   } else if (hour >= 14 && hour < 17) {
@@ -1571,7 +1732,7 @@ const getTimePeriodName = (timeString) => {
   if (!timeString) return '早上'
   const date = new Date(timeString)
   const hour = date.getHours()
-  
+
   if (hour >= 8 && hour < 11) {
     return '早上'
   } else if (hour >= 14 && hour < 17) {
@@ -1843,18 +2004,18 @@ const setChineseWeekDaysMobile = () => {
 
 const makeupDateFormRules = {
   selectedDate: [
-    { required: true, message: '请选择日期', trigger: 'change' }
+    {required: true, message: '请选择日期', trigger: 'change'}
   ]
 }
 
 const pointsFormRules = {
   changePoints: [
-    { required: true, message: '请输入积分变动值', trigger: 'blur' },
-    { type: 'number', message: '积分变动值必须为数字', trigger: 'blur' }
+    {required: true, message: '请输入积分变动值', trigger: 'blur'},
+    {type: 'number', message: '积分变动值必须为数字', trigger: 'blur'}
   ],
   adjustReason: [
-    { required: true, message: '请输入改分理由', trigger: 'blur' },
-    { max: 500, message: '改分理由不能超过500个字符', trigger: 'blur' }
+    {required: true, message: '请输入改分理由', trigger: 'blur'},
+    {max: 500, message: '改分理由不能超过500个字符', trigger: 'blur'}
   ]
 }
 
@@ -1871,35 +2032,35 @@ const openMakeupDialog = (student) => {
       input.setAttribute('readonly', 'readonly')
       input.setAttribute('inputmode', 'none')
     }
-    
+
     setChineseMonthMobile()
     setChineseWeekDaysMobile()
-    
+
     setTimeout(() => {
       setChineseMonthMobile()
       setChineseWeekDaysMobile()
     }, 200)
-    
+
     setTimeout(() => {
       setChineseMonthMobile()
       setChineseWeekDaysMobile()
     }, 500)
-    
+
     setTimeout(() => {
       setChineseMonthMobile()
       setChineseWeekDaysMobile()
     }, 800)
   }, 100)
-  
+
   if (monthObserverMobile) {
     monthObserverMobile.disconnect()
   }
-  
+
   monthObserverMobile = new MutationObserver(() => {
     setChineseMonthMobile()
     setChineseWeekDaysMobile()
   })
-  
+
   setTimeout(() => {
     const popper = document.querySelector('.makeup-date-picker-popper-mobile')
     if (popper) {
@@ -2045,9 +2206,9 @@ const submitMakeup = async () => {
   makeupLoading.value = true
   try {
     const response = await makeupAttendanceWithSpecialPassword(
-      adminPassword,
-      makeupSelectedStudent.value.studentId,
-      makeupForm.value.attendanceTime
+        adminPassword,
+        makeupSelectedStudent.value.studentId,
+        makeupForm.value.attendanceTime
     )
     if (response.code === 200) {
       ElMessage.success('补卡成功')
@@ -2067,9 +2228,9 @@ const generateHeatmapData = () => {
   const data = []
   const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
   const timeSlots = ['上午', '下午', '晚上']
-  
+
   const records = allStudentAttendanceRecords.value || []
-  
+
   if (!records || !Array.isArray(records) || records.length === 0) {
     weekDays.forEach((day, dayIndex) => {
       timeSlots.forEach((slot, slotIndex) => {
@@ -2078,19 +2239,19 @@ const generateHeatmapData = () => {
     })
     return data
   }
-  
+
   weekDays.forEach((day, dayIndex) => {
     timeSlots.forEach((slot, slotIndex) => {
       let count = 0
       records.forEach(record => {
         if (!record || !record.attendanceDateTime) return
-        
+
         const date = new Date(record.attendanceDateTime)
         if (isNaN(date.getTime())) return
-        
+
         const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
         const hour = date.getHours()
-        
+
         if (dayOfWeek === dayIndex) {
           if (slot === '上午' && hour >= 8 && hour < 11) count++
           else if (slot === '下午' && hour >= 14 && hour < 17) count++
@@ -2100,57 +2261,57 @@ const generateHeatmapData = () => {
       data.push([slotIndex, dayIndex, count])
     })
   })
-  
+
   return data
 }
 
 const calculateDayProbabilities = computed(() => {
   const weekDays = ['一', '二', '三', '四', '五', '六', '日']
   const records = allStudentAttendanceRecords.value || []
-  
+
   if (!records || !Array.isArray(records) || records.length === 0) {
     return weekDays.map(() => 0)
   }
-  
+
   // 找到第一条签到记录的日期和今天的日期
   const dates = records
-    .map(r => r?.attendanceDateTime ? new Date(r.attendanceDateTime) : null)
-    .filter(d => d && !isNaN(d.getTime()))
-    .sort((a, b) => a.getTime() - b.getTime())
-  
+      .map(r => r?.attendanceDateTime ? new Date(r.attendanceDateTime) : null)
+      .filter(d => d && !isNaN(d.getTime()))
+      .sort((a, b) => a.getTime() - b.getTime())
+
   if (dates.length === 0) {
     return weekDays.map(() => 0)
   }
-  
+
   const firstDate = new Date(dates[0])
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   firstDate.setHours(0, 0, 0, 0)
-  
+
   // 统计每个星期几有签到的日期
   const dayWithAttendance = [new Set(), new Set(), new Set(), new Set(), new Set(), new Set(), new Set()]
-  
+
   records.forEach(record => {
     if (!record || !record.attendanceDateTime) return
-    
+
     const date = new Date(record.attendanceDateTime)
     if (isNaN(date.getTime())) return
-    
+
     const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
     const dateStr = date.toISOString().split('T')[0]
     dayWithAttendance[dayOfWeek].add(dateStr)
   })
-  
+
   // 计算从第一条签到记录到今天，每个星期几出现的总次数
   const dayTotalCounts = [0, 0, 0, 0, 0, 0, 0]
   const currentDate = new Date(firstDate)
-  
+
   while (currentDate <= today) {
     const dayOfWeek = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1
     dayTotalCounts[dayOfWeek]++
     currentDate.setDate(currentDate.getDate() + 1)
   }
-  
+
   // 计算概率
   return dayTotalCounts.map((total, index) => {
     const attendedCount = dayWithAttendance[index].size
@@ -2162,61 +2323,61 @@ const calculateTimeSlotProbabilities = computed(() => {
   const weekDays = ['一', '二', '三', '四', '五', '六', '日']
   const timeSlots = ['早上', '下午', '晚上']
   const records = allStudentAttendanceRecords.value || []
-  
+
   if (!records || !Array.isArray(records) || records.length === 0) {
     return weekDays.map(() => timeSlots.map(() => 0))
   }
-  
+
   // 找到第一条签到记录的日期和今天的日期
   const dates = records
-    .map(r => r?.attendanceDateTime ? new Date(r.attendanceDateTime) : null)
-    .filter(d => d && !isNaN(d.getTime()))
-    .sort((a, b) => a.getTime() - b.getTime())
-  
+      .map(r => r?.attendanceDateTime ? new Date(r.attendanceDateTime) : null)
+      .filter(d => d && !isNaN(d.getTime()))
+      .sort((a, b) => a.getTime() - b.getTime())
+
   if (dates.length === 0) {
     return weekDays.map(() => timeSlots.map(() => 0))
   }
-  
+
   const firstDate = new Date(dates[0])
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   firstDate.setHours(0, 0, 0, 0)
-  
+
   // 统计每个星期几的每个时间段有签到的日期
-  const dayTimeSlotWithAttendance = weekDays.map(() => 
-    timeSlots.map(() => new Set())
+  const dayTimeSlotWithAttendance = weekDays.map(() =>
+      timeSlots.map(() => new Set())
   )
-  
+
   records.forEach(record => {
     if (!record || !record.attendanceDateTime) return
-    
+
     const date = new Date(record.attendanceDateTime)
     if (isNaN(date.getTime())) return
-    
+
     const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
     const hour = date.getHours()
     const dateStr = date.toISOString().split('T')[0]
-    
+
     let timeSlotIndex = -1
     if (hour >= 8 && hour < 11) timeSlotIndex = 0 // 早上
     else if (hour >= 14 && hour < 17) timeSlotIndex = 1 // 下午
     else if (hour >= 19 && hour < 22) timeSlotIndex = 2 // 晚上
-    
+
     if (timeSlotIndex >= 0) {
       dayTimeSlotWithAttendance[dayOfWeek][timeSlotIndex].add(dateStr)
     }
   })
-  
+
   // 计算从第一条签到记录到今天，每个星期几出现的总次数
   const dayTotalCounts = [0, 0, 0, 0, 0, 0, 0]
   const currentDate = new Date(firstDate)
-  
+
   while (currentDate <= today) {
     const dayOfWeek = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1
     dayTotalCounts[dayOfWeek]++
     currentDate.setDate(currentDate.getDate() + 1)
   }
-  
+
   // 计算每个星期几的每个时间段的概率
   return dayTotalCounts.map((total, dayIndex) => {
     return timeSlots.map((slot, slotIndex) => {
@@ -2228,35 +2389,35 @@ const calculateTimeSlotProbabilities = computed(() => {
 
 const generateLineData = () => {
   const dateMap = new Map()
-  
+
   const records = allStudentAttendanceRecords.value || []
-  
+
   if (!records || !Array.isArray(records) || records.length === 0) {
     return {
       dates: [],
       values: []
     }
   }
-  
+
   records.forEach(record => {
     if (!record || !record.attendanceDateTime) return
-    
+
     const date = new Date(record.attendanceDateTime)
     if (isNaN(date.getTime())) return
-    
+
     const dateStr = date.toISOString().split('T')[0]
     dateMap.set(dateStr, (dateMap.get(dateStr) || 0) + 1)
   })
-  
+
   const sortedDates = Array.from(dateMap.keys()).sort()
   const dailyValues = sortedDates.map(date => dateMap.get(date))
-  
+
   let cumulativeSum = 0
   const cumulativeValues = dailyValues.map(value => {
     cumulativeSum += value
     return cumulativeSum
   })
-  
+
   return {
     dates: sortedDates,
     values: cumulativeValues
@@ -2265,21 +2426,21 @@ const generateLineData = () => {
 
 const initHeatmapChart = () => {
   if (!heatmapChart.value) return
-  
+
   if (heatmapInstance.value) {
     heatmapInstance.value.dispose()
   }
-  
+
   heatmapInstance.value = echarts.init(heatmapChart.value)
-  
+
   const heatmapData = generateHeatmapData()
-  
+
   if (!heatmapData || !Array.isArray(heatmapData) || heatmapData.length === 0) {
     return
   }
-  
+
   const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
-  
+
   const option = {
     backgroundColor: 'transparent',
     tooltip: {
@@ -2389,9 +2550,9 @@ const initHeatmapChart = () => {
       }
     }]
   }
-  
+
   heatmapInstance.value.setOption(option)
-  
+
   // 添加点击事件
   heatmapInstance.value.off('click')
   heatmapInstance.value.on('click', (params) => {
@@ -2400,16 +2561,16 @@ const initHeatmapChart = () => {
       const dayIndex = params.data[1]
       const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
       const timeSlots = ['早上', '下午', '晚上']
-      
+
       const dayLabel = weekDays[dayIndex]
       const timeSlotLabel = timeSlots[slotIndex]
-      
+
       const probabilities = calculateTimeSlotProbabilities.value
       let probability = 0
       if (probabilities && probabilities[dayIndex] && probabilities[dayIndex][slotIndex] !== undefined) {
         probability = probabilities[dayIndex][slotIndex]
       }
-      
+
       // 显示tooltip消息
       ElMessage({
         message: `${dayLabel} ${timeSlotLabel} 会来的概率: ${probability}%`,
@@ -2423,48 +2584,48 @@ const initHeatmapChart = () => {
 
 const initLineChart = () => {
   if (!lineChart.value) return
-  
+
   if (lineInstance.value) {
     lineInstance.value.dispose()
   }
-  
+
   lineInstance.value = echarts.init(lineChart.value)
-  
+
   const lineData = generateLineData()
-  
+
   if (!lineData || !lineData.dates || !lineData.values || lineData.dates.length === 0) {
     return
   }
-  
+
   // 检测是否为夜间模式
   const isDarkMode = document.documentElement.classList.contains('dark')
-  
+
   // 获取CSS变量值，带回退值
   const getComputedStyleValue = (property, fallback) => {
     const value = getComputedStyle(document.documentElement).getPropertyValue(property).trim()
     return value || fallback
   }
-  
+
   const axisTextColor = isDarkMode
-    ? getComputedStyleValue('--admin-text-secondary', '#cbd5e1')
-    : getComputedStyleValue('--admin-text-secondary', '#2d3748')
+      ? getComputedStyleValue('--admin-text-secondary', '#cbd5e1')
+      : getComputedStyleValue('--admin-text-secondary', '#2d3748')
   const axisLineColor = isDarkMode
-    ? getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.1)')
-    : getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.3)')
-  
-  const tooltipBgColor = isDarkMode 
-    ? getComputedStyleValue('--admin-glass-bg', 'rgba(15, 23, 42, 0.95)')
-    : 'rgba(255, 255, 255, 0.95)'
+      ? getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.1)')
+      : getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.3)')
+
+  const tooltipBgColor = isDarkMode
+      ? getComputedStyleValue('--admin-glass-bg', 'rgba(15, 23, 42, 0.95)')
+      : 'rgba(255, 255, 255, 0.95)'
   const tooltipTextColor = isDarkMode
-    ? getComputedStyleValue('--admin-text-primary', '#e2e8f0')
-    : '#333'
+      ? getComputedStyleValue('--admin-text-primary', '#e2e8f0')
+      : '#333'
   const tooltipBorderColor = isDarkMode
-    ? getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.1)')
-    : '#ddd'
+      ? getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.1)')
+      : '#ddd'
   const splitLineColor = isDarkMode
-    ? 'rgba(255, 255, 255, 0.1)'
-    : 'rgba(0, 0, 0, 0.05)'
-  
+      ? 'rgba(255, 255, 255, 0.1)'
+      : 'rgba(0, 0, 0, 0.05)'
+
   const option = {
     backgroundColor: 'transparent',
     tooltip: {
@@ -2581,7 +2742,7 @@ const initLineChart = () => {
       data: lineData.dates.map((date, index) => [date, lineData.values[index]])
     }]
   }
-  
+
   lineInstance.value.setOption(option)
 }
 
@@ -2612,9 +2773,9 @@ const closeHeatmapDialog = () => {
     dialogWrapper.style.visibility = 'hidden'
     dialogWrapper.style.opacity = '0'
   }
-  
+
   heatmapDialogVisible.value = false
-  
+
   if (heatmapInstance.value) {
     heatmapInstance.value.dispose()
     heatmapInstance.value = null
@@ -2662,7 +2823,7 @@ const openPointsDialog = async (student) => {
     ElMessage.warning('学生信息不完整，无法添加积分记录')
     return
   }
-  
+
   // 恢复遮罩层样式，确保可以正常显示
   const dialogWrapper = document.querySelector('.points-overlay-mobile')
   if (dialogWrapper) {
@@ -2670,7 +2831,7 @@ const openPointsDialog = async (student) => {
     dialogWrapper.style.visibility = ''
     dialogWrapper.style.opacity = ''
   }
-  
+
   // 加载学生头像
   if (student.id) {
     const avatarUrlString = getAvatarUrl(student.id)
@@ -2691,7 +2852,7 @@ const openPointsDialog = async (student) => {
       student.avatarUrl = null
     }
   }
-  
+
   pointsSelectedStudent.value = student
   pointsForm.value = {
     changePoints: null,
@@ -2708,7 +2869,7 @@ const handlePointsDialogClose = () => {
     dialogWrapper.style.visibility = 'hidden'
     dialogWrapper.style.opacity = '0'
   }
-  
+
   // 延迟清空数据，确保弹窗完全关闭后再清空
   setTimeout(() => {
     pointsFormRef.value?.resetFields()
@@ -2726,10 +2887,10 @@ const cancelPoints = () => {
 
 const confirmPoints = async () => {
   if (!pointsFormRef.value) return
-  
+
   try {
     await pointsFormRef.value.validate()
-    
+
     const adminPassword = adminStore.getAdminPassword()
     if (!adminPassword) {
       ElMessage.error('身份验证已过期，请重新登录')
@@ -2744,14 +2905,14 @@ const confirmPoints = async () => {
     }
 
     pointsLoading.value = true
-    
+
     const response = await createPointsRecord(
-      adminPassword,
-      pointsForm.value.adjustReason.trim(),
-      parseInt(pointsForm.value.changePoints),
-      pointsSelectedStudent.value.id
+        adminPassword,
+        pointsForm.value.adjustReason.trim(),
+        parseInt(pointsForm.value.changePoints),
+        pointsSelectedStudent.value.id
     )
-    
+
     if (response.code === 200) {
       ElMessage.success('积分记录创建成功')
       pointsDialogVisible.value = false
@@ -2773,7 +2934,7 @@ const openScoreChangeRecordsDialog = async (student) => {
     ElMessage.warning('学生信息不完整，无法查看积分记录')
     return
   }
-  
+
   // 加载学生头像
   if (student.id) {
     const avatarUrlString = getAvatarUrl(student.id)
@@ -2794,12 +2955,12 @@ const openScoreChangeRecordsDialog = async (student) => {
       student.avatarUrl = null
     }
   }
-  
+
   currentScoreChangeRecordsStudent.value = student
   scoreChangeRecordsDialogVisible.value = true
   scoreChangeRecordsLoading.value = true
   scoreChangeRecords.value = []
-  
+
   try {
     const response = await getAllAdjustRecordsByStudentInfoId(student.id)
     if (response.code === 200 && Array.isArray(response.data)) {
@@ -2851,12 +3012,12 @@ const formatScoreChangeTime = (timeString) => {
 
 const loadAllData = async (adminPassword) => {
   const totalSteps = 6
-  
+
   const updateProgress = (step, status) => {
     loadingProgress.value = (step / totalSteps) * 100
     loadingStatus.value = status
   }
-  
+
   try {
     updateProgress(1, '正在获取学生数据...')
     const response = await getAllStudentsWithSpecialPassword(adminPassword)
@@ -2866,31 +3027,31 @@ const loadAllData = async (adminPassword) => {
       adminStore.clearAdminPassword()
       return
     }
-    
+
     students.value = response.data
     totalStudents.value = response.data.length
-    
+
     updateProgress(2, '正在加载统计数据...')
     await loadStatistics()
-    
+
     updateProgress(3, '正在加载学生等级...')
     await loadStudentLevels()
-    
+
     updateProgress(4, '正在加载考勤数据...')
     await loadStudentAttendanceCounts()
-    
+
     updateProgress(5, '正在加载管理员信息...')
     await loadStudentAdmins()
-    
+
     updateProgress(6, '正在加载学生头像...')
     await loadStudentAvatars()
-    
+
     updateProgress(6, '数据加载完成！')
-    
+
     setTimeout(() => {
       isDataLoaded.value = true
     }, 500)
-    
+
   } catch (error) {
     ElMessage.error('加载数据失败：' + error.message)
     isAuthenticated.value = false
@@ -2900,7 +3061,7 @@ const loadAllData = async (adminPassword) => {
 
 onMounted(async () => {
   document.title = '超级管理员控制台 - AI坊学生管理系统'
-  
+
   const adminPassword = adminStore.getAdminPassword()
   if (adminPassword) {
     isAuthenticated.value = true
@@ -3228,8 +3389,12 @@ onMounted(async () => {
 }
 
 @keyframes spin-mobile {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text-mobile {
@@ -3313,7 +3478,7 @@ onMounted(async () => {
 }
 
 .title-section-mobile p {
-  font-size: 12px;
+font-size: 12px;
   color: var(--admin-text-secondary);
   margin: 0;
   font-weight: 500;
@@ -3912,9 +4077,10 @@ onMounted(async () => {
   justify-content: center;
   font-size: 16px;
   font-weight: 700;
-  color: white;
-  flex-shrink: 0;
-  overflow: hidden;
+}
+.student-actions-mobile > div {
+  flex: 0 0 100%; /* 每个功能块占据一整行 */
+  min-width: 100%;
 }
 
 .student-avatar-mobile-record.has-avatar {
