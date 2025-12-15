@@ -508,6 +508,19 @@
 
       <div v-if="makeupStep === 'date'" class="makeup-step-content-mobile">
         <div class="step-title-mobile">第一步：选择补卡日期</div>
+        <div class="date-shortcuts-mobile">
+          <el-button
+            v-for="shortcut in datetimeShortcuts"
+            :key="shortcut.key"
+            size="small"
+            :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
+            @click="selectDatetimeShortcut(shortcut)"
+            class="date-shortcut-btn-mobile"
+          >
+            <el-icon><Clock /></el-icon>
+            <span>{{ shortcut.label }}</span>
+          </el-button>
+        </div>
         <el-form
           ref="makeupFormRef"
           :model="makeupForm"
@@ -1282,6 +1295,57 @@ const timeSlots = [
 
 const validHours = timeSlots.flatMap(slot => slot.hours)
 
+const datetimeShortcuts = [
+  {
+    key: 'today-morning',
+    label: '今天早上',
+    dateOffset: 0,
+    timeSlot: 'morning',
+    defaultHour: 8
+  },
+  {
+    key: 'today-afternoon',
+    label: '今天下午',
+    dateOffset: 0,
+    timeSlot: 'afternoon',
+    defaultHour: 14
+  },
+  {
+    key: 'today-evening',
+    label: '今天晚上',
+    dateOffset: 0,
+    timeSlot: 'evening',
+    defaultHour: 19
+  },
+  {
+    key: 'yesterday-morning',
+    label: '昨天早上',
+    dateOffset: -1,
+    timeSlot: 'morning',
+    defaultHour: 8
+  },
+  {
+    key: 'yesterday-afternoon',
+    label: '昨天下午',
+    dateOffset: -1,
+    timeSlot: 'afternoon',
+    defaultHour: 14
+  },
+  {
+    key: 'yesterday-evening',
+    label: '昨天晚上',
+    dateOffset: -1,
+    timeSlot: 'evening',
+    defaultHour: 19
+  }
+]
+
+const getShortcutDate = (shortcut) => {
+  const date = new Date()
+  date.setDate(date.getDate() + shortcut.dateOffset)
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
 const monthMap = {
   'January': '一月',
   'February': '二月',
@@ -1431,6 +1495,23 @@ const handleDateChange = () => {
     makeupForm.value.selectedHour = null
     makeupForm.value.attendanceTime = ''
   }
+}
+
+const selectDatetimeShortcut = (shortcut) => {
+  const dateValue = getShortcutDate(shortcut)
+  makeupForm.value.selectedDate = dateValue
+  makeupForm.value.selectedHour = shortcut.defaultHour
+  updateAttendanceTime()
+  makeupStep.value = 'hour'
+}
+
+const isDatetimeShortcutSelected = (shortcut) => {
+  if (!makeupForm.value.selectedDate || makeupForm.value.selectedHour === null) return false
+  const shortcutDate = getShortcutDate(shortcut)
+  if (makeupForm.value.selectedDate !== shortcutDate) return false
+  const selectedSlot = timeSlots.find(slot => slot.hours.includes(makeupForm.value.selectedHour))
+  if (!selectedSlot || selectedSlot.key !== shortcut.timeSlot) return false
+  return true
 }
 
 const handleDatePickerFocus = (event) => {
@@ -2879,6 +2960,26 @@ onMounted(async () => {
   color: var(--admin-text-primary);
   padding-bottom: 10px;
   border-bottom: 2px solid var(--admin-primary-color);
+  margin-bottom: 15px;
+}
+
+.date-shortcuts-mobile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.date-shortcut-btn-mobile {
+  flex: 1;
+  min-width: calc(50% - 4px);
+  max-width: calc(50% - 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
 }
 
 .makeup-form-content-mobile {
