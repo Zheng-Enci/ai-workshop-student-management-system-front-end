@@ -1071,6 +1071,7 @@ const refreshData = async () => {
       await loadStudentLevels()
       await loadStudentAttendanceCounts()
       await loadStudentAdmins()
+      await loadStudentAvatars()
       ElMessage.success('数据刷新成功')
     }
   } catch (error) {
@@ -3268,8 +3269,8 @@ onMounted(async () => {
 }
 
 .action-btn-mobile {
-  flex: 1;
-  min-width: 0;
+  flex: 0 0 calc((100% - 16px) / 3);
+  min-width: calc((100% - 16px) / 3);
   font-size: 12px;
 }
 

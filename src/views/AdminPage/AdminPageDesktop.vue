@@ -1547,6 +1547,7 @@ const refreshData = async () => {
       await loadStudentLevels()
       await loadStudentAttendanceCounts()
       await loadStudentAdmins()
+      await loadStudentAvatars()
       ElMessage.success('数据刷新成功')
     }
   } catch (error) {
