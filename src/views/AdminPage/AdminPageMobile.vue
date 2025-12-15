@@ -524,8 +524,10 @@
               format="YYYY-MM-DD"
               value-format="YYYY-MM-DD"
               class="makeup-date-picker-mobile"
+              popper-class="makeup-date-picker-popper-mobile"
               clearable
               @change="handleDateChange"
+              @focus="handleDatePickerFocus"
               style="width: 100%"
             >
               <template #prefix-icon>
@@ -1280,6 +1282,40 @@ const timeSlots = [
 
 const validHours = timeSlots.flatMap(slot => slot.hours)
 
+const monthMap = {
+  'January': '一月',
+  'February': '二月',
+  'March': '三月',
+  'April': '四月',
+  'May': '五月',
+  'June': '六月',
+  'July': '七月',
+  'August': '八月',
+  'September': '九月',
+  'October': '十月',
+  'November': '十一月',
+  'December': '十二月'
+}
+
+let monthObserverMobile = null
+
+const setChineseMonthMobile = () => {
+  const popper = document.querySelector('.makeup-date-picker-popper-mobile')
+  if (popper) {
+    const headerLabels = popper.querySelectorAll('.el-date-picker__header-label')
+    headerLabels.forEach(label => {
+      const text = label.textContent.trim()
+      for (const [enMonth, cnMonth] of Object.entries(monthMap)) {
+        if (text.includes(enMonth)) {
+          const newText = text.replace(enMonth, cnMonth)
+          label.textContent = newText
+          break
+        }
+      }
+    })
+  }
+}
+
 const makeupDateFormRules = {
   selectedDate: [
     { required: true, message: '请选择日期', trigger: 'change' }
@@ -1293,9 +1329,53 @@ const openMakeupDialog = (student) => {
   makeupForm.value.selectedHour = null
   makeupStep.value = 'date'
   makeupDialogVisible.value = true
+  setTimeout(() => {
+    const input = document.querySelector('.makeup-date-picker-mobile input')
+    if (input) {
+      input.setAttribute('readonly', 'readonly')
+      input.setAttribute('inputmode', 'none')
+    }
+    
+    setChineseMonthMobile()
+    
+    setTimeout(() => {
+      setChineseMonthMobile()
+    }, 200)
+    
+    setTimeout(() => {
+      setChineseMonthMobile()
+    }, 500)
+    
+    setTimeout(() => {
+      setChineseMonthMobile()
+    }, 800)
+  }, 100)
+  
+  if (monthObserverMobile) {
+    monthObserverMobile.disconnect()
+  }
+  
+  monthObserverMobile = new MutationObserver(() => {
+    setChineseMonthMobile()
+  })
+  
+  setTimeout(() => {
+    const popper = document.querySelector('.makeup-date-picker-popper-mobile')
+    if (popper) {
+      monthObserverMobile.observe(popper, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      })
+    }
+  }, 200)
 }
 
 const cancelMakeup = () => {
+  if (monthObserverMobile) {
+    monthObserverMobile.disconnect()
+    monthObserverMobile = null
+  }
   makeupDialogVisible.value = false
   makeupFormRef.value?.resetFields()
   makeupSelectedStudent.value = null
@@ -1311,6 +1391,21 @@ const handleDateChange = () => {
     makeupForm.value.selectedHour = null
     makeupForm.value.attendanceTime = ''
   }
+}
+
+const handleDatePickerFocus = (event) => {
+  if (event && event.target && event.target.tagName === 'INPUT') {
+    event.target.setAttribute('readonly', 'readonly')
+    event.target.setAttribute('inputmode', 'none')
+    event.preventDefault()
+  }
+  setTimeout(() => {
+    const input = document.querySelector('.makeup-date-picker-mobile input')
+    if (input) {
+      input.setAttribute('readonly', 'readonly')
+      input.setAttribute('inputmode', 'none')
+    }
+  }, 0)
 }
 
 const selectHour = (hour) => {
@@ -2752,6 +2847,24 @@ onMounted(async () => {
 
 .makeup-date-picker-mobile {
   width: 100%;
+}
+
+.makeup-date-picker-mobile :deep(.el-input__inner) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.makeup-date-picker-mobile :deep(input) {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.makeup-date-picker-mobile :deep(input[readonly]) {
+  cursor: pointer;
+}
+
+.makeup-date-picker-popper-mobile {
+  z-index: 2001 !important;
 }
 
 .selected-date-display-mobile {
