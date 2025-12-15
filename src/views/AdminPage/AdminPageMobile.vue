@@ -2436,14 +2436,43 @@ const initLineChart = () => {
     return
   }
   
+  // 检测是否为夜间模式
+  const isDarkMode = document.documentElement.classList.contains('dark')
+  
+  // 获取CSS变量值，带回退值
+  const getComputedStyleValue = (property, fallback) => {
+    const value = getComputedStyle(document.documentElement).getPropertyValue(property).trim()
+    return value || fallback
+  }
+  
+  const axisTextColor = isDarkMode
+    ? getComputedStyleValue('--admin-text-secondary', '#cbd5e1')
+    : getComputedStyleValue('--admin-text-secondary', '#2d3748')
+  const axisLineColor = isDarkMode
+    ? getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.1)')
+    : getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.3)')
+  
+  const tooltipBgColor = isDarkMode 
+    ? getComputedStyleValue('--admin-glass-bg', 'rgba(15, 23, 42, 0.95)')
+    : 'rgba(255, 255, 255, 0.95)'
+  const tooltipTextColor = isDarkMode
+    ? getComputedStyleValue('--admin-text-primary', '#e2e8f0')
+    : '#333'
+  const tooltipBorderColor = isDarkMode
+    ? getComputedStyleValue('--admin-glass-border', 'rgba(255, 255, 255, 0.1)')
+    : '#ddd'
+  const splitLineColor = isDarkMode
+    ? 'rgba(255, 255, 255, 0.1)'
+    : 'rgba(0, 0, 0, 0.05)'
+  
   const option = {
     backgroundColor: 'transparent',
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(255,255,255,0.9)',
-      borderColor: '#ddd',
+      backgroundColor: tooltipBgColor,
+      borderColor: tooltipBorderColor,
       textStyle: {
-        color: '#333'
+        color: tooltipTextColor
       },
       formatter: function (params) {
         if (!params || !params[0] || !params[0].axisValue) {
@@ -2465,7 +2494,7 @@ const initLineChart = () => {
       type: 'time',
       boundaryGap: false,
       axisLabel: {
-        color: 'var(--admin-text-secondary)',
+        color: getComputedStyleValue('--admin-text-secondary') || (isDarkMode ? '#cbd5e1' : '#2d3748'),
         fontSize: 10,
         rotate: 45,
         hideOverlap: true,
@@ -2476,13 +2505,13 @@ const initLineChart = () => {
       },
       axisLine: {
         lineStyle: {
-          color: 'var(--admin-glass-border)'
+          color: getComputedStyleValue('--admin-glass-border') || (isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.3)')
         }
       },
       splitLine: {
         show: true,
         lineStyle: {
-          color: 'rgba(0,0,0,0.05)'
+          color: splitLineColor
         }
       }
     },
@@ -2490,21 +2519,21 @@ const initLineChart = () => {
       type: 'value',
       name: '累计签到次数',
       nameTextStyle: {
-        color: 'var(--admin-text-secondary)',
+        color: axisTextColor,
         fontSize: 11
       },
       axisLabel: {
-        color: 'var(--admin-text-secondary)',
+        color: axisTextColor,
         fontSize: 10
       },
       axisLine: {
         lineStyle: {
-          color: 'var(--admin-glass-border)'
+          color: axisLineColor
         }
       },
       splitLine: {
         lineStyle: {
-          color: 'rgba(0,0,0,0.05)'
+          color: splitLineColor
         }
       }
     },
