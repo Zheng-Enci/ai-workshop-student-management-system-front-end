@@ -691,8 +691,19 @@
       
       <div class="chart-container-mobile">
         <div class="chart-item-mobile">
-          <div class="chart-title-mobile">签到热力图</div>
-          <div ref="heatmapChart" class="chart-content-mobile"></div>
+          <div class="heatmap-wrapper-mobile">
+            <div ref="heatmapChart" class="chart-content-mobile"></div>
+            <div class="daily-averages-mobile">
+              <div class="averages-title-mobile">概率</div>
+              <div 
+                v-for="(prob, index) in calculateDayProbabilities" 
+                :key="index"
+                class="average-item-mobile"
+              >
+                {{ prob }}%
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -1808,7 +1819,7 @@ const generateHeatmapData = () => {
   if (!records || !Array.isArray(records) || records.length === 0) {
     weekDays.forEach((day, dayIndex) => {
       timeSlots.forEach((slot, slotIndex) => {
-        data.push([dayIndex, slotIndex, 0])
+        data.push([slotIndex, dayIndex, 0])
       })
     })
     return data
@@ -1832,12 +1843,134 @@ const generateHeatmapData = () => {
           else if (slot === '晚上' && hour >= 19 && hour < 22) count++
         }
       })
-      data.push([dayIndex, slotIndex, count])
+      data.push([slotIndex, dayIndex, count])
     })
   })
   
   return data
 }
+
+const calculateDayProbabilities = computed(() => {
+  const weekDays = ['一', '二', '三', '四', '五', '六', '日']
+  const records = allStudentAttendanceRecords.value || []
+  
+  if (!records || !Array.isArray(records) || records.length === 0) {
+    return weekDays.map(() => 0)
+  }
+  
+  // 找到第一条签到记录的日期和今天的日期
+  const dates = records
+    .map(r => r?.attendanceDateTime ? new Date(r.attendanceDateTime) : null)
+    .filter(d => d && !isNaN(d.getTime()))
+    .sort((a, b) => a.getTime() - b.getTime())
+  
+  if (dates.length === 0) {
+    return weekDays.map(() => 0)
+  }
+  
+  const firstDate = new Date(dates[0])
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  firstDate.setHours(0, 0, 0, 0)
+  
+  // 统计每个星期几有签到的日期
+  const dayWithAttendance = [new Set(), new Set(), new Set(), new Set(), new Set(), new Set(), new Set()]
+  
+  records.forEach(record => {
+    if (!record || !record.attendanceDateTime) return
+    
+    const date = new Date(record.attendanceDateTime)
+    if (isNaN(date.getTime())) return
+    
+    const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
+    const dateStr = date.toISOString().split('T')[0]
+    dayWithAttendance[dayOfWeek].add(dateStr)
+  })
+  
+  // 计算从第一条签到记录到今天，每个星期几出现的总次数
+  const dayTotalCounts = [0, 0, 0, 0, 0, 0, 0]
+  const currentDate = new Date(firstDate)
+  
+  while (currentDate <= today) {
+    const dayOfWeek = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1
+    dayTotalCounts[dayOfWeek]++
+    currentDate.setDate(currentDate.getDate() + 1)
+  }
+  
+  // 计算概率
+  return dayTotalCounts.map((total, index) => {
+    const attendedCount = dayWithAttendance[index].size
+    return total > 0 ? parseFloat((attendedCount / total * 100).toFixed(1)) : 0
+  })
+})
+
+const calculateTimeSlotProbabilities = computed(() => {
+  const weekDays = ['一', '二', '三', '四', '五', '六', '日']
+  const timeSlots = ['早上', '下午', '晚上']
+  const records = allStudentAttendanceRecords.value || []
+  
+  if (!records || !Array.isArray(records) || records.length === 0) {
+    return weekDays.map(() => timeSlots.map(() => 0))
+  }
+  
+  // 找到第一条签到记录的日期和今天的日期
+  const dates = records
+    .map(r => r?.attendanceDateTime ? new Date(r.attendanceDateTime) : null)
+    .filter(d => d && !isNaN(d.getTime()))
+    .sort((a, b) => a.getTime() - b.getTime())
+  
+  if (dates.length === 0) {
+    return weekDays.map(() => timeSlots.map(() => 0))
+  }
+  
+  const firstDate = new Date(dates[0])
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  firstDate.setHours(0, 0, 0, 0)
+  
+  // 统计每个星期几的每个时间段有签到的日期
+  const dayTimeSlotWithAttendance = weekDays.map(() => 
+    timeSlots.map(() => new Set())
+  )
+  
+  records.forEach(record => {
+    if (!record || !record.attendanceDateTime) return
+    
+    const date = new Date(record.attendanceDateTime)
+    if (isNaN(date.getTime())) return
+    
+    const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
+    const hour = date.getHours()
+    const dateStr = date.toISOString().split('T')[0]
+    
+    let timeSlotIndex = -1
+    if (hour >= 8 && hour < 11) timeSlotIndex = 0 // 早上
+    else if (hour >= 14 && hour < 17) timeSlotIndex = 1 // 下午
+    else if (hour >= 19 && hour < 22) timeSlotIndex = 2 // 晚上
+    
+    if (timeSlotIndex >= 0) {
+      dayTimeSlotWithAttendance[dayOfWeek][timeSlotIndex].add(dateStr)
+    }
+  })
+  
+  // 计算从第一条签到记录到今天，每个星期几出现的总次数
+  const dayTotalCounts = [0, 0, 0, 0, 0, 0, 0]
+  const currentDate = new Date(firstDate)
+  
+  while (currentDate <= today) {
+    const dayOfWeek = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1
+    dayTotalCounts[dayOfWeek]++
+    currentDate.setDate(currentDate.getDate() + 1)
+  }
+  
+  // 计算每个星期几的每个时间段的概率
+  return dayTotalCounts.map((total, dayIndex) => {
+    return timeSlots.map((slot, slotIndex) => {
+      const attendedCount = dayTimeSlotWithAttendance[dayIndex][slotIndex].size
+      return total > 0 ? parseFloat((attendedCount / total * 100).toFixed(1)) : 0
+    })
+  })
+})
 
 const generateLineData = () => {
   const dateMap = new Map()
@@ -1896,31 +2029,19 @@ const initHeatmapChart = () => {
   const option = {
     backgroundColor: 'transparent',
     tooltip: {
-      position: 'top',
-      backgroundColor: 'rgba(255,255,255,0.9)',
-      borderColor: '#ddd',
-      textStyle: {
-        color: '#333'
-      },
-      formatter: function (params) {
-        if (!params || !params.data || !Array.isArray(params.data)) {
-          return ''
-        }
-        const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        const timeSlots = ['上午', '下午', '晚上']
-        return `${weekDays[params.data[0]]} ${timeSlots[params.data[1]]}<br/>签到次数: ${params.data[2]}`
-      }
+      show: false
     },
     grid: {
-      height: '65%',
-      top: '10%',
+      height: '75%',
+      top: '1%',
       left: '10%',
-      right: '10%',
-      bottom: '20%'
+      right: '5%',
+      bottom: '20%',
+      containLabel: true
     },
     xAxis: {
       type: 'category',
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      data: ['早上', '下午', '晚上'],
       splitArea: {
         show: true,
         areaStyle: {
@@ -1928,18 +2049,26 @@ const initHeatmapChart = () => {
         }
       },
       axisLabel: {
-        color: 'var(--admin-text-secondary)',
-        fontSize: 11
+        color: '#666',
+        fontSize: 14,
+        show: true,
+        inside: false,
+        margin: 8
       },
       axisLine: {
+        show: true,
         lineStyle: {
           color: 'var(--admin-glass-border)'
         }
-      }
+      },
+      axisTick: {
+        show: true
+      },
+      position: 'top'
     },
     yAxis: {
       type: 'category',
-      data: ['上午', '下午', '晚上'],
+      data: ['一', '二', '三', '四', '五', '六', '日'],
       splitArea: {
         show: true,
         areaStyle: {
@@ -1947,14 +2076,22 @@ const initHeatmapChart = () => {
         }
       },
       axisLabel: {
-        color: 'var(--admin-text-secondary)',
-        fontSize: 11
+        color: '#666',
+        fontSize: 14,
+        show: true,
+        inside: false,
+        margin: 8
       },
       axisLine: {
+        show: true,
         lineStyle: {
           color: 'var(--admin-glass-border)'
         }
-      }
+      },
+      axisTick: {
+        show: true
+      },
+      position: 'left'
     },
     visualMap: {
       min: 0,
@@ -1962,7 +2099,7 @@ const initHeatmapChart = () => {
       calculable: false,
       orient: 'horizontal',
       left: 'center',
-      bottom: '5%',
+      bottom: '2%',
       itemWidth: 20,
       itemHeight: 150,
       textStyle: {
@@ -2000,6 +2137,34 @@ const initHeatmapChart = () => {
   }
   
   heatmapInstance.value.setOption(option)
+  
+  // 添加点击事件
+  heatmapInstance.value.off('click')
+  heatmapInstance.value.on('click', (params) => {
+    if (params && params.data && Array.isArray(params.data)) {
+      const slotIndex = params.data[0]
+      const dayIndex = params.data[1]
+      const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      const timeSlots = ['早上', '下午', '晚上']
+      
+      const dayLabel = weekDays[dayIndex]
+      const timeSlotLabel = timeSlots[slotIndex]
+      
+      const probabilities = calculateTimeSlotProbabilities.value
+      let probability = 0
+      if (probabilities && probabilities[dayIndex] && probabilities[dayIndex][slotIndex] !== undefined) {
+        probability = probabilities[dayIndex][slotIndex]
+      }
+      
+      // 显示tooltip消息
+      ElMessage({
+        message: `${dayLabel} ${timeSlotLabel} 会来的概率: ${probability}%`,
+        type: 'info',
+        duration: 3000,
+        showClose: true
+      })
+    }
+  })
 }
 
 const initLineChart = () => {
@@ -3318,18 +3483,18 @@ onMounted(async () => {
 .student-info-header-mobile {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 15px;
+  gap: 10px;
+  padding: 10px;
   background: var(--admin-glass-bg);
   border-radius: 12px;
   border: 1px solid var(--admin-glass-border);
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 
 .student-avatar-large-mobile {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
   background: var(--admin-primary-gradient);
   display: flex;
   align-items: center;
@@ -3345,7 +3510,7 @@ onMounted(async () => {
 }
 
 .avatar-text-large-mobile {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: white;
 }
@@ -3356,16 +3521,16 @@ onMounted(async () => {
 }
 
 .student-info-mobile h3 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--admin-text-primary);
-  margin: 0 0 6px 0;
+  margin: 0 0 4px 0;
 }
 
 .student-info-mobile p {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--admin-text-secondary);
-  margin: 4px 0;
+  margin: 2px 0;
 }
 
 .attendance-summary-mobile {
@@ -3774,11 +3939,22 @@ onMounted(async () => {
 }
 
 .heatmap-dialog-mobile :deep(.el-dialog) {
-  border-radius: 20px;
-  background: var(--admin-glass-bg);
+  --el-dialog-width: 90%;
+  --el-dialog-margin-top: 15vh;
+  --el-dialog-bg-color: var(--admin-glass-bg);
+  --el-dialog-box-shadow: 0 8px 32px var(--admin-shadow-color);
+  --el-dialog-border-radius: 20px;
+  border-radius: var(--el-dialog-border-radius);
+  background: var(--el-dialog-bg-color);
   backdrop-filter: blur(20px);
   border: 1px solid var(--admin-glass-border);
-  box-shadow: 0 8px 32px var(--admin-shadow-color);
+  box-shadow: var(--el-dialog-box-shadow);
+  box-sizing: border-box;
+  margin: var(--el-dialog-margin-top, 15vh) auto 50px;
+  overflow-wrap: break-word;
+  position: relative;
+  width: var(--el-dialog-width, 90%);
+  /* padding: var(--el-dialog-padding-primary); */
 }
 
 .heatmap-dialog-mobile :deep(.el-dialog__header) {
@@ -3823,16 +3999,10 @@ onMounted(async () => {
   overflow-y: auto;
 }
 
-.chart-container-mobile {
-  margin-top: 20px;
-}
-
 .chart-item-mobile {
   background: var(--admin-glass-bg);
   border-radius: 12px;
   border: 1px solid var(--admin-glass-border);
-  padding: 15px;
-  margin-bottom: 15px;
 }
 
 .chart-title-mobile {
@@ -3843,9 +4013,57 @@ onMounted(async () => {
   text-align: center;
 }
 
+.heatmap-wrapper-mobile {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+}
+
 .chart-content-mobile {
-  width: 100%;
+  flex: 1;
   height: 300px;
   min-height: 300px;
+  margin-left: 0;
 }
+
+.daily-averages-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 50px;
+  width: 50px;
+  height: 300px;
+  padding-top: 0;
+  margin-left: -15px;
+}
+
+.averages-title-mobile {
+  font-size: 12px;
+  color: var(--admin-text-secondary);
+  font-weight: 600;
+  height: calc(300px * 0.01 + 20px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+}
+
+.average-item-mobile {
+  font-size: 12px;
+  color: var(--admin-text-primary);
+  padding: 0 4px;
+  text-align: center;
+  height: calc(300px * 0.75 / 7 - 1.1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: -2px;
+}
+
+
 </style>
