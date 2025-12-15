@@ -201,6 +201,24 @@
                 补卡
               </el-button>
               <el-button 
+                type="info" 
+                size="small" 
+                @click="openHeatmapDialog(student)"
+                class="action-btn-mobile"
+              >
+                <el-icon><TrendCharts /></el-icon>
+                热力图
+              </el-button>
+              <el-button 
+                type="info" 
+                size="small" 
+                @click="openTrendDialog(student)"
+                class="action-btn-mobile"
+              >
+                <el-icon><TrendCharts /></el-icon>
+                趋势图
+              </el-button>
+              <el-button 
                 type="primary" 
                 size="small" 
                 @click="openEditDialog(student)"
@@ -639,11 +657,101 @@
         </div>
       </template>
     </el-dialog>
+
+    <el-dialog
+      v-if="heatmapDialogVisible"
+      v-model="heatmapDialogVisible"
+      :title="`${currentStudentInfo.name} 的签到热力图`"
+      width="90%"
+      :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
+      :destroy-on-close="true"
+      modal-class="heatmap-overlay-mobile"
+      class="heatmap-dialog-mobile"
+      @close="closeHeatmapDialog"
+    >
+      <div class="student-info-header-mobile">
+        <div class="student-avatar-large-mobile">
+          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
+          <span v-else class="avatar-text-large-mobile">{{ currentStudentInfo.name?.charAt(0) }}</span>
+        </div>
+        <div class="student-info-mobile">
+          <h3>{{ currentStudentInfo.name }}</h3>
+          <p>学号：{{ currentStudentInfo.studentId }}</p>
+          <p>{{ currentStudentInfo.grade }}年级 | {{ currentStudentInfo.major }}</p>
+        </div>
+        <div class="attendance-summary-mobile">
+          <div class="summary-item-mobile">
+            <span class="summary-label-mobile">总签到次数</span>
+            <span class="summary-value-mobile">{{ allStudentAttendanceRecords.length }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chart-container-mobile">
+        <div class="chart-item-mobile">
+          <div class="chart-title-mobile">签到热力图</div>
+          <div ref="heatmapChart" class="chart-content-mobile"></div>
+        </div>
+      </div>
+      
+      <template #footer>
+        <div class="dialog-footer-mobile">
+          <el-button @click="closeHeatmapDialog">关闭</el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <el-dialog
+      v-if="trendDialogVisible"
+      v-model="trendDialogVisible"
+      :title="`${currentStudentInfo.name} 的签到趋势图`"
+      width="90%"
+      :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
+      :destroy-on-close="true"
+      modal-class="trend-overlay-mobile"
+      class="trend-dialog-mobile"
+      @close="closeTrendDialog"
+    >
+      <div class="student-info-header-mobile">
+        <div class="student-avatar-large-mobile">
+          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
+          <span v-else class="avatar-text-large-mobile">{{ currentStudentInfo.name?.charAt(0) }}</span>
+        </div>
+        <div class="student-info-mobile">
+          <h3>{{ currentStudentInfo.name }}</h3>
+          <p>学号：{{ currentStudentInfo.studentId }}</p>
+          <p>{{ currentStudentInfo.grade }}年级 | {{ currentStudentInfo.major }}</p>
+        </div>
+        <div class="attendance-summary-mobile">
+          <div class="summary-item-mobile">
+            <span class="summary-label-mobile">总签到次数</span>
+            <span class="summary-value-mobile">{{ allStudentAttendanceRecords.length }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chart-container-mobile">
+        <div class="chart-item-mobile">
+          <div class="chart-title-mobile">签到趋势图</div>
+          <div ref="lineChart" class="chart-content-mobile"></div>
+        </div>
+      </div>
+      
+      <template #footer>
+        <div class="dialog-footer-mobile">
+          <el-button @click="closeTrendDialog">关闭</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
 import { ElMessage, ElIcon, ElInput, ElButton, ElSelect, ElOption, ElDialog, ElForm, ElFormItem, ElInputNumber, ElDatePicker } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -664,6 +772,24 @@ import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, Clock
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, getAdminInfo, assignStudentToAdmin, getAvatarUrl, updateStudentWithSpecialPassword } from '@/api/student'
 import { getStudentAttendanceCount, getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
+import * as echarts from 'echarts/core'
+import { LineChart, HeatmapChart } from 'echarts/charts'
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  VisualMapComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  VisualMapComponent,
+  LineChart,
+  HeatmapChart,
+  CanvasRenderer
+])
 import { useAdminStore } from '@/stores/admin'
 import { useThemeStore } from '@/stores/theme'
 
@@ -708,6 +834,7 @@ const attendanceRecordsDialogVisible = ref(false)
 const currentStudentInfo = ref({})
 const studentAttendanceRecords = ref([])
 const selectedMonth = ref('')
+const allStudentAttendanceRecords = ref([])
 const makeupDialogVisible = ref(false)
 const makeupLoading = ref(false)
 const makeupSelectedStudent = ref(null)
@@ -718,6 +845,12 @@ const makeupForm = ref({
   selectedDate: '',
   selectedHour: null
 })
+const heatmapDialogVisible = ref(false)
+const trendDialogVisible = ref(false)
+const heatmapChart = ref(null)
+const lineChart = ref(null)
+const heatmapInstance = ref(null)
+const lineInstance = ref(null)
 
 const levelOptions = [
   { value: 0, label: '社团成员', color: 'info' },
@@ -1662,6 +1795,416 @@ const submitMakeup = async () => {
     ElMessage.error(error.message || '补卡失败')
   } finally {
     makeupLoading.value = false
+  }
+}
+
+const generateHeatmapData = () => {
+  const data = []
+  const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+  const timeSlots = ['上午', '下午', '晚上']
+  
+  const records = allStudentAttendanceRecords.value || []
+  
+  if (!records || !Array.isArray(records) || records.length === 0) {
+    weekDays.forEach((day, dayIndex) => {
+      timeSlots.forEach((slot, slotIndex) => {
+        data.push([dayIndex, slotIndex, 0])
+      })
+    })
+    return data
+  }
+  
+  weekDays.forEach((day, dayIndex) => {
+    timeSlots.forEach((slot, slotIndex) => {
+      let count = 0
+      records.forEach(record => {
+        if (!record || !record.attendanceDateTime) return
+        
+        const date = new Date(record.attendanceDateTime)
+        if (isNaN(date.getTime())) return
+        
+        const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
+        const hour = date.getHours()
+        
+        if (dayOfWeek === dayIndex) {
+          if (slot === '上午' && hour >= 8 && hour < 11) count++
+          else if (slot === '下午' && hour >= 14 && hour < 17) count++
+          else if (slot === '晚上' && hour >= 19 && hour < 22) count++
+        }
+      })
+      data.push([dayIndex, slotIndex, count])
+    })
+  })
+  
+  return data
+}
+
+const generateLineData = () => {
+  const dateMap = new Map()
+  
+  const records = allStudentAttendanceRecords.value || []
+  
+  if (!records || !Array.isArray(records) || records.length === 0) {
+    return {
+      dates: [],
+      values: []
+    }
+  }
+  
+  records.forEach(record => {
+    if (!record || !record.attendanceDateTime) return
+    
+    const date = new Date(record.attendanceDateTime)
+    if (isNaN(date.getTime())) return
+    
+    const dateStr = date.toISOString().split('T')[0]
+    dateMap.set(dateStr, (dateMap.get(dateStr) || 0) + 1)
+  })
+  
+  const sortedDates = Array.from(dateMap.keys()).sort()
+  const dailyValues = sortedDates.map(date => dateMap.get(date))
+  
+  let cumulativeSum = 0
+  const cumulativeValues = dailyValues.map(value => {
+    cumulativeSum += value
+    return cumulativeSum
+  })
+  
+  return {
+    dates: sortedDates,
+    values: cumulativeValues
+  }
+}
+
+const initHeatmapChart = () => {
+  if (!heatmapChart.value) return
+  
+  if (heatmapInstance.value) {
+    heatmapInstance.value.dispose()
+  }
+  
+  heatmapInstance.value = echarts.init(heatmapChart.value)
+  
+  const heatmapData = generateHeatmapData()
+  
+  if (!heatmapData || !Array.isArray(heatmapData) || heatmapData.length === 0) {
+    return
+  }
+  
+  const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
+  
+  const option = {
+    backgroundColor: 'transparent',
+    tooltip: {
+      position: 'top',
+      backgroundColor: 'rgba(255,255,255,0.9)',
+      borderColor: '#ddd',
+      textStyle: {
+        color: '#333'
+      },
+      formatter: function (params) {
+        if (!params || !params.data || !Array.isArray(params.data)) {
+          return ''
+        }
+        const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        const timeSlots = ['上午', '下午', '晚上']
+        return `${weekDays[params.data[0]]} ${timeSlots[params.data[1]]}<br/>签到次数: ${params.data[2]}`
+      }
+    },
+    grid: {
+      height: '65%',
+      top: '10%',
+      left: '10%',
+      right: '10%',
+      bottom: '20%'
+    },
+    xAxis: {
+      type: 'category',
+      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      splitArea: {
+        show: true,
+        areaStyle: {
+          color: 'rgba(0,0,0,0.02)'
+        }
+      },
+      axisLabel: {
+        color: 'var(--admin-text-secondary)',
+        fontSize: 11
+      },
+      axisLine: {
+        lineStyle: {
+          color: 'var(--admin-glass-border)'
+        }
+      }
+    },
+    yAxis: {
+      type: 'category',
+      data: ['上午', '下午', '晚上'],
+      splitArea: {
+        show: true,
+        areaStyle: {
+          color: 'rgba(0,0,0,0.02)'
+        }
+      },
+      axisLabel: {
+        color: 'var(--admin-text-secondary)',
+        fontSize: 11
+      },
+      axisLine: {
+        lineStyle: {
+          color: 'var(--admin-glass-border)'
+        }
+      }
+    },
+    visualMap: {
+      min: 0,
+      max: maxValue,
+      calculable: false,
+      orient: 'horizontal',
+      left: 'center',
+      bottom: '5%',
+      itemWidth: 20,
+      itemHeight: 150,
+      textStyle: {
+        color: 'var(--admin-text-secondary)',
+        fontSize: 10
+      },
+      inRange: {
+        color: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e']
+      }
+    },
+    series: [{
+      name: '签到次数',
+      type: 'heatmap',
+      data: heatmapData,
+      label: {
+        show: true,
+        color: '#1f2937',
+        fontSize: 10,
+        fontWeight: 'bold'
+      },
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowColor: 'rgba(0, 0, 0, 0.3)',
+          borderWidth: 2,
+          borderColor: '#fff'
+        }
+      },
+      itemStyle: {
+        borderRadius: 3,
+        borderWidth: 1,
+        borderColor: 'rgba(0,0,0,0.1)'
+      }
+    }]
+  }
+  
+  heatmapInstance.value.setOption(option)
+}
+
+const initLineChart = () => {
+  if (!lineChart.value) return
+  
+  if (lineInstance.value) {
+    lineInstance.value.dispose()
+  }
+  
+  lineInstance.value = echarts.init(lineChart.value)
+  
+  const lineData = generateLineData()
+  
+  if (!lineData || !lineData.dates || !lineData.values || lineData.dates.length === 0) {
+    return
+  }
+  
+  const option = {
+    backgroundColor: 'transparent',
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(255,255,255,0.9)',
+      borderColor: '#ddd',
+      textStyle: {
+        color: '#333'
+      },
+      formatter: function (params) {
+        if (!params || !params[0] || !params[0].axisValue) {
+          return ''
+        }
+        const date = new Date(params[0].axisValue)
+        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+        return `${formattedDate}<br/>累计签到次数: ${params[0].value}`
+      }
+    },
+    grid: {
+      left: '10%',
+      right: '10%',
+      bottom: '15%',
+      top: '10%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'time',
+      boundaryGap: false,
+      axisLabel: {
+        color: 'var(--admin-text-secondary)',
+        fontSize: 10,
+        rotate: 45,
+        formatter: function (value) {
+          const date = new Date(value)
+          return `${date.getMonth() + 1}/${date.getDate()}`
+        }
+      },
+      axisLine: {
+        lineStyle: {
+          color: 'var(--admin-glass-border)'
+        }
+      },
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: 'rgba(0,0,0,0.05)'
+        }
+      }
+    },
+    yAxis: {
+      type: 'value',
+      name: '累计签到次数',
+      nameTextStyle: {
+        color: 'var(--admin-text-secondary)',
+        fontSize: 11
+      },
+      axisLabel: {
+        color: 'var(--admin-text-secondary)',
+        fontSize: 10
+      },
+      axisLine: {
+        lineStyle: {
+          color: 'var(--admin-glass-border)'
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: 'rgba(0,0,0,0.05)'
+        }
+      }
+    },
+    series: [{
+      name: '累计签到次数',
+      type: 'line',
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 5,
+      lineStyle: {
+        color: '#4fc3f7',
+        width: 2
+      },
+      itemStyle: {
+        color: '#4fc3f7',
+        borderColor: '#fff',
+        borderWidth: 1
+      },
+      areaStyle: {
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: 'rgba(79, 195, 247, 0.3)'
+          }, {
+            offset: 1, color: 'rgba(79, 195, 247, 0.05)'
+          }]
+        }
+      },
+      emphasis: {
+        itemStyle: {
+          color: '#0288d1',
+          borderColor: '#fff',
+          borderWidth: 2,
+          shadowBlur: 8,
+          shadowColor: 'rgba(79, 195, 247, 0.5)'
+        },
+        lineStyle: {
+          width: 3
+        }
+      },
+      data: lineData.dates.map((date, index) => [date, lineData.values[index]])
+    }]
+  }
+  
+  lineInstance.value.setOption(option)
+}
+
+const openHeatmapDialog = async (student) => {
+  currentStudentInfo.value = student
+  try {
+    isLoading.value = true
+    const response = await getStudentAttendanceRecords(student.studentId)
+    if (response.code === 200) {
+      allStudentAttendanceRecords.value = response.data || []
+      heatmapDialogVisible.value = true
+      await nextTick()
+      initHeatmapChart()
+    } else {
+      ElMessage.error(response.message || '获取考勤记录失败')
+    }
+  } catch (error) {
+    ElMessage.error('获取考勤记录失败：' + error.message)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const closeHeatmapDialog = () => {
+  const dialogWrapper = document.querySelector('.heatmap-overlay-mobile')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  heatmapDialogVisible.value = false
+  
+  if (heatmapInstance.value) {
+    heatmapInstance.value.dispose()
+    heatmapInstance.value = null
+  }
+}
+
+const openTrendDialog = async (student) => {
+  currentStudentInfo.value = student
+  try {
+    isLoading.value = true
+    const response = await getStudentAttendanceRecords(student.studentId)
+    if (response.code === 200) {
+      allStudentAttendanceRecords.value = response.data || []
+      trendDialogVisible.value = true
+      await nextTick()
+      initLineChart()
+    } else {
+      ElMessage.error(response.message || '获取考勤记录失败')
+    }
+  } catch (error) {
+    ElMessage.error('获取考勤记录失败：' + error.message)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const closeTrendDialog = () => {
+  const dialogWrapper = document.querySelector('.trend-overlay-mobile')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  trendDialogVisible.value = false
+  
+  if (lineInstance.value) {
+    lineInstance.value.dispose()
+    lineInstance.value = null
   }
 }
 
@@ -3190,5 +3733,119 @@ onMounted(async () => {
 .makeup-footer-mobile .el-button--primary {
   flex: 1;
   max-width: 120px;
+}
+
+.heatmap-overlay-mobile {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2000 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.heatmap-overlay-mobile .el-overlay-dialog {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2001 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.trend-overlay-mobile {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2000 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.trend-overlay-mobile .el-overlay-dialog {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2001 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.heatmap-dialog-mobile :deep(.el-dialog) {
+  border-radius: 20px;
+  background: var(--admin-glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--admin-glass-border);
+  box-shadow: 0 8px 32px var(--admin-shadow-color);
+}
+
+.heatmap-dialog-mobile :deep(.el-dialog__header) {
+  padding: 20px 20px 15px;
+  border-bottom: 1px solid var(--admin-glass-border);
+}
+
+.heatmap-dialog-mobile :deep(.el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.heatmap-dialog-mobile :deep(.el-dialog__body) {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.trend-dialog-mobile :deep(.el-dialog) {
+  border-radius: 20px;
+  background: var(--admin-glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--admin-glass-border);
+  box-shadow: 0 8px 32px var(--admin-shadow-color);
+}
+
+.trend-dialog-mobile :deep(.el-dialog__header) {
+  padding: 20px 20px 15px;
+  border-bottom: 1px solid var(--admin-glass-border);
+}
+
+.trend-dialog-mobile :deep(.el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.trend-dialog-mobile :deep(.el-dialog__body) {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.chart-container-mobile {
+  margin-top: 20px;
+}
+
+.chart-item-mobile {
+  background: var(--admin-glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--admin-glass-border);
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.chart-title-mobile {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.chart-content-mobile {
+  width: 100%;
+  height: 300px;
+  min-height: 300px;
 }
 </style>
