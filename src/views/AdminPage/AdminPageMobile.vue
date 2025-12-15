@@ -750,7 +750,6 @@
       
       <div class="chart-container-mobile">
         <div class="chart-item-mobile">
-          <div class="chart-title-mobile">签到趋势图</div>
           <div ref="lineChart" class="chart-content-mobile"></div>
         </div>
       </div>
@@ -2279,7 +2278,7 @@ const initLineChart = () => {
     grid: {
       left: '10%',
       right: '10%',
-      bottom: '15%',
+      bottom: '22%',
       top: '10%',
       containLabel: true
     },
@@ -2290,6 +2289,7 @@ const initLineChart = () => {
         color: 'var(--admin-text-secondary)',
         fontSize: 10,
         rotate: 45,
+        hideOverlap: true,
         formatter: function (value) {
           const date = new Date(value)
           return `${date.getMonth() + 1}/${date.getDate()}`
