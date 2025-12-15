@@ -1375,10 +1375,7 @@ const handleTodayRecordAvatarError = (record) => {
 const formatAttendanceTime = (timeString) => {
   if (!timeString) return ''
   const date = new Date(timeString)
-  return date.toLocaleString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
+  return date.toLocaleTimeString('zh-CN', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit'
@@ -3499,7 +3496,7 @@ onMounted(async () => {
 
 .record-content-mobile {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
 }
 
@@ -3566,6 +3563,7 @@ onMounted(async () => {
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
+  margin-top: 4px;
 }
 
 .time-icon-mobile {
