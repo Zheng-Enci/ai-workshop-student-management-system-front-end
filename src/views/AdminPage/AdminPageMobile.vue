@@ -3424,18 +3424,23 @@ onMounted(async () => {
 .student-details-mobile-record {
   flex: 1;
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .student-name-mobile-record {
   font-size: 15px;
   font-weight: 700;
   color: var(--admin-text-primary);
-  margin-bottom: 4px;
+  white-space: nowrap;
 }
 
 .student-id-mobile-record {
   font-size: 12px;
   color: var(--admin-text-secondary);
+  white-space: nowrap;
 }
 
 .attendance-time-mobile {
