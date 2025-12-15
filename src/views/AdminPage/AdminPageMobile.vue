@@ -3107,13 +3107,15 @@ onMounted(async () => {
 .hour-buttons-row-mobile {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .hour-btn-mobile {
   flex: 1;
-  min-width: 70px;
-  max-width: 100px;
+  min-width: 60px;
+  max-width: 80px;
+  padding: 6px 8px;
+  font-size: 12px;
 }
 
 .time-slot-divider-mobile {
