@@ -387,6 +387,80 @@
         </div>
       </template>
     </el-dialog>
+
+    <el-dialog
+      v-if="attendanceRecordsDialogVisible"
+      v-model="attendanceRecordsDialogVisible"
+      :title="`${currentStudentInfo.name} 的考勤记录`"
+      width="90%"
+      :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
+      class="attendance-records-dialog-mobile"
+      @close="closeAttendanceRecordsDialog"
+    >
+      <div class="student-info-header-mobile">
+        <div class="student-avatar-large-mobile">
+          <img v-if="currentStudentInfo.hasAvatar && currentStudentInfo.avatarUrl" :src="currentStudentInfo.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
+          <span v-else class="avatar-text-large-mobile">{{ currentStudentInfo.name?.charAt(0) }}</span>
+        </div>
+        <div class="student-info-mobile">
+          <h3>{{ currentStudentInfo.name }}</h3>
+          <p>学号：{{ currentStudentInfo.studentId }}</p>
+          <p>{{ currentStudentInfo.grade }}年级 | {{ currentStudentInfo.major }}</p>
+        </div>
+        <div class="attendance-summary-mobile">
+          <div class="summary-item-mobile">
+            <span class="summary-label-mobile">总签到次数</span>
+            <span class="summary-value-mobile">{{ studentAttendanceRecords.length }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="attendance-records-list-mobile">
+        <div v-if="studentAttendanceRecords.length === 0" class="no-records-mobile">
+          <el-icon class="no-records-icon-mobile"><Calendar /></el-icon>
+          <p>暂无考勤记录</p>
+        </div>
+        <div v-else class="records-by-date-mobile">
+          <div 
+            v-for="group in groupRecordsByDate(studentAttendanceRecords)" 
+            :key="group.date"
+            class="date-group-mobile"
+          >
+            <div class="date-header-mobile">
+              <el-icon class="date-icon-mobile"><Calendar /></el-icon>
+              <span class="date-text-mobile">{{ group.date }}</span>
+              <span class="date-count-mobile">({{ group.records.length }}次)</span>
+            </div>
+            <div class="records-list-mobile">
+              <div 
+                v-for="(record, index) in group.records" 
+                :key="index"
+                class="attendance-record-item-mobile"
+                :class="getTimePeriodClass(record.attendanceDateTime)"
+              >
+                <div class="time-period-indicator-mobile" :class="getTimePeriodClass(record.attendanceDateTime)">
+                  <div class="indicator-dot-mobile"></div>
+                  <span class="period-text-mobile">{{ getTimePeriodName(record.attendanceDateTime) }}</span>
+                </div>
+                <div class="record-content-mobile">
+                  <div class="attendance-time-mobile">
+                    <el-icon class="time-icon-mobile"><Clock /></el-icon>
+                    <span class="time-text-mobile">{{ formatRecordTime(record.attendanceDateTime) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <div class="dialog-footer-mobile">
+          <el-button @click="closeAttendanceRecordsDialog">关闭</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -407,7 +481,7 @@ import 'element-plus/theme-chalk/el-input-number.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, Clock, Warning, Key, Lock } from '@element-plus/icons-vue'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, getAdminInfo, assignStudentToAdmin, getAvatarUrl, updateStudentWithSpecialPassword } from '@/api/student'
-import { getStudentAttendanceCount, getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords } from '@/api/attendance'
+import { getStudentAttendanceCount, getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords, getStudentAttendanceRecords } from '@/api/attendance'
 import { useAdminStore } from '@/stores/admin'
 import { useThemeStore } from '@/stores/theme'
 
@@ -448,6 +522,9 @@ const editForm = ref({
 const currentEditStudentId = ref('')
 const todayAttendanceDialogVisible = ref(false)
 const todayAttendanceRecords = ref([])
+const attendanceRecordsDialogVisible = ref(false)
+const currentStudentInfo = ref({})
+const studentAttendanceRecords = ref([])
 
 const levelOptions = [
   { value: 0, label: '社团成员', color: 'info' },
@@ -916,8 +993,61 @@ const getTimePeriodName = (timeString) => {
   }
 }
 
-const openAttendanceRecordsDialog = () => {
-  ElMessage.info('考勤记录功能开发中')
+const openAttendanceRecordsDialog = async (student) => {
+  currentStudentInfo.value = student
+  try {
+    isLoading.value = true
+    const response = await getStudentAttendanceRecords(student.studentId)
+    if (response.code === 200) {
+      studentAttendanceRecords.value = response.data || []
+      attendanceRecordsDialogVisible.value = true
+    } else {
+      ElMessage.error(response.message || '获取考勤记录失败')
+    }
+  } catch (error) {
+    ElMessage.error('获取考勤记录失败：' + error.message)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const closeAttendanceRecordsDialog = () => {
+  attendanceRecordsDialogVisible.value = false
+  currentStudentInfo.value = {}
+  studentAttendanceRecords.value = []
+}
+
+const formatRecordDate = (dateTime) => {
+  if (!dateTime) return ''
+  const date = new Date(dateTime)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+const formatRecordTime = (dateTime) => {
+  if (!dateTime) return ''
+  const date = new Date(dateTime)
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+  return `${hours}:${minutes}:${seconds}`
+}
+
+const groupRecordsByDate = (records) => {
+  const grouped = {}
+  records.forEach(record => {
+    const date = formatRecordDate(record.attendanceDateTime)
+    if (!grouped[date]) {
+      grouped[date] = []
+    }
+    grouped[date].push(record)
+  })
+  return Object.keys(grouped).sort((a, b) => new Date(b) - new Date(a)).map(date => ({
+    date,
+    records: grouped[date].sort((a, b) => new Date(b.attendanceDateTime) - new Date(a.attendanceDateTime))
+  }))
 }
 
 const openMakeupDialog = () => {
@@ -1985,5 +2115,158 @@ onMounted(async () => {
 .time-text-mobile {
   font-size: 12px;
   color: var(--admin-text-secondary);
+}
+
+.attendance-records-dialog-mobile :deep(.el-dialog) {
+  border-radius: 20px;
+  background: var(--admin-glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--admin-glass-border);
+  box-shadow: 0 8px 32px var(--admin-shadow-color);
+}
+
+.attendance-records-dialog-mobile :deep(.el-dialog__header) {
+  padding: 20px 20px 15px;
+  border-bottom: 1px solid var(--admin-glass-border);
+}
+
+.attendance-records-dialog-mobile :deep(.el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.attendance-records-dialog-mobile :deep(.el-dialog__body) {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.student-info-header-mobile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: var(--admin-glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--admin-glass-border);
+  margin-bottom: 20px;
+}
+
+.student-avatar-large-mobile {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: var(--admin-primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatar-image-large-mobile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-text-large-mobile {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.student-info-mobile {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-info-mobile h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin: 0 0 6px 0;
+}
+
+.student-info-mobile p {
+  font-size: 13px;
+  color: var(--admin-text-secondary);
+  margin: 4px 0;
+}
+
+.attendance-summary-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.summary-item-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.summary-label-mobile {
+  font-size: 12px;
+  color: var(--admin-text-secondary);
+}
+
+.summary-value-mobile {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--admin-primary-color);
+}
+
+.attendance-records-list-mobile {
+  min-height: 200px;
+}
+
+.records-by-date-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.date-group-mobile {
+  background: var(--admin-glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--admin-glass-border);
+  overflow: hidden;
+}
+
+.date-header-mobile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 15px;
+  background: var(--admin-glass-bg);
+  border-bottom: 1px solid var(--admin-glass-border);
+  font-weight: 600;
+  color: var(--admin-text-primary);
+}
+
+.date-icon-mobile {
+  font-size: 16px;
+  color: var(--admin-primary-color);
+}
+
+.date-text-mobile {
+  font-size: 15px;
+}
+
+.date-count-mobile {
+  font-size: 13px;
+  color: var(--admin-text-secondary);
+  margin-left: auto;
+}
+
+.records-list-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
 }
 </style>
