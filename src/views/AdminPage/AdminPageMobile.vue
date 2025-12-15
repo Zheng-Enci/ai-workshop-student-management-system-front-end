@@ -509,17 +509,36 @@
       <div v-if="makeupStep === 'date'" class="makeup-step-content-mobile">
         <div class="step-title-mobile">第一步：选择补卡日期</div>
         <div class="date-shortcuts-mobile">
-          <el-button
-            v-for="shortcut in datetimeShortcuts"
-            :key="shortcut.key"
-            size="small"
-            :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
-            @click="selectDatetimeShortcut(shortcut)"
-            class="date-shortcut-btn-mobile"
-          >
-            <el-icon><Clock /></el-icon>
-            <span>{{ shortcut.label }}</span>
-          </el-button>
+          <div class="shortcut-row-mobile">
+            <div class="shortcut-buttons-mobile">
+              <el-button
+                v-for="shortcut in yesterdayShortcuts"
+                :key="shortcut.key"
+                size="small"
+                :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
+                @click="selectDatetimeShortcut(shortcut)"
+                class="date-shortcut-btn-mobile"
+              >
+                <el-icon><Clock /></el-icon>
+                <span>{{ shortcut.label }}</span>
+              </el-button>
+            </div>
+          </div>
+          <div class="shortcut-row-mobile">
+            <div class="shortcut-buttons-mobile">
+              <el-button
+                v-for="shortcut in todayShortcuts"
+                :key="shortcut.key"
+                size="small"
+                :type="isDatetimeShortcutSelected(shortcut) ? 'primary' : 'default'"
+                @click="selectDatetimeShortcut(shortcut)"
+                class="date-shortcut-btn-mobile"
+              >
+                <el-icon><Clock /></el-icon>
+                <span>{{ shortcut.label }}</span>
+              </el-button>
+            </div>
+          </div>
         </div>
         <el-form
           ref="makeupFormRef"
@@ -1345,6 +1364,14 @@ const getShortcutDate = (shortcut) => {
   date.setDate(date.getDate() + shortcut.dateOffset)
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 }
+
+const yesterdayShortcuts = computed(() => {
+  return datetimeShortcuts.filter(shortcut => shortcut.dateOffset === -1)
+})
+
+const todayShortcuts = computed(() => {
+  return datetimeShortcuts.filter(shortcut => shortcut.dateOffset === 0)
+})
 
 const monthMap = {
   'January': '一月',
@@ -2965,21 +2992,42 @@ onMounted(async () => {
 
 .date-shortcuts-mobile {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 20px;
+}
+
+.shortcut-row-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shortcut-row-label-mobile {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--admin-text-secondary);
+  padding: 0 4px;
+}
+
+.shortcut-buttons-mobile {
+  display: flex;
+  gap: 6px;
 }
 
 .date-shortcut-btn-mobile {
   flex: 1;
-  min-width: calc(50% - 4px);
-  max-width: calc(50% - 4px);
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 10px 12px;
-  font-size: 13px;
+  gap: 4px;
+  padding: 8px 6px;
+  font-size: 12px;
+}
+
+.date-shortcut-btn-mobile .el-icon {
+  font-size: 14px;
 }
 
 .makeup-form-content-mobile {
