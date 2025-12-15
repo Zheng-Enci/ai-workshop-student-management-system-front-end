@@ -227,6 +227,24 @@
                 <el-icon><Edit /></el-icon>
                 编辑
               </el-button>
+              <el-button 
+                type="success" 
+                size="small" 
+                @click="openPointsDialog(student)"
+                class="action-btn-mobile"
+              >
+                <el-icon><Edit /></el-icon>
+                添加积分
+              </el-button>
+              <el-button 
+                type="info" 
+                size="small" 
+                @click="openScoreChangeRecordsDialog(student)"
+                class="action-btn-mobile"
+              >
+                <el-icon><Calendar /></el-icon>
+                查看积分
+              </el-button>
             </div>
             
             <div class="student-management-mobile">
@@ -757,6 +775,146 @@
         </div>
       </div>
     </el-dialog>
+
+    <!-- 添加积分记录对话框 -->
+    <el-dialog
+      v-if="pointsDialogVisible"
+      v-model="pointsDialogVisible"
+      title="添加积分记录"
+      width="90%"
+      :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
+      :destroy-on-close="true"
+      modal-class="points-overlay-mobile"
+      class="points-dialog-mobile"
+      @close="handlePointsDialogClose"
+    >
+      <div v-if="pointsSelectedStudent" class="points-student-info-mobile">
+        <div class="student-info-card-mobile">
+          <div class="student-avatar-card-mobile">
+            <img v-if="pointsSelectedStudent.hasAvatar && pointsSelectedStudent.avatarUrl" :src="pointsSelectedStudent.avatarUrl" alt="头像" class="avatar-image-card-mobile" />
+            <span v-else class="avatar-text-card-mobile">{{ pointsSelectedStudent.name?.charAt(0) }}</span>
+          </div>
+          <div class="student-info-details-mobile">
+            <div class="student-name-card-mobile">{{ pointsSelectedStudent.name }}</div>
+            <div class="student-id-card-mobile">学号：{{ pointsSelectedStudent.studentId }}</div>
+            <div class="student-major-card-mobile">{{ pointsSelectedStudent.major }} | {{ pointsSelectedStudent.grade }}年级</div>
+          </div>
+        </div>
+      </div>
+      <el-form
+        ref="pointsFormRef"
+        :model="pointsForm"
+        :rules="pointsFormRules"
+        label-width="100px"
+        class="points-form-mobile"
+      >
+        <el-form-item label="积分变动" prop="changePoints">
+          <el-input-number
+            v-model="pointsForm.changePoints"
+            :min="-9999"
+            :max="9999"
+            placeholder="请输入积分变动值（正数为加分，负数为扣分）"
+            style="width: 100%"
+          />
+          <div class="form-tip-mobile">
+            <el-icon><Warning /></el-icon>
+            <span>正数表示加分，负数表示扣分</span>
+          </div>
+        </el-form-item>
+        <el-form-item label="改分理由" prop="adjustReason">
+          <el-input
+            v-model="pointsForm.adjustReason"
+            type="textarea"
+            :rows="4"
+            placeholder="请输入详细的改分理由（最多500字符）"
+            maxlength="500"
+            show-word-limit
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer-mobile">
+          <el-button @click="cancelPoints" :disabled="pointsLoading">取消</el-button>
+          <el-button type="primary" @click="confirmPoints" :loading="pointsLoading">
+            确认添加
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+    <!-- 查看积分记录对话框 -->
+    <el-dialog
+      v-if="scoreChangeRecordsDialogVisible"
+      v-model="scoreChangeRecordsDialogVisible"
+      :title="`${currentScoreChangeRecordsStudent?.name || '学生'} 的积分记录`"
+      width="90%"
+      :close-on-click-modal="false"
+      :destroy-on-close="true"
+      :append-to-body="true"
+      :teleported="true"
+      modal-class="score-change-records-overlay-mobile"
+      class="score-change-records-dialog-mobile"
+      @close="closeScoreChangeRecordsDialog"
+    >
+      <div class="student-info-header-mobile">
+        <div class="student-avatar-large-mobile">
+          <img v-if="currentScoreChangeRecordsStudent?.hasAvatar && currentScoreChangeRecordsStudent?.avatarUrl" :src="currentScoreChangeRecordsStudent.avatarUrl" alt="头像" class="avatar-image-large-mobile" />
+          <span v-else class="avatar-text-large-mobile">{{ currentScoreChangeRecordsStudent?.name?.charAt(0) || '学' }}</span>
+        </div>
+        <div class="student-info-mobile">
+          <h3>{{ currentScoreChangeRecordsStudent?.name || '学生' }}</h3>
+          <p>学号：{{ currentScoreChangeRecordsStudent?.studentId }}</p>
+          <p v-if="currentScoreChangeRecordsStudent?.major && currentScoreChangeRecordsStudent?.grade">
+            {{ currentScoreChangeRecordsStudent.major }} | {{ currentScoreChangeRecordsStudent.grade }}年级
+          </p>
+        </div>
+        <div class="attendance-summary-mobile">
+          <div class="summary-item-mobile">
+            <span class="summary-label-mobile">总记录数</span>
+            <span class="summary-value-mobile">{{ scoreChangeRecords.length }}</span>
+          </div>
+          <div class="summary-item-mobile">
+            <span class="summary-label-mobile">总调整分数</span>
+            <span class="summary-value-mobile" :class="{ positive: totalScoreChangePoints >= 0, negative: totalScoreChangePoints < 0 }">
+              {{ totalScoreChangePoints > 0 ? `+${totalScoreChangePoints}` : totalScoreChangePoints }}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div v-if="scoreChangeRecordsLoading" class="records-loading-mobile">
+        <el-icon class="is-loading"><Loading /></el-icon>
+        <span>加载中...</span>
+      </div>
+      <div v-else-if="scoreChangeRecords.length === 0" class="records-empty-mobile">
+        <el-icon><Box /></el-icon>
+        <span>暂无积分记录</span>
+      </div>
+      <div v-else class="score-change-records-container-mobile">
+        <div class="records-list-mobile">
+          <div
+            v-for="(record, index) in sortedScoreChangeRecords"
+            :key="index"
+            class="record-card-mobile"
+          >
+            <div class="record-header-mobile">
+              <span class="record-time-mobile">{{ formatScoreChangeTime(record.createTime) }}</span>
+              <span class="record-points-badge-mobile" :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
+                {{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
+              </span>
+            </div>
+            <div class="record-reason-text-mobile">{{ record.adjustReason }}</div>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <div class="dialog-footer-mobile">
+          <el-button @click="closeScoreChangeRecordsDialog">关闭</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -778,10 +936,11 @@ import 'element-plus/theme-chalk/el-date-picker.css'
 import 'element-plus/theme-chalk/el-date-picker-panel.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import 'element-plus/theme-chalk/el-overlay.css'
-import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, Clock, Warning, Key, Lock } from '@element-plus/icons-vue'
+import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, Clock, Warning, Key, Lock, Loading, Box } from '@element-plus/icons-vue'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, getAdminInfo, assignStudentToAdmin, getAvatarUrl, updateStudentWithSpecialPassword } from '@/api/student'
 import { getStudentAttendanceCount, getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
+import { createPointsRecord, getAllAdjustRecordsByStudentInfoId } from '@/api/points'
 import * as echarts from 'echarts/core'
 import { LineChart, HeatmapChart } from 'echarts/charts'
 import {
@@ -861,6 +1020,18 @@ const heatmapChart = ref(null)
 const lineChart = ref(null)
 const heatmapInstance = ref(null)
 const lineInstance = ref(null)
+const pointsDialogVisible = ref(false)
+const pointsLoading = ref(false)
+const pointsSelectedStudent = ref(null)
+const pointsFormRef = ref()
+const pointsForm = ref({
+  changePoints: null,
+  adjustReason: ''
+})
+const scoreChangeRecordsDialogVisible = ref(false)
+const scoreChangeRecordsLoading = ref(false)
+const currentScoreChangeRecordsStudent = ref(null)
+const scoreChangeRecords = ref([])
 
 const levelOptions = [
   { value: 0, label: '社团成员', color: 'info' },
@@ -1676,6 +1847,17 @@ const makeupDateFormRules = {
   ]
 }
 
+const pointsFormRules = {
+  changePoints: [
+    { required: true, message: '请输入积分变动值', trigger: 'blur' },
+    { type: 'number', message: '积分变动值必须为数字', trigger: 'blur' }
+  ],
+  adjustReason: [
+    { required: true, message: '请输入改分理由', trigger: 'blur' },
+    { max: 500, message: '改分理由不能超过500个字符', trigger: 'blur' }
+  ]
+}
+
 const openMakeupDialog = (student) => {
   makeupSelectedStudent.value = student
   makeupForm.value.attendanceTime = ''
@@ -2437,12 +2619,204 @@ const closeTrendDialog = () => {
     dialogWrapper.style.visibility = 'hidden'
     dialogWrapper.style.opacity = '0'
   }
-  
+
   trendDialogVisible.value = false
-  
+
   if (lineInstance.value) {
     lineInstance.value.dispose()
     lineInstance.value = null
+  }
+}
+
+const openPointsDialog = async (student) => {
+  if (!student || !student.id) {
+    ElMessage.warning('学生信息不完整，无法添加积分记录')
+    return
+  }
+  
+  // 恢复遮罩层样式，确保可以正常显示
+  const dialogWrapper = document.querySelector('.points-overlay-mobile')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = ''
+    dialogWrapper.style.visibility = ''
+    dialogWrapper.style.opacity = ''
+  }
+  
+  // 加载学生头像
+  if (student.id) {
+    const avatarUrlString = getAvatarUrl(student.id)
+    if (avatarUrlString) {
+      const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
+      const img = new Image()
+      img.onload = () => {
+        student.hasAvatar = true
+        student.avatarUrl = avatarUrlWithTimestamp
+      }
+      img.onerror = () => {
+        student.hasAvatar = false
+        student.avatarUrl = null
+      }
+      img.src = avatarUrlWithTimestamp
+    } else {
+      student.hasAvatar = false
+      student.avatarUrl = null
+    }
+  }
+  
+  pointsSelectedStudent.value = student
+  pointsForm.value = {
+    changePoints: null,
+    adjustReason: ''
+  }
+  pointsDialogVisible.value = true
+}
+
+const handlePointsDialogClose = () => {
+  // 先直接操作DOM隐藏遮罩层，避免闪烁
+  const dialogWrapper = document.querySelector('.points-overlay-mobile')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  // 延迟清空数据，确保弹窗完全关闭后再清空
+  setTimeout(() => {
+    pointsFormRef.value?.resetFields()
+    pointsSelectedStudent.value = null
+    pointsForm.value = {
+      changePoints: null,
+      adjustReason: ''
+    }
+  }, 0)
+}
+
+const cancelPoints = () => {
+  pointsDialogVisible.value = false
+}
+
+const confirmPoints = async () => {
+  if (!pointsFormRef.value) return
+  
+  try {
+    await pointsFormRef.value.validate()
+    
+    const adminPassword = adminStore.getAdminPassword()
+    if (!adminPassword) {
+      ElMessage.error('身份验证已过期，请重新登录')
+      isAuthenticated.value = false
+      adminStore.clearAdminPassword()
+      return
+    }
+
+    if (!pointsSelectedStudent.value || !pointsSelectedStudent.value.id) {
+      ElMessage.error('学生信息不完整')
+      return
+    }
+
+    pointsLoading.value = true
+    
+    const response = await createPointsRecord(
+      adminPassword,
+      pointsForm.value.adjustReason.trim(),
+      parseInt(pointsForm.value.changePoints),
+      pointsSelectedStudent.value.id
+    )
+    
+    if (response.code === 200) {
+      ElMessage.success('积分记录创建成功')
+      pointsDialogVisible.value = false
+      // 数据清空由 handlePointsDialogClose 处理
+    } else {
+      ElMessage.error(response.message || '积分记录创建失败')
+    }
+  } catch (error) {
+    if (error.message) {
+      ElMessage.error(error.message)
+    }
+  } finally {
+    pointsLoading.value = false
+  }
+}
+
+const openScoreChangeRecordsDialog = async (student) => {
+  if (!student || !student.id) {
+    ElMessage.warning('学生信息不完整，无法查看积分记录')
+    return
+  }
+  
+  // 加载学生头像
+  if (student.id) {
+    const avatarUrlString = getAvatarUrl(student.id)
+    if (avatarUrlString) {
+      const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
+      const img = new Image()
+      img.onload = () => {
+        student.hasAvatar = true
+        student.avatarUrl = avatarUrlWithTimestamp
+      }
+      img.onerror = () => {
+        student.hasAvatar = false
+        student.avatarUrl = null
+      }
+      img.src = avatarUrlWithTimestamp
+    } else {
+      student.hasAvatar = false
+      student.avatarUrl = null
+    }
+  }
+  
+  currentScoreChangeRecordsStudent.value = student
+  scoreChangeRecordsDialogVisible.value = true
+  scoreChangeRecordsLoading.value = true
+  scoreChangeRecords.value = []
+  
+  try {
+    const response = await getAllAdjustRecordsByStudentInfoId(student.id)
+    if (response.code === 200 && Array.isArray(response.data)) {
+      scoreChangeRecords.value = response.data
+    } else {
+      scoreChangeRecords.value = []
+    }
+  } catch (error) {
+    console.error('获取积分记录失败:', error)
+    ElMessage.error('获取积分记录失败：' + (error.message || '未知错误'))
+    scoreChangeRecords.value = []
+  } finally {
+    scoreChangeRecordsLoading.value = false
+  }
+}
+
+const closeScoreChangeRecordsDialog = () => {
+  scoreChangeRecordsDialogVisible.value = false
+  currentScoreChangeRecordsStudent.value = null
+  scoreChangeRecords.value = []
+}
+
+const sortedScoreChangeRecords = computed(() => {
+  return [...scoreChangeRecords.value].sort((a, b) => {
+    const timeA = new Date(a.createTime).getTime()
+    const timeB = new Date(b.createTime).getTime()
+    return timeB - timeA // 最新的在前
+  })
+})
+
+const totalScoreChangePoints = computed(() => {
+  return scoreChangeRecords.value.reduce((sum, r) => sum + r.adjustPoints, 0)
+})
+
+const formatScoreChangeTime = (timeString) => {
+  if (!timeString) return '--'
+  try {
+    const date = new Date(timeString)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    return `${year}-${month}-${day} ${hours}:${minutes}`
+  } catch (error) {
+    return timeString
   }
 }
 
@@ -4192,5 +4566,267 @@ onMounted(async () => {
   margin-bottom: -2px;
 }
 
+/* 积分对话框样式 */
+.points-overlay-mobile {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2000 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.points-overlay-mobile .el-overlay-dialog {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2001 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.points-dialog-mobile :deep(.el-dialog) {
+  border-radius: 20px;
+  background: var(--admin-glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--admin-glass-border);
+  box-shadow: 0 8px 32px var(--admin-shadow-color);
+}
+
+.points-dialog-mobile :deep(.el-dialog__header) {
+  padding: 20px 20px 15px;
+  border-bottom: 1px solid var(--admin-glass-border);
+}
+
+.points-dialog-mobile :deep(.el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.points-dialog-mobile :deep(.el-dialog__body) {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.points-student-info-mobile {
+  margin-bottom: 20px;
+}
+
+.student-info-card-mobile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: var(--admin-glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--admin-glass-border);
+}
+
+.student-avatar-card-mobile {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: var(--admin-primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.student-avatar-card-mobile.has-avatar {
+  background: transparent;
+}
+
+.avatar-image-card-mobile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.avatar-text-card-mobile {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.student-info-details-mobile {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-name-card-mobile {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin-bottom: 6px;
+}
+
+.student-id-card-mobile {
+  font-size: 14px;
+  color: var(--admin-text-secondary);
+  margin-bottom: 4px;
+}
+
+.student-major-card-mobile {
+  font-size: 14px;
+  color: var(--admin-text-secondary);
+}
+
+.points-form-mobile {
+  margin-top: 20px;
+}
+
+.form-tip-mobile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--admin-text-secondary);
+}
+
+.form-tip-mobile .el-icon {
+  font-size: 14px;
+  color: var(--admin-warning-color);
+}
+
+/* 积分记录对话框样式 */
+.score-change-records-overlay-mobile {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2000 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.score-change-records-overlay-mobile .el-overlay-dialog {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2001 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.score-change-records-dialog-mobile :deep(.el-dialog) {
+  border-radius: 20px;
+  background: var(--admin-glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--admin-glass-border);
+  box-shadow: 0 8px 32px var(--admin-shadow-color);
+}
+
+.score-change-records-dialog-mobile :deep(.el-dialog__header) {
+  padding: 20px 20px 15px;
+  border-bottom: 1px solid var(--admin-glass-border);
+}
+
+.score-change-records-dialog-mobile :deep(.el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.score-change-records-dialog-mobile :deep(.el-dialog__body) {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.records-loading-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 12px;
+  color: var(--admin-text-secondary);
+}
+
+.records-loading-mobile .el-icon {
+  font-size: 32px;
+}
+
+.records-empty-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 12px;
+  color: var(--admin-text-secondary);
+}
+
+.records-empty-mobile .el-icon {
+  font-size: 32px;
+}
+
+.score-change-records-container-mobile {
+  margin-top: 20px;
+}
+
+.records-list-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.record-card-mobile {
+  background: var(--admin-glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--admin-glass-border);
+  padding: 15px;
+}
+
+.record-header-mobile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.record-time-mobile {
+  font-size: 14px;
+  color: var(--admin-text-secondary);
+}
+
+.record-points-badge-mobile {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.record-points-badge-mobile.positive {
+  background: rgba(103, 194, 58, 0.1);
+  color: var(--admin-success-color);
+}
+
+.record-points-badge-mobile.negative {
+  background: rgba(245, 108, 108, 0.1);
+  color: var(--admin-danger-color);
+}
+
+.record-reason-text-mobile {
+  font-size: 14px;
+  color: var(--admin-text-primary);
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.summary-value-mobile.positive {
+  color: var(--admin-success-color);
+}
+
+.summary-value-mobile.negative {
+  color: var(--admin-danger-color);
+}
 
 </style>
