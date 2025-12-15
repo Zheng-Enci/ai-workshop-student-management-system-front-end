@@ -272,7 +272,9 @@
       :close-on-press-escape="false"
       :append-to-body="true"
       :teleported="true"
+      modal-class="edit-dialog-overlay-mobile"
       class="edit-dialog-mobile"
+      @close="cancelEdit"
     >
       <el-form
         ref="editFormRef"
@@ -1079,9 +1081,19 @@ const openEditDialog = (student) => {
 }
 
 const cancelEdit = () => {
+  const dialogWrapper = document.querySelector('.edit-dialog-overlay-mobile')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
   editDialogVisible.value = false
-  editFormRef.value?.resetFields()
-  currentEditStudentId.value = ''
+  
+  setTimeout(() => {
+    editFormRef.value?.resetFields()
+    currentEditStudentId.value = ''
+  }, 0)
 }
 
 const confirmEdit = async () => {
@@ -2536,6 +2548,25 @@ onMounted(async () => {
   padding: 20px;
   max-height: 60vh;
   overflow-y: auto;
+}
+
+.edit-dialog-overlay-mobile {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2000 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.edit-dialog-overlay-mobile .el-overlay-dialog {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2001 !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 .edit-form-mobile {
