@@ -807,7 +807,7 @@
         ref="pointsFormRef"
         :model="pointsForm"
         :rules="pointsFormRules"
-        label-width="100px"
+        label-position="top"
         class="points-form-mobile"
       >
         <el-form-item label="积分变动" prop="changePoints">
