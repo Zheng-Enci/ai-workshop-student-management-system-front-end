@@ -386,8 +386,9 @@
               <span class="period-text-mobile">{{ getTimePeriodName(record.attendanceTime) }}</span>
             </div>
             <div class="record-content-mobile">
-              <div class="student-avatar-mobile-record">
-                {{ record.name.charAt(0) }}
+              <div class="student-avatar-mobile-record" :class="{ 'has-avatar': record.hasAvatar && record.avatarUrl, 'no-avatar': !record.hasAvatar || !record.avatarUrl }">
+                <img v-if="record.hasAvatar && record.avatarUrl" :src="record.avatarUrl" alt="头像" class="avatar-image-mobile-record" @error="handleTodayRecordAvatarError(record)" />
+                <span v-else class="avatar-text-mobile-record">{{ record.name.charAt(0) }}</span>
               </div>
               <div class="student-details-mobile-record">
                 <div class="student-name-mobile-record">{{ record.name }}</div>
@@ -1284,6 +1285,8 @@ const showTodayAttendance = async () => {
     const response = await getTodayAttendanceRecords()
     if (response.code === 200) {
       todayAttendanceRecords.value = response.data || []
+      // 加载今日签到记录的头像
+      await loadTodayAttendanceAvatars()
       todayAttendanceDialogVisible.value = true
     } else {
       ElMessage.error(response.message || '获取今日签到记录失败')
@@ -1293,6 +1296,60 @@ const showTodayAttendance = async () => {
   } finally {
     isLoading.value = false
   }
+}
+
+/**
+ * 加载今日签到记录的头像
+ */
+const loadTodayAttendanceAvatars = async () => {
+  if (!todayAttendanceRecords.value.length) return
+
+  try {
+    const avatarPromises = todayAttendanceRecords.value.map(async (record) => {
+      try {
+        // 根据学号从students数组中查找对应的学生信息
+        const student = students.value.find(s => s.studentId === record.scheduleId)
+        if (student && student.id) {
+          const studentInfoId = student.id
+          const avatarUrlString = getAvatarUrl(studentInfoId)
+          
+          if (avatarUrlString) {
+            const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
+            const img = new Image()
+            img.onload = () => {
+              record.hasAvatar = true
+              record.avatarUrl = avatarUrlWithTimestamp
+            }
+            img.onerror = () => {
+              record.hasAvatar = false
+              record.avatarUrl = null
+            }
+            img.src = avatarUrlWithTimestamp
+          } else {
+            record.hasAvatar = false
+            record.avatarUrl = null
+          }
+        } else {
+          record.hasAvatar = false
+          record.avatarUrl = null
+        }
+      } catch (error) {
+        record.hasAvatar = false
+        record.avatarUrl = null
+      }
+    })
+    await Promise.all(avatarPromises)
+  } catch (error) {
+    console.error('加载今日签到记录头像失败:', error)
+  }
+}
+
+/**
+ * 处理今日签到记录头像加载错误
+ */
+const handleTodayRecordAvatarError = (record) => {
+  record.hasAvatar = false
+  record.avatarUrl = null
 }
 
 const formatAttendanceTime = (timeString) => {
@@ -3419,6 +3476,28 @@ onMounted(async () => {
   font-weight: 700;
   color: white;
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.student-avatar-mobile-record.has-avatar {
+  background: transparent;
+}
+
+.student-avatar-mobile-record.no-avatar {
+  background: var(--admin-primary-gradient);
+}
+
+.avatar-image-mobile-record {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.avatar-text-mobile-record {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
 }
 
 .student-details-mobile-record {
