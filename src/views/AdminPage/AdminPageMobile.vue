@@ -367,6 +367,8 @@
       :close-on-click-modal="false"
       :append-to-body="true"
       :teleported="true"
+      :modal-class="'today-attendance-overlay-mobile'"
+      @close="closeTodayAttendanceDialog"
       class="today-attendance-dialog-mobile"
     >
       <div class="attendance-records-container-mobile">
@@ -404,7 +406,7 @@
       </div>
       <template #footer>
         <div class="dialog-footer-mobile">
-          <el-button @click="todayAttendanceDialogVisible = false">关闭</el-button>
+          <el-button @click="closeTodayAttendanceDialog">关闭</el-button>
         </div>
       </template>
     </el-dialog>
@@ -1296,6 +1298,24 @@ const showTodayAttendance = async () => {
   } finally {
     isLoading.value = false
   }
+}
+
+/**
+ * 关闭今日签到对话框，避免闪烁
+ */
+const closeTodayAttendanceDialog = () => {
+  const overlay = document.querySelector('.today-attendance-overlay-mobile')
+  if (overlay) {
+    overlay.style.display = 'none'
+    overlay.style.visibility = 'hidden'
+    overlay.style.opacity = '0'
+  }
+
+  todayAttendanceDialogVisible.value = false
+
+  setTimeout(() => {
+    todayAttendanceRecords.value = []
+  }, 0)
 }
 
 /**
@@ -3366,6 +3386,25 @@ onMounted(async () => {
 .today-attendance-dialog-mobile :deep(.el-dialog__header) {
   padding: 20px 20px 15px;
   border-bottom: 1px solid var(--admin-glass-border);
+}
+
+.today-attendance-overlay-mobile {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2000 !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.today-attendance-overlay-mobile .el-overlay-dialog {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2001 !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 .today-attendance-dialog-mobile :deep(.el-dialog__title) {
