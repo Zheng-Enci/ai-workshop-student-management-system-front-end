@@ -482,12 +482,133 @@
         </div>
       </template>
     </el-dialog>
+
+    <el-dialog
+      v-if="makeupDialogVisible"
+      v-model="makeupDialogVisible"
+      title="学生补卡"
+      width="90%"
+      :close-on-click-modal="false"
+      :append-to-body="true"
+      :teleported="true"
+      class="makeup-dialog-mobile"
+      @close="cancelMakeup"
+    >
+      <div class="makeup-student-info-mobile">
+        <div class="makeup-student-avatar-mobile">
+          <img v-if="makeupSelectedStudent?.hasAvatar && makeupSelectedStudent?.avatarUrl" :src="makeupSelectedStudent.avatarUrl" alt="头像" class="makeup-avatar-image-mobile" />
+          <span v-else class="makeup-avatar-text-mobile">{{ makeupSelectedStudent?.name?.charAt(0) }}</span>
+        </div>
+        <div class="makeup-student-details-mobile">
+          <div class="makeup-student-name-mobile">{{ makeupSelectedStudent?.name }}</div>
+          <div class="makeup-student-id-mobile">{{ makeupSelectedStudent?.studentId }}</div>
+          <div class="makeup-student-grade-mobile">{{ makeupSelectedStudent?.grade }}年级 · {{ makeupSelectedStudent?.major }}</div>
+        </div>
+      </div>
+
+      <div v-if="makeupStep === 'date'" class="makeup-step-content-mobile">
+        <div class="step-title-mobile">第一步：选择补卡日期</div>
+        <el-form
+          ref="makeupFormRef"
+          :model="makeupForm"
+          :rules="makeupDateFormRules"
+          label-width="0"
+          class="makeup-form-content-mobile"
+        >
+          <el-form-item prop="selectedDate">
+            <el-date-picker
+              v-model="makeupForm.selectedDate"
+              type="date"
+              :locale="zhCn"
+              placeholder="请选择日期"
+              format="YYYY-MM-DD"
+              value-format="YYYY-MM-DD"
+              class="makeup-date-picker-mobile"
+              clearable
+              @change="handleDateChange"
+              style="width: 100%"
+            >
+              <template #prefix-icon>
+                <el-icon><Calendar /></el-icon>
+              </template>
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <div v-if="makeupStep === 'hour'" class="makeup-step-content-mobile">
+        <div class="step-title-mobile">第二步：选择补卡时间</div>
+        <div class="selected-date-display-mobile">
+          <el-icon><Calendar /></el-icon>
+          <span>已选择日期：{{ formatSelectedDate() }}</span>
+        </div>
+        <div class="hour-buttons-group-mobile">
+          <div class="hour-label-mobile">选择时间：</div>
+          <div class="hour-buttons-container-mobile">
+            <template v-for="(slot, slotIndex) in timeSlots" :key="slot.key">
+              <div class="time-slot-buttons-mobile">
+                <div class="time-slot-label-mobile">{{ slot.label }}</div>
+                <div class="hour-buttons-row-mobile">
+                  <el-button
+                    v-for="hour in slot.hours"
+                    :key="hour"
+                    size="small"
+                    :type="isHourSelected(hour) ? 'primary' : 'default'"
+                    @click="selectHour(hour)"
+                    class="hour-btn-mobile"
+                  >
+                    {{ String(hour).padStart(2, '0') }}:00
+                  </el-button>
+                </div>
+              </div>
+              <div v-if="slotIndex < timeSlots.length - 1" class="time-slot-divider-mobile"></div>
+            </template>
+          </div>
+          <div class="form-tip-mobile">
+            <el-icon><Warning /></el-icon>
+            <span>补卡时间必须在有效签到时间段内（早上 08:00-11:00、下午 14:00-17:00、晚上 19:00-22:00），且不能晚于当前时间</span>
+          </div>
+        </div>
+      </div>
+
+      <template #footer>
+        <div class="makeup-footer-mobile">
+          <el-button 
+            @click="cancelMakeup" 
+            class="cancel-btn-mobile"
+            size="default"
+          >
+            取消
+          </el-button>
+          <el-button 
+            v-if="makeupStep === 'date'"
+            type="primary"
+            @click="nextStep"
+            :disabled="!makeupForm.selectedDate"
+            size="default"
+          >
+            下一步
+          </el-button>
+          <el-button 
+            v-if="makeupStep === 'hour'"
+            type="primary"
+            @click="submitMakeup"
+            :loading="makeupLoading"
+            :disabled="makeupForm.selectedHour === null"
+            size="default"
+          >
+            <el-icon v-if="!makeupLoading"><Clock /></el-icon>
+            {{ makeupLoading ? '处理中...' : '确认补卡' }}
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { ElMessage, ElIcon, ElInput, ElButton, ElSelect, ElOption, ElDialog, ElForm, ElFormItem, ElInputNumber } from 'element-plus'
+import { ElMessage, ElIcon, ElInput, ElButton, ElSelect, ElOption, ElDialog, ElForm, ElFormItem, ElInputNumber, ElDatePicker } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -499,10 +620,14 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
 import 'element-plus/theme-chalk/el-input-number.css'
+import 'element-plus/theme-chalk/el-date-picker.css'
+import 'element-plus/theme-chalk/el-date-picker-panel.css'
+import 'element-plus/theme-chalk/el-scrollbar.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import { User, Calendar, TrendCharts, Search, Refresh, SwitchButton, Edit, Clock, Warning, Key, Lock } from '@element-plus/icons-vue'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { getAllStudentsWithSpecialPassword, setStudentLevel, getStudentLevel, getAdminInfo, assignStudentToAdmin, getAvatarUrl, updateStudentWithSpecialPassword } from '@/api/student'
-import { getStudentAttendanceCount, getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords, getStudentAttendanceRecords } from '@/api/attendance'
+import { getStudentAttendanceCount, getDailyAttendanceCount, getMonthlyAttendanceCount, getTodayAttendanceRecords, getStudentAttendanceRecords, makeupAttendanceWithSpecialPassword } from '@/api/attendance'
 import { useAdminStore } from '@/stores/admin'
 import { useThemeStore } from '@/stores/theme'
 
@@ -547,6 +672,16 @@ const attendanceRecordsDialogVisible = ref(false)
 const currentStudentInfo = ref({})
 const studentAttendanceRecords = ref([])
 const selectedMonth = ref('')
+const makeupDialogVisible = ref(false)
+const makeupLoading = ref(false)
+const makeupSelectedStudent = ref(null)
+const makeupStep = ref('date')
+const makeupFormRef = ref()
+const makeupForm = ref({
+  attendanceTime: '',
+  selectedDate: '',
+  selectedHour: null
+})
 
 const levelOptions = [
   { value: 0, label: '社团成员', color: 'info' },
@@ -1125,8 +1260,154 @@ const groupRecordsByDate = (records) => {
   }))
 }
 
-const openMakeupDialog = () => {
-  ElMessage.info('补卡功能开发中')
+const timeSlots = [
+  {
+    label: '早上',
+    key: 'morning',
+    hours: [8, 9, 10, 11]
+  },
+  {
+    label: '下午',
+    key: 'afternoon',
+    hours: [14, 15, 16, 17]
+  },
+  {
+    label: '晚上',
+    key: 'evening',
+    hours: [19, 20, 21, 22]
+  }
+]
+
+const validHours = timeSlots.flatMap(slot => slot.hours)
+
+const makeupDateFormRules = {
+  selectedDate: [
+    { required: true, message: '请选择日期', trigger: 'change' }
+  ]
+}
+
+const openMakeupDialog = (student) => {
+  makeupSelectedStudent.value = student
+  makeupForm.value.attendanceTime = ''
+  makeupForm.value.selectedDate = ''
+  makeupForm.value.selectedHour = null
+  makeupStep.value = 'date'
+  makeupDialogVisible.value = true
+}
+
+const cancelMakeup = () => {
+  makeupDialogVisible.value = false
+  makeupFormRef.value?.resetFields()
+  makeupSelectedStudent.value = null
+  makeupForm.value.selectedDate = ''
+  makeupForm.value.selectedHour = null
+  makeupForm.value.attendanceTime = ''
+  makeupStep.value = 'date'
+}
+
+const handleDateChange = () => {
+  if (makeupForm.value.selectedDate) {
+    makeupStep.value = 'hour'
+    makeupForm.value.selectedHour = null
+    makeupForm.value.attendanceTime = ''
+  }
+}
+
+const selectHour = (hour) => {
+  if (!validHours.includes(hour)) return
+  makeupForm.value.selectedHour = hour
+  updateAttendanceTime()
+}
+
+const isHourSelected = (hour) => {
+  if (makeupForm.value.selectedHour === null) return false
+  return makeupForm.value.selectedHour === hour
+}
+
+const updateAttendanceTime = () => {
+  if (makeupForm.value.selectedDate && makeupForm.value.selectedHour !== null) {
+    const dateStr = makeupForm.value.selectedDate
+    const hourStr = String(makeupForm.value.selectedHour).padStart(2, '0')
+    makeupForm.value.attendanceTime = `${dateStr}T${hourStr}:00:00`
+  } else {
+    makeupForm.value.attendanceTime = ''
+  }
+}
+
+const validateAttendanceTime = (dateStr, hour) => {
+  const selectedTime = new Date(`${dateStr}T${String(hour).padStart(2, '0')}:00:00`)
+  const now = new Date()
+  if (selectedTime > now) {
+    ElMessage.warning('补卡时间不能晚于当前时间')
+    return false
+  }
+  return true
+}
+
+const formatSelectedDate = () => {
+  if (!makeupForm.value.selectedDate) return ''
+  const date = new Date(makeupForm.value.selectedDate)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+const nextStep = async () => {
+  if (!makeupFormRef.value) return
+  try {
+    await makeupFormRef.value.validate()
+    makeupStep.value = 'hour'
+    makeupForm.value.selectedHour = null
+  } catch (error) {
+    console.error('表单验证失败', error)
+  }
+}
+
+const submitMakeup = async () => {
+  if (makeupLoading.value) return
+  if (makeupForm.value.selectedHour === null) {
+    ElMessage.warning('请选择补卡时间')
+    return
+  }
+  if (!makeupForm.value.selectedDate) {
+    ElMessage.warning('请选择补卡日期')
+    return
+  }
+  if (!validateAttendanceTime(makeupForm.value.selectedDate, makeupForm.value.selectedHour)) {
+    return
+  }
+  updateAttendanceTime()
+  if (!makeupForm.value.attendanceTime) {
+    ElMessage.warning('补卡时间不完整')
+    return
+  }
+  const adminPassword = adminStore.getAdminPassword()
+  if (!adminPassword) {
+    ElMessage.error('身份验证已过期，请重新登录')
+    isAuthenticated.value = false
+    adminStore.clearAdminPassword()
+    return
+  }
+  makeupLoading.value = true
+  try {
+    const response = await makeupAttendanceWithSpecialPassword(
+      adminPassword,
+      makeupSelectedStudent.value.studentId,
+      makeupForm.value.attendanceTime
+    )
+    if (response.code === 200) {
+      ElMessage.success('补卡成功')
+      cancelMakeup()
+      await loadStudentAttendanceCounts()
+    } else {
+      ElMessage.error(response.message || '补卡失败')
+    }
+  } catch (error) {
+    ElMessage.error(error.message || '补卡失败')
+  } finally {
+    makeupLoading.value = false
+  }
 }
 
 const loadAllData = async (adminPassword) => {
@@ -2366,5 +2647,212 @@ onMounted(async () => {
   flex-direction: column;
   gap: 8px;
   padding: 12px;
+}
+
+.makeup-dialog-mobile :deep(.el-dialog) {
+  border-radius: 20px;
+  background: var(--admin-glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--admin-glass-border);
+  box-shadow: 0 8px 32px var(--admin-shadow-color);
+}
+
+.makeup-dialog-mobile :deep(.el-dialog__header) {
+  padding: 20px 20px 15px;
+  border-bottom: 1px solid var(--admin-glass-border);
+}
+
+.makeup-dialog-mobile :deep(.el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.makeup-dialog-mobile :deep(.el-dialog__body) {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.makeup-student-info-mobile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: var(--admin-glass-bg);
+  border-radius: 12px;
+  border: 1px solid var(--admin-glass-border);
+  margin-bottom: 20px;
+}
+
+.makeup-student-avatar-mobile {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: var(--admin-primary-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.makeup-avatar-image-mobile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.makeup-avatar-text-mobile {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.makeup-student-details-mobile {
+  flex: 1;
+  min-width: 0;
+}
+
+.makeup-student-name-mobile {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin-bottom: 6px;
+}
+
+.makeup-student-id-mobile {
+  font-size: 13px;
+  color: var(--admin-text-secondary);
+  margin-bottom: 4px;
+}
+
+.makeup-student-grade-mobile {
+  font-size: 13px;
+  color: var(--admin-text-secondary);
+}
+
+.makeup-step-content-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.step-title-mobile {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--admin-primary-color);
+}
+
+.makeup-form-content-mobile {
+  margin-top: 10px;
+}
+
+.makeup-date-picker-mobile {
+  width: 100%;
+}
+
+.selected-date-display-mobile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--admin-glass-bg);
+  border-radius: 8px;
+  border: 1px solid var(--admin-glass-border);
+  font-size: 14px;
+  color: var(--admin-text-primary);
+}
+
+.selected-date-display-mobile .el-icon {
+  color: var(--admin-primary-color);
+}
+
+.hour-buttons-group-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hour-label-mobile {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+}
+
+.hour-buttons-container-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.time-slot-buttons-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.time-slot-label-mobile {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--admin-text-secondary);
+  margin-bottom: 5px;
+}
+
+.hour-buttons-row-mobile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hour-btn-mobile {
+  flex: 1;
+  min-width: 70px;
+  max-width: 100px;
+}
+
+.time-slot-divider-mobile {
+  height: 1px;
+  background: var(--admin-glass-border);
+  margin: 5px 0;
+}
+
+.form-tip-mobile {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 193, 7, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  font-size: 12px;
+  color: var(--admin-text-secondary);
+  line-height: 1.5;
+}
+
+.form-tip-mobile .el-icon {
+  color: #ff9800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.makeup-footer-mobile {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid var(--admin-glass-border);
+}
+
+.cancel-btn-mobile {
+  flex: 1;
+  max-width: 120px;
+}
+
+.makeup-footer-mobile .el-button--primary {
+  flex: 1;
+  max-width: 120px;
 }
 </style>
