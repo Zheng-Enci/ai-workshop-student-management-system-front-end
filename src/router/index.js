@@ -149,6 +149,24 @@ const routes = [
         component: () => import('../views/ScoreChangeRecordsPage/ScoreChangeRecordsPageDesktop.vue'),
         meta: { requiresAuth: true }
     },
+    {
+        path: '/all-members',
+        name: 'AllMembers',
+        component: () => import('../views/AllMembersPage/AllMembersPage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/all-members-mobile',
+        name: 'AllMembersMobile',
+        component: () => import('../views/AllMembersPage/AllMembersPageMobile.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/all-members-desktop',
+        name: 'AllMembersDesktop',
+        component: () => import('../views/AllMembersPage/AllMembersPageDesktop.vue'),
+        meta: { requiresAuth: true }
+    },
 ]
 
 const router = createRouter({

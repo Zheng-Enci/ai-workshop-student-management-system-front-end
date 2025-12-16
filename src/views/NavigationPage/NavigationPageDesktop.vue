@@ -295,7 +295,7 @@ const goToPointsDashboard = () => {
 }
 
 const goToAllMembers = () => {
-  router.push('/student-manager')
+  router.push('/all-members')
 }
 
 const goToScoreChangeRecords = () => {

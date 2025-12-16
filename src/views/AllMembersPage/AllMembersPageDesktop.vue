@@ -172,6 +172,34 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { ArrowLeft, User, View, Box } from '@element-plus/icons-vue'
+
+const router = useRouter()
+const topStudents = ref([])
+const showQuote = ref(false)
+const currentQuote = ref('')
+
+const goBack = () => {
+  router.push('/navigation')
+}
+
+const toggleTheme = () => {
+  // 主题切换逻辑
+}
+
+const formatGrade = (grade) => {
+  return grade
+}
+
+const handleAvatarError = () => {
+  // 头像加载失败处理
+}
+
+const openRecordsDialog = () => {
+  // 打开改分记录对话框
+}
 </script>
 
 <style scoped>
