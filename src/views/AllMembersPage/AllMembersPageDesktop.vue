@@ -196,12 +196,17 @@
 
     <!-- 统计数据弹窗 -->
     <el-dialog
+      v-if="statisticsDialogVisible"
       v-model="statisticsDialogVisible"
       title="统计数据"
       width="70%"
       :close-on-click-modal="false"
       :destroy-on-close="true"
+      :append-to-body="true"
+      :teleported="true"
+      modal-class="statistics-dialog-overlay"
       class="statistics-dialog"
+      @close="closeStatisticsDialog"
     >
       <div class="statistics-content">
         <div class="statistics-section-wrapper">
@@ -511,6 +516,7 @@ const isClosingRecordsDialog = ref(false)
 
 // 统计数据弹窗
 const statisticsDialogVisible = ref(false)
+const isClosingStatisticsDialog = ref(false)
 
 const signInChart = ref(null)
 const activityChart = ref(null)
@@ -1184,14 +1190,6 @@ const openRecordsDialog = async (student) => {
   // 重置关闭状态
   isClosingRecordsDialog.value = false
   
-  // 恢复遮罩层样式，确保可以正常显示
-  const dialogWrapper = document.querySelector('.records-dialog-overlay')
-  if (dialogWrapper) {
-    dialogWrapper.style.display = ''
-    dialogWrapper.style.visibility = ''
-    dialogWrapper.style.opacity = ''
-  }
-  
   // 设置当前学生
   currentStudent.value = student
   recordsDialogVisible.value = true
@@ -1221,19 +1219,12 @@ const handleRecordsDialogClose = () => {
   if (isClosingRecordsDialog.value) return
   isClosingRecordsDialog.value = true
   
-  // 先直接操作DOM隐藏遮罩层，避免闪烁
-  const dialogWrapper = document.querySelector('.records-dialog-overlay')
-  if (dialogWrapper) {
-    dialogWrapper.style.display = 'none'
-    dialogWrapper.style.visibility = 'hidden'
-    dialogWrapper.style.opacity = '0'
-  }
+  // 先关闭弹窗，避免响应式更新
+  recordsDialogVisible.value = false
   
-  // 立即清空 allRecords，避免 v-for 在关闭动画过程中重新渲染
-    allRecords.value = []
-  
-  // 延迟清空其他数据，确保弹窗完全关闭后再清空
+  // 延迟清空数据，确保弹窗完全关闭后再清空
   setTimeout(() => {
+    allRecords.value = []
     recordsLoading.value = false
     currentStudent.value = null
     isClosingRecordsDialog.value = false
@@ -1242,7 +1233,32 @@ const handleRecordsDialogClose = () => {
 
 // 打开统计数据弹窗
 const showStatisticsDialog = () => {
+  // 重置关闭状态
+  isClosingStatisticsDialog.value = false
   statisticsDialogVisible.value = true
+}
+
+// 关闭统计数据弹窗
+const closeStatisticsDialog = () => {
+  // 防止重复关闭
+  if (isClosingStatisticsDialog.value) return
+  isClosingStatisticsDialog.value = true
+  
+  // 先手动隐藏遮罩层，避免视觉闪烁
+  const dialogWrapper = document.querySelector('.statistics-dialog-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  // 关闭弹窗
+  statisticsDialogVisible.value = false
+  
+  // 重置关闭状态
+  setTimeout(() => {
+    isClosingStatisticsDialog.value = false
+  }, 0)
 }
 
 const formatGrade = (grade) => {
@@ -2426,37 +2442,27 @@ html.dark .ranking-label {
 .records-dialog :deep(.el-dialog__wrapper) {
   transition: none !important;
   animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
 }
 
 .records-dialog :deep(.el-dialog) {
   transition: none !important;
   animation: none !important;
   transform: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
 }
 
 .records-dialog :deep(.el-overlay) {
   transition: none !important;
   animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
 }
 
 .records-dialog :deep(.el-dialog__body) {
   transition: none !important;
   animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
 }
 
 .records-dialog :deep(.el-dialog__header) {
   transition: none !important;
   animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
 }
 
 /* 禁用 BaseTransition 组件的过渡动画 */
@@ -2467,32 +2473,6 @@ html.dark .ranking-label {
 .records-dialog :deep(.el-zoom-in-bottom) {
   transition: none !important;
   animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
-}
-
-/* 弹窗遮罩和容器定位修复 */
-:deep(.records-dialog-overlay) {
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(0, 0, 0, 0.5) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 3000 !important;
-  transition: none !important;  /* 禁用过渡动画 */
-  animation: none !important;   /* 禁用动画 */
-}
-
-:deep(.records-dialog-overlay .el-overlay-dialog) {
-  position: fixed !important;
-  inset: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 3001 !important;
-  transition: none !important;  /* 禁用过渡动画 */
-  animation: none !important;   /* 禁用动画 */
 }
 
 .records-loading,
@@ -2602,6 +2582,18 @@ html.dark .ranking-label {
   padding: 20px;
   max-height: 70vh;
   overflow-y: auto;
+}
+
+/* 禁用统计数据弹窗过渡动画，避免闪烁 */
+.statistics-dialog :deep(.el-dialog__wrapper) {
+  transition: none !important;
+  animation: none !important;
+}
+
+.statistics-dialog :deep(.el-dialog) {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
 }
 
 .statistics-content {
