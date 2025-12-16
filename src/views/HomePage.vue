@@ -259,23 +259,21 @@ const handleClose = () => {
   width: 48px;
   height: 48px;
   cursor: pointer;
-  border-radius: 50%;
-  background: var(--glass-bg);
+  border-radius: 0;
+  background: transparent;
   backdrop-filter: blur(20px);
-  border: 2px solid var(--glass-border);
+  border: none;
   padding: 8px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px var(--shadow-color);
+  box-shadow: none;
 }
 
 .theme-toggle-icon:hover {
-  transform: scale(1.1) rotate(180deg);
-  box-shadow: 0 12px 40px var(--shadow-hover);
-  border-color: var(--primary-color);
+  transform: scale(1.15);
 }
 
 .theme-toggle-icon:active {
-  transform: scale(0.95);
+  transform: scale(1.1);
 }
 
 .hero-section {

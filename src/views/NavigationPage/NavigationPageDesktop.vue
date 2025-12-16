@@ -581,10 +581,28 @@ onMounted(() => {
 .home-btn {
   width: 44px;
   height: 44px;
+  border-radius: 50%;
   background: var(--primary-color);
   border: none;
   box-shadow: 0 4px 16px rgba(102, 126, 234, 0.25);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.home-btn .el-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-btn .el-icon svg {
+  width: 100%;
+  height: 100%;
 }
 
 .home-btn:hover {
