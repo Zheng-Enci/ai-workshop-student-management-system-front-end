@@ -1,5 +1,5 @@
 <template>
-  <div class="points-dashboard-container">
+  <div class="points-dashboard-container" style="overflow-y: visible;">
     <div class="header">
       <div class="header-left">
         <el-button @click="goBack" class="back-btn" type="primary" :icon="ArrowLeft" circle></el-button>
@@ -15,14 +15,13 @@
       </div>
     </div>
 
-    <div class="main-content">
-      <div style="grid-template-columns: auto 1fr; gap: 20px; flex: 1; min-height: 0; overflow: hidden;">
-        <div class="dashboard-side">
-          <div class="side-card">
+    <div class="main-content" style="overflow-y: visible;">
+      <div style="gap: 20px; overflow-y: visible;">
+        <div class="dashboard-side" style="overflow-y: visible;">
+          <div class="side-card" style="overflow-y: visible;">
             <div class="side-card-header">
               <div class="card-header-left">
-                <div class="side-card-title">优秀成员</div>
-                <div class="side-card-subtitle">总积分前32名</div>
+                <div class="side-card-title">全部成员</div>
               </div>
               <div class="unified-legend" v-if="topStudents.length > 0">
                 <div class="legend-section">
@@ -220,8 +219,8 @@ const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
 const activeTab = ref('total')
-const selectedTopN = 40
-const totalRankingTopN = 50
+const selectedTopN = 100
+const totalRankingTopN = 100
 const signInRanking = ref([])
 const activityRanking = ref([])
 const totalRanking = ref([])
@@ -943,25 +942,23 @@ const loadTotalRanking = async () => {
       })
       
       const eligibleStudents = []
-      signInMap.forEach((signInData, studentId) => {
+      const allStudentIds = new Set([...signInMap.keys(), ...activityMap.keys()])
+      
+      allStudentIds.forEach(studentId => {
+        const signInData = signInMap.get(studentId)
         const activityData = activityMap.get(studentId)
-        if (activityData) {
-          eligibleStudents.push({
-            studentInfoId: studentId,
-            signInPoints: signInData.signInPoints,
-            activityPoints: activityData.activityPoints,
-            totalPoints: signInData.signInPoints + activityData.activityPoints
-          })
-        }
+        eligibleStudents.push({
+          studentInfoId: studentId,
+          signInPoints: signInData ? signInData.signInPoints : 0,
+          activityPoints: activityData ? activityData.activityPoints : 0,
+          totalPoints: (signInData ? signInData.signInPoints : 0) + (activityData ? activityData.activityPoints : 0)
+        })
       })
       
       eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
-      totalRanking.value = eligibleStudents.slice(0, selectedTopN)
-      // 加载所有需要显示的学生信息（包括前40名）
+      totalRanking.value = eligibleStudents
       await loadStudentInfo(totalRanking.value, 'studentInfoId')
-      // 从已加载信息的总排行榜中取前32名用于侧边栏显示
-      const topList = totalRanking.value.slice(0, 32)
-      topStudents.value = padTopStudents(topList, 32)
+      topStudents.value = padTopStudents(totalRanking.value, totalRanking.value.length)
       totalLoading.value = false
       await nextTick()
       if (totalRanking.value.length > 0) {
@@ -1186,8 +1183,7 @@ html.dark {
 
 
 .points-dashboard-container {
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
   background: var(--bg-primary);
   display: flex;
   flex-direction: column;
@@ -1308,7 +1304,6 @@ html.dark .slogan-img {
   max-width: 100%;
   width: 100%;
   flex: 1;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -1319,7 +1314,6 @@ html.dark .slogan-img {
   gap: 20px;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
 }
 
 .dashboard-main {
@@ -1392,7 +1386,6 @@ html.dark .ranking-label {
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .side-card {
@@ -1405,8 +1398,6 @@ html.dark .ranking-label {
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  height: 100%;
 }
 
 .side-card-header {
@@ -1495,9 +1486,6 @@ html.dark .ranking-label {
   width: 100%;
   align-items: start;
   position: relative;
-  overflow: hidden;
-  flex: 1;
-  min-height: 0;
   padding-top: 10px;
 }
 
