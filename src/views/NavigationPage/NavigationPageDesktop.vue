@@ -141,7 +141,7 @@
               </div>
               <div class="section-divider"></div>
             </div>
-            <div class="navigation-grid">
+            <div class="navigation-grid grid-4-cols">
               <div class="nav-card" @click="goToDashboard">
                 <div class="nav-icon">
                   <el-icon size="28"><DataAnalysis /></el-icon>
@@ -169,6 +169,16 @@
                 <div class="nav-content">
                   <div class="nav-label">积分看板</div>
                   <div class="nav-description">查看积分排行榜</div>
+                </div>
+              </div>
+              
+              <div class="nav-card" @click="goToAllMembers">
+                <div class="nav-icon">
+                  <el-icon size="28"><UserFilled /></el-icon>
+                </div>
+                <div class="nav-content">
+                  <div class="nav-label">查看全部成员</div>
+                  <div class="nav-description">查看所有成员信息</div>
                 </div>
               </div>
             </div>
@@ -282,6 +292,10 @@ const goToAttendanceAnalysis = () => {
 
 const goToPointsDashboard = () => {
   router.push('/points-dashboard')
+}
+
+const goToAllMembers = () => {
+  router.push('/student-manager')
 }
 
 const goToScoreChangeRecords = () => {
@@ -1113,6 +1127,10 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+}
+
+.navigation-grid.grid-4-cols {
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .nav-card {
