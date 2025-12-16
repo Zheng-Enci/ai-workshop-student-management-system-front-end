@@ -26,6 +26,14 @@
               <div class="unified-legend" v-if="topStudents.length > 0">
                 <div class="legend-section">
                   <div class="legend-item">
+                    <el-button @click="showStatisticsDialog" type="primary" size="small" plain>
+                      <el-icon><DataAnalysis /></el-icon>
+                      <span style="margin-left: 6px;">查看统计数据</span>
+                    </el-button>
+                  </div>
+                </div>
+                <div class="legend-section">
+                  <div class="legend-item">
                     <span class="legend-dot legend-club-member"></span>
                     <span class="legend-text">社团成员</span>
                   </div>
@@ -94,10 +102,18 @@
                   </div>
                   <div class="side-content">
                     <div class="side-meta" v-if="!student.placeholder">
-                      <div class="meta-line meta-line-second" v-if="student.major">{{ student.major }}</div>
-                      <div class="meta-line meta-line-second" v-else>--</div>
-                      <div class="meta-line meta-line-second" v-if="student.grade">{{ formatGrade(student.grade) }}</div>
-                      <div class="meta-line meta-line-second" v-else>--</div>
+                      <div class="meta-row">
+                        <div class="meta-line meta-line-second" v-if="student.gender">{{ student.gender }}</div>
+                        <div class="meta-line meta-line-second" v-else>--</div>
+                        <div class="meta-line meta-line-second" v-if="student.college">{{ student.college }}</div>
+                        <div class="meta-line meta-line-second" v-else>--</div>
+                      </div>
+                      <div class="meta-row">
+                        <div class="meta-line meta-line-second" v-if="student.major">{{ student.major }}</div>
+                        <div class="meta-line meta-line-second" v-else>--</div>
+                        <div class="meta-line meta-line-second" v-if="student.grade">{{ formatGrade(student.grade) }}</div>
+                        <div class="meta-line meta-line-second" v-else>--</div>
+                      </div>
                     </div>
                     <div class="side-points">
                       <div class="points-total-row">
@@ -177,6 +193,68 @@
         </div>
       </div>
     </el-dialog>
+
+    <!-- 统计数据弹窗 -->
+    <el-dialog
+      v-model="statisticsDialogVisible"
+      title="统计数据"
+      width="70%"
+      :close-on-click-modal="false"
+      :destroy-on-close="true"
+      class="statistics-dialog"
+    >
+      <div class="statistics-content">
+        <div class="statistics-section-wrapper">
+          <div class="statistics-section-title">总览</div>
+          <div class="statistics-grid">
+            <div class="statistics-card">
+              <div class="statistics-card-label">总人数</div>
+              <div class="statistics-card-value">{{ totalCount }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="statistics-section-wrapper">
+          <div class="statistics-section-title">学院分布</div>
+          <div class="statistics-grid">
+            <div class="statistics-card" v-for="(count, college) in collegeStats" :key="'college-' + college">
+              <div class="statistics-card-label">{{ college }}</div>
+              <div class="statistics-card-value">{{ count }}人</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="statistics-section-wrapper">
+          <div class="statistics-section-title">专业分布</div>
+          <div class="statistics-grid">
+            <div class="statistics-card" v-for="(count, major) in majorStats" :key="'major-' + major">
+              <div class="statistics-card-label">{{ major }}</div>
+              <div class="statistics-card-value">{{ count }}人</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="statistics-section-wrapper">
+          <div class="statistics-section-title">性别分布</div>
+          <div class="statistics-grid">
+            <div class="statistics-card" v-for="(count, gender) in genderStats" :key="'gender-' + gender">
+              <div class="statistics-card-label">{{ gender }}</div>
+              <div class="statistics-card-value">{{ count }}人</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="statistics-section-wrapper">
+          <div class="statistics-section-title">年级分布</div>
+          <div class="statistics-grid">
+            <div class="statistics-card" v-for="(count, grade) in gradeStats" :key="'grade-' + grade">
+              <div class="statistics-card-label">{{ formatGrade(grade) }}</div>
+              <div class="statistics-card-value">{{ count }}人</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -197,7 +275,7 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
-import { ArrowLeft, Loading, Box, View, User } from '@element-plus/icons-vue'
+import { ArrowLeft, Loading, Box, View, User, DataAnalysis } from '@element-plus/icons-vue'
 import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'
 import {
@@ -219,8 +297,8 @@ const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
 const activeTab = ref('total')
-const selectedTopN = 100
-const totalRankingTopN = 100
+const selectedTopN = 2147483647 // Java Integer 最大值，无上限
+const totalRankingTopN = 2147483647 // Java Integer 最大值，无上限
 const signInRanking = ref([])
 const activityRanking = ref([])
 const totalRanking = ref([])
@@ -228,6 +306,13 @@ const topStudents = ref([])
 const signInLoading = ref(false)
 const activityLoading = ref(false)
 const totalLoading = ref(false)
+
+// 统计数据
+const totalCount = ref(0)
+const collegeStats = ref({})
+const majorStats = ref({})
+const genderStats = ref({})
+const gradeStats = ref({})
 
 // 随机文案相关 - 128句技术相关激励文案
 const quotes = [
@@ -423,6 +508,9 @@ const currentStudent = ref(null)
 const allRecords = ref([])
 const recordsLoading = ref(false)
 const isClosingRecordsDialog = ref(false)
+
+// 统计数据弹窗
+const statisticsDialogVisible = ref(false)
 
 const signInChart = ref(null)
 const activityChart = ref(null)
@@ -780,9 +868,11 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
     if (!studentId) return item
     
     try {
-      // 查询必要的字段：name, grade, major（接口不支持studentId字段）
-      const [nameResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
+      // 查询所有可公开字段：name, gender, college, grade, major
+      const [nameResponse, genderResponse, collegeResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
         getStudentPublicFieldValueById(studentId, 'name').catch(() => ({ code: 400, data: null })),
+        getStudentPublicFieldValueById(studentId, 'gender').catch(() => ({ code: 400, data: null })),
+        getStudentPublicFieldValueById(studentId, 'college').catch(() => ({ code: 400, data: null })),
         getStudentPublicFieldValueById(studentId, 'grade').catch(() => ({ code: 400, data: null })),
         getStudentPublicFieldValueById(studentId, 'major').catch(() => ({ code: 400, data: null })),
         getStudentLevelByInfoId(studentId).catch(() => ({ code: 400, data: null }))
@@ -790,6 +880,12 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
       
       if (nameResponse.code === 200 && nameResponse.data) {
         item.name = nameResponse.data
+      }
+      if (genderResponse.code === 200 && genderResponse.data) {
+        item.gender = genderResponse.data
+      }
+      if (collegeResponse.code === 200 && collegeResponse.data) {
+        item.college = collegeResponse.data
       }
       if (gradeResponse.code === 200 && gradeResponse.data) {
         item.grade = parseInt(gradeResponse.data)
@@ -958,6 +1054,10 @@ const loadTotalRanking = async () => {
       eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
       totalRanking.value = eligibleStudents
       await loadStudentInfo(totalRanking.value, 'studentInfoId')
+      
+      // 计算统计数据
+      calculateStatistics(totalRanking.value)
+      
       topStudents.value = padTopStudents(totalRanking.value, totalRanking.value.length)
       totalLoading.value = false
       await nextTick()
@@ -993,6 +1093,43 @@ const handleResize = () => {
   if (totalChartInstance) {
     totalChartInstance.resize()
   }
+}
+
+// 计算统计数据
+const calculateStatistics = (students) => {
+  totalCount.value = students.length
+  
+  const colleges = {}
+  const majors = {}
+  const genders = {}
+  const grades = {}
+  
+  students.forEach(student => {
+    // 学院统计
+    if (student.college) {
+      colleges[student.college] = (colleges[student.college] || 0) + 1
+    }
+    
+    // 专业统计
+    if (student.major) {
+      majors[student.major] = (majors[student.major] || 0) + 1
+    }
+    
+    // 性别统计
+    if (student.gender) {
+      genders[student.gender] = (genders[student.gender] || 0) + 1
+    }
+    
+    // 年级统计
+    if (student.grade) {
+      grades[student.grade] = (grades[student.grade] || 0) + 1
+    }
+  })
+  
+  collegeStats.value = colleges
+  majorStats.value = majors
+  genderStats.value = genders
+  gradeStats.value = grades
 }
 
 // 自动刷新定时器
@@ -1101,6 +1238,11 @@ const handleRecordsDialogClose = () => {
     currentStudent.value = null
     isClosingRecordsDialog.value = false
   }, 0)
+}
+
+// 打开统计数据弹窗
+const showStatisticsDialog = () => {
+  statisticsDialogVisible.value = true
 }
 
 const formatGrade = (grade) => {
@@ -1695,11 +1837,18 @@ html.dark .ranking-label {
 
 .side-meta {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 4px;
   font-size: 10px;
   color: var(--text-primary);
   min-height: 0;
+  width: 100%;
+}
+
+.side-meta .meta-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
@@ -1806,6 +1955,33 @@ html.dark .ranking-label {
   font-size: 12px;
   color: var(--text-secondary);
   white-space: nowrap;
+}
+
+.unified-legend .statistics-section {
+  padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(102, 126, 234, 0.15);
+}
+
+.unified-legend .statistics-item {
+  gap: 6px;
+}
+
+.unified-legend .statistics-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.unified-legend .statistics-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, var(--primary-color), #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .unified-legend .hint-icon {
@@ -2419,6 +2595,76 @@ html.dark .ranking-label {
   color: var(--text-primary);
   line-height: 1.6;
   word-break: break-word;
+}
+
+/* 统计数据弹窗样式 */
+.statistics-dialog :deep(.el-dialog__body) {
+  padding: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.statistics-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.statistics-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statistics-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-color);
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.statistics-card {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.statistics-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.statistics-card-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-align: center;
+}
+
+.statistics-card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 </style>
