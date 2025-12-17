@@ -46,11 +46,11 @@
 						<span>总积分</span>
 					</div>
 					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #2563eb, #1d4ed8); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #60a5fa, #3b82f6, #2563eb); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
 						<span>总签到积分</span>
 					</div>
 					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #f97316, #ea580c, #c2410c); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706, #b45309); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
 						<span>总活动积分</span>
 					</div>
 				</div>
@@ -60,9 +60,13 @@
 		<!--主体内容-->
 		<div style="padding: 16px; flex: 1; overflow-y: auto;">
 			<div v-if="topStudents.length > 0" style="display: flex; flex-direction: column; gap: 12px;">
-				<div v-for="(student, index) in topStudents" :key="student.studentInfoId || student.placeholderId" :data-index="index" :style="`background: ${getStudentBackground(student)}; border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 12px; padding: 16px; backdrop-filter: blur(20px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);`">
-					<div style="display: flex; gap: 12px;">
+				<div v-for="(student, index) in topStudents" :key="student.studentInfoId || student.placeholderId" :data-index="index" :style="`background: ${getStudentBackground(student)}; border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 12px; padding: 16px; backdrop-filter: blur(20px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden;`">
+					<!-- 光影扫过效果 -->
+					<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%); transform: translateX(-100%); animation: card-shine 2.5s ease-in-out infinite; pointer-events: none; z-index: 1;"></div>
+					<div style="display: flex; gap: 12px; position: relative; z-index: 2;">
 						<div style="width: 56px; height: 56px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3); flex-shrink: 0; position: relative; overflow: hidden;">
+							<!-- 头像光影效果 -->
+							<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%); transform: translate(-100%, -100%); animation: avatar-shine 3s ease-in-out infinite; pointer-events: none; border-radius: 8px; z-index: 1;"></div>
 							<img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" @error="handleAvatarError(student)" />
 							<el-icon v-else size="26"><User /></el-icon>
 						</div>
@@ -77,9 +81,9 @@
 							<div v-if="!student.placeholder" style="display: flex; align-items: center; gap: 6px; padding-top: 8px; border-top: 1px solid rgba(102, 126, 234, 0.1);">
 								<span style="font-size: 18px; font-weight: 800; background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ student.totalPoints }}</span>
 								<span style="color: var(--text-secondary); font-size: 14px;">=</span>
-								<span style="font-size: 14px; font-weight: 700; color: #2563eb !important; text-shadow: 0 0 1px rgba(37, 99, 235, 0.5);">{{ student.signInPoints }}</span>
+								<span style="font-size: 14px; font-weight: 700; color: #3b82f6;">{{ student.signInPoints }}</span>
 								<span style="color: var(--text-secondary); font-size: 14px;">+</span>
-								<span style="font-size: 14px; font-weight: 700; color: #ea580c !important; text-shadow: 0 0 1px rgba(234, 88, 12, 0.5);">{{ student.activityPoints }}</span>
+								<span style="font-size: 14px; font-weight: 700; color: #f59e0b;">{{ student.activityPoints }}</span>
 								<el-button size="small" type="primary" plain @click="openRecordsDialog(student)" circle style="margin-left: auto; width: 28px; height: 28px; padding: 0;">
 									<el-icon><View /></el-icon>
 								</el-button>
@@ -396,4 +400,42 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* 组件样式 */
+</style>
+
+<style>
+/* 全局动画定义 - 不能使用scoped，否则内联样式无法引用 */
+@keyframes card-shine {
+	0% {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	10% {
+		opacity: 1;
+	}
+	90% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(200%);
+		opacity: 0;
+	}
+}
+
+@keyframes avatar-shine {
+	0% {
+		transform: translate(-100%, -100%);
+		opacity: 0;
+	}
+	10% {
+		opacity: 1;
+	}
+	90% {
+		opacity: 1;
+	}
+	100% {
+		transform: translate(100%, 100%);
+		opacity: 0;
+	}
+}
 </style>
