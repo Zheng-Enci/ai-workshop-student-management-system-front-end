@@ -46,11 +46,11 @@
 						<span>总积分</span>
 					</div>
 					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669, #047857); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #2563eb, #1d4ed8); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
 						<span>总签到积分</span>
 					</div>
 					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706, #b45309); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #f97316, #ea580c, #c2410c); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
 						<span>总活动积分</span>
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 		<!--主体内容-->
 		<div style="padding: 16px; flex: 1; overflow-y: auto;">
 			<div v-if="topStudents.length > 0" style="display: flex; flex-direction: column; gap: 12px;">
-				<div v-for="(student, index) in topStudents" :key="student.studentInfoId || student.placeholderId" :data-index="index" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%); border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 12px; padding: 16px; backdrop-filter: blur(20px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+				<div v-for="(student, index) in topStudents" :key="student.studentInfoId || student.placeholderId" :data-index="index" :style="`background: ${getStudentBackground(student)}; border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 12px; padding: 16px; backdrop-filter: blur(20px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);`">
 					<div style="display: flex; gap: 12px;">
 						<div style="width: 56px; height: 56px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3); flex-shrink: 0; position: relative; overflow: hidden;">
 							<img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" @error="handleAvatarError(student)" />
@@ -77,9 +77,9 @@
 							<div v-if="!student.placeholder" style="display: flex; align-items: center; gap: 6px; padding-top: 8px; border-top: 1px solid rgba(102, 126, 234, 0.1);">
 								<span style="font-size: 18px; font-weight: 800; background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ student.totalPoints }}</span>
 								<span style="color: var(--text-secondary); font-size: 14px;">=</span>
-								<span style="font-size: 14px; font-weight: 700; color: #10b981;">{{ student.signInPoints }}</span>
+								<span style="font-size: 14px; font-weight: 700; color: #2563eb !important; text-shadow: 0 0 1px rgba(37, 99, 235, 0.5);">{{ student.signInPoints }}</span>
 								<span style="color: var(--text-secondary); font-size: 14px;">+</span>
-								<span style="font-size: 14px; font-weight: 700; color: #f59e0b;">{{ student.activityPoints }}</span>
+								<span style="font-size: 14px; font-weight: 700; color: #ea580c !important; text-shadow: 0 0 1px rgba(234, 88, 12, 0.5);">{{ student.activityPoints }}</span>
 								<el-button size="small" type="primary" plain @click="openRecordsDialog(student)" circle style="margin-left: auto; width: 28px; height: 28px; padding: 0;">
 									<el-icon><View /></el-icon>
 								</el-button>
@@ -368,6 +368,25 @@ const handleSearch = () => {
 	})
 	
 	topStudents.value = filteredStudents.value
+}
+
+const getStudentBackground = (student) => {
+	if (student.placeholder) {
+		return 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%)'
+	}
+	if (student.levelCode === 0) {
+		return 'linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.06) 100%)'
+	}
+	if (student.levelCode === 1) {
+		return 'linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%)'
+	}
+	if (student.levelCode === 2) {
+		return 'linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.06) 100%)'
+	}
+	if (student.levelCode === 3) {
+		return 'linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%)'
+	}
+	return 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%)'
 }
 
 onMounted(async () => {
