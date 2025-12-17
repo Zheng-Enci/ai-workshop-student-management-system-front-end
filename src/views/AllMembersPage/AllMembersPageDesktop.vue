@@ -9,6 +9,10 @@
         </div>
       </div>
       <div class="header-right">
+        <el-button @click="goToPointsDashboard" type="primary" size="default" plain>
+          <el-icon><DataAnalysis /></el-icon>
+          <span style="margin-left: 6px;">积分看板</span>
+        </el-button>
         <div class="slogan">
           <img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="slogan-img">
         </div>
@@ -554,6 +558,10 @@ let totalChartInstance = null
 
 const goBack = () => {
   router.push('/navigation')
+}
+
+const goToPointsDashboard = () => {
+  router.push('/points-dashboard')
 }
 
 const initSignInChart = async (data) => {
