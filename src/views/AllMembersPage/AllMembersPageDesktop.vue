@@ -112,8 +112,7 @@
                       class="side-avatar" 
                       :class="{ 
                         'has-avatar': student.hasAvatar && student.avatarUrl, 
-                        'no-avatar': !student.hasAvatar || !student.avatarUrl,
-                        'is-visible': student.isVisible
+                        'no-avatar': !student.hasAvatar || !student.avatarUrl
                       }"
                     >
                       <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
@@ -901,9 +900,6 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
     const studentId = item[idField] || item.targetStudentInfoId
     if (!studentId) return item
     
-    // 初始化可见状态
-    item.isVisible = false
-    
     try {
       // 查询所有可公开字段：name, gender, college, grade, major
       const [nameResponse, genderResponse, collegeResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
@@ -1368,39 +1364,7 @@ const handleSearch = () => {
   topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
 }
 
-// Intersection Observer 监听学生卡片是否可见
-let observer = null
 
-const setupIntersectionObserver = () => {
-  // 清理旧的 observer
-  if (observer) {
-    observer.disconnect()
-  }
-  
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const index = parseInt(entry.target.dataset.index)
-        if (!isNaN(index) && topStudents.value[index]) {
-          topStudents.value[index].isVisible = entry.isIntersecting
-        }
-      })
-    },
-    {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    }
-  )
-  
-  // 监听所有学生卡片
-  nextTick(() => {
-    const studentCards = document.querySelectorAll('.side-student')
-    studentCards.forEach((card) => {
-      observer.observe(card)
-    })
-  })
-}
 
 onMounted(async () => {
   await nextTick()
@@ -1409,21 +1373,12 @@ onMounted(async () => {
   startQuoteRotation()
   // 启动自动刷新
   startAutoRefresh()
-  
-  // 设置 Intersection Observer 监听学生卡片
-  await nextTick()
-  setupIntersectionObserver()
 })
 
 onUnmounted(() => {
   stopQuoteRotation()
   // 停止自动刷新
   stopAutoRefresh()
-  // 清理 Intersection Observer
-  if (observer) {
-    observer.disconnect()
-    observer = null
-  }
   if (signInChartInstance) {
     signInChartInstance.dispose()
   }
@@ -1897,39 +1852,7 @@ html.dark .ranking-label {
   overflow: hidden;
 }
 
-.side-avatar::before {
-  content: '';
-  position: absolute;
-  top: -200%;
-  left: -200%;
-  width: 400%;
-  height: 400%;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0.6) 50%,
-    rgba(255, 255, 255, 0) 60%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  animation: none;
-  pointer-events: none;
-  z-index: 1;
-}
 
-.side-avatar.is-visible::before {
-  animation: avatarShine 3s infinite linear;
-}
-
-@keyframes avatarShine {
-  0% {
-    top: -200%;
-    left: -200%;
-  }
-  100% {
-    top: 200%;
-    left: 200%;
-  }
-}
 
 .side-avatar.has-avatar {
   background: transparent;
