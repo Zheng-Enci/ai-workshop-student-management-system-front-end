@@ -187,6 +187,22 @@
                 </div>
               </div>
             </div>
+            
+            <div class="feature-card" @click="goToAllMembers">
+              <div class="card-background"></div>
+              <div class="card-content">
+                <div class="card-icon">
+                  <el-icon size="28"><User /></el-icon>
+                </div>
+                <div class="card-text">
+                  <h3>全部成员</h3>
+                  <p>查看所有成员信息</p>
+                </div>
+                <div class="card-arrow">
+                  <el-icon><ArrowRight /></el-icon>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -310,6 +326,10 @@ const goToAttendanceAnalysis = () => {
 
 const goToPointsDashboard = () => {
   router.push('/points-dashboard')
+}
+
+const goToAllMembers = () => {
+  router.push('/all-members')
 }
 
 const goToScoreChangeRecords = () => {
