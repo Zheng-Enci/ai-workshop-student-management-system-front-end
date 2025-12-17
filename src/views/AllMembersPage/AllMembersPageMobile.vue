@@ -10,8 +10,8 @@
 					<h1 style="align-self: flex-end; display: inline-block; white-space: nowrap; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; letter-spacing: 1px; font-size: 14px;">见证每一位创作者的光芒</h1>
 				</div>
 			</div>
-			<div style="margin-top: 12px;">
-				<el-input v-model="searchKeyword" placeholder="搜索姓名/学院/专业/年级/积分..." clearable style="width: 100%;" size="small" @input="handleSearch">
+			<div style="margin-top: 12px; display: flex; justify-content: center;">
+				<el-input v-model="searchKeyword" placeholder="搜索姓名/学院/专业/年级/积分..." clearable style="width: 80%;" size="small" @input="handleSearch">
 					<template #prefix>
 						<el-icon><Search /></el-icon>
 					</template>
