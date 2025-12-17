@@ -92,6 +92,12 @@
 					</div>
 				</div>
 			</div>
+			<!-- 加载中状态 -->
+			<div v-else-if="isLoading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--text-secondary); padding: 60px 20px; font-size: 14px;">
+				<el-icon class="is-loading" size="48"><Loading /></el-icon>
+				<span>数据加载中...</span>
+			</div>
+			<!-- 暂无数据状态 -->
 			<div v-else style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-secondary); padding: 60px 20px; font-size: 14px;">
 				<el-icon size="48"><Box /></el-icon>
 				<span>暂无数据</span>
@@ -145,6 +151,7 @@ const totalRanking = ref([])
 const topStudents = ref([])
 const searchKeyword = ref('')
 const filteredStudents = ref([])
+const isLoading = ref(true)
 
 const recordsDialogVisible = ref(false)
 const currentStudent = ref(null)
@@ -228,6 +235,7 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
 }
 
 const loadTotalRanking = async () => {
+	isLoading.value = true
 	try {
 		const [signInResponse, activityResponse] = await Promise.all([
 			getAttendanceTopRanking(totalRankingTopN),
@@ -277,6 +285,8 @@ const loadTotalRanking = async () => {
 		}
 	} catch (error) {
 		totalRanking.value = []
+	} finally {
+		isLoading.value = false
 	}
 }
 
