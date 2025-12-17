@@ -101,6 +101,7 @@
                 v-for="(student, index) in topStudents"
                 :key="student.studentInfoId || student.placeholderId"
                 :data-index="index"
+                :style="{ animationDelay: `${index * 0.05}s` }"
                 class="side-student"
                 :class="{ 
                   'is-placeholder': student.placeholder,
