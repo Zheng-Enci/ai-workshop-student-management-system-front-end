@@ -23,16 +23,16 @@
               <div class="card-header-left">
                 <div class="side-card-title">全部成员</div>
               </div>
-              <div class="unified-legend" v-if="topStudents.length > 0">
+              <div class="unified-legend">
                 <div class="legend-section">
-                  <div class="legend-item">
+                  <div class="legend-item" v-if="topStudents.length > 0">
                     <el-button @click="showStatisticsDialog" type="primary" size="small" plain>
                       <el-icon><DataAnalysis /></el-icon>
                       <span style="margin-left: 6px;">查看统计数据</span>
                     </el-button>
                   </div>
                 </div>
-                <div class="legend-section">
+                <div class="legend-section" v-if="topStudents.length > 0">
                   <div class="legend-item">
                     <span class="legend-dot legend-club-member"></span>
                     <span class="legend-text">社团成员</span>
@@ -68,6 +68,20 @@
                   <div class="legend-item">
                     <span class="legend-dot legend-activity"></span>
                     <span class="legend-text">总活动积分</span>
+                  </div>
+                  <div class="legend-item">
+                    <el-input
+                      v-model="searchKeyword"
+                      placeholder="搜索姓名/学院/专业/年级/积分..."
+                      clearable
+                      style="width: 280px;"
+                      size="small"
+                      @input="handleSearch"
+                    >
+                      <template #prefix>
+                        <el-icon><Search /></el-icon>
+                      </template>
+                    </el-input>
                   </div>
                 </div>
               </div>
@@ -276,7 +290,7 @@
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
-import { ElButton, ElIcon, ElDialog, ElTooltip } from 'element-plus'
+import { ElButton, ElIcon, ElDialog, ElTooltip, ElInput } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -289,7 +303,8 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
-import { ArrowLeft, Loading, Box, View, User, DataAnalysis } from '@element-plus/icons-vue'
+import 'element-plus/theme-chalk/el-input.css'
+import { ArrowLeft, Loading, Box, View, User, DataAnalysis, Search } from '@element-plus/icons-vue'
 import * as echarts from 'echarts/core'
 import { BarChart } from 'echarts/charts'
 import {
@@ -327,6 +342,10 @@ const collegeStats = ref({})
 const majorStats = ref({})
 const genderStats = ref({})
 const gradeStats = ref({})
+
+// 搜索功能
+const searchKeyword = ref('')
+const filteredStudents = ref([])
 
 // 随机文案相关 - 128句技术相关激励文案
 const quotes = [
@@ -1076,7 +1095,8 @@ const loadTotalRanking = async () => {
       // 计算统计数据
       calculateStatistics(totalRanking.value)
       
-      topStudents.value = padTopStudents(totalRanking.value, totalRanking.value.length)
+      filteredStudents.value = totalRanking.value
+      topStudents.value = padTopStudents(searchKeyword.value ? filteredStudents.value : totalRanking.value, (searchKeyword.value ? filteredStudents.value : totalRanking.value).length)
       totalLoading.value = false
       await nextTick()
       if (totalRanking.value.length > 0) {
@@ -1301,6 +1321,51 @@ const formatTime = (timeString) => {
   } catch (error) {
     return timeString
   }
+}
+
+// 搜索处理函数
+const handleSearch = () => {
+  if (!searchKeyword.value.trim()) {
+    filteredStudents.value = totalRanking.value
+    topStudents.value = padTopStudents(totalRanking.value, totalRanking.value.length)
+    return
+  }
+  
+  const keyword = searchKeyword.value.toLowerCase().trim()
+  
+  filteredStudents.value = totalRanking.value.filter(student => {
+    // 搜索姓名
+    if (student.name && student.name.toLowerCase().includes(keyword)) return true
+    
+    // 搜索性别
+    if (student.gender && student.gender.toLowerCase().includes(keyword)) return true
+    
+    // 搜索学院
+    if (student.college && student.college.toLowerCase().includes(keyword)) return true
+    
+    // 搜索专业
+    if (student.major && student.major.toLowerCase().includes(keyword)) return true
+    
+    // 搜索年级（支持"大一"、"大二"等格式）
+    if (student.grade) {
+      const gradeText = formatGrade(student.grade).toLowerCase()
+      if (gradeText.includes(keyword)) return true
+      if (student.grade.toString().includes(keyword)) return true
+    }
+    
+    // 搜索总积分
+    if (student.totalPoints !== undefined && student.totalPoints.toString().includes(keyword)) return true
+    
+    // 搜索签到积分
+    if (student.signInPoints !== undefined && student.signInPoints.toString().includes(keyword)) return true
+    
+    // 搜索活动积分
+    if (student.activityPoints !== undefined && student.activityPoints.toString().includes(keyword)) return true
+    
+    return false
+  })
+  
+  topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
 }
 
 // Intersection Observer 监听学生卡片是否可见
