@@ -200,8 +200,9 @@
             </div>
             <div class="side-card-body" v-if="topStudents.length > 0">
               <div
-                v-for="student in topStudents"
+                v-for="(student, index) in topStudents"
                 :key="student.studentInfoId || student.placeholderId"
+                :style="{ animationDelay: `${index * 0.05}s` }"
                 class="side-student"
                 :class="{ 
                   'is-placeholder': student.placeholder,
@@ -1705,6 +1706,43 @@ html.dark .ranking-label {
   padding-top: 10px;
 }
 
+/* 积分看板块对角线光影扫过效果 */
+.side-card-body::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 70%
+  );
+  transform: translate(-100%, -100%);
+  animation: diagonal-sweep 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes diagonal-sweep {
+  0% {
+    transform: translate(-100%, -100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100%, 100%);
+    opacity: 0;
+  }
+}
+
 
 .side-student {
   display: flex;
@@ -1771,19 +1809,6 @@ html.dark .ranking-label {
 .side-student.level-admin::before {
   background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(239, 68, 68, 0.12) 100%);
 }
-
-.side-student:nth-child(1) { animation-delay: 0.1s; }
-.side-student:nth-child(2) { animation-delay: 0.2s; }
-.side-student:nth-child(3) { animation-delay: 0.3s; }
-.side-student:nth-child(4) { animation-delay: 0.4s; }
-.side-student:nth-child(5) { animation-delay: 0.5s; }
-.side-student:nth-child(6) { animation-delay: 0.6s; }
-.side-student:nth-child(7) { animation-delay: 0.7s; }
-.side-student:nth-child(8) { animation-delay: 0.8s; }
-.side-student:nth-child(9) { animation-delay: 0.9s; }
-.side-student:nth-child(10) { animation-delay: 1.0s; }
-.side-student:nth-child(11) { animation-delay: 1.1s; }
-.side-student:nth-child(12) { animation-delay: 1.2s; }
 
 
 .side-student.is-placeholder {
