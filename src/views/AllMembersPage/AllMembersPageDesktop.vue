@@ -1758,7 +1758,7 @@ html.dark .ranking-label {
   transform: translate(-100%, -100%);
   animation: diagonal-sweep 3s ease-in-out infinite;
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
 }
 
 @keyframes diagonal-sweep {
