@@ -1728,6 +1728,44 @@ html.dark .ranking-label {
   align-items: start;
   position: relative;
   padding-top: 10px;
+  overflow: hidden;
+}
+
+/* 全部成员块对角线光影扫过效果 */
+.side-card-body::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 70%
+  );
+  transform: translate(-100%, -100%);
+  animation: diagonal-sweep 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes diagonal-sweep {
+  0% {
+    transform: translate(-100%, -100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100%, 100%);
+    opacity: 0;
+  }
 }
 
 
@@ -1744,6 +1782,7 @@ html.dark .ranking-label {
   min-height: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   animation: card-enter 0.6s ease-out backwards;
+  z-index: 2;
 }
 
 .side-student::before {
