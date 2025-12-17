@@ -95,6 +95,7 @@
                 </div>
               </div>
             </div>
+            <!-- 有数据：显示学生列表 -->
             <div class="side-card-body" v-if="topStudents.length > 0">
               <div
                 v-for="(student, index) in topStudents"
@@ -172,8 +173,16 @@
                 </div>
               </div>
             </div>
+            
+            <!-- 加载中：显示加载动画 -->
+            <div v-else-if="totalLoading" class="side-empty">
+              <el-icon class="is-loading" size="48"><Loading /></el-icon>
+              <span>数据加载中...</span>
+            </div>
+            
+            <!-- 无数据：显示暂无数据 -->
             <div v-else class="side-empty">
-              <el-icon><Box /></el-icon>
+              <el-icon size="48"><Box /></el-icon>
               <span>暂无数据</span>
             </div>
           </div>
@@ -337,7 +346,7 @@ const totalRanking = ref([])
 const topStudents = ref([])
 const signInLoading = ref(false)
 const activityLoading = ref(false)
-const totalLoading = ref(false)
+const totalLoading = ref(true)
 
 // 统计数据
 const totalCount = ref(0)
