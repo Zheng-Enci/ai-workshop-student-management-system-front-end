@@ -3,9 +3,9 @@
 		<!--顶部导航栏-->
 		<div style="position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 12px 20px; flex-shrink: 0;">
 			<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-				<el-button @click="goBack" type="primary" :icon="ArrowLeft" circle style="background: #667eea; border-color: #667eea; width: 40px; height: 40px;"></el-button>
-				<img src="@/assets/AiWorkShop_icon.png" alt="AI坊" @click="toggleTheme" title="切换主题模式" style="width: 40px; height: 40px; cursor: pointer;">
-				<div style="display: flex; flex-direction: column; margin-left: 8px; font-size: 9px; flex: 1;">
+				<el-button @click="goBack" type="primary" :icon="ArrowLeft" circle style="background: #667eea; border-color: #667eea; width: 40px; height: 40px; flex-shrink: 0;"></el-button>
+				<img src="@/assets/AiWorkShop_icon.png" alt="AI坊" @click="toggleTheme" title="切换主题模式" style="width: 40px; height: 40px; cursor: pointer; flex-shrink: 0;">
+				<div style="display: flex; flex-direction: column; margin-left: 8px; font-size: 9px; flex: 1; min-width: 0;">
 					<h1 style="margin: 0; white-space: nowrap; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; letter-spacing: 1px; font-size: 14px;">在0与1之间</h1>
 					<h1 style="align-self: flex-end; display: inline-block; white-space: nowrap; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; letter-spacing: 1px; font-size: 14px;">见证每一位创作者的光芒</h1>
 				</div>
@@ -16,6 +16,44 @@
 						<el-icon><Search /></el-icon>
 					</template>
 				</el-input>
+			</div>
+			<div v-if="topStudents.length > 0" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: var(--text-secondary);">
+				<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+					<div style="display: flex; align-items: center; gap: 4px;">
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span>社团成员</span>
+					</div>
+					<div style="display: flex; align-items: center; gap: 4px;">
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span>普通成员</span>
+					</div>
+					<div style="display: flex; align-items: center; gap: 4px;">
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.8) 0%, rgba(251, 191, 36, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span>核心成员</span>
+					</div>
+					<div style="display: flex; align-items: center; gap: 4px;">
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span>管理员</span>
+					</div>
+				</div>
+				<div style="display: flex; align-items: center; gap: 4px;">
+					<el-icon style="font-size: 12px; color: var(--primary-color); flex-shrink: 0;"><View /></el-icon>
+					<span>点击眼睛图标可查看全部改分记录</span>
+				</div>
+				<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+					<div style="display: flex; align-items: center; gap: 4px;">
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span>总积分</span>
+					</div>
+					<div style="display: flex; align-items: center; gap: 4px;">
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669, #047857); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span>总签到积分</span>
+					</div>
+					<div style="display: flex; align-items: center; gap: 4px;">
+						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706, #b45309); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+						<span>总活动积分</span>
+					</div>
+				</div>
 			</div>
 		</div>
 
