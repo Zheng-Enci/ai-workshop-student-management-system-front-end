@@ -79,8 +79,9 @@
             </div>
             <div class="side-card-body" v-if="topStudents.length > 0">
               <div
-                v-for="student in topStudents"
+                v-for="(student, index) in topStudents"
                 :key="student.studentInfoId || student.placeholderId"
+                :data-index="index"
                 class="side-student"
                 :class="{ 
                   'is-placeholder': student.placeholder,
@@ -92,7 +93,15 @@
               >
                 <div class="side-info">
                   <div class="side-avatar-section">
-                    <div class="side-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
+                    <div 
+                      ref="avatarRef" 
+                      class="side-avatar" 
+                      :class="{ 
+                        'has-avatar': student.hasAvatar && student.avatarUrl, 
+                        'no-avatar': !student.hasAvatar || !student.avatarUrl,
+                        'is-visible': student.isVisible
+                      }"
+                    >
                       <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
                       <el-icon v-else size="26" class="avatar-icon"><User /></el-icon>
                     </div>
@@ -873,6 +882,9 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
     const studentId = item[idField] || item.targetStudentInfoId
     if (!studentId) return item
     
+    // 初始化可见状态
+    item.isVisible = false
+    
     try {
       // 查询所有可公开字段：name, gender, college, grade, major
       const [nameResponse, genderResponse, collegeResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
@@ -1291,6 +1303,40 @@ const formatTime = (timeString) => {
   }
 }
 
+// Intersection Observer 监听学生卡片是否可见
+let observer = null
+
+const setupIntersectionObserver = () => {
+  // 清理旧的 observer
+  if (observer) {
+    observer.disconnect()
+  }
+  
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const index = parseInt(entry.target.dataset.index)
+        if (!isNaN(index) && topStudents.value[index]) {
+          topStudents.value[index].isVisible = entry.isIntersecting
+        }
+      })
+    },
+    {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    }
+  )
+  
+  // 监听所有学生卡片
+  nextTick(() => {
+    const studentCards = document.querySelectorAll('.side-student')
+    studentCards.forEach((card) => {
+      observer.observe(card)
+    })
+  })
+}
+
 onMounted(async () => {
   await nextTick()
   await loadTotalRanking()
@@ -1298,12 +1344,21 @@ onMounted(async () => {
   startQuoteRotation()
   // 启动自动刷新
   startAutoRefresh()
+  
+  // 设置 Intersection Observer 监听学生卡片
+  await nextTick()
+  setupIntersectionObserver()
 })
 
 onUnmounted(() => {
   stopQuoteRotation()
   // 停止自动刷新
   stopAutoRefresh()
+  // 清理 Intersection Observer
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
   if (signInChartInstance) {
     signInChartInstance.dispose()
   }
@@ -1791,9 +1846,13 @@ html.dark .ranking-label {
     rgba(255, 255, 255, 0) 60%,
     rgba(255, 255, 255, 0) 100%
   );
-  animation: avatarShine 3s infinite linear;
+  animation: none;
   pointer-events: none;
   z-index: 1;
+}
+
+.side-avatar.is-visible::before {
+  animation: avatarShine 3s infinite linear;
 }
 
 @keyframes avatarShine {
