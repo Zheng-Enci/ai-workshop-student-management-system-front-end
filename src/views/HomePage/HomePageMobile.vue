@@ -43,6 +43,10 @@
               <el-icon><Document /></el-icon>
               更新日志
             </el-button>
+            <el-button size="large" @click="showEnvironmentPolicy" class="environment-policy-button">
+              <el-icon><OfficeBuilding /></el-icon>
+              环境保障机制
+            </el-button>
           </div>
         </div>
 
