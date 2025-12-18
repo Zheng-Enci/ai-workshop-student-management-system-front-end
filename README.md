@@ -5,6 +5,7 @@
 ![Vue](https://img.shields.io/badge/Vue-3.2.13-4FC08D?style=flat-square&logo=vue.js)
 ![Element Plus](https://img.shields.io/badge/Element%20Plus-2.11.2-409EFF?style=flat-square&logo=element)
 ![ECharts](https://img.shields.io/badge/ECharts-5.5.0-AA344D?style=flat-square&logo=apache)
+![Vite](https://img.shields.io/badge/Vite-4.5.14-646CFF?style=flat-square&logo=vite)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
 **基于 Vue3 + Element Plus 构建的现代化学生管理系统前端应用**
@@ -186,14 +187,16 @@ export const config = {
 
 4. **启动开发服务器**
 ```bash
-npm run serve
+npm run dev
 # 或
-yarn serve
+yarn dev
 ```
 
 5. **访问应用**
 
-打开浏览器访问：`http://localhost:8083`
+打开浏览器访问：`http://localhost:8084`
+
+> 💡 **项目现已迁移到 Vite 构建工具，显著提升开发和构建速度**
 
 ### 构建生产版本
 
@@ -205,13 +208,19 @@ yarn build
 
 构建产物将输出到 `dist/` 目录。
 
-### 代码检查
+> ⚡ **使用 Vite 构建，速度比原来的 Vue CLI 快 2-10 倍**
+
+### 预览生产构建
 
 ```bash
-npm run lint
+npm run preview
 # 或
-yarn lint
+yarn preview
 ```
+
+> 🚀 **Vite 提供的本地预览服务器，用于预览生产构建产物**
+
+### 代码检查
 
 ## ⚙️ 配置说明
 

@@ -1230,10 +1230,10 @@ const startAutoRefresh = () => {
   if (refreshTimer) {
     clearInterval(refreshTimer)
   }
-  // 设置定时器，每隔60秒（60000毫秒）刷新一次
+  // 设置定时器，每隔1小时（3600000毫秒）刷新一次
   refreshTimer = setInterval(() => {
     refreshData()
-  }, 60000)
+  }, 3600000)
 }
 
 // 停止自动刷新
