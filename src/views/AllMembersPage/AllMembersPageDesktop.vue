@@ -73,6 +73,8 @@
                     <span class="legend-dot legend-activity"></span>
                     <span class="legend-text">总活动积分</span>
                   </div>
+                </div>
+                <div class="legend-section" style="display: flex; align-items: center; gap: 20px;">
                   <div class="legend-item">
                     <el-input
                       v-model="searchKeyword"
@@ -87,6 +89,11 @@
                       </template>
                     </el-input>
                   </div>
+                  <div v-if="topStudents.length > 0" style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <div style="font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ loadedCount }}/{{ totalCount }}</div>
+                    <div style="font-size: 12px; color: var(--el-text-color-secondary); white-space: nowrap;">加载进度</div>
+                  </div>
+                </div>
                 </div>
               </div>
               <div class="random-quote-container" v-if="topStudents.length > 0">
@@ -296,8 +303,7 @@
         </div>
       </div>
     </el-dialog>
-  </div>
-</template>
+  </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
@@ -348,6 +354,7 @@ const topStudents = ref([])
 const signInLoading = ref(false)
 const activityLoading = ref(false)
 const totalLoading = ref(true)
+const loadedCount = ref(0)
 
 // 统计数据
 const totalCount = ref(0)
@@ -914,9 +921,17 @@ const handleAvatarError = (student) => {
 
 
 const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
-  const infoPromises = rankingList.map(async (item) => {
+  // 逐个加载学生信息，从第一名开始
+  totalCount.value = rankingList.length
+  loadedCount.value = 0
+  
+  for (let i = 0; i < rankingList.length; i++) {
+    const item = rankingList[i]
     const studentId = item[idField] || item.targetStudentInfoId
-    if (!studentId) return item
+    if (!studentId) {
+      loadedCount.value++
+      continue
+    }
     
     try {
       // 查询所有可公开字段：name, gender, college, grade, major
@@ -956,27 +971,33 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
         // 先设置URL，让浏览器尝试加载
         item.avatarUrl = avatarUrlWithTimestamp
         item.hasAvatar = true
-        // 使用Image对象验证头像是否存在
-        const img = new Image()
-        img.onload = () => {
-          item.hasAvatar = true
-        }
-        img.onerror = () => {
-          item.hasAvatar = false
-          item.avatarUrl = null
-        }
-        img.src = avatarUrlWithTimestamp
+        
+        // 使用Promise包装图片加载
+        await new Promise((resolve) => {
+          const img = new Image()
+          img.onload = () => {
+            item.hasAvatar = true
+            resolve()
+          }
+          img.onerror = () => {
+            item.hasAvatar = false
+            item.avatarUrl = null
+            resolve()
+          }
+          img.src = avatarUrlWithTimestamp
+        })
       } else {
         item.hasAvatar = false
         item.avatarUrl = null
       }
+      
+      loadedCount.value++
     } catch (error) {
-      return item
+      loadedCount.value++
+      continue
     }
-    return item
-  })
+  }
   
-  await Promise.all(infoPromises)
   return rankingList
 }
 
@@ -1104,14 +1125,17 @@ const loadTotalRanking = async () => {
       
       eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
       totalRanking.value = eligibleStudents
-      await loadStudentInfo(totalRanking.value, 'studentInfoId')
+      
+      // 立即显示基础列表（边加载边显示）
+      filteredStudents.value = totalRanking.value
+      topStudents.value = padTopStudents(searchKeyword.value ? filteredStudents.value : totalRanking.value, (searchKeyword.value ? filteredStudents.value : totalRanking.value).length)
+      totalLoading.value = false
       
       // 计算统计数据
       calculateStatistics(totalRanking.value)
       
-      filteredStudents.value = totalRanking.value
-      topStudents.value = padTopStudents(searchKeyword.value ? filteredStudents.value : totalRanking.value, (searchKeyword.value ? filteredStudents.value : totalRanking.value).length)
-      totalLoading.value = false
+      // 异步加载学生详细信息
+      loadStudentInfo(totalRanking.value, 'studentInfoId')
       await nextTick()
       if (totalRanking.value.length > 0) {
         const initChartWithRetry = async (retryCount = 0) => {
@@ -1643,7 +1667,7 @@ html.dark .ranking-label {
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
   border: 1px solid rgba(102, 126, 234, 0.2);
   border-radius: 20px;
-  padding: 0 24px 24px 24px;
+  padding: 0 24px 0px 24px;
   backdrop-filter: blur(20px);
   box-shadow: var(--shadow-lg);
   width: 100%;
