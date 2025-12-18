@@ -173,9 +173,11 @@ const handleAvatarError = (student) => {
 }
 
 const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
-	const infoPromises = rankingList.map(async (item) => {
+	// 逐个加载学生信息，从第一名开始
+	for (let i = 0; i < rankingList.length; i++) {
+		const item = rankingList[i]
 		const studentId = item[idField] || item.targetStudentInfoId
-		if (!studentId) return item
+		if (!studentId) continue
 		
 		try {
 			const [nameResponse, genderResponse, collegeResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
@@ -205,52 +207,37 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
 			if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
 				item.levelCode = parseInt(levelResponse.data)
 			}
-		} catch (error) {
-			return item
-		}
-		return item
-	})
-	
-	await Promise.all(infoPromises)
-	
-	// 分批加载头像：从第一名开始，每五名一批
-	loadAvatarsBatch(rankingList, idField)
-	
-	return rankingList
-}
-
-// 分批加载头像函数
-const loadAvatarsBatch = async (rankingList, idField = 'studentInfoId') => {
-	const batchSize = 5
-	for (let i = 0; i < rankingList.length; i += batchSize) {
-		const batch = rankingList.slice(i, i + batchSize)
-		const avatarPromises = batch.map(async (item) => {
-			const studentId = item[idField] || item.targetStudentInfoId
-			if (!studentId) return
 			
+			// 加载头像
 			const avatarUrlString = getAvatarUrl(studentId)
 			if (avatarUrlString) {
 				const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
 				item.avatarUrl = avatarUrlWithTimestamp
 				item.hasAvatar = true
-				const img = new Image()
-				img.onload = () => {
-					item.hasAvatar = true
-				}
-				img.onerror = () => {
-					item.hasAvatar = false
-					item.avatarUrl = null
-				}
-				img.src = avatarUrlWithTimestamp
+				
+				await new Promise((resolve) => {
+					const img = new Image()
+					img.onload = () => {
+						item.hasAvatar = true
+						resolve()
+					}
+					img.onerror = () => {
+						item.hasAvatar = false
+						item.avatarUrl = null
+						resolve()
+					}
+					img.src = avatarUrlWithTimestamp
+				})
 			} else {
 				item.hasAvatar = false
 				item.avatarUrl = null
 			}
-		})
-		
-		// 等待当前批次所有头像加载完成后再加载下一批
-		await Promise.all(avatarPromises)
+		} catch (error) {
+			continue
+		}
 	}
+	
+	return rankingList
 }
 
 const loadTotalRanking = async () => {
