@@ -18,40 +18,48 @@
 				</el-input>
 			</div>
 			<div v-if="topStudents.length > 0" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 11px; color: var(--text-secondary);">
-				<div style="display: flex; flex-wrap: wrap; gap: 8px;">
-					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
-						<span>社团成员</span>
+				<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+					<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+						<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+							<div style="display: flex; align-items: center; gap: 4px;">
+								<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+								<span>社团成员</span>
+							</div>
+							<div style="display: flex; align-items: center; gap: 4px;">
+								<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+								<span>普通成员</span>
+							</div>
+							<div style="display: flex; align-items: center; gap: 4px;">
+								<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.8) 0%, rgba(251, 191, 36, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+								<span>核心成员</span>
+							</div>
+							<div style="display: flex; align-items: center; gap: 4px;">
+								<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+								<span>管理员</span>
+							</div>
+						</div>
+						<div style="display: flex; align-items: center; gap: 4px;">
+							<el-icon style="font-size: 12px; color: var(--primary-color); flex-shrink: 0;"><View /></el-icon>
+							<span>点击眼睛图标可查看全部改分记录</span>
+						</div>
+						<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+							<div style="display: flex; align-items: center; gap: 4px;">
+								<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+								<span>总积分</span>
+							</div>
+							<div style="display: flex; align-items: center; gap: 4px;">
+								<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #60a5fa, #3b82f6, #2563eb); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+								<span>总签到积分</span>
+							</div>
+							<div style="display: flex; align-items: center; gap: 4px;">
+								<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706, #b45309); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
+								<span>总活动积分</span>
+							</div>
+						</div>
 					</div>
-					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
-						<span>普通成员</span>
-					</div>
-					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(251, 191, 36, 0.8) 0%, rgba(251, 191, 36, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
-						<span>核心成员</span>
-					</div>
-					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.6) 100%); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
-						<span>管理员</span>
-					</div>
-				</div>
-				<div style="display: flex; align-items: center; gap: 4px;">
-					<el-icon style="font-size: 12px; color: var(--primary-color); flex-shrink: 0;"><View /></el-icon>
-					<span>点击眼睛图标可查看全部改分记录</span>
-				</div>
-				<div style="display: flex; flex-wrap: wrap; gap: 8px;">
-					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
-						<span>总积分</span>
-					</div>
-					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #60a5fa, #3b82f6, #2563eb); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
-						<span>总签到积分</span>
-					</div>
-					<div style="display: flex; align-items: center; gap: 4px;">
-						<span style="width: 8px; height: 8px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706, #b45309); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2); flex-shrink: 0;"></span>
-						<span>总活动积分</span>
+					<div style="display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0;">
+						<div style="font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ loadedCount }}/{{ totalCount }}</div>
+						<div style="font-size: 10px; color: var(--text-tertiary); white-space: nowrap;">加载进度</div>
 					</div>
 				</div>
 			</div>
@@ -152,6 +160,8 @@ const topStudents = ref([])
 const searchKeyword = ref('')
 const filteredStudents = ref([])
 const isLoading = ref(true)
+const loadedCount = ref(0)
+const totalCount = ref(0)
 
 const recordsDialogVisible = ref(false)
 const currentStudent = ref(null)
@@ -174,10 +184,16 @@ const handleAvatarError = (student) => {
 
 const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
 	// 逐个加载学生信息，从第一名开始
+	totalCount.value = rankingList.length
+	loadedCount.value = 0
+	
 	for (let i = 0; i < rankingList.length; i++) {
 		const item = rankingList[i]
 		const studentId = item[idField] || item.targetStudentInfoId
-		if (!studentId) continue
+		if (!studentId) {
+			loadedCount.value++
+			continue
+		}
 		
 		try {
 			const [nameResponse, genderResponse, collegeResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
@@ -232,7 +248,10 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
 				item.hasAvatar = false
 				item.avatarUrl = null
 			}
+			
+			loadedCount.value++
 		} catch (error) {
+			loadedCount.value++
 			continue
 		}
 	}
