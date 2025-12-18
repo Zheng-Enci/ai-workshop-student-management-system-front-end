@@ -48,36 +48,36 @@
 
         <div class="hero-right">
           <div class="features-showcase">
-            <div class="feature-card primary">
-              <div class="feature-icon">
-                <el-icon><User /></el-icon>
-              </div>
-              <h3>学生管理</h3>
-              <p>完善的学生信息管理，支持注册、登录、信息更新</p>
-            </div>
-            
-            <div class="feature-card secondary">
-              <div class="feature-icon">
-                <el-icon><Calendar /></el-icon>
-              </div>
-              <h3>智能考勤</h3>
-              <p>分时段签到系统，实时统计考勤数据</p>
-            </div>
-            
-            <div class="feature-card tertiary">
+            <div class="feature-card primary" @click="goToDashboard">
               <div class="feature-icon">
                 <el-icon><TrendCharts /></el-icon>
               </div>
-              <h3>数据分析</h3>
-              <p>多维度数据统计，可视化图表展示</p>
+              <h3>数据看板</h3>
+              <p>实时展示积分排行、考勤统计、成员数据</p>
             </div>
             
-            <div class="feature-card quaternary">
+            <div class="feature-card secondary" @click="goToAttendanceAnalysis">
               <div class="feature-icon">
-                <el-icon><Setting /></el-icon>
+                <el-icon><Calendar /></el-icon>
               </div>
-              <h3>权限管理</h3>
-              <p>多级权限控制，安全可靠的管理体系</p>
+              <h3>签到分析</h3>
+              <p>可视化展示签到趋势、出勤率统计</p>
+            </div>
+            
+            <div class="feature-card tertiary" @click="goToPointsDashboard">
+              <div class="feature-icon">
+                <el-icon><Star /></el-icon>
+              </div>
+              <h3>积分看板</h3>
+              <p>展示成员积分排行和优秀成员信息</p>
+            </div>
+            
+            <div class="feature-card quaternary" @click="goToAllMembers">
+              <div class="feature-icon">
+                <el-icon><User /></el-icon>
+              </div>
+              <h3>全部成员</h3>
+              <p>查看所有成员信息和积分排名</p>
             </div>
           </div>
         </div>
@@ -227,6 +227,22 @@ const goToLogin = () => {
 
 const goToRegister = () => {
   router.push('/register')
+}
+
+const goToDashboard = () => {
+  router.push('/dashboard')
+}
+
+const goToAttendanceAnalysis = () => {
+  router.push('/attendance-analysis')
+}
+
+const goToPointsDashboard = () => {
+  router.push('/points-dashboard')
+}
+
+const goToAllMembers = () => {
+  router.push('/all-members')
 }
 
 const showUpdateLog = () => {
