@@ -278,15 +278,19 @@ const loadTotalRanking = async () => {
 			
 			eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
 			totalRanking.value = eligibleStudents
-			await loadStudentInfo(totalRanking.value, 'studentInfoId')
-			
 			filteredStudents.value = totalRanking.value
 			topStudents.value = searchKeyword.value ? filteredStudents.value : totalRanking.value
+			isLoading.value = false
+			
+			loadStudentInfo(totalRanking.value, 'studentInfoId')
+			return
 		}
 	} catch (error) {
 		totalRanking.value = []
 	} finally {
-		isLoading.value = false
+		if (isLoading.value) {
+			isLoading.value = false
+		}
 	}
 }
 
