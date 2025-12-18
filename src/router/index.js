@@ -94,7 +94,7 @@ const routes = [
         name: 'Dashboard',
         component: () => import('../views/DashboardPage/DashboardPage.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '数据看板 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统数据看板页面，实时展示积分排行、考勤统计、成员数据，为管理决策提供参考'
         }
@@ -174,7 +174,7 @@ const routes = [
         name: 'AttendanceAnalysis',
         component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '考勤分析 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统考勤分析页面，可视化展示签到趋势、出勤率统计、时间分布图表，帮助全面了解考勤情况'
         }
@@ -184,7 +184,7 @@ const routes = [
         name: 'AttendanceAnalysisMobile',
         component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageMobile.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '考勤分析 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统考勤分析页面，可视化展示签到趋势、出勤率统计、时间分布图表，帮助全面了解考勤情况'
         }
@@ -194,7 +194,7 @@ const routes = [
         name: 'PointsDashboard',
         component: () => import('../views/PointsDashboardPage/PointsDashboardPage.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '积分看板 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统积分看板页面，实时展示成员积分排行、签到活动数据分析，支持多维度统计查询'
         }
@@ -204,7 +204,7 @@ const routes = [
         name: 'PointsDashboardMobile',
         component: () => import('../views/PointsDashboardPage/PointsDashboardPageMobile.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '积分看板 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统积分看板页面，实时展示成员积分排行、签到活动数据分析，支持多维度统计查询'
         }
@@ -214,7 +214,7 @@ const routes = [
         name: 'PointsDashboardDesktop',
         component: () => import('../views/PointsDashboardPage/PointsDashboardPageDesktop.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '积分看板 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统积分看板页面，实时展示成员积分排行、签到活动数据分析，支持多维度统计查询'
         }
@@ -254,7 +254,7 @@ const routes = [
         name: 'AllMembers',
         component: () => import('../views/AllMembersPage/AllMembersPage.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '全部成员 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统全部成员页面，查看所有成员信息、积分排名、学院专业等详细资料，支持快速搜索筛选'
         }
@@ -264,7 +264,7 @@ const routes = [
         name: 'AllMembersMobile',
         component: () => import('../views/AllMembersPage/AllMembersPageMobile.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '全部成员 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统全部成员页面，查看所有成员信息、积分排名、学院专业等详细资料，支持快速搜索筛选'
         }
@@ -274,7 +274,7 @@ const routes = [
         name: 'AllMembersDesktop',
         component: () => import('../views/AllMembersPage/AllMembersPageDesktop.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: '全部成员 - 厦工AI坊学生管理系统',
             description: '厦工AI坊学生管理系统全部成员页面，查看所有成员信息、积分排名、学院专业等详细资料，支持快速搜索筛选'
         }
