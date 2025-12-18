@@ -205,6 +205,28 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
 			if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
 				item.levelCode = parseInt(levelResponse.data)
 			}
+		} catch (error) {
+			return item
+		}
+		return item
+	})
+	
+	await Promise.all(infoPromises)
+	
+	// 分批加载头像：从第一名开始，每五名一批
+	loadAvatarsBatch(rankingList, idField)
+	
+	return rankingList
+}
+
+// 分批加载头像函数
+const loadAvatarsBatch = async (rankingList, idField = 'studentInfoId') => {
+	const batchSize = 5
+	for (let i = 0; i < rankingList.length; i += batchSize) {
+		const batch = rankingList.slice(i, i + batchSize)
+		const avatarPromises = batch.map(async (item) => {
+			const studentId = item[idField] || item.targetStudentInfoId
+			if (!studentId) return
 			
 			const avatarUrlString = getAvatarUrl(studentId)
 			if (avatarUrlString) {
@@ -224,14 +246,11 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
 				item.hasAvatar = false
 				item.avatarUrl = null
 			}
-		} catch (error) {
-			return item
-		}
-		return item
-	})
-	
-	await Promise.all(infoPromises)
-	return rankingList
+		})
+		
+		// 等待当前批次所有头像加载完成后再加载下一批
+		await Promise.all(avatarPromises)
+	}
 }
 
 const loadTotalRanking = async () => {
