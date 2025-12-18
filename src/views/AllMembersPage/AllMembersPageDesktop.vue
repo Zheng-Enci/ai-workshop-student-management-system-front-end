@@ -309,7 +309,7 @@
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
-import { ElButton, ElIcon, ElDialog, ElTooltip, ElInput } from 'element-plus'
+import { ElButton, ElIcon, ElDialog, ElTooltip, ElInput, ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -317,7 +317,6 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import 'element-plus/theme-chalk/el-tag.css'
 import 'element-plus/theme-chalk/el-popper.css'
-import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-tooltip.css'
@@ -1081,6 +1080,53 @@ const padTopStudents = (list, targetLength = 12) => {
   return filled
 }
 
+// 检查数据是否有变化
+const checkDataChanges = (oldData, newData) => {
+  // 如果长度不同，肯定有变化
+  if (oldData.length !== newData.length) {
+    return true
+  }
+  
+  // 检查每个学生的ID和积分是否相同
+  for (let i = 0; i < oldData.length; i++) {
+    const oldStudent = oldData[i]
+    const newStudent = newData[i]
+    
+    // 检查学生ID是否相同
+    if (oldStudent.studentInfoId !== newStudent.studentInfoId) {
+      return true
+    }
+    
+    // 检查积分是否相同
+    if (oldStudent.totalPoints !== newStudent.totalPoints ||
+        oldStudent.signInPoints !== newStudent.signInPoints ||
+        oldStudent.activityPoints !== newStudent.activityPoints) {
+      return true
+    }
+  }
+  
+  return false
+}
+
+// 更新现有学生的积分信息
+const updateExistingStudentsPoints = (existingStudents, newStudents) => {
+  // 创建新学生数据的映射
+  const newStudentsMap = new Map()
+  newStudents.forEach(student => {
+    newStudentsMap.set(student.studentInfoId, student)
+  })
+  
+  // 更新现有学生的积分信息
+  existingStudents.forEach(existingStudent => {
+    const newStudent = newStudentsMap.get(existingStudent.studentInfoId)
+    if (newStudent) {
+      existingStudent.signInPoints = newStudent.signInPoints
+      existingStudent.activityPoints = newStudent.activityPoints
+      existingStudent.totalPoints = newStudent.totalPoints
+    }
+  })
+}
+
 const loadTotalRanking = async () => {
   totalLoading.value = true
   try {
@@ -1124,18 +1170,29 @@ const loadTotalRanking = async () => {
       })
       
       eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
-      totalRanking.value = eligibleStudents
       
-      // 立即显示基础列表（边加载边显示）
-      filteredStudents.value = totalRanking.value
-      topStudents.value = padTopStudents(searchKeyword.value ? filteredStudents.value : totalRanking.value, (searchKeyword.value ? filteredStudents.value : totalRanking.value).length)
+      // 检查数据是否有变化，只更新有变化的部分
+      const hasChanges = checkDataChanges(totalRanking.value, eligibleStudents)
+      
+      if (hasChanges) {
+        // 只有当数据有变化时才更新排行榜
+        totalRanking.value = eligibleStudents
+        
+        // 立即显示基础列表（边加载边显示）
+        filteredStudents.value = totalRanking.value
+        topStudents.value = padTopStudents(searchKeyword.value ? filteredStudents.value : totalRanking.value, (searchKeyword.value ? filteredStudents.value : totalRanking.value).length)
+        
+        // 计算统计数据
+        calculateStatistics(totalRanking.value)
+        
+        // 异步加载学生详细信息
+        loadStudentInfo(totalRanking.value, 'studentInfoId')
+      } else {
+        // 数据无变化，只更新现有学生的积分信息
+        updateExistingStudentsPoints(totalRanking.value, eligibleStudents)
+      }
+      
       totalLoading.value = false
-      
-      // 计算统计数据
-      calculateStatistics(totalRanking.value)
-      
-      // 异步加载学生详细信息
-      loadStudentInfo(totalRanking.value, 'studentInfoId')
       await nextTick()
       if (totalRanking.value.length > 0) {
         const initChartWithRetry = async (retryCount = 0) => {
@@ -1222,6 +1279,9 @@ const refreshData = async () => {
   } else if (activeTab.value === 'activity') {
     await loadActivityRanking()
   }
+  
+  // 显示刷新提示
+  ElMessage.success('数据已刷新')
 }
 
 // 启动自动刷新
