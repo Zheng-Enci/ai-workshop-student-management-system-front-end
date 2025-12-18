@@ -1125,6 +1125,9 @@ const updateExistingStudentsPoints = (existingStudents, newStudents) => {
       existingStudent.totalPoints = newStudent.totalPoints
     }
   })
+  
+  // 触发Vue响应式更新
+  totalRanking.value = [...totalRanking.value]
 }
 
 const loadTotalRanking = async () => {
@@ -1293,7 +1296,7 @@ const startAutoRefresh = () => {
   // 设置定时器，每隔60秒（60000毫秒）刷新一次
   refreshTimer = setInterval(() => {
     refreshData()
-  }, 60000)
+  }, 6000)
 }
 
 // 停止自动刷新
