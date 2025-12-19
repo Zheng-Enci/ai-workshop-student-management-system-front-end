@@ -1318,10 +1318,10 @@ html.dark .option-icon {
 
 .edit-dialog {
 	.el-dialog__header {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		color: white;
 		padding: 20px 24px;
 		border-radius: 8px 8px 0 0;
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 	}
 
 	.el-dialog__title {
@@ -1335,14 +1335,13 @@ html.dark .option-icon {
 		font-size: 20px;
 	}
 
-	.el-dialog__body {
+	.el-dialog__body,
+	.el-dialog__footer {
 		padding: 30px 24px;
 		background: #f8f9fa;
 	}
 
 	.el-dialog__footer {
-		background: #f8f9fa;
-		padding: 20px 24px;
 		border-radius: 0 0 8px 8px;
 	}
 }
@@ -1373,10 +1372,10 @@ html.dark .option-icon {
 
 .points-dialog {
 	.el-dialog__header {
-		background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
 		color: white;
 		padding: 20px 24px;
 		border-radius: 8px 8px 0 0;
+		background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
 	}
 
 	.el-dialog__title {
@@ -1390,14 +1389,13 @@ html.dark .option-icon {
 		font-size: 20px;
 	}
 
-	.el-dialog__body {
+	.el-dialog__body,
+	.el-dialog__footer {
 		padding: 30px 24px;
 		background: #f8f9fa;
 	}
 
 	.el-dialog__footer {
-		background: #f8f9fa;
-		padding: 20px 24px;
 		border-radius: 0 0 8px 8px;
 	}
 }
@@ -1501,6 +1499,14 @@ html.dark .points-dialog .el-dialog__body {
 	background: var(--admin-bg-secondary);
 }
 
+/* 超级管理员页面表单背景色 - 夜间模式 */
+html.dark .el-dialog__body,
+html.dark .edit-form .el-dialog__body,
+html.dark .points-form .el-dialog__body,
+html.dark .makeup-form .el-dialog__body {
+	background: #000000 !important;
+}
+
 html.dark .student-info-card {
 	background: var(--admin-bg-primary);
 	border-color: var(--admin-border-color);
@@ -1572,7 +1578,12 @@ html.dark .form-tip {
 .heatmap-dialog,
 .trend-dialog,
 .attendance-records-dialog {
-	.el-dialog__wrapper {
+	.el-dialog__wrapper,
+	.el-dialog,
+	.el-overlay,
+	.el-dialog__header,
+	.el-dialog__body,
+	.el-dialog__footer {
 		transition: none !important;
 		animation: none !important;
 		transition-duration: 0s !important;
@@ -1580,18 +1591,7 @@ html.dark .form-tip {
 	}
 
 	.el-dialog {
-		transition: none !important;
-		animation: none !important;
 		transform: none !important;
-		transition-duration: 0s !important;
-		transition-delay: 0s !important;
-	}
-
-	.el-overlay {
-		transition: none !important;
-		animation: none !important;
-		transition-duration: 0s !important;
-		transition-delay: 0s !important;
 	}
 
 	.el-dialog__header {
@@ -1599,10 +1599,6 @@ html.dark .form-tip {
 		color: white;
 		padding: 20px 24px;
 		border-radius: 8px 8px 0 0;
-		transition: none !important;
-		animation: none !important;
-		transition-duration: 0s !important;
-		transition-delay: 0s !important;
 	}
 
 	.el-dialog__title {
@@ -1619,20 +1615,12 @@ html.dark .form-tip {
 	.el-dialog__body {
 		padding: 30px 24px;
 		background: #f8f9fa;
-		transition: none !important;
-		animation: none !important;
-		transition-duration: 0s !important;
-		transition-delay: 0s !important;
 	}
 
 	.el-dialog__footer {
 		background: #f8f9fa;
 		padding: 20px 24px;
 		border-radius: 0 0 8px 8px;
-		transition: none !important;
-		animation: none !important;
-		transition-duration: 0s !important;
-		transition-delay: 0s !important;
 	}
 }
 
@@ -1662,6 +1650,14 @@ html.dark .form-tip {
 	.el-input-number .el-input__inner {
 		text-align: left;
 	}
+}
+
+/* 超级管理员页面表单背景色 - 日间模式 */
+.el-dialog__body,
+.edit-form .el-dialog__body,
+.points-form .el-dialog__body,
+.makeup-form .el-dialog__body {
+	background: #ffffff !important;
 }
 
 .dialog-footer {
