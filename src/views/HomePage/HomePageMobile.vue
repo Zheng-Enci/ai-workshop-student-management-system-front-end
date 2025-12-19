@@ -47,6 +47,10 @@
               <el-icon><OfficeBuilding /></el-icon>
               环境保障机制
             </el-button>
+            <el-button size="large" @click="showContactForm" class="contact-form-button">
+              <el-icon><User /></el-icon>
+              联系我们
+            </el-button>
           </div>
         </div>
 
@@ -90,22 +94,6 @@
 
     <div class="info-section">
       <div class="info-content">
-
-        <div class="contact-info">
-          <h3>联系我们</h3>
-          <p>如有问题或建议，请联系开发团队</p>
-          <div class="qr-codes">
-            <div class="qr-item">
-              <img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="qr-image">
-              <p>手机端签到入口</p>
-            </div>
-            <div class="qr-item">
-              <img src="@/assets/ErWeiMa.png" alt="公众号" class="qr-image">
-              <p>扫码关注</p>
-            </div>
-          </div>
-        </div>
-        
         <div class="documentation-section">
           <h3>本项目作者</h3>
           <p>查看作者的技术文章和经验分享</p>
@@ -117,6 +105,7 @@
               <div class="profile-info-large">
                 <h4>郑恩赐</h4>
                 <p>AI全栈应用开发工程师</p>
+                <p>联系邮箱: <a href="mailto:zheng_enci@qq.com" class="author-email">zheng_enci@qq.com</a></p>
               </div>
             </div>
             <div class="doc-links-right">
@@ -205,6 +194,32 @@
         </div>
       </div>
     </el-dialog>
+
+    <el-dialog
+      v-model="contactFormVisible"
+      title="联系我们"
+      width="95%"
+      :close-on-click-modal="true"
+      :destroy-on-close="true"
+      :append-to-body="true"
+      :teleported="true"
+      class="contact-form-dialog"
+    >
+      <div class="contact-info">
+        <h3>联系我们</h3>
+        <p>如有问题或建议，请联系开发团队</p>
+        <div class="qr-codes">
+          <div class="qr-item">
+            <img src="/src/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="qr-image">
+            <p>手机端签到入口</p>
+          </div>
+          <div class="qr-item">
+            <img src="/src/assets/ErWeiMa.png" alt="公众号" class="qr-image">
+            <p>扫码关注</p>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -217,7 +232,7 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import { 
   User, Calendar, TrendCharts, Setting, ArrowRight, Document, Reading, Link,
-  Star, Trophy
+  Star, Trophy, OfficeBuilding, DocumentCopy
 } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
 import { onMounted } from 'vue'
@@ -228,6 +243,7 @@ const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
 const updateLogVisible = ref(false)
+const contactFormVisible = ref(false)
 const developerAvatar = ref('')
 
 const goToLogin = () => {
@@ -276,6 +292,10 @@ onMounted(() => {
 
 const showUpdateLog = () => {
   updateLogVisible.value = true
+}
+
+const showContactForm = () => {
+  contactFormVisible.value = true
 }
 
 const handleClose = () => {
@@ -494,6 +514,15 @@ const handleClose = () => {
 
 .update-log-button:hover {
   box-shadow: 0 14px 36px rgba(67, 233, 123, 0.4);
+}
+
+.contact-form-button {
+  background: linear-gradient(135deg, #fa709a, #fee140);
+  color: white;
+}
+
+.contact-form-button:hover {
+  box-shadow: 0 14px 36px rgba(250, 112, 154, 0.4);
 }
 
 .features-showcase {
@@ -782,6 +811,18 @@ const handleClose = () => {
   margin: 0;
   line-height: 1.6;
   font-weight: 500;
+}
+
+.author-email {
+  color: var(--text-primary);
+  text-decoration: underline;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.author-email:hover {
+  opacity: 1;
+  text-decoration: none;
 }
 
 .doc-links-right {

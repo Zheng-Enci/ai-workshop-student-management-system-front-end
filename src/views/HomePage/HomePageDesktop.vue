@@ -41,6 +41,11 @@
               <el-icon><OfficeBuilding /></el-icon>
               环境保障机制
             </el-button>
+
+            <el-button size="large" @click="showContactForm" class="contact-form-button">
+              <el-icon><User /></el-icon>
+              联系我们
+            </el-button>
           </div>
         </div>
 
@@ -84,21 +89,6 @@
 
     <div class="info-section">
       <div class="info-content">
-
-        <div class="contact-info">
-          <h3>联系我们</h3>
-          <p>如有问题或建议，请联系开发团队</p>
-          <div class="qr-codes">
-            <div class="qr-item">
-              <img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="qr-image">
-              <p>手机端签到入口</p>
-            </div>
-            <div class="qr-item">
-              <img src="@/assets/ErWeiMa.png" alt="公众号" class="qr-image">
-              <p>扫码关注</p>
-            </div>
-          </div>
-        </div>
         
         <div class="documentation-section">
           <h3>本项目作者</h3>
@@ -111,6 +101,7 @@
               <div class="profile-info-large">
                 <h4>郑恩赐</h4>
                 <p>AI全栈应用开发工程师</p>
+                <p>联系邮箱: <a href="mailto:zheng_enci@qq.com" class="author-email">zheng_enci@qq.com</a></p>
               </div>
             </div>
             <div class="doc-links-right">
@@ -271,6 +262,7 @@ const { toggleTheme } = themeStore
 
 const environmentPolicyVisible = ref(false)
 const isClosingEnvironmentPolicy = ref(false)
+const contactFormVisible = ref(false)
 const developerAvatar = ref('')
 
 const goToLogin = () => {
@@ -297,6 +289,10 @@ const goToAllMembers = () => {
 
 const showEnvironmentPolicy = () => {
   environmentPolicyVisible.value = true
+}
+
+const showContactForm = () => {
+  contactFormVisible.value = true
 }
 
 const closeEnvironmentPolicy = () => {
@@ -984,6 +980,18 @@ onMounted(() => {
 
 .footer-content p:last-child {
   font-size: 14px;
+}
+
+.author-email {
+  color: var(--text-primary);
+  text-decoration: underline;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.author-email:hover {
+  opacity: 1;
+  text-decoration: none;
   font-weight: 600;
 }
 
@@ -1788,6 +1796,110 @@ html.dark .doc-link:hover {
 }
 
 .environment-policy-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.contact-form-dialog {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.contact-form-dialog :deep(.el-dialog) {
+  border-radius: 24px;
+  background: var(--bg-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.contact-form-dialog :deep(.el-dialog__header) {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 24px 32px;
+}
+
+.contact-form-dialog :deep(.el-dialog__title) {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.contact-form-dialog :deep(.el-dialog__body) {
+  padding: 30px;
+  text-align: center;
+}
+
+.contact-form-dialog .contact-info {
+  padding: 20px;
+}
+
+.contact-form-dialog .contact-info h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+}
+
+.contact-form-dialog .contact-info p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0 0 30px 0;
+  line-height: 1.6;
+}
+
+.contact-form-dialog .qr-codes {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact-form-dialog .qr-item {
+  text-align: center;
+}
+
+.contact-form-dialog .qr-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+}
+
+.contact-form-dialog .qr-item p {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.contact-form-button {
+  background: rgba(64, 158, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--glass-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px var(--shadow-color);
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+[data-theme="dark"] .contact-form-button {
+  background: var(--glass-bg);
+}
+
+.contact-form-button:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--primary-color);
+  box-shadow: 0 12px 40px var(--shadow-hover);
+  transform: translateY(-2px);
+  color: var(--primary-color);
+}
+
+.contact-form-button:active {
   transform: translateY(0);
   box-shadow: 0 4px 20px var(--shadow-color);
 }
