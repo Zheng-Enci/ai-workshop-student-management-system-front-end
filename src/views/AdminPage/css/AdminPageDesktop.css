@@ -682,6 +682,20 @@ html.dark .admin-console {
 	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* 设置标签页边框完全透明 */
+.el-tabs__item {
+	border: none !important;
+	outline: none !important;
+}
+
+.el-tabs__nav {
+	border: none !important;
+}
+
+.level-tabs-container {
+	border: none !important;
+}
+
 .tab-count {
 	background: var(--admin-glass-bg);
 	padding: 6px 12px;
