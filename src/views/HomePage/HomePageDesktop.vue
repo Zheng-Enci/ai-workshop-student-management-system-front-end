@@ -17,7 +17,7 @@
             <div class="logo-container">
               <div class="logo-glow"></div>
             </div>
-            <h1 class="main-title">人工智能创作坊</h1>
+            <h1 class="main-title">厦门工学院人工智能创作坊</h1>
             <p class="main-subtitle">学生管理系统</p>
             <p class="tagline">世界很大 AI无限</p>
           </div>
@@ -135,7 +135,7 @@
 
     <div class="footer">
       <div class="footer-content">
-        <p>&copy; 2024 人工智能创作坊学生管理系统. All rights reserved.</p>
+        <p>&copy; 2024 厦门工学院人工智能创作坊学生管理系统. All rights reserved.</p>
         <p>群策群力，创新共行</p>
       </div>
     </div>
