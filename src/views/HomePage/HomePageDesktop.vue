@@ -36,9 +36,7 @@
               <el-icon><ArrowRight /></el-icon>
               立即体验
             </el-button>
-            <el-button size="large" @click="goToRegister" class="secondary-button">
-              注册账号
-            </el-button>
+
             <el-button size="large" @click="showEnvironmentPolicy" class="environment-policy-button">
               <el-icon><OfficeBuilding /></el-icon>
               环境保障机制
@@ -274,9 +272,7 @@ const goToLogin = () => {
   router.push('/login')
 }
 
-const goToRegister = () => {
-  router.push('/register')
-}
+
 
 const goToDashboard = () => {
   router.push('/dashboard')

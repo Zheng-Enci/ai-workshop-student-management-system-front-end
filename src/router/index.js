@@ -38,15 +38,7 @@ const routes = [
             description: '厦工AI坊学生管理系统登录页面，输入账号密码登录系统，访问成员管理、积分查询、考勤统计等功能'
         }
     },
-    {
-        path: '/register',
-        name: 'Register',
-        component: () => import('../views/RegisterPage/RegisterPage.vue'),
-        meta: {
-            title: '注册 - 厦工AI坊学生管理系统',
-            description: '厦工AI坊学生管理系统注册页面，填写个人信息创建账号，加入社团管理系统，开始使用各项服务'
-        }
-    },
+
     {
         path: '/navigation',
         name: 'Navigation',
@@ -369,7 +361,7 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   
-  if ((to.path === '/login' || to.path === '/register') && token) {
+  if (to.path === '/login' && token) {
     const cachedResult = getCachedValidation(token)
     if (cachedResult !== null) {
       if (cachedResult) {
