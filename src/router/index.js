@@ -8,7 +8,7 @@ const routes = [
         component: () => import('../views/HomePage/HomePage.vue'),
         meta: {
             title: '首页 - 厦工AI坊学生管理系统',
-            description: '厦工AI坊学生管理系统首页，查看系统介绍、技术文档、产品功能，快速了解平台特性和使用指南'
+            description: '厦工AI坊学生管理系统首页，查看系统介绍、本项目作者、产品功能，快速了解平台特性和使用指南'
         }
     },
     {
@@ -17,7 +17,7 @@ const routes = [
         component: () => import('../views/HomePage/HomePageMobile.vue'),
         meta: {
             title: '首页 - 厦工AI坊学生管理系统',
-            description: '厦工AI坊学生管理系统首页，查看系统介绍、技术文档、产品功能，快速了解平台特性和使用指南'
+            description: '厦工AI坊学生管理系统首页，查看系统介绍、本项目作者、产品功能，快速了解平台特性和使用指南'
         }
     },
     {
@@ -26,7 +26,7 @@ const routes = [
         component: () => import('../views/HomePage/HomePageDesktop.vue'),
         meta: {
             title: '首页 - 厦工AI坊学生管理系统',
-            description: '厦工AI坊学生管理系统首页，查看系统介绍、技术文档、产品功能，快速了解平台特性和使用指南'
+            description: '厦工AI坊学生管理系统首页，查看系统介绍、本项目作者、产品功能，快速了解平台特性和使用指南'
         }
     },
     {

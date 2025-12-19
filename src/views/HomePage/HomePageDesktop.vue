@@ -101,8 +101,8 @@
         </div>
         
         <div class="documentation-section">
-          <h3>技术文档</h3>
-          <p>查看开发者的技术文章和经验分享</p>
+          <h3>本项目作者</h3>
+          <p>查看作者的技术文章和经验分享</p>
           <div class="documentation-layout">
             <div class="developer-profile-large">
               <div class="profile-avatar-large">
@@ -110,7 +110,7 @@
               </div>
               <div class="profile-info-large">
                 <h4>郑恩赐</h4>
-                <p>计算机视觉与深度学习工程师 | AI算法工程师 | 全栈开发工程师</p>
+                <p>AI全栈应用开发工程师</p>
               </div>
             </div>
             <div class="doc-links-right">
@@ -124,6 +124,19 @@
                   <a href="https://juejin.cn/user/2883382090934252" target="_blank" class="doc-link">
                     <el-icon><Link /></el-icon>
                     访问专栏
+                  </a>
+                </div>
+              </div>
+              <div class="doc-item-right">
+                <div class="doc-icon">
+                  <el-icon><DocumentCopy /></el-icon>
+                </div>
+                <div class="doc-content">
+                  <h4>Gitee 仓库</h4>
+                  <p>项目代码和开源作品</p>
+                  <a href="https://gitee.com/zheng-enci050704" target="_blank" class="doc-link">
+                    <el-icon><Link /></el-icon>
+                    访问仓库
                   </a>
                 </div>
               </div>
@@ -246,7 +259,7 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import { 
   User, Calendar, TrendCharts, Setting, ArrowRight, Document, Reading, Link,
-  Star, Trophy, OfficeBuilding
+  Star, Trophy, OfficeBuilding, DocumentCopy
 } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
 import { onMounted } from 'vue'
@@ -774,7 +787,7 @@ onMounted(() => {
 .avatar-image-large {
   width: 160px;
   height: 160px;
-  border-radius: 50%;
+  border-radius: 25%;
   border: 5px solid transparent;
   background: linear-gradient(135deg, #667eea, #764ba2) padding-box,
               linear-gradient(135deg, #667eea, #764ba2) border-box;
