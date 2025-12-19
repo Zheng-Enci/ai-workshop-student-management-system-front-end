@@ -208,6 +208,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
 import { onMounted } from 'vue'
+import { getAvatarUrl } from '@/api/student'
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -240,19 +241,13 @@ const goToAllMembers = () => {
   router.push('/all-members')
 }
 
-const loadDeveloperAvatar = async () => {
-  try {
-    const response = await fetch('http://localhost:7001/api/v1/students/avatar/1')
-    if (response.ok) {
-      const blob = await response.blob()
-      developerAvatar.value = URL.createObjectURL(blob)
-    } else {
-      // 如果接口失败，使用默认头像
-      developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
-    }
-  } catch (error) {
-    console.error('加载头像失败:', error)
-    // 错误时使用默认头像
+const loadDeveloperAvatar = () => {
+  // 使用项目统一的getAvatarUrl函数获取id为1的头像
+  const avatarUrl = getAvatarUrl(1)
+  if (avatarUrl) {
+    developerAvatar.value = avatarUrl
+  } else {
+    // 如果获取失败，使用默认头像
     developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
   }
 }
