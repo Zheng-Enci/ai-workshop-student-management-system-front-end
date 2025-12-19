@@ -1,5 +1,6 @@
 import {ref, computed, onMounted, nextTick, watch} from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import {
   getAllStudentsWithSpecialPassword,
   setStudentLevel,
@@ -1314,7 +1315,8 @@ export const useAdminPage = () => {
       const response = await getAllStudentsWithSpecialPassword(specialPassword.value)
       console.log('Authentication response:', response)
 
-      if (response.code === 200) {
+      // 检查响应是否存在以及code是否为200
+      if (response && response.code === 200) {
         adminStore.setAdminPassword(specialPassword.value)
         ElMessage.success('身份验证成功')
         isAuthenticated.value = true
@@ -1794,7 +1796,8 @@ export const useAdminPage = () => {
       updateProgress(1, '正在获取学生数据...')
       // 使用已验证的密码直接获取学生数据，避免重复验证
       const response = await getAllStudentsWithSpecialPassword(adminPassword)
-      if (response.code !== 200) {
+      // 检查响应是否存在以及code是否为200
+      if (!response || response.code !== 200) {
         ElMessage.error('获取学生数据失败')
         // 不清除认证状态，因为密码已经验证过了
         return
@@ -1829,8 +1832,10 @@ export const useAdminPage = () => {
 
     } catch (error) {
       ElMessage.error('加载数据失败：' + error.message)
-      isAuthenticated.value = false
-      adminStore.clearAdminPassword()
+      // 不应该在这里清除认证状态，因为密码验证已经成功
+      // isAuthenticated.value = false
+      // adminStore.clearAdminPassword()
+      // 只是数据加载失败，仍保持认证状态，让用户可以重试
     }
   }
 
@@ -1847,8 +1852,10 @@ export const useAdminPage = () => {
       } catch (error) {
         console.error('Load data error:', error)
         ElMessage.error('加载数据失败：' + error.message)
-        isAuthenticated.value = false
-        adminStore.clearAdminPassword()
+        // 不应该在这里清除认证状态，因为密码验证已经成功
+        // isAuthenticated.value = false
+        // adminStore.clearAdminPassword()
+        // 只是数据加载失败，仍保持认证状态，让用户可以重试
       }
     } else {
       // 没有密码，显示身份验证界面
