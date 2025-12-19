@@ -184,11 +184,11 @@
             </div>
             <div class="points-info">
               <div class="points-summary">
-                <span class="points-total">总积分: {{ (studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0 }}</span>
+                <span class="points-total">总积分: {{ Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) + ((studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0) }}</span>
               </div>
               <div class="points-details">
-                <span class="points-type">签到: {{ (studentPoints[student.studentId] && studentPoints[student.studentId].attendancePoints) || 0 }}</span>
-                <span class="points-type">活动: {{ (studentPoints[student.studentId] && studentPoints[student.studentId].activityPoints) || 0 }}</span>
+                <span class="points-type">签到: {{ Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) }}</span>
+                <span class="points-type">活动: {{ (studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0 }}</span>
               </div>
             </div>
           </div>
