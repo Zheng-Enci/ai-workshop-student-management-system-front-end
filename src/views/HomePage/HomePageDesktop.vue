@@ -199,7 +199,7 @@
 import './HomePageDesktop.css'
 import { ref } from 'vue'
 import { useHomePageLogic } from './HomePage.js'
-import { TrendCharts, Calendar, Star, User, OfficeBuilding, Reading, Link, ArrowRight, DocumentCopy } from '@element-plus/icons-vue'
+import { TrendCharts, Calendar, Star, User, OfficeBuilding, ArrowRight} from '@element-plus/icons-vue'
 import { ElIcon, ElDialog, ElButton } from 'element-plus'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'

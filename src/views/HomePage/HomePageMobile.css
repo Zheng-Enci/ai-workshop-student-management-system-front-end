@@ -37,10 +37,10 @@
 }
 
 .hero-section {
-	padding: 30px 15px 50px;
+	padding: 20px 15px 50px;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: flex-start;
+	align-items: flex-start;
 	min-height: 100vh;
 }
 
@@ -58,7 +58,8 @@
 }
 
 .hero-right {
-	display: none;
+	display: block;
+	margin-top: 30px;
 }
 
 .logo-section {
@@ -105,17 +106,20 @@
 }
 
 .main-subtitle {
-	font-size: 16px;
-	margin: 0 0 12px 0;
+	font-size: 18px;
+	margin: 0 10px 8px 10px;
 	color: var(--text-secondary);
 	font-weight: 500;
+	text-align: center;
 }
 
 .tagline {
-	font-size: 14px;
-	margin: 0;
+	font-size: 12px;
+	margin: 0 10px 0 10px;
 	color: var(--text-tertiary);
 	font-style: italic;
+	text-align: right;
+	letter-spacing: 1px;
 }
 
 .description-section {
@@ -123,6 +127,8 @@
 	max-width: 100%;
 	margin-left: auto;
 	margin-right: auto;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .section-title {
@@ -137,21 +143,22 @@
 	line-height: 1.6;
 	margin: 0;
 	color: var(--text-secondary);
+	text-align: left;
 }
 
 .action-section {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	gap: 12px;
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 40px;
+	flex-wrap: wrap;
 }
 
 .action-button,
-.secondary-button,
-.update-log-button {
-	width: 100%;
+.environment-policy-button {
+	width: auto;
 	max-width: 280px;
 	background: var(--primary-gradient);
 	border: none;
@@ -228,7 +235,7 @@
 
 .features-showcase {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: 1fr 1fr;
 	gap: 16px;
 }
 
@@ -955,6 +962,249 @@ html.dark .doc-link:hover {
 	box-shadow: 0 3px 10px rgba(139, 158, 255, 0.35);
 }
 
+.quick-access-label {
+	font-size: 12px;
+	color: var(--text-tertiary);
+	margin-bottom: 8px;
+	text-align: left;
+}
+
+.footer {
+	margin-top: 40px;
+	text-align: center;
+	padding: 20px 0;
+}
+
+.footer-content {
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.author-info {
+	margin-top: 20px;
+	padding-top: 15px;
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.author-info p {
+	font-size: 14px;
+	line-height: 1.6;
+	margin: 5px 0;
+	opacity: 0.9;
+}
+
+.author-contact {
+	color: #667eea;
+	text-decoration: none;
+	transition: all 0.3s ease;
+}
+
+.author-contact:hover {
+	text-decoration: underline;
+	opacity: 0.8;
+}
+
+.author-links {
+	margin-top: 10px;
+	display: flex;
+	gap: 15px;
+	justify-content: center;
+}
+
+.author-link {
+	color: #667eea;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	font-weight: 500;
+}
+
+.author-link:hover {
+	text-decoration: underline;
+	opacity: 0.8;
+}
+
+/* 日间模式下的footer样式调整 */
+html:not(.dark) .footer {
+	background: #f8f9fa;
+	color: #333;
+}
+
+html:not(.dark) .author-info p {
+	color: #333;
+	opacity: 1;
+}
+
+html:not(.dark) .author-contact,
+html:not(.dark) .author-link {
+	color: #667eea;
+}
+
+/* 环境保障机制对话框样式 */
+.environment-policy-dialog {
+	border-radius: 24px;
+	overflow: hidden;
+}
+
+/* 禁用环境保障机制弹窗过渡动画，避免闪烁 */
+.environment-policy-dialog :deep(.el-dialog__wrapper) {
+	transition: none !important;
+	animation: none !important;
+}
+
+.environment-policy-dialog :deep(.el-dialog) {
+	transition: none !important;
+	animation: none !important;
+	transform: none !important;
+	border-radius: 24px;
+	background: var(--bg-primary);
+	border: 1px solid var(--glass-border);
+}
+
+.environment-policy-dialog :deep(.el-dialog__header) {
+	background: var(--glass-bg);
+	backdrop-filter: blur(20px);
+	border-bottom: 1px solid var(--glass-border);
+	padding: 24px 32px;
+}
+
+.environment-policy-dialog :deep(.el-dialog__title) {
+	font-size: 24px;
+	font-weight: 600;
+	color: var(--text-primary);
+	background: var(--primary-gradient);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+.environment-policy-dialog :deep(.el-dialog__body) {
+	padding: 0;
+	background: var(--bg-primary);
+}
+
+.environment-policy-content {
+	padding: 24px;
+	max-height: 75vh;
+	overflow-y: auto;
+}
+
+.policy-section {
+	margin-bottom: 40px;
+}
+
+.policy-section:last-child {
+	margin-bottom: 0;
+}
+
+.section-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 18px;
+	font-weight: 600;
+	margin: 0 0 20px 0;
+	color: var(--text-primary);
+	padding-bottom: 10px;
+	border-bottom: 2px solid var(--primary-color);
+}
+
+.section-title .el-icon {
+	font-size: 24px;
+	color: var(--primary-color);
+}
+
+.policy-content {
+	padding-left: 20px;
+}
+
+.policy-content p {
+	font-size: 15px;
+	line-height: 1.7;
+	margin: 0 0 14px 0;
+	color: var(--text-secondary);
+}
+
+.policy-content ol {
+	font-size: 15px;
+	line-height: 1.7;
+	margin: 0 0 14px 0;
+	color: var(--text-secondary);
+	padding-left: 20px;
+}
+
+.policy-content ul {
+	font-size: 15px;
+	line-height: 1.7;
+	margin: 6px 0 14px 0;
+	color: var(--text-secondary);
+	padding-left: 20px;
+}
+
+.policy-content li {
+	margin-bottom: 6px;
+}
+
+.policy-content ul ul {
+	padding-left: 15px;
+	margin: 4px 0;
+}
+
+.policy-content strong {
+	color: var(--text-primary);
+}
+
+.environment-policy-button {
+	background: rgba(64, 158, 255, 0.1) !important;
+	backdrop-filter: blur(20px) !important;
+	border: 1px solid var(--glass-border) !important;
+	border-radius: 20px !important;
+	box-shadow: 0 3px 12px var(--shadow-color) !important;
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+	color: var(--text-secondary) !important;
+	font-weight: 600 !important;
+	padding: 10px 32px !important;
+	font-size: 16px !important;
+	cursor: pointer !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	min-width: 120px !important;
+	max-width: 200px !important;
+	gap: 6px !important;
+	height: 40px !important;
+	line-height: 1 !important;
+}
+
+[data-theme="dark"] .environment-policy-button {
+	background: var(--glass-bg);
+}
+
+.environment-policy-button:hover {
+	border-color: var(--primary-color) !important;
+	box-shadow: 0 6px 18px var(--shadow-hover) !important;
+	transform: translateY(-1px) !important;
+	color: var(--primary-color) !important;
+	background: rgba(102, 126, 234, 0.15) !important;
+}
+
+.environment-policy-button:active {
+	transform: translateY(0) !important;
+	box-shadow: 0 4px 20px var(--shadow-color) !important;
+}
+
+/* 媒体查询：针对小屏幕设备 */
+@media screen and (max-width: 480px) {
+	.action-section {
+		flex-direction: column;
+	}
+	
+	.action-button,
+	.environment-policy-button {
+		width: 100%;
+		max-width: none;
+	}
+}
+
 >
 .home-container {
 	min-height: 100vh;
@@ -996,8 +1246,8 @@ html.dark .doc-link:hover {
 .hero-section {
 	padding: 30px 15px 50px;
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	justify-content: flex-start;
+	align-items: flex-start;
 	min-height: 100vh;
 }
 
@@ -1015,7 +1265,8 @@ html.dark .doc-link:hover {
 }
 
 .hero-right {
-	display: none;
+	display: block;
+	margin-top: 30px;
 }
 
 .logo-section {
@@ -1056,17 +1307,20 @@ html.dark .doc-link:hover {
 }
 
 .main-subtitle {
-	font-size: 16px;
-	margin: 0 0 12px 0;
+	font-size: 18px;
+	margin: 0 10px 8px 10px;
 	color: var(--text-secondary);
 	font-weight: 500;
+	text-align: center;
 }
 
 .tagline {
-	font-size: 14px;
-	margin: 0;
+	font-size: 12px;
+	margin: 0 10px 0 10px;
 	color: var(--text-tertiary);
 	font-style: italic;
+	text-align: right;
+	letter-spacing: 1px;
 }
 
 .description-section {
@@ -1074,6 +1328,8 @@ html.dark .doc-link:hover {
 	max-width: 100%;
 	margin-left: auto;
 	margin-right: auto;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .section-title {
@@ -1088,22 +1344,22 @@ html.dark .doc-link:hover {
 	line-height: 1.6;
 	margin: 0;
 	color: var(--text-secondary);
+	text-align: left;
 }
 
 .action-section {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	gap: 12px;
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 40px;
+	flex-wrap: wrap;
 }
 
 .action-button,
-.secondary-button,
-.update-log-button,
-.contact-form-button {
-	width: 100%;
+.environment-policy-button {
+	width: auto;
 	max-width: 280px;
 	background: var(--primary-gradient);
 	border: none;
@@ -1183,7 +1439,7 @@ html.dark .doc-link:hover {
 
 .features-showcase {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: 1fr 1fr;
 	gap: 16px;
 }
 
