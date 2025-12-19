@@ -1,6 +1,5 @@
 import {ref, computed, onMounted, nextTick, watch} from 'vue'
 import { useRouter } from 'vue-router'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import {
   getAllStudentsWithSpecialPassword,
   setStudentLevel,
@@ -1309,22 +1308,26 @@ export const useAdminPage = () => {
 
     authLoading.value = true
     authError.value = ''
+    console.log('Attempting authentication with password:', specialPassword.value)
 
     try {
       const response = await getAllStudentsWithSpecialPassword(specialPassword.value)
+      console.log('Authentication response:', response)
 
       if (response.code === 200) {
         adminStore.setAdminPassword(specialPassword.value)
         ElMessage.success('身份验证成功')
         isAuthenticated.value = true
+        console.log('Authentication successful, loading data...')
         // 验证成功后加载数据
         await loadAllData(specialPassword.value)
-        // 跳转到管理员控制台页面
-        router.push('/admin/console')
+        console.log('Data loaded successfully')
+        // 不需要跳转，通过 isAuthenticated 和 isDataLoaded 状态控制界面显示
       } else {
         authError.value = '密码错误，请重新输入'
       }
     } catch (error) {
+      console.error('Authentication error:', error)
       if (error.message === '特殊密码错误') {
         authError.value = '密码错误，请重新输入'
       } else {
@@ -1789,11 +1792,11 @@ export const useAdminPage = () => {
 
     try {
       updateProgress(1, '正在获取学生数据...')
+      // 使用已验证的密码直接获取学生数据，避免重复验证
       const response = await getAllStudentsWithSpecialPassword(adminPassword)
       if (response.code !== 200) {
-        ElMessage.error('身份验证失败，请重新登录')
-        isAuthenticated.value = false
-        adminStore.clearAdminPassword()
+        ElMessage.error('获取学生数据失败')
+        // 不清除认证状态，因为密码已经验证过了
         return
       }
 
@@ -1835,18 +1838,21 @@ export const useAdminPage = () => {
     document.title = '超级管理员控制台 - AI坊学生管理系统'
 
     const adminPassword = adminStore.getAdminPassword()
+    console.log('Admin password from store:', adminPassword)
     if (adminPassword) {
       // 如果已有密码，直接验证并加载数据
       isAuthenticated.value = true
       try {
         await loadAllData(adminPassword)
       } catch (error) {
+        console.error('Load data error:', error)
         ElMessage.error('加载数据失败：' + error.message)
         isAuthenticated.value = false
         adminStore.clearAdminPassword()
       }
     } else {
       // 没有密码，显示身份验证界面
+      console.log('No admin password found, showing auth form')
       isAuthenticated.value = false
     }
   })

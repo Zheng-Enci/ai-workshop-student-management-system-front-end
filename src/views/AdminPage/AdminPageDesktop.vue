@@ -693,7 +693,7 @@
     <el-dialog
       v-if="makeupDialogVisible"
       v-model="makeupDialogVisible"
-      :title="null"
+      :title=null
       :close-on-click-modal="false"
       class="makeup-dialog"
       :show-close="false"
@@ -998,9 +998,7 @@ import {
   ElTag,
   ElTooltip,
   ElPagination,
-  ElButtonGroup,
   ElCalendar,
-  ElScrollbar
 } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -1068,7 +1066,6 @@ const {
   editDialogVisible,
   editFormRef,
   editForm,
-  currentEditStudentId,
   todayAttendanceDialogVisible,
   todayAttendanceRecords,
   attendanceRecordsDialogVisible,
@@ -1105,7 +1102,6 @@ const {
   datetimeShortcuts,
   levelOptions,
   adminOptions,
-  filteredStudents,
   currentLevelStudents,
   editFormRules,
   pointsFormRules,
@@ -1117,9 +1113,7 @@ const {
   changeAdmin,
   loadStudentLevels,
   loadStudentAttendanceCounts,
-  loadStudentPoints,
   loadStudentAdmins,
-  loadStudentAvatars,
   handleAvatarError,
   loadStatistics,
   refreshData,
@@ -1152,8 +1146,6 @@ const {
   authenticate,
   logout,
   getShortcutDate,
-  setChineseMonth,
-  setChineseWeekDays,
   openMakeupDialog,
   cancelMakeup,
   handleDateChange,
@@ -1164,7 +1156,6 @@ const {
   selectHour,
   isHourSelected,
   updateAttendanceTime,
-  validateAttendanceTime,
   submitMakeup,
   openPointsDialog,
   handlePointsDialogClose,
@@ -1175,7 +1166,6 @@ const {
   formatTime,
   loadAllData,
   timeSlots,
-  validHours,
   sortedScoreChangeRecords,
   totalScoreChangePoints,
   toggleTheme
@@ -1236,22 +1226,6 @@ const monthMap = {
   'December': '十二月'
 }
 
-const weekDayMap = {
-  'Sun': '日',
-  'Sunday': '日',
-  'Mon': '一',
-  'Monday': '一',
-  'Tue': '二',
-  'Tuesday': '二',
-  'Wed': '三',
-  'Wednesday': '三',
-  'Thu': '四',
-  'Thursday': '四',
-  'Fri': '五',
-  'Friday': '五',
-  'Sat': '六',
-  'Saturday': '六'
-}
 
 let monthObserver = null
 
