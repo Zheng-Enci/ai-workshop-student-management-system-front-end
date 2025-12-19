@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>正在跳转到合适的页面...</p>
   </div>
 </template>
 
