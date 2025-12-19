@@ -168,7 +168,7 @@
       </div>
 
       <div class="students-cards-container">
-        <div class="student-card" v-for="student in currentLevelStudents" :key="student.studentId">
+        <div class="student-card" v-for="student in filteredStudents" :key="student.studentId" :data-level="studentLevels[student.studentId] || 0" :style="{ display: (parseInt(studentLevels[student.studentId] || 0) === parseInt(activeLevelTab)) ? 'block' : 'none' }">
           <div class="student-main-row">
             <div class="student-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
               <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
@@ -1102,6 +1102,7 @@ const {
   datetimeShortcuts,
   levelOptions,
   adminOptions,
+  filteredStudents,
   currentLevelStudents,
   editFormRules,
   pointsFormRules,
