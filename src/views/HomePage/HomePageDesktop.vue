@@ -106,7 +106,7 @@
           <div class="documentation-layout">
             <div class="developer-profile-large">
               <div class="profile-avatar-large">
-                <img src="https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp" alt="开发者头像" class="avatar-image-large">
+                <img :src="developerAvatar" alt="开发者头像" class="avatar-image-large" @error="handleAvatarError">
               </div>
               <div class="profile-info-large">
                 <h4>郑恩赐</h4>
@@ -249,6 +249,7 @@ import {
   Star, Trophy, OfficeBuilding
 } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
+import { onMounted } from 'vue'
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -256,6 +257,7 @@ const { toggleTheme } = themeStore
 
 const environmentPolicyVisible = ref(false)
 const isClosingEnvironmentPolicy = ref(false)
+const developerAvatar = ref('')
 
 const goToLogin = () => {
   router.push('/login')
@@ -304,6 +306,41 @@ const closeEnvironmentPolicy = () => {
     isClosingEnvironmentPolicy.value = false
   }, 0)
 }
+
+const loadDeveloperAvatar = async () => {
+  try {
+    const response = await fetch('http://localhost:7001/api/v1/students/avatar/1')
+    if (response.ok) {
+      const blob = await response.blob()
+      developerAvatar.value = URL.createObjectURL(blob)
+    } else {
+      // 如果接口失败，使用默认头像
+      developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
+    }
+  } catch (error) {
+    console.error('加载头像失败:', error)
+    // 错误时使用默认头像
+    developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
+  }
+}
+
+const handleAvatarError = () => {
+  // 图片加载失败时使用默认头像
+  developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
+}
+
+onMounted(() => {
+  loadDeveloperAvatar()
+})
+
+const handleAvatarError = () => {
+  // 图片加载失败时使用默认头像
+  developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
+}
+
+onMounted(() => {
+  loadDeveloperAvatar()
+})
 </script>
 
 <style scoped>
