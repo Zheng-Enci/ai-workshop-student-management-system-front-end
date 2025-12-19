@@ -39,10 +39,6 @@
             <el-button size="large" @click="goToRegister" class="secondary-button">
               注册账号
             </el-button>
-            <el-button size="large" @click="showUpdateLog" class="update-log-button">
-              <el-icon><Document /></el-icon>
-              更新日志
-            </el-button>
             <el-button size="large" @click="showEnvironmentPolicy" class="environment-policy-button">
               <el-icon><OfficeBuilding /></el-icon>
               环境保障机制
@@ -158,57 +154,16 @@
     </div>
 
     <el-dialog
-      v-model="updateLogVisible"
-      title="系统更新日志"
-      width="80%"
-      :before-close="handleClose"
-      class="update-log-dialog"
-    >
-      <div class="update-log-content">
-        <div class="update-section">
-          <h3 class="section-title">
-            <el-icon><Trophy /></el-icon>
-            积分看板功能
-          </h3>
-          <div class="update-items">
-            <div class="update-item">
-              <div class="update-icon primary">
-                <el-icon><TrendCharts /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>增加了积分看板页面</h4>
-                <p>新增积分看板页面，展示学生积分排行榜和优秀成员信息，支持签到积分、活动积分和总积分三种排行榜查看，提供数据可视化图表展示</p>
-              </div>
-            </div>
-            <div class="update-item">
-              <div class="update-icon secondary">
-                <el-icon><Star /></el-icon>
-              </div>
-              <div class="update-content">
-                <h4>增加积分功能</h4>
-                <p>实现完整的积分系统，包括签到积分计算、活动积分记录、总积分统计等功能，支持积分排行榜展示和优秀成员展示</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="update-summary">
-          <div class="summary-card">
-            <h3>
-              <el-icon><Trophy /></el-icon>
-              更新总结
-            </h3>
-            <p>本次更新新增积分看板页面和积分功能，为学生提供更全面的数据展示和激励体系。积分看板支持签到积分、活动积分和总积分三种排行榜查看，展示优秀成员信息，提供数据可视化图表展示，让教育管理更加高效、便捷、智能。</p>
-          </div>
-        </div>
-      </div>
-    </el-dialog>
-
-    <el-dialog
+      v-if="environmentPolicyVisible"
       v-model="environmentPolicyVisible"
       title="厦门工学院人工智能创作坊日常环境保障机制"
       width="80%"
       :before-close="closeEnvironmentPolicy"
+      :close-on-click-modal="false"
+      :destroy-on-close="true"
+      :append-to-body="true"
+      :teleported="true"
+      modal-class="environment-policy-overlay"
       class="environment-policy-dialog"
     >
       <div class="environment-policy-content">
@@ -312,8 +267,8 @@ const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
-const updateLogVisible = ref(false)
 const environmentPolicyVisible = ref(false)
+const isClosingEnvironmentPolicy = ref(false)
 
 const goToLogin = () => {
   router.push('/login')
@@ -339,20 +294,30 @@ const goToAllMembers = () => {
   router.push('/all-members')
 }
 
-const showUpdateLog = () => {
-  updateLogVisible.value = true
-}
-
-const handleClose = () => {
-  updateLogVisible.value = false
-}
-
 const showEnvironmentPolicy = () => {
   environmentPolicyVisible.value = true
 }
 
 const closeEnvironmentPolicy = () => {
+  // 防止重复关闭
+  if (isClosingEnvironmentPolicy.value) return
+  isClosingEnvironmentPolicy.value = true
+  
+  // 先手动隐藏遮罩层，避免视觉闪烁
+  const dialogWrapper = document.querySelector('.environment-policy-overlay')
+  if (dialogWrapper) {
+    dialogWrapper.style.display = 'none'
+    dialogWrapper.style.visibility = 'hidden'
+    dialogWrapper.style.opacity = '0'
+  }
+  
+  // 关闭弹窗
   environmentPolicyVisible.value = false
+  
+  // 重置关闭状态
+  setTimeout(() => {
+    isClosingEnvironmentPolicy.value = false
+  }, 0)
 }
 </script>
 
@@ -555,42 +520,6 @@ const closeEnvironmentPolicy = () => {
   color: var(--primary-color);
   transform: translateY(-4px);
   box-shadow: 0 12px 32px var(--shadow-hover);
-}
-
-.update-log-button {
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
-  border: none;
-  color: white;
-  padding: 16px 36px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 32px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  overflow: hidden;
-}
-
-.update-log-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.update-log-button:hover::before {
-  left: 100%;
-}
-
-.update-log-button:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(67, 233, 123, 0.4);
 }
 
 .features-showcase {
@@ -1691,7 +1620,16 @@ html.dark .doc-link:hover {
   overflow: hidden;
 }
 
+/* 禁用环境保障机制弹窗过渡动画，避免闪烁 */
+.environment-policy-dialog :deep(.el-dialog__wrapper) {
+  transition: none !important;
+  animation: none !important;
+}
+
 .environment-policy-dialog :deep(.el-dialog) {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
   border-radius: 24px;
   background: var(--bg-primary);
   border: 1px solid var(--glass-border);
