@@ -43,13 +43,13 @@
               <el-icon><Document /></el-icon>
               更新日志
             </el-button>
-            <el-button size="large" @click="showEnvironmentPolicy" class="environment-policy-button">
-              <el-icon><OfficeBuilding /></el-icon>
-              环境保障机制
-            </el-button>
             <el-button size="large" @click="showContactForm" class="contact-form-button">
               <el-icon><User /></el-icon>
               联系我们
+            </el-button>
+            <el-button size="large" @click="showEnvironmentPolicy" class="environment-policy-button">
+              <el-icon><OfficeBuilding /></el-icon>
+              环境保障机制
             </el-button>
           </div>
         </div>
@@ -94,6 +94,22 @@
 
     <div class="info-section">
       <div class="info-content">
+
+        <div class="contact-info">
+          <h3>联系我们</h3>
+          <p>如有问题或建议，请联系开发团队</p>
+          <div class="qr-codes">
+            <div class="qr-item">
+              <img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="qr-image">
+              <p>手机端签到入口</p>
+            </div>
+            <div class="qr-item">
+              <img src="@/assets/ErWeiMa.png" alt="公众号" class="qr-image">
+              <p>扫码关注</p>
+            </div>
+          </div>
+        </div>
+        
         <div class="documentation-section">
           <h3>本项目作者</h3>
           <p>查看作者的技术文章和经验分享</p>
@@ -198,25 +214,29 @@
     <el-dialog
       v-model="contactFormVisible"
       title="联系我们"
-      width="95%"
+      width="500px"
       :close-on-click-modal="true"
       :destroy-on-close="true"
       :append-to-body="true"
       :teleported="true"
-      class="contact-form-dialog"
+      class="contact-dialog"
     >
-      <div class="contact-info">
-        <h3>联系我们</h3>
-        <p>如有问题或建议，请联系开发团队</p>
-        <div class="qr-codes">
-          <div class="qr-item">
-            <img src="/src/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="qr-image">
-            <p>手机端签到入口</p>
-          </div>
-          <div class="qr-item">
-            <img src="/src/assets/ErWeiMa.png" alt="公众号" class="qr-image">
-            <p>扫码关注</p>
-          </div>
+      <div class="contact-form">
+        <div class="contact-info-item">
+          <h4>开发团队</h4>
+          <p>厦门工学院人工智能创作坊</p>
+        </div>
+        <div class="contact-info-item">
+          <h4>联系人</h4>
+          <p>郑恩赐</p>
+        </div>
+        <div class="contact-info-item">
+          <h4>邮箱</h4>
+          <p><a href="mailto:zheng_enci@qq.com">zheng_enci@qq.com</a></p>
+        </div>
+        <div class="contact-info-item">
+          <h4>GitHub</h4>
+          <p><a href="https://gitee.com/zheng-enci050704" target="_blank">访问我的Gitee仓库</a></p>
         </div>
       </div>
     </el-dialog>
@@ -224,6 +244,7 @@
 </template>
 
 <script setup>
+import './HomePageMobile.css'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElButton, ElIcon, ElDialog } from 'element-plus'
@@ -232,7 +253,7 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import { 
   User, Calendar, TrendCharts, Setting, ArrowRight, Document, Reading, Link,
-  Star, Trophy, OfficeBuilding, DocumentCopy
+  Star, Trophy
 } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
 import { onMounted } from 'vue'
@@ -449,7 +470,8 @@ const handleClose = () => {
 
 .action-button,
 .secondary-button,
-.update-log-button {
+.update-log-button,
+.contact-form-button {
   width: 100%;
   max-width: 280px;
   background: var(--primary-gradient);
@@ -470,7 +492,8 @@ const handleClose = () => {
 
 .action-button::before,
 .secondary-button::before,
-.update-log-button::before {
+.update-log-button::before,
+.contact-form-button::before {
   content: '';
   position: absolute;
   top: 0;
@@ -483,13 +506,15 @@ const handleClose = () => {
 
 .action-button:hover::before,
 .secondary-button:hover::before,
-.update-log-button:hover::before {
+.update-log-button:hover::before,
+.contact-form-button:hover::before {
   left: 100%;
 }
 
 .action-button:hover,
 .secondary-button:hover,
-.update-log-button:hover {
+.update-log-button:hover,
+.contact-form-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 14px 36px rgba(102, 126, 234, 0.4);
 }
@@ -517,12 +542,12 @@ const handleClose = () => {
 }
 
 .contact-form-button {
-  background: linear-gradient(135deg, #fa709a, #fee140);
+  background: linear-gradient(135deg, #ff6b6b, #ff8787);
   color: white;
 }
 
 .contact-form-button:hover {
-  box-shadow: 0 14px 36px rgba(250, 112, 154, 0.4);
+  box-shadow: 0 14px 36px rgba(255, 107, 107, 0.4);
 }
 
 .features-showcase {
@@ -1163,6 +1188,92 @@ const handleClose = () => {
   color: var(--text-secondary);
 }
 
+.contact-dialog {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.contact-dialog :deep(.el-dialog) {
+  border-radius: 20px;
+  background: var(--bg-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.contact-dialog :deep(.el-dialog__header) {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 20px 24px;
+}
+
+.contact-dialog :deep(.el-dialog__title) {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.contact-dialog :deep(.el-dialog__body) {
+  padding: 0;
+  background: var(--bg-primary);
+}
+
+.contact-form {
+  padding: 20px;
+}
+
+.contact-info-item {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.contact-info-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--shadow-hover);
+  border-color: var(--primary-color);
+}
+
+.contact-info-item:last-child {
+  margin-bottom: 0;
+}
+
+.contact-info-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.contact-info-item p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.contact-info-item a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-info-item a:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
 @media (min-width: 768px) {
   .hero-section {
     padding: 40px 20px 60px;
@@ -1222,7 +1333,8 @@ const handleClose = () => {
   
   .action-button,
   .secondary-button,
-  .update-log-button {
+  .update-log-button,
+  .contact-form-button {
     width: auto;
     max-width: none;
     padding: 16px 36px;
@@ -1534,7 +1646,8 @@ html.dark .doc-link:hover {
   
   .action-button,
   .secondary-button,
-  .update-log-button {
+  .update-log-button,
+  .contact-form-button {
     width: 100%;
     max-width: 260px;
     padding: 12px 28px;
