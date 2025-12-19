@@ -176,7 +176,8 @@
             </div>
             <div class="student-primary-info">
               <div class="student-name">{{ student.name }}</div>
-              <div class="student-id">{{ student.studentId }}</div>
+              <div class="student-id">学号: {{ student.studentId }}</div>
+              <div class="student-db-id">唯一ID: {{ student.id }}</div>
             </div>
             <div class="attendance-count">
               <el-icon class="attendance-icon"><Calendar /></el-icon>

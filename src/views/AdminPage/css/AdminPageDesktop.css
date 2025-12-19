@@ -819,6 +819,13 @@ html.dark .admin-console {
 	text-shadow: 0 1px 4px var(--shadow-color);
 }
 
+.student-db-id {
+	font-size: 14px;
+	color: var(--text-secondary);
+	font-weight: 600;
+	text-shadow: 0 1px 4px var(--shadow-color);
+}
+
 .attendance-count {
 	display: flex;
 	align-items: center;
