@@ -467,9 +467,18 @@ export const useAdminPage = () => {
     try {
       const pointsPromises = students.value.map(async (student) => {
         try {
-          const response = await getTotalPointsByStudentInfoId(student.studentId)
+          // 使用学生的数据库主键ID（id字段）而不是学号（studentId字段）
+          const response = await getTotalPointsByStudentInfoId(student.id)
           if (response.code === 200) {
-            studentPoints.value[student.studentId] = response.data
+            // 根据接口文档，API返回的是一个数字，表示总积分
+            const totalPoints = response.data || 0;
+            // 由于API只返回总积分，我们将签到积分和活动积分都设为0
+            // 如果需要区分签到积分和活动积分，需要后端提供更详细的接口
+            studentPoints.value[student.studentId] = {
+              totalPoints: totalPoints,
+              attendancePoints: 0,
+              activityPoints: 0
+            }
           } else {
             studentPoints.value[student.studentId] = {totalPoints: 0, attendancePoints: 0, activityPoints: 0}
           }
@@ -477,9 +486,9 @@ export const useAdminPage = () => {
           studentPoints.value[student.studentId] = {totalPoints: 0, attendancePoints: 0, activityPoints: 0}
         }
       })
-      await Promise.all(pointsPromises)
+      await Promise.all(pointsPromises);
     } catch (error) {
-      ElMessage.error('加载学生积分信息失败：' + error.message)
+      ElMessage.error('加载学生积分信息失败：' + error.message);
     }
   }
 
