@@ -239,7 +239,7 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import {
-  User, Calendar, TrendCharts,  ArrowRight,  Reading, Link,
+  User, Calendar, TrendCharts,  ArrowRight,
   Star, Trophy
 } from '@element-plus/icons-vue'
 import { useThemeStore } from '@/stores/theme'
