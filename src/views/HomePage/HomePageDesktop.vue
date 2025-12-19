@@ -328,6 +328,10 @@ const handleAvatarError = () => {
   // 图片加载失败时使用默认头像
   developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
 }
+
+onMounted(() => {
+  loadDeveloperAvatar()
+})
 </script>
 
 <style scoped>
