@@ -90,18 +90,7 @@
 
     <div class="info-section">
       <div class="info-content">
-        <div class="tech-stack">
-          <h3>技术栈</h3>
-          <div class="tech-tags">
-            <span class="tech-tag">Vue 3</span>
-            <span class="tech-tag">Element Plus</span>
-            <span class="tech-tag">Spring Boot</span>
-            <span class="tech-tag">MySQL</span>
-            <span class="tech-tag">Redis</span>
-            <span class="tech-tag">JWT</span>
-          </div>
-        </div>
-        
+
         <div class="contact-info">
           <h3>联系我们</h3>
           <p>如有问题或建议，请联系开发团队</p>
@@ -568,28 +557,12 @@ const handleClose = () => {
   align-items: start;
 }
 
-.tech-stack h3,
 .contact-info h3,
 .documentation-section h3 {
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 16px 0;
   color: var(--text-primary);
-}
-
-.tech-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tech-tag {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  padding: 6px 14px;
-  border-radius: 18px;
-  font-size: 11px;
-  font-weight: 500;
 }
 
 .contact-info p {
@@ -1212,15 +1185,9 @@ const handleClose = () => {
     margin-top: 20px;
   }
   
-  .tech-stack h3,
   .contact-info h3,
   .documentation-section h3 {
     font-size: 20px;
-  }
-  
-  .tech-tag {
-    font-size: 12px;
-    padding: 8px 16px;
   }
   
   .contact-info p,
