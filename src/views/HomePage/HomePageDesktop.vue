@@ -463,6 +463,7 @@ const closeEnvironmentPolicy = () => {
 .action-button {
   background: var(--primary-gradient);
   border: none;
+  border-radius: 8px;
   padding: 16px 36px;
   font-size: 16px;
   font-weight: 600;
@@ -1758,5 +1759,33 @@ html.dark .doc-link:hover {
   .policy-content {
     padding-left: 16px;
   }
+}
+
+.environment-policy-button {
+  background: rgba(64, 158, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--glass-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px var(--shadow-color);
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+[data-theme="dark"] .environment-policy-button {
+  background: var(--glass-bg);
+}
+
+.environment-policy-button:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--primary-color);
+  box-shadow: 0 12px 40px var(--shadow-hover);
+  transform: translateY(-2px);
+  color: var(--primary-color);
+}
+
+.environment-policy-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 20px var(--shadow-color);
 }
 </style>
