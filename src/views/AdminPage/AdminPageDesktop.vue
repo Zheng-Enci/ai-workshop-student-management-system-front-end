@@ -7,26 +7,11 @@
     <div class="auth-card">
       <div class="auth-header">
         <div class="auth-icon-container">
-          <el-icon class="auth-icon"><Key /></el-icon>
           <img v-if="adminAvatarUrl" :src="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar" @error="adminAvatarUrl = null" />
           <div v-else class="icon-ring"></div>
-        </div>        <h2>身份验证</h2>
-        <p>请输入特殊密码以访问管理员功能</p>
-        <div class="auth-status-indicator">
-          <div class="status-icon">
-            <div class="status-dot"></div>
-            <div class="status-pulse"></div>
-          </div>
-          <span class="status-text">等待验证</span>
-          <div class="status-animation">
-            <div class="loading-dots">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
         </div>
-      </div>
+        <h2>身份验证</h2>
+        <p>请输入特殊密码以访问管理员功能</p>      </div>
       <div class="auth-form">
         <div class="input-container">
           <el-input

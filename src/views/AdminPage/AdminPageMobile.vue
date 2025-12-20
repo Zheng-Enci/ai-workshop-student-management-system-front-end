@@ -7,25 +7,11 @@
 		<div class="auth-card-mobile">
 			<div class="auth-header-mobile">
 				<div class="auth-icon-container-mobile">
-					<el-icon class="auth-icon-mobile"><Key /></el-icon>
 					<img v-if="adminAvatarUrl" :src="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar-mobile" @error="adminAvatarUrl = null" />
 					<div v-else class="icon-ring-mobile"></div>
-				</div>				<h2>身份验证</h2>
-				<p>请输入特殊密码以访问管理员功能</p>
-				<div class="auth-status-indicator-mobile">
-					<div class="status-icon-mobile">
-						<div class="status-dot-mobile"></div>
-						<div class="status-pulse-mobile"></div>
-					</div>
-					<span class="status-text-mobile">等待验证</span>
-					<div class="status-animation-mobile">
-						<div class="loading-dots-mobile">
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</div>
 				</div>
+				<h2>身份验证</h2>
+				<p>请输入特殊密码以访问管理员功能</p>
 			</div>
 			<div class="auth-form-mobile">
 				<div class="input-container-mobile">
