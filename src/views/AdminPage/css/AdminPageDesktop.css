@@ -245,14 +245,6 @@ html.dark .admin-console {
 	letter-spacing: -0.5px;
 }
 
-.auth-header p {
-	font-size: 16px;
-	color: var(--text-secondary);
-	margin: 0;
-	font-weight: 600;
-	line-height: 1.6;
-}
-
 .auth-form {
 	display: flex;
 	flex-direction: column;
@@ -3565,13 +3557,6 @@ html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell
 	letter-spacing: -0.5px;
 }
 
-.auth-page-header p {
-	font-size: 16px;
-	color: var(--text-secondary);
-	margin: 0;
-	font-weight: 600;
-	line-height: 1.6;
-}
 
 .score-records-btn {	margin-left: 8px;
 }

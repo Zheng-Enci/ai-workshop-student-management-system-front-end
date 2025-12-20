@@ -4,7 +4,6 @@
     <div class="auth-page-header">
       <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo" @click="toggleTheme" title="切换主题模式">
       <h2>身份验证</h2>
-      <p>请输入特殊密码以访问管理员功能</p>
     </div>
     <div class="auth-card">
       <div class="auth-header">

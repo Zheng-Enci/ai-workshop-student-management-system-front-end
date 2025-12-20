@@ -128,14 +128,6 @@
 	margin: 0 0 8px 0;
 	letter-spacing: 0.5px;
 }
-.auth-header-mobile p {
-	font-size: 13px;
-	color: var(--admin-text-secondary);
-	margin: 0;
-	line-height: 1.5;
-}
-
-
 .auth-form-mobile {
 	display: flex;
 	flex-direction: column;
