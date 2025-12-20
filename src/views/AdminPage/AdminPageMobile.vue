@@ -3,6 +3,8 @@
 	<div v-if="!isAuthenticated" class="auth-section-mobile">
 		<div class="auth-page-header-mobile">
 			<img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo-mobile" @click="toggleTheme" title="切换主题模式">
+			<h2>身份验证</h2>
+			<p>请输入特殊密码以访问管理员功能</p>
 		</div>
 		<div class="auth-card-mobile">
 			<div class="auth-header-mobile">
@@ -10,8 +12,6 @@
 					<img v-if="adminAvatarUrl" :src="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar-mobile" @error="adminAvatarUrl = null" />
 					<div v-else class="icon-ring-mobile"></div>
 				</div>
-				<h2>身份验证</h2>
-				<p>请输入特殊密码以访问管理员功能</p>
 			</div>
 			<div class="auth-form-mobile">
 				<div class="input-container-mobile">

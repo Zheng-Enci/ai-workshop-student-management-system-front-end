@@ -78,8 +78,13 @@ html.dark .admin-console {
 	top: 20px;
 	left: 20px;
 	z-index: 10;
+	width: 100%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
 }
-
 .auth-logo {
 	width: 50px;
 	height: 50px;
@@ -3552,7 +3557,22 @@ html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell
 	color: #ef4444;
 }
 
-.score-records-btn {
-	margin-left: 8px;
+.auth-page-header h2 {
+	font-size: 28px;
+	font-weight: 700;
+	color: var(--text-primary);
+	margin: 0;
+	letter-spacing: -0.5px;
+}
+
+.auth-page-header p {
+	font-size: 16px;
+	color: var(--text-secondary);
+	margin: 0;
+	font-weight: 600;
+	line-height: 1.6;
+}
+
+.score-records-btn {	margin-left: 8px;
 }
 

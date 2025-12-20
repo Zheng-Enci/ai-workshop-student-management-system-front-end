@@ -29,9 +29,13 @@
 	top: 20px;
 	left: 20px;
 	z-index: 10;
-}
-
-.auth-logo-mobile {
+	width: 100%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+}.auth-logo-mobile {
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
@@ -1918,4 +1922,19 @@
 	border: 3px solid var(--admin-primary-color);
 	opacity: 0.9;
 	animation: icon-pulse-mobile 2s ease-in-out infinite;
+}
+
+.auth-page-header-mobile h2 {
+	font-size: 22px;
+	font-weight: 700;
+	color: var(--admin-text-primary);
+	margin: 0;
+	letter-spacing: 0.5px;
+}
+
+.auth-page-header-mobile p {
+	font-size: 13px;
+	color: var(--admin-text-secondary);
+	margin: 0;
+	line-height: 1.5;
 }
