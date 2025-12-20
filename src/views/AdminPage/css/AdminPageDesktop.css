@@ -162,8 +162,25 @@ html.dark .admin-console {
 	box-shadow: 0 0 20px var(--shadow-color);
 }
 
-.auth-status-indicator {
-	display: flex;
+.admin-avatar {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid var(--border-color);
+	transition: all 0.3s ease;
+}
+
+.auth-icon-container:hover .admin-avatar {
+	border-color: var(--primary-color);
+	box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.auth-status-indicator {	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 16px;

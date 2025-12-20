@@ -8,9 +8,9 @@
 			<div class="auth-header-mobile">
 				<div class="auth-icon-container-mobile">
 					<el-icon class="auth-icon-mobile"><Key /></el-icon>
-					<div class="icon-ring-mobile"></div>
-				</div>
-				<h2>身份验证</h2>
+					<img v-if="adminAvatarUrl" :src="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar-mobile" @error="adminAvatarUrl = null" />
+					<div v-else class="icon-ring-mobile"></div>
+				</div>				<h2>身份验证</h2>
 				<p>请输入特殊密码以访问管理员功能</p>
 				<div class="auth-status-indicator-mobile">
 					<div class="status-icon-mobile">
@@ -979,7 +979,7 @@
 
 <script setup>
 import { useAdminPage } from './AdminPage.js'
-import { onMounted, watch } from 'vue'
+import { onMounted, watch, ref } from 'vue'
 import "./css/AdminPageMobile.css"
 // Element Plus Components
 import {
@@ -1041,10 +1041,12 @@ import {
 	Key,
 	Lock
 } from '@element-plus/icons-vue'
+import { getAvatarUrl } from '@/api/student'
 
-const {
+// 获取ID为2的头像URL
+const adminAvatarUrl = ref(getAvatarUrl(2))
 
-	isAuthenticated,
+const {	isAuthenticated,
 	specialPassword,
 	authError,
 	authLoading,

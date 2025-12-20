@@ -1994,3 +1994,17 @@
 .summary-value-mobile.negative {
 	color: var(--admin-danger-color);
 }
+
+.admin-avatar-mobile {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 3px solid var(--admin-primary-color);
+	opacity: 0.9;
+	animation: icon-pulse-mobile 2s ease-in-out infinite;
+}
