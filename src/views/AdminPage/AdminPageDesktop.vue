@@ -39,10 +39,6 @@
           <span>验证身份</span>
         </el-button>
       </div>
-      <div v-if="authError" class="error-message">
-        <el-icon><Warning /></el-icon>
-        {{ authError }}
-      </div>
     </div>
   </div>
 

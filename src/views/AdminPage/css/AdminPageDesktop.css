@@ -234,20 +234,6 @@ html.dark .admin-console {
 	gap: 24px;
 }
 
-.error-message {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 8px;
-	color: var(--danger-color);
-	font-size: 14px;
-	font-weight: 600;
-	margin-top: 16px;
-	padding: 12px 16px;
-	background: rgba(245, 108, 108, 0.1);
-	border-radius: 8px;
-	border: 1px solid rgba(245, 108, 108, 0.2);
-}
 
 .admin-loading {
 	position: fixed;
