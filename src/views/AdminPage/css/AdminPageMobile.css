@@ -1895,11 +1895,11 @@
 	transform: translate(-50%, -50%);
 	width: 100px;
 	height: 100px;
-	border-radius: 50%;
+	border-radius: 25%;
 	object-fit: cover;
 	border: 3px solid var(--admin-primary-color);
 	opacity: 0.9;
-	/* 头像脉冲效果已移除 */
+
 }.auth-page-header-mobile h2 {
 	font-size: 22px;
 	font-weight: 700;
