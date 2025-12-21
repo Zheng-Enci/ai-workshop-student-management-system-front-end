@@ -28,9 +28,10 @@ import {
 	LegendComponent,
 	VisualMapComponent
 } from 'echarts/components'
-import {CanvasRenderer} from 'echarts/renderers'
 import {useAdminStore} from '@/stores/admin'
 import {useThemeStore} from '@/stores/theme'
+import { validateSpecialPassword} from "@/api/super_admin";
+import { CanvasRenderer } from 'echarts/renderers'
 
 echarts.use([
 	TitleComponent,
@@ -1327,32 +1328,30 @@ export const useAdminPage = () => {
 		authLoading.value = true
 
 		try {
-			const response = await getAdminInfo(specialPassword.value)
-			if (response.code === 200 && response.data) {
+			// 使用新增的特殊密码验证接口
+			const response = await validateSpecialPassword(specialPassword.value)
+			if (response.code === 200) {
 				isAuthenticated.value = true
-				await loadAllData()
+				adminStore.setAdminPassword(specialPassword.value) // 保存密码到store
+				ElMessage({
+					message: response.message,
+					type: 'success',
+					duration: 3000
+				})
+				await loadAllData(specialPassword.value) // 传入密码加载数据
 			} else {
 				ElMessage({
-					message: '密码错误，请重新输入',
+					message: response.message,
 					type: 'error',
 					duration: 3000
 				})
 			}
 		} catch (error) {
-			console.error('Authentication error:', error)
-			if (error.message === '特殊密码错误') {
-				ElMessage({
-					message: '密码错误，请重新输入',
-					type: 'error',
-					duration: 3000
-				})
-			} else {
-				ElMessage({
-					message: '验证失败，请重试',
-					type: 'error',
-					duration: 3000
-				})
-			}
+			ElMessage({
+				message: error.message,
+				type: 'error',
+				duration: 3000
+			})
 		} finally {
 			authLoading.value = false
 		}
@@ -1861,23 +1860,15 @@ export const useAdminPage = () => {
 		document.title = '超级管理员控制台 - AI坊学生管理系统'
 
 		const adminPassword = adminStore.getAdminPassword()
-		console.log('Admin password from store:', adminPassword)
 		if (adminPassword) {
 			// 如果已有密码，直接验证并加载数据
 			isAuthenticated.value = true
 			try {
 				await loadAllData(adminPassword)
 			} catch (error) {
-				console.error('Load data error:', error)
 				ElMessage.error('加载数据失败：' + error.message)
-				// 不应该在这里清除认证状态，因为密码验证已经成功
-				// isAuthenticated.value = false
-				// adminStore.clearAdminPassword()
-				// 只是数据加载失败，仍保持认证状态，让用户可以重试
 			}
 		} else {
-			// 没有密码，显示身份验证界面
-			console.log('No admin password found, showing auth form')
 			isAuthenticated.value = false
 		}
 	})

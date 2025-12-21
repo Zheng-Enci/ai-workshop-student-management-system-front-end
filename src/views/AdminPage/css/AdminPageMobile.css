@@ -593,6 +593,15 @@
 	position: relative;
 	z-index: 0;
 }
+.student-card-mobile {
+	background: var(--admin-glass-bg);
+	backdrop-filter: blur(20px);
+	border-radius: 16px;
+	padding: 16px;
+	border: 1px solid var(--admin-glass-border);
+	box-shadow: 0 4px 16px var(--admin-shadow-color);
+	transition: all 0.3s ease;
+}
 
 .student-item-mobile {
 	background: var(--glass-bg);
@@ -619,7 +628,14 @@
 	justify-content: center;
 	flex-shrink: 0;
 	overflow: hidden;
-	background: var(--admin-primary-gradient);
+}
+.student-main-row-mobile {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--admin-glass-border);
+	margin-bottom: 12px;
 }
 
 .student-avatar-mobile.has-avatar {
@@ -689,19 +705,48 @@
 	font-weight: 600;
 }
 
+/* 调整按钮容器间距 */
 .student-actions-mobile {
-	display: flex;
-	gap: 8px;
-	margin-bottom: 15px;
+	gap: 6px; /* 从8px减小到6px */
+	margin-bottom: 12px; /* 从15px减小到12px */
 	flex-wrap: wrap;
 }
-
+/* 调整按钮基础样式 */
 .action-btn-mobile {
-	flex: 0 0 calc((100% - 16px) / 3);
-	min-width: calc((100% - 16px) / 3);
-	font-size: 12px;
+	flex: 0 0 calc((100% - 18px) / 4); /* 重新计算宽度，适应更小的按钮 */
+	min-width: calc((100% - 18px) / 4);
+	font-size: 11px; /* 从12px减小到11px */
+	padding: 6px 4px; /* 减小内边距 */
 }
 
+.attendance-actions-container {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 6px;
+	margin: 12px 0;
+	padding: 0 4px;
+}
+
+.records-btn-mobile,
+.makeup-btn-mobile,
+.heatmap-btn-mobile,
+.trend-btn-mobile {
+	font-size: 10px;
+	padding: 6px 2px;
+	min-height: unset;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.records-btn-mobile .el-icon,
+.makeup-btn-mobile .el-icon,
+.heatmap-btn-mobile .el-icon,
+.trend-btn-mobile .el-icon {
+	font-size: 14px;
+	margin-bottom: 2px;
+}
 .student-management-mobile {
 	display: flex;
 	flex-direction: column;

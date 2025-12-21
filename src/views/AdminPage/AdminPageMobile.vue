@@ -3,14 +3,16 @@
 	<div v-if="!isAuthenticated" class="auth-section-mobile">
 		<div class="auth-page-header-mobile">
 			<div class="header-content-mobile">
-				<img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo-mobile" @click="toggleTheme" title="切换主题模式">
+				<img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo-mobile"
+					 @click="toggleTheme" title="切换主题模式">
 				<h2>身份验证</h2>
 			</div>
 		</div>
 		<div class="auth-card-mobile">
 			<div class="auth-header-mobile">
 				<div class="auth-icon-container-mobile">
-					<img v-if="adminAvatarUrl" :src="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar-mobile" @error="adminAvatarUrl = null" />
+					<img v-if="adminAvatarUrl" :src="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar-mobile"
+						 @error="adminAvatarUrl = null"/>
 					<div v-else class="icon-ring-mobile"></div>
 				</div>
 			</div>
@@ -26,7 +28,9 @@
 						class="password-input-mobile"
 					>
 						<template #prefix>
-							<el-icon><Lock /></el-icon>
+							<el-icon>
+								<Lock/>
+							</el-icon>
 						</template>
 					</el-input>
 				</div>
@@ -46,7 +50,8 @@
 	<!-- 加载界面 -->
 	<div v-else-if="!isDataLoaded" class="admin-loading-mobile">
 		<div class="loading-page-header-mobile">
-			<img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="loading-logo-mobile" @click="toggleTheme" title="切换主题模式">
+			<img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="loading-logo-mobile"
+				 @click="toggleTheme" title="切换主题模式">
 		</div>
 		<div class="loading-container-mobile">
 			<div class="loading-spinner-mobile">
@@ -66,7 +71,8 @@
 	<div v-else class="admin-console-mobile">
 		<div class="admin-header-mobile">
 			<div class="header-left-mobile">
-				<img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo-mobile" @click="toggleTheme" title="切换主题模式">
+				<img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="logo-mobile" @click="toggleTheme"
+					 title="切换主题模式">
 				<div class="title-section-mobile">
 					<h1>超级管理员控制台</h1>
 					<p>Super Admin Console</p>
@@ -74,7 +80,9 @@
 			</div>
 			<div class="header-right-mobile">
 				<el-button @click="logout" type="danger" size="small" class="logout-btn-mobile">
-					<el-icon><SwitchButton /></el-icon>
+					<el-icon>
+						<SwitchButton/>
+					</el-icon>
 					退出登录
 				</el-button>
 			</div>
@@ -83,7 +91,9 @@
 		<div class="admin-stats-mobile">
 			<div class="stat-card-mobile">
 				<div class="stat-icon-mobile">
-					<el-icon><User /></el-icon>
+					<el-icon>
+						<User/>
+					</el-icon>
 				</div>
 				<div class="stat-content-mobile">
 					<div class="stat-value-mobile">{{ totalStudents }}</div>
@@ -92,7 +102,9 @@
 			</div>
 			<div class="stat-card-mobile" @click="showTodayAttendance" style="cursor: pointer;">
 				<div class="stat-icon-mobile">
-					<el-icon><Calendar /></el-icon>
+					<el-icon>
+						<Calendar/>
+					</el-icon>
 				</div>
 				<div class="stat-content-mobile">
 					<div class="stat-value-mobile">{{ todayCount }}</div>
@@ -101,7 +113,9 @@
 			</div>
 			<div class="stat-card-mobile">
 				<div class="stat-icon-mobile">
-					<el-icon><TrendCharts /></el-icon>
+					<el-icon>
+						<TrendCharts/>
+					</el-icon>
 				</div>
 				<div class="stat-content-mobile">
 					<div class="stat-value-mobile">{{ monthlyCount }}</div>
@@ -121,11 +135,15 @@
 						class="search-input-mobile"
 					>
 						<template #prefix>
-							<el-icon><Search /></el-icon>
+							<el-icon>
+								<Search/>
+							</el-icon>
 						</template>
 					</el-input>
 					<el-button @click="refreshData" :loading="isLoading" type="primary">
-						<el-icon><Refresh /></el-icon>
+						<el-icon>
+							<Refresh/>
+						</el-icon>
 						刷新数据
 					</el-button>
 				</div>
@@ -151,10 +169,14 @@
 			</div>
 
 			<div class="students-cards-container-mobile">
-				<div class="student-card-mobile" v-for="student in filteredStudents" :key="student.studentId" :data-level="studentLevels[student.studentId] || 0" v-show="(parseInt(studentLevels[student.studentId] || 0) === parseInt(activeLevelTab))">
+				<div class="student-card-mobile" v-for="student in filteredStudents" :key="student.studentId"
+					 :data-level="studentLevels[student.studentId] || 0"
+					 v-show="(parseInt(studentLevels[student.studentId] || 0) === parseInt(activeLevelTab))">
 					<div class="student-main-row-mobile">
-						<div class="student-avatar-mobile" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
-							<img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image-mobile" @error="handleAvatarError(student)" />
+						<div class="student-avatar-mobile"
+							 :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
+							<img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像"
+								 class="avatar-image-mobile" @error="handleAvatarError(student)"/>
 							<span v-else class="avatar-text-mobile">{{ student.name.charAt(0) }}</span>
 						</div>
 						<div class="student-primary-info-mobile">
@@ -163,16 +185,26 @@
 							<div class="student-db-id-mobile">唯一ID: {{ student.id }}</div>
 						</div>
 						<div class="attendance-count-mobile">
-							<el-icon class="attendance-icon-mobile"><Calendar /></el-icon>
-							<span class="count-text-mobile">{{ studentAttendanceCounts[student.studentId] || 0 }}次</span>
+							<el-icon class="attendance-icon-mobile">
+								<Calendar/>
+							</el-icon>
+							<span class="count-text-mobile">{{
+									studentAttendanceCounts[student.studentId] || 0
+								}}次</span>
 						</div>
 						<div class="points-info-mobile">
 							<div class="points-summary-mobile">
-								<span class="points-total-mobile">总积分: {{ Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) + ((studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0) }}</span>
+								<span class="points-total-mobile">总积分: {{
+										Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) + ((studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0)
+									}}</span>
 							</div>
 							<div class="points-details-mobile">
-								<span class="points-type-mobile">签到: {{ Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) }}</span>
-								<span class="points-type-mobile">活动: {{ (studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0 }}</span>
+								<span class="points-type-mobile">签到: {{
+										Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64)
+									}}</span>
+								<span class="points-type-mobile">活动: {{
+										(studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0
+									}}</span>
 							</div>
 						</div>
 					</div>
@@ -201,49 +233,66 @@
 							</div>
 						</div>
 						<div class="student-actions-mobile">
-							<el-button
-								type="success"
-								size="small"
-								@click="openAttendanceRecordsDialog(student)"
-								class="records-btn-mobile"
-							>
-								<el-icon><Calendar /></el-icon>
-								考勤记录
-							</el-button>
-							<el-button
-								type="warning"
-								size="small"
-								@click="openMakeupDialog(student)"
-								class="makeup-btn-mobile"
-							>
-								<el-icon><Clock /></el-icon>
-								补卡
-							</el-button>
-							<el-button
-								type="info"
-								size="small"
-								@click="openHeatmapDialog(student)"
-								class="heatmap-btn-mobile"
-							>
-								<el-icon><TrendCharts /></el-icon>
-								热力图
-							</el-button>
-							<el-button
-								type="primary"
-								size="small"
-								@click="openTrendDialog(student)"
-								class="trend-btn-mobile"
-							>
-								<el-icon><TrendCharts /></el-icon>
-								趋势图
-							</el-button>
+							<div>
+								<div>
+									<span>考勤</span>
+								</div>
+								<div class = "attendance-actions-container">
+									<el-button
+										type="success"
+										size="small"
+										@click="openAttendanceRecordsDialog(student)"
+										class="records-btn-mobile"
+									>
+										<el-icon>
+											<Calendar/>
+										</el-icon>
+										考勤记录
+									</el-button>
+									<el-button
+										type="warning"
+										size="small"
+										@click="openMakeupDialog(student)"
+										class="makeup-btn-mobile"
+									>
+										<el-icon>
+											<Clock/>
+										</el-icon>
+										补卡
+									</el-button>
+									<el-button
+										type="info"
+										size="small"
+										@click="openHeatmapDialog(student)"
+										class="heatmap-btn-mobile"
+									>
+										<el-icon>
+											<TrendCharts/>
+										</el-icon>
+										热力图
+									</el-button>
+									<el-button
+										type="primary"
+										size="small"
+										@click="openTrendDialog(student)"
+										class="trend-btn-mobile"
+									>
+										<el-icon>
+											<TrendCharts/>
+										</el-icon>
+										趋势图
+									</el-button>
+								</div>
+							</div>
 							<el-button
 								type="success"
 								size="small"
 								@click="openPointsDialog(student)"
 								class="points-btn-mobile"
 							>
-								<el-icon><Edit /></el-icon>
+								<el-icon>
+									<Edit/>
+								</el-icon>
 								修改积分
 							</el-button>
 							<el-button
@@ -252,7 +301,9 @@
 								@click="openScoreChangeRecordsDialog(student)"
 								class="score-records-btn-mobile"
 							>
-								<el-icon><Document /></el-icon>
+								<el-icon>
+									<Document/>
+								</el-icon>
 								改分记录
 							</el-button>
 						</div>
@@ -288,11 +339,15 @@
 						<div class="admin-management-mobile">
 							<span class="management-label-mobile">所属管理员：</span>
 							<div v-if="(studentLevels[student.studentId] || 0) === 3" class="admin-level-notice-mobile">
-								<el-icon class="admin-icon-mobile"><UserFilled /></el-icon>
+								<el-icon class="admin-icon-mobile">
+									<UserFilled/>
+								</el-icon>
 								<span>管理员身份</span>
 							</div>
 							<div v-else-if="adminOptions.length === 0" class="no-admin-available-mobile">
-								<el-icon class="warning-icon-mobile"><Warning /></el-icon>
+								<el-icon class="warning-icon-mobile">
+									<Warning/>
+								</el-icon>
 								<span>暂无可用的管理员</span>
 							</div>
 							<div v-else>
@@ -313,7 +368,9 @@
 										:value="option.value"
 									>
 										<div class="admin-option-mobile">
-											<el-icon class="option-icon-mobile"><UserFilled /></el-icon>
+											<el-icon class="option-icon-mobile">
+												<UserFilled/>
+											</el-icon>
 											<div class="option-text-mobile">
 												<div class="option-name-mobile">{{ option.student.name }}</div>
 												<div class="option-id-mobile">{{ option.student.studentId }}</div>
@@ -332,7 +389,9 @@
 									:loading="isLoading"
 									class="edit-btn-mobile"
 								>
-									<el-icon><Edit /></el-icon>
+									<el-icon>
+										<Edit/>
+									</el-icon>
 									编辑
 								</el-button>
 							</el-tooltip>
@@ -386,33 +445,33 @@
 				class="edit-form-mobile"
 			>
 				<el-form-item label="姓名" prop="name">
-					<el-input v-model="editForm.name" placeholder="请输入学生姓名" />
+					<el-input v-model="editForm.name" placeholder="请输入学生姓名"/>
 				</el-form-item>
 				<el-form-item label="学号" prop="studentId">
-					<el-input v-model="editForm.studentId" placeholder="请输入学号" />
+					<el-input v-model="editForm.studentId" placeholder="请输入学号"/>
 				</el-form-item>
 				<el-form-item label="性别" prop="gender">
 					<el-select v-model="editForm.gender" placeholder="请选择性别" style="width: 100%">
-						<el-option label="男" value="男" />
-						<el-option label="女" value="女" />
+						<el-option label="男" value="男"/>
+						<el-option label="女" value="女"/>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="手机号" prop="phoneNumber">
-					<el-input v-model="editForm.phoneNumber" placeholder="请输入手机号" />
+					<el-input v-model="editForm.phoneNumber" placeholder="请输入手机号"/>
 				</el-form-item>
 				<el-form-item label="学院" prop="college">
-					<el-input v-model="editForm.college" placeholder="请输入学院" />
+					<el-input v-model="editForm.college" placeholder="请输入学院"/>
 				</el-form-item>
 				<el-form-item label="专业" prop="major">
-					<el-input v-model="editForm.major" placeholder="请输入专业" />
+					<el-input v-model="editForm.major" placeholder="请输入专业"/>
 				</el-form-item>
 				<el-form-item label="年级" prop="grade">
 					<el-select v-model="editForm.grade" placeholder="请选择年级" style="width: 100%">
-						<el-option label="1年级" :value="1" />
-						<el-option label="2年级" :value="2" />
-						<el-option label="3年级" :value="3" />
-						<el-option label="4年级" :value="4" />
-						<el-option label="5年级" :value="5" />
+						<el-option label="1年级" :value="1"/>
+						<el-option label="2年级" :value="2"/>
+						<el-option label="3年级" :value="3"/>
+						<el-option label="4年级" :value="4"/>
+						<el-option label="5年级" :value="5"/>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="班级" prop="classNum">
@@ -455,7 +514,9 @@
 		>
 			<div class="attendance-records-container-mobile">
 				<div v-if="todayAttendanceRecords.length === 0" class="no-records-mobile">
-					<el-icon class="no-records-icon-mobile"><Calendar /></el-icon>
+					<el-icon class="no-records-icon-mobile">
+						<Calendar/>
+					</el-icon>
 					<p>今日暂无签到记录</p>
 				</div>
 				<div v-else class="records-list-mobile">
@@ -478,7 +539,9 @@
 								<div class="student-id-mobile">{{ record.scheduleId }}</div>
 							</div>
 							<div class="attendance-time-mobile">
-								<el-icon class="time-icon-mobile"><Clock /></el-icon>
+								<el-icon class="time-icon-mobile">
+									<Clock/>
+								</el-icon>
 								<span class="time-text-mobile">{{ formatAttendanceTime(record.attendanceTime) }}</span>
 							</div>
 						</div>
@@ -523,7 +586,8 @@
 			</div>
 
 			<div class="attendance-records-container-mobile">
-				<el-calendar v-model="calendarValue" :locale="zhCn" class="attendance-calendar-mobile fullcalendar-mobile">
+				<el-calendar v-model="calendarValue" :locale="zhCn"
+							 class="attendance-calendar-mobile fullcalendar-mobile">
 					<template #header="{ date }">
 						<div class="calendar-header-mobile">
 							<div class="header-title-mobile">{{ formatCalendarTitle(date) }}</div>
@@ -576,8 +640,11 @@
 						该日期无签到记录
 					</div>
 					<div v-else>
-						<div v-for="(time, index) in getDateAttendanceTimes(selectedDate)" :key="index" class="attendance-time-item-mobile">
-							<el-icon class="time-icon-mobile"><Clock /></el-icon>
+						<div v-for="(time, index) in getDateAttendanceTimes(selectedDate)" :key="index"
+							 class="attendance-time-item-mobile">
+							<el-icon class="time-icon-mobile">
+								<Clock/>
+							</el-icon>
 							<span class="time-text-mobile">{{ formatAttendanceTime(time) }}</span>
 							<span class="time-slot-label-mobile">{{ getTimeSlotLabel(time) }}</span>
 						</div>
@@ -689,7 +756,9 @@
 		>
 			<div class="makeup-header-mobile">
 				<div class="header-icon">
-					<el-icon size="28"><Clock /></el-icon>
+					<el-icon size="28">
+						<Clock/>
+					</el-icon>
 				</div>
 				<div class="header-content">
 					<h3>学生补卡</h3>
@@ -700,12 +769,16 @@
 			<div class="makeup-content-mobile">
 				<div class="student-info-card">
 					<div class="student-avatar">
-						<el-icon size="36"><User /></el-icon>
+						<el-icon size="36">
+							<User/>
+						</el-icon>
 					</div>
 					<div class="student-details">
 						<div class="student-name">{{ makeupSelectedStudent?.name }}</div>
 						<div class="student-id">{{ makeupSelectedStudent?.studentId }}</div>
-						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 · {{ makeupSelectedStudent?.major }}</div>
+						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 ·
+							{{ makeupSelectedStudent?.major }}
+						</div>
 					</div>
 				</div>
 
@@ -720,7 +793,9 @@
 							@click="selectDatetimeShortcut(shortcut)"
 							class="date-shortcut-btn"
 						>
-							<el-icon><Clock /></el-icon>
+							<el-icon>
+								<Clock/>
+							</el-icon>
 							<span>{{ shortcut.label }}</span>
 						</el-button>
 					</div>
@@ -747,7 +822,9 @@
 								style="width: 100%"
 							>
 								<template #prefix-icon>
-									<el-icon><Calendar /></el-icon>
+									<el-icon>
+										<Calendar/>
+									</el-icon>
 								</template>
 							</el-date-picker>
 						</el-form-item>
@@ -757,7 +834,9 @@
 				<div v-if="makeupStep === 'hour'" class="makeup-step-content-mobile">
 					<div class="step-title">第二步：选择补卡时间</div>
 					<div class="selected-date-display">
-						<el-icon><Calendar /></el-icon>
+						<el-icon>
+							<Calendar/>
+						</el-icon>
 						<span>已选择日期：{{ formatSelectedDate() }}</span>
 					</div>
 					<div class="hour-buttons-group">
@@ -781,7 +860,9 @@
 							</template>
 						</div>
 						<div class="form-tip">
-							<el-icon><Warning /></el-icon>
+							<el-icon>
+								<Warning/>
+							</el-icon>
 							<span>补卡时间必须在有效签到时间段内（早上 08:00-11:00、下午 14:00-17:00、晚上 19:00-22:00），且不能晚于当前时间</span>
 						</div>
 					</div>
@@ -815,7 +896,9 @@
 					class="submit-btn"
 					size="large"
 				>
-					<el-icon v-if="!makeupLoading"><Clock /></el-icon>
+					<el-icon v-if="!makeupLoading">
+						<Clock/>
+					</el-icon>
 					{{ makeupLoading ? '处理中...' : '确认补卡' }}
 				</el-button>
 			</div>
@@ -842,7 +925,9 @@
 					<div class="student-info-details">
 						<div class="student-name-card">{{ pointsSelectedStudent.name }}</div>
 						<div class="student-id-card">学号：{{ pointsSelectedStudent.studentId }}</div>
-						<div class="student-major-card">{{ pointsSelectedStudent.major }} | {{ pointsSelectedStudent.grade }}年级</div>
+						<div class="student-major-card">{{ pointsSelectedStudent.major }} |
+							{{ pointsSelectedStudent.grade }}年级
+						</div>
 					</div>
 				</div>
 			</div>
@@ -862,7 +947,9 @@
 						style="width: 100%"
 					/>
 					<div class="form-tip">
-						<el-icon><Warning /></el-icon>
+						<el-icon>
+							<Warning/>
+						</el-icon>
 						<span>正数表示加分，负数表示扣分</span>
 					</div>
 				</el-form-item>
@@ -909,7 +996,8 @@
 					<h3>{{ currentScoreChangeRecordsStudent?.name || '学生' }}</h3>
 					<p>学号：{{ currentScoreChangeRecordsStudent?.studentId }}</p>
 					<p v-if="currentScoreChangeRecordsStudent?.major && currentScoreChangeRecordsStudent?.grade">
-						专业：{{ currentScoreChangeRecordsStudent.major }} | 年级：{{ currentScoreChangeRecordsStudent.grade }}年级
+						专业：{{ currentScoreChangeRecordsStudent.major }} |
+						年级：{{ currentScoreChangeRecordsStudent.grade }}年级
 					</p>
 				</div>
 				<div class="attendance-summary-mobile">
@@ -919,7 +1007,8 @@
 					</div>
 					<div class="summary-item-mobile">
 						<span class="summary-label-mobile">总调整分数</span>
-						<span class="summary-value-mobile" :class="{ positive: totalScoreChangePoints >= 0, negative: totalScoreChangePoints < 0 }">
+						<span class="summary-value-mobile"
+							  :class="{ positive: totalScoreChangePoints >= 0, negative: totalScoreChangePoints < 0 }">
               {{ totalScoreChangePoints > 0 ? `+${totalScoreChangePoints}` : totalScoreChangePoints }}
             </span>
 					</div>
@@ -927,11 +1016,15 @@
 			</div>
 
 			<div v-if="scoreChangeRecordsLoading" class="records-loading-mobile">
-				<el-icon class="is-loading"><Loading /></el-icon>
+				<el-icon class="is-loading">
+					<Loading/>
+				</el-icon>
 				<span>加载中...</span>
 			</div>
 			<div v-else-if="scoreChangeRecords.length === 0" class="records-empty-mobile">
-				<el-icon><Box /></el-icon>
+				<el-icon>
+					<Box/>
+				</el-icon>
 				<span>暂无改分记录</span>
 			</div>
 			<div v-else class="score-change-records-container-mobile">
@@ -943,7 +1036,8 @@
 					>
 						<div class="record-header-mobile">
 							<span class="record-time-mobile">{{ formatTime(record.createTime) }}</span>
-							<span class="record-points-badge-mobile" :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
+							<span class="record-points-badge-mobile"
+								  :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
                 {{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
               </span>
 						</div>
@@ -961,8 +1055,8 @@
 </template>
 
 <script setup>
-import { useAdminPage } from './AdminPage.js'
-import { onMounted, watch, ref } from 'vue'
+import {useAdminPage} from './AdminPage.js'
+import {onMounted, watch, ref} from 'vue'
 import "./css/AdminPageMobile.css"
 // Element Plus Components
 import {
@@ -1024,12 +1118,13 @@ import {
 	Key,
 	Lock
 } from '@element-plus/icons-vue'
-import { getAvatarUrl } from '@/api/student'
+import {getAvatarUrl} from '@/api/student'
 
 // 获取ID为2的头像URL
 const adminAvatarUrl = ref(getAvatarUrl(2))
 
-const {	isAuthenticated,
+const {
+	isAuthenticated,
 	specialPassword,
 	authError,
 	authLoading,
@@ -1159,7 +1254,6 @@ const {	isAuthenticated,
 } = useAdminPage()
 
 
-
 const monthMap = {
 	'January': '一月',
 	'February': '二月',
@@ -1177,7 +1271,6 @@ const monthMap = {
 
 
 let monthObserver = null
-
 
 
 onMounted(async () => {
