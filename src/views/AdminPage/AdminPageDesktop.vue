@@ -2,10 +2,10 @@
   <!-- 身份验证界面 -->
   <div v-if="!isAuthenticated" class="auth-section">
     <div class="auth-page-header">
-      <div class="header-content">
-        <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo" @click="toggleTheme" title="切换主题模式">
-        <h2>身份验证</h2>
-      </div>
+      <img src="@/assets/AiWorkShop_icon.png" alt="AI坊学生管理系统" class="auth-logo" @click="toggleTheme" title="切换主题模式">
+    </div>
+    <div class="page-title-container">
+      <h2 class="page-title">身份验证</h2>
     </div>
     <div class="auth-card">
       <div class="auth-header">

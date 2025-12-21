@@ -1,6 +1,5 @@
 :root {
 	--admin-primary-color: #667eea;
-	--admin-primary-gradient: linear-gradient(135deg, #667eea, #764ba2);
 	--admin-secondary-color: #764ba2;
 	--admin-success-color: #67c23a;
 	--admin-warning-color: #e6a23c;
@@ -21,7 +20,6 @@
 
 	--primary-color: #667eea;
 	--secondary-color: #764ba2;
-	--primary-gradient: linear-gradient(135deg, #667eea, #764ba2);
 	--glass-bg: rgba(255, 255, 255, 0.95);
 	--glass-border: rgba(255, 255, 255, 0.3);
 	--shadow-color: rgba(0, 0, 0, 0.1);
@@ -32,9 +30,7 @@
 	--text-secondary: #2d3748;
 	--text-tertiary: #4a5568;
 	--danger-color: #f56c6c;
-}
-
-html.dark {
+}html.dark {
 	--admin-bg-primary: #000000;
 	--admin-bg-secondary: #1a1a1a;
 	--admin-bg-tertiary: #333333;
@@ -94,10 +90,8 @@ html.dark .admin-console {
 }
 
 .auth-logo:hover {
-	transform: scale(1.1);
-	filter: brightness(1.2);
+	/* 悬停效果已移除 */
 }
-
 .auth-section :deep(.el-message--success) {
 	background-color: var(--primary-color) !important;
 	border-color: var(--primary-color) !important;
@@ -114,7 +108,7 @@ html.dark .admin-console {
 
 .auth-card {
 	background: var(--glass-bg);
-	backdrop-filter: blur(20px);
+	
 	border-radius: 24px;
 	padding: 48px;
 	box-shadow: 0 25px 50px var(--shadow-color);
@@ -128,11 +122,8 @@ html.dark .admin-console {
 }
 
 .auth-card:hover {
-	transform: translateY(-4px);
-	box-shadow: 0 32px 64px var(--shadow-hover);
-}
-
-.auth-icon-container {
+	/* 悬停效果已移除 */
+}.auth-icon-container {
 	position: relative;
 	margin-bottom: 32px;
 }
@@ -185,16 +176,12 @@ html.dark .admin-console {
 }
 
 .password-input :deep(.el-input__wrapper:hover) {
+	/* 悬停效果已移除 */
+	/* box-shadow已移除 */
+}.password-input :deep(.el-input__wrapper.is-focus) {
 	border-color: var(--primary-color);
-	box-shadow: 0 6px 20px var(--shadow-color);
-}
-
-.password-input :deep(.el-input__wrapper.is-focus) {
-	border-color: var(--primary-color);
-	box-shadow: 0 0 0 3px var(--shadow-color);
-}
-
-.password-input :deep(.el-input__inner) {
+	/* box-shadow已移除 */
+}.password-input :deep(.el-input__inner) {
 	color: var(--text-primary);
 	font-weight: 500;
 	font-size: 16px;
@@ -226,13 +213,9 @@ html.dark .admin-console {
 }
 
 .auth-button:hover {
-	background: var(--secondary-color);
-	transform: translateY(-2px);
-	box-shadow: 0 12px 32px var(--shadow-hover);
-	color: white;
-}
-
-.auth-button:active {
+	/* 悬停效果已移除 */
+	/* box-shadow已移除 */
+}.auth-button:active {
 	transform: translateY(0);
 	color: white;
 }
@@ -386,7 +369,7 @@ html.dark .admin-console {
 
 .admin-header {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	padding: 20px 0;
 	margin-bottom: 30px;
@@ -441,7 +424,7 @@ html.dark .admin-console {
 
 .stat-card {
 	background: var(--admin-glass-bg);
-	backdrop-filter: blur(20px);
+	
 	border-radius: 20px;
 	padding: 24px;
 	border: 1px solid var(--admin-glass-border);
@@ -490,7 +473,7 @@ html.dark .admin-console {
 
 .students-section {
 	background: var(--admin-glass-bg);
-	backdrop-filter: blur(20px);
+	
 	border-radius: 20px;
 	padding: 30px;
 	border: 1px solid var(--admin-glass-border);
@@ -499,7 +482,7 @@ html.dark .admin-console {
 
 .section-header {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	margin-bottom: 30px;
 	flex-wrap: wrap;
@@ -530,7 +513,7 @@ html.dark .admin-console {
 
 .level-tabs-container {
 	background: var(--admin-glass-bg);
-	backdrop-filter: blur(20px);
+	
 	border-radius: 20px;
 	padding: 12px;
 	border: 1px solid var(--admin-glass-border);
@@ -593,7 +576,7 @@ html.dark .admin-console {
 	border: 2px solid var(--admin-glass-border);
 	min-width: 32px;
 	text-align: center;
-	backdrop-filter: blur(10px);
+	
 }
 
 .students-cards-container {
@@ -605,7 +588,7 @@ html.dark .admin-console {
 
 .student-card {
 	background: var(--glass-bg);
-	backdrop-filter: blur(20px);
+	
 	border-radius: 20px;
 	padding: 20px;
 	display: flex;
@@ -718,7 +701,7 @@ html.dark .admin-console {
 	gap: 8px;
 	padding: 12px 16px;
 	background: rgba(255, 255, 255, 0.25);
-	backdrop-filter: blur(10px);
+	
 	border-radius: 12px;
 	color: var(--text-primary);
 	border: 1px solid var(--glass-border);
@@ -750,7 +733,7 @@ html.dark .admin-console {
 	gap: 4px;
 	padding: 8px 12px;
 	background: rgba(255, 255, 255, 0.25);
-	backdrop-filter: blur(10px);
+	
 	border-radius: 12px;
 	border: 1px solid var(--glass-border);
 	box-shadow: 0 6px 20px var(--shadow-color);
@@ -786,7 +769,7 @@ html.dark .admin-console {
 
 .student-detail-row {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	gap: 20px;
 }
@@ -834,7 +817,7 @@ html.dark .admin-console {
 	font-size: 12px;
 	font-weight: 700;
 	background: rgba(255, 255, 255, 0.25);
-	backdrop-filter: blur(10px);
+	
 	border: 1px solid var(--glass-border);
 	color: var(--text-primary);
 	box-shadow: 0 4px 15px var(--shadow-color);
@@ -854,7 +837,7 @@ html.dark .admin-console {
 
 .student-management-row {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	gap: 20px;
 	padding-top: 12px;
@@ -885,7 +868,7 @@ html.dark .admin-console {
 	font-size: 12px;
 	font-weight: 700;
 	background: rgba(255, 255, 255, 0.25);
-	backdrop-filter: blur(10px);
+	
 	border: 1px solid var(--glass-border);
 	color: var(--text-primary);
 	box-shadow: 0 4px 15px var(--shadow-color);
@@ -1099,7 +1082,7 @@ html.dark .option-icon {
 
 .table-footer {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	flex-wrap: wrap;
 	gap: 20px;
@@ -1116,7 +1099,7 @@ html.dark .option-icon {
 
 .admin-footer {
 	background: rgba(0, 0, 0, 0.2);
-	backdrop-filter: blur(10px);
+	
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
 	padding: 20px 40px;
 	margin-top: 40px;
@@ -1124,7 +1107,7 @@ html.dark .option-icon {
 
 .footer-content {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	max-width: 1400px;
 	margin: 0 auto;
@@ -1203,7 +1186,7 @@ html.dark .option-icon {
 
 .admin-footer {
 	background: rgba(0, 0, 0, 0.2);
-	backdrop-filter: blur(10px);
+	
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
 	padding: 20px 40px;
 	margin-top: 40px;
@@ -1752,7 +1735,7 @@ html.dark .form-tip {
 
 .chart-item-admin {
 	background: var(--admin-glass-bg);
-	backdrop-filter: blur(20px);
+	
 	border-radius: 16px;
 	padding: 20px;
 	border: 1px solid var(--admin-glass-border);
@@ -1774,7 +1757,7 @@ html.dark .form-tip {
 
 .calendar-header-admin {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	padding: 20px 0;
 	background-color: var(--admin-bg-primary);
@@ -2352,7 +2335,7 @@ html.dark .student-avatar.evening {
 
 .calendar-header-admin {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	padding: 10px 12px;
 	background-color: var(--admin-bg-primary);
@@ -3428,7 +3411,7 @@ html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell
 /* 改分记录查看弹窗样式 */
 .score-change-records-overlay {
 	background: rgba(0, 0, 0, 0.5);
-	backdrop-filter: blur(4px);
+	
 }
 
 .score-change-records-dialog {
@@ -3482,7 +3465,7 @@ html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell
 	border: 1px solid rgba(102, 126, 234, 0.15);
 	border-radius: 12px;
 	padding: 16px;
-	backdrop-filter: blur(10px);
+	
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -3496,7 +3479,7 @@ html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell
 
 .record-header {
 	display: flex;
-	justify-content: space-between;
+	
 	align-items: center;
 	margin-bottom: 12px;
 	gap: 12px;
@@ -3557,8 +3540,23 @@ html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell
 	letter-spacing: -0.5px;
 }
 
+/* 修复logo位置样式 */
+.auth-page-header {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	z-index: 10;
+	width: calc(100% - 40px);
+}
 
-.score-records-btn {	margin-left: 8px;
+.header-content {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	position: relative;
+}.score-records-btn {	margin-left: 8px;
 }
 
 /* 新增的头部样式 */
@@ -3573,7 +3571,7 @@ html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell
 .header-content {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	
 	width: 100%;
 	max-width: 1200px;
 	margin: 0 auto;
@@ -3589,4 +3587,40 @@ html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell
 	font-weight: 700;
 	color: var(--text-primary);
 	letter-spacing: -0.5px;
+}
+
+/* 最终修复样式 */
+.auth-page-header {
+position: fixed;
+top: 20px;
+left: 20px;
+z-index: 1000;
+width: 50px;
+height: 50px;
+}
+
+.auth-logo {
+width: 50px;
+height: 50px;
+cursor: pointer;
+transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+border-radius: 0;
+}
+
+.page-title-container {
+position: fixed;
+top: 20px;
+left: 0;
+right: 0;
+text-align: center;
+z-index: 999;
+}
+
+.page-title {
+margin: 0;
+font-size: 28px;
+font-weight: 700;
+color: var(--text-primary);
+letter-spacing: -0.5px;
+display: inline-block;
 }

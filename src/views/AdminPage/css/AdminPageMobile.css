@@ -76,24 +76,7 @@
 	overflow: hidden;
 }
 
-.auth-card-mobile::before {
-	content: '';
-	position: absolute;
-	top: -50%;
-	left: -50%;
-	width: 200%;
-	height: 200%;
-	background: linear-gradient(
-		45deg,
-		transparent 0%,
-		rgba(255, 255, 255, 0.05) 50%,
-		transparent 100%
-	);
-	transform: rotate(45deg);
-	pointer-events: none;
-	animation: shimmer 3s infinite linear;
-}
-
+/* 光影扫过效果已移除 */
 @keyframes shimmer {
 	0% {
 		transform: translateX(-100%) translateY(-100%) rotate(45deg);
@@ -1930,10 +1913,8 @@
 	object-fit: cover;
 	border: 3px solid var(--admin-primary-color);
 	opacity: 0.9;
-	animation: icon-pulse-mobile 2s ease-in-out infinite;
-}
-
-.auth-page-header-mobile h2 {
+	/* 头像脉冲效果已移除 */
+}.auth-page-header-mobile h2 {
 	font-size: 22px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
