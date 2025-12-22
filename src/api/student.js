@@ -567,11 +567,12 @@ export const uploadAvatar = async (token, file) => {
 /**
  * 获取头像URL（辅助函数）
  * @param {Number} studentInfoId - 学生数据库表主键ID
- * @returns {String} 头像URL
+ * @param avatarSize - 头像尺寸
+ * @returns {String} 头像 URL
  */
-export const getAvatarUrl = (studentInfoId) => {
+export const getAvatarUrl = (studentInfoId, avatarSize = 64) => {
   if (!studentInfoId) return null
-  return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}`
+  return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}?avatarSize=${avatarSize}`
 }
 
 

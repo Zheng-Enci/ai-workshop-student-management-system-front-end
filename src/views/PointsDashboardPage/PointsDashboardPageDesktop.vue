@@ -952,10 +952,10 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
       }
       
       // 加载头像
-      const avatarUrlString = getAvatarUrl(studentId)
+      const avatarUrlString = getAvatarUrl(studentId, 256)
       if (avatarUrlString) {
         // 添加时间戳参数，强制浏览器重新加载图片（绕过缓存）
-        const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
+        const avatarUrlWithTimestamp = avatarUrlString
         // 先设置URL，让浏览器尝试加载
         item.avatarUrl = avatarUrlWithTimestamp
         item.hasAvatar = true

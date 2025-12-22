@@ -738,7 +738,7 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
       }
       
       // 加载头像
-      const avatarUrlString = getAvatarUrl(studentId)
+      const avatarUrlString = getAvatarUrl(studentId, 128)
       if (avatarUrlString) {
         // 先设置URL，让浏览器尝试加载
         item.avatarUrl = avatarUrlString

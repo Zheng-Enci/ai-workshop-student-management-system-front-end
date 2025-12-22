@@ -39,7 +39,18 @@ const routes = [
         }
     },
 
-    {
+	{
+		path: '/register',
+		name: 'Register',
+		component: () => import('../views/RegisterPage/RegisterPage.vue'),
+		meta: {
+			title: '注册 - 厦工AI坊学生管理系统',
+			description: '厦门工学院人工智能创作坊学生管理系统注册页面，填写个人信息创建账户，加入厦门工学院人工智能创作坊'
+		}
+	},
+
+
+	{
         path: '/navigation',
         name: 'Navigation',
         component: () => import('../views/NavigationPage/NavigationPage.vue'),

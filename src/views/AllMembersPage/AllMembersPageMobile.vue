@@ -227,7 +227,7 @@ const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
 			// 加载头像
 			const avatarUrlString = getAvatarUrl(studentId)
 			if (avatarUrlString) {
-				const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
+				const avatarUrlWithTimestamp = avatarUrlString
 				item.avatarUrl = avatarUrlWithTimestamp
 				item.hasAvatar = true
 				

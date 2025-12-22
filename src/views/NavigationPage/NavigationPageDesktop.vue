@@ -424,7 +424,7 @@ const loadUserAvatar = async () => {
     }
 
     const studentInfoId = idResponse.data
-    const avatarUrlString = getAvatarUrl(studentInfoId)
+    const avatarUrlString = getAvatarUrl(studentInfoId, 128)
     
     if (!avatarUrlString) {
       showDefaultAvatar()
