@@ -1121,7 +1121,7 @@ import {
 import {getAvatarUrl} from '@/api/student'
 
 // 获取ID为2的头像URL
-const adminAvatarUrl = ref(getAvatarUrl(2))
+const adminAvatarUrl = ref(getAvatarUrl(2, 256))
 
 const {
 	isAuthenticated,

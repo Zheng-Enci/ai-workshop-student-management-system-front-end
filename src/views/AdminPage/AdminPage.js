@@ -535,10 +535,10 @@ export const useAdminPage = () => {
 					return
 				}
 
-				const avatarUrlString = getAvatarUrl(studentInfoId)
+				const avatarUrlString = getAvatarUrl(studentInfoId, 128)
 				if (avatarUrlString) {
 
-					const avatarUrlWithTimestamp = avatarUrlString + '?t=' + Date.now()
+					const avatarUrlWithTimestamp = avatarUrlString
 
 					student.avatarUrl = avatarUrlWithTimestamp
 					student.hasAvatar = true
