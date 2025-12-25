@@ -1869,14 +1869,8 @@ html.dark .slogan-img {
 }
 
 .points-total-main {
-	color: var(--primary-color);
-	background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
-	background-size: 200% 200%;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-	text-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-	animation: points-gradient-flow 3s ease infinite;
+	color: var(--primary-color) !important;
+	font-weight: 800;
 }
 
 .points-number {
@@ -1886,21 +1880,13 @@ html.dark .slogan-img {
 }
 
 .points-number.points-signin {
-	color: #10b981;
-	background: linear-gradient(135deg, #10b981, #059669, #047857);
-	background-size: 200% 200%;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
+	color: #10b981 !important;
+	font-weight: 700;
 }
 
 .points-number.points-activity {
-	color: #f59e0b;
-	background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
-	background-size: 200% 200%;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
+	color: #f59e0b !important;
+	font-weight: 700;
 }
 
 
@@ -2029,17 +2015,7 @@ html.dark .slogan-img {
 }
 
 
-@keyframes points-gradient-flow {
-	0% {
-		background-position: 0 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0 50%;
-	}
-}
+
 
 .record-reason-text {
 	font-size: 14px;
