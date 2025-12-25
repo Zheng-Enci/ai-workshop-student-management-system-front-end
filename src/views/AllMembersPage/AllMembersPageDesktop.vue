@@ -85,7 +85,7 @@
 									<div class="legend-item">
 										<el-input
 											v-model="searchKeyword"
-											placeholder="搜索姓名/学院/专业/年级/积分..."
+											placeholder="搜索姓名/学院/专业/年级/性别"
 											clearable
 											style="width: 280px;"
 											size="small"
@@ -97,17 +97,6 @@
 												</el-icon>
 											</template>
 										</el-input>
-									</div>
-									<div v-if="topStudents.length > 0"
-										 style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-										<div
-											style="font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-											{{ loadedCount }}/{{ totalCount }}
-										</div>
-										<div
-											style="font-size: 12px; color: var(--el-text-color-secondary); white-space: nowrap;">
-											加载进度
-										</div>
 									</div>
 								</div>
 							</div>
@@ -377,7 +366,6 @@ import {GridComponent} from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
 import {getAttendanceTopRanking} from '@/api/attendance'
 import {getPointsTopRanking, getTopAdjustRecordsByStudentInfoId} from '@/api/points'
-import {getAvatarUrl, getStudentLevelByInfoId, getStudentPublicFieldValueById} from '@/api/student'
 import AllMembersPage from "@/views/AllMembersPage/js/AllMembersPage";
 
 echarts.use([
@@ -966,75 +954,6 @@ const handleAvatarError = (student) => {
 }
 
 
-const loadStudentInfoByStartId = async (startId = 1, limit = 30) => {
-	// 创建一个数组来存储学生信息
-	const students = []
-
-	// 设置总数和当前加载计数
-	totalCount.value = limit
-	loadedCount.value = 0
-
-	// 从 startId 开始，逐个加载学生信息
-	while (loadedCount.value < totalCount.value) {
-		const studentInfoId = startId + loadedCount.value
-		const item = {
-			studentInfoId,
-			name: null,
-			gender: null,
-			college: null,
-			grade: null,
-			major: null,
-			levelCode: null,
-			hasAvatar: true, // 添加这个属性
-			avatarUrl: null,
-			totalPoints: 0, // 添加默认总积分
-			signInPoints: 0, // 添加默认签到积分
-			activityPoints: 0 // 添加默认活动积分
-		}
-
-		try {
-			// 查询所有可公开字段：name, gender, college, grade, major
-			const [nameResponse, genderResponse, collegeResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
-				getStudentPublicFieldValueById(studentInfoId, 'name').catch(() => ({code: 400, data: null})),
-				getStudentPublicFieldValueById(studentInfoId, 'gender').catch(() => ({code: 400, data: null})),
-				getStudentPublicFieldValueById(studentInfoId, 'college').catch(() => ({code: 400, data: null})),
-				getStudentPublicFieldValueById(studentInfoId, 'grade').catch(() => ({code: 400, data: null})),
-				getStudentPublicFieldValueById(studentInfoId, 'major').catch(() => ({code: 400, data: null})),
-				getStudentLevelByInfoId(studentInfoId).catch(() => ({code: 400, data: null}))
-			])
-
-			// 填充学生信息
-			if (nameResponse.code === 200 && nameResponse.data) {
-				item.name = nameResponse.data
-			}
-			if (genderResponse.code === 200 && genderResponse.data) {
-				item.gender = genderResponse.data
-			}
-			if (collegeResponse.code === 200 && collegeResponse.data) {
-				item.college = collegeResponse.data
-			}
-			if (gradeResponse.code === 200 && gradeResponse.data) {
-				item.grade = parseInt(gradeResponse.data)
-			}
-			if (majorResponse.code === 200 && majorResponse.data) {
-				item.major = majorResponse.data
-			}
-			if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
-				item.levelCode = parseInt(levelResponse.data)
-			}
-
-			// 加载头像
-			item.avatarUrl = getAvatarUrl(studentInfoId, 256)
-			students.push(item)
-			loadedCount.value++
-		} catch (error) {
-			// 出错时也要增加计数，避免无限循环
-			loadedCount.value++
-		}
-	}
-
-	return students
-}
 
 
 const loadSignInRanking = async () => {
@@ -1431,9 +1350,9 @@ const handleSearch = () => {
 		if (student.signInPoints !== undefined && student.signInPoints.toString().includes(keyword)) return true
 
 		// 搜索活动积分
-		if (student.activityPoints !== undefined && student.activityPoints.toString().includes(keyword)) return true
+		return !!(student.activityPoints !== undefined && student.activityPoints.toString().includes(keyword));
 
-		return false
+
 	})
 
 	topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
@@ -1497,15 +1416,6 @@ onUnmounted(() => {
 	--shadow-button: 0 8px 40px rgba(102, 126, 234, 0.5), 0 4px 16px rgba(102, 126, 234, 0.35);
 }
 
-html.dark {
-	--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-	--shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-	--shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
-	--shadow-primary: 0 2px 8px rgba(102, 126, 234, 0.2);
-	--shadow-card: 0 4px 16px rgba(0, 0, 0, 0.12);
-	--shadow-button: 0 8px 32px rgba(102, 126, 234, 0.3);
-}
-
 
 .points-dashboard-container {
 	min-height: 100vh;
@@ -1525,7 +1435,6 @@ html.dark {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	position: relative;
 	min-height: 72px;
 	flex-shrink: 0;
 }
@@ -1556,7 +1465,7 @@ html.dark {
 .slogan {
 	display: flex;
 	align-items: center;
-	padding: 16px 16px 0px 16px;
+	padding: 16px 16px 0 16px;
 	margin-right: 8px;
 }
 
@@ -1624,87 +1533,6 @@ html.dark .slogan-img {
 	font-weight: 500;
 }
 
-.main-content[data-v-eba736f6] {
-	padding: 16px 16px;
-	max-width: 100%;
-	width: 100%;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-}
-
-.dashboard-layout {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	gap: 20px;
-	flex: 1;
-	min-height: 0;
-}
-
-.dashboard-main {
-	min-width: 0;
-	width: fit-content;
-	max-width: 550px;
-}
-
-.ranking-tabs {
-	width: 550px;
-	margin-left: 0%;
-	margin-top: 0%;
-}
-
-.ranking-topbar {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-	margin-bottom: 32px;
-	flex-wrap: wrap;
-}
-
-.ranking-arrows {
-	display: flex;
-	gap: 6px;
-	align-items: center;
-	margin-bottom: 0;
-	background: rgba(255, 255, 255, 0.6);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	border-radius: 14px;
-	padding: 4px 8px;
-	backdrop-filter: blur(6px);
-}
-
-html.dark .ranking-arrows {
-	background: rgba(15, 23, 42, 0.65);
-	border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.ranking-arrows .el-button {
-	padding: 4px;
-	width: 28px;
-	height: 28px;
-}
-
-.ranking-label {
-	font-size: 12px;
-	font-weight: 700;
-	color: var(--text-primary);
-	padding: 2px 8px;
-	border-radius: 12px;
-	background: rgba(102, 126, 234, 0.1);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	line-height: 18px;
-	white-space: nowrap;
-}
-
-html.dark .ranking-label {
-	background: rgba(255, 255, 255, 0.08);
-	border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.ranking-topbar .color-legend {
-	margin-left: auto;
-}
 
 .dashboard-side {
 	min-width: 0;
@@ -1717,7 +1545,7 @@ html.dark .ranking-label {
 	background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
 	border: 1px solid rgba(102, 126, 234, 0.2);
 	border-radius: 20px;
-	padding: 0 24px 0px 24px;
+	padding: 0 24px 0 24px;
 	backdrop-filter: blur(20px);
 	box-shadow: var(--shadow-lg);
 	width: 100%;
@@ -1759,14 +1587,14 @@ html.dark .ranking-label {
 }
 
 .random-quote {
-	font-size: 13.5px;
+	font-size: 14px;
 	color: var(--text-primary);
 	line-height: 1.8;
 	text-align: right;
 	opacity: 0;
 	transition: opacity 0.5s ease-in-out;
 	font-weight: 500;
-	letter-spacing: 0.5px;
+	letter-spacing: 1px;
 	word-break: break-word;
 	overflow-wrap: break-word;
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -1790,17 +1618,10 @@ html.dark .ranking-label {
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
-	letter-spacing: 0.6px;
+	letter-spacing: 1px;
 	text-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
 	position: relative;
 	display: inline-block;
-}
-
-.side-card-subtitle {
-	font-size: 11px;
-	color: var(--text-secondary);
-	margin-top: 4px;
-	opacity: 0.85;
 }
 
 .side-card-body {
@@ -1874,7 +1695,7 @@ html.dark .ranking-label {
 	position: absolute;
 	inset: 0;
 	border-radius: 10px;
-	padding: 1.5px;
+	padding: 2px;
 	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(102, 126, 234, 0.08) 100%);
 	-webkit-mask-composite: xor;
 	mask-composite: exclude;
@@ -1967,7 +1788,7 @@ html.dark .ranking-label {
 	opacity: 0.6;
 	box-shadow: none;
 	background: rgba(255, 255, 255, 0.02);
-	border: 1.5px dashed rgba(102, 126, 234, 0.2);
+	border: 2px dashed rgba(102, 126, 234, 0.2);
 }
 
 .side-student.is-placeholder::before {
@@ -2042,7 +1863,7 @@ html.dark .ranking-label {
 	color: var(--text-primary);
 	word-break: break-word;
 	line-height: 1.3;
-	letter-spacing: 0.1px;
+	letter-spacing: 0;
 	flex: 1;
 	min-width: 0;
 }
@@ -2092,13 +1913,6 @@ html.dark .ranking-label {
 	font-size: 10px;
 	white-space: nowrap;
 	text-align: center;
-}
-
-
-.side-meta .meta-line-first {
-	min-height: 0;
-	font-weight: 600;
-	color: var(--primary-color);
 }
 
 .side-meta .meta-line-second {
@@ -2177,32 +1991,6 @@ html.dark .ranking-label {
 	white-space: nowrap;
 }
 
-.unified-legend .statistics-section {
-	padding: 8px 12px;
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
-	border-radius: 8px;
-	border: 1px solid rgba(102, 126, 234, 0.15);
-}
-
-.unified-legend .statistics-item {
-	gap: 6px;
-}
-
-.unified-legend .statistics-label {
-	font-size: 12px;
-	font-weight: 600;
-	color: var(--primary-color);
-}
-
-.unified-legend .statistics-value {
-	font-size: 13px;
-	font-weight: 700;
-	color: var(--text-primary);
-	background: linear-gradient(135deg, var(--primary-color), #00d4ff);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-}
 
 .unified-legend .hint-icon {
 	font-size: 14px;
@@ -2240,7 +2028,7 @@ html.dark .ranking-label {
 .points-total {
 	font-size: 14px;
 	font-weight: 800;
-	letter-spacing: 0.2px;
+	letter-spacing: 0;
 	flex-shrink: 0;
 }
 
@@ -2271,15 +2059,6 @@ html.dark .ranking-label {
 	animation: points-gradient-flow 3s ease infinite;
 }
 
-
-.points-detail {
-	display: flex;
-	align-items: center;
-	gap: 4px;
-	font-size: 11px;
-	line-height: 1.3;
-}
-
 .points-number {
 	font-weight: 700;
 	font-size: 11px;
@@ -2304,72 +2083,11 @@ html.dark .ranking-label {
 	background-clip: text;
 }
 
-.points-separator {
-	color: var(--text-secondary);
-	opacity: 0.5;
-	font-size: 10px;
-}
 
 .points-placeholder {
 	font-size: 11px;
 	color: var(--text-secondary);
 	opacity: 0.6;
-}
-
-.side-records {
-	margin-top: 6px;
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	flex-shrink: 0;
-}
-
-.record-list {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-}
-
-.record-item {
-	display: flex;
-	align-items: flex-start;
-	gap: 8px;
-	font-size: 11px;
-	color: var(--text-primary);
-	padding: 6px 8px;
-	border-radius: 6px;
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.06) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.15);
-}
-
-.record-points {
-	font-weight: 700;
-	font-size: 13px;
-	min-width: 40px;
-	text-align: center;
-	padding: 2px 6px;
-	border-radius: 6px;
-	flex-shrink: 0;
-}
-
-.record-points.positive {
-	color: #10b981;
-	background: rgba(16, 185, 129, 0.15);
-	border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.record-points.negative {
-	color: #ef4444;
-	background: rgba(239, 68, 68, 0.15);
-	border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.record-reason {
-	color: var(--text-primary);
-	flex: 1;
-	word-break: break-all;
-	line-height: 1.5;
-	opacity: 0.9;
 }
 
 .side-empty {
@@ -2381,112 +2099,6 @@ html.dark .ranking-label {
 	color: var(--text-secondary);
 	padding: 32px 12px;
 	font-size: 13px;
-}
-
-.ranking-header {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	gap: 8px;
-	margin-bottom: 12px;
-}
-
-.ranking-arrows {
-	display: flex;
-	gap: 6px;
-	position: absolute;
-	top: 8px;
-	left: 8px;
-	align-items: center;
-}
-
-.ranking-arrows .el-button {
-	padding: 4px;
-	width: 28px;
-	height: 28px;
-}
-
-.ranking-label {
-	font-size: 12px;
-	font-weight: 700;
-	color: var(--text-primary);
-	padding: 2px 8px;
-	border-radius: 12px;
-	background: rgba(255, 255, 255, 0.08);
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	line-height: 18px;
-}
-
-.ranking-tabs {
-	background: rgba(255, 255, 255, 0.05);
-	border-radius: 20px;
-	padding: 20px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	backdrop-filter: blur(20px);
-}
-
-:deep(.el-tabs__header) {
-	margin: 0 0 24px 0;
-}
-
-:deep(.el-tabs__nav-wrap::after) {
-	background-color: rgba(255, 255, 255, 0.1);
-}
-
-:deep(.el-tabs__item) {
-	color: var(--text-secondary);
-	font-size: 16px;
-	font-weight: 500;
-	padding: 0 24px;
-	height: 48px;
-	line-height: 48px;
-}
-
-:deep(.el-tabs__item.is-active) {
-	color: var(--primary-color);
-	font-weight: 600;
-}
-
-:deep(.el-tabs__active-bar) {
-	background-color: var(--primary-color);
-	height: 3px;
-}
-
-.ranking-list-container {
-	min-height: 320px;
-}
-
-.loading-container,
-.empty-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 80px 20px;
-	gap: 16px;
-	color: var(--text-secondary);
-}
-
-.loading-container .el-icon {
-	font-size: 48px;
-	color: var(--primary-color);
-}
-
-.empty-container .el-icon {
-	font-size: 48px;
-	color: var(--text-secondary);
-}
-
-.points-chart {
-	width: 100%;
-	height: 550px;
-}
-
-.color-legend {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	margin: 8px 0 4px;
 }
 
 .legend-item {
@@ -2513,106 +2125,6 @@ html.dark .ranking-label {
 	background: linear-gradient(135deg, #00f2fe, #00d4ff);
 }
 
-.formula-card {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
-	border-radius: 12px;
-	padding: 16px 20px;
-	margin-bottom: 20px;
-	border: 1px solid rgba(102, 126, 234, 0.15);
-	backdrop-filter: blur(10px);
-	box-shadow: var(--shadow-sm);
-}
-
-.formula-content {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-}
-
-.formula-item {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	font-size: 14px;
-	color: var(--text-primary);
-	flex-wrap: wrap;
-	line-height: 1.5;
-}
-
-.formula-label {
-	font-weight: 600;
-	color: var(--primary-color);
-	font-size: 14px;
-	letter-spacing: 0.3px;
-}
-
-.formula-equals {
-	color: var(--text-secondary);
-	font-weight: 500;
-	margin: 0 2px;
-	font-size: 15px;
-}
-
-.formula-value {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(0, 242, 254, 0.12) 100%);
-	padding: 4px 12px;
-	border-radius: 6px;
-	color: var(--primary-color);
-	font-weight: 500;
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	font-size: 13px;
-}
-
-.formula-operator {
-	color: var(--text-secondary);
-	font-weight: 600;
-	margin: 0 4px;
-	font-size: 16px;
-	opacity: 0.8;
-}
-
-.formula-desc {
-	font-size: 12px;
-	color: var(--text-secondary);
-	line-height: 1.6;
-	margin-top: 8px;
-	padding-top: 12px;
-	border-top: 1px solid rgba(102, 126, 234, 0.15);
-	opacity: 0.85;
-}
-
-.formula-card.formula-mini {
-	padding: 14px 18px;
-	margin-bottom: 16px;
-}
-
-.formula-card.formula-mini .formula-item {
-	font-size: 13px;
-	gap: 6px;
-}
-
-.formula-card.formula-mini .formula-label,
-.formula-card.formula-mini .formula-value,
-.formula-card.formula-mini .formula-equals {
-	font-size: 13px;
-}
-
-.formula-card.formula-mini .formula-value {
-	padding: 3px 10px;
-	font-size: 12px;
-}
-
-.formula-card.formula-mini .formula-operator {
-	font-size: 14px;
-	margin: 0 3px;
-}
-
-.formula-card.formula-mini .formula-desc {
-	font-size: 11px;
-	margin-top: 6px;
-	padding-top: 10px;
-}
-
 .view-records-btn {
 	width: 24px;
 	height: 24px;
@@ -2624,61 +2136,6 @@ html.dark .ranking-label {
 	box-shadow: var(--shadow-primary);
 }
 
-.view-records-btn :deep(.el-button__inner) {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--primary-color);
-}
-
-.view-records-btn .el-icon {
-	font-size: 12px;
-	color: var(--primary-color);
-}
-
-.records-dialog :deep(.el-dialog__body) {
-	padding: 20px;
-	max-height: 70vh;
-	overflow-y: auto;
-}
-
-/* 完全禁用弹窗过渡动画，避免闪烁 */
-.records-dialog :deep(.el-dialog__wrapper) {
-	transition: none !important;
-	animation: none !important;
-}
-
-.records-dialog :deep(.el-dialog) {
-	transition: none !important;
-	animation: none !important;
-	transform: none !important;
-}
-
-.records-dialog :deep(.el-overlay) {
-	transition: none !important;
-	animation: none !important;
-}
-
-.records-dialog :deep(.el-dialog__body) {
-	transition: none !important;
-	animation: none !important;
-}
-
-.records-dialog :deep(.el-dialog__header) {
-	transition: none !important;
-	animation: none !important;
-}
-
-/* 禁用 BaseTransition 组件的过渡动画 */
-.records-dialog :deep(.el-fade-in),
-.records-dialog :deep(.el-fade-in-linear),
-.records-dialog :deep(.el-zoom-in-center),
-.records-dialog :deep(.el-zoom-in-top),
-.records-dialog :deep(.el-zoom-in-bottom) {
-	transition: none !important;
-	animation: none !important;
-}
-
 .records-loading,
 .records-empty {
 	display: flex;
@@ -2687,16 +2144,6 @@ html.dark .ranking-label {
 	justify-content: center;
 	padding: 60px 20px;
 	gap: 16px;
-	color: var(--text-secondary);
-}
-
-.records-loading .el-icon {
-	font-size: 48px;
-	color: var(--primary-color);
-}
-
-.records-empty .el-icon {
-	font-size: 48px;
 	color: var(--text-secondary);
 }
 
@@ -2764,13 +2211,13 @@ html.dark .ranking-label {
 
 @keyframes points-gradient-flow {
 	0% {
-		background-position: 0% 50%;
+		background-position: 0 50%;
 	}
 	50% {
 		background-position: 100% 50%;
 	}
 	100% {
-		background-position: 0% 50%;
+		background-position: 0 50%;
 	}
 }
 
@@ -2779,25 +2226,6 @@ html.dark .ranking-label {
 	color: var(--text-primary);
 	line-height: 1.6;
 	word-break: break-word;
-}
-
-/* 统计数据弹窗样式 */
-.statistics-dialog :deep(.el-dialog__body) {
-	padding: 20px;
-	max-height: 70vh;
-	overflow-y: auto;
-}
-
-/* 禁用统计数据弹窗过渡动画，避免闪烁 */
-.statistics-dialog :deep(.el-dialog__wrapper) {
-	transition: none !important;
-	animation: none !important;
-}
-
-.statistics-dialog :deep(.el-dialog) {
-	transition: none !important;
-	animation: none !important;
-	transform: none !important;
 }
 
 .statistics-content {
