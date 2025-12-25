@@ -1115,10 +1115,10 @@ import {
 	Document,
 	Loading,
 	Box,
-	Key,
 	Lock
 } from '@element-plus/icons-vue'
 import {getAvatarUrl} from '@/api/student'
+import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 
 // 获取ID为2的头像URL
 const adminAvatarUrl = ref(getAvatarUrl(2, 256))

@@ -134,7 +134,7 @@
 											'no-avatar': !student.avatarUrl
 										}"
 									>
-										<img v-if="student.avatarUrl" :src="student.avatarUrl"
+										<img v-if="student.avatarUrl" v-lazy="student.avatarUrl"
 											 alt="头像" class="avatar-image" @error="handleAvatarError(student)"/>
 										<el-icon v-else size="26" class="avatar-icon">
 											<User/>

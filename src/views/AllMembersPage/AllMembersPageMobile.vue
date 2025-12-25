@@ -57,10 +57,6 @@
 							</div>
 						</div>
 					</div>
-					<div style="display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0;">
-						<div style="font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ loadedCount }}/{{ totalCount }}</div>
-						<div style="font-size: 10px; color: var(--text-tertiary); white-space: nowrap;">加载进度</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -75,7 +71,7 @@
 						<div style="width: 56px; height: 56px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3); flex-shrink: 0; position: relative; overflow: hidden;">
 							<!-- 头像光影效果 -->
 							<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%); transform: translate(-100%, -100%); animation: avatar-shine 3s ease-in-out infinite; pointer-events: none; border-radius: 8px; z-index: 1;"></div>
-							<img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" @error="handleAvatarError(student)" />
+							<img v-if="student.avatarUrl" v-lazy="student.avatarUrl" alt="头像" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" @error="handleAvatarError(student)" />
 							<el-icon v-else size="26"><User /></el-icon>
 						</div>
 						<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
@@ -89,7 +85,7 @@
 							<div v-if="!student.placeholder" style="display: flex; align-items: center; gap: 6px; padding-top: 8px; border-top: 1px solid rgba(102, 126, 234, 0.1);">
 								<span style="font-size: 18px; font-weight: 800; background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ student.totalPoints }}</span>
 								<span style="color: var(--text-secondary); font-size: 14px;">=</span>
-								<span style="font-size: 14px; font-weight: 700; color: #3b82f6;">{{ student.signInPoints }}</span>
+								<span style="font-size: 14px; font-weight: 700; color: #3b82f6;">{{ student.attendancePoints }}</span>
 								<span style="color: var(--text-secondary); font-size: 14px;">+</span>
 								<span style="font-size: 14px; font-weight: 700; color: #f59e0b;">{{ student.activityPoints }}</span>
 								<el-button size="small" type="primary" plain @click="openRecordsDialog(student)" circle style="margin-left: auto; width: 28px; height: 28px; padding: 0;">
@@ -113,22 +109,37 @@
 		</div>
 
 		<!-- 改分记录弹窗 -->
-		<el-dialog v-if="recordsDialogVisible" v-model="recordsDialogVisible" :title="`${currentStudent?.name || '学生'}的改分记录`" width="90%" :close-on-click-modal="false" :destroy-on-close="true" :append-to-body="true" :teleported="true" @close="handleRecordsDialogClose">
-			<div v-if="recordsLoading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; gap: 16px; color: var(--text-secondary);">
+		<el-dialog
+			v-if="adjustRecordsDialogManager.visible"
+			v-model="adjustRecordsDialogManager.visible"
+			:title="adjustRecordsDialogManager.getTitle()"
+			width="90%"
+			:close-on-click-modal="false"
+			:destroy-on-close="true"
+			:append-to-body="true"
+			:teleported="true"
+		>
+			<div v-if="adjustRecordsDialogManager.loading" class="records-loading">
 				<el-icon class="is-loading" size="48"><Loading /></el-icon>
 				<span>加载中...</span>
 			</div>
-			<div v-else-if="allRecords.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; gap: 16px; color: var(--text-secondary);">
+			<div v-else-if="adjustRecordsDialogManager.allRecords.length === 0" class="records-empty">
 				<el-icon size="48"><Box /></el-icon>
 				<span>暂无改分记录</span>
 			</div>
-			<div v-else style="display: flex; flex-direction: column; gap: 12px;">
-				<div v-for="(record, index) in allRecords" :key="index" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%); border: 1px solid rgba(102, 126, 234, 0.15); border-radius: 12px; padding: 16px; backdrop-filter: blur(10px);">
-					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-						<span style="font-size: 13px; color: var(--text-secondary); font-weight: 500;">{{ formatTime(record.createTime) }}</span>
-						<span :style="`font-size: 16px; font-weight: 700; padding: 4px 12px; border-radius: 6px; min-width: 60px; text-align: center; ${record.adjustPoints >= 0 ? 'color: #10b981; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3);' : 'color: #ef4444; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3);'}`">{{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}</span>
+			<div v-else class="records-list">
+				<div
+					v-for="(record, index) in adjustRecordsDialogManager.allRecords"
+					:key="index"
+					class="record-item"
+				>
+					<div class="record-header">
+						<span class="record-time">{{ adjustRecordsDialogManager.formatTime(record.createTime) }}</span>
+						<span :class="adjustRecordsDialogManager.getPointsClass(record.adjustPoints)">
+							{{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
+						</span>
 					</div>
-					<div style="font-size: 14px; color: var(--text-primary); line-height: 1.6; word-break: break-word;">{{ record.adjustReason }}</div>
+					<div class="record-reason">{{ record.adjustReason }}</div>
 				</div>
 			</div>
 		</el-dialog>
@@ -136,7 +147,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
 import { ElButton, ElIcon, ElDialog, ElInput } from 'element-plus'
@@ -147,14 +158,16 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import { ArrowLeft, Loading, Box, View, User, Search } from '@element-plus/icons-vue'
-import { getAttendanceTopRanking } from '@/api/attendance'
-import { getPointsTopRanking, getTopAdjustRecordsByStudentInfoId } from '@/api/points'
-import { getStudentPublicFieldValueById, getAvatarUrl, getStudentLevelByInfoId } from '@/api/student'
+import AllMembersPage from "@/views/AllMembersPage/js/AllMembersPage";
+import AdjustRecordsDialogManager from "@/views/AllMembersPage/js/AdjustRecordsDialogManager";
+import AllMembersPageUtils from "@/views/AllMembersPage/js/AllMembersPageUtils";
+import PointsServer from "@/views/AllMembersPage/js/PointsServer";
+
 
 const router = useRouter()
 const themeStore = useThemeStore()
 
-const totalRankingTopN = 2147483647
+
 const totalRanking = ref([])
 const topStudents = ref([])
 const searchKeyword = ref('')
@@ -163,11 +176,10 @@ const isLoading = ref(true)
 const loadedCount = ref(0)
 const totalCount = ref(0)
 
-const recordsDialogVisible = ref(false)
-const currentStudent = ref(null)
-const allRecords = ref([])
-const recordsLoading = ref(false)
-const isClosingRecordsDialog = ref(false)
+
+
+// 弹窗管理器
+const adjustRecordsDialogManager = reactive(new AdjustRecordsDialogManager())
 
 const goBack = () => {
 	router.push('/navigation')
@@ -182,178 +194,13 @@ const handleAvatarError = (student) => {
 	student.avatarUrl = null
 }
 
-const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
-	// 逐个加载学生信息，从第一名开始
-	totalCount.value = rankingList.length
-	loadedCount.value = 0
-	
-	for (let i = 0; i < rankingList.length; i++) {
-		const item = rankingList[i]
-		const studentId = item[idField] || item.targetStudentInfoId
-		if (!studentId) {
-			loadedCount.value++
-			continue
-		}
-		
-		try {
-			const [nameResponse, genderResponse, collegeResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
-				getStudentPublicFieldValueById(studentId, 'name').catch(() => ({ code: 400, data: null })),
-				getStudentPublicFieldValueById(studentId, 'gender').catch(() => ({ code: 400, data: null })),
-				getStudentPublicFieldValueById(studentId, 'college').catch(() => ({ code: 400, data: null })),
-				getStudentPublicFieldValueById(studentId, 'grade').catch(() => ({ code: 400, data: null })),
-				getStudentPublicFieldValueById(studentId, 'major').catch(() => ({ code: 400, data: null })),
-				getStudentLevelByInfoId(studentId).catch(() => ({ code: 400, data: null }))
-			])
-			
-			if (nameResponse.code === 200 && nameResponse.data) {
-				item.name = nameResponse.data
-			}
-			if (genderResponse.code === 200 && genderResponse.data) {
-				item.gender = genderResponse.data
-			}
-			if (collegeResponse.code === 200 && collegeResponse.data) {
-				item.college = collegeResponse.data
-			}
-			if (gradeResponse.code === 200 && gradeResponse.data) {
-				item.grade = parseInt(gradeResponse.data)
-			}
-			if (majorResponse.code === 200 && majorResponse.data) {
-				item.major = majorResponse.data
-			}
-			if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
-				item.levelCode = parseInt(levelResponse.data)
-			}
-			
-			// 加载头像
-			const avatarUrlString = getAvatarUrl(studentId)
-			if (avatarUrlString) {
-				const avatarUrlWithTimestamp = avatarUrlString
-				item.avatarUrl = avatarUrlWithTimestamp
-				item.hasAvatar = true
-				
-				await new Promise((resolve) => {
-					const img = new Image()
-					img.onload = () => {
-						item.hasAvatar = true
-						resolve()
-					}
-					img.onerror = () => {
-						item.hasAvatar = false
-						item.avatarUrl = null
-						resolve()
-					}
-					img.src = avatarUrlWithTimestamp
-				})
-			} else {
-				item.hasAvatar = false
-				item.avatarUrl = null
-			}
-			
-			loadedCount.value++
-		} catch (error) {
-			loadedCount.value++
-			continue
-		}
-	}
-	
-	return rankingList
+
+
+const openRecordsDialog = (student) => {
+	adjustRecordsDialogManager.open(student)
 }
 
-const loadTotalRanking = async () => {
-	isLoading.value = true
-	try {
-		const [signInResponse, activityResponse] = await Promise.all([
-			getAttendanceTopRanking(totalRankingTopN),
-			getPointsTopRanking(totalRankingTopN)
-		])
-		
-		if (signInResponse.code === 200 && activityResponse.code === 200) {
-			const signInMap = new Map()
-			signInResponse.data.forEach((item, index) => {
-				signInMap.set(item.studentInfoId, {
-					studentInfoId: item.studentInfoId,
-					attendanceCount: item.attendanceCount,
-					signInPoints: Math.round(item.attendanceCount * 0.64),
-					signInRank: index + 1
-				})
-			})
-			
-			const activityMap = new Map()
-			activityResponse.data.forEach((item, index) => {
-				activityMap.set(item.targetStudentInfoId, {
-					targetStudentInfoId: item.targetStudentInfoId,
-					activityPoints: item.totalPoints,
-					activityRank: index + 1
-				})
-			})
-			
-			const eligibleStudents = []
-			const allStudentIds = new Set([...signInMap.keys(), ...activityMap.keys()])
-			
-			allStudentIds.forEach(studentId => {
-				const signInData = signInMap.get(studentId)
-				const activityData = activityMap.get(studentId)
-				eligibleStudents.push({
-					studentInfoId: studentId,
-					signInPoints: signInData ? signInData.signInPoints : 0,
-					activityPoints: activityData ? activityData.activityPoints : 0,
-					totalPoints: (signInData ? signInData.signInPoints : 0) + (activityData ? activityData.activityPoints : 0)
-				})
-			})
-			
-			eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
-			totalRanking.value = eligibleStudents
-			filteredStudents.value = totalRanking.value
-			topStudents.value = searchKeyword.value ? filteredStudents.value : totalRanking.value
-			isLoading.value = false
-			
-			loadStudentInfo(totalRanking.value, 'studentInfoId')
-			return
-		}
-	} catch (error) {
-		totalRanking.value = []
-	} finally {
-		if (isLoading.value) {
-			isLoading.value = false
-		}
-	}
-}
 
-const openRecordsDialog = async (student) => {
-	isClosingRecordsDialog.value = false
-	currentStudent.value = student
-	recordsDialogVisible.value = true
-	recordsLoading.value = true
-	allRecords.value = []
-	
-	try {
-		const response = await getTopAdjustRecordsByStudentInfoId(student.studentInfoId, 100)
-		if (response.code === 200 && Array.isArray(response.data)) {
-			allRecords.value = response.data.sort((a, b) => {
-				const timeA = new Date(a.createTime).getTime()
-				const timeB = new Date(b.createTime).getTime()
-				return timeB - timeA
-			})
-		}
-	} catch (error) {
-		console.error('获取改分记录失败:', error)
-		allRecords.value = []
-	} finally {
-		recordsLoading.value = false
-	}
-}
-
-const handleRecordsDialogClose = () => {
-	if (isClosingRecordsDialog.value) return
-	isClosingRecordsDialog.value = true
-	recordsDialogVisible.value = false
-	setTimeout(() => {
-		allRecords.value = []
-		recordsLoading.value = false
-		currentStudent.value = null
-		isClosingRecordsDialog.value = false
-	}, 0)
-}
 
 const formatGrade = (grade) => {
 	if (!grade) return ''
@@ -370,20 +217,7 @@ const formatGrade = (grade) => {
 	return gradeMap[gradeNum] || `${gradeNum}年级`
 }
 
-const formatTime = (timeString) => {
-	if (!timeString) return '--'
-	try {
-		const date = new Date(timeString)
-		const year = date.getFullYear()
-		const month = String(date.getMonth() + 1).padStart(2, '0')
-		const day = String(date.getDate()).padStart(2, '0')
-		const hours = String(date.getHours()).padStart(2, '0')
-		const minutes = String(date.getMinutes()).padStart(2, '0')
-		return `${year}-${month}-${day} ${hours}:${minutes}`
-	} catch (error) {
-		return timeString
-	}
-}
+
 
 const handleSearch = () => {
 	if (!searchKeyword.value.trim()) {
@@ -405,7 +239,7 @@ const handleSearch = () => {
 			if (student.grade.toString().includes(keyword)) return true
 		}
 		if (student.totalPoints !== undefined && student.totalPoints.toString().includes(keyword)) return true
-		if (student.signInPoints !== undefined && student.signInPoints.toString().includes(keyword)) return true
+		if (student.attendancePoints !== undefined && student.attendancePoints.toString().includes(keyword)) return true
 		if (student.activityPoints !== undefined && student.activityPoints.toString().includes(keyword)) return true
 		return false
 	})
@@ -432,14 +266,118 @@ const getStudentBackground = (student) => {
 	return 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%)'
 }
 
+const padTopStudents = (list, targetLength = 12) => {
+	const filled = [...list]
+	while (filled.length < targetLength) {
+		filled.push({
+			placeholder: true,
+			placeholderId: `placeholder-${filled.length}`
+		})
+	}
+	return filled
+}
+
 onMounted(async () => {
 	await nextTick()
-	await loadTotalRanking()
+
+	// 使用 AllMembersPage 加载数据
+	const allMembersPage = new AllMembersPage()
+	await allMembersPage.initData()
+
+	// 将加载的学生数据绑定到页面
+	totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
+	filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
+
+	// 调用 padTopStudents 处理数据
+	topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
+
+	// 更新计数器
+	loadedCount.value = filteredStudents.value.length
+	totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
 })
 </script>
 
 <style scoped>
 /* 组件样式 */
+
+/* 改分记录弹窗样式 */
+.records-loading {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 60px 20px;
+	gap: 16px;
+	color: var(--text-secondary);
+}
+
+.records-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 60px 20px;
+	gap: 16px;
+	color: var(--text-secondary);
+}
+
+.records-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.record-item {
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
+	border: 1px solid rgba(102, 126, 234, 0.15);
+	border-radius: 12px;
+	padding: 16px;
+	backdrop-filter: blur(10px);
+}
+
+.record-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.record-time {
+	font-size: 13px;
+	color: var(--text-secondary);
+	font-weight: 500;
+}
+
+.points-positive {
+	color: #10b981;
+	background: rgba(16, 185, 129, 0.15);
+	border: 1px solid rgba(16, 185, 129, 0.3);
+	font-size: 16px;
+	font-weight: 700;
+	padding: 4px 12px;
+	border-radius: 6px;
+	min-width: 60px;
+	text-align: center;
+}
+
+.points-negative {
+	color: #ef4444;
+	background: rgba(239, 68, 68, 0.15);
+	border: 1px solid rgba(239, 68, 68, 0.3);
+	font-size: 16px;
+	font-weight: 700;
+	padding: 4px 12px;
+	border-radius: 6px;
+	min-width: 60px;
+	text-align: center;
+}
+
+.record-reason {
+	font-size: 14px;
+	color: var(--text-primary);
+	line-height: 1.6;
+	word-break: break-word;
+}
 </style>
 
 <style>
