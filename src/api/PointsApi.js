@@ -32,6 +32,23 @@ class PointsApi {
 		})
 		return response.data
 	}
+	/**
+	 * 获取学生所有改分记录
+	 * @param {Number} studentInfoId - 学生数据库表主键ID
+	 * @returns {Promise<Object>} 响应数据，data为改分记录列表
+	 */
+	static async getAllAdjustRecordsByStudentInfoId(studentInfoId) {
+		const response = await this.api.get('/api/v1/points/all-adjust-reason-and-adjust-point-and-create-time-records-by-student-info-id', {
+			params: {
+				'target-student-info-id': studentInfoId
+			}
+		}).catch(error => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
 
 
 }

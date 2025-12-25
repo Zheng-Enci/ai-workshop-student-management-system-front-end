@@ -42,7 +42,7 @@ class AllMembersPage {
 			this.attendanceRankingData, this.pointsRankingData
 		);
 		// 获取当前页面要显示的学生的个人信息数据, 默认显示前 30 个
-		this.currentPageToShowStudentProfiles = await AllMembersPageUtils.getStudentProfilesByIds(this.sortedStudentInfoIds.slice(0, 30));
+		this.currentPageToShowStudentProfiles = await AllMembersPageUtils.getComprehensiveRanking(1, 1000);
 	}
 
 }

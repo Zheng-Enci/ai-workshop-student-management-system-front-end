@@ -85,7 +85,7 @@
 									<div class="legend-item">
 										<el-input
 											v-model="searchKeyword"
-											placeholder="搜索姓名/学院/专业/年级/性别"
+											placeholder="搜索姓名/学院/专业/年级/性别/积分"
 											clearable
 											style="width: 280px;"
 											size="small"
@@ -232,9 +232,9 @@
 
 	<!-- 改分记录弹窗 -->
 	<el-dialog
-		v-if="recordsDialogVisible"
-		v-model="recordsDialogVisible"
-		:title="`${currentStudent?.name || '学生'}的改分记录`"
+		v-if="adjustRecordsDialogManager.visible"
+		v-model="adjustRecordsDialogManager.visible"
+		:title="adjustRecordsDialogManager.getTitle()"
 		width="80%"
 		:close-on-click-modal="false"
 		:destroy-on-close="true"
@@ -244,13 +244,13 @@
 		class="records-dialog"
 		@close="handleRecordsDialogClose"
 	>
-		<div v-if="recordsLoading" class="records-loading">
+		<div v-if="adjustRecordsDialogManager.loading" class="records-loading">
 			<el-icon class="is-loading">
 				<Loading/>
 			</el-icon>
 			<span>加载中...</span>
 		</div>
-		<div v-else-if="allRecords.length === 0" class="records-empty">
+		<div v-else-if="adjustRecordsDialogManager.allRecords.length === 0" class="records-empty">
 			<el-icon>
 				<Box/>
 			</el-icon>
@@ -258,7 +258,7 @@
 		</div>
 		<div v-else class="records-grid">
 			<div
-				v-for="(record, index) in allRecords"
+				v-for="(record, index) in adjustRecordsDialogManager.allRecords"
 				:key="index"
 				class="record-card"
 			>
@@ -266,13 +266,14 @@
 					<span class="record-time">{{ formatTime(record.createTime) }}</span>
 					<span class="record-points-badge"
 						  :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
-              {{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
-            </span>
+				  {{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
+				</span>
 				</div>
 				<div class="record-reason-text">{{ record.adjustReason }}</div>
 			</div>
 		</div>
 	</el-dialog>
+
 
 	<!-- 统计数据弹窗 -->
 	<el-dialog
@@ -343,7 +344,7 @@
 </template>
 
 <script setup>
-import {nextTick, onMounted, onUnmounted, ref, watch} from 'vue'
+import {nextTick, onMounted, onUnmounted, reactive, ref, watch} from 'vue'
 import {useRouter} from 'vue-router'
 import {useThemeStore} from '@/stores/theme'
 import {ElButton, ElDialog, ElIcon, ElInput, ElTooltip} from 'element-plus'
@@ -365,8 +366,8 @@ import {BarChart} from 'echarts/charts'
 import {GridComponent} from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
 import {getAttendanceTopRanking} from '@/api/attendance'
-import {getPointsTopRanking, getTopAdjustRecordsByStudentInfoId} from '@/api/points'
 import AllMembersPage from "@/views/AllMembersPage/js/AllMembersPage";
+import AdjustRecordsDialogManager from "@/views/AllMembersPage/js/AdjustRecordsDialogManager";
 
 echarts.use([
 	GridComponent,
@@ -386,7 +387,6 @@ const activityRanking = ref([])
 const totalRanking = ref([])
 const topStudents = ref([])
 const signInLoading = ref(false)
-const activityLoading = ref(false)
 const totalLoading = ref(true)
 const loadedCount = ref(0)
 
@@ -594,7 +594,6 @@ const recordsDialogVisible = ref(false)
 const currentStudent = ref(null)
 const allRecords = ref([])
 const recordsLoading = ref(false)
-const isClosingRecordsDialog = ref(false)
 
 // 统计数据弹窗
 const statisticsDialogVisible = ref(false)
@@ -990,39 +989,6 @@ const loadSignInRanking = async () => {
 	}
 }
 
-const loadActivityRanking = async () => {
-	activityLoading.value = true
-	try {
-		const response = await getPointsTopRanking(selectedTopN)
-		if (response.code === 200 && response.data) {
-			activityRanking.value = response.data.map(item => ({
-				targetStudentInfoId: item.targetStudentInfoId,
-				activityPoints: item.totalPoints
-			}))
-			activityLoading.value = false
-			await nextTick()
-			if (activityRanking.value.length > 0) {
-				const initChartWithRetry = async (retryCount = 0) => {
-					if (activityChart.value) {
-						await initActivityChart(activityRanking.value)
-					} else if (retryCount < 10) {
-						setTimeout(() => {
-							initChartWithRetry(retryCount + 1)
-						}, 100)
-					}
-				}
-				setTimeout(() => {
-					initChartWithRetry()
-				}, 200)
-			}
-		}
-	} catch (error) {
-		activityRanking.value = []
-	} finally {
-		activityLoading.value = false
-	}
-}
-
 const padTopStudents = (list, targetLength = 12) => {
 	const filled = [...list]
 	while (filled.length < targetLength) {
@@ -1032,83 +998,6 @@ const padTopStudents = (list, targetLength = 12) => {
 		})
 	}
 	return filled
-}
-
-const loadTotalRanking = async () => {
-	totalLoading.value = true
-	try {
-		const [signInResponse, activityResponse] = await Promise.all([
-			getAttendanceTopRanking(totalRankingTopN),
-			getPointsTopRanking(totalRankingTopN)
-		])
-
-		if (signInResponse.code === 200 && activityResponse.code === 200) {
-			const signInMap = new Map()
-			signInResponse.data.forEach((item, index) => {
-				signInMap.set(item.studentInfoId, {
-					studentInfoId: item.studentInfoId,
-					attendanceCount: item.attendanceCount,
-					signInPoints: Math.round(item.attendanceCount * 0.64),
-					signInRank: index + 1
-				})
-			})
-
-			const activityMap = new Map()
-			activityResponse.data.forEach((item, index) => {
-				activityMap.set(item.targetStudentInfoId, {
-					targetStudentInfoId: item.targetStudentInfoId,
-					activityPoints: item.totalPoints,
-					activityRank: index + 1
-				})
-			})
-
-			const eligibleStudents = []
-			const allStudentIds = new Set([...signInMap.keys(), ...activityMap.keys()])
-
-			allStudentIds.forEach(studentId => {
-				const signInData = signInMap.get(studentId)
-				const activityData = activityMap.get(studentId)
-				eligibleStudents.push({
-					studentInfoId: studentId,
-					signInPoints: signInData ? signInData.signInPoints : 0,
-					activityPoints: activityData ? activityData.activityPoints : 0,
-					totalPoints: (signInData ? signInData.signInPoints : 0) + (activityData ? activityData.activityPoints : 0)
-				})
-			})
-
-			eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
-			totalRanking.value = eligibleStudents
-
-			// 立即显示基础列表（边加载边显示）
-			filteredStudents.value = totalRanking.value
-			topStudents.value = padTopStudents(searchKeyword.value ? filteredStudents.value : totalRanking.value, (searchKeyword.value ? filteredStudents.value : totalRanking.value).length)
-			totalLoading.value = false
-
-			// 计算统计数据
-			calculateStatistics(totalRanking.value)
-
-			// 异步加载学生详细信息
-			await nextTick()
-			if (totalRanking.value.length > 0) {
-				const initChartWithRetry = async (retryCount = 0) => {
-					if (totalChart.value) {
-						await initTotalChart(totalRanking.value)
-					} else if (retryCount < 10) {
-						setTimeout(() => {
-							initChartWithRetry(retryCount + 1)
-						}, 100)
-					}
-				}
-				setTimeout(() => {
-					initChartWithRetry()
-				}, 200)
-			}
-		}
-	} catch (error) {
-		totalRanking.value = []
-	} finally {
-		totalLoading.value = false
-	}
 }
 
 const handleResize = () => {
@@ -1160,42 +1049,6 @@ const calculateStatistics = (students) => {
 	gradeStats.value = grades
 }
 
-// 自动刷新定时器
-let refreshTimer = null
-
-// 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
-const refreshData = async () => {
-	// 总是刷新总积分排行榜（包含优秀成员数据）
-	await loadTotalRanking()
-
-	// 根据当前激活的 tab 刷新对应的排行榜
-	if (activeTab.value === 'signIn') {
-		await loadSignInRanking()
-	} else if (activeTab.value === 'activity') {
-		await loadActivityRanking()
-	}
-}
-
-// 启动自动刷新
-const startAutoRefresh = () => {
-	// 清除已存在的定时器
-	if (refreshTimer) {
-		clearInterval(refreshTimer)
-	}
-	// 设置定时器，每隔1小时（3600000毫秒）刷新一次
-	refreshTimer = setInterval(() => {
-		refreshData()
-	}, 3600000)
-}
-
-// 停止自动刷新
-const stopAutoRefresh = () => {
-	if (refreshTimer) {
-		clearInterval(refreshTimer)
-		refreshTimer = null
-	}
-}
-
 watch(() => themeStore.isDarkMode, () => {
 	setTimeout(() => {
 		if (activeTab.value === 'signIn' && signInRanking.value.length > 0) {
@@ -1208,50 +1061,6 @@ watch(() => themeStore.isDarkMode, () => {
 	}, 100)
 })
 
-const openRecordsDialog = async (student) => {
-	// 重置关闭状态
-	isClosingRecordsDialog.value = false
-
-	// 设置当前学生
-	currentStudent.value = student
-	recordsDialogVisible.value = true
-	recordsLoading.value = true
-	allRecords.value = []
-
-	try {
-		const response = await getTopAdjustRecordsByStudentInfoId(student.studentInfoId, 100)
-		if (response.code === 200 && Array.isArray(response.data)) {
-			// 按时间降序排序（最新的在前）
-			allRecords.value = response.data.sort((a, b) => {
-				const timeA = new Date(a.createTime).getTime()
-				const timeB = new Date(b.createTime).getTime()
-				return timeB - timeA
-			})
-		}
-	} catch (error) {
-		console.error('获取改分记录失败:', error)
-		allRecords.value = []
-	} finally {
-		recordsLoading.value = false
-	}
-}
-
-const handleRecordsDialogClose = () => {
-	// 防止重复关闭
-	if (isClosingRecordsDialog.value) return
-	isClosingRecordsDialog.value = true
-
-	// 先关闭弹窗，避免响应式更新
-	recordsDialogVisible.value = false
-
-	// 延迟清空数据，确保弹窗完全关闭后再清空
-	setTimeout(() => {
-		allRecords.value = []
-		recordsLoading.value = false
-		currentStudent.value = null
-		isClosingRecordsDialog.value = false
-	}, 0)
-}
 
 // 打开统计数据弹窗
 const showStatisticsDialog = () => {
@@ -1382,8 +1191,19 @@ onMounted(async () => {
 
 	window.addEventListener('resize', handleResize)
 	startQuoteRotation()
-	startAutoRefresh()
 })
+
+// 创建响应式实例（替换原有的 ref 定义）
+const adjustRecordsDialogManager = reactive(new AdjustRecordsDialogManager())
+
+// 方法修改为调用类方法
+const openRecordsDialog = (student) => {
+	adjustRecordsDialogManager.open(student)
+}
+
+const handleRecordsDialogClose = () => {
+	adjustRecordsDialogManager.close()
+}
 
 
 onUnmounted(() => {
