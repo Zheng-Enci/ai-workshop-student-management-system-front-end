@@ -1208,8 +1208,6 @@ const handleRecordsDialogClose = () => {
 
 onUnmounted(() => {
 	stopQuoteRotation()
-	// 停止自动刷新
-	stopAutoRefresh()
 	if (signInChartInstance) {
 		signInChartInstance.dispose()
 	}
