@@ -18,6 +18,22 @@ class PointsApi {
 		return response.data
 	}
 
+	/**
+	 * 根据总积分获取排名前N名学生
+	 * @param {Number} top - 排名数量，默认10，最少为1
+	 * @returns {Promise<Object>} 响应数据，data为学生ID和总积分列表
+	 */
+	static async getTopStudentsByTotalActivityPoints(top = 10) {
+		const response = await this.api.get('/api/v1/points/top-ranking', {
+			params: { top }
+		}).catch(error => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
+
 }
 
 export default PointsApi

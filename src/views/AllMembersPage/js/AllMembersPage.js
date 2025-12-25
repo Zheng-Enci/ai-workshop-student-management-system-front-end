@@ -1,71 +1,50 @@
-import {getAvatarUrl, getStudentLevelByInfoId, getStudentPublicFieldValueById} from "@/api/student";
+import {ElMessage} from "element-plus";
+import AttendanceApi from "@/api/AttendanceApi";
+import PointsApi from "@/api/PointsApi";
+import AllMembersPageUtils from "./AllMembersPageUtils";
 
-const loadStudentInfoByStartId = async (startId = 1, limit = 30) => {
-	// 创建一个数组来存储学生信息
-	const students = []
+/**
+ * 全员页面管理类
+ */
+class AllMembersPage {
+	// 签到排名数据
+	attendanceRankingData = null;
 
-	// 设置总数和当前加载计数
-	totalCount.value = limit
-	loadedCount.value = 0
+	// 积分排名数据
+	pointsRankingData = null;
 
-	// 从 startId 开始，逐个加载学生信息
-	while (loadedCount.value < totalCount.value) {
-		const studentInfoId = startId + loadedCount.value
-		const item = {
-			studentInfoId,
-			name: null,
-			gender: null,
-			college: null,
-			grade: null,
-			major: null,
-			levelCode: null,
-			hasAvatar: true, // 添加这个属性
-			avatarUrl: null,
-			totalPoints: 0, // 添加默认总积分
-			signInPoints: 0, // 添加默认签到积分
-			activityPoints: 0 // 添加默认活动积分
+	// 排序后的学生ID数据
+	sortedStudentInfoIds = null;
+
+	// 当前页面要显示的学生的个人信息数据
+	currentPageToShowStudentProfiles = null;
+
+	/**
+	 * 自动获取所有学生的签到和积分数据，并排序
+	 */
+	async initData() {
+		const attendanceRes = await AttendanceApi.getTopNStudentsByAttendanceCount(2147483647);
+		if (attendanceRes.code === 200) {
+			this.attendanceRankingData = attendanceRes.data;
+		} else {
+			ElMessage.error(attendanceRes.message || '获取签到排名失败, 请检查网络连接或联系管理员');
 		}
 
-		try {
-			// 查询所有可公开字段：name, gender, college, grade, major
-			const [nameResponse, genderResponse, collegeResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
-				getStudentPublicFieldValueById(studentInfoId, 'name').catch(() => ({code: 400, data: null})),
-				getStudentPublicFieldValueById(studentInfoId, 'gender').catch(() => ({code: 400, data: null})),
-				getStudentPublicFieldValueById(studentInfoId, 'college').catch(() => ({code: 400, data: null})),
-				getStudentPublicFieldValueById(studentInfoId, 'grade').catch(() => ({code: 400, data: null})),
-				getStudentPublicFieldValueById(studentInfoId, 'major').catch(() => ({code: 400, data: null})),
-				getStudentLevelByInfoId(studentInfoId).catch(() => ({code: 400, data: null}))
-			])
-
-			// 填充学生信息
-			if (nameResponse.code === 200 && nameResponse.data) {
-				item.name = nameResponse.data
-			}
-			if (genderResponse.code === 200 && genderResponse.data) {
-				item.gender = genderResponse.data
-			}
-			if (collegeResponse.code === 200 && collegeResponse.data) {
-				item.college = collegeResponse.data
-			}
-			if (gradeResponse.code === 200 && gradeResponse.data) {
-				item.grade = parseInt(gradeResponse.data)
-			}
-			if (majorResponse.code === 200 && majorResponse.data) {
-				item.major = majorResponse.data
-			}
-			if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
-				item.levelCode = parseInt(levelResponse.data)
-			}
-
-			// 加载头像
-			item.avatarUrl = getAvatarUrl(studentInfoId, 256)
-			students.push(item)
-			loadedCount.value++
-		} catch (error) {
-			// 出错时也要增加计数，避免无限循环
-			loadedCount.value++
+		const pointsRes = await PointsApi.getTopStudentsByTotalActivityPoints(2147483647);
+		if (pointsRes.code === 200) {
+			this.pointsRankingData = pointsRes.data;
+		} else {
+			ElMessage.error(pointsRes.message || '获取积分排名失败, 请检查网络连接或联系管理员');
 		}
+
+		// 获取排序后的学生ID
+		this.sortedStudentInfoIds = AllMembersPageUtils.sortStudentIdsByAttendanceAndPoints(
+			this.attendanceRankingData, this.pointsRankingData
+		);
+		// 获取当前页面要显示的学生的个人信息数据, 默认显示前 30 个
+		this.currentPageToShowStudentProfiles = await AllMembersPageUtils.getStudentProfilesByIds(this.sortedStudentInfoIds.slice(0, 30));
 	}
 
-	return students
 }
+
+export default AllMembersPage;

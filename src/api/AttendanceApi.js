@@ -18,5 +18,21 @@ class AttendanceApi {
 		return response.data
 	}
 
+	/**
+	 * 获取签到次数排名前N名
+	 * @param {Number} top - 排名数量，默认 10，最少为 1
+	 * @returns {Promise<Object>} 响应数据，data为学生 ID 和签到次数列表
+	 */
+	static async getTopNStudentsByAttendanceCount(top = 10) {
+		const response = await this.api.get('/api/v1/attendance/top-ranking', {
+			params: { top }
+		}).catch(error => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
+
 }
 export default AttendanceApi

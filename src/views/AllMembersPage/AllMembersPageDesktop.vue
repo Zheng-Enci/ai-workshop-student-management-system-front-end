@@ -136,20 +136,22 @@
 						>
 							<div class="side-info">
 								<div class="side-avatar-section">
+									<!-- 修改后的代码 -->
 									<div
 										ref="avatarRef"
 										class="side-avatar"
 										:class="{
-                        'has-avatar': student.hasAvatar && student.avatarUrl, 
-                        'no-avatar': !student.hasAvatar || !student.avatarUrl
-                      }"
+											'has-avatar': student.avatarUrl,
+											'no-avatar': !student.avatarUrl
+										}"
 									>
-										<img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl"
+										<img v-if="student.avatarUrl" :src="student.avatarUrl"
 											 alt="头像" class="avatar-image" @error="handleAvatarError(student)"/>
 										<el-icon v-else size="26" class="avatar-icon">
 											<User/>
 										</el-icon>
 									</div>
+
 									<div class="side-name">
 										{{
 											student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`)
@@ -187,7 +189,7 @@
 													}}</span>
 												<span class="points-equals">=</span>
 												<span class="points-number points-signin">{{
-														student.signInPoints
+														student.attendancePoints
 													}}</span>
 												<span class="points-plus">+</span>
 												<span class="points-number points-activity">{{
@@ -376,6 +378,7 @@ import {CanvasRenderer} from 'echarts/renderers'
 import {getAttendanceTopRanking} from '@/api/attendance'
 import {getPointsTopRanking, getTopAdjustRecordsByStudentInfoId} from '@/api/points'
 import {getAvatarUrl, getStudentLevelByInfoId, getStudentPublicFieldValueById} from '@/api/student'
+import AllMembersPage from "@/views/AllMembersPage/js/AllMembersPage";
 
 echarts.use([
 	GridComponent,
@@ -1439,13 +1442,21 @@ const handleSearch = () => {
 
 onMounted(async () => {
 	await nextTick()
-	// 使用新的函数加载学生信息
-	const students = await loadStudentInfoByStartId(1, 30)
-	totalRanking.value = students
-	filteredStudents.value = students
 
-	// 调用padTopStudents处理数据
+	// 使用 AllMembersPage 加载数据
+	const allMembersPage = new AllMembersPage()
+	await allMembersPage.initData()
+
+	// 将加载的学生数据绑定到页面
+	totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
+	filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
+
+	// 调用 padTopStudents 处理数据
 	topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
+
+	// 更新计数器
+	loadedCount.value = filteredStudents.value.length
+	totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
 
 	// 计算统计数据
 	calculateStatistics(totalRanking.value)
@@ -1454,7 +1465,6 @@ onMounted(async () => {
 	startQuoteRotation()
 	startAutoRefresh()
 })
-
 
 
 onUnmounted(() => {
@@ -1866,11 +1876,7 @@ html.dark .ranking-label {
 	border-radius: 10px;
 	padding: 1.5px;
 	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(102, 126, 234, 0.08) 100%);
-	-webkit-mask: linear-gradient(#fff 0 0) content-box,
-	linear-gradient(#fff 0 0);
 	-webkit-mask-composite: xor;
-	mask: linear-gradient(#fff 0 0) content-box,
-	linear-gradient(#fff 0 0);
 	mask-composite: exclude;
 	pointer-events: none;
 	z-index: 0;

@@ -1,30 +1,9 @@
 import axios from 'axios'
 import config from '@/config'
+import ApiInterceptor from "@/composables/ApiInterceptor";
 
 class StudentAPI {
-	static api = axios.create({
-		baseURL: config.API_BASE_URL,
-		timeout: 10000,
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	})
-
-	static setupInterceptors(){
-		this.api.interceptors.response.use(
-			response => response,
-			error => {
-				if (error.code === 'ECONNABORTED') {
-					throw new Error('请求超时，请检查网络连接')
-				} else if (error.code === 'ERR_NETWORK') {
-					throw new Error('网络连接失败，请检查服务器状态')
-				} else if (error.code === 'ERR_INTERNET_DISCONNECTED') {
-					throw new Error('网络连接已断开，请检查网络设置')
-				}
-				return Promise.reject(error)
-			}
-		)
-	}
+	static api = ApiInterceptor.createInstance()
 
 	static async getStudentPublicFieldValueById(studentInfoId, fieldName) {
 		try {
@@ -39,12 +18,12 @@ class StudentAPI {
 			if (error.response) {
 				const status = error.response.status
 				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试')
+					throw new Error('服务器错误，请稍后重试或联系管理员')
 				} else {
-					throw new Error(error.response.data?.message || '获取学生信息失败')
+					throw new Error(error.response.data.message)
 				}
 			} else {
-				throw new Error('网络错误，获取学生信息失败')
+				throw new Error('网络错误，获取学生信息失败, 请检查网络连接')
 			}
 		}
 	}
@@ -59,9 +38,31 @@ class StudentAPI {
 		if (!studentInfoId) return null
 		return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}?avatarSize=${avatarSize}`
 	}
-}
 
-// 设置拦截器
-StudentAPI.setupInterceptors()
+	/**
+	 * 通过数据库表主键 ID 获取学生等级
+	 * @param {Number} studentInfoId - 学生数据库表主键ID
+	 * @returns {Promise<Object>} 响应数据，data字段为等级代码(0-3)
+	 */
+	static async getStudentLevelByInfoId(studentInfoId) {
+		try {
+			const response = await this.api.get('/api/v1/students/get-student-level-by-info-id', {
+				params: { 'student-info-id': studentInfoId }
+			})
+			return response.data
+		} catch (error) {
+			if (error.response) {
+				const status = error.response.status
+				if (status >= 500) {
+					throw new Error('服务器错误，请稍后重试')
+				} else {
+					throw new Error(error.response.data.message)
+				}
+			} else {
+				throw new Error('网络错误，获取学生等级失败，请检查网络连接')
+			}
+		}
+	}
+}
 
 export default StudentAPI
