@@ -43,7 +43,7 @@
                 <el-icon><Box /></el-icon>
                 <span>暂无数据</span>
               </div>
-              <div v-else>
+              <div v-else class="chart-container">
                 <div ref="signInChart" class="points-chart"></div>
                 <div class="formula-card formula-mini">
                   <div class="formula-content">
@@ -81,7 +81,7 @@
                 <el-icon><Box /></el-icon>
                 <span>暂无数据</span>
               </div>
-              <div v-else>
+              <div v-else class="chart-container">
                 <div ref="activityChart" class="points-chart"></div>
                 <div class="formula-card formula-mini">
                   <div class="formula-content">
@@ -107,16 +107,6 @@
                   <el-icon><ArrowRight /></el-icon>
                 </el-button>
               </div>
-              <div class="color-legend">
-                <div class="legend-item">
-                  <span class="legend-dot legend-signin"></span>
-                  <span class="legend-text">总签到积分</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-dot legend-activity"></span>
-                  <span class="legend-text">总活动积分</span>
-                </div>
-              </div>
             </div>
             <div class="ranking-list-container">
               <div v-if="totalLoading" class="loading-container">
@@ -127,18 +117,17 @@
                 <el-icon><Box /></el-icon>
                 <span>暂无符合条件的学生</span>
               </div>
-              <div v-else>
+              <div v-else class="chart-container">
                 <div ref="totalChart" class="points-chart"></div>
                 <div class="formula-card formula-mini">
                   <div class="formula-content">
                     <div class="formula-item">
                       <span class="formula-label">总积分</span>
                       <span class="formula-equals">=</span>
-                      <span class="formula-value">总签到积分</span>
+                      <span class="formula-value formula-signin">总签到积分</span>
                       <span class="formula-operator">+</span>
-                      <span class="formula-value">总活动积分</span>
+                      <span class="formula-value formula-activity">总活动积分</span>
                     </div>
-                    <div class="formula-desc">说明：只有同时处于签到积分前50名和活动积分前50名的学生才能参与总积分排名（显示前16名）</div>
                   </div>
                 </div>
               </div>
@@ -831,20 +820,11 @@ const initTotalChart = async (data) => {
     tooltip: {
       show: false
     },
-    legend: {
-      data: ['签到积分', '活动积分'],
-      top: '0%',
-      right: '0%',
-      textStyle: {
-        color: isDark ? '#ffffff' : '#2c3e50',
-        fontSize: 12
-      }
-    },
     grid: {
       left: '0%',
       right: '15%',
       bottom: '3%',
-      top: '8%',
+      top: '0%',
       containLabel: true
     },
     xAxis: {
@@ -964,12 +944,12 @@ const loadTotalRanking = async () => {
     const topList = totalRanking.value.slice(0, 32)
     topStudents.value = padTopStudents(topList, 32)
     
-    // 初始化图表 - 显示前16名
+    // 初始化图表 - 显示前20名
     await nextTick()
     if (totalRanking.value.length > 0) {
       const initChartWithRetry = async (retryCount = 0) => {
         if (totalChart.value) {
-          await initTotalChart(totalRanking.value.slice(0, 16))
+          await initTotalChart(totalRanking.value.slice(0, 32))
         } else if (retryCount < 10) {
           setTimeout(() => {
             initChartWithRetry(retryCount + 1)
@@ -1046,7 +1026,7 @@ const handleTabChange = async (tabName) => {
     } else if (totalRanking.value.length > 0) {
       const initChartWithRetry = async (retryCount = 0) => {
         if (totalChart.value) {
-          await initTotalChart(totalRanking.value.slice(0, 16))
+          await initTotalChart(totalRanking.value.slice(0, 32))
         } else if (retryCount < 10) {
           setTimeout(() => {
             initChartWithRetry(retryCount + 1)
@@ -1416,6 +1396,9 @@ html.dark .slogan-img {
   width: 550px;
   margin-left: 0;
   margin-top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .ranking-topbar {
@@ -2050,7 +2033,17 @@ html.dark .ranking-label {
 }
 
 .ranking-list-container {
-  min-height: 320px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .loading-container,
@@ -2066,14 +2059,17 @@ html.dark .ranking-label {
 
 .points-chart {
   width: 100%;
-  height: 550px;
+  flex: 1;
+  min-height: 400px;
+  position: relative;
 }
 
 .color-legend {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin: 8px 0 4px;
+  margin: 0 0 8px 0;
+  flex-shrink: 0;
 }
 
 .legend-item {
@@ -2171,6 +2167,7 @@ html.dark .ranking-label {
 .formula-card.formula-mini {
   padding: 14px 18px;
   margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
 .formula-card.formula-mini .formula-item {
@@ -2192,6 +2189,18 @@ html.dark .ranking-label {
 .formula-card.formula-mini .formula-operator {
   font-size: 14px;
   margin: 0 3px;
+}
+
+.formula-card.formula-mini .formula-signin {
+  background-color: rgba(64, 158, 255, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.formula-card.formula-mini .formula-activity {
+  background-color: rgba(250, 173, 20, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
 }
 
 .formula-card.formula-mini .formula-desc {
