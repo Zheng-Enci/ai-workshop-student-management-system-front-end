@@ -987,25 +987,7 @@ const refreshData = async () => {
 	}
 }
 
-// 启动自动刷新
-const startAutoRefresh = () => {
-	// 清除已存在的定时器
-	if (refreshTimer) {
-		clearInterval(refreshTimer)
-	}
-	// 设置定时器，每隔60秒（60000毫秒）刷新一次
-	refreshTimer = setInterval(() => {
-		refreshData()
-	}, 60000)
-}
 
-// 停止自动刷新
-const stopAutoRefresh = () => {
-	if (refreshTimer) {
-		clearInterval(refreshTimer)
-		refreshTimer = null
-	}
-}
 
 watch(() => themeStore.isDarkMode, () => {
 	setTimeout(() => {
@@ -1108,13 +1090,9 @@ onMounted(async () => {
 	await nextTick()
 	await loadTotalRanking()
 	window.addEventListener('resize', handleResize)
-	// 启动自动刷新
-	startAutoRefresh()
 })
 
 onUnmounted(() => {
-	// 停止自动刷新
-	stopAutoRefresh()
 	if (signInChartInstance) {
 		signInChartInstance.dispose()
 	}
