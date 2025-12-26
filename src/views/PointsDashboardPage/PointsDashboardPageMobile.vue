@@ -356,7 +356,6 @@ import PointsDashboardPage from './js/PointsDashboardPage'
 import PointsDashboardPageUtils from './js/PointsDashboardPageUtils'
 import StudentApi from '@/api/StudentApi'
 import {ElMessage} from 'element-plus'
-import './css/PointsDashboardPageMobile.css'
 
 echarts.use([
 	GridComponent,
@@ -1128,5 +1127,5 @@ onUnmounted(() => {
 	window.removeEventListener('resize', handleResize)
 })
 </script>
-
+<style scoped src="./css/PointsDashboardPageMobile.css"></style>
 
