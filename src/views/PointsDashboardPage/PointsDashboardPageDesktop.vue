@@ -276,8 +276,6 @@
 												<div class="points-formula" v-else>
 													<span class="points-placeholder">待公布</span>
 												</div>
-												<el-tooltip content="查看全部改分记录" placement="top"
-															:show-after="300">
 													<el-button
 														v-if="!student.placeholder"
 														size="small"
@@ -291,7 +289,6 @@
 															<View/>
 														</el-icon>
 													</el-button>
-												</el-tooltip>
 											</div>
 										</div>
 									</div>
@@ -359,7 +356,7 @@
 import {computed, nextTick, onMounted, onUnmounted, ref, watch} from 'vue'
 import {useRouter} from 'vue-router'
 import {useThemeStore} from '@/stores/theme'
-import {ElButton, ElDialog, ElIcon, ElMessage, ElTooltip} from 'element-plus'
+import {ElButton, ElDialog, ElIcon, ElMessage} from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'

@@ -11,7 +11,7 @@
 		<div class="auth-card-mobile">
 			<div class="auth-header-mobile">
 				<div class="auth-icon-container-mobile">
-					<img v-if="adminAvatarUrl" :src="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar-mobile"
+					<img v-if="adminAvatarUrl" v-lazy="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar-mobile"
 						 @error="adminAvatarUrl = null"/>
 					<div v-else class="icon-ring-mobile"></div>
 				</div>
@@ -175,7 +175,7 @@
 					<div class="student-main-row-mobile">
 						<div class="student-avatar-mobile"
 							 :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
-							<img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像"
+							<img v-if="student.hasAvatar && student.avatarUrl" v-lazy="student.avatarUrl" alt="头像"
 								 class="avatar-image-mobile" @error="handleAvatarError(student)"/>
 							<span v-else class="avatar-text-mobile">{{ student.name.charAt(0) }}</span>
 						</div>

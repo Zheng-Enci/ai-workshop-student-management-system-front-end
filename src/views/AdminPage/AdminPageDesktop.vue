@@ -10,7 +10,7 @@
     <div class="auth-card">
       <div class="auth-header">
         <div class="auth-icon-container">
-          <img v-if="adminAvatarUrl" :src="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar" @error="adminAvatarUrl = null" />
+          <img v-if="adminAvatarUrl" v-lazy="adminAvatarUrl" alt="Admin Avatar" class="admin-avatar" @error="adminAvatarUrl = null" />
           <div v-else class="icon-ring"></div>
         </div>
       </div>      <div class="auth-form">
@@ -153,7 +153,7 @@
         <div class="student-card" v-for="student in filteredStudents" :key="student.studentId" :data-level="studentLevels[student.studentId] || 0" v-show="(parseInt(studentLevels[student.studentId] || 0) === parseInt(activeLevelTab))">
           <div class="student-main-row">
             <div class="student-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
-              <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
+              <img v-if="student.hasAvatar && student.avatarUrl" v-lazy="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
               <span v-else class="avatar-text">{{ student.name.charAt(0) }}</span>
             </div>
             <div class="student-primary-info">
@@ -961,8 +961,7 @@
 
 <script setup>
 import { useAdminPage } from './AdminPage.js'
-import { onMounted, watch, ref } from 'vue'
-import "./css/AdminPageDesktop.css"
+import {onMounted, watch, ref, nextTick} from 'vue'
 // Element Plus Components
 import {
   ElMessage,
@@ -1020,7 +1019,6 @@ import {
   Document,
   Loading,
   Box,
-  Key,
   Lock
 } from '@element-plus/icons-vue'
 import { getAvatarUrl } from '@/api/student'
@@ -1160,44 +1158,6 @@ const {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const monthMap = {
   'January': '一月',
   'February': '二月',
@@ -1247,3 +1207,5 @@ watch(calendarValue, async () => {
 })
 
 </script>
+
+<style scoped src = "./css/AdminPageDesktop.css"></style>
