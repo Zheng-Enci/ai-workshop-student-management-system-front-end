@@ -32,7 +32,5 @@ class AttendanceApi {
 		})
 		return response.data
 	}
-
-
 }
 export default AttendanceApi

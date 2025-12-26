@@ -1,8 +1,7 @@
-import axios from 'axios'
 import config from '@/config'
 import ApiInterceptor from "@/composables/ApiInterceptor";
 
-class StudentAPI {
+class StudentApi {
 	static api = ApiInterceptor.createInstance()
 
 	static async getStudentPublicFieldValueById(studentInfoId, fieldName) {
@@ -65,4 +64,4 @@ class StudentAPI {
 	}
 }
 
-export default StudentAPI
+export default StudentApi
