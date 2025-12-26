@@ -18,10 +18,10 @@
       
       <div class="user-profile">
         <div class="user-avatar" @click="handleAvatarClick" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }">
-          <img v-if="hasAvatar && avatarUrl" :src="avatarUrl" alt="用户头像" class="avatar-image" />
+          <img v-if="hasAvatar && avatarUrl" v-lazy="avatarUrl" alt="用户头像" class="avatar-image" />
           <el-icon v-else size="28" class="avatar-icon"><User /></el-icon>
           <div v-if="avatarLoading" class="avatar-loading">
-            <el-icon class="loading-icon"><Loading /></el-icon>
+            <img src="@/assets/loading.gif" alt="加载中" class="loading-gif" />
           </div>
         </div>
         <div class="user-details">
@@ -254,13 +254,14 @@ import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy, Coin, Document, Loading } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy, Coin, Document } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
 import { getStudentLevel, getStudentDatabaseTableId, getAvatarUrl } from '@/api/student'
 import { getMyAttendanceCount } from '@/api/attendance'
 import { getTotalPointsByStudentInfoId } from '@/api/points'
+import NavigationPageConfig from "@/views/NavigationPage/js/NavigationPageConfig";
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -458,7 +459,7 @@ const loadUserAvatar = async () => {
     }
 
     const studentInfoId = idResponse.data
-    const avatarUrlString = getAvatarUrl(studentInfoId)
+    const avatarUrlString = getAvatarUrl(studentInfoId, NavigationPageConfig.AVATAR_SIZE)
     
     if (!avatarUrlString) {
       showDefaultAvatar()
@@ -721,22 +722,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.3);
-  border-radius: 50%;
-}
-
-.loading-icon {
-  font-size: 18px;
-  color: white;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  border-radius: 12px;
 }
 
 .user-details {

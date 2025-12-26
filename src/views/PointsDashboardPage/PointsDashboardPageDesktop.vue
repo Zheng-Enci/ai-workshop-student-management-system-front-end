@@ -381,7 +381,6 @@ import {getTopAdjustRecordsByStudentInfoId} from '@/api/points'
 import PointsDashboardPage from './js/PointsDashboardPage'
 import PointsDashboardPageUtils from './js/PointsDashboardPageUtils'
 import StudentApi from '@/api/StudentApi'
-import './css/PointsDashboardPageDesktop.css'
 
 echarts.use([
 	GridComponent,
@@ -1368,3 +1367,4 @@ onUnmounted(() => {
 })
 </script>
 
+<style scoped src="./css/PointsDashboardPageDesktop.css"></style>
