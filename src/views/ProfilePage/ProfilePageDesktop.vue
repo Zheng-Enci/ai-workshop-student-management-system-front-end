@@ -1873,7 +1873,6 @@ onMounted(() => {
 	align-items: center;
 	box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
 	transition: all 0.3s ease;
-	border: 3px solid var(--glass-bg);
 	overflow: hidden;
 	position: relative;
 }
