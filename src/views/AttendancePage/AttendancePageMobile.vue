@@ -170,6 +170,7 @@ import { useUserStore } from '@/stores/user'
 import { useThemeStore } from '@/stores/theme'
 import { useRouter } from 'vue-router'
 import { getStudentDatabaseTableId, getAvatarUrl } from '@/api/student'
+import AttendancePageConfig from "@/views/AttendancePage/js/AttendancePageConfig";
 
 const loading = ref(false)
 const userStore = useUserStore()
@@ -228,7 +229,7 @@ const loadUserAvatar = async () => {
     }
 
     const studentInfoId = idResponse.data
-    const avatarUrlString = getAvatarUrl(studentInfoId)
+    const avatarUrlString = getAvatarUrl(studentInfoId, AttendancePageConfig.AVATAR_SIZE)
     
     if (!avatarUrlString) {
       showDefaultAvatar()
