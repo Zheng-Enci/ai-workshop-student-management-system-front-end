@@ -215,7 +215,7 @@
                 <div class="side-info">
                   <div class="side-avatar-section">
                     <div class="side-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
-                      <img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
+                      <img v-if="student.hasAvatar && student.avatarUrl" v-lazy="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
                       <el-icon v-else size="26" class="avatar-icon"><User /></el-icon>
                     </div>
                     <div class="side-name">
@@ -334,9 +334,8 @@ import {
   GridComponent
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-import { getAttendanceTopRanking } from '@/api/attendance'
-import { getPointsTopRanking, getTopAdjustRecordsByStudentInfoId } from '@/api/points'
-import { getStudentPublicFieldValueById, getAvatarUrl, getStudentLevelByInfoId } from '@/api/student'
+import { getTopAdjustRecordsByStudentInfoId } from '@/api/points'
+import PointsDashboardPage from './js/PointsDashboardPage'
 
 echarts.use([
   GridComponent,
@@ -348,6 +347,9 @@ const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
+// 创建 PointsDashboardPage 实例
+const dashboardPage = ref(new PointsDashboardPage())
+
 const activeTab = ref('total')
 const tabOrder = ['total', 'signIn', 'activity']
 const tabLabelMap = {
@@ -356,8 +358,6 @@ const tabLabelMap = {
   activity: '活动积分排行榜'
 }
 const currentTabLabel = computed(() => tabLabelMap[activeTab.value] || '')
-const selectedTopN = 40
-const totalRankingTopN = 50
 const signInRanking = ref([])
 const activityRanking = ref([])
 const totalRanking = ref([])
@@ -924,133 +924,9 @@ const handleAvatarError = (student) => {
 }
 
 
-const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
-  const infoPromises = rankingList.map(async (item) => {
-    const studentId = item[idField] || item.targetStudentInfoId
-    if (!studentId) return item
-    
-    try {
-      // 查询必要的字段：name, grade, major（接口不支持studentId字段）
-      const [nameResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
-        getStudentPublicFieldValueById(studentId, 'name').catch(() => ({ code: 400, data: null })),
-        getStudentPublicFieldValueById(studentId, 'grade').catch(() => ({ code: 400, data: null })),
-        getStudentPublicFieldValueById(studentId, 'major').catch(() => ({ code: 400, data: null })),
-        getStudentLevelByInfoId(studentId).catch(() => ({ code: 400, data: null }))
-      ])
-      
-      if (nameResponse.code === 200 && nameResponse.data) {
-        item.name = nameResponse.data
-      }
-      if (gradeResponse.code === 200 && gradeResponse.data) {
-        item.grade = parseInt(gradeResponse.data)
-      }
-      if (majorResponse.code === 200 && majorResponse.data) {
-        item.major = majorResponse.data
-      }
-      if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
-        item.levelCode = parseInt(levelResponse.data)
-      }
-      
-      // 加载头像
-      const avatarUrlString = getAvatarUrl(studentId, 256)
-      if (avatarUrlString) {
-        // 添加时间戳参数，强制浏览器重新加载图片（绕过缓存）
-        const avatarUrlWithTimestamp = avatarUrlString
-        // 先设置URL，让浏览器尝试加载
-        item.avatarUrl = avatarUrlWithTimestamp
-        item.hasAvatar = true
-        // 使用Image对象验证头像是否存在
-        const img = new Image()
-        img.onload = () => {
-          item.hasAvatar = true
-        }
-        img.onerror = () => {
-          item.hasAvatar = false
-          item.avatarUrl = null
-        }
-        img.src = avatarUrlWithTimestamp
-      } else {
-        item.hasAvatar = false
-        item.avatarUrl = null
-      }
-    } catch (error) {
-      return item
-    }
-    return item
-  })
-  
-  await Promise.all(infoPromises)
-  return rankingList
-}
+// 已删除 loadStudentInfo 函数，因为 PointsDashboardPage 已经返回了完整的学生信息
 
-const loadSignInRanking = async () => {
-  signInLoading.value = true
-  try {
-    const response = await getAttendanceTopRanking(selectedTopN)
-    if (response.code === 200 && response.data) {
-      signInRanking.value = response.data.map(item => ({
-        studentInfoId: item.studentInfoId,
-        attendanceCount: item.attendanceCount,
-        signInPoints: Math.round(item.attendanceCount * 0.64)
-      }))
-      await loadStudentInfo(signInRanking.value, 'studentInfoId')
-      signInLoading.value = false
-      await nextTick()
-      if (signInRanking.value.length > 0) {
-        const initChartWithRetry = async (retryCount = 0) => {
-          if (signInChart.value) {
-            await initSignInChart(signInRanking.value)
-          } else if (retryCount < 10) {
-            setTimeout(() => {
-              initChartWithRetry(retryCount + 1)
-            }, 100)
-          }
-        }
-        setTimeout(() => {
-          initChartWithRetry()
-        }, 200)
-      }
-    }
-  } catch (error) {
-    signInRanking.value = []
-  } finally {
-    signInLoading.value = false
-  }
-}
-
-const loadActivityRanking = async () => {
-  activityLoading.value = true
-  try {
-    const response = await getPointsTopRanking(selectedTopN)
-    if (response.code === 200 && response.data) {
-      activityRanking.value = response.data.map(item => ({
-        targetStudentInfoId: item.targetStudentInfoId,
-        activityPoints: item.totalPoints
-      }))
-      await loadStudentInfo(activityRanking.value, 'targetStudentInfoId')
-      activityLoading.value = false
-      await nextTick()
-      if (activityRanking.value.length > 0) {
-        const initChartWithRetry = async (retryCount = 0) => {
-          if (activityChart.value) {
-            await initActivityChart(activityRanking.value)
-          } else if (retryCount < 10) {
-            setTimeout(() => {
-              initChartWithRetry(retryCount + 1)
-            }, 100)
-          }
-        }
-        setTimeout(() => {
-          initChartWithRetry()
-        }, 200)
-      }
-    }
-  } catch (error) {
-    activityRanking.value = []
-  } finally {
-    activityLoading.value = false
-  }
-}
+// 删除了冗余的 loadSignInRanking 和 loadActivityRanking 函数，现在统一使用 PointsDashboardPage 管理数据
 
 const padTopStudents = (list, targetLength = 12) => {
   const filled = [...list]
@@ -1066,69 +942,46 @@ const padTopStudents = (list, targetLength = 12) => {
 const loadTotalRanking = async () => {
   totalLoading.value = true
   try {
-    const [signInResponse, activityResponse] = await Promise.all([
-      getAttendanceTopRanking(totalRankingTopN),
-      getPointsTopRanking(totalRankingTopN)
-    ])
+    // 使用 PointsDashboardPage 获取数据（前32名）
+    await dashboardPage.value.initData()
+    const rankingData = dashboardPage.value.comprehensiveRankingData || []
     
-    if (signInResponse.code === 200 && activityResponse.code === 200) {
-      const signInMap = new Map()
-      signInResponse.data.forEach((item, index) => {
-        signInMap.set(item.studentInfoId, {
-          studentInfoId: item.studentInfoId,
-          attendanceCount: item.attendanceCount,
-          signInPoints: Math.round(item.attendanceCount * 0.64),
-          signInRank: index + 1
-        })
-      })
-      
-      const activityMap = new Map()
-      activityResponse.data.forEach((item, index) => {
-        activityMap.set(item.targetStudentInfoId, {
-          targetStudentInfoId: item.targetStudentInfoId,
-          activityPoints: item.totalPoints,
-          activityRank: index + 1
-        })
-      })
-      
-      const eligibleStudents = []
-      signInMap.forEach((signInData, studentId) => {
-        const activityData = activityMap.get(studentId)
-        if (activityData) {
-          eligibleStudents.push({
-            studentInfoId: studentId,
-            signInPoints: signInData.signInPoints,
-            activityPoints: activityData.activityPoints,
-            totalPoints: signInData.signInPoints + activityData.activityPoints
-          })
+    // 将数据格式化为图表所需格式，直接使用 PointsDashboardPage 返回的完整数据
+    totalRanking.value = rankingData.map(student => ({
+      studentInfoId: student.studentInfoId,
+      name: student.name,                   // 直接使用已获取的姓名
+      grade: student.grade,                  // 直接使用已获取的年级
+      major: student.major,                  // 直接使用已获取的专业
+      levelCode: student.levelCode,          // 直接使用已获取的等级
+      hasAvatar: !!student.avatarUrl,        // 直接使用已获取的头像信息
+      avatarUrl: student.avatarUrl,          // 直接使用已获取的头像URL
+      signInPoints: student.attendancePoints,  // 签到积分
+      activityPoints: student.activityPoints,  // 活动积分
+      totalPoints: student.totalPoints         // 总积分
+    }))
+    
+    // 侧边栏显示前32名
+    const topList = totalRanking.value.slice(0, 32)
+    topStudents.value = padTopStudents(topList, 32)
+    
+    // 初始化图表 - 显示前16名
+    await nextTick()
+    if (totalRanking.value.length > 0) {
+      const initChartWithRetry = async (retryCount = 0) => {
+        if (totalChart.value) {
+          await initTotalChart(totalRanking.value.slice(0, 16))
+        } else if (retryCount < 10) {
+          setTimeout(() => {
+            initChartWithRetry(retryCount + 1)
+          }, 100)
         }
-      })
-      
-      eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
-      totalRanking.value = eligibleStudents.slice(0, selectedTopN)
-      // 加载所有需要显示的学生信息（包括前40名）
-      await loadStudentInfo(totalRanking.value, 'studentInfoId')
-      // 从已加载信息的总排行榜中取前32名用于侧边栏显示
-      const topList = totalRanking.value.slice(0, 32)
-      topStudents.value = padTopStudents(topList, 32)
-      totalLoading.value = false
-      await nextTick()
-      if (totalRanking.value.length > 0) {
-        const initChartWithRetry = async (retryCount = 0) => {
-          if (totalChart.value) {
-            await initTotalChart(totalRanking.value)
-          } else if (retryCount < 10) {
-            setTimeout(() => {
-              initChartWithRetry(retryCount + 1)
-            }, 100)
-          }
-        }
-        setTimeout(() => {
-          initChartWithRetry()
-        }, 200)
       }
+      setTimeout(() => {
+        initChartWithRetry()
+      }, 200)
     }
   } catch (error) {
+    console.error('获取综合排名数据失败:', error)
     totalRanking.value = []
   } finally {
     totalLoading.value = false
@@ -1138,9 +991,17 @@ const loadTotalRanking = async () => {
 const handleTabChange = async (tabName) => {
   await nextTick()
   if (tabName === 'signIn') {
-    if (signInRanking.value.length === 0) {
-      await loadSignInRanking()
-    } else if (signInRanking.value.length > 0) {
+    // 使用 PointsDashboardPage 的数据构建签到积分排行榜
+    if (dashboardPage.value.comprehensiveRankingData && dashboardPage.value.comprehensiveRankingData.length > 0) {
+      const rankingData = dashboardPage.value.comprehensiveRankingData
+      signInRanking.value = rankingData.map(student => ({
+        studentInfoId: student.studentInfoId,
+        name: student.name,
+        grade: student.grade,
+        major: student.major,
+        signInPoints: student.attendancePoints
+      }))
+      
       const initChartWithRetry = async (retryCount = 0) => {
         if (signInChart.value) {
           await initSignInChart(signInRanking.value)
@@ -1155,9 +1016,17 @@ const handleTabChange = async (tabName) => {
       }, 200)
     }
   } else if (tabName === 'activity') {
-    if (activityRanking.value.length === 0) {
-      await loadActivityRanking()
-    } else if (activityRanking.value.length > 0) {
+    // 使用 PointsDashboardPage 的数据构建活动积分排行榜
+    if (dashboardPage.value.comprehensiveRankingData && dashboardPage.value.comprehensiveRankingData.length > 0) {
+      const rankingData = dashboardPage.value.comprehensiveRankingData
+      activityRanking.value = rankingData.map(student => ({
+        targetStudentInfoId: student.studentInfoId,
+        name: student.name,
+        grade: student.grade,
+        major: student.major,
+        activityPoints: student.activityPoints
+      }))
+      
       const initChartWithRetry = async (retryCount = 0) => {
         if (activityChart.value) {
           await initActivityChart(activityRanking.value)
@@ -1177,7 +1046,7 @@ const handleTabChange = async (tabName) => {
     } else if (totalRanking.value.length > 0) {
       const initChartWithRetry = async (retryCount = 0) => {
         if (totalChart.value) {
-          await initTotalChart(totalRanking.value)
+          await initTotalChart(totalRanking.value.slice(0, 16))
         } else if (retryCount < 10) {
           setTimeout(() => {
             initChartWithRetry(retryCount + 1)
@@ -1208,14 +1077,45 @@ let refreshTimer = null
 
 // 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
 const refreshData = async () => {
-  // 总是刷新总积分排行榜（包含优秀成员数据）
-  await loadTotalRanking()
+  // 统一使用 PointsDashboardPage 刷新数据
+  await dashboardPage.value.refreshData()
+  const rankingData = dashboardPage.value.comprehensiveRankingData || []
   
-  // 根据当前激活的 tab 刷新对应的排行榜
+  // 更新总积分排行榜
+  totalRanking.value = rankingData.map(student => ({
+    studentInfoId: student.studentInfoId,
+    name: student.name,                   // 直接使用已获取的姓名
+    grade: student.grade,                  // 直接使用已获取的年级
+    major: student.major,                  // 直接使用已获取的专业
+    levelCode: student.levelCode,          // 直接使用已获取的等级
+    hasAvatar: !!student.avatarUrl,        // 直接使用已获取的头像信息
+    avatarUrl: student.avatarUrl,          // 直接使用已获取的头像URL
+    signInPoints: student.attendancePoints,  // 签到积分
+    activityPoints: student.activityPoints,  // 活动积分
+    totalPoints: student.totalPoints         // 总积分
+  }))
+  
+  // 更新侧边栏显示的前32名
+  const topList = totalRanking.value.slice(0, 32)
+  topStudents.value = padTopStudents(topList, 32)
+  
+  // 根据当前激活的 tab 更新对应的排行榜
   if (activeTab.value === 'signIn') {
-    await loadSignInRanking()
+    signInRanking.value = rankingData.map(student => ({
+      studentInfoId: student.studentInfoId,
+      name: student.name,
+      grade: student.grade,
+      major: student.major,
+      signInPoints: student.attendancePoints
+    }))
   } else if (activeTab.value === 'activity') {
-    await loadActivityRanking()
+    activityRanking.value = rankingData.map(student => ({
+      targetStudentInfoId: student.studentInfoId,
+      name: student.name,
+      grade: student.grade,
+      major: student.major,
+      activityPoints: student.activityPoints
+    }))
   }
 }
 
@@ -1380,15 +1280,6 @@ onUnmounted(() => {
   --shadow-button: 0 8px 40px rgba(102, 126, 234, 0.5), 0 4px 16px rgba(102, 126, 234, 0.35);
 }
 
-html.dark {
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-primary: 0 2px 8px rgba(102, 126, 234, 0.2);
-  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.12);
-  --shadow-button: 0 8px 32px rgba(102, 126, 234, 0.3);
-}
-
 
 .points-dashboard-container {
   height: 100vh;
@@ -1399,8 +1290,7 @@ html.dark {
 }
 
 .header {
-  position: sticky;
-  top: 0;
+	top: 0;
   z-index: 100;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
@@ -1409,8 +1299,7 @@ html.dark {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
-  min-height: 72px;
+	min-height: 72px;
   flex-shrink: 0;
 }
 
@@ -1440,7 +1329,7 @@ html.dark {
 .slogan {
   display: flex;
   align-items: center;
-  padding: 16px 16px 0px 16px;
+  padding: 16px 16px 0 16px;
   margin-right: 8px;
 }
 
@@ -1508,16 +1397,6 @@ html.dark .slogan-img {
   font-weight: 500;
 }
 
-.main-content[data-v-eba736f6] {
-  padding: 16px 16px;
-  max-width: 100%;
-  width: 100%;
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
 .dashboard-layout {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -1535,8 +1414,8 @@ html.dark .slogan-img {
 
 .ranking-tabs {
   width: 550px;
-  margin-left: 0%;
-  margin-top: 0%;
+  margin-left: 0;
+  margin-top: 0;
 }
 
 .ranking-topbar {
@@ -1563,12 +1442,6 @@ html.dark .slogan-img {
 html.dark .ranking-arrows {
   background: rgba(15, 23, 42, 0.65);
   border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.ranking-arrows .el-button {
-  padding: 4px;
-  width: 28px;
-  height: 28px;
 }
 
 .ranking-label {
@@ -1648,14 +1521,14 @@ html.dark .ranking-label {
 }
 
 .random-quote {
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--text-primary);
   line-height: 1.8;
   text-align: right;
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
   font-weight: 500;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   word-break: break-word;
   overflow-wrap: break-word;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -1679,7 +1552,7 @@ html.dark .ranking-label {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: 0.6px;
+  letter-spacing: 1px;
   text-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
   position: relative;
   display: inline-block;
@@ -1764,15 +1637,9 @@ html.dark .ranking-label {
   position: absolute;
   inset: 0;
   border-radius: 10px;
-  padding: 1.5px;
+  padding: 2px;
   background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(102, 126, 234, 0.08) 100%);
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-  mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
   z-index: 0;
@@ -1815,7 +1682,7 @@ html.dark .ranking-label {
   opacity: 0.6;
   box-shadow: none;
   background: rgba(255, 255, 255, 0.02);
-  border: 1.5px dashed rgba(102, 126, 234, 0.2);
+  border: 2px dashed rgba(102, 126, 234, 0.2);
 }
 
 .side-student.is-placeholder::before {
@@ -1920,7 +1787,7 @@ html.dark .ranking-label {
   color: var(--text-primary);
   word-break: break-word;
   line-height: 1.3;
-  letter-spacing: 0.1px;
+  letter-spacing: 0;
   flex: 1;
   min-width: 0;
 }
@@ -1966,12 +1833,6 @@ html.dark .ranking-label {
 }
 
 
-
-.side-meta .meta-line-first {
-  min-height: 0;
-  font-weight: 600;
-  color: var(--primary-color);
-}
 
 .side-meta .meta-line-second {
   min-height: 0;
@@ -2085,7 +1946,7 @@ html.dark .ranking-label {
 .points-total {
   font-size: 14px;
   font-weight: 800;
-  letter-spacing: 0.2px;
+  letter-spacing: 0;
   flex-shrink: 0;
 }
 
@@ -2117,14 +1978,6 @@ html.dark .ranking-label {
 }
 
 
-.points-detail {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  line-height: 1.3;
-}
-
 .points-number {
   font-weight: 700;
   font-size: 11px;
@@ -2149,73 +2002,12 @@ html.dark .ranking-label {
   background-clip: text;
 }
 
-.points-separator {
-  color: var(--text-secondary);
-  opacity: 0.5;
-  font-size: 10px;
-}
-
 .points-placeholder {
   font-size: 11px;
   color: var(--text-secondary);
   opacity: 0.6;
 }
 
-.side-records {
-  margin-top: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.record-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.record-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 11px;
-  color: var(--text-primary);
-  padding: 6px 8px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.06) 100%);
-  border: 1px solid rgba(102, 126, 234, 0.15);
-}
-
-.record-points {
-  font-weight: 700;
-  font-size: 13px;
-  min-width: 40px;
-  text-align: center;
-  padding: 2px 6px;
-  border-radius: 6px;
-  flex-shrink: 0;
-}
-
-.record-points.positive {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.record-points.negative {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.record-reason {
-  color: var(--text-primary);
-  flex: 1;
-  word-break: break-all;
-  line-height: 1.5;
-  opacity: 0.9;
-}
 
 .side-empty {
   display: flex;
@@ -2228,14 +2020,6 @@ html.dark .ranking-label {
   font-size: 13px;
 }
 
-.ranking-header {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
 .ranking-arrows {
   display: flex;
   gap: 6px;
@@ -2245,11 +2029,6 @@ html.dark .ranking-label {
   align-items: center;
 }
 
-.ranking-arrows .el-button {
-  padding: 4px;
-  width: 28px;
-  height: 28px;
-}
 
 .ranking-label {
   font-size: 12px;
@@ -2270,33 +2049,6 @@ html.dark .ranking-label {
   backdrop-filter: blur(20px);
 }
 
-:deep(.el-tabs__header) {
-  margin: 0 0 24px 0;
-}
-
-:deep(.el-tabs__nav-wrap::after) {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-:deep(.el-tabs__item) {
-  color: var(--text-secondary);
-  font-size: 16px;
-  font-weight: 500;
-  padding: 0 24px;
-  height: 48px;
-  line-height: 48px;
-}
-
-:deep(.el-tabs__item.is-active) {
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-:deep(.el-tabs__active-bar) {
-  background-color: var(--primary-color);
-  height: 3px;
-}
-
 .ranking-list-container {
   min-height: 320px;
 }
@@ -2309,16 +2061,6 @@ html.dark .ranking-label {
   justify-content: center;
   padding: 80px 20px;
   gap: 16px;
-  color: var(--text-secondary);
-}
-
-.loading-container .el-icon {
-  font-size: 48px;
-  color: var(--primary-color);
-}
-
-.empty-container .el-icon {
-  font-size: 48px;
   color: var(--text-secondary);
 }
 
@@ -2388,7 +2130,7 @@ html.dark .ranking-label {
   font-weight: 600;
   color: var(--primary-color);
   font-size: 14px;
-  letter-spacing: 0.3px;
+  letter-spacing: 0;
 }
 
 .formula-equals {
@@ -2469,97 +2211,6 @@ html.dark .ranking-label {
   box-shadow: var(--shadow-primary);
 }
 
-.view-records-btn :deep(.el-button__inner) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary-color);
-}
-
-.view-records-btn .el-icon {
-  font-size: 12px;
-  color: var(--primary-color);
-}
-
-.records-dialog :deep(.el-dialog__body) {
-  padding: 20px;
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-/* 完全禁用弹窗过渡动画，避免闪烁 */
-.records-dialog :deep(.el-dialog__wrapper) {
-  transition: none !important;
-  animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
-}
-
-.records-dialog :deep(.el-dialog) {
-  transition: none !important;
-  animation: none !important;
-  transform: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
-}
-
-.records-dialog :deep(.el-overlay) {
-  transition: none !important;
-  animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
-}
-
-.records-dialog :deep(.el-dialog__body) {
-  transition: none !important;
-  animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
-}
-
-.records-dialog :deep(.el-dialog__header) {
-  transition: none !important;
-  animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
-}
-
-/* 禁用 BaseTransition 组件的过渡动画 */
-.records-dialog :deep(.el-fade-in),
-.records-dialog :deep(.el-fade-in-linear),
-.records-dialog :deep(.el-zoom-in-center),
-.records-dialog :deep(.el-zoom-in-top),
-.records-dialog :deep(.el-zoom-in-bottom) {
-  transition: none !important;
-  animation: none !important;
-  transition-duration: 0s !important;
-  transition-delay: 0s !important;
-}
-
-/* 弹窗遮罩和容器定位修复 */
-:deep(.records-dialog-overlay) {
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(0, 0, 0, 0.5) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 3000 !important;
-  transition: none !important;  /* 禁用过渡动画 */
-  animation: none !important;   /* 禁用动画 */
-}
-
-:deep(.records-dialog-overlay .el-overlay-dialog) {
-  position: fixed !important;
-  inset: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  z-index: 3001 !important;
-  transition: none !important;  /* 禁用过渡动画 */
-  animation: none !important;   /* 禁用动画 */
-}
-
 .records-loading,
 .records-empty {
   display: flex;
@@ -2568,16 +2219,6 @@ html.dark .ranking-label {
   justify-content: center;
   padding: 60px 20px;
   gap: 16px;
-  color: var(--text-secondary);
-}
-
-.records-loading .el-icon {
-  font-size: 48px;
-  color: var(--primary-color);
-}
-
-.records-empty .el-icon {
-  font-size: 48px;
   color: var(--text-secondary);
 }
 
@@ -2645,13 +2286,13 @@ html.dark .ranking-label {
 
 @keyframes points-gradient-flow {
   0% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 }
 

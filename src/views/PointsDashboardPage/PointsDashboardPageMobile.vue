@@ -311,9 +311,8 @@ import {
   GridComponent
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
-import { getAttendanceTopRanking } from '@/api/attendance'
-import { getPointsTopRanking, getTopAdjustRecordsByStudentInfoId } from '@/api/points'
-import { getStudentPublicFieldValueById, getAvatarUrl, getStudentLevelByInfoId } from '@/api/student'
+import { getTopAdjustRecordsByStudentInfoId } from '@/api/points'
+import PointsDashboardPage from './js/PointsDashboardPage'
 
 echarts.use([
   GridComponent,
@@ -325,6 +324,9 @@ const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
+// 创建 PointsDashboardPage 实例
+const dashboardPage = ref(new PointsDashboardPage())
+
 const activeTab = ref('total')
 const tabOrder = ['total', 'signIn', 'activity']
 const tabLabelMap = {
@@ -333,8 +335,6 @@ const tabLabelMap = {
   activity: '活动积分排行榜'
 }
 const currentTabLabel = computed(() => tabLabelMap[activeTab.value] || '')
-const selectedTopN = 35
-const totalRankingTopN = 50
 const signInRanking = ref([])
 const activityRanking = ref([])
 const totalRanking = ref([])
@@ -710,131 +710,9 @@ const handleAvatarError = (student) => {
 }
 
 
-const loadStudentInfo = async (rankingList, idField = 'studentInfoId') => {
-  const infoPromises = rankingList.map(async (item) => {
-    const studentId = item[idField] || item.targetStudentInfoId
-    if (!studentId) return item
-    
-    try {
-      // 查询必要的字段：name, grade, major（接口不支持studentId字段）
-      const [nameResponse, gradeResponse, majorResponse, levelResponse] = await Promise.all([
-        getStudentPublicFieldValueById(studentId, 'name').catch(() => ({ code: 400, data: null })),
-        getStudentPublicFieldValueById(studentId, 'grade').catch(() => ({ code: 400, data: null })),
-        getStudentPublicFieldValueById(studentId, 'major').catch(() => ({ code: 400, data: null })),
-        getStudentLevelByInfoId(studentId).catch(() => ({ code: 400, data: null }))
-      ])
-      
-      if (nameResponse.code === 200 && nameResponse.data) {
-        item.name = nameResponse.data
-      }
-      if (gradeResponse.code === 200 && gradeResponse.data) {
-        item.grade = parseInt(gradeResponse.data)
-      }
-      if (majorResponse.code === 200 && majorResponse.data) {
-        item.major = majorResponse.data
-      }
-      if (levelResponse.code === 200 && levelResponse.data !== null && levelResponse.data !== undefined) {
-        item.levelCode = parseInt(levelResponse.data)
-      }
-      
-      // 加载头像
-      const avatarUrlString = getAvatarUrl(studentId, 128)
-      if (avatarUrlString) {
-        // 先设置URL，让浏览器尝试加载
-        item.avatarUrl = avatarUrlString
-        item.hasAvatar = true
-        // 使用Image对象验证头像是否存在
-        const img = new Image()
-        img.onload = () => {
-          item.hasAvatar = true
-        }
-        img.onerror = () => {
-          item.hasAvatar = false
-          item.avatarUrl = null
-        }
-        img.src = avatarUrlString
-      } else {
-        item.hasAvatar = false
-        item.avatarUrl = null
-      }
-    } catch (error) {
-      return item
-    }
-    return item
-  })
-  
-  await Promise.all(infoPromises)
-  return rankingList
-}
+// 已删除 loadStudentInfo 函数，因为 PointsDashboardPage 已经返回了完整的学生信息
 
-const loadSignInRanking = async () => {
-  signInLoading.value = true
-  try {
-    const response = await getAttendanceTopRanking(selectedTopN)
-    if (response.code === 200 && response.data) {
-      signInRanking.value = response.data.map(item => ({
-        studentInfoId: item.studentInfoId,
-        attendanceCount: item.attendanceCount,
-        signInPoints: Math.round(item.attendanceCount * 0.64)
-      }))
-      await loadStudentInfo(signInRanking.value, 'studentInfoId')
-      signInLoading.value = false
-      await nextTick()
-      if (signInRanking.value.length > 0) {
-        const initChartWithRetry = async (retryCount = 0) => {
-          if (signInChart.value) {
-            await initSignInChart(signInRanking.value)
-          } else if (retryCount < 10) {
-            setTimeout(() => {
-              initChartWithRetry(retryCount + 1)
-            }, 100)
-          }
-        }
-        setTimeout(() => {
-          initChartWithRetry()
-        }, 200)
-      }
-    }
-  } catch (error) {
-    signInRanking.value = []
-  } finally {
-    signInLoading.value = false
-  }
-}
-
-const loadActivityRanking = async () => {
-  activityLoading.value = true
-  try {
-    const response = await getPointsTopRanking(selectedTopN)
-    if (response.code === 200 && response.data) {
-      activityRanking.value = response.data.map(item => ({
-        targetStudentInfoId: item.targetStudentInfoId,
-        activityPoints: item.totalPoints
-      }))
-      await loadStudentInfo(activityRanking.value, 'targetStudentInfoId')
-      activityLoading.value = false
-      await nextTick()
-      if (activityRanking.value.length > 0) {
-        const initChartWithRetry = async (retryCount = 0) => {
-          if (activityChart.value) {
-            await initActivityChart(activityRanking.value)
-          } else if (retryCount < 10) {
-            setTimeout(() => {
-              initChartWithRetry(retryCount + 1)
-            }, 100)
-          }
-        }
-        setTimeout(() => {
-          initChartWithRetry()
-        }, 200)
-      }
-    }
-  } catch (error) {
-    activityRanking.value = []
-  } finally {
-    activityLoading.value = false
-  }
-}
+// 已删除冗余的 loadSignInRanking 和 loadActivityRanking 函数，现在统一使用 PointsDashboardPage 管理数据
 
 const padTopStudents = (list, targetLength = 12) => {
   const filled = [...list]
@@ -850,69 +728,46 @@ const padTopStudents = (list, targetLength = 12) => {
 const loadTotalRanking = async () => {
   totalLoading.value = true
   try {
-    const [signInResponse, activityResponse] = await Promise.all([
-      getAttendanceTopRanking(totalRankingTopN),
-      getPointsTopRanking(totalRankingTopN)
-    ])
+    // 使用 PointsDashboardPage 获取数据（前32名）
+    await dashboardPage.value.initData()
+    const rankingData = dashboardPage.value.comprehensiveRankingData || []
     
-    if (signInResponse.code === 200 && activityResponse.code === 200) {
-      const signInMap = new Map()
-      signInResponse.data.forEach((item, index) => {
-        signInMap.set(item.studentInfoId, {
-          studentInfoId: item.studentInfoId,
-          attendanceCount: item.attendanceCount,
-          signInPoints: Math.round(item.attendanceCount * 0.64),
-          signInRank: index + 1
-        })
-      })
-      
-      const activityMap = new Map()
-      activityResponse.data.forEach((item, index) => {
-        activityMap.set(item.targetStudentInfoId, {
-          targetStudentInfoId: item.targetStudentInfoId,
-          activityPoints: item.totalPoints,
-          activityRank: index + 1
-        })
-      })
-      
-      const eligibleStudents = []
-      signInMap.forEach((signInData, studentId) => {
-        const activityData = activityMap.get(studentId)
-        if (activityData) {
-          eligibleStudents.push({
-            studentInfoId: studentId,
-            signInPoints: signInData.signInPoints,
-            activityPoints: activityData.activityPoints,
-            totalPoints: signInData.signInPoints + activityData.activityPoints
-          })
+    // 将数据格式化为图表所需格式，直接使用 PointsDashboardPage 返回的完整数据
+    totalRanking.value = rankingData.map(student => ({
+      studentInfoId: student.studentInfoId,
+      name: student.name,                   // 直接使用已获取的姓名
+      grade: student.grade,                  // 直接使用已获取的年级
+      major: student.major,                  // 直接使用已获取的专业
+      levelCode: student.levelCode,          // 直接使用已获取的等级
+      hasAvatar: !!student.avatarUrl,        // 直接使用已获取的头像信息
+      avatarUrl: student.avatarUrl,          // 直接使用已获取的头像URL
+      signInPoints: student.attendancePoints,  // 签到积分
+      activityPoints: student.activityPoints,  // 活动积分
+      totalPoints: student.totalPoints         // 总积分
+    }))
+    
+    // 侧边栏显示前32名
+    const topList = totalRanking.value.slice(0, 32)
+    topStudents.value = padTopStudents(topList, 32)
+    
+    // 初始化图表 - 显示前16名
+    await nextTick()
+    if (totalRanking.value.length > 0) {
+      const initChartWithRetry = async (retryCount = 0) => {
+        if (totalChart.value) {
+          await initTotalChart(totalRanking.value.slice(0, 16))
+        } else if (retryCount < 10) {
+          setTimeout(() => {
+            initChartWithRetry(retryCount + 1)
+          }, 100)
         }
-      })
-      
-      eligibleStudents.sort((a, b) => b.totalPoints - a.totalPoints)
-      totalRanking.value = eligibleStudents.slice(0, selectedTopN)
-      // 加载所有需要显示的学生信息（包括前40名）
-      await loadStudentInfo(totalRanking.value, 'studentInfoId')
-      // 从已加载信息的总排行榜中取前32名用于侧边栏显示
-      const topList = totalRanking.value.slice(0, 32)
-      topStudents.value = padTopStudents(topList, 32)
-      totalLoading.value = false
-      await nextTick()
-      if (totalRanking.value.length > 0) {
-        const initChartWithRetry = async (retryCount = 0) => {
-          if (totalChart.value) {
-            await initTotalChart(totalRanking.value)
-          } else if (retryCount < 10) {
-            setTimeout(() => {
-              initChartWithRetry(retryCount + 1)
-            }, 100)
-          }
-        }
-        setTimeout(() => {
-          initChartWithRetry()
-        }, 200)
       }
+      setTimeout(() => {
+        initChartWithRetry()
+      }, 200)
     }
   } catch (error) {
+    console.error('获取综合排名数据失败:', error)
     totalRanking.value = []
   } finally {
     totalLoading.value = false
@@ -922,9 +777,17 @@ const loadTotalRanking = async () => {
 const handleTabChange = async (tabName) => {
   await nextTick()
   if (tabName === 'signIn') {
-    if (signInRanking.value.length === 0) {
-      await loadSignInRanking()
-    } else if (signInRanking.value.length > 0) {
+    // 使用 PointsDashboardPage 的数据构建签到积分排行榜
+    if (dashboardPage.value.comprehensiveRankingData && dashboardPage.value.comprehensiveRankingData.length > 0) {
+      const rankingData = dashboardPage.value.comprehensiveRankingData
+      signInRanking.value = rankingData.map(student => ({
+        studentInfoId: student.studentInfoId,
+        name: student.name,
+        grade: student.grade,
+        major: student.major,
+        signInPoints: student.attendancePoints
+      }))
+      
       const initChartWithRetry = async (retryCount = 0) => {
         if (signInChart.value) {
           await initSignInChart(signInRanking.value)
@@ -939,9 +802,17 @@ const handleTabChange = async (tabName) => {
       }, 200)
     }
   } else if (tabName === 'activity') {
-    if (activityRanking.value.length === 0) {
-      await loadActivityRanking()
-    } else if (activityRanking.value.length > 0) {
+    // 使用 PointsDashboardPage 的数据构建活动积分排行榜
+    if (dashboardPage.value.comprehensiveRankingData && dashboardPage.value.comprehensiveRankingData.length > 0) {
+      const rankingData = dashboardPage.value.comprehensiveRankingData
+      activityRanking.value = rankingData.map(student => ({
+        targetStudentInfoId: student.studentInfoId,
+        name: student.name,
+        grade: student.grade,
+        major: student.major,
+        activityPoints: student.activityPoints
+      }))
+      
       const initChartWithRetry = async (retryCount = 0) => {
         if (activityChart.value) {
           await initActivityChart(activityRanking.value)
@@ -961,7 +832,7 @@ const handleTabChange = async (tabName) => {
     } else if (totalRanking.value.length > 0) {
       const initChartWithRetry = async (retryCount = 0) => {
         if (totalChart.value) {
-          await initTotalChart(totalRanking.value)
+          await initTotalChart(totalRanking.value.slice(0, 16))
         } else if (retryCount < 10) {
           setTimeout(() => {
             initChartWithRetry(retryCount + 1)
@@ -984,6 +855,73 @@ const handleResize = () => {
   }
   if (totalChartInstance) {
     totalChartInstance.resize()
+  }
+}
+
+// 自动刷新定时器
+let refreshTimer = null
+
+// 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
+const refreshData = async () => {
+  // 统一使用 PointsDashboardPage 刷新数据
+  await dashboardPage.value.refreshData()
+  const rankingData = dashboardPage.value.comprehensiveRankingData || []
+  
+  // 更新总积分排行榜
+  totalRanking.value = rankingData.map(student => ({
+    studentInfoId: student.studentInfoId,
+    name: student.name,                   // 直接使用已获取的姓名
+    grade: student.grade,                  // 直接使用已获取的年级
+    major: student.major,                  // 直接使用已获取的专业
+    levelCode: student.levelCode,          // 直接使用已获取的等级
+    hasAvatar: !!student.avatarUrl,        // 直接使用已获取的头像信息
+    avatarUrl: student.avatarUrl,          // 直接使用已获取的头像URL
+    signInPoints: student.attendancePoints,  // 签到积分
+    activityPoints: student.activityPoints,  // 活动积分
+    totalPoints: student.totalPoints         // 总积分
+  }))
+  
+  // 更新侧边栏显示的前32名
+  const topList = totalRanking.value.slice(0, 32)
+  topStudents.value = padTopStudents(topList, 32)
+  
+  // 根据当前激活的 tab 更新对应的排行榜
+  if (activeTab.value === 'signIn') {
+    signInRanking.value = rankingData.map(student => ({
+      studentInfoId: student.studentInfoId,
+      name: student.name,
+      grade: student.grade,
+      major: student.major,
+      signInPoints: student.attendancePoints
+    }))
+  } else if (activeTab.value === 'activity') {
+    activityRanking.value = rankingData.map(student => ({
+      targetStudentInfoId: student.studentInfoId,
+      name: student.name,
+      grade: student.grade,
+      major: student.major,
+      activityPoints: student.activityPoints
+    }))
+  }
+}
+
+// 启动自动刷新
+const startAutoRefresh = () => {
+  // 清除已存在的定时器
+  if (refreshTimer) {
+    clearInterval(refreshTimer)
+  }
+  // 设置定时器，每隔60秒（60000毫秒）刷新一次
+  refreshTimer = setInterval(() => {
+    refreshData()
+  }, 60000)
+}
+
+// 停止自动刷新
+const stopAutoRefresh = () => {
+  if (refreshTimer) {
+    clearInterval(refreshTimer)
+    refreshTimer = null
   }
 }
 
@@ -1088,9 +1026,13 @@ onMounted(async () => {
   await nextTick()
   await loadTotalRanking()
   window.addEventListener('resize', handleResize)
+  // 启动自动刷新
+  startAutoRefresh()
 })
 
 onUnmounted(() => {
+  // 停止自动刷新
+  stopAutoRefresh()
   if (signInChartInstance) {
     signInChartInstance.dispose()
   }
