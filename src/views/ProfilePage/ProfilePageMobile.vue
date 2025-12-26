@@ -22,9 +22,9 @@
             <div class="avatar-wrapper">
               <div class="avatar-container" @click="handleAvatarClick">
                 <div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
-                  <img 
-                    v-if="avatarUrl && !avatarLoading" 
-                    :src="avatarUrl" 
+                  <img
+                    v-if="avatarUrl"
+                    :src="avatarUrl"
                     alt="头像" 
                     class="avatar-image"
                     @error="handleAvatarError"
@@ -401,6 +401,7 @@ import { useRouter } from 'vue-router'
 import { getStudentProfile, updateStudentInfo, changePassword, uploadAvatar, getAvatarUrl, getStudentDatabaseTableId } from '@/api/student'
 import { getMyAttendanceCount } from '@/api/attendance'
 import { useThemeStore } from '@/stores/theme'
+import ProfilePageConfig from "@/views/ProfilePage/js/ProfilePageConfig";
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -581,7 +582,7 @@ const loadAvatar = async () => {
   
   avatarLoading.value = true
   try {
-    const url = getAvatarUrl(studentInfoId.value)
+    const url = getAvatarUrl(studentInfoId.value, ProfilePageConfig.AVATAR_SIZE)
     if (!url) {
       avatarUrl.value = null
       return
@@ -600,12 +601,12 @@ const loadAvatar = async () => {
       }
       // 设置超时，避免长时间等待
       setTimeout(() => resolve(false), 5000)
-      img.src = url + '?t=' + Date.now()
+      img.src = url
     })
     
     const hasAvatar = await checkAvatar
     if (hasAvatar) {
-      avatarUrl.value = url + '?t=' + Date.now()
+      avatarUrl.value = url
     } else {
       avatarUrl.value = null
     }

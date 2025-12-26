@@ -220,7 +220,7 @@
 									<div class="side-avatar-section">
 										<div class="side-avatar"
 											 :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
-											<img v-if="student.hasAvatar && student.avatarUrl" :src="student.avatarUrl"
+											<img v-if="student.hasAvatar && student.avatarUrl" v-lazy="student.avatarUrl"
 												 alt="头像" class="avatar-image" @error="handleAvatarError(student)"/>
 											<el-icon v-else size="18" class="avatar-icon">
 												<User/>
