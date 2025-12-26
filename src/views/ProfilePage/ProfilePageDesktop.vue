@@ -480,6 +480,7 @@ import {
 import {getMyAttendanceCount} from '@/api/attendance'
 import {useThemeStore} from '@/stores/theme'
 import ProfilePageConfig from "@/views/ProfilePage/js/ProfilePageConfig";
+import ProfilePageUtils from "@/views/ProfilePage/js/ProfilePageUtils";
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -1270,23 +1271,24 @@ const confirmCrop = async () => {
 		const cropY = cropRect.top - canvasRect.top
 		const cropSize = cropRect.width
 
-		// 计算裁剪区域在原图中的位置和尺寸
-		const sourceX = (cropX - imageX.value) / scale.value
-		const sourceY = (cropY - imageY.value) / scale.value
-		const sourceSize = cropSize / scale.value
-
-		// 创建新的Canvas进行裁剪
-		const cropCanvas = document.createElement('canvas')
-		cropCanvas.width = cropSize
-		cropCanvas.height = cropSize
-		const cropCtx = cropCanvas.getContext('2d')
-
-		// 绘制裁剪区域
-		cropCtx.drawImage(
-			img,
-			sourceX, sourceY, sourceSize, sourceSize,  // 源图片区域
-			0, 0, cropSize, cropSize  // 目标Canvas区域
-		)
+    // 计算裁剪区域在原图中的位置和尺寸
+    const sourceX = (cropX - imageX.value) / scale.value
+    const sourceY = (cropY - imageY.value) / scale.value
+    const sourceSize = cropSize / scale.value
+    
+    // 创建新的Canvas进行裁剪，使用原图最小边长作为正方形尺寸
+    const cropCanvas = document.createElement('canvas')
+    const outputSize = Math.min(img.width, img.height)  // 使用原图的最小边长
+    cropCanvas.width = outputSize
+    cropCanvas.height = outputSize
+    const cropCtx = cropCanvas.getContext('2d')
+    
+    // 绘制裁剪区域，输出为正方形
+    cropCtx.drawImage(
+      img,
+      sourceX, sourceY, sourceSize, sourceSize,  // 源图片裁剪区域
+      0, 0, outputSize, outputSize  // 目标Canvas区域，正方形尺寸
+    )
 
 		// 转换为Blob
 		cropCanvas.toBlob(async (blob) => {
@@ -1306,7 +1308,8 @@ const confirmCrop = async () => {
 
 			// 压缩并上传
 			try {
-				const compressedFile = await compressImage(croppedFile)
+				ElMessage.info('正在处理头像, 请稍候...')
+				const compressedFile = await ProfilePageUtils.compressImage(croppedFile)
 
 				// 预览图片
 				const reader = new FileReader()
@@ -1440,9 +1443,9 @@ const uploadAvatarFile = async (file) => {
 			return
 		}
 
-		console.log('开始上传头像，文件大小:', file.size, '文件类型:', file.type)
+		ElMessage.info('正在上传头像, 请稍候...')
+		console.log("头像大小", file.size / 1024 / 1024, "MB")
 		const response = await uploadAvatar(token, file)
-		console.log('上传响应:', response)
 
 		if (response && response.code === 200) {
 			ElMessage.success('头像上传成功')

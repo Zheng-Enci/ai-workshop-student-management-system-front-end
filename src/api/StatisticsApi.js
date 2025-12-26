@@ -11,9 +11,9 @@ class StatisticsApi {
 	 */
 	static async getComprehensiveRanking(startRank, endRank) {
 		const response = await this.api.get('/api/v1/statistics/comprehensive-ranking', {
-			params: {
-				startRank,
-				endRank
+			params: { 
+				startRank, 
+				endRank 
 			}
 		}).catch(error => {
 			const msg = error.response?.data?.message
