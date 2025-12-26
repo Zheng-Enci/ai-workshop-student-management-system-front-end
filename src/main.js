@@ -8,20 +8,26 @@ import { useThemeStore } from '@/stores/theme'
 import '@/assets/styles/theme.css'
 import VueLazyload from 'vue3-lazy'
 
+// 1. 修正静态资源导入语法（核心错误）
+import loadingGif from '@/assets/loading.gif'
+import loadErrorPng from '@/assets/loadError.png'
+
 const app = createApp(App)
 const pinia = createPinia()
 app.use(pinia)
 app.use(router)
-// 配置懒加载
+
+// 2. 配置懒加载：使用导入的资源变量（而非硬编码路径）
 app.use(VueLazyload, {
-	loading: 'src/assets/loading.gif',  // 加载中的占位图
-	error: 'src/assets/loadError.png'        // 加载失败的占位图
+	loading: loadingGif,  // 导入的加载中图片变量
+	error: loadErrorPng,  // 导入的加载失败图片变量
 })
 
-const userStore = useUserStore()
+// 3. 确保Pinia实例已挂载后再使用store（规范写法）
+const userStore = useUserStore(pinia)
 userStore.initFromStorage()
 
-const themeStore = useThemeStore()
+const themeStore = useThemeStore(pinia)
 themeStore.initTheme()
 
 app.mount('#app')
