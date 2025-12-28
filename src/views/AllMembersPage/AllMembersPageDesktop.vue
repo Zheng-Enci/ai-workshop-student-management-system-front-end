@@ -188,21 +188,19 @@
 											<div class="points-formula" v-else>
 												<span class="points-placeholder">待公布</span>
 											</div>
-											<el-tooltip content="查看全部改分记录" placement="top" :show-after="300">
-												<el-button
-													v-if="!student.placeholder"
-													size="small"
-													type="primary"
-													plain
-													@click="openRecordsDialog(student)"
-													class="view-records-btn"
-													circle
-												>
-													<el-icon>
-														<View/>
-													</el-icon>
-												</el-button>
-											</el-tooltip>
+											<el-button
+												v-if="!student.placeholder"
+												size="small"
+												type="primary"
+												plain
+												@click="openRecordsDialog(student)"
+												class="view-records-btn"
+												circle
+											>
+												<el-icon>
+													<View/>
+												</el-icon>
+											</el-button>
 										</div>
 									</div>
 								</div>
@@ -951,8 +949,6 @@ const handleAvatarError = (student) => {
 	student.hasAvatar = false
 	student.avatarUrl = null
 }
-
-
 
 
 const loadSignInRanking = async () => {
@@ -2011,8 +2007,6 @@ html.dark .slogan-img {
 		transform: translateY(0) scale(1);
 	}
 }
-
-
 
 
 .record-reason-text {

@@ -118,6 +118,8 @@
 			:destroy-on-close="true"
 			:append-to-body="true"
 			:teleported="true"
+			class="adjust-records-dialog"
+			@close="adjustRecordsDialogManager.handleDialogClose"
 		>
 			<div v-if="adjustRecordsDialogManager.loading" class="records-loading">
 				<el-icon class="is-loading" size="48"><Loading /></el-icon>
@@ -160,8 +162,6 @@ import 'element-plus/theme-chalk/el-overlay.css'
 import { ArrowLeft, Loading, Box, View, User, Search } from '@element-plus/icons-vue'
 import AllMembersPage from "@/views/AllMembersPage/js/AllMembersPage";
 import AdjustRecordsDialogManager from "@/views/AllMembersPage/js/AdjustRecordsDialogManager";
-import AllMembersPageUtils from "@/views/AllMembersPage/js/AllMembersPageUtils";
-import PointsServer from "@/views/AllMembersPage/js/PointsServer";
 
 
 const router = useRouter()
@@ -240,8 +240,8 @@ const handleSearch = () => {
 		}
 		if (student.totalPoints !== undefined && student.totalPoints.toString().includes(keyword)) return true
 		if (student.attendancePoints !== undefined && student.attendancePoints.toString().includes(keyword)) return true
-		if (student.activityPoints !== undefined && student.activityPoints.toString().includes(keyword)) return true
-		return false
+		return !!(student.activityPoints !== undefined && student.activityPoints.toString().includes(keyword));
+
 	})
 	
 	topStudents.value = filteredStudents.value
@@ -297,122 +297,4 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-/* 组件样式 */
-
-/* 改分记录弹窗样式 */
-.records-loading {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 60px 20px;
-	gap: 16px;
-	color: var(--text-secondary);
-}
-
-.records-empty {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 60px 20px;
-	gap: 16px;
-	color: var(--text-secondary);
-}
-
-.records-list {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-}
-
-.record-item {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.15);
-	border-radius: 12px;
-	padding: 16px;
-	backdrop-filter: blur(10px);
-}
-
-.record-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 12px;
-}
-
-.record-time {
-	font-size: 13px;
-	color: var(--text-secondary);
-	font-weight: 500;
-}
-
-.points-positive {
-	color: #10b981;
-	background: rgba(16, 185, 129, 0.15);
-	border: 1px solid rgba(16, 185, 129, 0.3);
-	font-size: 16px;
-	font-weight: 700;
-	padding: 4px 12px;
-	border-radius: 6px;
-	min-width: 60px;
-	text-align: center;
-}
-
-.points-negative {
-	color: #ef4444;
-	background: rgba(239, 68, 68, 0.15);
-	border: 1px solid rgba(239, 68, 68, 0.3);
-	font-size: 16px;
-	font-weight: 700;
-	padding: 4px 12px;
-	border-radius: 6px;
-	min-width: 60px;
-	text-align: center;
-}
-
-.record-reason {
-	font-size: 14px;
-	color: var(--text-primary);
-	line-height: 1.6;
-	word-break: break-word;
-}
-</style>
-
-<style>
-/* 全局动画定义 - 不能使用scoped，否则内联样式无法引用 */
-@keyframes card-shine {
-	0% {
-		transform: translateX(-100%);
-		opacity: 0;
-	}
-	10% {
-		opacity: 1;
-	}
-	90% {
-		opacity: 1;
-	}
-	100% {
-		transform: translateX(200%);
-		opacity: 0;
-	}
-}
-
-@keyframes avatar-shine {
-	0% {
-		transform: translate(-100%, -100%);
-		opacity: 0;
-	}
-	10% {
-		opacity: 1;
-	}
-	90% {
-		opacity: 1;
-	}
-	100% {
-		transform: translate(100%, 100%);
-		opacity: 0;
-	}
-}
-</style>
+<style scoped src = "./css/AllMembersPageMobile.css"></style>
