@@ -99,7 +99,13 @@
 				<div class="students-list" v-if="!loading && filteredStudents.length > 0">
 					<div class="student-card" v-for="student in filteredStudents" :key="student.studentId">
 						<div class="student-avatar">
-							<el-icon size="32"><User /></el-icon>
+							<div class="avatar-section">
+								<el-icon size="32"><User /></el-icon>
+							</div>
+							<div class="attendance-count">
+								<el-icon class="attendance-icon"><Calendar /></el-icon>
+								<span class="count-text">{{ getStudentAttendanceCountFromCache(student.studentId) }}次</span>
+							</div>
 						</div>
 						<div class="student-info">
 							<div class="student-name">{{ student.name }}</div>
@@ -132,10 +138,6 @@
 						</div>
 						<div class="student-actions">
 							<div class="attendance-info">
-								<div class="attendance-count">
-									<el-icon class="attendance-icon"><Calendar /></el-icon>
-									<span class="count-text">{{ getStudentAttendanceCountFromCache(student.studentId) }}次</span>
-								</div>
 								<div class="action-buttons">
 									<el-button
 										type="success"
@@ -1547,5 +1549,5 @@ watch(() => studentAttendanceRecords.value, () => {
 })
 </script>
 
-<style scoped></style>
+<style scoped src = "./css/StudentManagerPageDesktop.css"></style>
 
