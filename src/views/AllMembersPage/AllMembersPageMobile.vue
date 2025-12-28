@@ -64,32 +64,30 @@
 		<!--主体内容-->
 		<div style="padding: 16px; flex: 1; overflow-y: auto;">
 			<div v-if="topStudents.length > 0" style="display: flex; flex-direction: column; gap: 12px;">
-				<div v-for="(student, index) in topStudents" :key="student.studentInfoId || student.placeholderId" :data-index="index" :style="`background: ${getStudentBackground(student)}; border: 1px solid rgba(102, 126, 234, 0.2); border-radius: 12px; padding: 16px; backdrop-filter: blur(20px); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden;`">
-					<!-- 光影扫过效果 -->
-					<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%); transform: translateX(-100%); animation: card-shine 2.5s ease-in-out infinite; pointer-events: none; z-index: 1;"></div>
-					<div style="display: flex; gap: 12px; position: relative; z-index: 2;">
-						<div style="width: 56px; height: 56px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3); flex-shrink: 0; position: relative; overflow: hidden;">
+				<div v-for="(student, index) in topStudents" :key="student.studentInfoId || student.placeholderId" :data-index="index" :style="`background: ${getStudentBackground(student)}`" class="student-card">
+					<div class="student-card-content">
+						<div class="avatar-container">
 							<!-- 头像光影效果 -->
-							<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%); transform: translate(-100%, -100%); animation: avatar-shine 3s ease-in-out infinite; pointer-events: none; border-radius: 8px; z-index: 1;"></div>
-							<img v-if="student.avatarUrl" v-lazy="student.avatarUrl" alt="头像" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" @error="handleAvatarError(student)" />
-							<el-icon v-else size="26"><User /></el-icon>
+							<div class="avatar-shine"></div>
+							<img v-if="student.avatarUrl" v-lazy="student.avatarUrl" alt="头像" class="avatar-image" @error="handleAvatarError(student)" />
+							<el-icon v-else size="26" class="avatar-icon"><User /></el-icon>
 						</div>
-						<div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
-							<div style="font-size: 16px; font-weight: 700; color: var(--text-primary);">{{ student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`) }}</div>
-							<div v-if="!student.placeholder" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 11px;">
-								<span v-if="student.gender" style="padding: 2px 6px; border-radius: 4px; background: rgba(102, 126, 234, 0.12); border: 1px solid rgba(102, 126, 234, 0.2); color: var(--text-primary);">{{ student.gender }}</span>
-								<span v-if="student.college" style="padding: 2px 6px; border-radius: 4px; background: rgba(102, 126, 234, 0.12); border: 1px solid rgba(102, 126, 234, 0.2); color: var(--text-primary);">{{ student.college }}</span>
-								<span v-if="student.major" style="padding: 2px 6px; border-radius: 4px; background: rgba(102, 126, 234, 0.12); border: 1px solid rgba(102, 126, 234, 0.2); color: var(--text-primary);">{{ student.major }}</span>
-								<span v-if="student.grade" style="padding: 2px 6px; border-radius: 4px; background: rgba(102, 126, 234, 0.12); border: 1px solid rgba(102, 126, 234, 0.2); color: var(--text-primary);">{{ formatGrade(student.grade) }}</span>
+						<div class="student-info">
+							<div class="student-name">{{ student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`) }}</div>
+							<div v-if="!student.placeholder" class="student-meta">
+								<span v-if="student.gender" class="meta-tag">{{ student.gender }}</span>
+								<span v-if="student.college" class="meta-tag">{{ student.college }}</span>
+								<span v-if="student.major" class="meta-tag">{{ student.major }}</span>
+								<span v-if="student.grade" class="meta-tag">{{ formatGrade(student.grade) }}</span>
 							</div>
-							<div v-if="!student.placeholder" style="display: flex; align-items: center; gap: 6px; padding-top: 8px; border-top: 1px solid rgba(102, 126, 234, 0.1);">
-								<span style="font-size: 18px; font-weight: 800; background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ student.totalPoints }}</span>
-								<span style="color: var(--text-secondary); font-size: 14px;">=</span>
+							<div v-if="!student.placeholder" class="student-points">
+								<span class="student-total-points">{{ student.totalPoints }}</span>
+								<span class="points-separator">=</span>
 								<span class="attendance-points">{{ student.attendancePoints }}</span>
-								<span style="color: var(--text-secondary); font-size: 14px;">+</span>
+								<span class="points-separator">+</span>
 								<span class="activity-points">{{ student.activityPoints }}</span>
 
-								<el-button size="small" type="primary" plain @click="openRecordsDialog(student)" circle style="margin-left: auto; width: 28px; height: 28px; padding: 0;">
+								<el-button size="small" type="primary" plain @click="openRecordsDialog(student)" circle class="view-records-btn">
 									<el-icon><View /></el-icon>
 								</el-button>
 							</div>
