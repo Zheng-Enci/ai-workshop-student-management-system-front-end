@@ -191,6 +191,26 @@ const routes = [
         }
     },
     {
+        path: '/student-manager/mobile',
+        name: 'StudentManagerMobile',
+        component: () => import('../views/StudentManagerPage/StudentManagerPageMobile.vue'),
+        meta: {
+            requiresAuth: true,
+            title: '学生管理 - 厦工AI坊学生管理系统',
+            description: '厦工AI坊学生管理系统学生管理页面，查询和管理学生信息、编辑个人资料，支持批量操作和数据导出'
+        }
+    },
+    {
+        path: '/student-manager/desktop',
+        name: 'StudentManagerDesktop',
+        component: () => import('../views/StudentManagerPage/StudentManagerPageDesktop.vue'),
+        meta: {
+            requiresAuth: true,
+            title: '学生管理 - 厦工AI坊学生管理系统',
+            description: '厦工AI坊学生管理系统学生管理页面，查询和管理学生信息、编辑个人资料，支持批量操作和数据导出'
+        }
+    },
+    {
         path: '/attendance-analysis',
         name: 'AttendanceAnalysis',
         component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue'),
