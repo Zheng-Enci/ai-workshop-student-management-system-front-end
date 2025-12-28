@@ -111,3 +111,10 @@
 		opacity: 0;
 	}
 }
+.attendance-points {
+	color: #3b82f6 !important;
+}
+
+.activity-points {
+	color: #f59e0b !important;
+}

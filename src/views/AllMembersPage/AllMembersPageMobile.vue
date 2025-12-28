@@ -85,9 +85,10 @@
 							<div v-if="!student.placeholder" style="display: flex; align-items: center; gap: 6px; padding-top: 8px; border-top: 1px solid rgba(102, 126, 234, 0.1);">
 								<span style="font-size: 18px; font-weight: 800; background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{{ student.totalPoints }}</span>
 								<span style="color: var(--text-secondary); font-size: 14px;">=</span>
-								<span style="font-size: 14px; font-weight: 700; color: #3b82f6;">{{ student.attendancePoints }}</span>
+								<span class="attendance-points">{{ student.attendancePoints }}</span>
 								<span style="color: var(--text-secondary); font-size: 14px;">+</span>
-								<span style="font-size: 14px; font-weight: 700; color: #f59e0b;">{{ student.activityPoints }}</span>
+								<span class="activity-points">{{ student.activityPoints }}</span>
+
 								<el-button size="small" type="primary" plain @click="openRecordsDialog(student)" circle style="margin-left: auto; width: 28px; height: 28px; padding: 0;">
 									<el-icon><View /></el-icon>
 								</el-button>
