@@ -329,27 +329,30 @@
 						</template>
 						<template #date-cell="{ data }">
 							<div class="attendance-records-dialog-list-item">
-								<div>
-									<div>
-										<span>
-											早:&nbsp;&nbsp;{{
+								<div class = "attendance-records-dialog-list-item-div">
+										<span
+											:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', studentAttendanceRecords) }">
+										  早:&nbsp;&nbsp;{{
 												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', studentAttendanceRecords)
-											}}</span>
-									</div>
-									<div>
-										<span>
-											午:&nbsp;&nbsp;{{
+											}}
+										</span>
+
+										<span
+											:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', studentAttendanceRecords) }">
+										  午:&nbsp;&nbsp;{{
 												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', studentAttendanceRecords)
-											}}</span>
-									</div>
-									<div>
-										<span>
-											晚:&nbsp;&nbsp;{{
+											}}
+										</span>
+
+										<span
+											:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', studentAttendanceRecords) }">
+										  晚:&nbsp;&nbsp;{{
 												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', studentAttendanceRecords)
-											}}</span>
-									</div>
+											}}
+										</span>
 								</div>
-								<span>{{ data.day.split('-')[2] }}</span>
+
+								<span class = "attendance-records-dialog-list-item-span">{{ data.day.split('-')[2] }}</span>
 							</div>
 						</template>
 					</el-calendar>
