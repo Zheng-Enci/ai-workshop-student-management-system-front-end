@@ -1,202 +1,215 @@
 <template>
-	<div class="student-manager-container">
-		<div class="header">
-			<el-button @click="goBack" class="back-btn">
-				<el-icon><ArrowLeft /></el-icon>
-				返回导航
-			</el-button>
-			<div class="header-content">
+	<div class="page_header">
+		<div class="page-header">
+			<!-- 页面头部左侧块 -->
+			<div class="page-header-left">
+				<el-button
+					@click="goBack"
+					title="返回导航页"
+				>
+					<el-icon>
+						<ArrowLeft/>
+					</el-icon>
+				</el-button>
 				<img
 					ref="logoRef"
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
-					class="logo"
 					@click="toggleTheme"
 					title="切换主题模式"
 				>
+			</div>
+			<!-- 页面头部中间块 -->
+			<div class="page-header-middle">
 				<h1>学生管理</h1>
-				<div class="admin-info">
-					<div class="admin-details">
-						<span class="admin-name">{{ userStore.userInfo?.name || '管理员' }}</span>
-						<div class="admin-level">
-							<el-icon class="level-icon"><Star /></el-icon>
-							<span class="level-text">管理员</span>
-						</div>
-					</div>
-				</div>
+			</div>
+			<!-- 页面头部右侧块 -->
+			<div class="page-header-right" v-if="studentManagerPage.adminStudentAvatarUrl">
+				<img
+					v-lazy="studentManagerPage.adminStudentAvatarUrl"
+					alt="管理员头像"
+				>
 			</div>
 		</div>
-
-		<div class="main-content">
-			<div class="search-section">
+		<div class="student-cards">
+			<!-- 学生卡片列表块头部 -->
+			<div class="student-cards-header">
+				<h2>管理的学生列表</h2>
 				<el-input
 					v-model="searchQuery"
 					placeholder="搜索学生姓名、学号或专业..."
-					class="search-input"
 					clearable
 					@input="handleSearch"
 					@clear="handleClearSearch"
 				>
 					<template #prefix>
-						<el-icon><Search /></el-icon>
+						<el-icon>
+							<Search/>
+						</el-icon>
 					</template>
 				</el-input>
-				<el-button
-					type="primary"
-					@click="handleSearch"
-					class="search-btn"
-					:icon="Search"
-				>
-					搜索
-				</el-button>
-			</div>
-
-			<div class="stats-section">
-				<div class="stat-card">
-					<div class="stat-icon">
-						<el-icon size="24"><User /></el-icon>
-					</div>
-					<div class="stat-content">
-						<div class="stat-number">{{ managedStudents.length }}</div>
-						<div class="stat-label">管理学生总数</div>
-					</div>
-				</div>
-
-				<div class="stat-card">
-					<div class="stat-icon">
-						<el-icon size="24"><Calendar /></el-icon>
-					</div>
-					<div class="stat-content">
-						<div class="stat-number">{{ totalAttendanceCount }}</div>
-						<div class="stat-label">总签到次数</div>
-					</div>
+				<div>
+					<el-button
+						type="info"
+						@click="sortByAttendance"
+						:class="{ 'active': sortOrder === 'attendance' }"
+					>
+						<el-icon>
+							<Sort/>
+						</el-icon>
+						按打卡次数排序
+					</el-button>
+					<el-button
+						type="primary"
+						@click="refreshStudents"
+						:loading="loading"
+					>
+						<el-icon>
+							<Refresh/>
+						</el-icon>
+						刷新
+					</el-button>
 				</div>
 			</div>
+			<!-- 学生卡片列表块内容 -->
+			<div class="student-cards-list" v-if="!loading && filteredStudents.length > 0">
+				<div class="student-cards-list-item" v-for="student in filteredStudents" :key="student.studentId">
+					<!-- 学生卡片头部块 -->
+					<div class="student-cards-list-item-header">
 
-			<div class="students-section">
-				<div class="section-header">
-					<h2>管理的学生列表</h2>
-					<div class="header-actions">
+						<!-- 块1：头像 -->
+						<img
+							v-if="getStudentAvatarUrl(student)"
+							v-lazy="getStudentAvatarUrl(student)"
+							:alt="student.name"
+							class="student-avatar-img"
+							@error="handleAvatarError"
+						/>
+
+						<!-- 块2：学号 名字和签到次数 -->
+						<div class="student-cards-list-item-header-name--student_id-attendance-count">
+							<div>
+								<span>姓名：</span>
+								<span>{{ student.name }}</span>
+							</div>
+							<div>
+								<span>学号：</span>
+								<span>{{ student.studentId }}</span>
+							</div>
+							<div class="stat-item">
+								<span class="label-checkin-count">签到次数：</span>
+								<span class="value">{{ student.checkInCount }}次</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- 学生卡片积分块 -->
+					<div class="student-cards-list-item-points">
+						<div>
+							<span>总积分:&nbsp;</span>
+							<span>{{ student.points + Math.round(student.checkInCount * 0.64) }}</span>
+						</div>
+
+						<div>
+							<span>活动积分:&nbsp;</span>
+							<span>{{ student.points }}</span>
+						</div>
+						<div>
+							<span>签到积分:&nbsp;</span>
+							<span>{{ Math.round(student.checkInCount * 0.64) }}</span>
+						</div>
+					</div>
+					<!-- 学生卡片其他信息块 -->
+					<div class="student-cards-list-item-other_info">
+						<div>
+							<span>年级:&nbsp;</span>
+							<span>{{ student.grade }}年级</span>
+						</div>
+						<div>
+							<span>专业:&nbsp;</span>
+							<span>{{ student.major }}</span>
+						</div>
+						<div>
+							<span>班级:&nbsp;</span>
+							<span>{{ student.classNum }}班</span>
+						</div>
+						<div>
+							<span>性别:&nbsp;</span>
+							<span>{{ student.gender }}</span>
+						</div>
+						<div>
+							<span>手机:&nbsp;</span>
+							<span>{{ student.phone }}</span>
+						</div>
+					</div>
+					<!-- 学生卡片按钮块 -->
+					<div class="student-cards-list-item-buttons">
+						<el-button
+							type="success"
+							size="small"
+							@click="openAttendanceRecordsDialog(student)"
+						>
+							<el-icon>
+								<Calendar/>
+							</el-icon>
+							考勤记录
+						</el-button>
+						<el-button
+							type="warning"
+							size="small"
+							@click="openMakeupDialog(student)"
+						>
+							<el-icon>
+								<Clock/>
+							</el-icon>
+							补卡
+						</el-button>
 						<el-button
 							type="info"
-							@click="sortByAttendance"
-							:class="{ 'active': sortOrder === 'attendance' }"
+							size="small"
+							@click="openHeatmapDialog(student)"
 						>
-							<el-icon><Sort /></el-icon>
-							按打卡次数排序
+							<el-icon>
+								<Star/>
+							</el-icon>
+							热力图
 						</el-button>
 						<el-button
 							type="primary"
-							@click="refreshStudents"
-							:loading="loading"
+							size="small"
+							@click="openTrendChartDialog(student)"
 						>
-							<el-icon><Refresh /></el-icon>
-							刷新
+							<el-icon>
+								<TrendCharts/>
+							</el-icon>
+							趋势图
 						</el-button>
 					</div>
 				</div>
+			</div>
 
-				<div class="students-list" v-if="!loading && filteredStudents.length > 0">
-					<div class="student-card" v-for="student in filteredStudents" :key="student.studentId">
-						<div class="student-avatar">
-							<div class="avatar-section">
-								<el-icon size="32"><User /></el-icon>
-							</div>
-							<div class="attendance-count">
-								<el-icon class="attendance-icon"><Calendar /></el-icon>
-								<span class="count-text">{{ getStudentAttendanceCountFromCache(student.studentId) }}次</span>
-							</div>
-						</div>
-						<div class="student-info">
-							<div class="student-name">{{ student.name }}</div>
-							<div class="student-details">
-								<div class="detail-item">
-									<span class="label">学号：</span>
-									<span class="value">{{ student.studentId }}</span>
-								</div>
-								<div class="detail-item">
-									<span class="label">年级：</span>
-									<span class="value">{{ student.grade }}年级</span>
-								</div>
-								<div class="detail-item">
-									<span class="label">专业：</span>
-									<span class="value">{{ student.major }}</span>
-								</div>
-								<div class="detail-item">
-									<span class="label">班级：</span>
-									<span class="value">{{ student.classNum }}班</span>
-								</div>
-								<div class="detail-item">
-									<span class="label">性别：</span>
-									<span class="value">{{ student.gender }}</span>
-								</div>
-								<div class="detail-item">
-									<span class="label">手机：</span>
-									<span class="value">{{ student.phoneNumber }}</span>
-								</div>
-							</div>
-						</div>
-						<div class="student-actions">
-							<div class="attendance-info">
-								<div class="action-buttons">
-									<el-button
-										type="success"
-										size="small"
-										@click="openAttendanceRecordsDialog(student)"
-										class="records-btn"
-									>
-										<el-icon><Calendar /></el-icon>
-										考勤记录
-									</el-button>
-									<el-button
-										type="warning"
-										size="small"
-										@click="openMakeupDialog(student)"
-										class="makeup-btn"
-									>
-										<el-icon><Clock /></el-icon>
-										补卡
-									</el-button>
-									<el-button
-										type="info"
-										size="small"
-										@click="openHeatmapDialog(student)"
-										class="heatmap-btn"
-									>
-										<el-icon><Star /></el-icon>
-										热力图
-									</el-button>
-									<el-button
-										type="primary"
-										size="small"
-										@click="openTrendChartDialog(student)"
-										class="trend-btn"
-									>
-										<el-icon><TrendCharts /></el-icon>
-										趋势图
-									</el-button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+			<div class="empty-state" v-if="!loading && managedStudents.length === 0">
+				<el-icon size="64" class="empty-icon">
+					<User/>
+				</el-icon>
+				<h3>暂无管理的学生</h3>
+				<p>您当前没有管理任何学生</p>
+			</div>
 
-				<div class="empty-state" v-if="!loading && managedStudents.length === 0">
-					<el-icon size="64" class="empty-icon"><User /></el-icon>
-					<h3>暂无管理的学生</h3>
-					<p>您当前没有管理任何学生</p>
-				</div>
+			<div class="no-search-results"
+				 v-if="!loading && managedStudents.length > 0 && filteredStudents.length === 0 && searchQuery">
+				<el-icon size="64" class="empty-icon">
+					<Search/>
+				</el-icon>
+				<h3>未找到匹配的学生</h3>
+				<p>请尝试其他关键词或清空搜索条件</p>
+			</div>
 
-				<div class="no-search-results" v-if="!loading && managedStudents.length > 0 && filteredStudents.length === 0 && searchQuery">
-					<el-icon size="64" class="empty-icon"><Search /></el-icon>
-					<h3>未找到匹配的学生</h3>
-					<p>请尝试其他关键词或清空搜索条件</p>
-				</div>
-
-				<div class="loading-state" v-if="loading">
-					<el-icon size="32" class="loading-icon"><Loading /></el-icon>
-					<p>加载中...</p>
-				</div>
+			<div class="loading-state" v-if="loading">
+				<el-icon size="32" class="loading-icon">
+					<Loading/>
+				</el-icon>
+				<p>加载中...</p>
 			</div>
 		</div>
 
@@ -216,7 +229,9 @@
 		>
 			<div class="makeup-header">
 				<div class="header-icon">
-					<el-icon size="28"><Clock /></el-icon>
+					<el-icon size="28">
+						<Clock/>
+					</el-icon>
 				</div>
 				<div class="header-content">
 					<h3>学生补卡</h3>
@@ -227,18 +242,24 @@
 			<div class="makeup-content">
 				<div class="student-info-card">
 					<div class="student-avatar">
-						<el-icon size="36"><User /></el-icon>
+						<el-icon size="36">
+							<User/>
+						</el-icon>
 					</div>
 					<div class="student-details">
 						<div class="student-name">{{ makeupSelectedStudent?.name }}</div>
 						<div class="student-id">{{ makeupSelectedStudent?.studentId }}</div>
-						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 · {{ makeupSelectedStudent?.major }}</div>
+						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 ·
+							{{ makeupSelectedStudent?.major }}
+						</div>
 					</div>
 				</div>
 
 				<div class="form-section">
 					<div class="form-header">
-						<el-icon class="form-icon"><Calendar /></el-icon>
+						<el-icon class="form-icon">
+							<Calendar/>
+						</el-icon>
 						<span class="form-title">选择补卡时间</span>
 					</div>
 					<div class="form-content">
@@ -252,7 +273,9 @@
 							:shortcuts="timeShortcuts"
 						/>
 						<div class="form-tip">
-							<el-icon><InfoFilled /></el-icon>
+							<el-icon>
+								<InfoFilled/>
+							</el-icon>
 							<span>补卡时间不受签到时间段限制</span>
 						</div>
 					</div>
@@ -274,133 +297,71 @@
 					class="submit-btn"
 					size="large"
 				>
-					<el-icon v-if="!makeupLoading"><Check /></el-icon>
+					<el-icon v-if="!makeupLoading">
+						<Check/>
+					</el-icon>
 					{{ makeupLoading ? '处理中...' : '确认补卡' }}
 				</el-button>
 			</div>
 		</el-dialog>
 
 		<el-dialog
+			:title="`${selectedStudent?.name}的考勤记录`"
 			v-model="attendanceRecordsDialogVisible"
-			:title="`${selectedStudent?.name} 的考勤记录`"
-			width="95%"
-			:close-on-click-modal="false"
 			class="attendance-records-dialog"
-			v-if="attendanceRecordsDialogVisible"
-			:modal="true"
-			:append-to-body="true"
-			:teleported="true"
-			modal-class="attendance-records-overlay"
-			:destroy-on-close="true"
 		>
-			<div class="attendance-records-container">
-				<div class="records-header">
-					<div class="student-info">
-						<div class="student-avatar-large">
-							{{ selectedStudent?.name?.charAt(0) }}
-						</div>
-						<div class="student-details">
-							<h3>{{ selectedStudent?.name }}</h3>
-							<p>学号：{{ selectedStudent?.studentId }}</p>
-							<p>专业：{{ selectedStudent?.major }} | 年级：{{ selectedStudent?.grade }}年级</p>
-						</div>
-					</div>
-					<div class="attendance-summary">
-						<div class="summary-item">
-							<span class="summary-label">总签到次数</span>
-							<span class="summary-value">{{ studentAttendanceRecords.length }}</span>
-						</div>
-					</div>
-				</div>
-
-				<div v-if="studentAttendanceRecords.length === 0" class="no-records">
-					<el-icon class="no-records-icon"><Calendar /></el-icon>
+			<div>
+				<div v-if="studentAttendanceRecords.length === 0">
+					<el-icon>
+						<Calendar/>
+					</el-icon>
 					<p>暂无考勤记录</p>
 				</div>
-				<div v-else class="calendar-container">
-					<el-calendar v-model="calendarValue" class="attendance-calendar">
+				<div>
+					<el-calendar v-model="calendarValue">
 						<template #header="{ date }">
-							<div class="calendar-header">
-								<div class="header-title">{{ formatCalendarTitle(date) }}</div>
-								<div class="header-actions">
-									<el-button size="small" @click="prevMonth">上个月</el-button>
-									<el-button size="small" @click="goToday">今天</el-button>
-									<el-button size="small" @click="nextMonth">下个月</el-button>
-								</div>
+							<div>{{ formatCalendarTitle(date) }}</div>
+							<div>
+								<el-button size="small" @click="prevMonth">上个月</el-button>
+								<el-button size="small" @click="goToday">今天</el-button>
+								<el-button size="small" @click="nextMonth">下个月</el-button>
 							</div>
 						</template>
 						<template #date-cell="{ data }">
-							<div class="calendar-cell-admin" @click="showDateDetails(data.day, $event)">
-								<div class="cell-date-admin">{{ data.day.split('-')[2] }}</div>
-								<div class="cell-status-admin">
-									<div class="time-slot-status-admin">
-										<div class="time-slot-admin morning" :class="{ 'signed': isTimeSlotSigned(data.day, 'morning') }">
-											<span class="time-label-admin">早</span>
-										</div>
-										<div class="time-slot-admin afternoon" :class="{ 'signed': isTimeSlotSigned(data.day, 'afternoon') }">
-											<span class="time-label-admin">午</span>
-										</div>
-										<div class="time-slot-admin evening" :class="{ 'signed': isTimeSlotSigned(data.day, 'evening') }">
-											<span class="time-label-admin">晚</span>
-										</div>
+							<div class="attendance-records-dialog-list-item">
+								<div>
+									<div>
+										<span>
+											早:&nbsp;&nbsp;{{
+												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', studentAttendanceRecords)
+											}}</span>
+									</div>
+									<div>
+										<span>
+											午:&nbsp;&nbsp;{{
+												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', studentAttendanceRecords)
+											}}</span>
+									</div>
+									<div>
+										<span>
+											晚:&nbsp;&nbsp;{{
+												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', studentAttendanceRecords)
+											}}</span>
 									</div>
 								</div>
+								<span>{{ data.day.split('-')[2] }}</span>
 							</div>
 						</template>
 					</el-calendar>
-					<div class="calendar-legend">
-						<div class="legend-item">
-							<div class="legend-dot morning"></div>
-							<span>早上 (8:00-11:00)</span>
-						</div>
-						<div class="legend-item">
-							<div class="legend-dot afternoon"></div>
-							<span>下午 (14:00-17:00)</span>
-						</div>
-						<div class="legend-item">
-							<div class="legend-dot evening"></div>
-							<span>晚上 (19:00-22:00)</span>
-						</div>
-					</div>
 				</div>
 			</div>
 			<template #footer>
-				<div class="dialog-footer">
+				<div>
 					<el-button @click="closeAttendanceRecordsDialog">关闭</el-button>
 				</div>
 			</template>
 		</el-dialog>
 
-		<el-dialog
-			v-if="showDateDetailsDialog"
-			v-model="showDateDetailsDialog"
-			title="签到详情"
-			width="400px"
-			class="date-details-dialog-desktop"
-			destroy-on-close
-			:close-on-click-modal="false"
-			:append-to-body="true"
-			:teleported="true"
-			modal-class="date-details-overlay"
-			@click.stop
-			@close="handleDateDetailsClose"
-		>
-			<div class="date-details-content-desktop" @click.stop>
-				<div class="selected-date-desktop">{{ formatSelectedDate(selectedDate) }}</div>
-				<div class="attendance-times-desktop">
-					<div v-if="getDateAttendanceTimes(selectedDate).length === 0" class="no-attendance-desktop">
-						该日期无签到记录
-					</div>
-					<div v-else>
-						<div v-for="(time, index) in getDateAttendanceTimes(selectedDate)" :key="index" class="attendance-time-item-desktop">
-							<el-icon class="time-icon-desktop"><Clock /></el-icon>
-							<span class="time-text-desktop">{{ formatAttendanceTime(time.attendanceDateTime) }}</span>
-							<span class="time-slot-label-desktop">{{ getTimeSlotLabel(time.attendanceDateTime) }}</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</el-dialog>
 
 		<el-dialog
 			v-if="heatmapDialogVisible"
@@ -417,11 +378,15 @@
 		>
 			<div class="heatmap-dialog-content">
 				<div v-if="attendanceRecordsLoading" class="loading-container">
-					<el-icon class="loading-icon"><Loading /></el-icon>
+					<el-icon class="loading-icon">
+						<Loading/>
+					</el-icon>
 					<p>加载中...</p>
 				</div>
 				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
-					<el-icon class="no-records-icon"><Calendar /></el-icon>
+					<el-icon class="no-records-icon">
+						<Calendar/>
+					</el-icon>
 					<p>暂无考勤记录</p>
 				</div>
 				<div v-else class="chart-container">
@@ -453,11 +418,15 @@
 		>
 			<div class="trend-chart-dialog-content">
 				<div v-if="attendanceRecordsLoading" class="loading-container">
-					<el-icon class="loading-icon"><Loading /></el-icon>
+					<el-icon class="loading-icon">
+						<Loading/>
+					</el-icon>
 					<p>加载中...</p>
 				</div>
 				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
-					<el-icon class="no-records-icon"><Calendar /></el-icon>
+					<el-icon class="no-records-icon">
+						<Calendar/>
+					</el-icon>
 					<p>暂无考勤记录</p>
 				</div>
 				<div v-else class="chart-container">
@@ -477,8 +446,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, nextTick, watch } from 'vue'
-import { ElMessage, ElButton, ElIcon, ElInput, ElDialog, ElDatePicker, ElCalendar } from 'element-plus'
+import {nextTick, onMounted, ref, watch} from 'vue'
+import {ElButton, ElCalendar, ElDatePicker, ElDialog, ElIcon, ElInput, ElMessage} from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
@@ -491,24 +460,39 @@ import 'element-plus/theme-chalk/el-date-picker-panel.css'
 import 'element-plus/theme-chalk/el-time-picker.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import 'element-plus/theme-chalk/el-calendar.css'
-import { User, Calendar, Star, Refresh, Loading, ArrowLeft, Clock, InfoFilled, Check, Search, Sort, TrendCharts } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/user'
-import { useThemeStore } from '@/stores/theme'
-import { getManagedStudents } from '@/api/student'
-import { getStudentAttendanceCount, makeupAttendance, getStudentAttendanceRecords } from '@/api/attendance'
-import { getStudentLevel } from '@/api/student'
+import {
+	ArrowLeft,
+	Calendar,
+	Check,
+	Clock,
+	InfoFilled,
+	Loading,
+	Refresh,
+	Search,
+	Sort,
+	Star,
+	TrendCharts,
+	User
+} from '@element-plus/icons-vue'
+import {useRouter} from 'vue-router'
+import {useUserStore} from '@/stores/user'
+import {useThemeStore} from '@/stores/theme'
+import {getStudentAttendanceCount, makeupAttendance} from '@/api/attendance'
+import {getStudentLevel} from '@/api/student'
+import StudentManagerPageUtils from '@/views/StudentManagerPage/js/StudentManagerPageUtils'
 // ECharts 按需引入
 import * as echarts from 'echarts/core'
-import { LineChart, HeatmapChart } from 'echarts/charts'
-import {
-	TitleComponent,
-	TooltipComponent,
-	GridComponent,
-	LegendComponent,
-	VisualMapComponent
-} from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
+import {HeatmapChart, LineChart} from 'echarts/charts'
+import {GridComponent, LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent} from 'echarts/components'
+import {CanvasRenderer} from 'echarts/renderers'
+import StudentManagerPage from "@/views/StudentManagerPage/js/StudentManagerPage";
+import StudentManagerPageStudentAttendanceServer
+	from "@/views/StudentManagerPage/js/StudentManagerPageStudentAttendanceServer";
+
+const studentManagerPageUtils = StudentManagerPageUtils
+const studentManagerPageStudentAttendanceServer = StudentManagerPageStudentAttendanceServer
+
+const studentManagerPage = StudentManagerPage
 
 // 注册需要的组件
 echarts.use([
@@ -613,8 +597,7 @@ const attendanceRecordsDialogVisible = ref(false)
 const studentAttendanceRecords = ref([])
 const calendarValue = ref(new Date())
 const attendanceRecordsLoading = ref(false)
-const showDateDetailsDialog = ref(false)
-const selectedDate = ref('')
+
 const heatmapDialogVisible = ref(false)
 const trendChartDialogVisible = ref(false)
 
@@ -672,37 +655,78 @@ const timeShortcuts = [
 	}
 ]
 
-const totalAttendanceCount = computed(() => {
-	return Object.values(attendanceCounts.value).reduce((sum, count) => sum + count, 0)
-})
 
 const getStudentAttendanceCountFromCache = (studentId) => {
 	return attendanceCounts.value[studentId] || 0
 }
 
+const getStudentAvatarUrl = (student) => {
+	// 尝试多个可能的字段名
+	const possibleIds = [
+		student.studentInfoId,
+		student.id,
+		student.infoId,
+		student.databaseId
+	]
+
+	const validId = possibleIds.find(id => id != null && true && id !== '')
+
+	if (!validId) {
+		console.warn('未找到有效的学生ID:', student)
+		return null
+	}
+
+	return studentManagerPageUtils.getStudentAvatarUrl(validId)
+}
+
+const handleAvatarError = (event) => {
+	// 头像加载失败时显示默认图标
+	event.target.style.display = 'none'
+	const parent = event.target.parentElement
+	if (parent) {
+		const icon = document.createElement('i')
+		icon.className = 'el-icon'
+		parent.appendChild(icon)
+	}
+}
+
 const loadManagedStudents = async () => {
-	if (!userStore.userInfo?.studentId) {
-		ElMessage.error('用户信息获取失败')
+	if (!userStore.token) {
+		ElMessage.error('请先登录')
 		return
 	}
 
 	loading.value = true
 	try {
-		const response = await getManagedStudents(userStore.userInfo.studentId)
-		if (response.code === 200) {
-			managedStudents.value = response.data || []
-			if (sortOrder.value === 'attendance') {
-				filteredStudents.value = [...managedStudents.value].sort((a, b) => {
-					const countA = getStudentAttendanceCountFromCache(a.studentId)
-					const countB = getStudentAttendanceCountFromCache(b.studentId)
-					return countB - countA
-				})
-			} else {
-				filteredStudents.value = managedStudents.value
-			}
-			await loadAttendanceCounts()
+		// 使用 studentManagerPage.initData 初始化数据
+		await studentManagerPage.initData(userStore.token, userStore.userInfo.studentDatabaseTableId)
+
+		// 获取处理后的学生数据
+		const students = studentManagerPage.students || []
+
+		managedStudents.value = students
+
+		// 更新签到次数映射
+		const newAttendanceCounts = {}
+		let totalAttendanceCount = 0
+
+		students.forEach(student => {
+			newAttendanceCounts[student.studentId] = student.checkInCount || 0
+			totalAttendanceCount += (student.checkInCount || 0)
+		})
+
+		// 更新签到次数映射
+		Object.assign(attendanceCounts.value, newAttendanceCounts)
+
+		// 根据排序方式设置过滤后的学生列表
+		if (sortOrder.value === 'attendance') {
+			filteredStudents.value = [...students].sort((a, b) => {
+				const countA = getStudentAttendanceCountFromCache(a.studentId)
+				const countB = getStudentAttendanceCountFromCache(b.studentId)
+				return countB - countA
+			})
 		} else {
-			ElMessage.error(response.message || '获取管理学生信息失败')
+			filteredStudents.value = students
 		}
 	} catch (error) {
 		ElMessage.error(error.message || '获取管理学生信息失败')
@@ -787,19 +811,15 @@ const openAttendanceRecordsDialog = async (student) => {
 
 	try {
 		attendanceRecordsLoading.value = true
-		const response = await getStudentAttendanceRecords(student.studentId)
-		if (response.code === 200) {
-			studentAttendanceRecords.value = response.data || []
-			attendanceRecordsDialogVisible.value = true
-			document.body.style.overflow = 'hidden'
-		} else {
-			ElMessage.error(response.message || '获取考勤记录失败')
-		}
+		studentAttendanceRecords.value = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
+		attendanceRecordsDialogVisible.value = true
+		document.body.style.overflow = 'hidden'
 	} catch (error) {
 		ElMessage.error('获取考勤记录失败：' + error.message)
 	} finally {
 		attendanceRecordsLoading.value = false
 	}
+
 }
 
 const closeAttendanceRecordsDialog = () => {
@@ -814,7 +834,7 @@ const openHeatmapDialog = async (student) => {
 
 	try {
 		attendanceRecordsLoading.value = true
-		const response = await getStudentAttendanceRecords(student.studentId)
+		const response = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
 		if (response.code === 200) {
 			studentAttendanceRecords.value = response.data || []
 			heatmapDialogVisible.value = true
@@ -851,7 +871,7 @@ const openTrendChartDialog = async (student) => {
 
 	try {
 		attendanceRecordsLoading.value = true
-		const response = await getStudentAttendanceRecords(student.studentId)
+		const response = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
 		if (response.code === 200) {
 			studentAttendanceRecords.value = response.data || []
 			trendChartDialogVisible.value = true
@@ -922,84 +942,6 @@ const goToday = () => {
 	calendarValue.value = new Date()
 }
 
-const isTimeSlotSigned = (dateString, timeSlot) => {
-	if (!studentAttendanceRecords.value || studentAttendanceRecords.value.length === 0) return false
-
-	const targetDate = new Date(dateString)
-	const year = targetDate.getFullYear()
-	const month = String(targetDate.getMonth() + 1).padStart(2, '0')
-	const day = String(targetDate.getDate()).padStart(2, '0')
-	const dateStr = `${year}-${month}-${day}`
-
-	return studentAttendanceRecords.value.some(record => {
-		const recordDate = new Date(record.attendanceDateTime)
-		const recordYear = recordDate.getFullYear()
-		const recordMonth = String(recordDate.getMonth() + 1).padStart(2, '0')
-		const recordDay = String(recordDate.getDate()).padStart(2, '0')
-		const recordDateStr = `${recordYear}-${recordMonth}-${recordDay}`
-
-		if (recordDateStr !== dateStr) return false
-
-		const hour = recordDate.getHours()
-		if (timeSlot === 'morning' && hour >= 8 && hour < 11) return true
-		if (timeSlot === 'afternoon' && hour >= 14 && hour < 17) return true
-		if (timeSlot === 'evening' && hour >= 19 && hour < 22) return true
-
-		return false
-	})
-}
-
-const showDateDetails = (dateString, event) => {
-	event.stopPropagation()
-	selectedDate.value = dateString
-	showDateDetailsDialog.value = true
-}
-
-const handleDateDetailsClose = () => {
-	showDateDetailsDialog.value = false
-	selectedDate.value = ''
-}
-
-const getDateAttendanceTimes = (dateString) => {
-	if (!studentAttendanceRecords.value || studentAttendanceRecords.value.length === 0) return []
-
-	const targetDate = new Date(dateString)
-	const year = targetDate.getFullYear()
-	const month = String(targetDate.getMonth() + 1).padStart(2, '0')
-	const day = String(targetDate.getDate()).padStart(2, '0')
-	const dateStr = `${year}-${month}-${day}`
-
-	return studentAttendanceRecords.value.filter(record => {
-		const recordDate = new Date(record.attendanceDateTime)
-		const recordYear = recordDate.getFullYear()
-		const recordMonth = String(recordDate.getMonth() + 1).padStart(2, '0')
-		const recordDay = String(recordDate.getDate()).padStart(2, '0')
-		const recordDateStr = `${recordYear}-${recordMonth}-${recordDay}`
-		return recordDateStr === dateStr
-	})
-}
-
-const formatSelectedDate = (dateString) => {
-	if (!dateString) return ''
-	const date = new Date(dateString)
-	return date.toLocaleDateString('zh-CN', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		weekday: 'long'
-	})
-}
-
-const getTimeSlotLabel = (timeString) => {
-	if (!timeString) return ''
-	const date = new Date(timeString)
-	const hour = date.getHours()
-
-	if (hour >= 8 && hour < 11) return '上午'
-	if (hour >= 14 && hour < 17) return '下午'
-	if (hour >= 19 && hour < 22) return '晚上'
-	return '其他时间'
-}
 
 onMounted(async () => {
 	if (!userStore.userInfo?.studentId) {
@@ -1549,5 +1491,7 @@ watch(() => studentAttendanceRecords.value, () => {
 })
 </script>
 
-<style scoped src = "./css/StudentManagerPageDesktop.css"></style>
+<style scoped src="./css/desktop/StudentManagerPage-PageHeader.css"></style>
+<style scoped src="./css/desktop/StudentManagerPage-StudentCards.css"></style>
+<style scoped src="./css/desktop/StudentManagerPage-Attendance_Records_Dialog.css"></style>
 

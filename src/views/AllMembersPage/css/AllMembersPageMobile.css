@@ -119,16 +119,7 @@
 	color: #f59e0b !important;
 }
 
-/* 学生卡片样式 */
-.student-card {
-	position: relative;
-	overflow: hidden;
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	border-radius: 12px;
-	padding: 16px;
-	backdrop-filter: blur(20px);
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+
 
 
 

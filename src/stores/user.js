@@ -11,7 +11,6 @@ export const useUserStore = defineStore('user', {
         setUserInfo(info, token) {
             this.userInfo = info;
             this.token = token;
-            this.isLoggedIn = true;
             if (token) {
                 localStorage.setItem('token', token);
             }
@@ -29,7 +28,6 @@ export const useUserStore = defineStore('user', {
             this.userInfo = null;
             this.token = null;
             this.studentLevel = null;
-            this.isLoggedIn = false;
             localStorage.removeItem('token');
             localStorage.removeItem('userInfo');
             localStorage.removeItem('studentLevel');
@@ -42,7 +40,6 @@ export const useUserStore = defineStore('user', {
                 try {
                     this.token = token;
                     this.userInfo = JSON.parse(userInfo);
-                    this.isLoggedIn = true;
                     if (studentLevel) {
                         this.studentLevel = JSON.parse(studentLevel);
                     }

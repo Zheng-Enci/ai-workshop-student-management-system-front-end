@@ -1,0 +1,20 @@
+
+/* 设置考勤记录对话框的圆角 */
+:deep(.el-dialog.attendance-records-dialog) {
+	border-radius: 4% !important;
+}
+/* 考勤记录对话框里面的每一个“天”块 */
+.attendance-records-dialog-list-item {
+	display: flex;
+	justify-content: space-between;
+}
+.attendance-records-dialog-list-item div {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+/* 考勤记录对话框夜间模式下的文字颜色 */
+html.dark .attendance-records-dialog-list-item * {
+	color: #5a6c7d !important;
+}

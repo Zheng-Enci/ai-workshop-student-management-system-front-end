@@ -32,5 +32,20 @@ class AttendanceApi {
 		})
 		return response.data
 	}
+
+	/**
+	 * 根据学生学号获取该学生所有签到记录
+	 * @param studentId
+	 * @returns {Promise<*>}
+	 */
+	static async getStudentAttendanceRecords(studentId) {
+			const response = await this.api.get('/api/v1/attendance/student-records', {
+				params: { studentId }
+			}).catch(error => {
+				const msg = error.response?.data?.message
+				throw new Error(error.response?.status >= 500 ? '服务器错误，请稍后重试' : msg)
+			})
+		return response.data
+	}
 }
 export default AttendanceApi

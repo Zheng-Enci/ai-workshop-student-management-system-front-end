@@ -1,0 +1,103 @@
+/* 学生卡片 */
+.student-cards {
+	width: 80%;
+	margin-left: 10%;
+	padding: 1%;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+/* 学生卡片头部 */
+.student-cards-header{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+/* 学生卡片头部标题 */
+.student-cards-header h2 {
+	font-size: 1.8rem;
+}
+/* 学生卡片头部搜索框 */
+.student-cards-header .el-input {
+	width: 32%;
+}
+
+/* 学生卡片内容 */
+.student-cards-list {
+	display: flex;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+/* 学生卡片内容单个学生卡片 */
+.student-cards-list-item {
+	padding: 18px 16px;
+	border-radius: 8%;
+	width: 24%;
+	font-size: 0.9rem;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+/* 学生卡片内容单个学生卡片日间模式 */
+html.light .student-cards-list-item {
+	background: rgba(59, 130, 246, 0.12);  /* 浅蓝色 */
+	transition: background 0.4s ease;
+}
+
+/* 学生卡片内容单个学生卡片夜间模式 */
+html.dark .student-cards-list-item {
+	background: #1a202c;
+	transition: background 0.4s ease;
+}
+/* 学生卡片内容单个学生卡片夜间模式文字颜色 */
+html.dark .student-cards-list-item * {
+	color: #5a6c7d !important;
+}
+/* 学生卡片内容单个学生卡片头部 */
+.student-cards-list-item-header {
+	display: flex;
+	gap: 16px;
+}
+
+/* 学生卡片内容单个学生卡片头部头像 */
+.student-cards-list-item-header img {
+	width: 80px;
+	height: 80px;
+	border-radius: 25%;
+}
+/* 学生卡片内容单个学生卡片头部姓名 学号和签到次数 */
+.student-cards-list-item-header-name--student_id-attendance-count {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 3px;
+}
+.student-cards-list-item-header-name--student_id-attendance-count div {
+	display: flex;
+}
+/* 学生卡片内容单个学生卡片积分块 */
+.student-cards-list-item-points {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+/* 学生卡片内容单个学生卡片其他信息块 */
+.student-cards-list-item-other_info {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+.student-cards-list-item-other_info div {
+	margin-right: 16px;
+}
+/* 学生卡片内容单个学生卡片按钮 */
+.student-cards-list-item-buttons {
+	display: flex;
+}
+.student-cards-list-item-buttons .el-button {
+	font-size: 0.8rem;
+	padding: 1px 7px;
+}
+.student-cards-list-item-buttons .el-button:hover {
+	transform: scale(1.05);
+}

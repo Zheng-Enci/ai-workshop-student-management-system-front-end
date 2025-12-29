@@ -99,7 +99,20 @@
 				<div class="students-list" v-if="!loading && filteredStudents.length > 0">
 					<div class="student-card" v-for="student in filteredStudents" :key="student.studentId">
 						<div class="student-avatar">
-							<el-icon size="32"><User /></el-icon>
+							<div class="avatar-section">
+								<img 
+									v-if="getStudentAvatarUrl(student)"
+									:src="getStudentAvatarUrl(student)"
+									:alt="student.name"
+									class="student-avatar-img"
+									@error="handleAvatarError"
+								/>
+								<el-icon v-else size="32"><User /></el-icon>
+							</div>
+							<div class="attendance-count">
+								<el-icon class="attendance-icon"><Calendar /></el-icon>
+								<span class="count-text">{{ getStudentAttendanceCountFromCache(student.studentId) }}次</span>
+							</div>
 						</div>
 						<div class="student-info">
 							<div class="student-name">{{ student.name }}</div>
@@ -126,16 +139,12 @@
 								</div>
 								<div class="detail-item">
 									<span class="label">手机：</span>
-									<span class="value">{{ student.phoneNumber }}</span>
+									<span class="value">{{ student.phone }}</span>
 								</div>
 							</div>
 						</div>
 						<div class="student-actions">
 							<div class="attendance-info">
-								<div class="attendance-count">
-									<el-icon class="attendance-icon"><Calendar /></el-icon>
-									<span class="count-text">{{ getStudentAttendanceCountFromCache(student.studentId) }}次</span>
-								</div>
 								<div class="action-buttons">
 									<el-button
 										type="success"
@@ -328,7 +337,7 @@
 							</div>
 						</template>
 						<template #date-cell="{ data }">
-							<div class="calendar-cell-admin" @click="showDateDetails(data.day, $event)">
+							<div class="calendar-cell-admin">
 								<div class="cell-date-admin">{{ data.day.split('-')[2] }}</div>
 								<div class="cell-status-admin">
 									<div class="time-slot-status-admin">
@@ -369,36 +378,7 @@
 			</template>
 		</el-dialog>
 
-		<el-dialog
-			v-if="showDateDetailsDialog"
-			v-model="showDateDetailsDialog"
-			title="签到详情"
-			width="400px"
-			class="date-details-dialog-desktop"
-			destroy-on-close
-			:close-on-click-modal="false"
-			:append-to-body="true"
-			:teleported="true"
-			modal-class="date-details-overlay"
-			@click.stop
-			@close="handleDateDetailsClose"
-		>
-			<div class="date-details-content-desktop" @click.stop>
-				<div class="selected-date-desktop">{{ formatSelectedDate(selectedDate) }}</div>
-				<div class="attendance-times-desktop">
-					<div v-if="getDateAttendanceTimes(selectedDate).length === 0" class="no-attendance-desktop">
-						该日期无签到记录
-					</div>
-					<div v-else>
-						<div v-for="(time, index) in getDateAttendanceTimes(selectedDate)" :key="index" class="attendance-time-item-desktop">
-							<el-icon class="time-icon-desktop"><Clock /></el-icon>
-							<span class="time-text-desktop">{{ formatAttendanceTime(time.attendanceDateTime) }}</span>
-							<span class="time-slot-label-desktop">{{ getTimeSlotLabel(time.attendanceDateTime) }}</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</el-dialog>
+
 
 		<el-dialog
 			v-if="heatmapDialogVisible"
@@ -496,6 +476,8 @@ import { useThemeStore } from '@/stores/theme'
 import { getManagedStudents } from '@/api/student'
 import { getStudentAttendanceCount, makeupAttendance, getStudentAttendanceRecords } from '@/api/attendance'
 import { getStudentLevel } from '@/api/student'
+import StudentManagerPageUtils from '@/views/StudentManagerPage/js/StudentManagerPageUtils'
+import StudentManagerPage from '@/views/StudentManagerPage/js/StudentManagerPage'
 // ECharts 按需引入
 import * as echarts from 'echarts/core'
 import { LineChart, HeatmapChart } from 'echarts/charts'
@@ -611,8 +593,7 @@ const attendanceRecordsDialogVisible = ref(false)
 const studentAttendanceRecords = ref([])
 const calendarValue = ref(new Date())
 const attendanceRecordsLoading = ref(false)
-const showDateDetailsDialog = ref(false)
-const selectedDate = ref('')
+
 const heatmapDialogVisible = ref(false)
 const trendChartDialogVisible = ref(false)
 
@@ -678,29 +659,83 @@ const getStudentAttendanceCountFromCache = (studentId) => {
 	return attendanceCounts.value[studentId] || 0
 }
 
+const getStudentAvatarUrl = (student) => {
+	console.log('获取头像URL, student:', student)
+	console.log('可用的ID字段:', {
+		id: student.id,
+		studentInfoId: student.studentInfoId,
+		studentId: student.studentId,
+		infoId: student.infoId,
+		databaseId: student.databaseId
+	})
+	
+	// 尝试多个可能的字段名
+	const possibleIds = [
+		student.studentInfoId,
+		student.id,
+		student.infoId,
+		student.databaseId
+	]
+	
+	const validId = possibleIds.find(id => id != null && id !== undefined && id !== '')
+	
+	if (!validId) {
+		console.warn('未找到有效的学生ID:', student)
+		return null
+	}
+	
+	const url = StudentManagerPageUtils.getStudentAvatarUrl(validId)
+	console.log('使用的ID:', validId, '头像URL:', url)
+	return url
+}
+
+const handleAvatarError = (event) => {
+	// 头像加载失败时显示默认图标
+	event.target.style.display = 'none'
+	const parent = event.target.parentElement
+	if (parent) {
+		const icon = document.createElement('i')
+		icon.className = 'el-icon'
+		parent.appendChild(icon)
+	}
+}
+
 const loadManagedStudents = async () => {
-	if (!userStore.userInfo?.studentId) {
-		ElMessage.error('用户信息获取失败')
+	if (!userStore.token) {
+		ElMessage.error('请先登录')
 		return
 	}
 
 	loading.value = true
 	try {
-		const response = await getManagedStudents(userStore.userInfo.studentId)
-		if (response.code === 200) {
-			managedStudents.value = response.data || []
-			if (sortOrder.value === 'attendance') {
-				filteredStudents.value = [...managedStudents.value].sort((a, b) => {
-					const countA = getStudentAttendanceCountFromCache(a.studentId)
-					const countB = getStudentAttendanceCountFromCache(b.studentId)
-					return countB - countA
-				})
-			} else {
-				filteredStudents.value = managedStudents.value
-			}
-			await loadAttendanceCounts()
+		// 使用 StudentManagerPage.initData 初始化数据
+		await StudentManagerPage.initData(userStore.token)
+		
+		// 获取处理后的学生数据
+		const students = StudentManagerPage.students || []
+		managedStudents.value = students
+		
+		// 更新签到次数映射
+		const newAttendanceCounts = {}
+		let totalAttendanceCount = 0
+		
+		students.forEach(student => {
+			newAttendanceCounts[student.studentId] = student.checkInCount || 0
+			totalAttendanceCount += (student.checkInCount || 0)
+		})
+		
+		// 更新签到次数映射
+		Object.assign(attendanceCounts.value, newAttendanceCounts)
+		
+		// 根据排序方式设置过滤后的学生列表
+		if (sortOrder.value === 'attendance') {
+			filteredStudents.value = [...students].sort((a, b) => {
+				const countA = getStudentAttendanceCountFromCache(a.studentId)
+				const countB = getStudentAttendanceCountFromCache(b.studentId)
+				return countB - countA
+			})
 		} else {
-			ElMessage.error(response.message || '获取管理学生信息失败')
+			filteredStudents.value = students
 		}
 	} catch (error) {
 		ElMessage.error(error.message || '获取管理学生信息失败')
@@ -947,57 +982,9 @@ const isTimeSlotSigned = (dateString, timeSlot) => {
 	})
 }
 
-const showDateDetails = (dateString, event) => {
-	event.stopPropagation()
-	selectedDate.value = dateString
-	showDateDetailsDialog.value = true
-}
 
-const handleDateDetailsClose = () => {
-	showDateDetailsDialog.value = false
-	selectedDate.value = ''
-}
 
-const getDateAttendanceTimes = (dateString) => {
-	if (!studentAttendanceRecords.value || studentAttendanceRecords.value.length === 0) return []
 
-	const targetDate = new Date(dateString)
-	const year = targetDate.getFullYear()
-	const month = String(targetDate.getMonth() + 1).padStart(2, '0')
-	const day = String(targetDate.getDate()).padStart(2, '0')
-	const dateStr = `${year}-${month}-${day}`
-
-	return studentAttendanceRecords.value.filter(record => {
-		const recordDate = new Date(record.attendanceDateTime)
-		const recordYear = recordDate.getFullYear()
-		const recordMonth = String(recordDate.getMonth() + 1).padStart(2, '0')
-		const recordDay = String(recordDate.getDate()).padStart(2, '0')
-		const recordDateStr = `${recordYear}-${recordMonth}-${recordDay}`
-		return recordDateStr === dateStr
-	})
-}
-
-const formatSelectedDate = (dateString) => {
-	if (!dateString) return ''
-	const date = new Date(dateString)
-	return date.toLocaleDateString('zh-CN', {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric',
-		weekday: 'long'
-	})
-}
-
-const getTimeSlotLabel = (timeString) => {
-	if (!timeString) return ''
-	const date = new Date(timeString)
-	const hour = date.getHours()
-
-	if (hour >= 8 && hour < 11) return '上午'
-	if (hour >= 14 && hour < 17) return '下午'
-	if (hour >= 19 && hour < 22) return '晚上'
-	return '其他时间'
-}
 
 onMounted(async () => {
 	if (!userStore.userInfo?.studentId) {

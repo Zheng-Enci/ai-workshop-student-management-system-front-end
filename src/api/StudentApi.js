@@ -62,6 +62,30 @@ class StudentApi {
 			}
 		}
 	}
+	/**
+	 * 通过 token 获取学生数据库表主键 ID
+	 * @param {String} token - 用户登录凭证
+	 * @returns {Promise<Object>} 响应数据，data 字段为学生数据库表主键 ID
+	 */
+	static async getStudentDatabaseTableId(token) {
+		try {
+			const response = await this.api.get('/api/v1/students/get-student-database-table-id', {
+				params: { token }
+			})
+			return response.data
+		} catch (error) {
+			if (error.response) {
+				const status = error.response.status
+				if (status >= 500) {
+					throw new Error('服务器错误，请稍后重试')
+				} else {
+					throw new Error(error.response.data.message)
+				}
+			} else {
+				throw new Error('网络错误，获取学生数据库表主键 ID 失败，请检查网络连接')
+			}
+		}
+	}
 }
 
 export default StudentApi
