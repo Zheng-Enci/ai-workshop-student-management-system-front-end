@@ -225,11 +225,10 @@
 			format="YYYY年MM月DD日 HH:mm"
 			value-format="YYYY-MM-DDTHH:mm:ss"
 			:shortcuts="timeShortcuts"
-			:teleported="true"
 			@change="(val) => handleMakeupTimeChange(currentMakeupStudent, val)"
 			:loading="makeupLoading"
 			ref="hiddenDatePicker"
-			popper-class="makeup-date-picker-popper"
+			popper-class="makeup-attendance-date-picker"
 			style="position: fixed; left: 50%; top: 75%; transform: translate(-50%, -50%); opacity: 0; pointer-events: none;"
 
 		/>
@@ -1447,13 +1446,18 @@ const generateHeatmapData = () => {
 }
 
 watch(() => themeStore.isDark, () => {
-	if (heatmapInstance.value) {
-		initHeatmapChart()
-	}
-	if (lineInstance.value) {
-		initLineChart()
-	}
+	nextTick(() => {
+		setTimeout(() => {
+			if (heatmapInstance.value) {
+				initHeatmapChart()
+			}
+			if (lineInstance.value) {
+				initLineChart()
+			}
+		}, 100)  // 延迟 300ms
+	}, 50);
 })
+
 
 watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords, () => {
 	if (heatmapInstance.value) {
@@ -1468,4 +1472,5 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 <style scoped src="./css/desktop/StudentManagerPage-PageHeader.css"></style>
 <style scoped src="./css/desktop/StudentManagerPage-StudentCards.css"></style>
 <style scoped src="./css/desktop/StudentManagerPage-Attendance_Records_Dialog.css"></style>
+<style scoped src="./css/desktop/StudentManagerPage-MakeupAttendanceDatePicker.css"></style>
 

@@ -1,0 +1,5 @@
+/* 补卡时间选择器当前日期高亮 - 使用 :global() */
+:global(.makeup-attendance-date-picker td.today .el-date-table-cell__text) {
+	background-color: #409EFF !important;
+	border-radius: 4px;
+}
