@@ -151,7 +151,7 @@
 						<el-button
 							type="success"
 							size="small"
-							@click="openAttendanceRecordsDialog(student)"
+							@click="StudentManagerPageAttendance_Records_Dialog.openAttendanceRecordsDialog(student)"
 						>
 							<el-icon>
 								<Calendar/>
@@ -161,7 +161,7 @@
 						<el-button
 							type="warning"
 							size="small"
-							@click="openMakeupDialog(student)"
+							@click="openDatePicker(student)"
 						>
 							<el-icon>
 								<Clock/>
@@ -217,112 +217,40 @@
 			</div>
 		</div>
 
-		<el-dialog
-			v-model="makeupDialogVisible"
-			:title="null"
-			width="90%"
-			:close-on-click-modal="false"
-			class="makeup-dialog"
-			:show-close="false"
-			v-if="makeupDialogVisible"
-			:modal="true"
-			:append-to-body="true"
+		<!-- 隐藏的日期选择器 -->
+		<el-date-picker
+			v-model="makeupForm.attendanceTime"
+			v-if="showDatePicker"
+			type="datetime"
+			format="YYYY年MM月DD日 HH:mm"
+			value-format="YYYY-MM-DDTHH:mm:ss"
+			:shortcuts="timeShortcuts"
 			:teleported="true"
-			modal-class="makeup-overlay"
-			:destroy-on-close="true"
-		>
-			<div class="makeup-header">
-				<div class="header-icon">
-					<el-icon size="28">
-						<Clock/>
-					</el-icon>
-				</div>
-				<div class="header-content">
-					<h3>学生补卡</h3>
-					<p>为指定学生进行补卡操作</p>
-				</div>
-			</div>
+			@change="(val) => handleMakeupTimeChange(currentMakeupStudent, val)"
+			:loading="makeupLoading"
+			ref="hiddenDatePicker"
+			popper-class="makeup-date-picker-popper"
+			style="position: fixed; left: 50%; top: 75%; transform: translate(-50%, -50%); opacity: 0; pointer-events: none;"
 
-			<div class="makeup-content">
-				<div class="student-info-card">
-					<div class="student-avatar">
-						<el-icon size="36">
-							<User/>
-						</el-icon>
-					</div>
-					<div class="student-details">
-						<div class="student-name">{{ makeupSelectedStudent?.name }}</div>
-						<div class="student-id">{{ makeupSelectedStudent?.studentId }}</div>
-						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 ·
-							{{ makeupSelectedStudent?.major }}
-						</div>
-					</div>
-				</div>
-
-				<div class="form-section">
-					<div class="form-header">
-						<el-icon class="form-icon">
-							<Calendar/>
-						</el-icon>
-						<span class="form-title">选择补卡时间</span>
-					</div>
-					<div class="form-content">
-						<el-date-picker
-							v-model="makeupForm.attendanceTime"
-							type="datetime"
-							placeholder="请选择补卡时间"
-							format="YYYY年MM月DD日 HH:mm"
-							value-format="YYYY-MM-DDTHH:mm:ss"
-							class="datetime-picker"
-							:shortcuts="timeShortcuts"
-						/>
-						<div class="form-tip">
-							<el-icon>
-								<InfoFilled/>
-							</el-icon>
-							<span>补卡时间不受签到时间段限制</span>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="makeup-footer">
-				<el-button
-					@click="closeMakeupDialog"
-					class="cancel-btn"
-					size="large"
-				>
-					取消
-				</el-button>
-				<el-button
-					type="primary"
-					@click="submitMakeup"
-					:loading="makeupLoading"
-					class="submit-btn"
-					size="large"
-				>
-					<el-icon v-if="!makeupLoading">
-						<Check/>
-					</el-icon>
-					{{ makeupLoading ? '处理中...' : '确认补卡' }}
-				</el-button>
-			</div>
-		</el-dialog>
+		/>
 
 		<el-dialog
-			:title="`${selectedStudent?.name}的考勤记录`"
-			v-model="attendanceRecordsDialogVisible"
+			v-if="StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsDialogVisible"
+			:title="`${StudentManagerPageAttendance_Records_Dialog.getSelectedStudent()?.name}的考勤记录`"
+			v-model="StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsDialogVisible"
 			class="attendance-records-dialog"
+			modal-class="attendance-records-dialog-overlay"
+			@close="StudentManagerPageAttendance_Records_Dialog.closeAttendanceRecordsDialog()"
 		>
 			<div>
-				<div v-if="studentAttendanceRecords.length === 0">
+				<div v-if="StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0">
 					<el-icon>
 						<Calendar/>
 					</el-icon>
 					<p>暂无考勤记录</p>
 				</div>
 				<div>
-					<el-calendar v-model="calendarValue">
+					<el-calendar v-model="StudentManagerPageAttendance_Records_Dialog.state.calendarValue">
 						<template #header="{ date }">
 							<div>{{ formatCalendarTitle(date) }}</div>
 							<div>
@@ -333,30 +261,32 @@
 						</template>
 						<template #date-cell="{ data }">
 							<div class="attendance-records-dialog-list-item">
-								<div class = "attendance-records-dialog-list-item-div">
+								<div class="attendance-records-dialog-list-item-div">
 										<span
-											:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', studentAttendanceRecords) }">
+											:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords) }">
 										  早:&nbsp;&nbsp;{{
-												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', studentAttendanceRecords)
+												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 											}}
 										</span>
 
-										<span
-											:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', studentAttendanceRecords) }">
+									<span
+										:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords) }">
 										  午:&nbsp;&nbsp;{{
-												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', studentAttendanceRecords)
-											}}
+											studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
+										}}
 										</span>
 
-										<span
-											:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', studentAttendanceRecords) }">
+									<span
+										:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords) }">
 										  晚:&nbsp;&nbsp;{{
-												studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', studentAttendanceRecords)
-											}}
+											studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
+										}}
 										</span>
 								</div>
 
-								<span class = "attendance-records-dialog-list-item-span">{{ data.day.split('-')[2] }}</span>
+								<span class="attendance-records-dialog-list-item-span">{{
+										data.day.split('-')[2]
+									}}</span>
 							</div>
 						</template>
 					</el-calendar>
@@ -364,7 +294,9 @@
 			</div>
 			<template #footer>
 				<div>
-					<el-button @click="closeAttendanceRecordsDialog">关闭</el-button>
+					<el-button @click="StudentManagerPageAttendance_Records_Dialog.closeAttendanceRecordsDialog()">
+						关闭
+					</el-button>
 				</div>
 			</template>
 		</el-dialog>
@@ -495,11 +427,16 @@ import {CanvasRenderer} from 'echarts/renderers'
 import StudentManagerPage from "@/views/StudentManagerPage/js/StudentManagerPage";
 import StudentManagerPageStudentAttendanceServer
 	from "@/views/StudentManagerPage/js/StudentManagerPageStudentAttendanceServer";
+import StudentManagerPageAttendance_Records_Dialog
+	from "@/views/StudentManagerPage/js/StudentManagerPage-Attendance_Records_Dialog";
 
 const studentManagerPageUtils = StudentManagerPageUtils
 const studentManagerPageStudentAttendanceServer = StudentManagerPageStudentAttendanceServer
 
 const studentManagerPage = StudentManagerPage
+
+// 设置考勤服务实例到 Dialog 类
+StudentManagerPageAttendance_Records_Dialog.setStudentAttendanceServer(studentManagerPageStudentAttendanceServer)
 
 // 注册需要的组件
 echarts.use([
@@ -593,17 +530,15 @@ const sortByAttendance = () => {
 	}
 }
 const attendanceCounts = ref({})
-const makeupDialogVisible = ref(false)
 const selectedStudent = ref(null)
-const makeupSelectedStudent = ref(null)
+const currentMakeupStudent = ref(null)
 const makeupForm = ref({
 	attendanceTime: ''
 })
 const makeupLoading = ref(false)
-const attendanceRecordsDialogVisible = ref(false)
-const studentAttendanceRecords = ref([])
-const calendarValue = ref(new Date())
-const attendanceRecordsLoading = ref(false)
+const hiddenDatePicker = ref(null)
+const datePickerVisible = ref(false)
+const showDatePicker = ref(false)
 
 const heatmapDialogVisible = ref(false)
 const trendChartDialogVisible = ref(false)
@@ -765,29 +700,38 @@ const goBack = () => {
 	router.push('/navigation')
 }
 
-const openMakeupDialog = (student) => {
-	makeupSelectedStudent.value = student
+const openDatePicker = (student) => {
+	currentMakeupStudent.value = student
 	makeupForm.value.attendanceTime = ''
-	document.body.style.overflow = 'hidden'
-	makeupDialogVisible.value = true
+	showDatePicker.value = true
+
+	setTimeout(() => {
+		nextTick(() => {
+			setTimeout(() => {
+				const picker = hiddenDatePicker.value
+				if (picker) {
+					// 尝试点击输入框
+					const inputEl = document.querySelector('.el-date-editor--datetime .el-input__inner')
+					if (inputEl) {
+						inputEl.click()
+						inputEl.focus()
+					}
+				}
+			}, 200)
+		})
+	}, 50)
 }
 
-const closeMakeupDialog = () => {
-	makeupDialogVisible.value = false
-	document.body.style.overflow = ''
-	makeupSelectedStudent.value = null
-	makeupForm.value.attendanceTime = ''
-}
-
-const submitMakeup = async () => {
-	if (!makeupForm.value.attendanceTime) {
-		ElMessage.warning('请选择补卡时间')
+const handleMakeupTimeChange = async (student, time) => {
+	if (!time || !student) {
 		return
 	}
 
 	if (!userStore.token) {
 		ElMessage.error('请先登录')
 		router.push('/login')
+		makeupForm.value.attendanceTime = ''
+		showDatePicker.value = false
 		return
 	}
 
@@ -795,13 +739,12 @@ const submitMakeup = async () => {
 	try {
 		const response = await makeupAttendance(
 			userStore.token,
-			makeupSelectedStudent.value.studentId,
-			makeupForm.value.attendanceTime
+			student.studentId,
+			time
 		)
 
 		if (response.code === 200) {
-			ElMessage.success('补卡成功')
-			closeMakeupDialog()
+			ElMessage.success(`补卡成功：${student.name}`)
 			await loadAttendanceCounts()
 		} else {
 			ElMessage.error(response.message || '补卡失败')
@@ -810,40 +753,23 @@ const submitMakeup = async () => {
 		ElMessage.error(error.message || '补卡失败')
 	} finally {
 		makeupLoading.value = false
+		makeupForm.value.attendanceTime = ''
+		showDatePicker.value = false
 	}
 }
 
 const openAttendanceRecordsDialog = async (student) => {
-	selectedStudent.value = student
-
-	try {
-		attendanceRecordsLoading.value = true
-		studentAttendanceRecords.value = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
-		attendanceRecordsDialogVisible.value = true
-		document.body.style.overflow = 'hidden'
-	} catch (error) {
-		ElMessage.error('获取考勤记录失败：' + error.message)
-	} finally {
-		attendanceRecordsLoading.value = false
-	}
-
-}
-
-const closeAttendanceRecordsDialog = () => {
-	attendanceRecordsDialogVisible.value = false
-	document.body.style.overflow = ''
-	selectedStudent.value = null
-	studentAttendanceRecords.value = []
+	await StudentManagerPageAttendance_Records_Dialog.openAttendanceRecordsDialog(student)
 }
 
 const openHeatmapDialog = async (student) => {
 	selectedStudent.value = student
 
 	try {
-		attendanceRecordsLoading.value = true
+		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = true
 		const response = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
 		if (response.code === 200) {
-			studentAttendanceRecords.value = response.data || []
+			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = response.data || []
 			heatmapDialogVisible.value = true
 			document.body.style.overflow = 'hidden'
 
@@ -857,7 +783,7 @@ const openHeatmapDialog = async (student) => {
 	} catch (error) {
 		ElMessage.error('获取考勤记录失败：' + error.message)
 	} finally {
-		attendanceRecordsLoading.value = false
+		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = false
 	}
 }
 
@@ -865,7 +791,7 @@ const closeHeatmapDialog = () => {
 	heatmapDialogVisible.value = false
 	document.body.style.overflow = ''
 	selectedStudent.value = null
-	studentAttendanceRecords.value = []
+	StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = []
 
 	if (heatmapInstance.value) {
 		heatmapInstance.value.dispose()
@@ -877,10 +803,10 @@ const openTrendChartDialog = async (student) => {
 	selectedStudent.value = student
 
 	try {
-		attendanceRecordsLoading.value = true
+		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = true
 		const response = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
 		if (response.code === 200) {
-			studentAttendanceRecords.value = response.data || []
+			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = response.data || []
 			trendChartDialogVisible.value = true
 			document.body.style.overflow = 'hidden'
 
@@ -894,7 +820,7 @@ const openTrendChartDialog = async (student) => {
 	} catch (error) {
 		ElMessage.error('获取考勤记录失败：' + error.message)
 	} finally {
-		attendanceRecordsLoading.value = false
+		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = false
 	}
 }
 
@@ -902,7 +828,7 @@ const closeTrendChartDialog = () => {
 	trendChartDialogVisible.value = false
 	document.body.style.overflow = ''
 	selectedStudent.value = null
-	studentAttendanceRecords.value = []
+	StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = []
 
 	if (lineInstance.value) {
 		lineInstance.value.dispose()
@@ -934,19 +860,19 @@ const formatCalendarTitle = (date) => {
 }
 
 const prevMonth = () => {
-	const date = new Date(calendarValue.value)
+	const date = new Date(StudentManagerPageAttendance_Records_Dialog.state.calendarValue)
 	date.setMonth(date.getMonth() - 1)
-	calendarValue.value = date
+	StudentManagerPageAttendance_Records_Dialog.state.calendarValue = date
 }
 
 const nextMonth = () => {
-	const date = new Date(calendarValue.value)
+	const date = new Date(StudentManagerPageAttendance_Records_Dialog.state.calendarValue)
 	date.setMonth(date.getMonth() + 1)
-	calendarValue.value = date
+	StudentManagerPageAttendance_Records_Dialog.state.calendarValue = date
 }
 
 const goToday = () => {
-	calendarValue.value = new Date()
+	StudentManagerPageAttendance_Records_Dialog.state.calendarValue = new Date()
 }
 
 
@@ -978,9 +904,7 @@ onMounted(async () => {
 
 	window.addEventListener('pageshow', (event) => {
 		if (event.persisted) {
-			attendanceRecordsDialogVisible.value = false
-			makeupDialogVisible.value = false
-			document.body.style.overflow = ''
+			StudentManagerPageAttendance_Records_Dialog.closeAttendanceRecordsDialog()
 		}
 	})
 })
@@ -1432,7 +1356,7 @@ const initLineChart = () => {
 const generateLineData = () => {
 	const dateMap = new Map()
 
-	studentAttendanceRecords.value.forEach(record => {
+	StudentManagerPageAttendance_Records_Dialog.studentAttendanceRecords.forEach(record => {
 		const date = new Date(record.attendanceDateTime)
 		const dateStr = date.toISOString().split('T')[0]
 		dateMap.set(dateStr, (dateMap.get(dateStr) || 0) + 1)
@@ -1461,7 +1385,7 @@ const generateHeatmapData = () => {
 	weekDays.forEach((day, dayIndex) => {
 		timeSlots.forEach((slot, slotIndex) => {
 			let count = 0
-			studentAttendanceRecords.value.forEach(record => {
+			StudentManagerPageAttendance_Records_Dialog.studentAttendanceRecords.forEach(record => {
 				const date = new Date(record.attendanceDateTime)
 				const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
 				const hour = date.getHours()
@@ -1488,7 +1412,7 @@ watch(() => themeStore.isDark, () => {
 	}
 })
 
-watch(() => studentAttendanceRecords.value, () => {
+watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords, () => {
 	if (heatmapInstance.value) {
 		initHeatmapChart()
 	}
