@@ -126,6 +126,10 @@
 							<span>{{ student.grade }}年级</span>
 						</div>
 						<div>
+							<span>学院:&nbsp;</span>
+							<span>{{ student.college }}</span>
+						</div>
+						<div>
 							<span>专业:&nbsp;</span>
 							<span>{{ student.major }}</span>
 						</div>

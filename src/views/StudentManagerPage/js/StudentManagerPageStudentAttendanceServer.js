@@ -3,6 +3,10 @@ import {ElMessage} from "element-plus";
 
 // 学生管理页面签到相关服务代码
 class StudentManagerPageStudentAttendanceServer {
+
+	// 保存获取过的学生签到记录（字典）
+	static studentAttendanceRecords = {};
+
 	/**
 	 * 获取学生的签到记录列表
 	 * @param {String|Number} studentId - 学生学号
@@ -10,14 +14,18 @@ class StudentManagerPageStudentAttendanceServer {
 	 * @throws {Error} 当请求失败或数据异常时通过 ElMessage 显示错误信息
 	 */
 	static async getStudentAttendanceRecords(studentId) {
+		if (studentId in StudentManagerPageStudentAttendanceServer.studentAttendanceRecords) {
+			return StudentManagerPageStudentAttendanceServer.studentAttendanceRecords[studentId];
+		}
 		const result = await AttendanceApi.getStudentAttendanceRecords(studentId);
 
 		/// 检查响应状态码
 		if (result.code === 200) {
 			// 返回签到记录列表
-			return result.data.map(item => ({
+			StudentManagerPageStudentAttendanceServer.studentAttendanceRecords[studentId] = result.data.map(item => ({
 				attendanceDateTime: item.attendanceDateTime
 			}));
+			return StudentManagerPageStudentAttendanceServer.studentAttendanceRecords[studentId];
 		} else {
 			// 业务异常，抛出错误
 			ElMessage.error('获取签到记录失败, 请重试或联系管理员, 原因: ' + result.message || "网络异常");
