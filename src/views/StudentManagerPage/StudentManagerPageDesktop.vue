@@ -233,7 +233,6 @@
 			style="position: fixed; left: 50%; top: 75%; transform: translate(-50%, -50%); opacity: 0; pointer-events: none;"
 
 		/>
-
 		<el-dialog
 			v-if="StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsDialogVisible"
 			:title="`${StudentManagerPageAttendance_Records_Dialog.getSelectedStudent()?.name}的考勤记录`"
@@ -386,7 +385,7 @@
 
 <script setup>
 import {nextTick, onMounted, ref, watch} from 'vue'
-import {ElButton, ElCalendar, ElDatePicker, ElDialog, ElIcon, ElInput, ElMessage} from 'element-plus'
+import {ElButton, ElCalendar, ElDatePicker, ElDialog, ElIcon, ElInput, ElMessage, ElMessageBox} from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
@@ -402,9 +401,7 @@ import 'element-plus/theme-chalk/el-calendar.css'
 import {
 	ArrowLeft,
 	Calendar,
-	Check,
 	Clock,
-	InfoFilled,
 	Loading,
 	Refresh,
 	Search,
@@ -432,6 +429,7 @@ import StudentManagerPageAttendance_Records_Dialog
 
 const studentManagerPageUtils = StudentManagerPageUtils
 const studentManagerPageStudentAttendanceServer = StudentManagerPageStudentAttendanceServer
+import 'element-plus/theme-chalk/el-message-box.css'
 
 const studentManagerPage = StudentManagerPage
 
@@ -537,7 +535,6 @@ const makeupForm = ref({
 })
 const makeupLoading = ref(false)
 const hiddenDatePicker = ref(null)
-const datePickerVisible = ref(false)
 const showDatePicker = ref(false)
 
 const heatmapDialogVisible = ref(false)
@@ -723,20 +720,67 @@ const openDatePicker = (student) => {
 }
 
 const handleMakeupTimeChange = async (student, time) => {
-	if (!time || !student) {
-		return
-	}
 
-	if (!userStore.token) {
-		ElMessage.error('请先登录')
-		router.push('/login')
+	// 验证时间：1. 不能超过当前时间  2. 必须在有效签到时间段内
+	const selectedTime = new Date(time)
+	const currentTime = new Date()
+
+	// 1. 检查补卡时间不能超过当前时间
+	if (selectedTime > currentTime) {
+		ElMessage.error('补卡时间不能晚于当前时间')
 		makeupForm.value.attendanceTime = ''
 		showDatePicker.value = false
 		return
 	}
 
-	makeupLoading.value = true
+	// 2. 检查补卡时间必须在有效签到时间段内
+	const hour = selectedTime.getHours()
+	const minute = selectedTime.getMinutes()
+	const timeInMinutes = hour * 60 + minute
+
+	// 定义有效签到时间段（分钟数）
+	// 早上：08:00-11:00 → 480-660
+	// 下午：14:00-17:00 → 840-1020
+	// 晚上：19:00-22:00 → 1140-1320
+	const validTimeSlots = [
+		{ name: '上午', start: 480, end: 660 },    // 08:00-11:00
+		{ name: '下午', start: 840, end: 1020 },   // 14:00-17:00
+		{ name: '晚上', start: 1140, end: 1320 }   // 19:00-22:00
+	]
+
+	// 检查所选时间是否在有效签到时间段内
+	const isValidTime = validTimeSlots.some(slot =>
+		timeInMinutes >= slot.start && timeInMinutes < slot.end
+	)
+
+	if (!isValidTime) {
+		ElMessage.error('补卡时间必须在有效签到时间段内（早上 08:00-11:00、下午 14:00-17:00、晚上 19:00-22:00）')
+		makeupForm.value.attendanceTime = ''
+		showDatePicker.value = false
+		return
+	}
+
+	// 格式化日期显示
+	const dateObj = new Date(time)
+	const dateStr = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`
+	const timeStr = `${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`
+
 	try {
+		// 弹出确认对话框
+		await ElMessageBox.confirm(
+			`您确定要为学生 <strong style="color: #409EFF;">${student.name}</strong><br/>补 <strong style="color: #67C23A;">${dateStr} ${timeStr}</strong> 的卡吗？`,
+			'确认补卡',
+			{
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info',
+				dangerouslyUseHTMLString: true,
+				distinguishCancelAndClose: true
+			}
+		)
+
+		// 用户点击确定后执行补卡
+		makeupLoading.value = true
 		const response = await makeupAttendance(
 			userStore.token,
 			student.studentId,
@@ -750,16 +794,15 @@ const handleMakeupTimeChange = async (student, time) => {
 			ElMessage.error(response.message || '补卡失败')
 		}
 	} catch (error) {
-		ElMessage.error(error.message || '补卡失败')
+		// 用户点击取消或关闭对话框
+		if (error !== 'cancel') {
+			ElMessage.error(error.message || '补卡失败')
+		}
 	} finally {
 		makeupLoading.value = false
 		makeupForm.value.attendanceTime = ''
 		showDatePicker.value = false
 	}
-}
-
-const openAttendanceRecordsDialog = async (student) => {
-	await StudentManagerPageAttendance_Records_Dialog.openAttendanceRecordsDialog(student)
 }
 
 const openHeatmapDialog = async (student) => {
