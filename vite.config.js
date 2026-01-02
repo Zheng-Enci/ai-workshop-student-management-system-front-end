@@ -1,10 +1,22 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import eslint from 'vite-plugin-eslint'
 import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    eslint({
+      include: ['src/**/*.js', 'src/**/*.vue'],
+      exclude: ['node_modules', 'dist'],
+      cache: false,
+      failOnWarning: false,
+      failOnError: true, // 有错误时构建失败
+      emitWarning: true,
+      emitError: true
+    })
+  ],
   server: {
     port: 3000,
     host: '0.0.0.0',

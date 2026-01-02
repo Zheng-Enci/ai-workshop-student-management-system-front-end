@@ -1198,7 +1198,7 @@ const openRecordsDialog = (student) => {
 }
 
 const handleRecordsDialogClose = () => {
-	adjustRecordsDialogManager.close()
+	adjustRecordsDialogManager.handleDialogClose()
 }
 
 
