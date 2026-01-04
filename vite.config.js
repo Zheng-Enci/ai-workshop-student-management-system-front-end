@@ -156,8 +156,14 @@ export default defineConfig({
       const commentCoverage = commentCoveragePlugin({
         enabled: true,
         srcDir: 'src',
-        extensions: ['.js', '.vue'],
-        minCoverage: 0,
+        extensions: ['.js', '.vue', '.css', '.scss'],
+        minCoverage: 32, // 默认最低要求（用于未配置的文件类型）
+        minCoverageByExtension: {
+          '.js': 32,    // JavaScript 文件最低要求 32%
+          '.vue': 32,   // Vue 文件最低要求 32%
+          '.css': 16,   // CSS 文件最低要求 16%
+          '.scss': 16   // SCSS 文件最低要求 16%
+        },
         warnThreshold: 10,
         showDetails: false,
         skipOnError: true

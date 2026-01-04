@@ -205,8 +205,10 @@ function performCommentAnalysis(projectRoot, options = {}) {
 					? ((stats.commentLines / stats.codeLines) * 100).toFixed(2)
 					: 0
 				
+				const fileExt = extname(filePath)
 				fileStats.push({
 					file: relative(projectRoot, filePath),
+					extension: fileExt,
 					codeLines: stats.codeLines,
 					commentLines: stats.commentLines,
 					totalLines: stats.totalLines,
@@ -236,13 +238,33 @@ function performCommentAnalysis(projectRoot, options = {}) {
 }
 
 /**
+ * 获取文件的最低注释率要求
+ * @param {string} fileExt - 文件扩展名
+ * @param {Object} minCoverageByExtension - 按扩展名配置的最低注释率
+ * @param {number} defaultMinCoverage - 默认最低注释率
+ * @returns {number}
+ */
+function getMinCoverageForFile(fileExt, minCoverageByExtension = {}, defaultMinCoverage = 0) {
+	if (minCoverageByExtension && typeof minCoverageByExtension === 'object') {
+		return minCoverageByExtension[fileExt] !== undefined 
+			? minCoverageByExtension[fileExt] 
+			: defaultMinCoverage
+	}
+	return defaultMinCoverage
+}
+
+/**
  * 生成 Markdown 格式的报告
  * @param {Object} stats - 统计信息
  * @param {Object} options - 配置选项
  * @returns {string}
  */
 function generateMarkdownReport(stats, options = {}) {
-	const { warnThreshold = 10, minCoverage = 0 } = options
+	const { 
+		warnThreshold = 10, 
+		minCoverage = 0,
+		minCoverageByExtension = {}
+	} = options
 	const { coverage, totalFiles, totalCodeLines, totalCommentLines, fileStats } = stats
 
 	let report = `# 代码注释覆盖率报告\n\n`
@@ -255,28 +277,73 @@ function generateMarkdownReport(stats, options = {}) {
 	report += `| 注释行数 | ${totalCommentLines} |\n`
 	report += `| 总体注释率 | ${coverage}% |\n\n`
 
-	// 状态评估
+	// 状态评估 - 计算加权平均最低要求
+	const fileTypeStats = {}
+	fileStats.forEach(file => {
+		const ext = file.extension || '.unknown'
+		if (!fileTypeStats[ext]) {
+			fileTypeStats[ext] = { totalCodeLines: 0, totalCommentLines: 0, count: 0 }
+		}
+		fileTypeStats[ext].totalCodeLines += file.codeLines
+		fileTypeStats[ext].totalCommentLines += file.commentLines
+		fileTypeStats[ext].count++
+	})
+	
+	let weightedMinCoverage = 0
+	let totalWeight = 0
+	Object.keys(fileTypeStats).forEach(ext => {
+		const typeStats = fileTypeStats[ext]
+		const typeCoverage = typeStats.totalCodeLines > 0
+			? (typeStats.totalCommentLines / typeStats.totalCodeLines) * 100
+			: 0
+		const typeMinCoverage = getMinCoverageForFile(ext, minCoverageByExtension, minCoverage)
+		weightedMinCoverage += typeMinCoverage * typeStats.totalCodeLines
+		totalWeight += typeStats.totalCodeLines
+	})
+	const avgMinCoverage = totalWeight > 0 ? (weightedMinCoverage / totalWeight).toFixed(1) : minCoverage
+	
 	report += `## 📈 状态评估\n\n`
-	if (coverage < warnThreshold) {
-		report += `⚠️ **注释率低于建议阈值** (${warnThreshold}%)\n\n`
+	if (coverage < parseFloat(avgMinCoverage)) {
+		report += `⚠️ **注释率未达到最低要求** (加权平均最低要求: ${avgMinCoverage}%, 当前: ${coverage}%)\n\n`
 		report += `建议为代码添加更多注释以提高可维护性。\n\n`
-	} else if (coverage >= minCoverage) {
-		report += `✅ **注释率符合要求** (≥ ${minCoverage}%)\n\n`
+	} else if (coverage < warnThreshold) {
+		report += `⚠️ **注释率低于建议阈值** (建议: ${warnThreshold}%, 当前: ${coverage}%)\n\n`
+		report += `虽然达到了最低要求，但建议进一步提高注释率。\n\n`
 	} else {
-		report += `⚠️ **注释率未达到最低要求** (${minCoverage}%)\n\n`
+		report += `✅ **注释率符合要求** (≥ ${avgMinCoverage}%)\n\n`
+	}
+	
+	// 显示各文件类型的最低要求
+	if (Object.keys(minCoverageByExtension).length > 0) {
+		report += `### 📋 各文件类型最低要求\n\n`
+		report += `| 文件类型 | 最低注释率要求 |\n`
+		report += `|---------|--------------|\n`
+		Object.keys(minCoverageByExtension).forEach(ext => {
+			const extName = ext === '.js' ? 'JavaScript' : ext === '.vue' ? 'Vue' : ext === '.css' ? 'CSS' : ext === '.scss' ? 'SCSS' : ext
+			report += `| ${extName} | ${minCoverageByExtension[ext]}% |\n`
+		})
+		report += `\n`
 	}
 
-	// 注释率较低的文件
+	// 注释率较低的文件（低于最低要求）
 	const lowCoverageFiles = fileStats
-		.filter(f => f.coverage < warnThreshold && f.codeLines > 50)
+		.map(f => {
+			const fileMinCoverage = getMinCoverageForFile(f.extension, minCoverageByExtension, minCoverage)
+			return {
+				...f,
+				minCoverage: fileMinCoverage,
+				belowMin: f.coverage < fileMinCoverage
+			}
+		})
+		.filter(f => f.belowMin && f.codeLines > 50)
 		.slice(0, 20)
 
 	if (lowCoverageFiles.length > 0) {
-		report += `## ⚠️ 注释率较低的文件 (需要关注)\n\n`
-		report += `| 文件路径 | 代码行数 | 注释行数 | 注释率 |\n`
-		report += `|---------|---------|---------|--------|\n`
+		report += `## ⚠️ 注释率未达最低要求的文件 (需要关注)\n\n`
+		report += `| 文件路径 | 代码行数 | 注释行数 | 注释率 | 最低要求 |\n`
+		report += `|---------|---------|---------|--------|----------|\n`
 		lowCoverageFiles.forEach(file => {
-			report += `| ${file.file} | ${file.codeLines} | ${file.commentLines} | ${file.coverage}% |\n`
+			report += `| ${file.file} | ${file.codeLines} | ${file.commentLines} | ${file.coverage}% | ${file.minCoverage}% |\n`
 		})
 		report += `\n`
 	}
@@ -288,7 +355,8 @@ function generateMarkdownReport(stats, options = {}) {
 		report += `|---------|---------|---------|--------|------|\n`
 		
 		fileStats.forEach(file => {
-			const status = file.coverage >= warnThreshold ? '✅' : '⚠️'
+			const fileMinCoverage = getMinCoverageForFile(file.extension, minCoverageByExtension, minCoverage)
+			const status = file.coverage >= fileMinCoverage ? '✅' : '⚠️'
 			report += `| ${file.file} | ${file.codeLines} | ${file.commentLines} | ${file.coverage}% | ${status} |\n`
 		})
 		report += `\n`
@@ -311,6 +379,7 @@ export function commentCoveragePlugin(options = {}) {
 		srcDir = 'src',
 		extensions = ['.js', '.vue'],
 		minCoverage = 0,
+		minCoverageByExtension = {},
 		warnThreshold = 10,
 		showDetails = false,
 		skipOnError = false
@@ -342,6 +411,7 @@ export function commentCoveragePlugin(options = {}) {
 						srcDir,
 						extensions,
 						minCoverage,
+						minCoverageByExtension,
 						showDetails: true // 生成报告时总是显示详细信息
 					})
 
@@ -354,7 +424,8 @@ export function commentCoveragePlugin(options = {}) {
 					// 生成 Markdown 报告
 					const markdownReport = generateMarkdownReport(stats, {
 						warnThreshold,
-						minCoverage
+						minCoverage,
+						minCoverageByExtension
 					})
 
 					// 保存报告
