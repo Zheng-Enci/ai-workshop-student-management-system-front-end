@@ -20,13 +20,15 @@ code-quality/
 │   ├── comment-coverage-report.md      # 注释覆盖率报告
 │   ├── dependency-check-report.md       # 依赖检查报告
 │   ├── security-audit-report.md         # 安全审计报告
-│   └── css-analysis-report.md          # CSS 分析报告
+│   ├── css-analysis-report.md          # CSS 分析报告
+│   └── eslint-report.md                # ESLint 代码规范检查报告
 │
 └── vite-plugins/            # Vite 自定义插件
     ├── vite-plugin-comment-coverage.js  # 注释覆盖率检查插件
     ├── vite-plugin-depcheck.js          # 依赖检查插件
     ├── vite-plugin-audit.js             # 安全审计插件
-    └── vite-plugin-css-analyzer.js      # CSS 分析插件
+    ├── vite-plugin-css-analyzer.js      # CSS 分析插件
+    └── vite-plugin-eslint-report.js     # ESLint 报告生成插件
 ```
 
 ## 功能说明
@@ -46,6 +48,7 @@ code-quality/
 - **依赖检查报告**: 检查未使用的依赖
 - **安全审计报告**: 检查依赖安全漏洞
 - **CSS 分析报告**: 检查未使用的 CSS
+- **ESLint 报告**: 检查 JavaScript/Vue 代码规范问题
 
 ### 3. vite-plugins/ - Vite 插件
 自定义 Vite 插件，在开发模式启动时自动运行：

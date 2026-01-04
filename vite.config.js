@@ -6,6 +6,7 @@ import { cssAnalyzerPlugin } from './code-quality/vite-plugins/vite-plugin-css-a
 import { depcheckPlugin } from './code-quality/vite-plugins/vite-plugin-depcheck.js'
 import { auditPlugin } from './code-quality/vite-plugins/vite-plugin-audit.js'
 import { commentCoveragePlugin } from './code-quality/vite-plugins/vite-plugin-comment-coverage.js'
+import { eslintReportPlugin } from './code-quality/vite-plugins/vite-plugin-eslint-report.js'
 import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 
@@ -110,6 +111,18 @@ export default defineConfig({
         failOnError: true
       })
       return withCheckLogging(eslintPlugin, 'ESLint 代码规范')
+    })(),
+    // ESLint 报告生成
+    (() => {
+      const eslintReport = eslintReportPlugin({
+        enabled: true,
+        configFile: 'code-quality/code-quality-config/.eslintrc.js',
+        ignorePath: 'code-quality/code-quality-config/.eslintignore',
+        include: ['src/**/*.{js,vue}'],
+        exclude: ['node_modules', 'dist'],
+        skipOnError: true
+      })
+      return withCheckLogging(eslintReport, 'ESLint 报告生成')
     })(),
     // Stylelint 检查
     (() => {
