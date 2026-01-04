@@ -1,28 +1,28 @@
-import ApiInterceptor from '@/composables/ApiInterceptor'
-import config from '@/config'
+import ApiInterceptor from '@/composables/ApiInterceptor';
+import config from '@/config';
 
 class StudentApi {
-	static api = ApiInterceptor.createInstance()
+	static api = ApiInterceptor.createInstance();
 
 	static async getStudentPublicFieldValueById(studentInfoId, fieldName) {
 		try {
 			const response = await this.api.get('/api/v1/students/public-field-value-by-id', {
 				params: {
 					'student-info-id': studentInfoId,
-					'field-name': fieldName
-				}
-			})
-			return response.data
+					'field-name': fieldName,
+				},
+			});
+			return response.data;
 		} catch (error) {
 			if (error.response) {
-				const { status } = error.response
+				const { status } = error.response;
 				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试或联系管理员')
+					throw new Error('服务器错误，请稍后重试或联系管理员');
 				} else {
-					throw new Error(error.response.data.message)
+					throw new Error(error.response.data.message);
 				}
 			} else {
-				throw new Error('网络错误，获取学生信息失败, 请检查网络连接')
+				throw new Error('网络错误，获取学生信息失败, 请检查网络连接');
 			}
 		}
 	}
@@ -35,9 +35,9 @@ class StudentApi {
 	 */
 	static getAvatarUrl(studentInfoId, avatarSize = 64) {
 		if (!studentInfoId) {
-			return null
+			return null;
 		}
-		return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}?avatarSize=${avatarSize}`
+		return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}?avatarSize=${avatarSize}`;
 	}
 
 	/**
@@ -48,19 +48,19 @@ class StudentApi {
 	static async getStudentLevelByInfoId(studentInfoId) {
 		try {
 			const response = await this.api.get('/api/v1/students/get-student-level-by-info-id', {
-				params: { 'student-info-id': studentInfoId }
-			})
-			return response.data
+				params: { 'student-info-id': studentInfoId },
+			});
+			return response.data;
 		} catch (error) {
 			if (error.response) {
-				const { status } = error.response
+				const { status } = error.response;
 				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试')
+					throw new Error('服务器错误，请稍后重试');
 				} else {
-					throw new Error(error.response.data.message)
+					throw new Error(error.response.data.message);
 				}
 			} else {
-				throw new Error('网络错误，获取学生等级失败，请检查网络连接')
+				throw new Error('网络错误，获取学生等级失败，请检查网络连接');
 			}
 		}
 	}
@@ -72,22 +72,22 @@ class StudentApi {
 	static async getStudentDatabaseTableId(token) {
 		try {
 			const response = await this.api.get('/api/v1/students/get-student-database-table-id', {
-				params: { token }
-			})
-			return response.data
+				params: { token },
+			});
+			return response.data;
 		} catch (error) {
 			if (error.response) {
-				const { status } = error.response
+				const { status } = error.response;
 				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试')
+					throw new Error('服务器错误，请稍后重试');
 				} else {
-					throw new Error(error.response.data.message)
+					throw new Error(error.response.data.message);
 				}
 			} else {
-				throw new Error('网络错误，获取学生数据库表主键 ID 失败，请检查网络连接')
+				throw new Error('网络错误，获取学生数据库表主键 ID 失败，请检查网络连接');
 			}
 		}
 	}
 }
 
-export default StudentApi
+export default StudentApi;
