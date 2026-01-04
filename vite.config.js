@@ -31,10 +31,11 @@ export default defineConfig({
       fix: true
     }),
     cssAnalyzerPlugin({
-      enabled: process.env.CSS_ANALYZER_ENABLED === 'true',
-      interval: 5 * 60 * 1000,
-      threshold: 20,
-      blockOnUnused: true
+      enabled: true,
+      threshold: 0,
+      concurrency: 5,
+      cacheEnabled: true,
+      blockOnUnused: false
     }),
     depcheckPlugin({
       enabled: true,
