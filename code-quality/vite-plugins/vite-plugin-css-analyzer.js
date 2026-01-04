@@ -1,4 +1,4 @@
-import { readFileSync, existsSync, readdirSync, statSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync, readdirSync, statSync, mkdirSync } from 'fs'
 import { join, extname } from 'path'
 
 let isAnalyzing = false
@@ -157,6 +157,72 @@ export function cssAnalyzerPlugin(options = {}) {
     }
   }
 
+  /**
+   * 生成 Markdown 格式的 CSS 分析报告
+   * @param {Object} result - 分析结果
+   * @returns {string}
+   */
+  function generateMarkdownReport(result) {
+    const { issues, totalFiles, checkedFiles } = result
+    const criticalIssues = issues.filter(issue => 
+      issue.rejected && issue.rejected.length > 0
+    )
+
+    let report = `# CSS 使用情况分析报告\n\n`
+    
+    report += `## 📊 总体统计\n\n`
+    report += `| 指标 | 数值 |\n`
+    report += `|------|------|\n`
+    report += `| 总文件数 | ${totalFiles} |\n`
+    report += `| 已检查文件数 | ${checkedFiles} |\n`
+    report += `| 发现问题文件数 | ${issues.length} |\n`
+    report += `| 严重问题文件数 | ${criticalIssues.length} |\n\n`
+
+    if (criticalIssues.length > 0) {
+      report += `## ⚠️ 严重问题（包含未使用的 CSS 选择器）\n\n`
+      report += `发现 ${criticalIssues.length} 个文件包含明确未使用的 CSS 选择器。\n\n`
+      
+      criticalIssues.forEach((issue, index) => {
+        report += `### ${index + 1}. ${issue.file}\n\n`
+        report += `- **原始大小**: ${issue.originalSize}\n`
+        report += `- **未使用**: ${issue.unusedSize} (${issue.unusedPercent}%)\n`
+        report += `- **使用中**: ${issue.usedSize}\n`
+        if (issue.rejected && issue.rejected.length > 0) {
+          report += `- **未使用的选择器数量**: ${issue.rejected.length}\n\n`
+          report += `**未使用的选择器示例**:\n\n`
+          issue.rejected.slice(0, 10).forEach(selector => {
+            report += `- \`${selector}\`\n`
+          })
+          if (issue.rejected.length > 10) {
+            report += `\n*还有 ${issue.rejected.length - 10} 个未使用的选择器...*\n`
+          }
+        }
+        report += `\n`
+      })
+
+      report += `## 💡 解决方案\n\n`
+      report += `1. 删除未使用的 CSS 规则\n`
+      report += `2. 或者确认这些 CSS 确实需要（动态生成、第三方库等）\n`
+      report += `3. 如果确认需要，可以添加到安全列表配置中\n`
+      report += `4. 运行 \`npm run analyze:css\` 查看完整详细报告\n\n`
+    } else if (issues.length > 0) {
+      report += `## ℹ️ 提示\n\n`
+      report += `发现 ${issues.length} 个文件有未使用的 CSS（可能是伪类、变量、关键帧等），但无明确未使用的选择器。\n\n`
+      report += `这些通常是可接受的，因为：\n`
+      report += `- CSS 变量可能被 JavaScript 动态使用\n`
+      report += `- 伪类选择器（如 \`:hover\`, \`:focus\`）在静态分析中可能被误判\n`
+      report += `- 关键帧动画可能被动态添加的类使用\n\n`
+    } else {
+      report += `## ✅ 检查结果\n\n`
+      report += `所有 CSS 都在使用中，未发现未使用的 CSS 选择器。\n\n`
+    }
+
+    report += `---\n\n`
+    report += `*报告生成时间: ${new Date().toLocaleString('zh-CN')}*\n`
+
+    return report
+  }
+
   return {
     name: 'css-analyzer',
     apply: 'serve',
@@ -164,10 +230,19 @@ export function cssAnalyzerPlugin(options = {}) {
       // 如果启用了阻止模式，在启动时检查
       if (blockOnUnused) {
         const projectRoot = process.cwd()
-        console.log('\n🔍 开发模式：检查未使用的 CSS...')
         
         try {
           const result = await performCSSAnalysis(projectRoot, 0, true)
+          
+          // 生成并保存报告
+          const reportsDir = join(projectRoot, 'code-quality/code-quality-reports')
+          if (!existsSync(reportsDir)) {
+            mkdirSync(reportsDir, { recursive: true })
+          }
+          
+          const markdownReport = generateMarkdownReport(result)
+          const reportPath = join(reportsDir, 'css-analysis-report.md')
+          writeFileSync(reportPath, markdownReport, 'utf-8')
           
           // 只检查有明确未使用选择器的文件（rejected 列表不为空）
           // rejected 列表为空的情况通常是伪类、变量、关键帧等，这些是可以接受的
@@ -176,53 +251,32 @@ export function cssAnalyzerPlugin(options = {}) {
           )
           
           if (criticalIssues.length > 0) {
-            console.error('\n' + '='.repeat(80))
-            console.error('❌ CSS 检查失败 - 开发服务器启动被阻止！')
-            console.error('='.repeat(80))
-            console.error(`\n发现 ${criticalIssues.length} 个文件包含未使用的 CSS 选择器\n`)
-            
-            criticalIssues.forEach((issue, index) => {
-              console.error(`${index + 1}. 文件: ${issue.file}`)
-              console.error(`   原始大小: ${issue.originalSize}`)
-              console.error(`   未使用: ${issue.unusedSize} (${issue.unusedPercent}%)`)
-              console.error(`   使用中: ${issue.usedSize}`)
-              if (issue.rejected && issue.rejected.length > 0) {
-                console.error(`   未使用的选择器数量: ${issue.rejected.length}`)
-                const sampleSelectors = issue.rejected.slice(0, 5)
-                if (sampleSelectors.length > 0) {
-                  console.error(`   未使用的选择器示例:`)
-                  sampleSelectors.forEach(selector => {
-                    console.error(`     - ${selector}`)
-                  })
-                }
-              }
-              console.error('')
-            })
-            
-            console.error('💡 解决方案:')
-            console.error('   1. 删除未使用的 CSS 规则')
-            console.error('   2. 或者确认这些 CSS 确实需要（动态生成、第三方库等）')
-            console.error('   3. 如果确认需要，可以添加到安全列表配置中')
-            console.error('   4. 运行 npm run analyze:css 查看完整详细报告\n')
-            console.error('='.repeat(80) + '\n')
-            
             throw new Error('存在未使用的 CSS，开发服务器启动被阻止')
-          } else {
-            const totalIssues = result.issues.length
-            if (totalIssues > 0) {
-              console.log(`⚠️  发现 ${totalIssues} 个文件有未使用的 CSS（可能是伪类、变量等），但无明确未使用的选择器`)
-              console.log('✅ CSS 检查通过，开发服务器可以启动\n')
-            } else {
-              console.log('✅ CSS 检查通过，所有 CSS 都在使用中\n')
-            }
           }
         } catch (error) {
           if (error.message.includes('存在未使用的 CSS')) {
             throw error
           }
-          console.warn(`⚠️  CSS 检查过程出错: ${error.message}`)
-          console.warn('   继续启动开发服务器...\n')
+          // 其他错误静默处理
         }
+      } else {
+        // 即使不阻止，也生成报告
+        setImmediate(async () => {
+          try {
+            const projectRoot = process.cwd()
+            const reportsDir = join(projectRoot, 'code-quality/code-quality-reports')
+            if (!existsSync(reportsDir)) {
+              mkdirSync(reportsDir, { recursive: true })
+            }
+            
+            const result = await performCSSAnalysis(projectRoot, threshold, false)
+            const markdownReport = generateMarkdownReport(result)
+            const reportPath = join(reportsDir, 'css-analysis-report.md')
+            writeFileSync(reportPath, markdownReport, 'utf-8')
+          } catch (error) {
+            // 静默失败
+          }
+        })
       }
     },
     configureServer(server) {

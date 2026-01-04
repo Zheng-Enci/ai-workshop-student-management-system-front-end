@@ -5,23 +5,23 @@
   "scripts": {
     "dev": "vite",
     "check": "npm run lint && npm run lint:css",
-    "format": "prettier --write \"src/**/*.{js,vue,css,scss,json,md}\"",
-    "format:check": "prettier --check \"src/**/*.{js,vue,css,scss,json,md}\"",
+    "format": "prettier --config code-quality/code-quality-config/prettier.config.js --write \"src/**/*.{js,vue,css,scss,json,md}\"",
+    "format:check": "prettier --config code-quality/code-quality-config/prettier.config.js --check \"src/**/*.{js,vue,css,scss,json,md}\"",
     "build": "npm run lint && npm run analyze:css:quick && ANALYZE=true vite build",
     "build:analyze": "npm run lint && npm run analyze:css:quick && ANALYZE=true vite build",
     "preview": "vite preview",
     "serve:prod": "npx sirv-cli dist --single --port 3000 --host 0.0.0.0",
-    "lint": "eslint src/**/*.{js,vue}",
-    "lint:fix": "eslint src/**/*.{js,vue} --fix",
-    "lint:css": "stylelint \"src/**/*.{css,scss,vue}\"",
-    "lint:css:fix": "stylelint \"src/**/*.{css,scss,vue}\" --fix",
-    "lint:css:file": "stylelint",
+    "lint": "eslint --config code-quality/code-quality-config/.eslintrc.js src/**/*.{js,vue}",
+    "lint:fix": "eslint --config code-quality/code-quality-config/.eslintrc.js src/**/*.{js,vue} --fix",
+    "lint:css": "stylelint --config code-quality/code-quality-config/.stylelintrc.js \"src/**/*.{css,scss,vue}\"",
+    "lint:css:fix": "stylelint --config code-quality/code-quality-config/.stylelintrc.js \"src/**/*.{css,scss,vue}\" --fix",
+    "lint:css:file": "stylelint --config code-quality/code-quality-config/.stylelintrc.js",
     "analyze:css": "node scripts/css-analyzer.js",
     "analyze:css:all": "node scripts/css-analyzer.js --all",
     "analyze:css:html": "node scripts/css-analyzer.js --html",
     "analyze:css:debug": "node scripts/css-analyzer.js --debug",
     "analyze:css:quick": "node scripts/css-analyzer-quick.js",
-    "check:deps": "depcheck --config .depcheckrc.json",
+    "check:deps": "depcheck --config code-quality/code-quality-config/.depcheckrc.json",
     "check:security": "npm audit --audit-level=moderate",
     "check:security:fix": "npm audit fix",
     "check:all": "npm run check && npm run check:deps && npm run check:security",
@@ -31,15 +31,15 @@
   },
   "lint-staged": {
     "src/**/*.{js,vue}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --config code-quality/code-quality-config/.eslintrc.js --fix",
+      "prettier --config code-quality/code-quality-config/prettier.config.js --write"
     ],
     "src/**/*.{css,scss}": [
-      "stylelint --fix",
-      "prettier --write"
+      "stylelint --config code-quality/code-quality-config/.stylelintrc.js --fix",
+      "prettier --config code-quality/code-quality-config/prettier.config.js --write"
     ],
     "src/**/*.{json,md}": [
-      "prettier --write"
+      "prettier --config code-quality/code-quality-config/prettier.config.js --write"
     ]
   },
   "dependencies": {

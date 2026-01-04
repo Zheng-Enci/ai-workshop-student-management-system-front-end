@@ -2,9 +2,10 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import stylelint from 'vite-plugin-stylelint'
 import eslint from 'vite-plugin-eslint'
-import { cssAnalyzerPlugin } from './vite-plugin-css-analyzer.js'
-import { depcheckPlugin } from './vite-plugin-depcheck.js'
-import { auditPlugin } from './vite-plugin-audit.js'
+import { cssAnalyzerPlugin } from './code-quality/vite-plugins/vite-plugin-css-analyzer.js'
+import { depcheckPlugin } from './code-quality/vite-plugins/vite-plugin-depcheck.js'
+import { auditPlugin } from './code-quality/vite-plugins/vite-plugin-audit.js'
+import { commentCoveragePlugin } from './code-quality/vite-plugins/vite-plugin-comment-coverage.js'
 import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 
@@ -13,6 +14,8 @@ export default defineConfig({
   plugins: [
     vue(),
     eslint({
+      configFile: 'code-quality/code-quality-config/.eslintrc.js',
+      ignorePath: 'code-quality/code-quality-config/.eslintignore',
       include: ['src/**/*.{js,vue}'],
       exclude: ['node_modules', 'dist'],
       cache: false,
@@ -21,6 +24,7 @@ export default defineConfig({
       failOnError: true
     }),
     stylelint({
+      configFile: 'code-quality/code-quality-config/.stylelintrc.js',
       include: ['src/**/*.{css,scss,sass,less,styl,vue}'],
       exclude: ['node_modules', 'dist'],
       cache: false,
@@ -34,12 +38,21 @@ export default defineConfig({
     }),
     depcheckPlugin({
       enabled: true,
-      configPath: '.depcheckrc.json',
+      configPath: 'code-quality/code-quality-config/.depcheckrc.json',
       skipOnError: true
     }),
     auditPlugin({
       enabled: true,
       auditLevel: 'moderate',
+      skipOnError: true
+    }),
+    commentCoveragePlugin({
+      enabled: true,
+      srcDir: 'src',
+      extensions: ['.js', '.vue'],
+      minCoverage: 0,
+      warnThreshold: 10,
+      showDetails: false,
       skipOnError: true
     }),
     (process.env.ANALYZE === 'true' || process.env.NODE_ENV === 'production') &&

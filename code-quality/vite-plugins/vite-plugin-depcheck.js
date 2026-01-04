@@ -1,11 +1,11 @@
 import { execSync } from 'child_process'
-import { readFileSync } from 'fs'
-import { resolve } from 'path'
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
+import { resolve, join } from 'path'
 
 export function depcheckPlugin(options = {}) {
 	const {
 		enabled = process.env.NODE_ENV === 'development',
-		configPath = '.depcheckrc.json',
+		configPath = 'code-quality/code-quality-config/.depcheckrc.json',
 		skipOnError = false
 	} = options
 
@@ -107,67 +107,92 @@ export function depcheckPlugin(options = {}) {
 		}
 	}
 
+	/**
+	 * 生成 Markdown 格式的依赖检查报告
+	 * @param {string|null} filteredResult - 过滤后的检查结果
+	 * @param {boolean} hasIssues - 是否有问题
+	 * @returns {string}
+	 */
+	function generateMarkdownReport(filteredResult, hasIssues) {
+		let report = `# 依赖检查报告\n\n`
+		
+		if (hasIssues && filteredResult) {
+			report += `## ⚠️ 发现依赖问题\n\n`
+			report += `\`\`\`\n${filteredResult}\n\`\`\`\n\n`
+			report += `## 💡 建议\n\n`
+			report += `- 检查未使用的依赖是否可以移除\n`
+			report += `- 检查缺失的依赖是否需要安装\n`
+			report += `- 运行 \`npm run check:deps\` 查看详细信息\n\n`
+		} else {
+			report += `## ✅ 检查结果\n\n`
+			report += `未发现未使用的依赖或缺失的依赖。\n\n`
+		}
+
+		report += `---\n\n`
+		report += `*报告生成时间: ${new Date().toLocaleString('zh-CN')}*\n`
+
+		return report
+	}
+
 	return {
 		name: 'depcheck',
 		apply: 'serve',
 		async buildStart() {
-			console.log('\n🔍 检查未使用的依赖...')
-			
-			try {
-				const configFile = resolve(process.cwd(), configPath)
-				let depcheckCommand = 'npx depcheck'
-				
+			// 异步执行，不阻塞开发服务器启动
+			setImmediate(async () => {
 				try {
-					readFileSync(configFile)
-					depcheckCommand += ` --config ${configPath}`
-				} catch (error) {
-					console.log('⚠️  未找到 depcheck 配置文件，使用默认配置')
-				}
-
-				const result = execSync(depcheckCommand, {
-					encoding: 'utf-8',
-					stdio: 'pipe',
-					cwd: process.cwd()
-				})
-
-				// 过滤已忽略的依赖
-				const filteredResult = filterIgnoredDeps(result, configPath)
-
-				if (filteredResult && filteredResult.trim()) {
-					console.log('⚠️  发现依赖问题:')
-					console.log(filteredResult)
-				} else {
-					console.log('✅ 未发现未使用的依赖')
-				}
-			} catch (error) {
-				const errorMessage = error.stdout || error.message || '未知错误'
-				
-				if (errorMessage.includes('Unused dependencies') || 
-				    errorMessage.includes('Unused devDependencies') ||
-				    errorMessage.includes('Missing dependencies')) {
-					// 过滤已忽略的依赖
-					const filteredMessage = filterIgnoredDeps(errorMessage, configPath)
+					const projectRoot = process.cwd()
+					const reportsDir = join(projectRoot, 'code-quality/code-quality-reports')
 					
-					if (filteredMessage && filteredMessage.trim()) {
-						console.log('⚠️  发现依赖问题:')
-						console.log(filteredMessage)
+					// 确保报告目录存在
+					if (!existsSync(reportsDir)) {
+						mkdirSync(reportsDir, { recursive: true })
+					}
+
+					const configFile = resolve(projectRoot, configPath)
+					let depcheckCommand = 'npx depcheck'
+					
+					try {
+						readFileSync(configFile)
+						depcheckCommand += ` --config ${configPath}`
+					} catch (error) {
+						// 配置文件不存在，使用默认配置
+					}
+
+					let filteredResult = null
+					let hasIssues = false
+
+					try {
+						const result = execSync(depcheckCommand, {
+							encoding: 'utf-8',
+							stdio: 'pipe',
+							cwd: projectRoot
+						})
+
+						// 过滤已忽略的依赖
+						filteredResult = filterIgnoredDeps(result, configPath)
+						hasIssues = filteredResult && filteredResult.trim() ? true : false
+					} catch (error) {
+						const errorMessage = error.stdout || error.message || '未知错误'
 						
-						if (!skipOnError) {
-							console.log('\n💡 提示: 运行 npm run check:deps 查看详细信息')
+						if (errorMessage.includes('Unused dependencies') || 
+						    errorMessage.includes('Unused devDependencies') ||
+						    errorMessage.includes('Missing dependencies')) {
+							// 过滤已忽略的依赖
+							filteredResult = filterIgnoredDeps(errorMessage, configPath)
+							hasIssues = filteredResult && filteredResult.trim() ? true : false
 						}
-					} else {
-						console.log('✅ 未发现未使用的依赖')
 					}
-				} else {
-					console.log('⚠️  Depcheck 检查失败:', errorMessage)
-					
-					if (!skipOnError) {
-						console.log('💡 提示: 可以手动运行 npm run check:deps 进行检查')
-					}
+
+					// 生成并保存报告
+					const markdownReport = generateMarkdownReport(filteredResult, hasIssues)
+					const reportPath = join(reportsDir, 'dependency-check-report.md')
+					writeFileSync(reportPath, markdownReport, 'utf-8')
+
+				} catch (error) {
+					// 静默失败，不阻塞开发服务器
 				}
-			}
-			
-			console.log('')
+			})
 		}
 	}
 }
