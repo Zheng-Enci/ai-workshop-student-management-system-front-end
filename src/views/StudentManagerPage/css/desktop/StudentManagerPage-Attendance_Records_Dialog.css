@@ -1,46 +1,4 @@
 
-/* 设置考勤记录对话框的圆角 */
-:deep(.el-dialog.attendance-records-dialog) {
-	border-radius: 4% !important;
-}
-/* 只影响考勤记录对话框内的日历 */
-:deep(.attendance-records-dialog .el-calendar-table .el-calendar-day) {
-	padding: 2px 2px 8px 4px;
-}
-
-/* 修改考勤记录对话框中的日历星期显示为中文 */
-:deep(.attendance-records-dialog .el-calendar-table thead th) {
-	font-size: 0; /* 隐藏原文 */
-}
-
-:deep(.attendance-records-dialog .el-calendar-table thead th:nth-child(1)::before) {
-	content: "周日";
-	font-size: 14px;
-}
-:deep(.attendance-records-dialog .el-calendar-table thead th:nth-child(2)::before) {
-	content: "周一";
-	font-size: 14px;
-}
-:deep(.attendance-records-dialog .el-calendar-table thead th:nth-child(3)::before) {
-	content: "周二";
-	font-size: 14px;
-}
-:deep(.attendance-records-dialog .el-calendar-table thead th:nth-child(4)::before) {
-	content: "周三";
-	font-size: 14px;
-}
-:deep(.attendance-records-dialog .el-calendar-table thead th:nth-child(5)::before) {
-	content: "周四";
-	font-size: 14px;
-}
-:deep(.attendance-records-dialog .el-calendar-table thead th:nth-child(6)::before) {
-	content: "周五";
-	font-size: 14px;
-}
-:deep(.attendance-records-dialog .el-calendar-table thead th:nth-child(7)::before) {
-	content: "周六";
-	font-size: 14px;
-}
 
 
 

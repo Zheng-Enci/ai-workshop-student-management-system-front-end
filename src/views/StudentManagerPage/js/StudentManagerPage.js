@@ -1,11 +1,11 @@
 /**
  * 学生管理页面类
  */
+import { ElMessage } from 'element-plus'
+
 import StudentManagerPageUtils from '@/views/StudentManagerPage/js/StudentManagerPageUtils'
-import {ElMessage} from "element-plus";
 
 class StudentManagerPage {
-
 	// 管理员所管理的学生列表数据
 	static students = []
 	// 管理员头像链接
@@ -13,9 +13,9 @@ class StudentManagerPage {
 
 	/**
 	 * 加载管理员所管理的学生数据（含统计数据）
-	 * @param {String} token - JWT token
+	 * @param token - JWT token
 	 * @param adminStudentDatabaseTableId
-	 * @returns {Promise<Object>} 返回对象包含：
+	 * @returns 返回对象包含：
 	 *   - students: 学生列表数据
 	 *   - attendanceCounts: 签到次数映射表 {studentId: count}
 	 *   - totalAttendanceCount: 总签到次数
@@ -29,11 +29,12 @@ class StudentManagerPage {
 			students.forEach(student => {
 				student.avatarUrl = StudentManagerPageUtils.getStudentAvatarUrl(student.id)
 			})
-			StudentManagerPage.students = students;
+			StudentManagerPage.students = students
 			// 获取管理员头像链接
-			StudentManagerPage.adminStudentAvatarUrl = StudentManagerPageUtils.getStudentAvatarUrl(adminStudentDatabaseTableId)
+			StudentManagerPage.adminStudentAvatarUrl = StudentManagerPageUtils
+				.getStudentAvatarUrl(adminStudentDatabaseTableId)
 		} catch (error) {
-			ElMessage.error('加载数据失败，请稍后再试或联系管理员, 原因：' + error.message || "未知")
+			ElMessage.error(`加载数据失败，请稍后再试或联系管理员, 原因：${error.message}` || '未知')
 			throw error
 		}
 	}

@@ -1,9 +1,32 @@
-import {defineStore} from 'pinia'
-import {ref, computed} from 'vue'
+import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
 
 export const useThemeStore = defineStore('theme', () => {
 	const isDarkMode = ref(false)
 	const autoThemeEnabled = ref(true)
+
+	const updateDocumentTheme = () => {
+		const html = document.documentElement
+		if (isDarkMode.value) {
+			html.classList.add('dark')
+			html.classList.remove('light')
+		} else {
+			html.classList.add('light')
+			html.classList.remove('dark')
+		}
+	}
+
+	const checkTimeBasedTheme = () => {
+		if (!autoThemeEnabled.value) { return }
+
+		const hour = new Date().getHours()
+		const shouldBeDark = hour < 6 || hour >= 18
+
+		if (isDarkMode.value !== shouldBeDark) {
+			isDarkMode.value = shouldBeDark
+			updateDocumentTheme()
+		}
+	}
 
 	const toggleTheme = () => {
 		isDarkMode.value = !isDarkMode.value
@@ -13,7 +36,7 @@ export const useThemeStore = defineStore('theme', () => {
 		updateDocumentTheme()
 	}
 
-	const setTheme = (theme) => {
+	const setTheme = theme => {
 		isDarkMode.value = theme === 'dark'
 		autoThemeEnabled.value = false
 		localStorage.setItem('theme', theme)
@@ -25,18 +48,6 @@ export const useThemeStore = defineStore('theme', () => {
 		autoThemeEnabled.value = true
 		localStorage.setItem('autoTheme', 'true')
 		checkTimeBasedTheme()
-	}
-
-	const checkTimeBasedTheme = () => {
-		if (!autoThemeEnabled.value) return
-
-		const hour = new Date().getHours()
-		const shouldBeDark = hour < 6 || hour >= 18
-
-		if (isDarkMode.value !== shouldBeDark) {
-			isDarkMode.value = shouldBeDark
-			updateDocumentTheme()
-		}
 	}
 
 	const initTheme = () => {
@@ -61,19 +72,8 @@ export const useThemeStore = defineStore('theme', () => {
 		setInterval(checkTimeBasedTheme, 60000)
 	}
 
-	const updateDocumentTheme = () => {
-		const html = document.documentElement
-		if (isDarkMode.value) {
-			html.classList.add('dark')
-			html.classList.remove('light')
-		} else {
-			html.classList.add('light')
-			html.classList.remove('dark')
-		}
-	}
-
 	const currentTheme = computed(
-		() => isDarkMode.value ? 'dark' : 'light'
+		() => (isDarkMode.value ? 'dark' : 'light')
 	)
 
 	return {

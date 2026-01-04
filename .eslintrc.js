@@ -7,13 +7,27 @@ module.exports = {
 	},
 	extends: [
 		'plugin:vue/vue3-strongly-recommended',
-		'eslint:recommended'
+		'eslint:recommended',
+		'prettier'
+	],
+	plugins: [
+		'import',
+		'sonarjs',
+		'jsdoc'
 	],
 	parserOptions: {
 		parser: '@babel/eslint-parser',
 		ecmaVersion: 2021,
 		sourceType: 'module',
 		requireConfigFile: false
+	},
+	settings: {
+		'import/resolver': {
+			alias: {
+				map: [['@', './src']],
+				extensions: ['.js', '.vue', '.json']
+			}
+		}
 	},
 	rules: {
 		// ====================================
@@ -108,7 +122,10 @@ module.exports = {
 		'complexity': ['warn', 15],
 		'max-depth': ['warn', 4],
 		'max-params': ['warn', 5],
-		'max-statements-per-line': ['error', { 'max': 1 }],
+		'max-statements-per-line': 'off',
+		'no-invalid-this': ['error', { 'capIsConstructor': false }],
+		'no-empty-function': 'warn',
+		'no-plusplus': 'off',
 		'no-useless-rename': 'error',
 		'object-shorthand': ['error', 'always'],
 		'dot-notation': ['error', { 'allowKeywords': true }],
@@ -132,7 +149,8 @@ module.exports = {
 			'alphabetize': {
 				'order': 'asc',
 				'caseInsensitive': true
-			}
+			},
+			'warnOnUnassignedImports': false
 		}],
 
 		// ====================================
@@ -321,6 +339,57 @@ module.exports = {
 		'prefer-template': 'error',
 		'rest-spread-spacing': ['error', 'never'],
 		'symbol-description': 'error',
-		'template-curly-spacing': 'error'
+		'template-curly-spacing': 'error',
+
+		// ====================================
+		// SonarJS 代码质量规则（企业级）
+		// ====================================
+		'sonarjs/no-all-duplicated-branches': 'error',
+		'sonarjs/no-element-overwrite': 'error',
+		'sonarjs/no-extra-arguments': 'error',
+		'sonarjs/no-identical-conditions': 'error',
+		'sonarjs/no-identical-expressions': 'error',
+		'sonarjs/no-identical-functions': 'error',
+		'sonarjs/no-inverted-boolean-check': 'error',
+		'sonarjs/no-redundant-boolean': 'error',
+		'sonarjs/no-use-of-empty-return-value': 'error',
+		'sonarjs/no-useless-catch': 'error',
+		'sonarjs/prefer-immediate-return': 'error',
+		'sonarjs/prefer-object-literal': 'error',
+		'sonarjs/prefer-single-boolean-return': 'error',
+		'sonarjs/prefer-while': 'error',
+
+		// ====================================
+		// JSDoc 文档规范
+		// ====================================
+		'jsdoc/check-access': 'warn',
+		'jsdoc/check-alignment': 'warn',
+		'jsdoc/check-param-names': 'warn',
+		'jsdoc/check-tag-names': 'warn',
+		'jsdoc/check-types': 'warn',
+		'jsdoc/implements-on-classes': 'warn',
+		'jsdoc/no-defaults': 'warn',
+		'jsdoc/no-types': 'warn',
+		'jsdoc/require-description': 'warn',
+		'jsdoc/require-param': 'warn',
+		'jsdoc/require-param-description': 'warn',
+		'jsdoc/require-param-type': 'warn',
+		'jsdoc/require-returns': 'warn',
+		'jsdoc/require-returns-description': 'warn',
+		'jsdoc/require-returns-type': 'warn',
+
+		// ====================================
+		// Import 规则补充
+		// ====================================
+		'import/no-unresolved': 'error',
+		'import/named': 'error',
+		'import/default': 'error',
+		'import/namespace': 'error',
+		'import/no-duplicates': 'error',
+		'import/no-mutable-exports': 'error',
+		'import/no-webpack-loader-syntax': 'error',
+		'import/no-cycle': 'warn',
+		'import/no-self-import': 'error',
+		'import/no-unused-modules': 'warn'
 	}
 }

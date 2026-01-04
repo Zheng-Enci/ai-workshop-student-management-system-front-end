@@ -1,0 +1,70 @@
+import js from '@eslint/js'
+import vue from 'eslint-plugin-vue'
+import vueParser from 'vue-eslint-parser'
+import sonarjs from 'eslint-plugin-sonarjs'
+
+export default [
+	{
+		ignores: ['node_modules/**', 'dist/**', '*.config.js', 'eslint.config.js']
+	},
+	js.configs.recommended,
+	...vue.configs['flat/recommended'],
+	sonarjs.configs.recommended,
+	{
+		files: ['**/*.{js,vue}'],
+		languageOptions: {
+			parser: vueParser,
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module'
+			},
+			globals: {
+				window: 'readonly',
+				document: 'readonly',
+				navigator: 'readonly',
+				WebSocket: 'readonly',
+				Image: 'readonly',
+				requestAnimationFrame: 'readonly',
+				cancelAnimationFrame: 'readonly',
+				MutationObserver: 'readonly'
+			}
+		},
+		rules: {
+			// 代码格式
+			indent: ['error', 'tab', { SwitchCase: 1 }],
+			'max-len': ['error', {
+				code: 120,
+				tabWidth: 4,
+				ignoreUrls: true,
+				ignoreStrings: true,
+				ignoreTemplateLiterals: true,
+				ignoreRegExpLiterals: true,
+				ignoreComments: true
+			}],
+			semi: ['error', 'never'],
+			quotes: ['error', 'single', { avoidEscape: true }],
+			'no-console': ['warn', { allow: ['warn', 'error'] }],
+			'no-debugger': 'error',
+			'no-var': 'error',
+			'prefer-const': 'error',
+			'prefer-template': 'error',
+			'no-unused-vars': ['error', {
+				argsIgnorePattern: '^_',
+				varsIgnorePattern: '^_',
+				caughtErrorsIgnorePattern: '^_'
+			}],
+			complexity: ['warn', 15],
+
+			// Vue 规则
+			'vue/html-indent': ['error', 'tab'],
+			'vue/max-attributes-per-line': ['error', {
+				singleline: { max: 3 },
+				multiline: { max: 1 }
+			}],
+			'vue/component-name-in-template-casing': ['error', 'kebab-case'],
+			'vue/prop-name-casing': ['error', 'camelCase'],
+			'vue/attribute-hyphenation': ['error', 'always'],
+			'vue/no-v-html': 'warn'
+		}
+	}
+]

@@ -2,8 +2,8 @@
  * 考勤记录对话框类
  * 控制考勤记录表单的显示与隐藏
  */
-import {reactive} from 'vue'
-import {ElMessage} from "element-plus";
+import { ElMessage } from 'element-plus'
+import { reactive } from 'vue'
 
 class StudentManagerPageAttendance_Records_Dialog {
 	// 响应式状态
@@ -28,19 +28,20 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 打开考勤记录对话框
-	 * @param {Object} student 学生信息对象
-	 * @returns {Promise<void>}
+	 * @param student 学生信息对象
+	 * @returns
 	 */
 	static async openAttendanceRecordsDialog(student) {
 		this.state.selectedStudent = student
 
 		try {
 			this.state.attendanceRecordsLoading = true
-			this.state.studentAttendanceRecords = await this.studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
+			this.state.studentAttendanceRecords = await this.studentManagerPageStudentAttendanceServer
+				.getStudentAttendanceRecords(student.studentId)
 			this.state.attendanceRecordsDialogVisible = true
 			document.body.style.overflow = 'hidden'
 		} catch (error) {
-			ElMessage.error('获取考勤记录失败：' + error.message)
+			ElMessage.error(`获取考勤记录失败：${error.message}`)
 		} finally {
 			this.state.attendanceRecordsLoading = false
 		}
@@ -66,7 +67,7 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 获取对话框可见性
-	 * @returns {boolean}
+	 * @returns
 	 */
 	static get attendanceRecordsDialogVisible() {
 		return this.state.attendanceRecordsDialogVisible
@@ -74,7 +75,7 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 设置对话框可见性
-	 * @param {boolean} value
+	 * @param value
 	 */
 	static set attendanceRecordsDialogVisible(value) {
 		this.state.attendanceRecordsDialogVisible = value
@@ -82,7 +83,7 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 获取当前选中的学生
-	 * @returns {Object|null}
+	 * @returns
 	 */
 	static getSelectedStudent() {
 		return this.state.selectedStudent
@@ -90,7 +91,7 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 获取考勤记录数据
-	 * @returns {Array}
+	 * @returns
 	 */
 	static getAttendanceRecords() {
 		return this.state.studentAttendanceRecords
@@ -98,7 +99,7 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 获取日历值
-	 * @returns {Date}
+	 * @returns
 	 */
 	static get calendarValue() {
 		return this.state.calendarValue
@@ -106,7 +107,7 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 设置日历值
-	 * @param {Date} date 日期值
+	 * @param date 日期值
 	 */
 	static setCalendarValue(date) {
 		this.state.calendarValue = date
@@ -114,7 +115,7 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 获取加载状态
-	 * @returns {boolean}
+	 * @returns
 	 */
 	static get isLoading() {
 		return this.state.attendanceRecordsLoading
@@ -122,7 +123,7 @@ class StudentManagerPageAttendance_Records_Dialog {
 
 	/**
 	 * 设置加载状态
-	 * @param {boolean} value
+	 * @param value
 	 */
 	static set attendanceRecordsLoading(value) {
 		this.state.attendanceRecordsLoading = value

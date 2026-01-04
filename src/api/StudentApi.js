@@ -1,5 +1,5 @@
+import ApiInterceptor from '@/composables/ApiInterceptor'
 import config from '@/config'
-import ApiInterceptor from "@/composables/ApiInterceptor";
 
 class StudentApi {
 	static api = ApiInterceptor.createInstance()
@@ -15,7 +15,7 @@ class StudentApi {
 			return response.data
 		} catch (error) {
 			if (error.response) {
-				const status = error.response.status
+				const { status } = error.response
 				if (status >= 500) {
 					throw new Error('服务器错误，请稍后重试或联系管理员')
 				} else {
@@ -29,19 +29,21 @@ class StudentApi {
 
 	/**
 	 * 获取头像URL（辅助函数）
-	 * @param {Number} studentInfoId - 学生数据库表主键ID
+	 * @param studentInfoId - 学生数据库表主键ID
 	 * @param avatarSize - 头像尺寸
-	 * @returns {String} 头像 URL
+	 * @returns 头像 URL
 	 */
 	static getAvatarUrl(studentInfoId, avatarSize = 64) {
-		if (!studentInfoId) return null
+		if (!studentInfoId) {
+			return null
+		}
 		return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}?avatarSize=${avatarSize}`
 	}
 
 	/**
 	 * 通过数据库表主键 ID 获取学生等级
-	 * @param {Number} studentInfoId - 学生数据库表主键ID
-	 * @returns {Promise<Object>} 响应数据，data字段为等级代码(0-3)
+	 * @param studentInfoId - 学生数据库表主键ID
+	 * @returns 响应数据，data字段为等级代码(0-3)
 	 */
 	static async getStudentLevelByInfoId(studentInfoId) {
 		try {
@@ -51,7 +53,7 @@ class StudentApi {
 			return response.data
 		} catch (error) {
 			if (error.response) {
-				const status = error.response.status
+				const { status } = error.response
 				if (status >= 500) {
 					throw new Error('服务器错误，请稍后重试')
 				} else {
@@ -64,8 +66,8 @@ class StudentApi {
 	}
 	/**
 	 * 通过 token 获取学生数据库表主键 ID
-	 * @param {String} token - 用户登录凭证
-	 * @returns {Promise<Object>} 响应数据，data 字段为学生数据库表主键 ID
+	 * @param token - 用户登录凭证
+	 * @returns 响应数据，data 字段为学生数据库表主键 ID
 	 */
 	static async getStudentDatabaseTableId(token) {
 		try {
@@ -75,7 +77,7 @@ class StudentApi {
 			return response.data
 		} catch (error) {
 			if (error.response) {
-				const status = error.response.status
+				const { status } = error.response
 				if (status >= 500) {
 					throw new Error('服务器错误，请稍后重试')
 				} else {

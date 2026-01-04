@@ -1,337 +1,9 @@
-<template>
-	<div class="points-dashboard-container">
-		<div class="header">
-			<div class="header-left">
-				<el-button @click="goBack" class="back-btn" type="primary" :icon="ArrowLeft" circle></el-button>
-				<img src="@/assets/AiWorkShop_icon.png" alt="AI坊" class="logo" @click="toggleTheme"
-					 title="切换主题模式">
-				<div class="title-section">
-					<h1 class="main-title">在0与1之间，见证每一位创作者的光芒</h1>
-				</div>
-			</div>
-			<div class="header-right">
-				<!-- 手机端不显示slogan图片 -->
-			</div>
-		</div>
-
-		<div class="main-content">
-			<div class="dashboard-layout">
-				<div class="dashboard-main">
-					<div v-if="activeTab === 'signIn'" class="ranking-tabs">
-						<div class="ranking-topbar">
-							<div class="ranking-arrows">
-								<el-button circle size="small" plain @click="switchTab('prev')">
-									<el-icon>
-										<ArrowLeft/>
-									</el-icon>
-								</el-button>
-								<span class="ranking-label">{{ currentTabLabel }}</span>
-								<el-button circle size="small" plain @click="switchTab('next')">
-									<el-icon>
-										<ArrowRight/>
-									</el-icon>
-								</el-button>
-							</div>
-						</div>
-						<div class="ranking-list-container">
-							<div v-if="signInLoading" class="loading-container">
-								<el-icon class="is-loading">
-									<Loading/>
-								</el-icon>
-								<span>加载中...</span>
-							</div>
-							<div v-else-if="signInRanking.length === 0" class="empty-container">
-								<el-icon>
-									<Box/>
-								</el-icon>
-								<span>暂无数据</span>
-							</div>
-							<div v-else>
-								<div ref="signInChart" class="points-chart"></div>
-								<div class="formula-card formula-mini">
-									<div class="formula-content">
-										<div class="formula-item">
-											<span class="formula-label">总签到积分</span>
-											<span class="formula-equals">=</span>
-											<span class="formula-value">签到次数</span>
-											<span class="formula-operator">×</span>
-											<span class="formula-value">0.64</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div v-else-if="activeTab === 'activity'" class="ranking-tabs">
-						<div class="ranking-topbar">
-							<div class="ranking-arrows">
-								<el-button circle size="small" plain @click="switchTab('prev')">
-									<el-icon>
-										<ArrowLeft/>
-									</el-icon>
-								</el-button>
-								<span class="ranking-label">{{ currentTabLabel }}</span>
-								<el-button circle size="small" plain @click="switchTab('next')">
-									<el-icon>
-										<ArrowRight/>
-									</el-icon>
-								</el-button>
-							</div>
-						</div>
-						<div class="ranking-list-container">
-							<div v-if="activityLoading" class="loading-container">
-								<el-icon class="is-loading">
-									<Loading/>
-								</el-icon>
-								<span>加载中...</span>
-							</div>
-							<div v-else-if="activityRanking.length === 0" class="empty-container">
-								<el-icon>
-									<Box/>
-								</el-icon>
-								<span>暂无数据</span>
-							</div>
-							<div v-else>
-								<div ref="activityChart" class="points-chart"></div>
-								<div class="formula-card formula-mini">
-									<div class="formula-content">
-										<div class="formula-item">
-											<span class="formula-label">总活动积分</span>
-											<span class="formula-equals">=</span>
-											<span class="formula-value">Σ(所有活动积分)</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div v-else class="ranking-tabs">
-						<div class="ranking-topbar">
-							<div class="ranking-arrows">
-								<el-button circle size="small" plain @click="switchTab('prev')">
-									<el-icon>
-										<ArrowLeft/>
-									</el-icon>
-								</el-button>
-								<span class="ranking-label">{{ currentTabLabel }}</span>
-								<el-button circle size="small" plain @click="switchTab('next')">
-									<el-icon>
-										<ArrowRight/>
-									</el-icon>
-								</el-button>
-							</div>
-						</div>
-						<div class="ranking-list-container">
-							<div v-if="totalLoading" class="loading-container">
-								<el-icon class="is-loading">
-									<Loading/>
-								</el-icon>
-								<span>加载中...</span>
-							</div>
-							<div v-else-if="totalRanking.length === 0" class="empty-container">
-								<el-icon>
-									<Box/>
-								</el-icon>
-								<span>暂无符合条件的学生</span>
-							</div>
-							<div v-else>
-								<div ref="totalChart" class="points-chart"></div>
-								<div class="formula-card formula-mini">
-									<div class="formula-content">
-										<div class="formula-item">
-											<span class="formula-label">总积分</span>
-											<span class="formula-equals">=</span>
-											<span class="formula-value formula-signin">总签到积分</span>
-											<span class="formula-operator">+</span>
-											<span class="formula-value formula-activity">总活动积分</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="dashboard-side">
-					<div class="side-card">
-						<div class="side-card-header">
-							<div class="card-header-left">
-								<div class="side-card-title">优秀成员</div>
-								<div class="side-card-subtitle">总积分前32名</div>
-							</div>
-							<div class="unified-legend" v-if="topStudents.length > 0">
-								<div class="legend-section">
-									<div class="legend-item">
-										<span class="legend-dot legend-club-member"></span>
-										<span class="legend-text">社团成员</span>
-									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-normal-member"></span>
-										<span class="legend-text">普通成员</span>
-									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-core-member"></span>
-										<span class="legend-text">核心成员</span>
-									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-admin"></span>
-										<span class="legend-text">管理员</span>
-									</div>
-								</div>
-								<div class="legend-section">
-									<div class="legend-item">
-										<el-icon class="hint-icon">
-											<View/>
-										</el-icon>
-										<span class="legend-text">点击眼睛图标可查看全部改分记录</span>
-									</div>
-								</div>
-								<div class="legend-section">
-									<div class="legend-item">
-										<span class="legend-dot legend-total"></span>
-										<span class="legend-text">总积分</span>
-									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-signin"></span>
-										<span class="legend-text">总签到积分</span>
-									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-activity"></span>
-										<span class="legend-text">总活动积分</span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="side-card-body" v-if="topStudents.length > 0">
-							<div
-								v-for="student in topStudents"
-								:key="student.studentInfoId || student.placeholderId"
-								class="side-student"
-								:class="{
-                  'is-placeholder': student.placeholder,
-                  'level-club-member': !student.placeholder && student.levelCode === 0,
-                  'level-normal-member': !student.placeholder && student.levelCode === 1,
-                  'level-core-member': !student.placeholder && student.levelCode === 2,
-                  'level-admin': !student.placeholder && student.levelCode === 3
-                }"
-							>
-								<div class="side-info">
-									<div class="side-avatar-section">
-										<div class="side-avatar"
-											 :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
-											<img v-if="student.hasAvatar && student.avatarUrl" v-lazy="student.avatarUrl"
-												 alt="头像" class="avatar-image" @error="handleAvatarError(student)"/>
-											<el-icon v-else size="18" class="avatar-icon">
-												<User/>
-											</el-icon>
-										</div>
-										<div class="side-name">
-											{{
-												student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`)
-											}}
-										</div>
-									</div>
-									<div class="side-content">
-										<div class="side-meta" v-if="!student.placeholder">
-											<div class="meta-line meta-line-second" v-if="student.major">
-												{{ student.major }}
-											</div>
-											<div class="meta-line meta-line-second" v-if="student.grade">
-												{{ formatGrade(student.grade) }}
-											</div>
-											<div class="meta-line meta-line-second"
-												 v-if="!student.major && !student.grade">--
-											</div>
-										</div>
-										<div class="side-points">
-											<div class="points-total-row">
-												<div class="points-formula" v-if="!student.placeholder">
-													<span class="points-total points-total-main">{{
-															student.totalPoints
-														}}</span>
-													<span class="points-equals">=</span>
-													<span class="points-number points-signin">{{
-															student.signInPoints
-														}}</span>
-													<span class="points-plus">+</span>
-													<span class="points-number points-activity">{{
-															student.activityPoints
-														}}</span>
-												</div>
-												<div class="points-formula" v-else>
-													<span class="points-placeholder">待公布</span>
-												</div>
-												<el-button
-													v-if="!student.placeholder"
-													size="small"
-													type="primary"
-													plain
-													@click="openRecordsDialog(student)"
-													class="view-records-btn"
-													circle
-												>
-													<el-icon>
-														<View/>
-													</el-icon>
-												</el-button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div v-else class="side-empty">
-							<el-icon>
-								<Box/>
-							</el-icon>
-							<span>暂无数据</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- 改分记录弹窗 -->
-		<el-dialog
-			v-model="recordsDialogVisible"
-			:title="dialogTitle"
-			width="95%"
-			:close-on-press-escape="true"
-			:show-close="true"
-			:close-on-click-modal="false"
-			:destroy-on-close="true"
-			:append-to-body="true"
-			:teleported="true"
-			modal-class="records-dialog-overlay"
-			class="records-dialog"
-			@close="handleRecordsDialogClose"
-		>
-			<div v-if="showRecordsContent" class="records-grid">
-				<div
-					v-for="record in allRecords"
-					:key="record.id"
-					class="record-card"
-				>
-					<div class="record-header">
-						<span class="record-time">{{ formatTime(record.createTime) }}</span>
-						<span class="record-points-badge"
-							  :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
-              {{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
-            </span>
-					</div>
-					<div class="record-reason-text">{{ record.adjustReason }}</div>
-				</div>
-			</div>
-		</el-dialog>
-	</div>
-</template>
-
 <script setup>
-import {ref, onMounted, onUnmounted, nextTick, watch, computed} from 'vue'
-import {useRouter} from 'vue-router'
-import {useThemeStore} from '@/stores/theme'
-import {ElButton, ElIcon, ElDialog} from 'element-plus'
+import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+import { useThemeStore } from '@/stores/theme'
+
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -343,19 +15,22 @@ import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/display.css'
-import {ArrowLeft, ArrowRight, Loading, Box, View, User} from '@element-plus/icons-vue'
-import * as echarts from 'echarts/core'
-import {BarChart} from 'echarts/charts'
+import { ArrowLeft, ArrowRight, Loading, Box, View, User } from '@element-plus/icons-vue'
+import { BarChart } from 'echarts/charts'
 import {
 	GridComponent,
 	TooltipComponent
 } from 'echarts/components'
-import {CanvasRenderer} from 'echarts/renderers'
-import {getTopAdjustRecordsByStudentInfoId} from '@/api/points'
+import * as echarts from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { ElButton, ElIcon, ElDialog, ElMessage } from 'element-plus'
+
+
+import { getTopAdjustRecordsByStudentInfoId } from '@/api/points'
+import StudentApi from '@/api/StudentApi'
+
 import PointsDashboardPage from './js/PointsDashboardPage'
 import PointsDashboardPageUtils from './js/PointsDashboardPageUtils'
-import StudentApi from '@/api/StudentApi'
-import {ElMessage} from 'element-plus'
 
 echarts.use([
 	GridComponent,
@@ -366,7 +41,7 @@ echarts.use([
 
 const router = useRouter()
 const themeStore = useThemeStore()
-const {toggleTheme} = themeStore
+const { toggleTheme } = themeStore
 
 // 创建 PointsDashboardPage 实例
 const dashboardPage = ref(new PointsDashboardPage())
@@ -407,7 +82,7 @@ const goBack = () => {
 	router.push('/navigation')
 }
 
-const switchTab = (direction) => {
+const switchTab = direction => {
 	const idx = tabOrder.indexOf(activeTab.value)
 	const nextIdx = direction === 'prev'
 		? (idx - 1 + tabOrder.length) % tabOrder.length
@@ -416,10 +91,10 @@ const switchTab = (direction) => {
 	handleTabChange(activeTab.value)
 }
 
-const initSignInChart = async (data) => {
+const initSignInChart = async data => {
 	if (!signInChart.value) {
 		await nextTick()
-		if (!signInChart.value) return
+		if (!signInChart.value) { return }
 	}
 
 	if (signInChartInstance) {
@@ -439,7 +114,7 @@ const initSignInChart = async (data) => {
 			axisPointer: {
 				type: 'shadow'
 			},
-			formatter: function (params) {
+			formatter(params) {
 				const item = sortedData[params[0].dataIndex]
 				return `${item.name || '未知学生'}<br/>总积分: ${item.totalPoints || 0}分`
 			}
@@ -486,26 +161,25 @@ const initSignInChart = async (data) => {
 				data: sortedData.map(item => item.signInPoints || 0),
 				barWidth: '60%',
 				itemStyle: {
-					color: function (params) {
+					color(params) {
 						const totalCount = sortedData.length
 						const index = params.dataIndex
 
 						if (totalCount <= 10) {
 							const colors = ['#e3f2fd', '#bbdefb', '#90caf9', '#64b5f6', '#42a5f5', '#2196f3', '#1e88e5', '#1976d2', '#1565c0', '#0d47a1']
 							return colors[index]
-						} else {
-							const hue = 200 + (index / totalCount) * 40
-							const saturation = 70 + (index / totalCount) * 20
-							const lightness = 85 - (index / totalCount) * 30
-							return `hsl(${hue}, ${saturation}%, ${lightness}%)`
 						}
+						const hue = 200 + (index / totalCount) * 40
+						const saturation = 70 + (index / totalCount) * 20
+						const lightness = 85 - (index / totalCount) * 30
+						return `hsl(${hue}, ${saturation}%, ${lightness}%)`
 					},
 					borderRadius: [0, 4, 4, 0]
 				},
 				label: {
 					show: true,
 					position: 'right',
-					formatter: function (params) {
+					formatter(params) {
 						const item = sortedData[params.dataIndex]
 						return `${item.signInPoints || 0}分`
 					},
@@ -519,10 +193,10 @@ const initSignInChart = async (data) => {
 
 	signInChartInstance.setOption(option)
 }
-const initActivityChart = async (data) => {
+const initActivityChart = async data => {
 	if (!activityChart.value) {
 		await nextTick()
-		if (!activityChart.value) return
+		if (!activityChart.value) { return }
 	}
 
 	if (activityChartInstance) {
@@ -581,19 +255,18 @@ const initActivityChart = async (data) => {
 				data: sortedData.map(item => item.activityPoints),
 				barWidth: '60%',
 				itemStyle: {
-					color: function (params) {
+					color(params) {
 						const totalCount = sortedData.length
 						const index = params.dataIndex
 
 						if (totalCount <= 10) {
 							const colors = ['#e3f2fd', '#bbdefb', '#90caf9', '#64b5f6', '#42a5f5', '#2196f3', '#1e88e5', '#1976d2', '#1565c0', '#0d47a1']
 							return colors[index]
-						} else {
-							const hue = 200 + (index / totalCount) * 40
-							const saturation = 70 + (index / totalCount) * 20
-							const lightness = 85 - (index / totalCount) * 30
-							return `hsl(${hue}, ${saturation}%, ${lightness}%)`
 						}
+						const hue = 200 + (index / totalCount) * 40
+						const saturation = 70 + (index / totalCount) * 20
+						const lightness = 85 - (index / totalCount) * 30
+						return `hsl(${hue}, ${saturation}%, ${lightness}%)`
 					},
 					borderRadius: [0, 4, 4, 0]
 				},
@@ -613,10 +286,10 @@ const initActivityChart = async (data) => {
 	activityChartInstance.setOption(option)
 }
 
-const initTotalChart = async (data) => {
+const initTotalChart = async data => {
 	if (!totalChart.value) {
 		await nextTick()
-		if (!totalChart.value) return
+		if (!totalChart.value) { return }
 	}
 
 	if (totalChartInstance) {
@@ -696,7 +369,7 @@ const initTotalChart = async (data) => {
 				label: {
 					show: true,
 					position: 'right',
-					formatter: function (params) {
+					formatter(params) {
 						const item = sortedData[params.dataIndex]
 						return `${item.totalPoints}分`
 					},
@@ -711,7 +384,7 @@ const initTotalChart = async (data) => {
 	totalChartInstance.setOption(option)
 }
 
-const handleAvatarError = (student) => {
+const handleAvatarError = student => {
 	student.hasAvatar = false
 	student.avatarUrl = null
 }
@@ -724,13 +397,13 @@ const handleAvatarError = (student) => {
 const getAttendanceData = async () => {
 	try {
 		// 1. 先获取原始签到排名数据
-		let rawAttendanceData = await PointsDashboardPageUtils.getTopNStudentsByAttendanceCount(32);
+		const rawAttendanceData = await PointsDashboardPageUtils.getTopNStudentsByAttendanceCount(32)
 
 		// 2. 检查综合排名数据是否存在，不存在则提示并返回空
 		if (!dashboardPage.value.comprehensiveRankingData || dashboardPage.value.comprehensiveRankingData.length === 0) {
-			ElMessage.warning('综合排名数据未加载，无法补充学生信息');
-			attendanceData.value = rawAttendanceData;
-			return;
+			ElMessage.warning('综合排名数据未加载，无法补充学生信息')
+			attendanceData.value = rawAttendanceData
+			return
 		}
 
 		// 3. 遍历签到数据，补充学生信息（姓名、学院、专业等）
@@ -738,43 +411,43 @@ const getAttendanceData = async () => {
 			// 根据studentInfoId从综合排名数据中找对应学生
 			const matchedStudent = dashboardPage.value.comprehensiveRankingData.find(
 				student => student.studentInfoId === item.studentInfoId
-			);
+			)
 			// 如果没找到
 			if (!matchedStudent) {
 				try {
-					const nameResponse = await StudentApi.getStudentPublicFieldValueById(item.studentInfoId, 'name');
-					let name = '未知';
+					const nameResponse = await StudentApi.getStudentPublicFieldValueById(item.studentInfoId, 'name')
+					let name = '未知'
 					if (nameResponse.code === 200) {
-						name = nameResponse.data;
+						name = nameResponse.data
 					} else if (nameResponse.message) {
-						ElMessage.error(`获取学生签到排行榜学生姓名失败：${nameResponse.message}`);
+						ElMessage.error(`获取学生签到排行榜学生姓名失败：${nameResponse.message}`)
 					} else {
-						ElMessage.error('获取签到排行榜学生姓名失败，请检查网络连接或联系管理员');
+						ElMessage.error('获取签到排行榜学生姓名失败，请检查网络连接或联系管理员')
 					}
 					// 补充信息：找到则用匹配的信息，没找到则姓名显示"未知"
 					return {
 						...item, // 保留原有字段（studentInfoId、attendanceCount、attendancePoints、ranking）
 						// 补充学生姓名
-						name: name,
-					};
+						name
+					}
 				} catch (error) {
-					ElMessage.error(`获取签到排行榜学生姓名失败，请检查网络连接或联系管理员`);
+					ElMessage.error('获取签到排行榜学生姓名失败，请检查网络连接或联系管理员')
 					return {
 						...item,
-						name: '未知',
-					};
+						name: '未知'
+					}
 				}
 			} else {
 				// 补充信息：找到则用匹配的信息，没找到则姓名显示"未知"
 				return {
 					...item, // 保留原有字段（studentInfoId、attendanceCount、attendancePoints、ranking）
 					// 补充学生姓名
-					name: matchedStudent?.name || '未知',
-				};
+					name: matchedStudent?.name || '未知'
+				}
 			}
-		}));
+		}))
 
-		attendanceData.value = processedAttendanceData;
+		attendanceData.value = processedAttendanceData
 
 		// 将数据格式化为图表所需格式
 		signInRanking.value = processedAttendanceData.map(item => ({
@@ -783,11 +456,11 @@ const getAttendanceData = async () => {
 			grade: item.grade,
 			major: item.major,
 			signInPoints: item.attendancePoints || 0
-		}));
+		}))
 	} catch (error) {
-		ElMessage.error(error.message || '获取签到排行榜失败, 请检查网络连接或联系管理员');
-		attendanceData.value = [];
-		signInRanking.value = [];
+		ElMessage.error(error.message || '获取签到排行榜失败, 请检查网络连接或联系管理员')
+		attendanceData.value = []
+		signInRanking.value = []
 	}
 }
 
@@ -812,15 +485,15 @@ const loadTotalRanking = async () => {
 		// 将数据格式化为图表所需格式，直接使用 PointsDashboardPage 返回的完整数据
 		totalRanking.value = rankingData.map(student => ({
 			studentInfoId: student.studentInfoId,
-			name: student.name,                   // 直接使用已获取的姓名
-			grade: student.grade,                  // 直接使用已获取的年级
-			major: student.major,                  // 直接使用已获取的专业
-			levelCode: student.levelCode,          // 直接使用已获取的等级
-			hasAvatar: !!student.avatarUrl,        // 直接使用已获取的头像信息
-			avatarUrl: student.avatarUrl,          // 直接使用已获取的头像URL
-			signInPoints: student.attendancePoints,  // 签到积分
-			activityPoints: student.activityPoints,  // 活动积分
-			totalPoints: student.totalPoints         // 总积分
+			name: student.name, // 直接使用已获取的姓名
+			grade: student.grade, // 直接使用已获取的年级
+			major: student.major, // 直接使用已获取的专业
+			levelCode: student.levelCode, // 直接使用已获取的等级
+			hasAvatar: Boolean(student.avatarUrl), // 直接使用已获取的头像信息
+			avatarUrl: student.avatarUrl, // 直接使用已获取的头像URL
+			signInPoints: student.attendancePoints, // 签到积分
+			activityPoints: student.activityPoints, // 活动积分
+			totalPoints: student.totalPoints // 总积分
 		}))
 
 		// 侧边栏显示前32名
@@ -851,7 +524,7 @@ const loadTotalRanking = async () => {
 	}
 }
 
-const handleTabChange = async (tabName) => {
+const handleTabChange = async tabName => {
 	await nextTick()
 	if (tabName === 'signIn') {
 		signInLoading.value = true
@@ -941,7 +614,7 @@ const handleResize = () => {
 }
 
 // 自动刷新定时器
-let refreshTimer = null
+const refreshTimer = null
 
 // 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
 const refreshData = async () => {
@@ -952,15 +625,15 @@ const refreshData = async () => {
 	// 更新总积分排行榜
 	totalRanking.value = rankingData.map(student => ({
 		studentInfoId: student.studentInfoId,
-		name: student.name,                   // 直接使用已获取的姓名
-		grade: student.grade,                  // 直接使用已获取的年级
-		major: student.major,                  // 直接使用已获取的专业
-		levelCode: student.levelCode,          // 直接使用已获取的等级
-		hasAvatar: !!student.avatarUrl,        // 直接使用已获取的头像信息
-		avatarUrl: student.avatarUrl,          // 直接使用已获取的头像URL
-		signInPoints: student.attendancePoints,  // 签到积分
-		activityPoints: student.activityPoints,  // 活动积分
-		totalPoints: student.totalPoints         // 总积分
+		name: student.name, // 直接使用已获取的姓名
+		grade: student.grade, // 直接使用已获取的年级
+		major: student.major, // 直接使用已获取的专业
+		levelCode: student.levelCode, // 直接使用已获取的等级
+		hasAvatar: Boolean(student.avatarUrl), // 直接使用已获取的头像信息
+		avatarUrl: student.avatarUrl, // 直接使用已获取的头像URL
+		signInPoints: student.attendancePoints, // 签到积分
+		activityPoints: student.activityPoints, // 活动积分
+		totalPoints: student.totalPoints // 总积分
 	}))
 
 	// 更新侧边栏显示的前32名
@@ -988,7 +661,6 @@ const refreshData = async () => {
 }
 
 
-
 watch(() => themeStore.isDarkMode, () => {
 	setTimeout(() => {
 		if (activeTab.value === 'signIn' && signInRanking.value.length > 0) {
@@ -1001,7 +673,7 @@ watch(() => themeStore.isDarkMode, () => {
 	}, 100)
 })
 
-const openRecordsDialog = async (student) => {
+const openRecordsDialog = async student => {
 	// 恢复遮罩层样式，确保可以正常显示
 	const dialogWrapper = document.querySelector('.records-dialog-overlay')
 	if (dialogWrapper) {
@@ -1056,10 +728,10 @@ const handleRecordsDialogClose = () => {
 	}, 0)
 }
 
-const formatGrade = (grade) => {
-	if (!grade) return ''
+const formatGrade = grade => {
+	if (!grade) { return '' }
 	const gradeNum = parseInt(grade)
-	if (isNaN(gradeNum)) return grade
+	if (isNaN(gradeNum)) { return grade }
 	const gradeMap = {
 		1: '大一',
 		2: '大二',
@@ -1071,8 +743,8 @@ const formatGrade = (grade) => {
 	return gradeMap[gradeNum] || `${gradeNum}年级`
 }
 
-const formatTime = (timeString) => {
-	if (!timeString) return '--'
+const formatTime = timeString => {
+	if (!timeString) { return '--' }
 	try {
 		const date = new Date(timeString)
 		const year = date.getFullYear()
@@ -1105,5 +777,375 @@ onUnmounted(() => {
 	window.removeEventListener('resize', handleResize)
 })
 </script>
+
+<template>
+	<div class="points-dashboard-container">
+		<div class="header">
+			<div class="header-left">
+				<el-button
+					class="back-btn"
+					type="primary"
+					:icon="ArrowLeft"
+					circle
+					@click="goBack"/>
+				<img
+					src="@/assets/AiWorkShop_icon.png"
+					alt="AI坊"
+					class="logo"
+					title="切换主题模式"
+					@click="toggleTheme"/>
+				<div class="title-section">
+					<h1 class="main-title">在0与1之间，见证每一位创作者的光芒</h1>
+				</div>
+			</div>
+			<div class="header-right">
+				<!-- 手机端不显示slogan图片 -->
+			</div>
+		</div>
+
+		<div class="main-content">
+			<div class="dashboard-layout">
+				<div class="dashboard-main">
+					<div v-if="activeTab === 'signIn'" class="ranking-tabs">
+						<div class="ranking-topbar">
+							<div class="ranking-arrows">
+								<el-button
+									circle
+									size="small"
+									plain
+									@click="switchTab('prev')">
+									<el-icon>
+										<arrow-left/>
+									</el-icon>
+								</el-button>
+								<span class="ranking-label">{{ currentTabLabel }}</span>
+								<el-button
+									circle
+									size="small"
+									plain
+									@click="switchTab('next')">
+									<el-icon>
+										<arrow-right/>
+									</el-icon>
+								</el-button>
+							</div>
+						</div>
+						<div class="ranking-list-container">
+							<div v-if="signInLoading" class="loading-container">
+								<el-icon class="is-loading">
+									<loading/>
+								</el-icon>
+								<span>加载中...</span>
+							</div>
+							<div v-else-if="signInRanking.length === 0" class="empty-container">
+								<el-icon>
+									<box/>
+								</el-icon>
+								<span>暂无数据</span>
+							</div>
+							<div v-else>
+								<div ref="signInChart" class="points-chart"/>
+								<div class="formula-card formula-mini">
+									<div class="formula-content">
+										<div class="formula-item">
+											<span class="formula-label">总签到积分</span>
+											<span class="formula-equals">=</span>
+											<span class="formula-value">签到次数</span>
+											<span class="formula-operator">×</span>
+											<span class="formula-value">0.64</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div v-else-if="activeTab === 'activity'" class="ranking-tabs">
+						<div class="ranking-topbar">
+							<div class="ranking-arrows">
+								<el-button
+									circle
+									size="small"
+									plain
+									@click="switchTab('prev')">
+									<el-icon>
+										<arrow-left/>
+									</el-icon>
+								</el-button>
+								<span class="ranking-label">{{ currentTabLabel }}</span>
+								<el-button
+									circle
+									size="small"
+									plain
+									@click="switchTab('next')">
+									<el-icon>
+										<arrow-right/>
+									</el-icon>
+								</el-button>
+							</div>
+						</div>
+						<div class="ranking-list-container">
+							<div v-if="activityLoading" class="loading-container">
+								<el-icon class="is-loading">
+									<loading/>
+								</el-icon>
+								<span>加载中...</span>
+							</div>
+							<div v-else-if="activityRanking.length === 0" class="empty-container">
+								<el-icon>
+									<box/>
+								</el-icon>
+								<span>暂无数据</span>
+							</div>
+							<div v-else>
+								<div ref="activityChart" class="points-chart"/>
+								<div class="formula-card formula-mini">
+									<div class="formula-content">
+										<div class="formula-item">
+											<span class="formula-label">总活动积分</span>
+											<span class="formula-equals">=</span>
+											<span class="formula-value">Σ(所有活动积分)</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div v-else class="ranking-tabs">
+						<div class="ranking-topbar">
+							<div class="ranking-arrows">
+								<el-button
+									circle
+									size="small"
+									plain
+									@click="switchTab('prev')">
+									<el-icon>
+										<arrow-left/>
+									</el-icon>
+								</el-button>
+								<span class="ranking-label">{{ currentTabLabel }}</span>
+								<el-button
+									circle
+									size="small"
+									plain
+									@click="switchTab('next')">
+									<el-icon>
+										<arrow-right/>
+									</el-icon>
+								</el-button>
+							</div>
+						</div>
+						<div class="ranking-list-container">
+							<div v-if="totalLoading" class="loading-container">
+								<el-icon class="is-loading">
+									<loading/>
+								</el-icon>
+								<span>加载中...</span>
+							</div>
+							<div v-else-if="totalRanking.length === 0" class="empty-container">
+								<el-icon>
+									<box/>
+								</el-icon>
+								<span>暂无符合条件的学生</span>
+							</div>
+							<div v-else>
+								<div ref="totalChart" class="points-chart"/>
+								<div class="formula-card formula-mini">
+									<div class="formula-content">
+										<div class="formula-item">
+											<span class="formula-label">总积分</span>
+											<span class="formula-equals">=</span>
+											<span class="formula-value formula-signin">总签到积分</span>
+											<span class="formula-operator">+</span>
+											<span class="formula-value formula-activity">总活动积分</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="dashboard-side">
+					<div class="side-card">
+						<div class="side-card-header">
+							<div class="card-header-left">
+								<div class="side-card-title">优秀成员</div>
+								<div class="side-card-subtitle">总积分前32名</div>
+							</div>
+							<div v-if="topStudents.length > 0" class="unified-legend">
+								<div class="legend-section">
+									<div class="legend-item">
+										<span class="legend-dot legend-club-member"/>
+										<span class="legend-text">社团成员</span>
+									</div>
+									<div class="legend-item">
+										<span class="legend-dot legend-normal-member"/>
+										<span class="legend-text">普通成员</span>
+									</div>
+									<div class="legend-item">
+										<span class="legend-dot legend-core-member"/>
+										<span class="legend-text">核心成员</span>
+									</div>
+									<div class="legend-item">
+										<span class="legend-dot legend-admin"/>
+										<span class="legend-text">管理员</span>
+									</div>
+								</div>
+								<div class="legend-section">
+									<div class="legend-item">
+										<el-icon class="hint-icon">
+											<view/>
+										</el-icon>
+										<span class="legend-text">点击眼睛图标可查看全部改分记录</span>
+									</div>
+								</div>
+								<div class="legend-section">
+									<div class="legend-item">
+										<span class="legend-dot legend-total"/>
+										<span class="legend-text">总积分</span>
+									</div>
+									<div class="legend-item">
+										<span class="legend-dot legend-signin"/>
+										<span class="legend-text">总签到积分</span>
+									</div>
+									<div class="legend-item">
+										<span class="legend-dot legend-activity"/>
+										<span class="legend-text">总活动积分</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div v-if="topStudents.length > 0" class="side-card-body">
+							<div
+								v-for="student in topStudents"
+								:key="student.studentInfoId || student.placeholderId"
+								class="side-student"
+								:class="{
+									'is-placeholder': student.placeholder,
+									'level-club-member': !student.placeholder && student.levelCode === 0,
+									'level-normal-member': !student.placeholder && student.levelCode === 1,
+									'level-core-member': !student.placeholder && student.levelCode === 2,
+									'level-admin': !student.placeholder && student.levelCode === 3
+								}"
+							>
+								<div class="side-info">
+									<div class="side-avatar-section">
+										<div
+											class="side-avatar"
+											:class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
+											<img
+												v-if="student.hasAvatar && student.avatarUrl"
+												v-lazy="student.avatarUrl"
+												alt="头像"
+												class="avatar-image"
+												@error="handleAvatarError(student)"/>
+											<el-icon v-else size="18" class="avatar-icon">
+												<user/>
+											</el-icon>
+										</div>
+										<div class="side-name">
+											{{
+												student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`)
+											}}
+										</div>
+									</div>
+									<div class="side-content">
+										<div v-if="!student.placeholder" class="side-meta">
+											<div v-if="student.major" class="meta-line meta-line-second">
+												{{ student.major }}
+											</div>
+											<div v-if="student.grade" class="meta-line meta-line-second">
+												{{ formatGrade(student.grade) }}
+											</div>
+											<div
+												v-if="!student.major && !student.grade"
+												class="meta-line meta-line-second">
+												--
+											</div>
+										</div>
+										<div class="side-points">
+											<div class="points-total-row">
+												<div v-if="!student.placeholder" class="points-formula">
+													<span class="points-total points-total-main">{{
+														student.totalPoints
+													}}</span>
+													<span class="points-equals">=</span>
+													<span class="points-number points-signin">{{
+														student.signInPoints
+													}}</span>
+													<span class="points-plus">+</span>
+													<span class="points-number points-activity">{{
+														student.activityPoints
+													}}</span>
+												</div>
+												<div v-else class="points-formula">
+													<span class="points-placeholder">待公布</span>
+												</div>
+												<el-button
+													v-if="!student.placeholder"
+													size="small"
+													type="primary"
+													plain
+													class="view-records-btn"
+													circle
+													@click="openRecordsDialog(student)"
+												>
+													<el-icon>
+														<view/>
+													</el-icon>
+												</el-button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div v-else class="side-empty">
+							<el-icon>
+								<box/>
+							</el-icon>
+							<span>暂无数据</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 改分记录弹窗 -->
+		<el-dialog
+			v-model="recordsDialogVisible"
+			:title="dialogTitle"
+			width="95%"
+			:close-on-press-escape="true"
+			:show-close="true"
+			:close-on-click-modal="false"
+			:destroy-on-close="true"
+			:append-to-body="true"
+			:teleported="true"
+			modal-class="records-dialog-overlay"
+			class="records-dialog"
+			@close="handleRecordsDialogClose"
+		>
+			<div v-if="showRecordsContent" class="records-grid">
+				<div
+					v-for="record in allRecords"
+					:key="record.id"
+					class="record-card"
+				>
+					<div class="record-header">
+						<span class="record-time">{{ formatTime(record.createTime) }}</span>
+						<span
+							class="record-points-badge"
+							:class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
+							{{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
+						</span>
+					</div>
+					<div class="record-reason-text">{{ record.adjustReason }}</div>
+				</div>
+			</div>
+		</el-dialog>
+	</div>
+</template>
 <style scoped src="./css/PointsDashboardPageMobile.css"></style>
 

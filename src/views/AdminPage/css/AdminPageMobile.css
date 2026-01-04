@@ -1,8 +1,3 @@
-.admin-mobile-container {
-	min-height: 100vh;
-	background: var(--admin-primary-gradient);
-	position: relative;
-}
 
 .auth-section-mobile {
 	min-height: 100vh;
@@ -459,157 +454,6 @@
 	clear: both;
 }
 
-.level-buttons-container-mobile {
-	background: var(--admin-glass-bg);
-	backdrop-filter: blur(20px);
-	border-radius: 12px;
-	padding: 8px;
-	border: 1px solid var(--admin-glass-border);
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 8px;
-	align-items: stretch;
-	justify-items: start;
-}
-
-.level-buttons-container-mobile > * {
-	display: flex;
-	width: 100%;
-}
-
-.level-btn-mobile {
-	width: fit-content;
-	min-width: calc(100% - 2px);
-	max-width: 100%;
-	height: 100%;
-	min-height: 48px;
-	padding: 0 !important;
-	margin: 0 !important;
-	border-radius: 10px;
-	font-size: 16px;
-	font-weight: 600;
-	display: flex !important;
-	align-items: center;
-	justify-content: center !important;
-	gap: 8px;
-	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-	border: 1px solid transparent;
-	background: transparent;
-	color: var(--admin-text-primary);
-	box-sizing: border-box;
-	position: relative;
-	overflow: hidden;
-	text-align: center !important;
-}
-
-.level-btn-mobile :deep(.el-button__inner) {
-	width: 100%;
-	height: 100%;
-	min-height: 48px;
-	display: flex !important;
-	align-items: center;
-	justify-content: center !important;
-	gap: 8px;
-	padding: 14px 16px !important;
-	margin: 0 !important;
-	text-align: center !important;
-}
-
-.level-btn-mobile::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: rgba(255, 255, 255, 0.05);
-	opacity: 0;
-	transition: opacity 0.3s ease;
-}
-
-.level-btn-mobile:hover::before {
-	opacity: 1;
-}
-
-.level-btn-mobile:hover {
-	border-color: var(--admin-glass-border);
-	transform: translateY(-1px);
-}
-
-.level-btn-mobile:active {
-	transform: translateY(0) scale(0.98);
-	transition: all 0.15s ease;
-}
-
-.level-btn-mobile.is-active {
-	background: var(--admin-primary-gradient);
-	border-color: var(--admin-primary-color);
-	box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-	color: white;
-	transform: translateY(-2px);
-}
-
-.level-btn-mobile.is-active::before {
-	opacity: 0;
-}
-
-.level-btn-mobile.is-active:hover {
-	box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
-	transform: translateY(-3px);
-}
-
-.button-label-mobile {
-	font-size: 16px;
-	font-weight: 600;
-	transition: color 0.3s ease;
-	flex-shrink: 0;
-}
-
-.level-btn-mobile.is-active .button-label-mobile {
-	color: white;
-}
-
-.button-count-mobile {
-	background: var(--admin-glass-bg);
-	padding: 3px 8px;
-	border-radius: 12px;
-	font-size: 13px;
-	font-weight: 700;
-	transition: all 0.3s ease;
-	color: var(--admin-text-primary);
-}
-
-.level-btn-mobile.is-active .button-count-mobile {
-	background: rgba(255, 255, 255, 0.25);
-	color: white;
-}
-
-.students-list-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-	margin-top: 0;
-	padding-top: 0;
-	position: relative;
-	z-index: 0;
-}
-
-
-.student-item-mobile {
-	background: var(--glass-bg);
-	backdrop-filter: blur(20px);
-	border-radius: 16px;
-	padding: 15px;
-	border: 1px solid var(--glass-border);
-	box-shadow: 0 2px 8px var(--shadow-color);
-}
-
-.student-main-info-mobile {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	margin-bottom: 15px;
-}
 
 .student-avatar-mobile {
 	width: 50px;
@@ -703,13 +547,6 @@
 	margin-bottom: 12px; /* 从15px减小到12px */
 	flex-wrap: wrap;
 }
-/* 调整按钮基础样式 */
-.action-btn-mobile {
-	flex: 0 0 calc((100% - 18px) / 4); /* 重新计算宽度，适应更小的按钮 */
-	min-width: calc((100% - 18px) / 4);
-	font-size: 11px; /* 从12px减小到11px */
-	padding: 6px 4px; /* 减小内边距 */
-}
 
 .attendance-actions-container {
 	display: flex;
@@ -731,13 +568,6 @@
 .trend-btn-mobile .el-icon {
 	font-size: 11px;
 	margin-right: 2px;
-}
-.student-management-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	padding-top: 15px;
-	border-top: 1px solid var(--admin-glass-border);
 }
 
 .level-management-mobile,
@@ -761,11 +591,6 @@
 	min-width: 0;
 }
 
-.no-admin-mobile {
-	font-size: 11px;
-	color: var(--admin-text-tertiary);
-	font-style: italic;
-}
 
 
 .edit-dialog-mobile :deep(.el-dialog) {
@@ -790,25 +615,6 @@
 	padding: 20px;
 	max-height: 60vh;
 	overflow-y: auto;
-}
-
-.edit-dialog-overlay-mobile {
-	position: fixed !important;
-	inset: 0 !important;
-	z-index: 2000 !important;
-	transition: none !important;
-	animation: none !important;
-}
-
-.edit-dialog-overlay-mobile .el-overlay-dialog {
-	position: fixed !important;
-	inset: 0 !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	z-index: 2001 !important;
-	transition: none !important;
-	animation: none !important;
 }
 
 .edit-form-mobile {
@@ -843,25 +649,6 @@
 .today-attendance-dialog-mobile :deep(.el-dialog__header) {
 	padding: 20px 20px 15px;
 	border-bottom: 1px solid var(--admin-glass-border);
-}
-
-.today-attendance-overlay-mobile {
-	position: fixed !important;
-	inset: 0 !important;
-	z-index: 2000 !important;
-	transition: none !important;
-	animation: none !important;
-}
-
-.today-attendance-overlay-mobile .el-overlay-dialog {
-	position: fixed !important;
-	inset: 0 !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	z-index: 2001 !important;
-	transition: none !important;
-	animation: none !important;
 }
 
 .today-attendance-dialog-mobile :deep(.el-dialog__title) {
@@ -960,63 +747,9 @@
 	gap: 12px;
 }
 
-.student-avatar-mobile-record {
-	width: 40px;
-	height: 40px;
-	border-radius: 10px;
-	background: var(--admin-primary-gradient);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 16px;
-	font-weight: 700;
-}
 .student-actions-mobile > div {
 	flex: 0 0 100%; /* 每个功能块占据一整行 */
 	min-width: 100%;
-}
-
-.student-avatar-mobile-record.has-avatar {
-	background: transparent;
-}
-
-.student-avatar-mobile-record.no-avatar {
-	background: var(--admin-primary-gradient);
-}
-
-.avatar-image-mobile-record {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 10px;
-}
-
-.avatar-text-mobile-record {
-	font-size: 16px;
-	font-weight: 700;
-	color: white;
-}
-
-.student-details-mobile-record {
-	flex: 1;
-	min-width: 0;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	flex-wrap: wrap;
-}
-
-.student-name-mobile-record {
-	font-size: 15px;
-	font-weight: 700;
-	color: var(--admin-text-primary);
-	white-space: nowrap;
-}
-
-.student-id-mobile-record {
-	font-size: 12px;
-	color: var(--admin-text-secondary);
-	white-space: nowrap;
 }
 
 .attendance-time-mobile {
@@ -1085,17 +818,6 @@
 	overflow: hidden;
 }
 
-.avatar-image-large-mobile {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.avatar-text-large-mobile {
-	font-size: 20px;
-	font-weight: 700;
-	color: white;
-}
 
 .student-info-mobile {
 	flex: 1;
@@ -1140,71 +862,6 @@
 	color: var(--admin-primary-color);
 }
 
-.month-selector-mobile {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	padding: 15px;
-	background: var(--admin-glass-bg);
-	border-radius: 12px;
-	border: 1px solid var(--admin-glass-border);
-	margin-bottom: 20px;
-}
-
-.selector-label-mobile {
-	font-size: 14px;
-	font-weight: 600;
-	color: var(--admin-text-primary);
-	white-space: nowrap;
-}
-
-.month-select-mobile {
-	flex: 1;
-	max-width: 200px;
-}
-
-.attendance-records-list-mobile {
-	min-height: 200px;
-}
-
-.records-by-date-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-}
-
-.date-group-mobile {
-	background: var(--admin-glass-bg);
-	border-radius: 12px;
-	border: 1px solid var(--admin-glass-border);
-	overflow: hidden;
-}
-
-.date-header-mobile {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	padding: 12px 15px;
-	background: var(--admin-glass-bg);
-	border-bottom: 1px solid var(--admin-glass-border);
-	font-weight: 600;
-	color: var(--admin-text-primary);
-}
-
-.date-icon-mobile {
-	font-size: 16px;
-	color: var(--admin-primary-color);
-}
-
-.date-text-mobile {
-	font-size: 15px;
-}
-
-.date-count-mobile {
-	font-size: 13px;
-	color: var(--admin-text-secondary);
-	margin-left: auto;
-}
 
 .records-list-mobile {
 	display: flex;
@@ -1238,63 +895,6 @@
 	overflow-y: auto;
 }
 
-.makeup-student-info-mobile {
-	display: flex;
-	align-items: center;
-	gap: 15px;
-	padding: 15px;
-	background: var(--admin-glass-bg);
-	border-radius: 12px;
-	border: 1px solid var(--admin-glass-border);
-	margin-bottom: 20px;
-}
-
-.makeup-student-avatar-mobile {
-	width: 60px;
-	height: 60px;
-	border-radius: 12px;
-	background: var(--admin-primary-gradient);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	overflow: hidden;
-}
-
-.makeup-avatar-image-mobile {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.makeup-avatar-text-mobile {
-	font-size: 24px;
-	font-weight: 700;
-	color: white;
-}
-
-.makeup-student-details-mobile {
-	flex: 1;
-	min-width: 0;
-}
-
-.makeup-student-name-mobile {
-	font-size: 18px;
-	font-weight: 700;
-	color: var(--admin-text-primary);
-	margin-bottom: 6px;
-}
-
-.makeup-student-id-mobile {
-	font-size: 13px;
-	color: var(--admin-text-secondary);
-	margin-bottom: 4px;
-}
-
-.makeup-student-grade-mobile {
-	font-size: 13px;
-	color: var(--admin-text-secondary);
-}
 
 .makeup-step-content-mobile {
 	display: flex;
@@ -1302,54 +902,6 @@
 	gap: 15px;
 }
 
-.step-title-mobile {
-	font-size: 16px;
-	font-weight: 700;
-	color: var(--admin-text-primary);
-	padding-bottom: 10px;
-	border-bottom: 2px solid var(--admin-primary-color);
-	margin-bottom: 15px;
-}
-
-.date-shortcuts-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-	margin-bottom: 20px;
-}
-
-.shortcut-row-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-}
-
-.shortcut-row-label-mobile {
-	font-size: 13px;
-	font-weight: 600;
-	color: var(--admin-text-secondary);
-	padding: 0 4px;
-}
-
-.shortcut-buttons-mobile {
-	display: flex;
-	gap: 6px;
-}
-
-.date-shortcut-btn-mobile {
-	flex: 1;
-	min-width: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 4px;
-	padding: 8px 6px;
-	font-size: 12px;
-}
-
-.date-shortcut-btn-mobile .el-icon {
-	font-size: 14px;
-}
 
 .makeup-form-content-mobile {
 	margin-top: 10px;
@@ -1378,46 +930,6 @@
 }
 
 
-.selected-date-display-mobile {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	padding: 12px;
-	background: var(--admin-glass-bg);
-	border-radius: 8px;
-	border: 1px solid var(--admin-glass-border);
-	font-size: 14px;
-	color: var(--admin-text-primary);
-}
-
-.selected-date-display-mobile .el-icon {
-	color: var(--admin-primary-color);
-}
-
-.hour-buttons-group-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-}
-
-.hour-label-mobile {
-	font-size: 14px;
-	font-weight: 600;
-	color: var(--admin-text-primary);
-}
-
-.hour-buttons-container-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-}
-
-.time-slot-buttons-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-}
-
 .time-slot-label-mobile {
 	font-size: 14px;
 	font-weight: 600;
@@ -1425,44 +937,7 @@
 	margin-bottom: 5px;
 }
 
-.hour-buttons-row-mobile {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-}
 
-.hour-btn-mobile {
-	flex: 1;
-	min-width: 60px;
-	max-width: 80px;
-	padding: 6px 8px;
-	font-size: 12px;
-}
-
-.time-slot-divider-mobile {
-	height: 1px;
-	background: var(--admin-glass-border);
-	margin: 5px 0;
-}
-
-.form-tip-mobile {
-	display: flex;
-	align-items: flex-start;
-	gap: 8px;
-	padding: 12px;
-	background: rgba(255, 193, 7, 0.1);
-	border-radius: 8px;
-	border: 1px solid rgba(255, 193, 7, 0.3);
-	font-size: 12px;
-	color: var(--admin-text-secondary);
-	line-height: 1.5;
-}
-
-.form-tip-mobile .el-icon {
-	color: #ff9800;
-	flex-shrink: 0;
-	margin-top: 2px;
-}
 
 .makeup-footer-mobile {
 	display: flex;
@@ -1472,10 +947,6 @@
 	border-top: 1px solid var(--admin-glass-border);
 }
 
-.cancel-btn-mobile {
-	flex: 1;
-	max-width: 120px;
-}
 
 .makeup-footer-mobile .el-button--primary {
 	flex: 1;
@@ -1587,12 +1058,6 @@
 	border: 1px solid var(--admin-glass-border);
 }
 
-.trend-chart-footer-mobile {
-	display: flex;
-	justify-content: flex-end;
-	padding: 5px 0 0 0;
-	margin-top: 5px;
-}
 
 .chart-title-mobile {
 	font-size: 16px;
@@ -1602,12 +1067,6 @@
 	text-align: center;
 }
 
-.heatmap-wrapper-mobile {
-	display: flex;
-	align-items: flex-start;
-	gap: 0;
-	position: relative;
-}
 
 .chart-content-mobile {
 	flex: 1;
@@ -1616,63 +1075,7 @@
 	margin-left: 0;
 }
 
-.daily-averages-mobile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 0;
-	min-width: 50px;
-	width: 50px;
-	height: 300px;
-	padding-top: 0;
-	margin-left: -15px;
-}
 
-.averages-title-mobile {
-	font-size: 12px;
-	color: var(--admin-text-secondary);
-	font-weight: 600;
-	height: calc(300px * 0.01 + 20px);
-	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	flex-shrink: 0;
-	margin-bottom: 0;
-	padding-bottom: 5px;
-}
-
-.average-item-mobile {
-	font-size: 12px;
-	color: var(--admin-text-primary);
-	padding: 0 4px;
-	text-align: center;
-	height: calc(300px * 0.75 / 7 - 1.1px);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	margin-bottom: -2px;
-}
-
-/* 积分对话框样式 */
-.points-overlay-mobile {
-	position: fixed !important;
-	inset: 0 !important;
-	z-index: 2000 !important;
-	transition: none !important;
-	animation: none !important;
-}
-
-.points-overlay-mobile .el-overlay-dialog {
-	position: fixed !important;
-	inset: 0 !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	z-index: 2001 !important;
-	transition: none !important;
-	animation: none !important;
-}
 
 .points-dialog-mobile :deep(.el-dialog) {
 	border-radius: 20px;
@@ -1703,86 +1106,11 @@
 	margin-bottom: 20px;
 }
 
-.student-info-card-mobile {
-	display: flex;
-	align-items: center;
-	gap: 15px;
-	padding: 15px;
-	background: var(--admin-glass-bg);
-	border-radius: 12px;
-	border: 1px solid var(--admin-glass-border);
-}
-
-.student-avatar-card-mobile {
-	width: 60px;
-	height: 60px;
-	border-radius: 12px;
-	background: var(--admin-primary-gradient);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-shrink: 0;
-	overflow: hidden;
-}
-
-.student-avatar-card-mobile.has-avatar {
-	background: transparent;
-}
-
-.avatar-image-card-mobile {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 12px;
-}
-
-.avatar-text-card-mobile {
-	font-size: 24px;
-	font-weight: 700;
-	color: white;
-}
-
-.student-info-details-mobile {
-	flex: 1;
-	min-width: 0;
-}
-
-.student-name-card-mobile {
-	font-size: 18px;
-	font-weight: 700;
-	color: var(--admin-text-primary);
-	margin-bottom: 6px;
-}
-
-.student-id-card-mobile {
-	font-size: 14px;
-	color: var(--admin-text-secondary);
-	margin-bottom: 4px;
-}
-
-.student-major-card-mobile {
-	font-size: 14px;
-	color: var(--admin-text-secondary);
-}
 
 .points-form-mobile {
 	margin-top: 20px;
 }
 
-.form-tip-mobile {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	margin-top: 8px;
-	font-size: 12px;
-	color: var(--admin-text-secondary);
-	height: 10px;
-}
-
-.form-tip-mobile .el-icon {
-	font-size: 14px;
-	color: var(--admin-warning-color);
-}
 
 /* 积分记录对话框样式 */
 .score-change-records-overlay-mobile {

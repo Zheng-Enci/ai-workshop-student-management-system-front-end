@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import config from '@/config'
 
 const api = axios.create({
@@ -23,13 +24,13 @@ api.interceptors.response.use(
 	}
 )
 
-export const login = async (data) => {
+export const login = async data => {
 	try {
 		const response = await api.post('/api/v1/students/login', data)
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 401) {
 				throw new Error('学号或密码错误')
 			} else if (status === 403) {
@@ -45,13 +46,13 @@ export const login = async (data) => {
 	}
 }
 
-export const register = async (data) => {
+export const register = async data => {
 	try {
 		const response = await api.post('/api/v1/students', data)
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 400 || status === 409) {
 				throw new Error(error.response.data?.message || '注册失败')
 			} else if (status >= 500) {
@@ -65,10 +66,10 @@ export const register = async (data) => {
 	}
 }
 
-export const validateToken = async (token) => {
+export const validateToken = async token => {
 	try {
 		const response = await api.post('/api/v1/students/validation-token', null, {
-			params: {token},
+			params: { token },
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			}
@@ -76,31 +77,31 @@ export const validateToken = async (token) => {
 		return response.data.data || false
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 403) {
 				return false
-			} else if (status === 401) {
-				return false
-			} else if (status >= 500) {
-				throw new Error('服务器错误，请稍后重试')
-			} else {
+			}
+			if (status === 401) {
 				return false
 			}
-		} else {
-			throw new Error('网络错误，Token验证失败')
+			if (status >= 500) {
+				throw new Error('服务器错误，请稍后重试')
+			}
+			return false
 		}
+		throw new Error('网络错误，Token验证失败')
 	}
 }
 
-export const getStudentProfile = async (token) => {
+export const getStudentProfile = async token => {
 	try {
 		const response = await api.get('/api/v1/students/profile', {
-			params: {token}
+			params: { token }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 401) {
 				throw new Error('Token无效，请重新登录')
 			} else if (status >= 500) {
@@ -117,12 +118,12 @@ export const getStudentProfile = async (token) => {
 export const updateStudentInfo = async (token, data) => {
 	try {
 		const response = await api.put('/api/v1/students/update-info', data, {
-			params: {token}
+			params: { token }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 401) {
 				throw new Error('Token无效，请重新登录')
 			} else if (status === 400) {
@@ -141,12 +142,12 @@ export const updateStudentInfo = async (token, data) => {
 export const changePassword = async (token, data) => {
 	try {
 		const response = await api.post('/api/v1/students/change-password', data, {
-			params: {token}
+			params: { token }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 401) {
 				throw new Error('Token无效，请重新登录')
 			} else if (status === 400) {
@@ -168,7 +169,7 @@ export const getGradeStatistics = async () => {
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status >= 500) {
 				throw new Error('服务器错误，请稍后重试')
 			} else {
@@ -186,7 +187,7 @@ export const getMajorStatistics = async () => {
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status >= 500) {
 				throw new Error('服务器错误，请稍后重试')
 			} else {
@@ -204,7 +205,7 @@ export const getTotalStudentCount = async () => {
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status >= 500) {
 				throw new Error('服务器错误，请稍后重试')
 			} else {
@@ -216,7 +217,7 @@ export const getTotalStudentCount = async () => {
 	}
 }
 
-export const getStudentCountByLevel = async (levelCode) => {
+export const getStudentCountByLevel = async levelCode => {
 	try {
 		const response = await api.get('/api/v1/students/student-count-by-level-code', {
 			params: {
@@ -226,7 +227,7 @@ export const getStudentCountByLevel = async (levelCode) => {
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status >= 500) {
 				throw new Error('服务器错误，请稍后重试')
 			} else {
@@ -238,15 +239,15 @@ export const getStudentCountByLevel = async (levelCode) => {
 	}
 }
 
-export const getStudentLevel = async (studentId) => {
+export const getStudentLevel = async studentId => {
 	try {
 		const response = await api.get('/api/v1/students/get-student-level', {
-			params: {'student-id': studentId}
+			params: { 'student-id': studentId }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status >= 500) {
 				throw new Error('服务器错误，请稍后重试')
 			} else {
@@ -258,15 +259,15 @@ export const getStudentLevel = async (studentId) => {
 	}
 }
 
-export const getStudentLevelByInfoId = async (studentInfoId) => {
+export const getStudentLevelByInfoId = async studentInfoId => {
 	try {
 		const response = await api.get('/api/v1/students/get-student-level-by-info-id', {
-			params: {'student-info-id': studentInfoId}
+			params: { 'student-info-id': studentInfoId }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status >= 500) {
 				throw new Error('服务器错误，请稍后重试')
 			} else {
@@ -278,15 +279,15 @@ export const getStudentLevelByInfoId = async (studentInfoId) => {
 	}
 }
 
-export const getStudentDatabaseTableId = async (token) => {
+export const getStudentDatabaseTableId = async token => {
 	try {
 		const response = await api.get('/api/v1/students/get-student-database-table-id', {
-			params: {token}
+			params: { token }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 401) {
 				throw new Error('Token无效，请重新登录')
 			} else if (status >= 500) {
@@ -300,15 +301,15 @@ export const getStudentDatabaseTableId = async (token) => {
 	}
 }
 
-export const getStudentNameByInfoId = async (studentInfoId) => {
+export const getStudentNameByInfoId = async studentInfoId => {
 	try {
 		const response = await api.get('/api/v1/students/get-student-name-by-info-id', {
-			params: {'student-info-id': studentInfoId}
+			params: { 'student-info-id': studentInfoId }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status >= 500) {
 				throw new Error('服务器错误，请稍后重试')
 			} else {
@@ -331,7 +332,7 @@ export const getStudentPublicFieldValueById = async (studentInfoId, fieldName) =
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status >= 500) {
 				throw new Error('服务器错误，请稍后重试')
 			} else {
@@ -343,15 +344,15 @@ export const getStudentPublicFieldValueById = async (studentInfoId, fieldName) =
 	}
 }
 
-export const getAllStudentsWithSpecialPassword = async (specialPassword) => {
+export const getAllStudentsWithSpecialPassword = async specialPassword => {
 	try {
 		const response = await api.get('/api/v1/students/all-with-special-password', {
-			params: {'special-password': specialPassword}
+			params: { 'special-password': specialPassword }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 400) {
 				throw new Error('特殊密码错误')
 			} else if (status >= 500) {
@@ -368,15 +369,15 @@ export const getAllStudentsWithSpecialPassword = async (specialPassword) => {
 export const setStudentLevel = async (specialPassword, studentId, levelCode) => {
 	try {
 		const response = await api.post('/api/v1/students/set-level', {
-			studentId: studentId,
-			levelCode: levelCode
+			studentId,
+			levelCode
 		}, {
-			params: {'special-password': specialPassword}
+			params: { 'special-password': specialPassword }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 400) {
 				throw new Error(error.response.data?.message || '设置学生等级失败')
 			} else if (status >= 500) {
@@ -401,7 +402,7 @@ export const updateStudentWithSpecialPassword = async (specialPassword, studentI
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 400) {
 				throw new Error(error.response.data?.message || '更新学生信息失败')
 			} else if (status >= 500) {
@@ -418,15 +419,15 @@ export const updateStudentWithSpecialPassword = async (specialPassword, studentI
 export const assignStudentToAdmin = async (specialPassword, studentId, adminStudentId) => {
 	try {
 		const response = await api.post('/api/v1/students/assign-student-to-admin', {
-			studentId: studentId,
-			adminStudentId: adminStudentId
+			studentId,
+			adminStudentId
 		}, {
-			params: {'special-password': specialPassword}
+			params: { 'special-password': specialPassword }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 400) {
 				throw new Error(error.response.data?.message || '分配管理员失败')
 			} else if (status >= 500) {
@@ -440,15 +441,15 @@ export const assignStudentToAdmin = async (specialPassword, studentId, adminStud
 	}
 }
 
-export const getAdminInfo = async (managedStudentId) => {
+export const getAdminInfo = async managedStudentId => {
 	try {
 		const response = await api.get('/api/v1/students/admin-info', {
-			params: {'managed-student-id': managedStudentId}
+			params: { 'managed-student-id': managedStudentId }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 400) {
 				throw new Error(error.response.data?.message || '获取管理员信息失败')
 			} else if (status >= 500) {
@@ -462,15 +463,15 @@ export const getAdminInfo = async (managedStudentId) => {
 	}
 }
 
-export const getManagedStudents = async (adminStudentId) => {
+export const getManagedStudents = async adminStudentId => {
 	try {
 		const response = await api.get('/api/v1/students/managed-students', {
-			params: {'admin-student-id': adminStudentId}
+			params: { 'admin-student-id': adminStudentId }
 		})
 		return response.data
 	} catch (error) {
 		if (error.response) {
-			const status = error.response.status
+			const { status } = error.response
 			if (status === 400) {
 				throw new Error(error.response.data?.message || '获取管理学生信息失败')
 			} else if (status >= 500) {
@@ -486,9 +487,9 @@ export const getManagedStudents = async (adminStudentId) => {
 
 /**
  * 上传学生头像
- * @param {String} token - JWT token
- * @param {File} file - 头像文件
- * @returns {Promise} Promise对象
+ * @param token - JWT token
+ * @param file - 头像文件
+ * @returns Promise对象
  */
 export const uploadAvatar = async (token, file) => {
 	try {
@@ -498,7 +499,7 @@ export const uploadAvatar = async (token, file) => {
 		// 根据接口文档：token 作为 Query 参数，file 在 FormData 中
 		// 这是之前能成功工作的版本
 		const response = await api.post('/api/v1/students/avatar', formData, {
-			params: {token},
+			params: { token },
 			headers: {
 				// 删除默认的 Content-Type，让 axios 自动处理 FormData
 				'Content-Type': false
@@ -506,7 +507,7 @@ export const uploadAvatar = async (token, file) => {
 			timeout: 60000
 		})
 
-		console.log('上传成功，服务器响应:', response.data)
+		// console.log('上传成功，服务器响应:', response.data)
 		return response.data
 	} catch (error) {
 		console.error('上传头像API错误:', error)
@@ -522,8 +523,8 @@ export const uploadAvatar = async (token, file) => {
 		// 处理异常（如token无效、文件为空等）
 		if (error.response) {
 			// 服务器返回了响应
-			const status = error.response.status
-			const data = error.response.data
+			const { status } = error.response
+			const { data } = error.response
 
 			let errorMessage = '头像上传失败'
 			if (data) {
@@ -538,19 +539,16 @@ export const uploadAvatar = async (token, file) => {
 				} else {
 					errorMessage = JSON.stringify(data) || `服务器错误 (${status})`
 				}
+			} else if (status === 400) {
+				errorMessage = '请求参数错误，请检查文件格式和大小（最大2MB）'
+			} else if (status === 401) {
+				errorMessage = 'Token无效，请重新登录'
+			} else if (status === 413) {
+				errorMessage = '文件太大，请选择小于2MB的图片'
+			} else if (status >= 500) {
+				errorMessage = '服务器错误，请稍后重试'
 			} else {
-				// 响应体为空，根据状态码给出提示
-				if (status === 400) {
-					errorMessage = '请求参数错误，请检查文件格式和大小（最大2MB）'
-				} else if (status === 401) {
-					errorMessage = 'Token无效，请重新登录'
-				} else if (status === 413) {
-					errorMessage = '文件太大，请选择小于2MB的图片'
-				} else if (status >= 500) {
-					errorMessage = '服务器错误，请稍后重试'
-				} else {
-					errorMessage = `服务器错误 (${status})`
-				}
+				errorMessage = `服务器错误 (${status})`
 			}
 
 			throw new Error(errorMessage)
@@ -559,20 +557,21 @@ export const uploadAvatar = async (token, file) => {
 			throw new Error('网络错误，无法连接到服务器')
 		} else {
 			// 请求配置错误
-			throw new Error('网络错误，头像上传失败：' + error.message)
+			throw new Error(`网络错误，头像上传失败：${error.message}`)
 		}
 	}
 }
 
 /**
  * 获取头像URL（辅助函数）
- * @param {Number} studentInfoId - 学生数据库表主键ID
+ * @param studentInfoId - 学生数据库表主键ID
  * @param avatarSize - 头像尺寸
- * @returns {String} 头像 URL
+ * @returns 头像 URL
  */
 export const getAvatarUrl = (studentInfoId, avatarSize = 64) => {
-	if (!studentInfoId) return null
+	if (!studentInfoId) {
+		return null
+	}
 	return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}?avatarSize=${avatarSize}`
 }
-
 

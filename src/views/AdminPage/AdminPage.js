@@ -1,6 +1,26 @@
-import {ref, computed, onMounted, nextTick, watch} from 'vue'
-import {useRouter} from 'vue-router'
-import {ElMessage} from 'element-plus'
+import { BarChart, LineChart, HeatmapChart } from 'echarts/charts'
+import {
+	TitleComponent,
+	TooltipComponent,
+	GridComponent,
+	LegendComponent,
+	VisualMapComponent
+} from 'echarts/components'
+import * as echarts from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { ElMessage } from 'element-plus'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { useRouter } from 'vue-router'
+
+import {
+	getStudentAttendanceCount,
+	getDailyAttendanceCount,
+	getMonthlyAttendanceCount,
+	getTodayAttendanceRecords,
+	getStudentAttendanceRecords,
+	makeupAttendanceWithSpecialPassword
+} from '@/api/attendance'
+import { createPointsRecord, getAllAdjustRecordsByStudentInfoId, getTotalPointsByStudentInfoId } from '@/api/points'
 import {
 	getAllStudentsWithSpecialPassword,
 	setStudentLevel,
@@ -10,28 +30,10 @@ import {
 	assignStudentToAdmin,
 	getAvatarUrl
 } from '@/api/student'
-import {
-	getStudentAttendanceCount,
-	getDailyAttendanceCount,
-	getMonthlyAttendanceCount,
-	getTodayAttendanceRecords,
-	getStudentAttendanceRecords,
-	makeupAttendanceWithSpecialPassword
-} from '@/api/attendance'
-import {createPointsRecord, getAllAdjustRecordsByStudentInfoId, getTotalPointsByStudentInfoId} from '@/api/points'
-import * as echarts from 'echarts/core'
-import {BarChart, LineChart, HeatmapChart} from 'echarts/charts'
-import {
-	TitleComponent,
-	TooltipComponent,
-	GridComponent,
-	LegendComponent,
-	VisualMapComponent
-} from 'echarts/components'
-import {useAdminStore} from '@/stores/admin'
-import {useThemeStore} from '@/stores/theme'
-import { validateSpecialPassword} from "@/api/super_admin";
-import { CanvasRenderer } from 'echarts/renderers'
+import { validateSpecialPassword } from '@/api/super_admin'
+import { useAdminStore } from '@/stores/admin'
+import { useThemeStore } from '@/stores/theme'
+
 
 echarts.use([
 	TitleComponent,
@@ -48,8 +50,8 @@ echarts.use([
 export const useAdminPage = () => {
 	const adminStore = useAdminStore()
 	const themeStore = useThemeStore()
-	const {toggleTheme} = themeStore
-	const router = useRouter()
+	const { toggleTheme } = themeStore
+	const _router = useRouter()
 
 	const isAuthenticated = ref(false)
 	const specialPassword = ref('')
@@ -93,9 +95,9 @@ export const useAdminPage = () => {
 	const scrollPosition = ref(0)
 	const allStudentAttendanceRecords = ref([])
 	const calendarSlots = [
-		{key: 'morning', label: '早'},
-		{key: 'afternoon', label: '午'},
-		{key: 'evening', label: '晚'}
+		{ key: 'morning', label: '早' },
+		{ key: 'afternoon', label: '午' },
+		{ key: 'evening', label: '晚' }
 	]
 
 	const filteredStudentAttendanceRecords = computed(() => {
@@ -198,7 +200,7 @@ export const useAdminPage = () => {
 	]
 
 
-	const getShortcutDate = (shortcut) => {
+	const getShortcutDate = shortcut => {
 		const date = new Date()
 		date.setDate(date.getDate() + shortcut.dateOffset)
 		return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
@@ -227,19 +229,21 @@ export const useAdminPage = () => {
 	const validHours = timeSlots.flatMap(slot => slot.hours)
 	const makeupDateFormRules = {
 		selectedDate: [
-			{required: true, message: '请选择日期', trigger: 'change'}
+			{ required: true, message: '请选择日期', trigger: 'change' }
 		]
 	}
 
 	const levelOptions = [
-		{value: 0, label: '社团成员', color: 'info'},
-		{value: 1, label: '普通成员', color: 'success'},
-		{value: 2, label: '核心成员', color: 'warning'},
-		{value: 3, label: '管理员', color: 'danger'}
+		{ value: 0, label: '社团成员', color: 'info' },
+		{ value: 1, label: '普通成员', color: 'success' },
+		{ value: 2, label: '核心成员', color: 'warning' },
+		{ value: 3, label: '管理员', color: 'danger' }
 	]
 
 	const adminOptions = computed(() => {
-		if (!students.value.length) return []
+		if (!students.value.length) {
+			return []
+		}
 
 		const adminStudents = students.value.filter(student => {
 			const level = studentLevels.value[student.studentId] || 0
@@ -249,50 +253,50 @@ export const useAdminPage = () => {
 		return adminStudents.map(student => ({
 			value: student.studentId,
 			label: `${student.name} (${student.studentId})`,
-			student: student
+			student
 		}))
 	})
 
 	const editFormRules = {
 		name: [
-			{required: true, message: '请输入学生姓名', trigger: 'blur'}
+			{ required: true, message: '请输入学生姓名', trigger: 'blur' }
 		],
 		studentId: [
-			{required: true, message: '请输入学号', trigger: 'blur'},
-			{pattern: /^[2-3][0-9]\d{8}$/, message: '学号格式不正确（以20-30开头的10位数字）', trigger: 'blur'}
+			{ required: true, message: '请输入学号', trigger: 'blur' },
+			{ pattern: /^[2-3][0-9]\d{8}$/, message: '学号格式不正确（以20-30开头的10位数字）', trigger: 'blur' }
 		],
 		gender: [
-			{required: true, message: '请选择性别', trigger: 'change'}
+			{ required: true, message: '请选择性别', trigger: 'change' }
 		],
 		phoneNumber: [
-			{required: true, message: '请输入手机号', trigger: 'blur'},
-			{pattern: /^1[3456789]\d{9}$/, message: '手机号格式不正确', trigger: 'blur'}
+			{ required: true, message: '请输入手机号', trigger: 'blur' },
+			{ pattern: /^1[3456789]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
 		],
 		college: [
-			{required: true, message: '请输入学院', trigger: 'blur'}
+			{ required: true, message: '请输入学院', trigger: 'blur' }
 		],
 		major: [
-			{required: true, message: '请输入专业', trigger: 'blur'}
+			{ required: true, message: '请输入专业', trigger: 'blur' }
 		],
 		grade: [
-			{required: true, message: '请选择年级', trigger: 'change'}
+			{ required: true, message: '请选择年级', trigger: 'change' }
 		],
 		classNum: [
-			{required: true, message: '请输入班级', trigger: 'blur'}
+			{ required: true, message: '请输入班级', trigger: 'blur' }
 		],
 		password: [
-			{min: 6, max: 16, message: '密码长度必须在6到16位之间', trigger: 'blur'}
+			{ min: 6, max: 16, message: '密码长度必须在6到16位之间', trigger: 'blur' }
 		]
 	}
 
 	const pointsFormRules = {
 		changePoints: [
-			{required: true, message: '请输入积分变动值', trigger: 'blur'},
-			{type: 'number', message: '积分变动值必须为数字', trigger: 'blur'}
+			{ required: true, message: '请输入积分变动值', trigger: 'blur' },
+			{ type: 'number', message: '积分变动值必须为数字', trigger: 'blur' }
 		],
 		adjustReason: [
-			{required: true, message: '请输入改分理由', trigger: 'blur'},
-			{max: 500, message: '改分理由不能超过500个字符', trigger: 'blur'}
+			{ required: true, message: '请输入改分理由', trigger: 'blur' },
+			{ max: 500, message: '改分理由不能超过500个字符', trigger: 'blur' }
 		]
 	}
 
@@ -317,15 +321,13 @@ export const useAdminPage = () => {
 		})
 	})
 
-	const getLevelStudents = (levelCode) => {
-		return filteredStudents.value.filter(student => {
-			const studentLevel = studentLevels.value[student.studentId] || 0
-			return studentLevel === levelCode
-		})
-	}
+	const getLevelStudents = levelCode => filteredStudents.value.filter(student => {
+		const studentLevel = studentLevels.value[student.studentId] || 0
+		return studentLevel === levelCode
+	})
 
 	const currentLevelStudents = computed(() => {
-		const currentLevel = parseInt(activeLevelTab.value)
+		const currentLevel = parseInt(activeLevelTab.value, 10)
 		return getLevelStudents(currentLevel)
 	})
 
@@ -421,10 +423,12 @@ export const useAdminPage = () => {
 	}
 
 	const loadStudentLevels = async () => {
-		if (!students.value.length) return
+		if (!students.value.length) {
+			return
+		}
 
 		try {
-			const levelPromises = students.value.map(async (student) => {
+			const levelPromises = students.value.map(async student => {
 				try {
 					const response = await getStudentLevel(student.studentId)
 					if (response.code === 200) {
@@ -436,15 +440,15 @@ export const useAdminPage = () => {
 			})
 			await Promise.all(levelPromises)
 		} catch (error) {
-			ElMessage.error('加载学生等级失败：' + error.message)
+			ElMessage.error(`加载学生等级失败：${error.message}`)
 		}
 	}
 
 	const loadStudentAttendanceCounts = async () => {
-		if (!students.value.length) return
+		if (!students.value.length) { return }
 
 		try {
-			const attendancePromises = students.value.map(async (student) => {
+			const attendancePromises = students.value.map(async student => {
 				try {
 					const response = await getStudentAttendanceCount(student.studentId)
 					if (response.code === 200) {
@@ -458,25 +462,25 @@ export const useAdminPage = () => {
 			})
 			await Promise.all(attendancePromises)
 		} catch (error) {
-			ElMessage.error('加载学生签到次数失败：' + error.message)
+			ElMessage.error(`加载学生签到次数失败：${error.message}`)
 		}
 	}
 
 	const loadStudentPoints = async () => {
-		if (!students.value.length) return
+		if (!students.value.length) { return }
 
 		try {
-			const pointsPromises = students.value.map(async (student) => {
+			const pointsPromises = students.value.map(async student => {
 				try {
 					// 使用学生的数据库主键ID（id字段）而不是学号（studentId字段）
 					const response = await getTotalPointsByStudentInfoId(student.id)
 					if (response.code === 200) {
 						// 根据接口文档，API返回的是一个数字，表示总积分
-						const totalPoints = response.data || 0;
+						const totalPoints = response.data || 0
 						// 由于API只返回总积分，我们将签到积分和活动积分都设为0
 						// 如果需要区分签到积分和活动积分，需要后端提供更详细的接口
 						studentPoints.value[student.studentId] = {
-							totalPoints: totalPoints,
+							totalPoints,
 							attendancePoints: 0,
 							activityPoints: 0
 						}
@@ -488,20 +492,20 @@ export const useAdminPage = () => {
 						}
 					}
 				} catch (error) {
-					studentPoints.value[student.studentId] = {totalPoints: 0, attendancePoints: 0, activityPoints: 0}
+					studentPoints.value[student.studentId] = { totalPoints: 0, attendancePoints: 0, activityPoints: 0 }
 				}
 			})
-			await Promise.all(pointsPromises);
+			await Promise.all(pointsPromises)
 		} catch (error) {
-			ElMessage.error('加载学生积分信息失败：' + error.message);
+			ElMessage.error(`加载学生积分信息失败：${error.message}`)
 		}
 	}
 
 	const loadStudentAdmins = async () => {
-		if (!students.value.length) return
+		if (!students.value.length) { return }
 
 		try {
-			const adminPromises = students.value.map(async (student) => {
+			const adminPromises = students.value.map(async student => {
 				try {
 					const response = await getAdminInfo(student.studentId)
 					if (response.code === 200 && response.data) {
@@ -523,11 +527,10 @@ export const useAdminPage = () => {
 	 * 加载学生头像
 	 */
 	const loadStudentAvatars = async () => {
-		if (!students.value.length) return
+		if (!students.value.length) { return }
 
 		try {
-			const avatarPromises = students.value.map(async (student) => {
-
+			const avatarPromises = students.value.map(async student => {
 				const studentInfoId = student.id
 				if (!studentInfoId) {
 					student.hasAvatar = false
@@ -537,7 +540,6 @@ export const useAdminPage = () => {
 
 				const avatarUrlString = getAvatarUrl(studentInfoId, 128)
 				if (avatarUrlString) {
-
 					const avatarUrlWithTimestamp = avatarUrlString
 
 					student.avatarUrl = avatarUrlWithTimestamp
@@ -565,8 +567,9 @@ export const useAdminPage = () => {
 
 	/**
 	 * 处理头像加载错误
+	 * @param student
 	 */
-	const handleAvatarError = (student) => {
+	const handleAvatarError = student => {
 		student.hasAvatar = false
 		student.avatarUrl = null
 	}
@@ -586,7 +589,7 @@ export const useAdminPage = () => {
 				monthlyCount.value = monthlyData.data.count
 			}
 		} catch (error) {
-			ElMessage.error('统计数据加载失败：' + error.message)
+			ElMessage.error(`统计数据加载失败：${error.message}`)
 		}
 	}
 
@@ -614,13 +617,13 @@ export const useAdminPage = () => {
 				ElMessage.success('数据刷新成功')
 			}
 		} catch (error) {
-			ElMessage.error('数据刷新失败：' + error.message)
+			ElMessage.error(`数据刷新失败：${error.message}`)
 		} finally {
 			isLoading.value = false
 		}
 	}
 
-	const openEditDialog = (student) => {
+	const openEditDialog = student => {
 		currentEditStudentId.value = student.studentId
 		editForm.value = {
 			name: student.name,
@@ -643,7 +646,7 @@ export const useAdminPage = () => {
 	}
 
 	const confirmEdit = async () => {
-		if (!editFormRef.value) return
+		if (!editFormRef.value) { return }
 
 		try {
 			await editFormRef.value.validate()
@@ -691,14 +694,14 @@ export const useAdminPage = () => {
 				ElMessage.error(response.message || '获取今日签到记录失败')
 			}
 		} catch (error) {
-			ElMessage.error('获取今日签到记录失败：' + error.message)
+			ElMessage.error(`获取今日签到记录失败：${error.message}`)
 		} finally {
 			isLoading.value = false
 		}
 	}
 
-	const formatAttendanceTime = (timeString) => {
-		if (!timeString) return ''
+	const formatAttendanceTime = timeString => {
+		if (!timeString) { return '' }
 		const date = new Date(timeString)
 		return date.toLocaleString('zh-CN', {
 			year: 'numeric',
@@ -710,51 +713,49 @@ export const useAdminPage = () => {
 		})
 	}
 
-	const getTimePeriodClass = (timeString) => {
-		if (!timeString) return 'morning'
+	const getTimePeriodClass = timeString => {
+		if (!timeString) { return 'morning' }
 		const date = new Date(timeString)
 		const hour = date.getHours()
 
 		if (hour >= 8 && hour < 11) {
 			return 'morning'
-		} else if (hour >= 14 && hour < 17) {
+		} if (hour >= 14 && hour < 17) {
 			return 'afternoon'
-		} else if (hour >= 19 && hour < 22) {
+		} if (hour >= 19 && hour < 22) {
 			return 'evening'
-		} else {
-			return 'morning'
 		}
+		return 'morning'
 	}
 
-	const getTimePeriodName = (timeString) => {
-		if (!timeString) return '早上'
+	const getTimePeriodName = timeString => {
+		if (!timeString) { return '早上' }
 		const date = new Date(timeString)
 		const hour = date.getHours()
 
 		if (hour >= 8 && hour < 11) {
 			return '早上'
-		} else if (hour >= 14 && hour < 17) {
+		} if (hour >= 14 && hour < 17) {
 			return '下午'
-		} else if (hour >= 19 && hour < 22) {
+		} if (hour >= 19 && hour < 22) {
 			return '晚上'
-		} else {
-			return '早上'
 		}
+		return '早上'
 	}
 
 
 	const isSlotSigned = (dateStr, slotKey) => {
 		const times = getDateAttendanceTimes(dateStr)
-		if (!times.length) return false
+		if (!times.length) { return false }
 		return times.some(time => getTimePeriodClass(time) === slotKey)
 	}
 
-	const openDateDetails = (dateStr) => {
+	const openDateDetails = dateStr => {
 		selectedDate.value = dateStr
 		showDateDetailsDialog.value = true
 	}
 
-	const openAttendanceRecordsDialog = async (student) => {
+	const openAttendanceRecordsDialog = async student => {
 		currentStudentInfo.value = student
 		scrollPosition.value = window.pageYOffset || document.documentElement.scrollTop
 
@@ -775,7 +776,7 @@ export const useAdminPage = () => {
 				ElMessage.error(response.message || '获取考勤记录失败')
 			}
 		} catch (error) {
-			ElMessage.error('获取考勤记录失败：' + error.message)
+			ElMessage.error(`获取考勤记录失败：${error.message}`)
 		} finally {
 			isLoading.value = false
 		}
@@ -860,8 +861,8 @@ export const useAdminPage = () => {
 		})
 	}
 
-	const formatDateForDisplay = (dateStr) => {
-		if (!dateStr) return ''
+	const formatDateForDisplay = dateStr => {
+		if (!dateStr) { return '' }
 		const date = new Date(dateStr)
 		const year = date.getFullYear()
 		const month = date.getMonth() + 1
@@ -869,8 +870,8 @@ export const useAdminPage = () => {
 		return `${year}年${month}月${day}日`
 	}
 
-	const formatCalendarTitle = (date) => {
-		if (!date) return ''
+	const formatCalendarTitle = date => {
+		if (!date) { return '' }
 		const d = new Date(date)
 		const year = d.getFullYear()
 		const month = d.getMonth() + 1
@@ -893,22 +894,22 @@ export const useAdminPage = () => {
 		calendarValue.value = new Date()
 	}
 
-	const getTimeSlotLabel = (timeStr) => {
-		if (!timeStr) return ''
+	const getTimeSlotLabel = timeStr => {
+		if (!timeStr) { return '' }
 		const date = new Date(timeStr)
 		const hour = date.getHours()
 
-		if (hour >= 8 && hour < 11) return '早上'
-		if (hour >= 14 && hour < 17) return '下午'
-		if (hour >= 19 && hour < 22) return '晚上'
+		if (hour >= 8 && hour < 11) { return '早上' }
+		if (hour >= 14 && hour < 17) { return '下午' }
+		if (hour >= 19 && hour < 22) { return '晚上' }
 		return '其他'
 	}
 
-	const getDateAttendanceTimes = (dateStr) => {
-		if (!filteredStudentAttendanceRecords.value || !dateStr) return []
+	const getDateAttendanceTimes = dateStr => {
+		if (!filteredStudentAttendanceRecords.value || !dateStr) { return [] }
 		return filteredStudentAttendanceRecords.value
 			.filter(record => {
-				const recordDate = new Date(record.attendanceDateTime).toISOString().split('T')[0]
+				const [recordDate] = new Date(record.attendanceDateTime).toISOString().split('T')
 				return recordDate === dateStr
 			})
 			.map(record => record.attendanceDateTime)
@@ -916,7 +917,7 @@ export const useAdminPage = () => {
 	}
 
 	const initHeatmapChart = () => {
-		if (!heatmapChart.value) return
+		if (!heatmapChart.value) { return }
 
 		if (heatmapInstance.value) {
 			heatmapInstance.value.dispose()
@@ -941,7 +942,7 @@ export const useAdminPage = () => {
 				textStyle: {
 					color: '#333'
 				},
-				formatter: function (params) {
+				formatter(params) {
 					if (!params || !params.data || !Array.isArray(params.data)) {
 						return ''
 					}
@@ -1042,7 +1043,7 @@ export const useAdminPage = () => {
 	}
 
 	const initLineChart = () => {
-		if (!lineChart.value) return
+		if (!lineChart.value) { return }
 
 		if (lineInstance.value) {
 			lineInstance.value.dispose()
@@ -1065,7 +1066,7 @@ export const useAdminPage = () => {
 				textStyle: {
 					color: '#333'
 				},
-				formatter: function (params) {
+				formatter(params) {
 					if (!params || !params[0] || !params[0].axisValue) {
 						return ''
 					}
@@ -1088,7 +1089,7 @@ export const useAdminPage = () => {
 					color: '#666',
 					fontSize: 11,
 					rotate: 45,
-					formatter: function (value) {
+					formatter(value) {
 						const date = new Date(value)
 						return `${date.getMonth() + 1}/${date.getDate()}`
 					}
@@ -1195,18 +1196,22 @@ export const useAdminPage = () => {
 			timeSlots.forEach((slot, slotIndex) => {
 				let count = 0
 				records.forEach(record => {
-					if (!record || !record.attendanceDateTime) return
+					if (!record || !record.attendanceDateTime) { return }
 
 					const date = new Date(record.attendanceDateTime)
-					if (isNaN(date.getTime())) return
+					if (isNaN(date.getTime())) { return }
 
 					const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
 					const hour = date.getHours()
 
 					if (dayOfWeek === dayIndex) {
-						if (slot === '上午' && hour >= 8 && hour < 11) count++
-						else if (slot === '下午' && hour >= 14 && hour < 17) count++
-						else if (slot === '晚上' && hour >= 19 && hour < 22) count++
+						if (slot === '上午' && hour >= 8 && hour < 11) {
+							count += 1
+						} else if (slot === '下午' && hour >= 14 && hour < 17) {
+							count += 1
+						} else if (slot === '晚上' && hour >= 19 && hour < 22) {
+							count += 1
+						}
 					}
 				})
 				data.push([dayIndex, slotIndex, count])
@@ -1229,12 +1234,12 @@ export const useAdminPage = () => {
 		}
 
 		records.forEach(record => {
-			if (!record || !record.attendanceDateTime) return
+			if (!record || !record.attendanceDateTime) { return }
 
 			const date = new Date(record.attendanceDateTime)
-			if (isNaN(date.getTime())) return
+			if (isNaN(date.getTime())) { return }
 
-			const dateStr = date.toISOString().split('T')[0]
+			const [dateStr] = date.toISOString().split('T')
 			dateMap.set(dateStr, (dateMap.get(dateStr) || 0) + 1)
 		})
 
@@ -1253,7 +1258,7 @@ export const useAdminPage = () => {
 		}
 	}
 
-	const openHeatmapDialog = async (student) => {
+	const openHeatmapDialog = async student => {
 		currentStudentInfo.value = student
 		scrollPosition.value = window.pageYOffset || document.documentElement.scrollTop
 
@@ -1277,14 +1282,14 @@ export const useAdminPage = () => {
 				ElMessage.error(response.message || '获取考勤记录失败')
 			}
 		} catch (error) {
-			ElMessage.error('获取考勤记录失败：' + error.message)
+			ElMessage.error(`获取考勤记录失败：${error.message}`)
 		} finally {
 			isLoading.value = false
 			restoreScroll()
 		}
 	}
 
-	const openTrendDialog = async (student) => {
+	const openTrendDialog = async student => {
 		currentStudentInfo.value = student
 		scrollPosition.value = window.pageYOffset || document.documentElement.scrollTop
 
@@ -1308,7 +1313,7 @@ export const useAdminPage = () => {
 				ElMessage.error(response.message || '获取考勤记录失败')
 			}
 		} catch (error) {
-			ElMessage.error('获取考勤记录失败：' + error.message)
+			ElMessage.error(`获取考勤记录失败：${error.message}`)
 		} finally {
 			isLoading.value = false
 			restoreScroll()
@@ -1368,35 +1373,35 @@ export const useAdminPage = () => {
 	}
 
 	const monthMap = {
-		'January': '一月',
-		'February': '二月',
-		'March': '三月',
-		'April': '四月',
-		'May': '五月',
-		'June': '六月',
-		'July': '七月',
-		'August': '八月',
-		'September': '九月',
-		'October': '十月',
-		'November': '十一月',
-		'December': '十二月'
+		January: '一月',
+		February: '二月',
+		March: '三月',
+		April: '四月',
+		May: '五月',
+		June: '六月',
+		July: '七月',
+		August: '八月',
+		September: '九月',
+		October: '十月',
+		November: '十一月',
+		December: '十二月'
 	}
 
 	const weekDayMap = {
-		'Sun': '日',
-		'Sunday': '日',
-		'Mon': '一',
-		'Monday': '一',
-		'Tue': '二',
-		'Tuesday': '二',
-		'Wed': '三',
-		'Wednesday': '三',
-		'Thu': '四',
-		'Thursday': '四',
-		'Fri': '五',
-		'Friday': '五',
-		'Sat': '六',
-		'Saturday': '六'
+		Sun: '日',
+		Sunday: '日',
+		Mon: '一',
+		Monday: '一',
+		Tue: '二',
+		Tuesday: '二',
+		Wed: '三',
+		Wednesday: '三',
+		Thu: '四',
+		Thursday: '四',
+		Fri: '五',
+		Friday: '五',
+		Sat: '六',
+		Saturday: '六'
 	}
 
 	let monthObserver = null
@@ -1422,7 +1427,7 @@ export const useAdminPage = () => {
 		const popper = document.querySelector('.makeup-date-picker-popper')
 		if (popper) {
 			const weekDayCells = popper.querySelectorAll('.el-date-table th')
-			weekDayCells.forEach((cell) => {
+			weekDayCells.forEach(cell => {
 				const text = cell.textContent.trim()
 				if (text) {
 					for (const [enDay, cnDay] of Object.entries(weekDayMap)) {
@@ -1453,7 +1458,7 @@ export const useAdminPage = () => {
 		}
 	}
 
-	const openMakeupDialog = async (student) => {
+	const openMakeupDialog = async student => {
 		makeupSelectedStudent.value = student
 		makeupForm.value.attendanceTime = ''
 		makeupForm.value.selectedDate = ''
@@ -1523,10 +1528,11 @@ export const useAdminPage = () => {
 	}
 
 	const handleDateChange = () => {
+		// 日期变化处理逻辑
 	}
 
 	const formatSelectedDate = () => {
-		if (!makeupForm.value.selectedDate) return ''
+		if (!makeupForm.value.selectedDate) { return '' }
 		const date = new Date(makeupForm.value.selectedDate)
 		const year = date.getFullYear()
 		const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -1535,7 +1541,7 @@ export const useAdminPage = () => {
 	}
 
 	const confirmDateStep = async () => {
-		if (!makeupFormRef.value) return
+		if (!makeupFormRef.value) { return }
 		try {
 			await makeupFormRef.value.validate()
 			makeupStep.value = 'hour'
@@ -1545,7 +1551,7 @@ export const useAdminPage = () => {
 		}
 	}
 
-	const selectDatetimeShortcut = (shortcut) => {
+	const selectDatetimeShortcut = shortcut => {
 		// 设置日期
 		const dateValue = getShortcutDate(shortcut)
 		makeupForm.value.selectedDate = dateValue
@@ -1560,28 +1566,28 @@ export const useAdminPage = () => {
 		makeupStep.value = 'hour'
 	}
 
-	const isDatetimeShortcutSelected = (shortcut) => {
-		if (!makeupForm.value.selectedDate || makeupForm.value.selectedHour === null) return false
+	const isDatetimeShortcutSelected = shortcut => {
+		if (!makeupForm.value.selectedDate || makeupForm.value.selectedHour === null) { return false }
 
 		// 检查日期是否匹配
 		const shortcutDate = getShortcutDate(shortcut)
-		if (makeupForm.value.selectedDate !== shortcutDate) return false
+		if (makeupForm.value.selectedDate !== shortcutDate) { return false }
 
 		// 检查时间段是否匹配
 		const selectedSlot = timeSlots.find(slot => slot.hours.includes(makeupForm.value.selectedHour))
-		if (!selectedSlot || selectedSlot.key !== shortcut.timeSlot) return false
+		if (!selectedSlot || selectedSlot.key !== shortcut.timeSlot) { return false }
 
 		return true
 	}
 
-	const selectHour = (hour) => {
-		if (!validHours.includes(hour)) return
+	const selectHour = hour => {
+		if (!validHours.includes(hour)) { return }
 		makeupForm.value.selectedHour = hour
 		updateAttendanceTime()
 	}
 
-	const isHourSelected = (hour) => {
-		if (makeupForm.value.selectedHour === null) return false
+	const isHourSelected = hour => {
+		if (makeupForm.value.selectedHour === null) { return false }
 		return makeupForm.value.selectedHour === hour
 	}
 
@@ -1606,7 +1612,7 @@ export const useAdminPage = () => {
 	}
 
 	const submitMakeup = async () => {
-		if (makeupLoading.value) return
+		if (makeupLoading.value) { return }
 		if (makeupForm.value.selectedHour === null) {
 			ElMessage.warning('请选择补卡时间')
 			return
@@ -1651,7 +1657,7 @@ export const useAdminPage = () => {
 		}
 	}
 
-	const openPointsDialog = (student) => {
+	const openPointsDialog = student => {
 		if (!student || !student.id) {
 			ElMessage.warning('学生信息不完整，无法修改积分')
 			return
@@ -1660,9 +1666,9 @@ export const useAdminPage = () => {
 		// 恢复遮罩层样式，确保可以正常显示
 		const dialogWrapper = document.querySelector('.points-dialog-overlay')
 		if (dialogWrapper) {
-			dialogWrapper.style.display = ''      // 清空内联样式
-			dialogWrapper.style.visibility = ''   // 清空内联样式
-			dialogWrapper.style.opacity = ''      // 清空内联样式
+			dialogWrapper.style.display = '' // 清空内联样式
+			dialogWrapper.style.visibility = '' // 清空内联样式
+			dialogWrapper.style.opacity = '' // 清空内联样式
 		}
 
 		pointsSelectedStudent.value = student
@@ -1698,7 +1704,7 @@ export const useAdminPage = () => {
 	}
 
 	const confirmPoints = async () => {
-		if (!pointsFormRef.value) return
+		if (!pointsFormRef.value) { return }
 
 		try {
 			await pointsFormRef.value.validate()
@@ -1721,7 +1727,7 @@ export const useAdminPage = () => {
 			const response = await createPointsRecord(
 				adminPassword,
 				pointsForm.value.adjustReason.trim(),
-				parseInt(pointsForm.value.changePoints),
+				parseInt(pointsForm.value.changePoints, 10),
 				pointsSelectedStudent.value.id
 			)
 
@@ -1741,7 +1747,7 @@ export const useAdminPage = () => {
 		}
 	}
 
-	const openScoreChangeRecordsDialog = async (student) => {
+	const openScoreChangeRecordsDialog = async student => {
 		if (!student || !student.id) {
 			ElMessage.warning('学生信息不完整，无法查看改分记录')
 			return
@@ -1761,7 +1767,7 @@ export const useAdminPage = () => {
 			}
 		} catch (error) {
 			console.error('获取改分记录失败:', error)
-			ElMessage.error('获取改分记录失败：' + (error.message || '未知错误'))
+			ElMessage.error(`获取改分记录失败：${error.message || '未知错误'}`)
 			scoreChangeRecords.value = []
 		} finally {
 			scoreChangeRecordsLoading.value = false
@@ -1774,20 +1780,16 @@ export const useAdminPage = () => {
 		scoreChangeRecords.value = []
 	}
 
-	const sortedScoreChangeRecords = computed(() => {
-		return [...scoreChangeRecords.value].sort((a, b) => {
-			const timeA = new Date(a.createTime).getTime()
-			const timeB = new Date(b.createTime).getTime()
-			return timeB - timeA // 最新的在前
-		})
-	})
+	const sortedScoreChangeRecords = computed(() => [...scoreChangeRecords.value].sort((a, b) => {
+		const timeA = new Date(a.createTime).getTime()
+		const timeB = new Date(b.createTime).getTime()
+		return timeB - timeA // 最新的在前
+	}))
 
-	const totalScoreChangePoints = computed(() => {
-		return scoreChangeRecords.value.reduce((sum, r) => sum + r.adjustPoints, 0)
-	})
+	const totalScoreChangePoints = computed(() => scoreChangeRecords.value.reduce((sum, r) => sum + r.adjustPoints, 0))
 
-	const formatTime = (timeString) => {
-		if (!timeString) return '--'
+	const formatTime = timeString => {
+		if (!timeString) { return '--' }
 		try {
 			const date = new Date(timeString)
 			const year = date.getFullYear()
@@ -1801,7 +1803,7 @@ export const useAdminPage = () => {
 		}
 	}
 
-	const loadAllData = async (adminPassword) => {
+	const loadAllData = async adminPassword => {
 		const totalSteps = 7
 
 		const updateProgress = (step, status) => {
@@ -1846,9 +1848,8 @@ export const useAdminPage = () => {
 			setTimeout(() => {
 				isDataLoaded.value = true
 			}, 500)
-
 		} catch (error) {
-			ElMessage.error('加载数据失败：' + error.message)
+			ElMessage.error(`加载数据失败：${error.message}`)
 			// 不应该在这里清除认证状态，因为密码验证已经成功
 			// isAuthenticated.value = false
 			// adminStore.clearAdminPassword()
@@ -1866,7 +1867,7 @@ export const useAdminPage = () => {
 			try {
 				await loadAllData(adminPassword)
 			} catch (error) {
-				ElMessage.error('加载数据失败：' + error.message)
+				ElMessage.error(`加载数据失败：${error.message}`)
 			}
 		} else {
 			isAuthenticated.value = false

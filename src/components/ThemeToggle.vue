@@ -1,19 +1,20 @@
-<template>
-  <button @click="toggleTheme" class="theme-toggle-btn" title="切换主题模式">
-    <el-icon size="22" class="theme-icon">
-      <Sunny v-if="isDarkMode" />
-      <Moon v-else />
-    </el-icon>
-  </button>
-</template>
-
 <script setup>
 import { Sunny, Moon } from '@element-plus/icons-vue'
+
 import { useThemeStore } from '@/stores/theme'
 
 const themeStore = useThemeStore()
 const { isDarkMode, toggleTheme } = themeStore
 </script>
+
+<template>
+	<button class="theme-toggle-btn" title="切换主题模式" @click="toggleTheme">
+		<el-icon size="22" class="theme-icon">
+			<sunny v-if="isDarkMode" />
+			<moon v-else />
+		</el-icon>
+	</button>
+</template>
 
 <style scoped>
 .theme-toggle-btn {
@@ -56,7 +57,7 @@ const { isDarkMode, toggleTheme } = themeStore
     top: 32px;
     right: 32px;
   }
-  
+
   .theme-icon {
     font-size: 24px;
   }

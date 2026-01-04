@@ -1,43 +1,42 @@
-import AttendanceApi from "@/api/AttendanceApi";
-import {ElMessage} from "element-plus";
+import { ElMessage } from 'element-plus'
+
+import AttendanceApi from '@/api/AttendanceApi'
 
 // 学生管理页面签到相关服务代码
 class StudentManagerPageStudentAttendanceServer {
-
 	// 保存获取过的学生签到记录（字典）
-	static studentAttendanceRecords = {};
+	static studentAttendanceRecords = {}
 
 	/**
 	 * 获取学生的签到记录列表
-	 * @param {String|Number} studentId - 学生学号
-	 * @returns {Promise<Array>} 签到记录列表，每条记录包含 attendanceDateTime 字段
+	 * @param studentId - 学生学号
+	 * @returns 签到记录列表，每条记录包含 attendanceDateTime 字段
 	 * @throws {Error} 当请求失败或数据异常时通过 ElMessage 显示错误信息
 	 */
 	static async getStudentAttendanceRecords(studentId) {
 		if (studentId in StudentManagerPageStudentAttendanceServer.studentAttendanceRecords) {
-			return StudentManagerPageStudentAttendanceServer.studentAttendanceRecords[studentId];
+			return StudentManagerPageStudentAttendanceServer.studentAttendanceRecords[studentId]
 		}
-		const result = await AttendanceApi.getStudentAttendanceRecords(studentId);
+		const result = await AttendanceApi.getStudentAttendanceRecords(studentId)
 
 		/// 检查响应状态码
 		if (result.code === 200) {
 			// 返回签到记录列表
 			StudentManagerPageStudentAttendanceServer.studentAttendanceRecords[studentId] = result.data.map(item => ({
 				attendanceDateTime: item.attendanceDateTime
-			}));
-			return StudentManagerPageStudentAttendanceServer.studentAttendanceRecords[studentId];
-		} else {
-			// 业务异常，抛出错误
-			ElMessage.error('获取签到记录失败, 请重试或联系管理员, 原因: ' + result.message || "网络异常");
+			}))
+			return StudentManagerPageStudentAttendanceServer.studentAttendanceRecords[studentId]
 		}
+		// 业务异常，抛出错误
+		ElMessage.error(`获取签到记录失败, 请重试或联系管理员, 原因: ${result.message}` || '网络异常')
 	}
 
 	/**
 	 * 获取指定日期某个时间段的签到时间
-	 * @param {String} dateStr - 日期字符串，格式为 "YYYY-MM-DD"
-	 * @param {String} slot - 时间段标识，可选值：'morning'(早)、'afternoon'(午)、'evening'(晚)
-	 * @param {Array} studentAttendanceRecords - 签到记录的响应式引用对象，数据结构为 [{ attendanceDateTime: String }]
-	 * @returns {String} 格式化的签到时间字符串（如 "08:30"），如果该时段无签到记录则返回空字符串
+	 * @param dateStr - 日期字符串，格式为 "YYYY-MM-DD"
+	 * @param slot - 时间段标识，可选值：'morning'(早)、'afternoon'(午)、'evening'(晚)
+	 * @param studentAttendanceRecords - 签到记录的响应式引用对象，数据结构为 [{ attendanceDateTime: String }]
+	 * @returns 格式化的签到时间字符串（如 "08:30"），如果该时段无签到记录则返回空字符串
 	 *
 	 * 时间段划分：
 	 * - 早上(morning)：8:00-11:00
@@ -55,11 +54,11 @@ class StudentManagerPageStudentAttendanceServer {
 		}
 
 		// 根据时间段查找匹配的签到记录
-		const matchedRecords = records.filter(record => {  // ✅ 使用 records，不是 studentAttendanceRecords.value
+		const matchedRecords = records.filter(record => { // ✅ 使用 records，不是 studentAttendanceRecords.value
 			// 获取签到记录的日期
 			const recordDate = new Date(record.attendanceDateTime).toDateString()
 			// 如果日期不匹配，跳过该记录
-			if (recordDate !== targetDate) return false
+			if (recordDate !== targetDate) { return false }
 
 			// 获取签到时间的小时数，用于判断时间段
 			const hour = new Date(record.attendanceDateTime).getHours()
@@ -68,9 +67,9 @@ class StudentManagerPageStudentAttendanceServer {
 			// 早：8:00-11:00, 午：14:00-17:00, 晚：19:00-22:00
 			if (slot === 'morning') {
 				return hour >= 8 && hour < 11
-			} else if (slot === 'afternoon') {
+			} if (slot === 'afternoon') {
 				return hour >= 14 && hour < 17
-			} else if (slot === 'evening') {
+			} if (slot === 'evening') {
 				return hour >= 19 && hour < 22
 			}
 			return false
@@ -84,10 +83,8 @@ class StudentManagerPageStudentAttendanceServer {
 		// 获取第一个匹配的签到记录并格式化时间
 		const time = new Date(matchedRecords[0].attendanceDateTime)
 		// 返回时:分格式的字符串，如 "08:30"
-		return time.toLocaleTimeString('zh-CN', {hour: '2-digit', minute: '2-digit', second: '2-digit'})
+		return time.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
 	}
-
-
 }
 
-export default StudentManagerPageStudentAttendanceServer;
+export default StudentManagerPageStudentAttendanceServer

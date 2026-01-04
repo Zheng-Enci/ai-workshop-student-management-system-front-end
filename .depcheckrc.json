@@ -1,0 +1,55 @@
+{
+	"ignoreMatches": [
+		"@babel/*",
+		"@typescript-eslint/*",
+		"@vitejs/*",
+		"@commitlint/*",
+		"eslint-*",
+		"stylelint-*",
+		"vite-plugin-*",
+		"rollup-plugin-*",
+		"postcss-*",
+		"@fullcalendar/*",
+		"@element-plus/*",
+		"echarts-*",
+		"vue3-*"
+	],
+	"ignorePatterns": [
+		"dist",
+		"node_modules",
+		"*.config.js",
+		"*.config.ts",
+		"vite.config.js",
+		"babel.config.js",
+		"prettier.config.js",
+		"commitlint.config.js",
+		".husky/**",
+		"scripts/**"
+	],
+	"ignoreDeps": [
+		"husky",
+		"lint-staged"
+	],
+	"detectors": [
+		"depcheck-detector-typescript",
+		"depcheck-detector-vue",
+		"depcheck-detector-es6",
+		"depcheck-detector-jsx"
+	],
+	"parsers": {
+		"*.js": ["es6", "jsx"],
+		"*.jsx": ["es6", "jsx"],
+		"*.ts": ["typescript"],
+		"*.tsx": ["typescript", "jsx"],
+		"*.vue": ["vue"]
+	},
+	"specials": [
+		"eslint",
+		"babel",
+		"typescript",
+		"webpack",
+		"vite",
+		"rollup"
+	]
+}
+

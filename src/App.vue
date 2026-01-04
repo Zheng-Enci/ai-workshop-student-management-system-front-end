@@ -1,24 +1,29 @@
-<template>
-  <router-view/>
-</template>
-
 <script>
 export default {
-  name: 'App'
+	name: 'App'
 }
 </script>
 
+<template>
+	<div class="app-container">
+		<router-view/>
+	</div>
+</template>
+
 <style>
-#app {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: var(--text-primary);
-  margin: 0;
-  padding: 0;
+.app-container {
   width: 100%;
   min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
+    Arial, sans-serif;
+  color: var(--text-primary);
   background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
@@ -26,9 +31,9 @@ export default {
 }
 
 body {
-  margin: 0;
-  padding: 0;
   width: 100%;
+  padding: 0;
+  margin: 0;
   overflow-x: hidden;
   background-color: var(--bg-primary);
 }

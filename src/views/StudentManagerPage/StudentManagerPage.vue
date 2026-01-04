@@ -1,12 +1,3 @@
-<template>
-  <div class="device-detection-container">
-    <div class="loading-spinner">
-      <el-icon class="spinner-icon"><Loading /></el-icon>
-      <p class="loading-text">正在检测设备类型...</p>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -14,42 +5,51 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const detectDeviceType = () => {
-  const screenWidth = window.innerWidth
-  const userAgent = navigator.userAgent.toLowerCase()
-  
-  const isMobile = screenWidth < 768 || 
+	const screenWidth = window.innerWidth
+	const userAgent = navigator.userAgent.toLowerCase()
+
+	const isMobile = screenWidth < 768 ||
                    /android.*mobile|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
-  
-  return isMobile ? 'mobile' : 'desktop'
+
+	return isMobile ? 'mobile' : 'desktop'
 }
 
 const redirectToDevicePage = () => {
-  const deviceType = detectDeviceType()
-  
-  if (deviceType === 'mobile') {
-    router.replace('/student-manager/mobile')
-  } else {
-    router.replace('/student-manager/desktop')
-  }
+	const deviceType = detectDeviceType()
+
+	if (deviceType === 'mobile') {
+		router.replace('/student-manager/mobile')
+	} else {
+		router.replace('/student-manager/desktop')
+	}
 }
 
 onMounted(() => {
-  redirectToDevicePage()
+	redirectToDevicePage()
 })
 </script>
+
+<template>
+	<div class="device-detection-container">
+		<div class="loading-spinner">
+			<el-icon class="spinner-icon"><Loading /></el-icon>
+			<p class="loading-text">正在检测设备类型...</p>
+		</div>
+	</div>
+</template>
 
 <style scoped>
 .device-detection-container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .loading-spinner {
-  text-align: center;
   color: white;
+  text-align: center;
 }
 
 .spinner-icon {
@@ -67,6 +67,7 @@ onMounted(() => {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

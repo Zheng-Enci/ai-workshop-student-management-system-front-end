@@ -824,20 +824,11 @@ html.dark .admin-console {
 	color: var(--admin-text-primary);
 }
 
-.phone-number {
-	font-family: 'Courier New', monospace;
-	color: var(--admin-text-secondary);
-	font-weight: 500;
-}
 
 .college, .major {
 	color: var(--admin-text-primary);
 }
 
-.class-num {
-	color: var(--admin-text-secondary);
-	font-weight: 500;
-}
 
 .attendance-count {
 	display: flex;
@@ -845,14 +836,6 @@ html.dark .admin-console {
 	align-items: center;
 }
 
-.attendance-tag {
-	font-weight: 600;
-	font-size: 12px;
-	padding: 4px 8px;
-	border-radius: 12px;
-	min-width: 50px;
-	text-align: center;
-}
 
 .level-select {
 	width: 120px;
@@ -951,45 +934,7 @@ html.dark .option-icon {
 	font-family: 'Courier New', monospace;
 }
 
-.level-row-info {
-	background: #0000FF !important;
-	border: 5px solid #000080 !important;
-	box-shadow: 0 0 20px #0000FF, inset 0 0 20px #0000FF !important;
-	font-weight: 900 !important;
-	color: #FFFFFF !important;
-	text-shadow: 2px 2px 4px #000000 !important;
-	animation: pulse-blue 2s infinite !important;
-}
 
-.level-row-success {
-	background: #00FF00 !important;
-	border: 5px solid #008000 !important;
-	box-shadow: 0 0 20px #00FF00, inset 0 0 20px #00FF00 !important;
-	font-weight: 900 !important;
-	color: #000000 !important;
-	text-shadow: 2px 2px 4px #FFFFFF !important;
-	animation: pulse-green 2s infinite !important;
-}
-
-.level-row-warning {
-	background: #FFA500 !important;
-	border: 5px solid #FF8C00 !important;
-	box-shadow: 0 0 20px #FFA500, inset 0 0 20px #FFA500 !important;
-	font-weight: 900 !important;
-	color: #000000 !important;
-	text-shadow: 2px 2px 4px #FFFFFF !important;
-	animation: pulse-orange 2s infinite !important;
-}
-
-.level-row-danger {
-	background: #FF0000 !important;
-	border: 5px solid #8B0000 !important;
-	box-shadow: 0 0 20px #FF0000, inset 0 0 20px #FF0000 !important;
-	font-weight: 900 !important;
-	color: #FFFFFF !important;
-	text-shadow: 2px 2px 4px #000000 !important;
-	animation: pulse-red 2s infinite !important;
-}
 
 @keyframes pulse-blue {
 	0%, 100% { box-shadow: 0 0 20px #0000FF, inset 0 0 20px #0000FF; }
@@ -1078,22 +1023,6 @@ html.dark .option-icon {
 	flex-wrap: wrap;
 }
 
-.action-btn {
-	width: 32px;
-	height: 32px;
-	border-radius: 50%;
-	border: none;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transition: all 0.3s ease;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.action-btn:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-}
 
 .edit-btn {
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -1153,29 +1082,6 @@ html.dark .option-icon {
 	}
 }
 
-/* 修改积分弹窗遮罩层样式，禁用过渡动画避免闪烁 */
-:deep(.points-dialog-overlay) {
-	position: fixed !important;
-	inset: 0 !important;
-	background: rgba(0, 0, 0, 0.5) !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	z-index: 3000 !important;
-	transition: none !important;  /* 禁用过渡动画 */
-	animation: none !important;   /* 禁用动画 */
-}
-
-:deep(.points-dialog-overlay .el-overlay-dialog) {
-	position: fixed !important;
-	inset: 0 !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	z-index: 3001 !important;
-	transition: none !important;  /* 禁用过渡动画 */
-	animation: none !important;   /* 禁用动画 */
-}
 
 .points-dialog {
 	.el-dialog__header {
@@ -1309,8 +1215,7 @@ html.dark .points-dialog .el-dialog__body {
 /* 超级管理员页面表单背景色 - 夜间模式 */
 html.dark .el-dialog__body,
 html.dark .edit-form .el-dialog__body,
-html.dark .points-form .el-dialog__body,
-html.dark .makeup-form .el-dialog__body {
+html.dark .points-form .el-dialog__body {
 	background: #000000 !important;
 }
 
@@ -1336,51 +1241,6 @@ html.dark .form-tip {
 	color: var(--admin-text-tertiary);
 }
 
-:deep(.makeup-overlay),
-:deep(.attendance-records-overlay),
-:deep(.heatmap-overlay),
-:deep(.trend-overlay) {
-	position: fixed !important;
-	inset: 0 !important;
-	background: rgba(0, 0, 0, 0.55) !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	z-index: 3000 !important;
-	transition: none !important;
-	animation: none !important;
-	transition-duration: 0s !important;
-	transition-delay: 0s !important;
-}
-
-:deep(.makeup-overlay .el-overlay-dialog),
-:deep(.attendance-records-overlay .el-overlay-dialog),
-:deep(.heatmap-overlay .el-overlay-dialog),
-:deep(.trend-overlay .el-overlay-dialog) {
-	position: fixed !important;
-	inset: 0 !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	z-index: 3001 !important;
-	transition: none !important;
-	animation: none !important;
-	transform: none !important;
-	transition-duration: 0s !important;
-	transition-delay: 0s !important;
-}
-
-/* 禁用所有可能的过渡效果 */
-:deep(.el-fade-in),
-:deep(.el-fade-in-linear),
-:deep(.el-zoom-in-center),
-:deep(.el-zoom-in-top),
-:deep(.el-zoom-in-bottom) {
-	transition: none !important;
-	animation: none !important;
-	transition-duration: 0s !important;
-	transition-delay: 0s !important;
-}
 
 .heatmap-dialog,
 .trend-dialog,
@@ -1462,8 +1322,7 @@ html.dark .form-tip {
 /* 超级管理员页面表单背景色 - 日间模式 */
 .el-dialog__body,
 .edit-form .el-dialog__body,
-.points-form .el-dialog__body,
-.makeup-form .el-dialog__body {
+.points-form .el-dialog__body {
 	background: #ffffff !important;
 }
 
@@ -1625,32 +1484,6 @@ html.dark .form-tip {
 	margin-top: 8px;
 }
 
-:deep(.attendance-fullcalendar) {
-	background: rgba(255, 255, 255, 0.92);
-	border-radius: 10px;
-	padding: 6px;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-:deep(.attendance-fullcalendar .fc-toolbar) {
-	margin-bottom: 12px;
-}
-
-:deep(.attendance-fullcalendar .fc-daygrid-day) {
-	cursor: pointer;
-}
-
-:deep(.attendance-fullcalendar .fc-daygrid-day.fc-day-today) {
-	background: rgba(102, 126, 234, 0.08);
-}
-
-:deep(.attendance-fullcalendar .fc-event) {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	border: none;
-	color: #fff;
-	border-radius: 8px;
-	padding: 2px 6px;
-}
 
 .charts-section {
 	display: grid;
@@ -1695,29 +1528,6 @@ html.dark .form-tip {
 	border-bottom: 1px solid var(--admin-border-color);
 }
 
-.calendar-nav-buttons {
-	display: flex;
-	gap: 8px;
-}
-
-.calendar-nav-buttons .el-button {
-	background-color: var(--admin-bg-secondary);
-	border-color: var(--admin-border-color);
-	color: var(--admin-text-primary);
-}
-
-.calendar-nav-buttons .el-button:hover {
-	border-color: var(--admin-primary-color);
-	color: var(--admin-primary-color);
-}
-
-.calendar-title-admin {
-	font-size: 18px;
-	font-weight: 600;
-	color: var(--admin-text-primary);
-	flex: 1;
-	text-align: center;
-}
 
 .calendar-cell-admin {
 	height: 100%;
@@ -2449,10 +2259,6 @@ html.dark .calendar-container {
 	border: 1px solid var(--admin-glass-border);
 }
 
-html.dark .no-records-overlay {
-	background: rgba(30, 30, 30, 0.95);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
 
 
 html.dark .calendar-legend {
@@ -2545,15 +2351,6 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	transition-delay: 0s !important;
 }
 
-/* 禁用所有可能的过渡类 */
-[class*="el-fade"],
-[class*="el-zoom"],
-[class*="transition"] {
-	transition: none !important;
-	animation: none !important;
-	transition-duration: 0s !important;
-	transition-delay: 0s !important;
-}
 
 .makeup-dialog {
 	--el-dialog-width: 550px;
@@ -3064,9 +2861,6 @@ html.dark .makeup-form-content .el-select .el-input__inner:focus {
 	width: 100% !important;
 }
 
-.makeup-date-picker-popper .el-date-table tr {
-	height: 80px !important;
-}
 
 .makeup-date-picker-popper .el-date-table td {
 	padding: 6px !important;
@@ -3235,10 +3029,6 @@ html.dark .makeup-form-content .el-select .el-input__inner:focus {
 	border-radius: 12px !important;
 }
 
-.makeup-date-picker-popper .el-date-table td.available {
-	pointer-events: auto !important;
-	cursor: pointer !important;
-}
 
 .makeup-date-picker :deep(.el-date-table) {
 	pointer-events: auto;
@@ -3316,24 +3106,12 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	color: #e2e8f0 !important;
 }
 
-html.dark .makeup-date-picker-popper .el-date-table td.current .el-date-table-cell__text {
-	color: white !important;
-}
-
-html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell__text {
-	color: white !important;
-}
-
 
 
 
  html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	 color: #e2e8f0 !important;
  }
-
-html.dark .makeup-date-picker-popper .el-date-table td.current .el-date-table-cell__text {
-	color: white !important;
-}
 
 html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell__text {
 	color: white !important;

@@ -4,8 +4,7 @@
  */
 class Config {
 	// 头像大小配置
-	static AVATAR_SIZE = 256;
-
+	static AVATAR_SIZE = 256
 }
 
-export default Config;
+export default Config

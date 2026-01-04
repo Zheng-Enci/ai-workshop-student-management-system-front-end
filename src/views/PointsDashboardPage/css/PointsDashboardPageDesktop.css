@@ -181,9 +181,6 @@ html.dark .ranking-label {
 	border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.ranking-topbar .color-legend {
-	margin-left: auto;
-}
 
 .dashboard-side {
 	min-width: 0;
@@ -812,13 +809,6 @@ html.dark .side-student.level-admin .points-total-main * {
 	position: relative;
 }
 
-.color-legend {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	margin: 0 0 8px 0;
-	flex-shrink: 0;
-}
 
 .legend-item {
 	display: inline-flex;
@@ -902,15 +892,6 @@ html.dark .side-student.level-admin .points-total-main * {
 	opacity: 0.8;
 }
 
-.formula-desc {
-	font-size: 12px;
-	color: var(--text-secondary);
-	line-height: 1.6;
-	margin-top: 8px;
-	padding-top: 12px;
-	border-top: 1px solid rgba(102, 126, 234, 0.15);
-	opacity: 0.85;
-}
 
 .formula-card.formula-mini {
 	padding: 14px 18px;
@@ -951,11 +932,6 @@ html.dark .side-student.level-admin .points-total-main * {
 	border-radius: 4px;
 }
 
-.formula-card.formula-mini .formula-desc {
-	font-size: 11px;
-	margin-top: 6px;
-	padding-top: 10px;
-}
 
 .view-records-btn {
 	width: 24px;

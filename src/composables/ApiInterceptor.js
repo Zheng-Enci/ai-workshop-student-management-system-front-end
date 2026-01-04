@@ -1,5 +1,6 @@
 import axios from 'axios'
-import ConfigServer from "@/config/Config";
+
+import ConfigServer from '@/config/Config'
 
 /**
  * API 拦截器类 - 统一处理 axios 实例的响应拦截器
@@ -7,7 +8,7 @@ import ConfigServer from "@/config/Config";
 class ApiInterceptor {
 	/**
 	 * 创建带有统一响应拦截器的 axios 实例
-	 * @returns {Object} 配置好的 axios 实例
+	 * @returns 配置好的 axios 实例
 	 */
 	static createInstance() {
 		const api = axios.create({
@@ -24,7 +25,7 @@ class ApiInterceptor {
 
 	/**
 	 * 为已存在的 axios 实例添加响应拦截器
-	 * @param {Object} api - axios 实例
+	 * @param api - axios 实例
 	 */
 	static setup(api) {
 		api.interceptors.response.use(

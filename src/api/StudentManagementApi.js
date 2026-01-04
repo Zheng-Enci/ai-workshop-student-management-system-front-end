@@ -1,12 +1,12 @@
-import ApiInterceptor from "@/composables/ApiInterceptor";
+import ApiInterceptor from '@/composables/ApiInterceptor'
 
 class StudentManagementApi {
-	static api = ApiInterceptor.createInstance();
+	static api = ApiInterceptor.createInstance()
 
 	/**
 	 * 获取当前管理员所管理的学生综合信息（含签到次数和总积分）
-	 * @param {String} token - JWT token，用于验证身份和获取管理员ID
-	 * @returns {Promise<Object>} 响应数据，data字段为学生信息列表（含统计数据）
+	 * @param token - JWT token，用于验证身份和获取管理员ID
+	 * @returns 响应数据，data字段为学生信息列表（含统计数据）
 	 *
 	 * 响应数据结构：
 	 * {
