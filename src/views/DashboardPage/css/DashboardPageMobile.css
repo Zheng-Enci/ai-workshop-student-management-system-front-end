@@ -190,11 +190,6 @@ html.dark .club-level .level-value {
   align-items: center;
 }
 
-.top-n-selector {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
 
 .chart-container {
   height: 300px;

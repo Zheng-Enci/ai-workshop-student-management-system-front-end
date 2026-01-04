@@ -1732,60 +1732,6 @@ html.dark .form-tip {
 	background: rgba(102, 126, 234, 0.2);
 }
 
-.calendar-day {
-	position: relative;
-	height: 100%;
-	min-height: 60px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
-	padding: 4px;
-}
-
-.day-number {
-	font-size: 14px;
-	font-weight: 600;
-	color: #2c3e50;
-	margin-bottom: 4px;
-}
-
-.attendance-dots {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 2px;
-	justify-content: center;
-	align-items: center;
-	flex: 1;
-}
-
-.attendance-dot {
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	cursor: pointer;
-	transition: all 0.3s ease;
-}
-
-.attendance-dot.morning {
-	background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-	box-shadow: 0 0 4px rgba(16, 185, 129, 0.4);
-}
-
-.attendance-dot.afternoon {
-	background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-	box-shadow: 0 0 4px rgba(245, 158, 11, 0.4);
-}
-
-.attendance-dot.evening {
-	background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-	box-shadow: 0 0 4px rgba(139, 92, 246, 0.4);
-}
-
-.attendance-dot:hover {
-	transform: scale(1.2);
-}
-
 .calendar-legend {
 	display: flex;
 	justify-content: center;
@@ -2862,12 +2808,7 @@ html.dark .makeup-form-content .el-select .el-input__inner:focus {
 }
 
 
-.makeup-date-picker-popper .el-date-table td {
-	padding: 6px !important;
-}
-
-.makeup-date-picker-popper .el-date-table th,
-.makeup-date-picker-popper .el-date-table td {
+.makeup-date-picker-popper .el-date-table th {
 	background-color: transparent !important;
 	pointer-events: auto !important;
 	cursor: pointer !important;
@@ -3107,15 +3048,6 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 }
 
 
-
-
- html.dark .makeup-date-picker-popper .el-date-table-cell__text {
-	 color: #e2e8f0 !important;
- }
-
-html.dark .makeup-date-picker-popper .el-date-table td.today .el-date-table-cell__text {
-	color: white !important;
-}
 
 /* 改分记录查看弹窗样式 */
 .score-change-records-overlay {
