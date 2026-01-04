@@ -4,9 +4,9 @@
 
 | 指标 | 数值 |
 |------|------|
-| 文件总数 | 107 |
-| 代码行数 | 40171 |
-| 注释行数 | 1522 |
+| 文件总数 | 108 |
+| 代码行数 | 40172 |
+| 注释行数 | 1523 |
 | 总体注释率 | 3.79% |
 
 ## 📈 状态评估
@@ -54,6 +54,7 @@
 | 文件路径 | 代码行数 | 注释行数 | 注释率 | 状态 |
 |---------|---------|---------|--------|------|
 | src\api\StudentManagementApi.js | 15 | 25 | 166.67% | ✅ |
+| src\views\StudentManagerPage\css\desktop\StudentManagerPage-MakeupAttendanceDatePicker.css | 1 | 1 | 100% | ✅ |
 | src\views\StudentManagerPage\js\StudentManagerPageUtils.js | 35 | 30 | 85.71% | ✅ |
 | src\views\ProfilePage\js\ProfilePageConfig.js | 6 | 5 | 83.33% | ✅ |
 | src\views\AllMembersPage\js\Config.js | 5 | 4 | 80% | ✅ |
@@ -163,4 +164,4 @@
 
 ---
 
-*报告生成时间: 2026/1/4 23:26:08*
+*报告生成时间: 2026/1/4 23:32:40*

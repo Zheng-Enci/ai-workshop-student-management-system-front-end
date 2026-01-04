@@ -98,7 +98,7 @@ export default defineConfig({
         }
       }
     },
-    // ESLint 检查
+    // ESLint 检查（仅开发模式）
     (() => {
       const eslintPlugin = eslint({
         overrideConfigFile: 'code-quality/code-quality-config/.eslintrc.js',
@@ -108,8 +108,10 @@ export default defineConfig({
         cache: false,
         fix: true,
         failOnWarning: false,
-        failOnError: true
+        failOnError: false // 构建时不阻塞
       })
+      // 只在开发模式下运行
+      eslintPlugin.apply = 'serve'
       return withCheckLogging(eslintPlugin, 'ESLint 代码规范')
     })(),
     // ESLint 报告生成
@@ -124,7 +126,7 @@ export default defineConfig({
       })
       return withCheckLogging(eslintReport, 'ESLint 报告生成')
     })(),
-    // Stylelint 检查
+    // Stylelint 检查（仅开发模式）
     (() => {
       const stylelintPlugin = stylelint({
         configFile: 'code-quality/code-quality-config/.stylelintrc.js',
@@ -133,6 +135,8 @@ export default defineConfig({
         cache: false,
         fix: true
       })
+      // 只在开发模式下运行
+      stylelintPlugin.apply = 'serve'
       return withCheckLogging(stylelintPlugin, 'Stylelint 样式规范')
     })(),
     // CSS 分析

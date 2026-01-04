@@ -1,19 +1,19 @@
 # CSS 使用情况分析报告
 
-**生成时间**: 2026/1/4 23:26:03
+**生成时间**: 2026/1/4 23:32:30
 **分析工具**: CSS Analyzer (Vite Plugin)
 
 ## 📊 总体统计
 
 | 指标 | 数值 |
 |------|------|
-| 总CSS文件数 | 28 |
-| 成功分析 | 28 |
+| 总CSS文件数 | 29 |
+| 成功分析 | 29 |
 | 分析失败 | 0 |
-| 总CSS大小 | 330.28 KB |
+| 总CSS大小 | 330.33 KB |
 | 未使用大小 | 3.67 KB |
 | 未使用比例 | 1.11% |
-| 分析耗时 | 0.26 秒 |
+| 分析耗时 | 0.96 秒 |
 
 ## ⚠️ 存在未使用CSS的文件 (10个)
 
@@ -30,7 +30,7 @@
 | `src\views\PointsDashboardPage\css\PointsDashboardPageMobile.css` | 21.21 KB | 0.17 KB | 0.8% | ⚠️ |
 | `src\views\ProfilePage\css\ProfilePageDesktop.css` | 18.38 KB | 0.55 KB | 2.99% | ⚠️ |
 
-## ✅ 所有CSS都在使用中的文件 (18个)
+## ✅ 所有CSS都在使用中的文件 (19个)
 
 - `src\views\AllMembersPage\css\AllMembersPageDesktop.css` (17.07 KB)
 - `src\views\AttendanceAnalysisPage\css\AttendanceAnalysisPageDesktop.css` (11.56 KB)
@@ -47,6 +47,7 @@
 - `src\views\ScoreChangeRecordsPage\css\ScoreChangeRecordsPageDesktop.css` (5.81 KB)
 - `src\views\ScoreChangeRecordsPage\css\ScoreChangeRecordsPageMobile.css` (6.09 KB)
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-Attendance_Records_Dialog.css` (0.87 KB)
+- `src\views\StudentManagerPage\css\desktop\StudentManagerPage-MakeupAttendanceDatePicker.css` (0.06 KB)
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-PageHeader.css` (1.25 KB)
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-StudentCards.css` (2.03 KB)
 - `src\views\StudentManagerPage\css\StudentManagerPageMobile.css` (0.00 KB)
@@ -59,4 +60,4 @@
 
 ---
 
-*报告生成时间: 2026/1/4 23:26:03*
+*报告生成时间: 2026/1/4 23:32:30*
