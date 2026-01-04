@@ -1,0 +1,1473 @@
+<script setup>
+import { nextTick, onMounted, ref, watch } from 'vue'
+import { ElButton, ElCalendar, ElDatePicker, ElDialog, ElIcon, ElInput, ElMessage, ElMessageBox } from 'element-plus'
+import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-dialog.css'
+import 'element-plus/theme-chalk/el-overlay.css'
+import 'element-plus/theme-chalk/el-date-picker.css'
+import 'element-plus/theme-chalk/el-date-picker-panel.css'
+import 'element-plus/theme-chalk/el-time-picker.css'
+import 'element-plus/theme-chalk/el-scrollbar.css'
+import 'element-plus/theme-chalk/el-calendar.css'
+import {
+	ArrowLeft,
+	Calendar,
+	Clock,
+	Loading,
+	Refresh,
+	Search,
+	Sort,
+	Star,
+	TrendCharts,
+	User
+} from '@element-plus/icons-vue'
+
+// ECharts 按需引入
+import { HeatmapChart, LineChart } from 'echarts/charts'
+import { GridComponent, LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
+import * as echarts from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { useRouter } from 'vue-router'
+
+import { getStudentAttendanceCount, makeupAttendance } from '@/api/attendance'
+import { getStudentLevel } from '@/api/student'
+import { useThemeStore } from '@/stores/theme'
+import { useUserStore } from '@/stores/user'
+import StudentManagerPage from '@/views/StudentManagerPage/js/StudentManagerPage'
+import StudentManagerPageAttendance_Records_Dialog
+	from '@/views/StudentManagerPage/js/StudentManagerPage-Attendance_Records_Dialog'
+import StudentManagerPageStudentAttendanceServer
+	from '@/views/StudentManagerPage/js/StudentManagerPageStudentAttendanceServer'
+import StudentManagerPageUtils from '@/views/StudentManagerPage/js/StudentManagerPageUtils'
+
+const studentManagerPageUtils = StudentManagerPageUtils
+const studentManagerPageStudentAttendanceServer = StudentManagerPageStudentAttendanceServer
+import 'element-plus/theme-chalk/el-message-box.css'
+
+const studentManagerPage = StudentManagerPage
+
+// 设置考勤服务实例到 Dialog 类
+StudentManagerPageAttendance_Records_Dialog.setStudentAttendanceServer(studentManagerPageStudentAttendanceServer)
+
+// 注册需要的组件
+echarts.use([
+	TitleComponent,
+	TooltipComponent,
+	GridComponent,
+	LegendComponent,
+	VisualMapComponent,
+	LineChart,
+	HeatmapChart,
+	CanvasRenderer
+])
+
+const router = useRouter()
+const userStore = useUserStore()
+const themeStore = useThemeStore()
+const managedStudents = ref([])
+const loading = ref(false)
+const searchQuery = ref('')
+const filteredStudents = ref([])
+const sortOrder = ref('default')
+
+const heatmapChart = ref(null)
+const lineChart = ref(null)
+const heatmapInstance = ref(null)
+const lineInstance = ref(null)
+const heatmapDialogChart = ref(null)
+const trendDialogChart = ref(null)
+
+const toggleTheme = () => {
+	themeStore.toggleTheme()
+}
+
+const handleSearch = () => {
+	if (!searchQuery.value.trim()) {
+		if (sortOrder.value === 'attendance') {
+			filteredStudents.value = [...managedStudents.value].sort((a, b) => {
+				const countA = getStudentAttendanceCountFromCache(a.studentId)
+				const countB = getStudentAttendanceCountFromCache(b.studentId)
+				return countB - countA
+			})
+		} else {
+			filteredStudents.value = managedStudents.value
+		}
+		return
+	}
+
+	const query = searchQuery.value.toLowerCase().trim()
+	let filtered = managedStudents.value.filter(student =>
+		student.name.toLowerCase().includes(query) ||
+		student.studentId.toString().includes(query) ||
+		student.major.toLowerCase().includes(query) ||
+		student.college.toLowerCase().includes(query)
+	)
+
+	if (sortOrder.value === 'attendance') {
+		filtered = filtered.sort((a, b) => {
+			const countA = getStudentAttendanceCountFromCache(a.studentId)
+			const countB = getStudentAttendanceCountFromCache(b.studentId)
+			return countB - countA
+		})
+	}
+
+	filteredStudents.value = filtered
+}
+
+const handleClearSearch = () => {
+	searchQuery.value = ''
+	if (sortOrder.value === 'attendance') {
+		filteredStudents.value = [...managedStudents.value].sort((a, b) => {
+			const countA = getStudentAttendanceCountFromCache(a.studentId)
+			const countB = getStudentAttendanceCountFromCache(b.studentId)
+			return countB - countA
+		})
+	} else {
+		filteredStudents.value = managedStudents.value
+	}
+}
+
+const sortByAttendance = () => {
+	if (sortOrder.value === 'attendance') {
+		sortOrder.value = 'default'
+		filteredStudents.value = [...managedStudents.value]
+	} else {
+		sortOrder.value = 'attendance'
+		filteredStudents.value = [...managedStudents.value].sort((a, b) => {
+			const countA = getStudentAttendanceCountFromCache(a.studentId)
+			const countB = getStudentAttendanceCountFromCache(b.studentId)
+			return countB - countA
+		})
+	}
+}
+const attendanceCounts = ref({})
+const selectedStudent = ref(null)
+const currentMakeupStudent = ref(null)
+const makeupForm = ref({
+	attendanceTime: ''
+})
+const makeupLoading = ref(false)
+const hiddenDatePicker = ref(null)
+const showDatePicker = ref(false)
+
+const heatmapDialogVisible = ref(false)
+const trendChartDialogVisible = ref(false)
+
+const timeShortcuts = [
+	{
+		text: '今天上午',
+		value: () => {
+			const today = new Date()
+			today.setHours(9, 0, 0, 0)
+			return today
+		}
+	},
+	{
+		text: '今天下午',
+		value: () => {
+			const today = new Date()
+			today.setHours(15, 0, 0, 0)
+			return today
+		}
+	},
+	{
+		text: '今天晚上',
+		value: () => {
+			const today = new Date()
+			today.setHours(20, 0, 0, 0)
+			return today
+		}
+	},
+	{
+		text: '昨天上午',
+		value: () => {
+			const yesterday = new Date()
+			yesterday.setDate(yesterday.getDate() - 1)
+			yesterday.setHours(9, 0, 0, 0)
+			return yesterday
+		}
+	},
+	{
+		text: '昨天下午',
+		value: () => {
+			const yesterday = new Date()
+			yesterday.setDate(yesterday.getDate() - 1)
+			yesterday.setHours(15, 0, 0, 0)
+			return yesterday
+		}
+	},
+	{
+		text: '昨天晚上',
+		value: () => {
+			const yesterday = new Date()
+			yesterday.setDate(yesterday.getDate() - 1)
+			yesterday.setHours(20, 0, 0, 0)
+			return yesterday
+		}
+	}
+]
+
+
+const getStudentAttendanceCountFromCache = studentId => attendanceCounts.value[studentId] || 0
+
+const getStudentAvatarUrl = student => {
+	// 尝试多个可能的字段名
+	const possibleIds = [
+		student.studentInfoId,
+		student.id,
+		student.infoId,
+		student.databaseId
+	]
+
+	const validId = possibleIds.find(id => id != null && true && id !== '')
+
+	if (!validId) {
+		console.warn('未找到有效的学生ID:', student)
+		return null
+	}
+
+	return studentManagerPageUtils.getStudentAvatarUrl(validId)
+}
+
+const handleAvatarError = event => {
+	// 头像加载失败时显示默认图标
+	event.target.style.display = 'none'
+	const parent = event.target.parentElement
+	if (parent) {
+		const icon = document.createElement('i')
+		icon.className = 'el-icon'
+		parent.appendChild(icon)
+	}
+}
+
+const loadManagedStudents = async () => {
+	if (!userStore.token) {
+		ElMessage.error('请先登录')
+		return
+	}
+
+	loading.value = true
+	try {
+		// 使用 studentManagerPage.initData 初始化数据
+		await studentManagerPage.initData(userStore.token, userStore.userInfo.studentDatabaseTableId)
+
+		// 获取处理后的学生数据
+		const students = studentManagerPage.students || []
+
+		managedStudents.value = students
+
+		// 更新签到次数映射
+		const newAttendanceCounts = {}
+		let totalAttendanceCount = 0
+
+		students.forEach(student => {
+			newAttendanceCounts[student.studentId] = student.checkInCount || 0
+			totalAttendanceCount += (student.checkInCount || 0)
+		})
+
+		// 更新签到次数映射
+		Object.assign(attendanceCounts.value, newAttendanceCounts)
+
+		// 根据排序方式设置过滤后的学生列表
+		if (sortOrder.value === 'attendance') {
+			filteredStudents.value = [...students].sort((a, b) => {
+				const countA = getStudentAttendanceCountFromCache(a.studentId)
+				const countB = getStudentAttendanceCountFromCache(b.studentId)
+				return countB - countA
+			})
+		} else {
+			filteredStudents.value = students
+		}
+	} catch (error) {
+		ElMessage.error(error.message || '获取管理学生信息失败')
+	} finally {
+		loading.value = false
+	}
+}
+
+const loadAttendanceCounts = async () => {
+	const promises = managedStudents.value.map(async student => {
+		try {
+			const response = await getStudentAttendanceCount(student.studentId)
+			if (response.code === 200) {
+				attendanceCounts.value[student.studentId] = response.data.count || 0
+			}
+		} catch (error) {
+			attendanceCounts.value[student.studentId] = 0
+		}
+	})
+
+	await Promise.all(promises)
+}
+
+const refreshStudents = () => {
+	loadManagedStudents()
+}
+
+const goBack = () => {
+	router.push('/navigation')
+}
+
+const openDatePicker = student => {
+	currentMakeupStudent.value = student
+	makeupForm.value.attendanceTime = ''
+	showDatePicker.value = true
+
+	setTimeout(() => {
+		nextTick(() => {
+			setTimeout(() => {
+				const picker = hiddenDatePicker.value
+				if (picker) {
+					// 尝试点击输入框
+					const inputEl = document.querySelector('.el-date-editor--datetime .el-input__inner')
+					if (inputEl) {
+						inputEl.click()
+						inputEl.focus()
+					}
+				}
+			}, 200)
+		})
+	}, 50)
+}
+
+const handleMakeupTimeChange = async (student, time) => {
+	// 验证时间：1. 不能超过当前时间  2. 必须在有效签到时间段内
+	const selectedTime = new Date(time)
+	const currentTime = new Date()
+
+	// 1. 检查补卡时间不能超过当前时间
+	if (selectedTime > currentTime) {
+		ElMessage.error('补卡时间不能晚于当前时间')
+		makeupForm.value.attendanceTime = ''
+		showDatePicker.value = false
+		return
+	}
+
+	// 2. 检查补卡时间必须在有效签到时间段内
+	const hour = selectedTime.getHours()
+	const minute = selectedTime.getMinutes()
+	const timeInMinutes = hour * 60 + minute
+
+	// 定义有效签到时间段（分钟数）
+	// 早上：08:00-11:00 → 480-660
+	// 下午：14:00-17:00 → 840-1020
+	// 晚上：19:00-22:00 → 1140-1320
+	const validTimeSlots = [
+		{ name: '上午', start: 480, end: 660 }, // 08:00-11:00
+		{ name: '下午', start: 840, end: 1020 }, // 14:00-17:00
+		{ name: '晚上', start: 1140, end: 1320 } // 19:00-22:00
+	]
+
+	// 检查所选时间是否在有效签到时间段内
+	const isValidTime = validTimeSlots.some(slot =>
+		timeInMinutes >= slot.start && timeInMinutes < slot.end
+	)
+
+	if (!isValidTime) {
+		ElMessage.error('补卡时间必须在有效签到时间段内（早上 08:00-11:00、下午 14:00-17:00、晚上 19:00-22:00）')
+		makeupForm.value.attendanceTime = ''
+		showDatePicker.value = false
+		return
+	}
+
+	// 格式化日期显示
+	const dateObj = new Date(time)
+	const dateStr = `${dateObj.getFullYear()}年${dateObj.getMonth() + 1}月${dateObj.getDate()}日`
+	const timeStr = `${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`
+
+	try {
+		// 弹出确认对话框
+		await ElMessageBox.confirm(
+			`您确定要为学生 <strong style="color: #409EFF;">${student.name}</strong><br/>补 <strong style="color: #67C23A;">${dateStr} ${timeStr}</strong> 的卡吗？`,
+			'确认补卡',
+			{
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info',
+				dangerouslyUseHTMLString: true,
+				distinguishCancelAndClose: true
+			}
+		)
+
+		// 用户点击确定后执行补卡
+		makeupLoading.value = true
+		const response = await makeupAttendance(
+			userStore.token,
+			student.studentId,
+			time
+		)
+
+		if (response.code === 200) {
+			ElMessage.success(`补卡成功：${student.name}`)
+			await loadAttendanceCounts()
+		} else {
+			ElMessage.error(response.message || '补卡失败')
+		}
+	} catch (error) {
+		// 用户点击取消或关闭对话框
+		if (error !== 'cancel') {
+			ElMessage.error(error.message || '补卡失败')
+		}
+	} finally {
+		makeupLoading.value = false
+		makeupForm.value.attendanceTime = ''
+		showDatePicker.value = false
+	}
+}
+
+const openHeatmapDialog = async student => {
+	selectedStudent.value = student
+
+	try {
+		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = true
+		const response = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
+		if (response.code === 200) {
+			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = response.data || []
+			heatmapDialogVisible.value = true
+			document.body.style.overflow = 'hidden'
+
+			await nextTick()
+			setTimeout(() => {
+				initDialogHeatmapChart()
+			}, 100)
+		} else {
+			ElMessage.error(response.message || '获取考勤记录失败')
+		}
+	} catch (error) {
+		ElMessage.error(`获取考勤记录失败：${error.message}`)
+	} finally {
+		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = false
+	}
+}
+
+const closeHeatmapDialog = () => {
+	heatmapDialogVisible.value = false
+	document.body.style.overflow = ''
+	selectedStudent.value = null
+	StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = []
+
+	if (heatmapInstance.value) {
+		heatmapInstance.value.dispose()
+		heatmapInstance.value = null
+	}
+}
+
+const openTrendChartDialog = async student => {
+	selectedStudent.value = student
+
+	try {
+		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = true
+		const response = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
+		if (response.code === 200) {
+			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = response.data || []
+			trendChartDialogVisible.value = true
+			document.body.style.overflow = 'hidden'
+
+			await nextTick()
+			setTimeout(() => {
+				initDialogLineChart()
+			}, 100)
+		} else {
+			ElMessage.error(response.message || '获取考勤记录失败')
+		}
+	} catch (error) {
+		ElMessage.error(`获取考勤记录失败：${error.message}`)
+	} finally {
+		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = false
+	}
+}
+
+const closeTrendChartDialog = () => {
+	trendChartDialogVisible.value = false
+	document.body.style.overflow = ''
+	selectedStudent.value = null
+	StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = []
+
+	if (lineInstance.value) {
+		lineInstance.value.dispose()
+		lineInstance.value = null
+	}
+}
+
+const formatAttendanceTime = timeString => {
+	if (!timeString) { return '' }
+	const date = new Date(timeString)
+	return date.toLocaleString('zh-CN', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit'
+	})
+}
+
+
+const formatCalendarTitle = date => {
+	if (!date) { return '2025年9月' }
+	const dateObj = new Date(date)
+	if (isNaN(dateObj.getTime())) { return '2025年9月' }
+	const year = dateObj.getFullYear()
+	const month = dateObj.getMonth() + 1
+	return `${year}年${month}月`
+}
+
+const prevMonth = () => {
+	const date = new Date(StudentManagerPageAttendance_Records_Dialog.state.calendarValue)
+	date.setMonth(date.getMonth() - 1)
+	StudentManagerPageAttendance_Records_Dialog.state.calendarValue = date
+}
+
+const nextMonth = () => {
+	const date = new Date(StudentManagerPageAttendance_Records_Dialog.state.calendarValue)
+	date.setMonth(date.getMonth() + 1)
+	StudentManagerPageAttendance_Records_Dialog.state.calendarValue = date
+}
+
+const goToday = () => {
+	StudentManagerPageAttendance_Records_Dialog.state.calendarValue = new Date()
+}
+
+
+onMounted(async () => {
+	if (!userStore.userInfo?.studentId) {
+		ElMessage.error('请先登录')
+		router.push('/login')
+		return
+	}
+
+	try {
+		const levelResponse = await getStudentLevel(userStore.userInfo.studentId)
+		userStore.setStudentLevel(levelResponse.data)
+
+		if (levelResponse.data.levelCode !== 3) {
+			ElMessage.error('您没有管理员权限')
+			router.push('/navigation')
+			return
+		}
+
+		loadManagedStudents()
+
+		await nextTick()
+		initCharts()
+	} catch (error) {
+		ElMessage.error('获取用户权限失败')
+		router.push('/navigation')
+	}
+
+	window.addEventListener('pageshow', event => {
+		if (event.persisted) {
+			StudentManagerPageAttendance_Records_Dialog.closeAttendanceRecordsDialog()
+		}
+	})
+})
+
+const initCharts = () => {
+	initHeatmapChart()
+	initLineChart()
+}
+
+const initDialogHeatmapChart = () => {
+	console.log('开始初始化热力图')
+	console.log('heatmapDialogChart.value:', heatmapDialogChart.value)
+	console.log('容器尺寸:', heatmapDialogChart.value?.offsetWidth, heatmapDialogChart.value?.offsetHeight)
+
+	if (!heatmapDialogChart.value) {
+		console.error('热力图容器不存在')
+		return
+	}
+
+	if (heatmapInstance.value) {
+		heatmapInstance.value.dispose()
+	}
+
+	try {
+		heatmapInstance.value = echarts.init(heatmapDialogChart.value)
+		console.log('ECharts实例创建成功')
+	} catch (error) {
+		console.error('ECharts初始化失败:', error)
+		return
+	}
+
+	const heatmapData = generateHeatmapData()
+	console.log('热力图数据:', heatmapData)
+	console.log('考勤记录:', studentAttendanceRecords.value)
+	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
+
+	const option = {
+		backgroundColor: 'transparent',
+		tooltip: {
+			show: false
+		},
+		grid: {
+			height: '60%',
+			top: '15%',
+			left: '10%',
+			right: '10%',
+			bottom: '20%'
+		},
+		xAxis: {
+			type: 'category',
+			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+			splitArea: {
+				show: true,
+				areaStyle: {
+					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+				}
+			},
+			axisLabel: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 12
+			},
+			axisLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#444' : '#ddd'
+				}
+			}
+		},
+		yAxis: {
+			type: 'category',
+			data: ['上午', '下午', '晚上'],
+			splitArea: {
+				show: true,
+				areaStyle: {
+					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+				}
+			},
+			axisLabel: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 12
+			},
+			axisLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#444' : '#ddd'
+				}
+			}
+		},
+		visualMap: {
+			min: 0,
+			max: maxValue,
+			calculable: false,
+			orient: 'horizontal',
+			left: 'center',
+			bottom: '5%',
+			itemWidth: 20,
+			itemHeight: 200,
+			textStyle: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 11
+			},
+			inRange: {
+				color: themeStore.isDark
+					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8']
+					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e']
+			}
+		},
+		series: [{
+			name: '签到次数',
+			type: 'heatmap',
+			data: heatmapData,
+			label: {
+				show: true,
+				color: '#000000',
+				fontSize: 10
+			},
+			emphasis: {
+				itemStyle: {
+					shadowBlur: 10,
+					shadowColor: 'rgba(0, 0, 0, 0.5)'
+				}
+			}
+		}]
+	}
+
+	try {
+		heatmapInstance.value.setOption(option)
+		console.log('热力图配置设置成功')
+	} catch (error) {
+		console.error('热力图配置设置失败:', error)
+	}
+}
+
+const initDialogLineChart = () => {
+	console.log('开始初始化趋势图')
+	console.log('trendDialogChart.value:', trendDialogChart.value)
+	console.log('容器尺寸:', trendDialogChart.value?.offsetWidth, trendDialogChart.value?.offsetHeight)
+
+	if (!trendDialogChart.value) {
+		console.error('趋势图容器不存在')
+		return
+	}
+
+	if (lineInstance.value) {
+		lineInstance.value.dispose()
+	}
+
+	try {
+		lineInstance.value = echarts.init(trendDialogChart.value)
+		console.log('ECharts实例创建成功')
+	} catch (error) {
+		console.error('ECharts初始化失败:', error)
+		return
+	}
+
+	const lineData = generateLineData()
+	console.log('趋势图数据:', lineData)
+	console.log('考勤记录:', studentAttendanceRecords.value)
+
+	const option = {
+		backgroundColor: 'transparent',
+		tooltip: {
+			trigger: 'axis',
+			backgroundColor: themeStore.isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
+			borderColor: themeStore.isDark ? '#333' : '#ddd',
+			textStyle: {
+				color: themeStore.isDark ? '#fff' : '#333'
+			},
+			formatter(params) {
+				const date = params[0].axisValue
+				const { value } = params[0]
+				return `日期: ${date}<br/>累计签到: ${value}次`
+			}
+		},
+		grid: {
+			left: '3%',
+			right: '4%',
+			bottom: '3%',
+			containLabel: true
+		},
+		xAxis: {
+			type: 'category',
+			boundaryGap: false,
+			data: lineData.dates,
+			axisLabel: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 10,
+				rotate: 45
+			},
+			axisLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#444' : '#ddd'
+				}
+			}
+		},
+		yAxis: {
+			type: 'value',
+			axisLabel: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 12
+			},
+			axisLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#444' : '#ddd'
+				}
+			},
+			splitLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#333' : '#eee'
+				}
+			}
+		},
+		series: [{
+			name: '累计签到次数',
+			type: 'line',
+			stack: 'Total',
+			data: lineData.values,
+			smooth: true,
+			lineStyle: {
+				color: '#50a3ba',
+				width: 3
+			},
+			areaStyle: {
+				color: {
+					type: 'linear',
+					x: 0,
+					y: 0,
+					x2: 0,
+					y2: 1,
+					colorStops: [{
+						offset: 0, color: 'rgba(80, 163, 186, 0.3)'
+					}, {
+						offset: 1, color: 'rgba(80, 163, 186, 0.1)'
+					}]
+				}
+			},
+			itemStyle: {
+				color: '#50a3ba'
+			},
+			emphasis: {
+				focus: 'series'
+			}
+		}]
+	}
+
+	lineInstance.value.setOption(option)
+}
+
+const initHeatmapChart = () => {
+	if (!heatmapChart.value) { return }
+
+	if (heatmapInstance.value) {
+		heatmapInstance.value.dispose()
+	}
+
+	heatmapInstance.value = echarts.init(heatmapChart.value)
+
+	const heatmapData = generateHeatmapData()
+	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
+
+	const option = {
+		backgroundColor: 'transparent',
+		tooltip: {
+			show: false
+		},
+		grid: {
+			height: '60%',
+			top: '15%',
+			left: '10%',
+			right: '10%',
+			bottom: '20%'
+		},
+		xAxis: {
+			type: 'category',
+			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+			splitArea: {
+				show: true,
+				areaStyle: {
+					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+				}
+			},
+			axisLabel: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 12
+			},
+			axisLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#444' : '#ddd'
+				}
+			}
+		},
+		yAxis: {
+			type: 'category',
+			data: ['上午', '下午', '晚上'],
+			splitArea: {
+				show: true,
+				areaStyle: {
+					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+				}
+			},
+			axisLabel: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 12
+			},
+			axisLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#444' : '#ddd'
+				}
+			}
+		},
+		visualMap: {
+			min: 0,
+			max: maxValue,
+			calculable: false,
+			orient: 'horizontal',
+			left: 'center',
+			bottom: '5%',
+			itemWidth: 20,
+			itemHeight: 200,
+			textStyle: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 11
+			},
+			inRange: {
+				color: themeStore.isDark
+					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8']
+					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e']
+			}
+		},
+		series: [{
+			name: '签到次数',
+			type: 'heatmap',
+			data: heatmapData,
+			label: {
+				show: true,
+				color: '#000000',
+				fontSize: 10
+			},
+			emphasis: {
+				itemStyle: {
+					shadowBlur: 10,
+					shadowColor: 'rgba(0, 0, 0, 0.5)'
+				}
+			}
+		}]
+	}
+
+	heatmapInstance.value.setOption(option)
+}
+
+const initLineChart = () => {
+	if (!lineChart.value) { return }
+
+	if (lineInstance.value) {
+		lineInstance.value.dispose()
+	}
+
+	lineInstance.value = echarts.init(lineChart.value)
+
+	const lineData = generateLineData()
+
+	const option = {
+		backgroundColor: 'transparent',
+		tooltip: {
+			trigger: 'axis',
+			backgroundColor: themeStore.isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
+			borderColor: themeStore.isDark ? '#333' : '#ddd',
+			textStyle: {
+				color: themeStore.isDark ? '#fff' : '#333'
+			},
+			formatter(params) {
+				const date = params[0].axisValue
+				const { value } = params[0]
+				return `日期: ${date}<br/>累计签到: ${value}次`
+			}
+		},
+		grid: {
+			left: '3%',
+			right: '4%',
+			bottom: '3%',
+			containLabel: true
+		},
+		xAxis: {
+			type: 'category',
+			boundaryGap: false,
+			data: lineData.dates,
+			axisLabel: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 10,
+				rotate: 45
+			},
+			axisLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#444' : '#ddd'
+				}
+			}
+		},
+		yAxis: {
+			type: 'value',
+			axisLabel: {
+				color: themeStore.isDark ? '#ccc' : '#666',
+				fontSize: 12
+			},
+			axisLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#444' : '#ddd'
+				}
+			},
+			splitLine: {
+				lineStyle: {
+					color: themeStore.isDark ? '#333' : '#eee'
+				}
+			}
+		},
+		series: [{
+			name: '累计签到次数',
+			type: 'line',
+			stack: 'Total',
+			data: lineData.values,
+			smooth: true,
+			lineStyle: {
+				color: '#50a3ba',
+				width: 3
+			},
+			areaStyle: {
+				color: {
+					type: 'linear',
+					x: 0,
+					y: 0,
+					x2: 0,
+					y2: 1,
+					colorStops: [{
+						offset: 0, color: 'rgba(80, 163, 186, 0.3)'
+					}, {
+						offset: 1, color: 'rgba(80, 163, 186, 0.1)'
+					}]
+				}
+			},
+			itemStyle: {
+				color: '#50a3ba'
+			},
+			emphasis: {
+				focus: 'series'
+			}
+		}]
+	}
+
+	lineInstance.value.setOption(option)
+}
+
+const generateLineData = () => {
+	const dateMap = new Map()
+
+	StudentManagerPageAttendance_Records_Dialog.studentAttendanceRecords.forEach(record => {
+		const date = new Date(record.attendanceDateTime)
+		const dateStr = date.toISOString().split('T')[0]
+		dateMap.set(dateStr, (dateMap.get(dateStr) || 0) + 1)
+	})
+
+	const sortedDates = Array.from(dateMap.keys()).sort()
+	const dailyValues = sortedDates.map(date => dateMap.get(date))
+
+	let cumulativeSum = 0
+	const cumulativeValues = dailyValues.map(value => {
+		cumulativeSum += value
+		return cumulativeSum
+	})
+
+	return {
+		dates: sortedDates,
+		values: cumulativeValues
+	}
+}
+
+const generateHeatmapData = () => {
+	const data = []
+	const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+	const timeSlots = ['上午', '下午', '晚上']
+
+	weekDays.forEach((day, dayIndex) => {
+		timeSlots.forEach((slot, slotIndex) => {
+			let count = 0
+			StudentManagerPageAttendance_Records_Dialog.studentAttendanceRecords.forEach(record => {
+				const date = new Date(record.attendanceDateTime)
+				const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
+				const hour = date.getHours()
+
+				if (dayOfWeek === dayIndex) {
+					if (slot === '上午' && hour >= 8 && hour < 11) { count++ } else if (slot === '下午' && hour >= 14 && hour < 17) { count++ } else if (slot === '晚上' && hour >= 19 && hour < 22) { count++ }
+				}
+			})
+			data.push([dayIndex, slotIndex, count])
+		})
+	})
+
+	return data
+}
+
+watch(() => themeStore.isDark, () => {
+	nextTick(() => {
+		setTimeout(() => {
+			if (heatmapInstance.value) {
+				initHeatmapChart()
+			}
+			if (lineInstance.value) {
+				initLineChart()
+			}
+		}, 100) // 延迟 300ms
+	}, 50)
+})
+
+
+watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords, () => {
+	if (heatmapInstance.value) {
+		initHeatmapChart()
+	}
+	if (lineInstance.value) {
+		initLineChart()
+	}
+})
+</script>
+
+<template>
+	<div class="page_header">
+		<div class="page-header">
+			<!-- 页面头部左侧块 -->
+			<div class="page-header-left">
+				<el-button
+					title="返回导航页"
+					@click="goBack"
+				>
+					<el-icon>
+						<arrow-left/>
+					</el-icon>
+				</el-button>
+				<img
+					ref="logoRef"
+					src="@/assets/AiWorkShop_icon.png"
+					alt="AI坊学生管理系统"
+					title="切换主题模式"
+					@click="toggleTheme"
+				/>
+			</div>
+			<!-- 页面头部中间块 -->
+			<div class="page-header-middle">
+				<h1>学生管理</h1>
+			</div>
+			<!-- 页面头部右侧块 -->
+			<div v-if="studentManagerPage.adminStudentAvatarUrl" class="page-header-right">
+				<img
+					v-lazy="studentManagerPage.adminStudentAvatarUrl"
+					alt="管理员头像"
+				/>
+			</div>
+		</div>
+		<div class="student-cards">
+			<!-- 学生卡片列表块头部 -->
+			<div class="student-cards-header">
+				<h2>管理的学生列表</h2>
+				<el-input
+					v-model="searchQuery"
+					placeholder="搜索学生姓名、学号或专业..."
+					clearable
+					@input="handleSearch"
+					@clear="handleClearSearch"
+				>
+					<template #prefix>
+						<el-icon>
+							<search/>
+						</el-icon>
+					</template>
+				</el-input>
+				<div>
+					<el-button
+						type="info"
+						:class="{ 'active': sortOrder === 'attendance' }"
+						@click="sortByAttendance"
+					>
+						<el-icon>
+							<sort/>
+						</el-icon>
+						按打卡次数排序
+					</el-button>
+					<el-button
+						type="primary"
+						:loading="loading"
+						@click="refreshStudents"
+					>
+						<el-icon>
+							<refresh/>
+						</el-icon>
+						刷新
+					</el-button>
+				</div>
+			</div>
+			<!-- 学生卡片列表块内容 -->
+			<div v-if="!loading && filteredStudents.length > 0" class="student-cards-list">
+				<div v-for="student in filteredStudents" :key="student.studentId" class="student-cards-list-item">
+					<!-- 学生卡片头部块 -->
+					<div class="student-cards-list-item-header">
+						<!-- 块1：头像 -->
+						<img
+							v-if="getStudentAvatarUrl(student)"
+							v-lazy="getStudentAvatarUrl(student)"
+							:alt="student.name"
+							class="student-avatar-img"
+							@error="handleAvatarError"
+						/>
+
+						<!-- 块2：学号 名字和签到次数 -->
+						<div class="student-cards-list-item-header-name--student_id-attendance-count">
+							<div>
+								<span>姓名：</span>
+								<span>{{ student.name }}</span>
+							</div>
+							<div>
+								<span>学号：</span>
+								<span>{{ student.studentId }}</span>
+							</div>
+							<div class="stat-item">
+								<span class="label-checkin-count">签到次数：</span>
+								<span class="value">{{ student.checkInCount }}次</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- 学生卡片积分块 -->
+					<div class="student-cards-list-item-points">
+						<div>
+							<span>总积分:&nbsp;</span>
+							<span>{{ student.points + Math.round(student.checkInCount * 0.64) }}</span>
+						</div>
+
+						<div>
+							<span>活动积分:&nbsp;</span>
+							<span>{{ student.points }}</span>
+						</div>
+						<div>
+							<span>签到积分:&nbsp;</span>
+							<span>{{ Math.round(student.checkInCount * 0.64) }}</span>
+						</div>
+					</div>
+					<!-- 学生卡片其他信息块 -->
+					<div class="student-cards-list-item-other_info">
+						<div>
+							<span>年级:&nbsp;</span>
+							<span>{{ student.grade }}年级</span>
+						</div>
+						<div>
+							<span>学院:&nbsp;</span>
+							<span>{{ student.college }}</span>
+						</div>
+						<div>
+							<span>专业:&nbsp;</span>
+							<span>{{ student.major }}</span>
+						</div>
+						<div>
+							<span>班级:&nbsp;</span>
+							<span>{{ student.classNum }}班</span>
+						</div>
+						<div>
+							<span>性别:&nbsp;</span>
+							<span>{{ student.gender }}</span>
+						</div>
+						<div>
+							<span>手机:&nbsp;</span>
+							<span>{{ student.phone }}</span>
+						</div>
+					</div>
+					<!-- 学生卡片按钮块 -->
+					<div class="student-cards-list-item-buttons">
+						<el-button
+							type="success"
+							size="small"
+							@click="StudentManagerPageAttendance_Records_Dialog.openAttendanceRecordsDialog(student)"
+						>
+							<el-icon>
+								<calendar/>
+							</el-icon>
+							考勤记录
+						</el-button>
+						<el-button
+							type="warning"
+							size="small"
+							@click="openDatePicker(student)"
+						>
+							<el-icon>
+								<clock/>
+							</el-icon>
+							补卡
+						</el-button>
+						<el-button
+							type="info"
+							size="small"
+							@click="openHeatmapDialog(student)"
+						>
+							<el-icon>
+								<star/>
+							</el-icon>
+							热力图
+						</el-button>
+						<el-button
+							type="primary"
+							size="small"
+							@click="openTrendChartDialog(student)"
+						>
+							<el-icon>
+								<trend-charts/>
+							</el-icon>
+							趋势图
+						</el-button>
+					</div>
+				</div>
+			</div>
+
+			<div v-if="!loading && managedStudents.length === 0" class="empty-state">
+				<el-icon size="64" class="empty-icon">
+					<user/>
+				</el-icon>
+				<h3>暂无管理的学生</h3>
+				<p>您当前没有管理任何学生</p>
+			</div>
+
+			<div
+				v-if="!loading && managedStudents.length > 0 && filteredStudents.length === 0 && searchQuery"
+				class="no-search-results">
+				<el-icon size="64" class="empty-icon">
+					<search/>
+				</el-icon>
+				<h3>未找到匹配的学生</h3>
+				<p>请尝试其他关键词或清空搜索条件</p>
+			</div>
+
+			<div v-if="loading" class="loading-state">
+				<el-icon size="32" class="loading-icon">
+					<loading/>
+				</el-icon>
+				<p>加载中...</p>
+			</div>
+		</div>
+
+		<!-- 隐藏的日期选择器 -->
+		<el-date-picker
+			v-if="showDatePicker"
+			ref="hiddenDatePicker"
+			v-model="makeupForm.attendanceTime"
+			type="datetime"
+			format="YYYY年MM月DD日 HH:mm"
+			value-format="YYYY-MM-DDTHH:mm:ss"
+			:shortcuts="timeShortcuts"
+			:loading="makeupLoading"
+			popper-class="makeup-attendance-date-picker"
+			style="position: fixed; left: 50%; top: 75%; transform: translate(-50%, -50%); opacity: 0; pointer-events: none;"
+			@change="(val) => handleMakeupTimeChange(currentMakeupStudent, val)"
+
+		/>
+		<el-dialog
+			v-if="StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsDialogVisible"
+			v-model="StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsDialogVisible"
+			:title="`${StudentManagerPageAttendance_Records_Dialog.getSelectedStudent()?.name}的考勤记录`"
+			class="attendance-records-dialog"
+			modal-class="attendance-records-dialog-overlay"
+			@close="StudentManagerPageAttendance_Records_Dialog.closeAttendanceRecordsDialog()"
+		>
+			<div>
+				<div v-if="StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0">
+					<el-icon>
+						<calendar/>
+					</el-icon>
+					<p>暂无考勤记录</p>
+				</div>
+				<div>
+					<el-calendar v-model="StudentManagerPageAttendance_Records_Dialog.state.calendarValue">
+						<template #header="{ date }">
+							<div>{{ formatCalendarTitle(date) }}</div>
+							<div>
+								<el-button size="small" @click="prevMonth">上个月</el-button>
+								<el-button size="small" @click="goToday">今天</el-button>
+								<el-button size="small" @click="nextMonth">下个月</el-button>
+							</div>
+						</template>
+						<template #date-cell="{ data }">
+							<div class="attendance-records-dialog-list-item">
+								<div class="attendance-records-dialog-list-item-div">
+									<span
+										:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords) }">
+										早:&nbsp;&nbsp;{{
+											studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'morning', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
+										}}
+									</span>
+
+									<span
+										:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords) }">
+										午:&nbsp;&nbsp;{{
+											studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'afternoon', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
+										}}
+									</span>
+
+									<span
+										:class="{ 'attendance-records-dialog-list-item-has-attendance': studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords) }">
+										晚:&nbsp;&nbsp;{{
+											studentManagerPageStudentAttendanceServer.getAttendanceTimeBySlot(data.day, 'evening', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
+										}}
+									</span>
+								</div>
+
+								<span class="attendance-records-dialog-list-item-span">{{
+									data.day.split('-')[2]
+								}}</span>
+							</div>
+						</template>
+					</el-calendar>
+				</div>
+			</div>
+			<template #footer>
+				<div>
+					<el-button @click="StudentManagerPageAttendance_Records_Dialog.closeAttendanceRecordsDialog()">
+						关闭
+					</el-button>
+				</div>
+			</template>
+		</el-dialog>
+
+
+		<el-dialog
+			v-if="heatmapDialogVisible"
+			v-model="heatmapDialogVisible"
+			:title="`${selectedStudent?.name} 的签到热力图`"
+			width="80%"
+			class="heatmap-dialog"
+			destroy-on-close
+			:close-on-click-modal="false"
+			:append-to-body="true"
+			:teleported="true"
+			modal-class="heatmap-overlay"
+			@close="closeHeatmapDialog"
+		>
+			<div class="heatmap-dialog-content">
+				<div v-if="attendanceRecordsLoading" class="loading-container">
+					<el-icon class="loading-icon">
+						<loading/>
+					</el-icon>
+					<p>加载中...</p>
+				</div>
+				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
+					<el-icon class="no-records-icon">
+						<calendar/>
+					</el-icon>
+					<p>暂无考勤记录</p>
+				</div>
+				<div v-else class="chart-container">
+					<div class="chart-item-admin">
+						<div class="chart-title-admin">签到热力图</div>
+						<div ref="heatmapDialogChart" class="chart-content-admin"/>
+					</div>
+				</div>
+			</div>
+			<template #footer>
+				<div class="dialog-footer">
+					<el-button @click="closeHeatmapDialog">关闭</el-button>
+				</div>
+			</template>
+		</el-dialog>
+
+		<el-dialog
+			v-if="trendChartDialogVisible"
+			v-model="trendChartDialogVisible"
+			:title="`${selectedStudent?.name} 的签到趋势图`"
+			width="80%"
+			class="trend-chart-dialog"
+			destroy-on-close
+			:close-on-click-modal="false"
+			:append-to-body="true"
+			:teleported="true"
+			modal-class="trend-overlay"
+			@close="closeTrendChartDialog"
+		>
+			<div class="trend-chart-dialog-content">
+				<div v-if="attendanceRecordsLoading" class="loading-container">
+					<el-icon class="loading-icon">
+						<loading/>
+					</el-icon>
+					<p>加载中...</p>
+				</div>
+				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
+					<el-icon class="no-records-icon">
+						<calendar/>
+					</el-icon>
+					<p>暂无考勤记录</p>
+				</div>
+				<div v-else class="chart-container">
+					<div class="chart-item-admin">
+						<div class="chart-title-admin">签到趋势图</div>
+						<div ref="trendDialogChart" class="chart-content-admin"/>
+					</div>
+				</div>
+			</div>
+			<template #footer>
+				<div class="dialog-footer">
+					<el-button @click="closeTrendChartDialog">关闭</el-button>
+				</div>
+			</template>
+		</el-dialog>
+	</div>
+</template>
+
+<style scoped src="./css/desktop/StudentManagerPage-PageHeader.css"></style>
+<style scoped src="./css/desktop/StudentManagerPage-StudentCards.css"></style>
+<style scoped src="./css/desktop/StudentManagerPage-Attendance_Records_Dialog.css"></style>
+<style scoped src="./css/desktop/StudentManagerPage-MakeupAttendanceDatePicker.css"></style>
+

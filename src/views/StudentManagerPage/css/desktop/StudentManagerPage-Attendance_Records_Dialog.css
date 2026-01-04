@@ -1,0 +1,44 @@
+
+
+
+
+/* 考勤记录对话框里面的每一个“天”块 */
+.attendance-records-dialog-list-item {
+	display: flex;
+	justify-content: space-between;
+}
+.attendance-records-dialog-list-item-div {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin-top: 8px;
+}
+
+.attendance-records-dialog-list-item-div span {
+	padding: 0 4px;
+}
+
+.attendance-records-dialog-list-item-span {
+	font-size: 14px;
+	font-weight: bold;
+	background-color: #1F2937;
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	color: white !important;
+	margin-right: 0;
+}
+
+/* 考勤记录对话框夜间模式下的文字颜色 */
+html.dark .attendance-records-dialog-list-item * {
+	color: #5a6c7d !important;
+}
+/* 考勤记录对话框有签到记录的时间段会执行本 css */
+.attendance-records-dialog-list-item-has-attendance {
+	font-weight: bold;  /* 加粗 */
+	background-color: #67C23A;
+	border-radius: 4px;
+}

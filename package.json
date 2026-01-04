@@ -1,0 +1,101 @@
+{
+  "name": "front-end",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "check": "npm run lint && npm run lint:css",
+    "format": "prettier --config code-quality/code-quality-config/prettier.config.js --write \"src/**/*.{js,vue,css,scss,json,md}\"",
+    "format:check": "prettier --config code-quality/code-quality-config/prettier.config.js --check \"src/**/*.{js,vue,css,scss,json,md}\"",
+    "build": "npm run lint && ANALYZE=true vite build",
+    "build:analyze": "npm run lint && ANALYZE=true vite build",
+    "preview": "vite preview",
+    "serve:prod": "npx sirv-cli dist --single --port 3000 --host 0.0.0.0",
+    "lint": "eslint --config code-quality/code-quality-config/.eslintrc.js src/**/*.{js,vue}",
+    "lint:fix": "eslint --config code-quality/code-quality-config/.eslintrc.js src/**/*.{js,vue} --fix",
+    "lint:css": "stylelint --config code-quality/code-quality-config/.stylelintrc.js \"src/**/*.{css,scss,vue}\"",
+    "lint:css:fix": "stylelint --config code-quality/code-quality-config/.stylelintrc.js \"src/**/*.{css,scss,vue}\" --fix",
+    "lint:css:file": "stylelint --config code-quality/code-quality-config/.stylelintrc.js",
+    "check:deps": "depcheck --config code-quality/code-quality-config/.depcheckrc.json",
+    "check:security": "npm audit --audit-level=moderate",
+    "check:security:fix": "npm audit fix",
+    "check:all": "npm run check && npm run check:deps && npm run check:security",
+    "analyze:bundle": "ANALYZE=true vite build",
+    "prebuild": "npm run lint",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "src/**/*.{js,vue}": [
+      "eslint --config code-quality/code-quality-config/.eslintrc.js --fix",
+      "prettier --config code-quality/code-quality-config/prettier.config.js --write"
+    ],
+    "src/**/*.{css,scss}": [
+      "stylelint --config code-quality/code-quality-config/.stylelintrc.js --fix",
+      "prettier --config code-quality/code-quality-config/prettier.config.js --write"
+    ],
+    "src/**/*.{json,md}": [
+      "prettier --config code-quality/code-quality-config/prettier.config.js --write"
+    ]
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "@fullcalendar/core": "^6.1.19",
+    "@fullcalendar/daygrid": "^6.1.19",
+    "@fullcalendar/interaction": "^6.1.19",
+    "@fullcalendar/vue3": "^6.1.19",
+    "axios": "1.12.0",
+    "core-js": "^3.8.3",
+    "echarts": "^5.5.0",
+    "echarts-wordcloud": "^2.1.0",
+    "element-plus": "2.11.3",
+    "pinia": "^3.0.3",
+    "vue": "^3.2.13",
+    "vue-router": "^4.5.1",
+    "vue3-lazy": "^1.0.0-alpha.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.51.0",
+    "@typescript-eslint/parser": "^8.51.0",
+    "@vitejs/plugin-vue": "^6.0.3",
+    "depcheck": "^1.4.7",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsdoc": "^61.5.0",
+    "eslint-plugin-sonarjs": "^3.0.5",
+    "eslint-plugin-vue": "^9.33.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^16.2.7",
+    "playwright": "^1.56.1",
+    "postcss-html": "^1.8.0",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.7.4",
+    "purgecss": "^6.0.0",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "stylelint": "^16.26.1",
+    "stylelint-config-recess-order": "^7.4.0",
+    "stylelint-config-standard": "^39.0.1",
+    "stylelint-declaration-block-no-ignored-properties": "^2.8.0",
+    "stylelint-high-performance-animation": "^1.11.0",
+    "stylelint-order": "^7.0.1",
+    "stylelint-scss": "^6.14.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2",
+    "vite": "7.1.11",
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-stylelint": "^6.0.2",
+    "vue-eslint-parser": "^10.2.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}

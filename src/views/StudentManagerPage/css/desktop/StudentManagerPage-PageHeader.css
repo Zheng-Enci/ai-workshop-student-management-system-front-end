@@ -1,0 +1,70 @@
+/* 页面头部块 */
+.page-header {
+	display: flex;
+	justify-content: space-between;
+	padding: 16px 32px;
+	align-items: center;
+}
+
+/* 页面头部左边块 */
+.page-header-left {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.page-header-left .el-button:hover {
+	transform: scale(1.1);
+	transition: all 0.2s ease;
+}
+/* 页面头部左边块按钮 */
+.page-header-left .el-button {
+	font-size: 20px !important;
+	border: none;
+	background: #1e88e5;
+	border-radius: 20%;
+	width: 40px;
+	margin: 5px;
+}
+/* 页面头部左边块图片 */
+.page-header-left img {
+	width: 64px;
+	height: 64px;
+	margin: 5px;
+	cursor: pointer;
+}
+.page-header-left img:hover {
+	transform: scale(1.1);
+	transition: all 0.2s ease;
+}
+
+/* 页面头部中间块标题 */
+.page-header-middle {
+	display: flex;
+	align-items: center;
+}
+
+.page-header-middle h1 {
+	margin: 0;
+	font-size: 40px;
+	font-weight: 700;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	letter-spacing: 1px;
+}
+
+/* 页面头部块右边块 */
+.page-header-right {
+	font-size: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+}
+/* 页面头部块右边块头像 */
+.page-header-right img {
+	width: 74px;
+	height: 74px;
+	border-radius: 25%;
+}

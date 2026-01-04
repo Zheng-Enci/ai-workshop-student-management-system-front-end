@@ -1,0 +1,257 @@
+/* 组件样式 */
+
+/* 改分记录弹窗样式 */
+.records-loading {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+	justify-content: center;
+	padding: 60px 20px;
+	color: var(--text-secondary);
+}
+
+.records-empty {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+	justify-content: center;
+	padding: 60px 20px;
+	color: var(--text-secondary);
+}
+
+.records-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.record-item {
+	padding: 16px;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.08) 0%, rgb(0 242 254 / 0.05) 100%);
+	border: 1px solid rgb(102 126 234 / 0.15);
+	border-radius: 12px;
+	backdrop-filter: blur(10px);
+}
+
+.record-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.record-time {
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--text-secondary);
+}
+
+.points-positive {
+	min-width: 60px;
+	padding: 4px 12px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #10b981;
+	text-align: center;
+	background: rgb(16 185 129 / 0.15);
+	border: 1px solid rgb(16 185 129 / 0.3);
+	border-radius: 6px;
+}
+
+.points-negative {
+	min-width: 60px;
+	padding: 4px 12px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #ef4444;
+	text-align: center;
+	background: rgb(239 68 68 / 0.15);
+	border: 1px solid rgb(239 68 68 / 0.3);
+	border-radius: 6px;
+}
+
+.record-reason {
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--text-primary);
+	word-break: break-all;
+}
+
+@keyframes card-shine {
+	0% {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+
+	10% {
+		opacity: 1;
+	}
+
+	90% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateX(200%);
+	}
+}
+
+@keyframes avatar-shine {
+	0% {
+		opacity: 0;
+		transform: translate(-100%, -100%);
+	}
+
+	10% {
+		opacity: 1;
+	}
+
+	90% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		transform: translate(100%, 100%);
+	}
+}
+
+.attendance-points {
+	color: #3b82f6 !important;
+}
+
+.activity-points {
+	color: #f59e0b !important;
+}
+
+.student-card {
+	padding: 8px;
+	border-radius: 8px;
+}
+
+
+
+/* 卡片内容区域 */
+.student-card-content {
+	display: flex;
+	gap: 12px;
+}
+
+.student-card-points {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+.student-card-points button {
+	font-weight: 500;
+	color: #667eea;
+	background: rgb(102 126 234 / 0.1);
+	border: 1px solid rgb(102 126 234 / 0.2);
+	border-radius: 8px;
+}
+
+
+/* 头像容器 */
+.avatar-container {
+	position: relative;
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	overflow: hidden;
+	color: white;
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgb(102 126 234 / 0.3);
+}
+
+/* 头像光影效果 */
+.avatar-container .avatar-shine {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	background: linear-gradient(135deg, transparent 30%, rgb(255 255 255 / 0.5) 50%, transparent 70%);
+	border-radius: 8px;
+	transform: translate(-100%, -100%);
+	animation: avatar-shine 3s ease-in-out infinite;
+}
+
+/* 头像图片 */
+.avatar-container .avatar-image {
+	position: relative;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+/* 头像图标 */
+.avatar-container .avatar-icon {
+	position: relative;
+	z-index: 0;
+}
+
+/* 学生信息区域 */
+.student-info {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 8px;
+}
+
+/* 学生姓名 */
+.student-name {
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--text-primary);
+}
+
+/* 学生标签 */
+.student-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	font-size: 11px;
+}
+
+.student-meta .meta-tag {
+	padding: 2px 6px;
+	color: var(--text-primary);
+	background: rgb(102 126 234 / 0.12);
+	border: 1px solid rgb(102 126 234 / 0.2);
+	border-radius: 4px;
+}
+
+/* 学生积分区域 */
+.student-points {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	padding-top: 8px;
+	border-top: 1px solid rgb(102 126 234 / 0.1);
+}
+
+/* 总积分 */
+.student-total-points {
+	font-size: 18px;
+	font-weight: 800;
+	background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe);
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+/* 分隔符 */
+.points-separator {
+	font-size: 14px;
+	color: var(--text-secondary);
+}
