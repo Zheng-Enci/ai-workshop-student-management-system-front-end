@@ -82,9 +82,12 @@ function withCheckLogging(plugin, checkName) {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue(),
+export default defineConfig(({ mode }) => {
+  // 通过环境变量控制是否启用代码质量检查
+  const enableCodeQualityChecks = process.env.ENABLE_CODE_QUALITY_CHECKS === 'true'
+  
+  // 代码质量检查插件数组
+  const codeQualityPlugins = enableCodeQualityChecks ? [
     // 代码质量检查提示插件
     {
       name: 'code-quality-logger',
@@ -186,18 +189,24 @@ export default defineConfig({
         skipOnError: true
       })
       return withCheckLogging(commentCoverage, '代码注释覆盖率')
-    })(),
-    (process.env.ANALYZE === 'true' || process.env.NODE_ENV === 'production') &&
-      visualizer({
-        open: false,
-        filename: 'dist/stats.html',
-        gzipSize: true,
-        brotliSize: true,
-        template: 'treemap',
-        title: 'Bundle Analysis',
-        emitFile: true
-      })
-  ].filter(Boolean),
+    })()
+  ] : []
+
+  return {
+    plugins: [
+      vue(),
+      ...codeQualityPlugins,
+      (process.env.ANALYZE === 'true' || process.env.NODE_ENV === 'production') &&
+        visualizer({
+          open: false,
+          filename: 'dist/stats.html',
+          gzipSize: true,
+          brotliSize: true,
+          template: 'treemap',
+          title: 'Bundle Analysis',
+          emitFile: true
+        })
+    ].filter(Boolean),
   server: {
     port: 3000,
     host: '0.0.0.0',
@@ -234,5 +243,6 @@ export default defineConfig({
         additionalData: `@import "@/assets/styles/theme.css";`
       }
     }
+  }
   }
 })

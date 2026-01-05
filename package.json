@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "check:quality": "cross-env ENABLE_CODE_QUALITY_CHECKS=true vite",
     "check": "npm run lint && npm run lint:css",
     "format": "prettier --config code-quality/code-quality-config/prettier.config.js --write \"src/**/*.{js,vue,css,scss,json,md}\"",
     "format:check": "prettier --config code-quality/code-quality-config/prettier.config.js --check \"src/**/*.{js,vue,css,scss,json,md}\"",
