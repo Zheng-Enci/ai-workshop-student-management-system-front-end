@@ -1,23 +1,49 @@
+/**
+ * ============================================================================
+ * 超级管理员页面 - 桌面端样式
+ * ============================================================================
+ * 设计特点：
+ * 1. 适配大屏幕显示，提供更丰富的布局
+ * 2. 玻璃拟态 + 渐变背景，营造现代感
+ * 3. 支持深色/浅色主题切换
+ * 4. 响应式网格布局，自适应屏幕尺寸
+ * 5. 丰富的交互动画和悬停效果
+ * ============================================================================
+ */
+
+/* ==================== CSS 变量定义 ==================== */
+/**
+ * 全局 CSS 自定义属性
+ * 用于统一管理主题颜色、背景色、文字颜色等样式变量
+ * 使用 CSS 变量可以实现主题切换和样式复用，便于维护
+ */
 :root {
-	--admin-primary-color: #667eea;
-	--admin-secondary-color: #764ba2;
-	--admin-success-color: #67c23a;
-	--admin-warning-color: #e6a23c;
-	--admin-danger-color: #f56c6c;
-	--admin-info-color: #909399;
+	/* 主题色系 - 采用现代渐变色系 */
+	--admin-primary-color: #667eea;    /* 主色调 - 蓝紫色系 */
+	--admin-secondary-color: #764ba2;  /* 辅助色 - 深紫色 */
+	--admin-success-color: #67c23a;    /* 成功色 - 绿色 */
+	--admin-warning-color: #e6a23c;    /* 警告色 - 橙色 */
+	--admin-danger-color: #f56c6c;     /* 危险色 - 红色 */
+	--admin-info-color: #909399;      /* 信息色 - 灰色 */
 
-	--admin-bg-primary: #ffffff;
-	--admin-bg-secondary: #f8f9fa;
-	--admin-bg-tertiary: #e9ecef;
-	--admin-text-primary: #1a202c;
-	--admin-text-secondary: #2d3748;
-	--admin-text-tertiary: #4a5568;
-	--admin-border-color: #e2e8f0;
-	--admin-shadow-color: rgba(0, 0, 0, 0.1);
-	--admin-shadow-hover: rgba(0, 0, 0, 0.15);
-	--admin-glass-bg: rgba(255, 255, 255, 0.95);
-	--admin-glass-border: rgba(255, 255, 255, 0.3);
+	/* 背景色系 - 浅色模式 - 层级分明，便于区分 */
+	--admin-bg-primary: #ffffff;       /* 一级背景 - 纯白 */
+	--admin-bg-secondary: #f8f9fa;    /* 二级背景 - 浅灰 */
+	--admin-bg-tertiary: #e9ecef;      /* 三级背景 - 中灰 */
 
+	/* 文字色系 - 浅色模式 - 对比度符合 WCAG AA 标准 */
+	--admin-text-primary: #1a202c;    /* 一级文字 - 深色 */
+	--admin-text-secondary: #2d3748;   /* 二级文字 - 中深色 */
+	--admin-text-tertiary: #4a5568;    /* 三级文字 - 中灰色 */
+
+	/* 其他样式变量 - 边框、阴影、玻璃拟态效果 */
+	--admin-border-color: #e2e8f0;          /* 边框颜色 */
+	--admin-shadow-color: rgba(0, 0, 0, 0.1);    /* 默认阴影 - 轻微 */
+	--admin-shadow-hover: rgba(0, 0, 0, 0.15);  /* 悬停阴影 - 加深 */
+	--admin-glass-bg: rgba(255, 255, 255, 0.95);    /* 玻璃背景 - 高透明度 */
+	--admin-glass-border: rgba(255, 255, 255, 0.3); /* 玻璃边框 - 半透明 */
+
+	/* 兼容性变量（保持向后兼容） - 旧代码可能引用这些变量 */
 	--primary-color: #667eea;
 	--secondary-color: #764ba2;
 	--glass-bg: rgba(255, 255, 255, 0.95);
@@ -30,19 +56,34 @@
 	--text-secondary: #2d3748;
 	--text-tertiary: #4a5568;
 	--danger-color: #f56c6c;
-}html.dark {
-	--admin-bg-primary: #000000;
-	--admin-bg-secondary: #1a1a1a;
-	--admin-bg-tertiary: #333333;
-	--admin-text-primary: #e2e8f0;
-	--admin-text-secondary: #cbd5e1;
-	--admin-text-tertiary: #94a3b8;
-	--admin-border-color: #334155;
-	--admin-shadow-color: rgba(0, 0, 0, 0.4);
-	--admin-shadow-hover: rgba(0, 0, 0, 0.6);
-	--admin-glass-bg: rgba(0, 0, 0, 0.8);
-	--admin-glass-border: rgba(255, 255, 255, 0.1);
+}
 
+/* ==================== 深色模式变量覆盖 ==================== */
+/**
+ * 深色模式 CSS 变量覆盖
+ * 当 html 根元素添加 dark 类名时，激活深色主题
+ * 所有颜色变量重新定义，以适应深色背景
+ * 通过覆盖变量而非重写样式，实现高效的主题切换
+ */
+html.dark {
+	/* 背景色系 - 深色模式 - 降低亮度，保护视力 */
+	--admin-bg-primary: #000000;       /* 一级背景 - 纯黑 */
+	--admin-bg-secondary: #1a1a1a;    /* 二级背景 - 深灰 */
+	--admin-bg-tertiary: #333333;      /* 三级背景 - 中灰 */
+
+	/* 文字色系 - 深色模式 - 提高亮度，确保对比度 */
+	--admin-text-primary: #e2e8f0;    /* 一级文字 - 浅灰白 */
+	--admin-text-secondary: #cbd5e1;   /* 二级文字 - 浅灰 */
+	--admin-text-tertiary: #94a3b8;    /* 三级文字 - 中浅灰 */
+
+	/* 其他样式变量 - 深色模式 */
+	--admin-border-color: #334155;          /* 边框颜色 - 深蓝灰 */
+	--admin-shadow-color: rgba(0, 0, 0, 0.4);    /* 默认阴影 - 加深 */
+	--admin-shadow-hover: rgba(0, 0, 0, 0.6);  /* 悬停阴影 - 更深 */
+	--admin-glass-bg: rgba(0, 0, 0, 0.8);    /* 玻璃背景 - 深色半透明 */
+	--admin-glass-border: rgba(255, 255, 255, 0.1); /* 玻璃边框 - 浅色半透明 */
+
+	/* 兼容性变量 - 深色模式 */
 	--glass-bg: rgba(0, 0, 0, 0.8);
 	--glass-border: rgba(255, 255, 255, 0.1);
 	--bg-primary: #000000;
@@ -53,11 +94,17 @@
 	--danger-color: #f56c6c;
 }
 
+/* 深色模式下控制台背景 */
 html.dark .admin-console {
 	background-color: var(--admin-bg-primary);
 }
 
-/* 身份验证界面样式 */
+/* ==================== 身份验证界面 ==================== */
+/**
+ * 超级管理员身份验证页面样式
+ * 包含登录界面的整体布局和容器样式
+ * 采用居中布局，确保在大屏幕上的视觉平衡
+ */
 .auth-section {
 	display: flex;
 	flex-direction: column;
@@ -69,6 +116,7 @@ html.dark .admin-console {
 	overflow: hidden;
 }
 
+/* 身份验证页顶部导航栏 - 定位固定，确保可见性 */
 .auth-page-header {
 	position: absolute;
 	top: 20px;
@@ -81,6 +129,8 @@ html.dark .admin-console {
 	align-items: center;
 	gap: 8px;
 }
+
+/* Logo图标 - 系统品牌标识 */
 .auth-logo {
 	width: 50px;
 	height: 50px;
@@ -89,9 +139,12 @@ html.dark .admin-console {
 	border-radius: 0;
 }
 
+/* Logo悬停效果（已移除，保留悬停钩子） */
 .auth-logo:hover {
 	/* 悬停效果已移除 */
 }
+/* Element Plus 消息提示样式穿透 - 成功消息 */
+/* 使用 :deep() 穿透样式，覆盖 Element Plus 组件内部样式 */
 .auth-section :deep(.el-message--success) {
 	background-color: var(--primary-color) !important;
 	border-color: var(--primary-color) !important;
@@ -106,9 +159,14 @@ html.dark .admin-console {
 	color: white !important;
 }
 
+/* ==================== 身份验证卡片 ==================== */
+/**
+ * 超级管理员登录卡片样式
+ * 采用玻璃拟态设计，结合现代阴影和圆角
+ * 响应式设计，最大宽度 420px，确保内容可读性
+ */
 .auth-card {
 	background: var(--glass-bg);
-	
 	border-radius: 24px;
 	padding: 48px;
 	box-shadow: 0 25px 50px var(--shadow-color);
@@ -121,6 +179,7 @@ html.dark .admin-console {
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 头像图标容器 - 居中显示管理员头像 */
 .auth-icon-container {
 	position: relative;
 	width: 120px;
@@ -131,6 +190,7 @@ html.dark .admin-console {
 	justify-content: center;
 }
 
+/* 头像外圈 - 装饰性边框 */
 .icon-ring {
 	position: absolute;
 	top: 50%;
@@ -143,6 +203,7 @@ html.dark .admin-console {
 	transition: all 0.3s ease;
 }
 
+/* 管理员头像 - 圆角矩形设计，区别于圆形用户头像 */
 .admin-avatar {
 	position: absolute;
 	top: 50%;
@@ -157,19 +218,25 @@ html.dark .admin-console {
 	z-index: 1; /* 确保头像在环形图标之上 */
 }
 
+/* 头像悬停效果 - 边框高亮和阴影增强 */
 .auth-icon-container:hover .admin-avatar {
 	border-color: var(--primary-color);
 	box-shadow: 0 0 20px var(--shadow-color);
-}.input-container {
+}
+
+/* 输入框容器 - 用于密码输入的包装器 */
+.input-container {
 	position: relative;
 }
 
+/* 密码输入框 - 带有图标和样式的输入组件 */
 .password-input {
 	position: relative;
 	z-index: 2;
 	width: 100%;
 }
 
+/* Element Plus 输入框包装器样式穿透 - 自定义边框和背景 */
 .password-input :deep(.el-input__wrapper) {
 	border-radius: 12px;
 	border: 2px solid var(--border-color);
@@ -178,27 +245,37 @@ html.dark .admin-console {
 	box-shadow: 0 4px 12px var(--shadow-color);
 }
 
+/* 密码输入框悬停状态 */
 .password-input :deep(.el-input__wrapper:hover) {
 	/* 悬停效果已移除 */
 	/* box-shadow已移除 */
-}.password-input :deep(.el-input__wrapper.is-focus) {
+}
+
+/* 密码输入框聚焦状态 - 边框高亮 */
+.password-input :deep(.el-input__wrapper.is-focus) {
 	border-color: var(--primary-color);
 	/* box-shadow已移除 */
-}.password-input :deep(.el-input__inner) {
+}
+
+/* 输入框内部样式 - 文字颜色和字体 */
+.password-input :deep(.el-input__inner) {
 	color: var(--text-primary);
 	font-weight: 500;
 	font-size: 16px;
 }
 
+/* 输入框占位符样式 */
 .password-input :deep(.el-input__inner::placeholder) {
 	color: var(--text-tertiary);
 	font-weight: 500;
 }
 
+/* 输入框前缀图标样式 */
 .password-input :deep(.el-input__prefix) {
 	color: var(--text-secondary);
 }
 
+/* 登录按钮 - 渐变背景，醒目且现代 */
 .auth-button {
 	position: relative;
 	overflow: hidden;
@@ -215,14 +292,19 @@ html.dark .admin-console {
 	letter-spacing: 0.5px;
 }
 
+/* 登录按钮悬停状态 */
 .auth-button:hover {
 	/* 悬停效果已移除 */
 	/* box-shadow已移除 */
-}.auth-button:active {
+}
+
+/* 登录按钮点击状态 - 禁止位移 */
+.auth-button:active {
 	transform: translateY(0);
 	color: white;
 }
 
+/* 登录表单标题样式 */
 .auth-header h2 {
 	font-size: 28px;
 	font-weight: 700;
@@ -231,6 +313,7 @@ html.dark .admin-console {
 	letter-spacing: -0.5px;
 }
 
+/* 登录表单布局 - 垂直排列，间距均匀 */
 .auth-form {
 	display: flex;
 	flex-direction: column;
@@ -238,6 +321,13 @@ html.dark .admin-console {
 }
 
 
+/**
+ * ==================== 加载状态界面 ====================
+ * 用于数据加载时的全屏遮罩和加载动画
+ * 确保用户知道系统正在处理请求
+ */
+
+/* 全屏加载遮罩 - 层级最高，覆盖所有内容 */
 .admin-loading {
 	position: fixed;
 	top: 0;
@@ -252,6 +342,7 @@ html.dark .admin-console {
 	z-index: 9999;
 }
 
+/* 加载页面的头部 - 包含Logo和导航 */
 .loading-page-header {
 	position: absolute;
 	top: 20px;
@@ -259,6 +350,7 @@ html.dark .admin-console {
 	z-index: 10000;
 }
 
+/* 加载页面Logo - 可点击返回首页 */
 .loading-logo {
 	width: 50px;
 	height: 50px;
@@ -267,16 +359,19 @@ html.dark .admin-console {
 	border-radius: 0;
 }
 
+/* Logo悬停效果 - 放大和亮度提升 */
 .loading-logo:hover {
 	transform: scale(1.1);
 	filter: brightness(1.2);
 }
 
+/* 加载内容容器 - 居中对齐 */
 .loading-container {
 	text-align: center;
 	color: var(--admin-text-primary);
 }
 
+/* 加载旋转动画容器 - 包含多个旋转环 */
 .loading-spinner {
 	position: relative;
 	width: 80px;
@@ -284,6 +379,7 @@ html.dark .admin-console {
 	margin: 0 auto 30px;
 }
 
+/* 单个旋转环 - 构成加载动画的主要元素 */
 .spinner-ring {
 	position: absolute;
 	width: 100%;
@@ -294,6 +390,7 @@ html.dark .admin-console {
 	animation: spin 1.5s linear infinite;
 }
 
+/* 第二个旋转环 - 较小，延迟启动 */
 .spinner-ring:nth-child(2) {
 	width: 60px;
 	height: 60px;
@@ -303,6 +400,7 @@ html.dark .admin-console {
 	animation-delay: -0.5s;
 }
 
+/* 第三个旋转环 - 最小，更长延迟 */
 .spinner-ring:nth-child(3) {
 	width: 40px;
 	height: 40px;
@@ -312,11 +410,13 @@ html.dark .admin-console {
 	animation-delay: -1s;
 }
 
+/* 旋转动画关键帧 - 360度循环旋转 */
 @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
 
+/* 加载提示文字 - 显示加载状态 */
 .loading-text {
 	font-size: 24px;
 	font-weight: 600;
@@ -324,6 +424,7 @@ html.dark .admin-console {
 	color: var(--admin-text-primary);
 }
 
+/* 进度条容器 - 显示加载进度 */
 .loading-progress {
 	width: 300px;
 	height: 8px;
@@ -334,6 +435,7 @@ html.dark .admin-console {
 	border: 1px solid var(--admin-glass-border);
 }
 
+/* 进度条填充 - 动态宽度 */
 .progress-bar {
 	height: 100%;
 	background-color: var(--admin-bg-primary);
@@ -341,12 +443,20 @@ html.dark .admin-console {
 	transition: width 0.3s ease;
 }
 
+/* 加载状态文字 - 详细进度描述 */
 .loading-status {
 	font-size: 16px;
 	color: var(--admin-text-secondary);
 	font-weight: 500;
 }
 
+/**
+ * ==================== 管理员控制台 ====================
+ * 超级管理员主控制台样式
+ * 包含头部导航、统计数据、学生管理等核心功能
+ */
+
+/* 控制台主容器 - 居中布局，响应式宽度 */
 .admin-console {
 	max-width: 90%;
 	margin: 0 auto;
@@ -356,21 +466,24 @@ html.dark .admin-console {
 	position: relative;
 }
 
+/* 管理员头部导航栏 - 包含Logo、标题和操作按钮 */
 .admin-header {
 	display: flex;
-	
+
 	align-items: center;
 	padding: 20px 0;
 	margin-bottom: 30px;
 	border-bottom: 2px solid var(--admin-border-color);
 }
 
+/* 头部左侧 - Logo和标题 */
 .header-left {
 	display: flex;
 	align-items: center;
 	gap: 20px;
 }
 
+/* Logo图标 - 返回首页的入口 */
 .logo {
 	width: 50px;
 	height: 50px;
@@ -379,11 +492,13 @@ html.dark .admin-console {
 	border-radius: 0;
 }
 
+/* Logo悬停效果 - 放大和亮度提升 */
 .logo:hover {
 	transform: scale(1.1);
 	filter: brightness(1.2);
 }
 
+/* 页面主标题 */
 .title-section h1 {
 	font-size: 28px;
 	font-weight: 700;
@@ -391,6 +506,7 @@ html.dark .admin-console {
 	color: var(--admin-text-primary);
 }
 
+/* 页面副标题 */
 .title-section p {
 	font-size: 14px;
 	color: var(--admin-text-secondary);
@@ -398,12 +514,20 @@ html.dark .admin-console {
 	font-weight: 500;
 }
 
+/* 头部右侧 - 用户信息和操作按钮 */
 .header-right {
 	display: flex;
 	align-items: center;
 	gap: 15px;
 }
 
+/**
+ * ==================== 统计卡片 ====================
+ * 网格布局的统计信息展示区
+ * 包含学生总数、管理员数量、出勤率等核心指标
+ */
+
+/* 统计卡片网格布局 - 自适应列数，最小宽度250px */
 .admin-stats {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -411,9 +535,10 @@ html.dark .admin-console {
 	margin-bottom: 40px;
 }
 
+/* 单个统计卡片 - 玻璃拟态设计 */
 .stat-card {
 	background: var(--admin-glass-bg);
-	
+
 	border-radius: 20px;
 	padding: 24px;
 	border: 1px solid var(--admin-glass-border);
@@ -424,12 +549,14 @@ html.dark .admin-console {
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
+/* 统计卡片悬停效果 - 上浮和阴影增强 */
 .stat-card:hover {
 	background: var(--admin-glass-bg);
 	transform: translateY(-4px);
 	box-shadow: 0 16px 48px var(--admin-shadow-hover);
 }
 
+/* 统计图标容器 - 左侧显示 */
 .stat-icon {
 	width: 60px;
 	height: 60px;
@@ -443,10 +570,12 @@ html.dark .admin-console {
 	border: 1px solid var(--admin-glass-border);
 }
 
+/* 统计内容容器 - 占据剩余空间 */
 .stat-content {
 	flex: 1;
 }
 
+/* 统计数值 - 大号字体，突出显示 */
 .stat-value {
 	font-size: 32px;
 	font-weight: 700;
@@ -454,30 +583,39 @@ html.dark .admin-console {
 	margin-bottom: 4px;
 }
 
+/* 统计标签 - 小号字体，说明文字 */
 .stat-label {
 	font-size: 16px;
 	color: var(--admin-text-secondary);
 	font-weight: 500;
 }
 
+/**
+ * ==================== 学生管理区域 ====================
+ * 学生列表、搜索、筛选和操作的主要区域
+ */
+
+/* 学生管理容器 - 玻璃拟态设计 */
 .students-section {
 	background: var(--admin-glass-bg);
-	
+
 	border-radius: 20px;
 	padding: 30px;
 	border: 1px solid var(--admin-glass-border);
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
+/* 区域头部 - 标题和操作按钮 */
 .section-header {
 	display: flex;
-	
+
 	align-items: center;
 	margin-bottom: 30px;
 	flex-wrap: wrap;
 	gap: 20px;
 }
 
+/* 区域标题 */
 .section-header h2 {
 	font-size: 24px;
 	font-weight: 700;
@@ -485,6 +623,7 @@ html.dark .admin-console {
 	margin: 0;
 }
 
+/* 头部操作按钮组 */
 .header-actions {
 	display: flex;
 	align-items: center;
@@ -492,23 +631,27 @@ html.dark .admin-console {
 }
 
 
+/* 搜索输入框 - 宽度250px */
 .search-input {
 	width: 250px;
 }
 
+/* 等级标签页容器 */
 .level-tabs {
 	margin-bottom: 30px;
 }
 
+/* 等级标签页容器 - 玻璃拟态设计 */
 .level-tabs-container {
 	background: var(--admin-glass-bg);
-	
+
 	border-radius: 20px;
 	padding: 12px;
 	border: 1px solid var(--admin-glass-border);
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
+/* 标签页标签 - 包含图标、文字和计数 */
 .tab-label {
 	display: flex;
 	align-items: center;
@@ -526,7 +669,7 @@ html.dark .admin-console {
 	justify-content: center;
 }
 
-/* 激活状态的标签页样式增强 */
+/* 激活状态的标签页样式增强 - 渐变背景和阴影 */
 .el-tabs__item.is-active .tab-label {
 	transform: scale(1.05);
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
@@ -534,13 +677,13 @@ html.dark .admin-console {
 	color: white !important;
 }
 
-/* 标签页悬停效果 */
+/* 标签页悬停效果 - 轻微放大 */
 .el-tabs__item:hover .tab-label {
 	transform: scale(1.03);
 	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* 设置标签页边框完全透明 */
+/* 设置标签页边框完全透明 - 更简洁的视觉效果 */
 .el-tabs__item {
 	border: none !important;
 	outline: none !important;
@@ -554,6 +697,7 @@ html.dark .admin-console {
 	border: none !important;
 }
 
+/* 标签页计数徽章 - 显示该等级学生数量 */
 .tab-count {
 	background: var(--admin-glass-bg);
 	padding: 6px 12px;
@@ -565,9 +709,16 @@ html.dark .admin-console {
 	border: 2px solid var(--admin-glass-border);
 	min-width: 32px;
 	text-align: center;
-	
+
 }
 
+/**
+ * ==================== 学生卡片 ====================
+ * 学生信息卡片网格布局
+ * 最小宽度600px，自适应列数
+ */
+
+/* 学生卡片容器 - 网格布局，自动填充列 */
 .students-cards-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
@@ -581,6 +732,7 @@ html.dark .admin-console {
 
 
 
+/* 学生主要信息行 - 姓名、ID、头像等 */
 .student-main-row {
 	display: flex;
 	align-items: center;
@@ -598,11 +750,13 @@ html.dark .admin-console {
 
 
 
+/* 学生主要信息容器 - 占据剩余空间 */
 .student-primary-info {
 	flex: 1;
 	min-width: 0;
 }
 
+/* 学生姓名 - 大号字体，加粗显示 */
 .student-name {
 	font-size: 18px;
 	font-weight: 800;
@@ -612,6 +766,7 @@ html.dark .admin-console {
 	letter-spacing: 0.5px;
 }
 
+/* 学生学号 - 中号字体，中等粗细 */
 .student-id {
 	font-size: 14px;
 	color: var(--text-secondary);
@@ -619,6 +774,7 @@ html.dark .admin-console {
 	text-shadow: 0 1px 4px var(--shadow-color);
 }
 
+/* 学生数据库ID - 用于系统内部标识 */
 .student-db-id {
 	font-size: 14px;
 	color: var(--text-secondary);
@@ -626,13 +782,19 @@ html.dark .admin-console {
 	text-shadow: 0 1px 4px var(--shadow-color);
 }
 
+/**
+ * ==================== 出勤统计 ====================
+ * 显示学生出勤次数的组件
+ */
+
+/* 出勤次数统计 - 带图标和数字 */
 .attendance-count {
 	display: flex;
 	align-items: center;
 	gap: 8px;
 	padding: 12px 16px;
 	background: rgba(255, 255, 255, 0.25);
-	
+
 	border-radius: 12px;
 	color: var(--text-primary);
 	border: 1px solid var(--glass-border);
@@ -641,21 +803,45 @@ html.dark .admin-console {
 	flex-shrink: 0;
 }
 
+/* 出勤统计悬停效果 - 放大和阴影增强 */
 .attendance-count:hover {
 	transform: scale(1.05);
 	box-shadow: 0 10px 30px var(--shadow-hover);
 }
 
+/* 出勤图标 */
 .attendance-icon {
 	font-size: 16px;
 	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
+/* 出勤数字 */
 .count-text {
 	font-size: 14px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 	text-shadow: 0 2px 8px var(--admin-shadow-color);
+}
+
+/**
+ * ==================== 积分信息 ====================
+ * 显示学生积分的详细统计
+ */
+
+/* 积分信息容器 - 显示不同类型的积分 */
+.points-info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 8px 12px;
+	background: rgba(255, 255, 255, 0.25);
+
+	border-radius: 12px;
+	border: 1px solid var(--glass-border);
+	box-shadow: 0 6px 20px var(--shadow-color);
+	transition: all 0.3s ease;
+	flex-shrink: 0;
+	min-width: 120px;
 }
 
 .points-info {
@@ -766,15 +952,22 @@ html.dark .admin-console {
 	box-shadow: 0 8px 25px var(--shadow-hover);
 }
 
+/**
+ * ==================== 学生管理行 ====================
+ * 包含等级、管理员分配和编辑操作
+ */
+
+/* 学生管理行 - 横向布局，顶部边框分隔 */
 .student-management-row {
 	display: flex;
-	
+
 	align-items: center;
 	gap: 20px;
 	padding-top: 12px;
 	border-top: 1px solid var(--glass-border);
 }
 
+/* 等级管理和管理员管理 - 共用布局样式 */
 .level-management,
 .admin-management {
 	display: flex;
@@ -783,6 +976,7 @@ html.dark .admin-console {
 	flex: 1;
 }
 
+/* 管理标签文字 */
 .management-label {
 	font-size: 13px;
 	color: var(--text-secondary);
@@ -790,16 +984,18 @@ html.dark .admin-console {
 	white-space: nowrap;
 }
 
+/* 编辑操作容器 */
 .edit-action {
 	flex-shrink: 0;
 }
 
+/* 编辑按钮 - 玻璃拟态风格 */
 .edit-btn {
 	border-radius: 10px;
 	font-size: 12px;
 	font-weight: 700;
 	background: rgba(255, 255, 255, 0.25);
-	
+
 	border: 1px solid var(--glass-border);
 	color: var(--text-primary);
 	box-shadow: 0 4px 15px var(--shadow-color);
@@ -807,6 +1003,7 @@ html.dark .admin-console {
 	text-shadow: 0 1px 4px var(--shadow-color);
 }
 
+/* 编辑按钮悬停效果 - 上浮和阴影增强 */
 .edit-btn:hover {
 	background: rgba(255, 255, 255, 0.35);
 	transform: translateY(-2px) scale(1.05);
@@ -841,10 +1038,17 @@ html.dark .admin-console {
 	width: 120px;
 }
 
+/* 管理员选择器 - 宽度180px */
 .admin-select {
 	width: 180px;
 }
 
+/**
+ * ==================== 通知提示 ====================
+ * 用于显示特殊状态的提示信息
+ */
+
+/* 无可用管理员提示 - 黄色渐变背景 */
 .no-admin-available {
 	display: flex;
 	align-items: center;
@@ -858,6 +1062,7 @@ html.dark .admin-console {
 	width: 180px;
 }
 
+/* 深色模式下的无可用管理员提示 */
 html.dark .no-admin-available {
 	background: linear-gradient(135deg, #2d2419 0%, #3d2f1a 100%);
 	border: 1px solid #f59e0b;
@@ -865,6 +1070,7 @@ html.dark .no-admin-available {
 	box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
+/* 管理员等级通知 - 红色渐变背景 */
 .admin-level-notice {
 	display: flex;
 	align-items: center;
@@ -879,6 +1085,7 @@ html.dark .no-admin-available {
 	font-weight: 600;
 }
 
+/* 深色模式下的管理员等级通知 */
 html.dark .admin-level-notice {
 	background: linear-gradient(135deg, #2d1b1b 0%, #3d2525 100%);
 	border: 1px solid #ef4444;
@@ -936,25 +1143,57 @@ html.dark .option-icon {
 
 
 
+/**
+ * ==================== 动画定义 ====================
+ * 定义各种脉冲动画效果，用于强调和提示
+ */
+
+/* 蓝色脉冲动画 - 用于强调重要元素 */
 @keyframes pulse-blue {
 	0%, 100% { box-shadow: 0 0 20px #0000FF, inset 0 0 20px #0000FF; }
 	50% { box-shadow: 0 0 40px #0000FF, inset 0 0 40px #0000FF; }
 }
 
+/* 绿色脉冲动画 - 用于成功状态 */
 @keyframes pulse-green {
 	0%, 100% { box-shadow: 0 0 20px #00FF00, inset 0 0 20px #00FF00; }
 	50% { box-shadow: 0 0 40px #00FF00, inset 0 0 40px #00FF00; }
 }
 
+/* 橙色脉冲动画 - 用于警告状态 */
 @keyframes pulse-orange {
 	0%, 100% { box-shadow: 0 0 20px #FFA500, inset 0 0 20px #FFA500; }
 	50% { box-shadow: 0 0 40px #FFA500, inset 0 0 40px #FFA500; }
 }
 
+/* 红色脉冲动画 - 用于危险状态 */
 @keyframes pulse-red {
 	0%, 100% { box-shadow: 0 0 20px #FF0000, inset 0 0 20px #FF0000; }
 	50% { box-shadow: 0 0 40px #FF0000, inset 0 0 40px #FF0000; }
 }
+
+/**
+ * ==================== 分页和页脚 ====================
+ * 底部导航和分页控件
+ */
+
+/* 表格底部 - 包含分页信息 */
+.table-footer {
+	display: flex;
+
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+/* 分页信息文字 */
+.pagination-info {
+	color: #5a6c7d;
+	font-size: 14px;
+}
+
+/* 分页组件 */
+.pagination {
 
 .table-footer {
 	display: flex;
@@ -1015,6 +1254,7 @@ html.dark .option-icon {
 	border-color: rgba(245, 101, 101, 0.5);
 }
 
+/* 操作按钮组 - 横向排列，支持换行 */
 .action-buttons {
 	display: flex;
 	gap: 8px;
@@ -1023,36 +1263,54 @@ html.dark .option-icon {
 	flex-wrap: wrap;
 }
 
+/**
+ * ==================== 功能按钮渐变 ====================
+ * 不同功能的按钮使用不同颜色的渐变背景
+ */
 
+/* 编辑按钮 - 紫色渐变 */
 .edit-btn {
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 	color: white;
 }
 
+/* 记录按钮 - 绿色渐变 */
 .records-btn {
 	background: linear-gradient(135deg, #10B981 0%, #059669 100%);
 	color: white;
 }
 
+/* 补签按钮 - 橙色渐变 */
 .makeup-btn {
 	background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
 	color: white;
 }
 
+/* 积分按钮 - 绿色渐变 */
 .points-btn {
 	background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
 	color: white;
 }
 
+/* 管理员页脚 - 半透明深色背景 */
 .admin-footer {
 	background: rgba(0, 0, 0, 0.2);
-	
+
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
 	padding: 20px 40px;
 	margin-top: 40px;
 }
 
+/**
+ * ==================== 编辑对话框 ====================
+ * 用于编辑学生信息的弹窗样式
+ */
+
+/* 编辑对话框 - Element Plus 组件样式穿透 */
 .edit-dialog {
+
+.edit-dialog {
+	/* 对话框头部 - 紫色渐变背景 */
 	.el-dialog__header {
 		color: white;
 		padding: 20px 24px;
@@ -1060,30 +1318,39 @@ html.dark .option-icon {
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 	}
 
+	/* 对话框标题 */
 	.el-dialog__title {
 		color: white;
 		font-weight: 700;
 		font-size: 18px;
 	}
 
+	/* 对话框关闭按钮 */
 	.el-dialog__headerbtn .el-dialog__close {
 		color: white;
 		font-size: 20px;
 	}
 
+	/* 对话框内容和底部 - 浅灰色背景 */
 	.el-dialog__body,
 	.el-dialog__footer {
 		padding: 30px 24px;
 		background: #f8f9fa;
 	}
 
+	/* 对话框底部 - 圆角处理 */
 	.el-dialog__footer {
 		border-radius: 0 0 8px 8px;
 	}
-}
 
+/**
+ * ==================== 积分对话框 ====================
+ * 用于编辑学生积分的弹窗样式
+ */
 
+/* 积分对话框 - Element Plus 组件样式穿透 */
 .points-dialog {
+	/* 对话框头部 - 绿色渐变背景 */
 	.el-dialog__header {
 		color: white;
 		padding: 20px 24px;
@@ -1091,27 +1358,30 @@ html.dark .option-icon {
 		background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
 	}
 
+	/* 对话框标题 */
 	.el-dialog__title {
 		color: white;
 		font-weight: 700;
 		font-size: 18px;
 	}
 
+	/* 对话框关闭按钮 */
 	.el-dialog__headerbtn .el-dialog__close {
 		color: white;
 		font-size: 20px;
 	}
 
+	/* 对话框内容和底部 - 浅灰色背景 */
 	.el-dialog__body,
 	.el-dialog__footer {
 		padding: 30px 24px;
 		background: #f8f9fa;
 	}
 
+	/* 对话框底部 - 圆角处理 */
 	.el-dialog__footer {
 		border-radius: 0 0 8px 8px;
 	}
-}
 
 .points-student-info {
 	margin-bottom: 24px;
@@ -1485,6 +1755,12 @@ html.dark .form-tip {
 }
 
 
+/**
+ * ==================== 图表区域 ====================
+ * 数据可视化图表的容器和样式
+ */
+
+/* 图表网格布局 - 两列等宽 */
 .charts-section {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -1492,20 +1768,23 @@ html.dark .form-tip {
 	margin: 20px 0;
 }
 
+/* 单个图表容器 - 最小高度500px */
 .chart-container {
 	margin: 20px 0;
 	min-height: 500px;
 }
 
+/* 图表项目 - 玻璃拟态风格 */
 .chart-item-admin {
 	background: var(--admin-glass-bg);
-	
+
 	border-radius: 16px;
 	padding: 20px;
 	border: 1px solid var(--admin-glass-border);
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
+/* 图表标题 - 居中对齐 */
 .chart-title-admin {
 	font-size: 16px;
 	font-weight: 600;
@@ -1514,21 +1793,28 @@ html.dark .form-tip {
 	text-align: center;
 }
 
+/* 图表内容区域 - 固定高度 */
 .chart-content-admin {
 	width: 100%;
 	height: 400px;
 }
 
+/**
+ * ==================== 日历样式 ====================
+ * 用于显示出勤日历的自定义样式
+ */
+
+/* 日历头部 - 包含导航和标题 */
 .calendar-header-admin {
 	display: flex;
-	
+
 	align-items: center;
 	padding: 20px 0;
 	background-color: var(--admin-bg-primary);
 	border-bottom: 1px solid var(--admin-border-color);
 }
 
-
+/* 日历单元格 - 显示日期和出勤状态 */
 .calendar-cell-admin {
 	height: 100%;
 	display: flex;
@@ -1541,11 +1827,13 @@ html.dark .form-tip {
 	transition: all 0.2s ease;
 }
 
+/* 日历单元格悬停效果 */
 .calendar-cell-admin:hover {
 	background-color: var(--admin-bg-secondary);
 	border-radius: 4px;
 }
 
+/* 日期文字 - 加粗显示 */
 .cell-date-admin {
 	font-size: 14px;
 	font-weight: 600;
@@ -1553,12 +1841,14 @@ html.dark .form-tip {
 	margin-bottom: 4px;
 }
 
+/* 单元格状态容器 - 显示出勤标记 */
 .cell-status-admin {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
+/* 时间段状态 - 横向排列多个时间段 */
 .time-slot-status-admin {
 	display: flex;
 	flex-direction: row;
@@ -2249,6 +2539,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	transition-delay: 0s !important;
 }
 
+/* 禁用所有对话框的过渡动画 - 避免闪烁 */
 .el-dialog {
 	transition: none !important;
 	animation: none !important;
@@ -2257,6 +2548,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	transition-delay: 0s !important;
 }
 
+/* 禁用遮罩层的过渡动画 */
 .el-overlay {
 	transition: none !important;
 	animation: none !important;
@@ -2264,6 +2556,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	transition-delay: 0s !important;
 }
 
+/* 禁用对话框主体的过渡动画 */
 .el-dialog__body {
 	transition: none !important;
 	animation: none !important;
@@ -2271,6 +2564,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	transition-delay: 0s !important;
 }
 
+/* 禁用对话框头部的过渡动画 */
 .el-dialog__header {
 	transition: none !important;
 	animation: none !important;
@@ -2278,6 +2572,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	transition-delay: 0s !important;
 }
 
+/* 禁用对话框底部的过渡动画 */
 .el-dialog__footer {
 	transition: none !important;
 	animation: none !important;
@@ -2285,7 +2580,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	transition-delay: 0s !important;
 }
 
-/* 禁用 BaseTransition 组件的过渡动画 */
+/* 禁用 Element Plus BaseTransition 组件的过渡动画 */
 .el-fade-in,
 .el-fade-in-linear,
 .el-zoom-in-center,
@@ -2297,7 +2592,12 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	transition-delay: 0s !important;
 }
 
+/**
+ * ==================== 补签对话框 ====================
+ * 用于补签操作的自定义对话框
+ */
 
+/* 补签对话框 - 自定义宽度和高度 */
 .makeup-dialog {
 	--el-dialog-width: 550px;
 	width: 28%;
@@ -2770,6 +3070,12 @@ html.dark .makeup-form-content .el-select .el-input__inner:focus {
 	border-color: #667eea;
 }
 
+/**
+ * ==================== 日期选择器 ====================
+ * 补签对话框中自定义样式的日期选择器
+ */
+
+/* 日期选择器弹出层 - 大尺寸设计 */
 .makeup-date-picker-popper {
 	min-width: 750px !important;
 	background-color: #ffffff !important;
@@ -2780,6 +3086,7 @@ html.dark .makeup-form-content .el-select .el-input__inner:focus {
 	position: relative !important;
 }
 
+/* 日期选择器面板 - 全宽显示 */
 .makeup-date-picker-popper .el-picker-panel {
 	width: 100% !important;
 	min-width: 750px !important;
@@ -2790,6 +3097,7 @@ html.dark .makeup-form-content .el-select .el-input__inner:focus {
 	z-index: 1 !important;
 }
 
+/* 日期选择器主体 - 大内边距 */
 .makeup-date-picker-popper .el-picker-panel__body {
 	padding: 40px !important;
 	background-color: #ffffff !important;
@@ -2799,6 +3107,7 @@ html.dark .makeup-form-content .el-select .el-input__inner:focus {
 	z-index: 1 !important;
 }
 
+/* 日期选择器表格 - 白色背景 */
 .makeup-date-picker-popper .el-date-table {
 	background-color: #ffffff !important;
 	pointer-events: auto !important;
@@ -3049,17 +3358,24 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 
 
 
-/* 改分记录查看弹窗样式 */
+/**
+ * ==================== 改分记录弹窗 ====================
+ * 用于查看学生积分变更记录的对话框
+ */
+
+/* 改分记录遮罩层 - 半透明黑色背景 */
 .score-change-records-overlay {
 	background: rgba(0, 0, 0, 0.5);
-	
+
 }
 
+/* 改分记录对话框 - 圆角设计 */
 .score-change-records-dialog {
 	border-radius: 16px;
 	overflow: hidden;
 }
 
+/* 改分记录容器 - 最大高度，支持滚动 */
 .score-change-records-container {
 	width: 100%;
 	max-height: 500px;
@@ -3067,6 +3383,7 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	padding: 16px 0;
 }
 
+/* 加载和空状态 - 居中对齐 */
 .records-loading,
 .records-empty {
 	display: flex;
@@ -3078,23 +3395,27 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	color: var(--admin-text-secondary);
 }
 
+/* 加载图标 - 中等尺寸 */
 .records-loading .el-icon {
 	font-size: 40px;
 	color: var(--admin-primary-color);
 }
 
+/* 空状态图标 - 大尺寸，半透明 */
 .records-empty .el-icon {
 	font-size: 56px;
 	color: var(--admin-text-tertiary);
 	opacity: 0.5;
 }
 
+/* 加载和空状态文字 */
 .records-loading span,
 .records-empty span {
 	font-size: 14px;
 	font-weight: 500;
 }
 
+/* 记录网格布局 - 自适应列数 */
 .records-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -3135,6 +3456,7 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	min-width: 0;
 }
 
+/* 积分徽章 - 显示增减分数 */
 .record-points-badge {
 	font-size: 16px;
 	font-weight: 700;
@@ -3146,18 +3468,21 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	flex-shrink: 0;
 }
 
+/* 正分徽章 - 绿色样式 */
 .record-points-badge.positive {
 	color: #10b981;
 	background: rgba(16, 185, 129, 0.15);
 	border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
+/* 负分徽章 - 红色样式 */
 .record-points-badge.negative {
 	color: #ef4444;
 	background: rgba(239, 68, 68, 0.15);
 	border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+/* 记录原因文字 - 支持自动换行 */
 .record-reason-text {
 	font-size: 14px;
 	color: var(--admin-text-primary);
@@ -3165,20 +3490,51 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	word-break: break-word;
 }
 
+/* 正分汇总值 - 绿色 */
 .summary-value.positive {
 	color: #10b981;
 }
 
+/* 负分汇总值 - 红色 */
 .summary-value.negative {
 	color: #ef4444;
 }
 
+/* 认证页面标题 - 加粗大字体 */
 .auth-page-header h2 {
 	font-size: 28px;
 	font-weight: 700;
 	color: var(--text-primary);
 	margin: 0;
 	letter-spacing: -0.5px;
+}
+
+/**
+ * ==================== Logo和标题修复样式 ====================
+ * 多次迭代后的最终样式，确保正确的定位和布局
+ */
+
+/* 修复logo位置样式 - 第一次尝试 */
+.auth-page-header {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	z-index: 10;
+	width: calc(100% - 40px);
+}
+
+/* 头部内容容器 */
+.header-content {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	position: relative;
+}
+
+/* 积分记录按钮左边距 */
+.score-records-btn {	margin-left: 8px;
 }
 
 /* 修复logo位置样式 */
@@ -3200,7 +3556,7 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 }.score-records-btn {	margin-left: 8px;
 }
 
-/* 新增的头部样式 */
+/* 新增的头部样式 - 第二次尝试 */
 .auth-page-header {
 	position: absolute;
 	top: 20px;
@@ -3209,16 +3565,18 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	z-index: 10;
 }
 
+/* 头部内容容器 - 支持绝对定位的标题 */
 .header-content {
 	display: flex;
 	align-items: center;
-	
+
 	width: 100%;
 	max-width: 1200px;
 	margin: 0 auto;
 	position: relative;
 }
 
+/* 头部标题 - 绝对定位居中 */
 .header-content h2 {
 	position: absolute;
 	left: 50%;
@@ -3230,7 +3588,7 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 	letter-spacing: -0.5px;
 }
 
-/* 最终修复样式 */
+/* 最终修复样式 - 固定定位，简化布局 */
 .auth-page-header {
 position: fixed;
 top: 20px;
@@ -3240,6 +3598,7 @@ width: 50px;
 height: 50px;
 }
 
+/* Logo图标 - 固定尺寸和样式 */
 .auth-logo {
 width: 50px;
 height: 50px;
@@ -3248,6 +3607,7 @@ transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 border-radius: 0;
 }
 
+/* 页面标题容器 - 居中对齐 */
 .page-title-container {
 position: fixed;
 top: 20px;
@@ -3257,6 +3617,7 @@ text-align: center;
 z-index: 999;
 }
 
+/* 页面标题 - 内联显示 */
 .page-title {
 margin: 0;
 font-size: 28px;

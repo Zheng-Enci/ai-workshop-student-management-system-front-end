@@ -1,7 +1,7 @@
 /**
  * 积分相关API接口
  * 提供积分调整、积分查询、积分排名等功能的API调用
- * 
+ *
  * @module api/points
  * @description 封装所有积分相关的HTTP请求，包括错误处理和响应拦截
  */
@@ -13,7 +13,7 @@ import config from '@/config'
 /**
  * 创建axios实例
  * 配置基础URL、超时时间和请求头
- * 
+ *
  * @type {AxiosInstance}
  */
 const api = axios.create({
@@ -48,12 +48,12 @@ api.interceptors.response.use(
 /**
  * 创建积分调整记录
  * 管理员使用特殊密码为学生调整积分
- * 
- * @param {string} specialPassword - 特殊密码（管理员密码）
- * @param {string} adjustReason - 调整原因说明
- * @param {number} changePoints - 积分变化量（正数为增加，负数为减少）
- * @param {string|number} targetStudentInfoId - 目标学生信息ID
- * @returns {Promise<Object>} - 积分记录创建结果数据
+ *
+ * @param specialPassword - 特殊密码（管理员密码）
+ * @param adjustReason - 调整原因说明
+ * @param changePoints - 积分变化量（正数为增加，负数为减少）
+ * @param targetStudentInfoId - 目标学生信息ID
+ * @returns - 积分记录创建结果数据
  * @throws {Error} - 创建失败时抛出错误
  */
 export const createPointsRecord = async (specialPassword, adjustReason, changePoints, targetStudentInfoId) => {
@@ -87,9 +87,9 @@ export const createPointsRecord = async (specialPassword, adjustReason, changePo
 /**
  * 获取积分总排名
  * 获取所有学生的活动积分排名
- * 
- * @param {number} [top=50] - 返回前N名，默认50
- * @returns {Promise<Object>} - 积分排名数据
+ *
+ * @param [top] - 返回前N名，默认50
+ * @returns - 积分排名数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getPointsTopRanking = async (top = 50) => {
@@ -117,10 +117,10 @@ export const getPointsTopRanking = async (top = 50) => {
 /**
  * 获取学生前N条积分调整记录
  * 按积分变化量降序排列，获取指定学生的前N条积分调整记录
- * 
- * @param {string|number} studentInfoId - 学生信息ID
- * @param {number} [top=3] - 返回前N条记录，默认3
- * @returns {Promise<Object>} - 积分调整记录数据
+ *
+ * @param studentInfoId - 学生信息ID
+ * @param [top] - 返回前N条记录，默认3
+ * @returns - 积分调整记录数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getTopAdjustRecordsByStudentInfoId = async (studentInfoId, top = 3) => {
@@ -151,9 +151,9 @@ export const getTopAdjustRecordsByStudentInfoId = async (studentInfoId, top = 3)
 /**
  * 获取学生总积分
  * 获取指定学生的活动积分总和
- * 
- * @param {string|number} studentInfoId - 学生信息ID
- * @returns {Promise<Object>} - 学生总积分数据
+ *
+ * @param studentInfoId - 学生信息ID
+ * @returns - 学生总积分数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getTotalPointsByStudentInfoId = async studentInfoId => {
@@ -183,9 +183,9 @@ export const getTotalPointsByStudentInfoId = async studentInfoId => {
 /**
  * 获取学生所有积分调整记录
  * 获取指定学生的所有积分调整记录（包括调整原因、调整积分、创建时间）
- * 
- * @param {string|number} studentInfoId - 学生信息ID
- * @returns {Promise<Object>} - 所有积分调整记录数据
+ *
+ * @param studentInfoId - 学生信息ID
+ * @returns - 所有积分调整记录数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getAllAdjustRecordsByStudentInfoId = async studentInfoId => {

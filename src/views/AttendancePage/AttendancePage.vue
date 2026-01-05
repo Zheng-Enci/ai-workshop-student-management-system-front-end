@@ -1,7 +1,7 @@
 <!--
   考勤页面设备检测组件
   检测设备类型并自动跳转到对应的考勤页面版本
-  
+
   @component AttendancePage
   @description 作为考勤页面的入口，检测设备类型后重定向到desktop或mobile版本
 -->
@@ -23,8 +23,8 @@ const router = useRouter()
 /**
  * 检测设备类型
  * 根据窗口宽度判断设备类型
- * 
- * @returns {string} 'mobile' | 'desktop'
+ *
+ * @returns 'mobile' | 'desktop'
  */
 const detectDeviceType = () => {
 	const screenWidth = window.innerWidth

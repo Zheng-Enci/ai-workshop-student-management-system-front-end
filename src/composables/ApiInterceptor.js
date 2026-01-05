@@ -23,7 +23,7 @@ class ApiInterceptor {
 	 * 创建一个新的axios实例并自动配置响应拦截器
 	 *
 	 * @static
-	 * @returns {AxiosInstance} 配置好的axios实例
+	 * @returns 配置好的axios实例
 	 * @example
 	 * const api = ApiInterceptor.createInstance()
 	 * api.get('/api/v1/users')
@@ -48,7 +48,7 @@ class ApiInterceptor {
 	 * 配置统一的错误处理逻辑，捕获网络错误并提供友好的错误提示
 	 *
 	 * @static
-	 * @param {AxiosInstance} api - axios实例
+	 * @param api - axios实例
 	 * @description 拦截响应错误，根据错误代码提供友好的中文错误提示
 	 * @example
 	 * const api = axios.create()

@@ -452,12 +452,15 @@ html.dark .club-level .level-value {
 :root {
   /* 背景渐变 */
   --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+
   /* 卡片背景和边框 */
   --card-bg: rgb(255 255 255 / 0.9);
   --card-border: rgb(0 0 0 / 0.1);
+
   /* 文字颜色 */
   --text-primary: #1e293b;
   --text-secondary: #64748b;
+
   /* 头部背景和边框 */
   --header-bg: rgb(255 255 255 / 0.9);
   --header-border: rgb(0 0 0 / 0.1);
@@ -470,12 +473,15 @@ html.dark .club-level .level-value {
 .dark {
   /* 背景渐变：深色主题 */
   --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+
   /* 卡片背景和边框：半透明深色 */
   --card-bg: rgb(255 255 255 / 0.05);
   --card-border: rgb(255 255 255 / 0.1);
+
   /* 文字颜色：浅色 */
   --text-primary: #e0e0e0;
   --text-secondary: rgb(224 224 224 / 0.7);
+
   /* 头部背景和边框：半透明深色 */
   --header-bg: rgb(255 255 255 / 0.05);
   --header-border: rgb(255 255 255 / 0.1);

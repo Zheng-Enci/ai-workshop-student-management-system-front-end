@@ -1,6 +1,24 @@
-/* 阴影系统 CSS 变量 - 根据主题模式调整 */
-/* 日间模式：使用深灰色阴影（而非纯黑色）增强对比度，不透明度 0.2-0.3，增大模糊半径和扩散范围 */
-/* 参考 Material Design 3、Ant Design、腾讯云等：避免纯黑色，使用深灰色 rgba(30-50, 30-50, 30-50) */
+/**
+ * ============================================================================
+ * 全部成员页面 - 积分仪表板（桌面端样式）
+ * ============================================================================
+ * 设计特点：
+ * 1. 采用专业级阴影系统，增强视觉层次
+ * 2. 玻璃拟态 + 渐变设计，现代感十足
+ * 3. 响应式网格布局，自适应不同屏幕尺寸
+ * 4. 丰富的动画效果（卡片入场、悬停、光影扫过等）
+ * 5. 支持10列网格展示，适合大量成员信息展示
+ * ============================================================================
+ */
+
+/* ==================== 阴影系统 CSS 变量 ====================
+ * 设计原则：
+ * - 日间模式：使用深灰色阴影（而非纯黑色）增强对比度
+ * - 不透明度范围：0.2-0.3
+ * - 增大模糊半径和扩散范围，营造柔和感
+ * - 参考：Material Design 3、Ant Design、腾讯云等设计规范
+ * - 颜色：rgba(30-50, 30-50, 30-50) 避免纯黑色
+ * ========================================================= */
 :root {
 	--shadow-sm: 0 2px 12px rgba(30, 30, 30, 0.2), 0 1px 4px rgba(30, 30, 30, 0.15);
 	--shadow-md: 0 4px 20px rgba(40, 40, 40, 0.25), 0 2px 8px rgba(40, 40, 40, 0.18);
@@ -10,7 +28,7 @@
 	--shadow-button: 0 8px 40px rgba(102, 126, 234, 0.5), 0 4px 16px rgba(102, 126, 234, 0.35);
 }
 
-
+/* ==================== 主容器 ==================== */
 .points-dashboard-container {
 	min-height: 100vh;
 	background: var(--bg-primary);
@@ -18,6 +36,7 @@
 	flex-direction: column;
 }
 
+/* ==================== 顶部导航栏 ==================== */
 .header {
 	position: sticky;
 	top: 0;
@@ -33,6 +52,7 @@
 	flex-shrink: 0;
 }
 
+/* 左侧导航区域（返回按钮、Logo） */
 .header-left {
 	display: flex;
 	align-items: center;
@@ -42,11 +62,13 @@
 	z-index: 1;
 }
 
+/* 防止按钮被压缩 */
 .header-left .back-btn,
 .header-left .logo {
 	flex-shrink: 0;
 }
 
+/* 右侧操作区域 */
 .header-right {
 	display: flex;
 	align-items: center;
@@ -56,6 +78,7 @@
 	z-index: 1;
 }
 
+/* 口号标语区域 */
 .slogan {
 	display: flex;
 	align-items: center;
@@ -63,15 +86,18 @@
 	margin-right: 8px;
 }
 
+/* 口号图片 */
 .slogan-img {
 	height: 80px;
 	transition: filter 0.3s ease;
 }
 
+/* 深色模式下反转图片颜色 */
 html.dark .slogan-img {
 	filter: invert(1);
 }
 
+/* 返回按钮样式 */
 .back-btn {
 	width: 48px;
 	height: 48px;
@@ -80,6 +106,7 @@ html.dark .slogan-img {
 	box-shadow: var(--shadow-button);
 }
 
+/* Logo图标样式 */
 .logo {
 	width: 64px;
 	height: 64px;
@@ -87,6 +114,7 @@ html.dark .slogan-img {
 	border-radius: 0;
 }
 
+/* 标题区域（居中显示） */
 .title-section {
 	display: flex;
 	flex-direction: column;
@@ -95,6 +123,7 @@ html.dark .slogan-img {
 	flex: 1;
 }
 
+/* 主标题：使用渐变文字效果 */
 .title-section .main-title {
 	font-size: 32px;
 	font-weight: 800;
@@ -110,6 +139,7 @@ html.dark .slogan-img {
 	display: block;
 }
 
+/* 标题备用样式 */
 .title-section h1 {
 	font-size: 32px;
 	font-weight: 700;
@@ -120,6 +150,7 @@ html.dark .slogan-img {
 	background-clip: text;
 }
 
+/* 副标题 */
 .title-section p {
 	font-size: 16px;
 	color: var(--text-secondary);
@@ -127,26 +158,7 @@ html.dark .slogan-img {
 	font-weight: 500;
 }
 
-
-.dashboard-side {
-	min-width: 0;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-}
-
-.side-card {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	border-radius: 20px;
-	padding: 0 24px 0 24px;
-	backdrop-filter: blur(20px);
-	box-shadow: var(--shadow-lg);
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-}
-
+/* 卡片头部区域 */
 .side-card-header {
 	display: flex;
 	align-items: center;
@@ -161,6 +173,7 @@ html.dark .slogan-img {
 	position: relative;
 }
 
+/* 随机语录容器：绝对定位在右侧 */
 .random-quote-container {
 	position: absolute;
 	right: 0;
@@ -180,6 +193,7 @@ html.dark .slogan-img {
 	margin-right: 0;
 }
 
+/* 随机语录文字：带淡入淡出动画 */
 .random-quote {
 	font-size: 14px;
 	color: var(--text-primary);
@@ -194,16 +208,19 @@ html.dark .slogan-img {
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+/* 语录淡入状态 */
 .random-quote.fade-in {
 	opacity: 0.95;
 }
 
+/* 头部左侧区域 */
 .card-header-left {
 	display: flex;
 	flex-direction: column;
 	flex-shrink: 0;
 }
 
+/* 卡片标题：渐变文字效果 */
 .side-card-title {
 	font-size: 24px;
 	font-weight: 800;
@@ -218,6 +235,96 @@ html.dark .slogan-img {
 	display: inline-block;
 }
 
+/* ==================== 仪表板侧边栏 ==================== */
+.dashboard-side {
+	min-width: 0;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* 侧边栏卡片：玻璃拟态设计 */
+.side-card {
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
+	border: 1px solid rgba(102, 126, 234, 0.2);
+	border-radius: 20px;
+	padding: 0 24px 0 24px;
+	backdrop-filter: blur(20px);
+	box-shadow: var(--shadow-lg);
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* 卡片头部区域 */
+.side-card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-bottom: 12px;
+	margin-top: 1%;
+	padding-top: 0;
+	padding-bottom: 10px;
+	border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+	flex-shrink: 0;
+	position: relative;
+}
+
+/* 卡片主体：10列网格布局 */
+.side-card-body {
+	display: grid;
+	grid-template-columns: repeat(10, minmax(0, 1fr));
+	grid-auto-rows: min-content;
+	gap: 6px;
+	width: 100%;
+	align-items: start;
+	position: relative;
+	padding-top: 10px;
+	overflow: hidden;
+}
+.random-quote {
+	font-size: 14px;
+	color: var(--text-primary);
+	line-height: 1.8;
+	text-align: right;
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+	font-weight: 500;
+	letter-spacing: 1px;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* 语录淡入状态 */
+.random-quote.fade-in {
+	opacity: 0.95;
+}
+
+/* 头部左侧区域 */
+.card-header-left {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+}
+
+/* 卡片标题：渐变文字效果 */
+.side-card-title {
+	font-size: 24px;
+	font-weight: 800;
+	color: var(--text-primary);
+	background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	letter-spacing: 1px;
+	text-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+	position: relative;
+	display: inline-block;
+}
+
+/* 卡片主体：10列网格布局 */
 .side-card-body {
 	display: grid;
 	grid-template-columns: repeat(10, minmax(0, 1fr));
@@ -230,7 +337,9 @@ html.dark .slogan-img {
 	overflow: hidden;
 }
 
-/* 全部成员块对角线光影扫过效果 */
+/* ==================== 对角线光影扫过效果 ====================
+ * 为整个成员区域添加动态光影，增强视觉吸引力
+ * ================================================== */
 .side-card-body::after {
 	content: '';
 	position: absolute;
@@ -250,6 +359,7 @@ html.dark .slogan-img {
 	z-index: 10;
 }
 
+/* 对角线扫过动画 */
 @keyframes diagonal-sweep {
 	0% {
 		transform: translate(-100%, -100%);
@@ -267,7 +377,7 @@ html.dark .slogan-img {
 	}
 }
 
-
+/* ==================== 成员卡片 ==================== */
 .side-student {
 	display: flex;
 	flex-direction: column;
@@ -284,6 +394,7 @@ html.dark .slogan-img {
 	z-index: 2;
 }
 
+/* 卡片边缘渐变边框效果 */
 .side-student::before {
 	content: '';
 	position: absolute;
@@ -297,34 +408,44 @@ html.dark .slogan-img {
 	z-index: 0;
 }
 
+/* ==================== 成员等级样式 ==================== */
+
+/* 社团成员 - 蓝色主题 */
 .side-student.level-club-member {
 	background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.06) 100%);
 }
 
+/* 社团成员边框效果 */
 .side-student.level-club-member::before {
 	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(59, 130, 246, 0.12) 100%);
 }
 
+/* 普通成员 - 绿色主题 */
 .side-student.level-normal-member {
 	background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%);
 }
 
+/* 普通成员边框效果 */
 .side-student.level-normal-member::before {
 	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(34, 197, 94, 0.12) 100%);
 }
 
+/* 核心成员 - 黄色主题 */
 .side-student.level-core-member {
 	background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.06) 100%);
 }
 
+/* 核心成员边框效果 */
 .side-student.level-core-member::before {
 	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(251, 191, 36, 0.12) 100%);
 }
 
+/* 管理员 - 红色主题 */
 .side-student.level-admin {
 	background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%);
 }
 
+/* 管理员边框效果 */
 .side-student.level-admin::before {
 	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(239, 68, 68, 0.12) 100%);
 }
@@ -796,18 +917,22 @@ html.dark .slogan-img {
 	word-break: break-word;
 }
 
+/* ==================== 统计数据展示 ==================== */
+/* 统计内容容器 */
 .statistics-content {
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
 }
 
+/* 统计区域包装器 */
 .statistics-section-wrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
 }
 
+/* 统计区域标题 */
 .statistics-section-title {
 	font-size: 16px;
 	font-weight: 700;
@@ -816,12 +941,14 @@ html.dark .slogan-img {
 	border-bottom: 2px solid rgba(102, 126, 234, 0.2);
 }
 
+/* 统计卡片网格 */
 .statistics-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 	gap: 12px;
 }
 
+/* 统计卡片 */
 .statistics-card {
 	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
 	border: 1px solid rgba(102, 126, 234, 0.15);
@@ -836,12 +963,14 @@ html.dark .slogan-img {
 	transition: all 0.3s ease;
 }
 
+/* 统计卡片悬停效果 */
 .statistics-card:hover {
 	transform: translateY(-2px);
 	box-shadow: var(--shadow-md);
 	border-color: rgba(102, 126, 234, 0.3);
 }
 
+/* 统计卡片标签 */
 .statistics-card-label {
 	font-size: 13px;
 	color: var(--text-secondary);
@@ -849,6 +978,7 @@ html.dark .slogan-img {
 	text-align: center;
 }
 
+/* 统计卡片数值 - 使用渐变文字 */
 .statistics-card-value {
 	font-size: 20px;
 	font-weight: 700;

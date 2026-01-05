@@ -1,7 +1,7 @@
 /**
  * 考勤相关API接口
  * 提供签到、补卡、考勤统计等功能的API调用
- * 
+ *
  * @module api/attendance
  * @description 封装所有考勤相关的HTTP请求，包括错误处理和响应拦截
  */
@@ -13,7 +13,7 @@ import config from '@/config'
 /**
  * 创建axios实例
  * 配置基础URL、超时时间和请求头
- * 
+ *
  * @type {AxiosInstance}
  */
 const api = axios.create({
@@ -48,10 +48,10 @@ api.interceptors.response.use(
 /**
  * 学生签到接口
  * 使用token和验证码进行签到操作
- * 
- * @param {string} token - 用户认证token
- * @param {string} verificationCode - 验证码
- * @returns {Promise<Object>} - 签到结果数据
+ *
+ * @param token - 用户认证token
+ * @param verificationCode - 验证码
+ * @returns - 签到结果数据
  * @throws {Error} - 签到失败时抛出错误
  */
 export const signIn = async (token, verificationCode) => {
@@ -90,11 +90,11 @@ export const signIn = async (token, verificationCode) => {
 /**
  * 补卡接口（使用token）
  * 为指定学生补录考勤记录
- * 
- * @param {string} token - 用户认证token
- * @param {string|number} studentId - 学生ID
- * @param {string} attendanceTime - 考勤时间（ISO格式字符串）
- * @returns {Promise<Object>} - 补卡结果数据
+ *
+ * @param token - 用户认证token
+ * @param studentId - 学生ID
+ * @param attendanceTime - 考勤时间（ISO格式字符串）
+ * @returns - 补卡结果数据
  * @throws {Error} - 补卡失败时抛出错误
  */
 export const makeupAttendance = async (token, studentId, attendanceTime) => {
@@ -127,11 +127,11 @@ export const makeupAttendance = async (token, studentId, attendanceTime) => {
 /**
  * 使用特殊密码补卡接口
  * 管理员使用特殊密码为指定学生补录考勤
- * 
- * @param {string} specialPassword - 特殊密码（管理员密码）
- * @param {string|number} targetStudentId - 目标学生ID
- * @param {string} targetAttendanceDateTime - 目标考勤时间（ISO格式字符串）
- * @returns {Promise<Object>} - 补卡结果数据
+ *
+ * @param specialPassword - 特殊密码（管理员密码）
+ * @param targetStudentId - 目标学生ID
+ * @param targetAttendanceDateTime - 目标考勤时间（ISO格式字符串）
+ * @returns - 补卡结果数据
  * @throws {Error} - 补卡失败时抛出错误
  */
 export const makeupAttendanceWithSpecialPassword = async (
@@ -165,8 +165,8 @@ export const makeupAttendanceWithSpecialPassword = async (
 /**
  * 获取优秀学生统计
  * 获取签到次数排名靠前的学生数据
- * 
- * @returns {Promise<Object>} - 优秀学生统计数据
+ *
+ * @returns - 优秀学生统计数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getTopStudents = async () => {
@@ -190,8 +190,8 @@ export const getTopStudents = async () => {
 /**
  * 获取月度考勤统计
  * 获取当前月份的考勤签到总数
- * 
- * @returns {Promise<Object>} - 月度考勤统计数据
+ *
+ * @returns - 月度考勤统计数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getMonthlyAttendanceCount = async () => {
@@ -215,9 +215,9 @@ export const getMonthlyAttendanceCount = async () => {
 /**
  * 获取日度考勤统计
  * 获取指定日期的考勤签到总数，如果不传日期则获取今天的统计
- * 
- * @param {string} [date] - 日期字符串（可选，格式：YYYY-MM-DD）
- * @returns {Promise<Object>} - 日度考勤统计数据
+ *
+ * @param [date] - 日期字符串（可选，格式：YYYY-MM-DD）
+ * @returns - 日度考勤统计数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getDailyAttendanceCount = async date => {
@@ -243,9 +243,9 @@ export const getDailyAttendanceCount = async date => {
 /**
  * 获取个人签到次数
  * 获取当前登录用户的签到总次数
- * 
- * @param {string} token - 用户认证token
- * @returns {Promise<Object>} - 个人签到次数数据
+ *
+ * @param token - 用户认证token
+ * @returns - 个人签到次数数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getMyAttendanceCount = async token => {
@@ -273,8 +273,8 @@ export const getMyAttendanceCount = async token => {
 /**
  * 获取本月签到前十名学生
  * 获取当前月份签到次数排名前10的学生数据
- * 
- * @returns {Promise<Object>} - 本月签到前十名学生数据
+ *
+ * @returns - 本月签到前十名学生数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getCurrentMonthTop10Students = async () => {
@@ -298,9 +298,9 @@ export const getCurrentMonthTop10Students = async () => {
 /**
  * 根据学生ID获取签到次数
  * 获取指定学生的总签到次数
- * 
- * @param {string|number} studentId - 学生ID
- * @returns {Promise<Object>} - 学生签到次数数据
+ *
+ * @param studentId - 学生ID
+ * @returns - 学生签到次数数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getAttendanceCountByStudentId = async studentId => {
@@ -328,7 +328,7 @@ export const getAttendanceCountByStudentId = async studentId => {
 /**
  * 获取学生签到次数的别名
  * 与getAttendanceCountByStudentId功能相同
- * 
+ *
  * @type {Function}
  */
 export const getStudentAttendanceCount = getAttendanceCountByStudentId
@@ -336,8 +336,8 @@ export const getStudentAttendanceCount = getAttendanceCountByStudentId
 /**
  * 获取今日签到记录
  * 获取今天所有的签到记录列表
- * 
- * @returns {Promise<Object>} - 今日签到记录数据
+ *
+ * @returns - 今日签到记录数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getTodayAttendanceRecords = async () => {
@@ -361,9 +361,9 @@ export const getTodayAttendanceRecords = async () => {
 /**
  * 获取学生考勤记录
  * 获取指定学生的所有考勤记录列表
- * 
- * @param {string|number} studentId - 学生ID
- * @returns {Promise<Object>} - 学生考勤记录数据
+ *
+ * @param studentId - 学生ID
+ * @returns - 学生考勤记录数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getStudentAttendanceRecords = async studentId => {
@@ -392,8 +392,8 @@ export const getStudentAttendanceRecords = async studentId => {
  * 获取个人考勤记录
  * 获取当前登录用户的所有考勤记录
  * 从localStorage中读取用户信息获取studentId
- * 
- * @returns {Promise<Object>} - 个人考勤记录数据
+ *
+ * @returns - 个人考勤记录数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getMyAttendanceRecords = async () => {
@@ -421,11 +421,11 @@ export const getMyAttendanceRecords = async () => {
 /**
  * 获取指定时间范围内的签到排行
  * 根据时间范围获取签到次数排名前N的学生
- * 
- * @param {string} startTime - 开始时间（ISO格式字符串）
- * @param {string} endTime - 结束时间（ISO格式字符串）
- * @param {number} topN - 返回前N名（默认值由后端决定）
- * @returns {Promise<Object>} - 签到排行数据
+ *
+ * @param startTime - 开始时间（ISO格式字符串）
+ * @param endTime - 结束时间（ISO格式字符串）
+ * @param topN - 返回前N名（默认值由后端决定）
+ * @returns - 签到排行数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getTopStudentsByTimeRange = async (startTime, endTime, topN) => {
@@ -452,8 +452,8 @@ export const getTopStudentsByTimeRange = async (startTime, endTime, topN) => {
  * 获取验证码
  * 从验证码服务获取签到验证码
  * 注意：此接口使用独立的URL，不使用api实例
- * 
- * @returns {Promise<Object>} - 验证码数据
+ *
+ * @returns - 验证码数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getVerificationCode = async () => {
@@ -479,10 +479,10 @@ export const getVerificationCode = async () => {
 /**
  * 获取日度签到排行
  * 获取指定日期的签到次数排名
- * 
- * @param {string} date - 日期字符串（格式：YYYY-MM-DD）
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 日度签到排行数据
+ *
+ * @param date - 日期字符串（格式：YYYY-MM-DD）
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 日度签到排行数据
  */
 export const getDailyRanking = (date, topN = 10) => {
 	const startTime = `${date}T00:00:00`
@@ -493,10 +493,10 @@ export const getDailyRanking = (date, topN = 10) => {
 /**
  * 获取周度签到排行
  * 获取指定周（从周一开始）的签到次数排名
- * 
- * @param {string} weekStart - 周开始日期（格式：YYYY-MM-DD）
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 周度签到排行数据
+ *
+ * @param weekStart - 周开始日期（格式：YYYY-MM-DD）
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 周度签到排行数据
  */
 export const getWeeklyRanking = (weekStart, topN = 10) => {
 	const startTime = `${weekStart}T00:00:00`
@@ -509,11 +509,11 @@ export const getWeeklyRanking = (weekStart, topN = 10) => {
 /**
  * 获取月度签到排行
  * 获取指定年月的签到次数排名
- * 
- * @param {number} year - 年份
- * @param {number} month - 月份（1-12）
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 月度签到排行数据
+ *
+ * @param year - 年份
+ * @param month - 月份（1-12）
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 月度签到排行数据
  */
 export const getMonthlyRanking = (year, month, topN = 10) => {
 	const startTime = `${year}-${month.toString().padStart(2, '0')}-01T00:00:00`
@@ -525,11 +525,11 @@ export const getMonthlyRanking = (year, month, topN = 10) => {
 /**
  * 获取季度签到排行
  * 获取指定年季度的签到次数排名
- * 
- * @param {number} year - 年份
- * @param {number} quarter - 季度（1-4）
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 季度签到排行数据
+ *
+ * @param year - 年份
+ * @param quarter - 季度（1-4）
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 季度签到排行数据
  */
 export const getQuarterlyRanking = (year, quarter, topN = 10) => {
 	// 定义每个季度包含的月份
@@ -552,11 +552,11 @@ export const getQuarterlyRanking = (year, quarter, topN = 10) => {
 /**
  * 获取学期签到排行
  * 获取指定年学期的签到次数排名
- * 
- * @param {number} year - 年份
- * @param {number} semester - 学期（1或2）
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 学期签到排行数据
+ *
+ * @param year - 年份
+ * @param semester - 学期（1或2）
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 学期签到排行数据
  */
 export const getSemesterRanking = (year, semester, topN = 10) => {
 	// 定义学期时间范围：第一学期2-7月，第二学期9-12月
@@ -575,10 +575,10 @@ export const getSemesterRanking = (year, semester, topN = 10) => {
 /**
  * 获取年度签到排行
  * 获取指定年份的签到次数排名
- * 
- * @param {number} year - 年份
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 年度签到排行数据
+ *
+ * @param year - 年份
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 年度签到排行数据
  */
 export const getYearlyRanking = (year, topN = 10) => {
 	const startTime = `${year}-01-01T00:00:00`
@@ -589,9 +589,9 @@ export const getYearlyRanking = (year, topN = 10) => {
 /**
  * 获取最近7天签到排行
  * 获取过去7天（包括今天）的签到次数排名
- * 
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 最近7天签到排行数据
+ *
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 最近7天签到排行数据
  */
 export const getLast7DaysRanking = (topN = 10) => {
 	const endDate = new Date()
@@ -606,9 +606,9 @@ export const getLast7DaysRanking = (topN = 10) => {
 /**
  * 获取最近30天签到排行
  * 获取过去30天（包括今天）的签到次数排名
- * 
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 最近30天签到排行数据
+ *
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 最近30天签到排行数据
  */
 export const getLast30DaysRanking = (topN = 10) => {
 	const endDate = new Date()
@@ -623,11 +623,11 @@ export const getLast30DaysRanking = (topN = 10) => {
 /**
  * 获取自定义时间范围签到排行
  * 获取指定日期范围内的签到次数排名
- * 
- * @param {string} startDate - 开始日期（格式：YYYY-MM-DD）
- * @param {string} endDate - 结束日期（格式：YYYY-MM-DD）
- * @param {number} [topN=10] - 返回前N名，默认10
- * @returns {Promise<Object>} - 自定义时间范围签到排行数据
+ *
+ * @param startDate - 开始日期（格式：YYYY-MM-DD）
+ * @param endDate - 结束日期（格式：YYYY-MM-DD）
+ * @param [topN] - 返回前N名，默认10
+ * @returns - 自定义时间范围签到排行数据
  */
 export const getCustomRangeRanking = (startDate, endDate, topN = 10) => {
 	const startTime = `${startDate}T00:00:00`
@@ -639,10 +639,10 @@ export const getCustomRangeRanking = (startDate, endDate, topN = 10) => {
  * 获取时间范围内的每日考勤统计
  * 批量获取指定时间范围内每天的考勤签到数量
  * 如果开始时间早于项目启动日期，则从项目启动日期开始统计
- * 
- * @param {string} startTime - 开始时间（ISO格式字符串）
- * @param {string} endTime - 结束时间（ISO格式字符串）
- * @returns {Promise<Object>} - 包含每日考勤统计的数组数据
+ *
+ * @param startTime - 开始时间（ISO格式字符串）
+ * @param endTime - 结束时间（ISO格式字符串）
+ * @returns - 包含每日考勤统计的数组数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getDailyAttendanceCountInRange = async (startTime, endTime) => {
@@ -718,9 +718,9 @@ export const getDailyAttendanceCountInRange = async (startTime, endTime) => {
 /**
  * 获取签到次数总排名
  * 获取所有学生的签到次数排名
- * 
- * @param {number} [top=50] - 返回前N名，默认50
- * @returns {Promise<Object>} - 签到次数排名数据
+ *
+ * @param [top] - 返回前N名，默认50
+ * @returns - 签到次数排名数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getAttendanceTopRanking = async (top = 50) => {

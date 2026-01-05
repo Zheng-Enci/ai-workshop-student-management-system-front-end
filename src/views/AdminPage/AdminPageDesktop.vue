@@ -1,28 +1,39 @@
 <script setup>
+/**
+ * 超级管理员控制台组件
+ * 功能描述：AI坊学生管理系统的超级管理员核心操作界面，提供学生信息管理、考勤记录查看、补卡操作、积分修改等核心功能
+ * 技术栈：Vue3 + Script Setup + Element Plus + 组合式API
+ */
+
+// ===================== 依赖导入区 =====================
+// Element Plus 核心组件导入
 import {
-	ElMessage,
-	ElIcon,
-	ElInput,
-	ElButton,
-	ElSelect,
-	ElOption,
-	ElDialog,
-	ElForm,
-	ElFormItem,
-	ElInputNumber,
-	ElDatePicker,
-	ElTabs,
-	ElTabPane,
-	ElTag,
-	ElTooltip,
-	ElPagination,
-	ElCalendar
+	ElMessage,       // 全局消息提示
+	ElIcon,          // 图标容器
+	ElInput,         // 输入框
+	ElButton,        // 按钮
+	ElSelect,        // 下拉选择器
+	ElOption,        // 下拉选项
+	ElDialog,        // 弹窗
+	ElForm,          // 表单
+	ElFormItem,      // 表单项
+	ElInputNumber,   // 数字输入框
+	ElDatePicker,    // 日期选择器
+	ElTabs,          // 标签页
+	ElTabPane,       // 标签页面板
+	ElTag,           // 标签
+	ElTooltip,       // 提示框
+	ElPagination,    // 分页组件
+	ElCalendar       // 日历组件
 } from 'element-plus'
+
+// Vue 核心组合式API
 import { onMounted, watch, ref, nextTick } from 'vue'
 
+// 自定义hooks - 封装管理员页面的核心业务逻辑
 import { useAdminPage } from './AdminPage.js'
 
-// Element Plus Components
+// Element Plus 样式导入（按需导入）
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -45,161 +56,176 @@ import 'element-plus/theme-chalk/el-calendar.css'
 import 'element-plus/theme-chalk/el-tabs.css'
 import 'element-plus/theme-chalk/el-tab-pane.css'
 import 'element-plus/theme-chalk/el-tag.css'
-// Icon Components
+
+// Element Plus 图标组件导入
 import {
-	User,
-	Calendar,
-	TrendCharts,
-	Search,
-	Refresh,
-	SwitchButton,
-	Edit,
-	UserFilled,
-	Clock,
-	Warning,
-	Document,
-	Loading,
-	Box,
-	Lock
+	User,            // 用户图标
+	Calendar,        // 日历图标
+	TrendCharts,     // 趋势图图标
+	Search,          // 搜索图标
+	Refresh,         // 刷新图标
+	SwitchButton,    // 切换按钮图标
+	Edit,            // 编辑图标
+	UserFilled,      // 填充用户图标
+	Clock,           // 时钟图标
+	Warning,         // 警告图标
+	Document,        // 文档图标
+	Loading,         // 加载图标
+	Box,             // 盒子图标
+	Lock             // 锁图标
 } from '@element-plus/icons-vue'
 
+// ===================== 业务变量定义区 =====================
+// 导入获取管理员头像的API（注：原代码此处语法错误，应为import导入，此处保留原逻辑）
 const { getAvatarUrl } = '@/api/student'
 
-// 获取管理员头像URL
+// 响应式变量 - 管理员头像URL（参数：2为管理员类型，256为头像尺寸）
 const adminAvatarUrl = ref(getAvatarUrl(2, 256))
 
-// 从useAdminPage解构所有响应式状态和方法
+// 从自定义hooks中解构响应式状态和方法（核心业务逻辑封装）
 const {
-	isAuthenticated,
-	specialPassword,
-	authError,
-	authLoading,
-	isLoading,
-	isDataLoaded,
-	loadingProgress,
-	loadingStatus,
-	students,
-	searchKeyword,
-	currentPage,
-	pageSize,
-	totalStudents,
-	todayCount,
-	monthlyCount,
-	studentLevels,
-	studentAttendanceCounts,
-	studentAdmins,
-	studentPoints,
-	activeLevelTab,
-	editDialogVisible,
-	editFormRef,
-	editForm,
-	todayAttendanceDialogVisible,
-	todayAttendanceRecords,
-	attendanceRecordsDialogVisible,
-	currentStudentInfo,
-	calendarValue,
-	scrollPosition,
-	allStudentAttendanceRecords,
-	calendarSlots,
-	filteredStudentAttendanceRecords,
-	heatmapDialogVisible,
-	trendDialogVisible,
-	heatmapChart,
-	lineChart,
-	heatmapInstance,
-	lineInstance,
-	showDateDetailsDialog,
-	selectedDate,
-	makeupDialogVisible,
-	makeupLoading,
-	makeupSelectedStudent,
-	makeupStep,
-	makeupFormRef,
-	datePickerRef,
-	makeupForm,
-	pointsDialogVisible,
-	pointsLoading,
-	pointsSelectedStudent,
-	pointsFormRef,
-	pointsForm,
-	scoreChangeRecordsDialogVisible,
-	scoreChangeRecordsLoading,
-	scoreChangeRecords,
-	currentScoreChangeRecordsStudent,
-	datetimeShortcuts,
-	levelOptions,
-	adminOptions,
-	filteredStudents,
-	currentLevelStudents,
-	editFormRules,
-	pointsFormRules,
-	makeupDateFormRules,
+	// 认证相关
+	isAuthenticated,    // 是否已完成身份验证
+	specialPassword,    // 超级管理员验证密码
+	authError,          // 认证错误信息
+	authLoading,        // 认证加载状态
+	// 通用加载状态
+	isLoading,          // 全局加载状态
+	isDataLoaded,       // 核心数据是否加载完成
+	loadingProgress,    // 加载进度（百分比）
+	loadingStatus,      // 加载状态文本提示
+	// 学生数据
+	students,           // 所有学生列表
+	searchKeyword,      // 学生搜索关键词
+	currentPage,        // 当前分页页码
+	pageSize,           // 每页显示数量
+	totalStudents,      // 学生总数
+	// 统计数据
+	todayCount,         // 今日签到人数
+	monthlyCount,       // 本月签到人数
+	studentLevels,      // 学生等级映射（studentId -> 等级值）
+	studentAttendanceCounts, // 学生签到次数映射（studentId -> 次数）
+	studentAdmins,      // 学生所属管理员映射（studentId -> 管理员信息）
+	studentPoints,      // 学生积分信息映射（studentId -> 积分详情）
+	// 界面状态
+	activeLevelTab,     // 当前激活的学生等级标签页
+	editDialogVisible,  // 编辑学生信息弹窗是否显示
+	editFormRef,        // 编辑表单引用
+	editForm,           // 编辑表单数据
+	todayAttendanceDialogVisible, // 今日签到记录弹窗是否显示
+	todayAttendanceRecords,       // 今日签到记录列表
+	attendanceRecordsDialogVisible, // 考勤记录弹窗是否显示
+	currentStudentInfo,            // 当前选中的学生信息
+	calendarValue,                 // 日历选中日期
+	scrollPosition,                // 滚动位置
+	allStudentAttendanceRecords,   // 当前学生所有考勤记录
+	calendarSlots,                 // 日历时间段配置
+	filteredStudentAttendanceRecords, // 筛选后的考勤记录
+	// 图表相关
+	heatmapDialogVisible,  // 热力图弹窗是否显示
+	trendDialogVisible,    // 趋势图弹窗是否显示
+	heatmapChart,          // 热力图容器引用
+	lineChart,             // 趋势图容器引用
+	heatmapInstance,       // 热力图实例
+	lineInstance,          // 趋势图实例
+	// 日期详情
+	showDateDetailsDialog, // 日期签到详情弹窗是否显示
+	selectedDate,          // 选中的详情日期
+	// 补卡相关
+	makeupDialogVisible,   // 补卡弹窗是否显示
+	makeupLoading,         // 补卡操作加载状态
+	makeupSelectedStudent, // 选中的补卡学生
+	makeupStep,            // 补卡步骤（date-选日期/hour-选时间）
+	makeupFormRef,         // 补卡表单引用
+	datePickerRef,         // 日期选择器引用
+	makeupForm,            // 补卡表单数据
+	// 积分相关
+	pointsDialogVisible,       // 修改积分弹窗是否显示
+	pointsLoading,             // 积分修改加载状态
+	pointsSelectedStudent,     // 选中的积分修改学生
+	pointsFormRef,             // 积分表单引用
+	pointsForm,                // 积分表单数据
+	scoreChangeRecordsDialogVisible, // 改分记录弹窗是否显示
+	scoreChangeRecordsLoading,      // 改分记录加载状态
+	scoreChangeRecords,             // 改分记录列表
+	currentScoreChangeRecordsStudent, // 当前查看改分记录的学生
+	// 配置项
+	datetimeShortcuts,   // 日期快捷选择配置
+	levelOptions,        // 学生等级选项（[{label, value, color}]）
+	adminOptions,        // 管理员选项列表
+	// 筛选后数据
+	filteredStudents,    // 搜索筛选后的学生列表
+	currentLevelStudents,// 当前等级标签页下的学生列表
+	// 表单校验规则
+	editFormRules,       // 编辑学生表单校验规则
+	pointsFormRules,     // 积分修改表单校验规则
+	makeupDateFormRules, // 补卡日期表单校验规则
 
-
-	getLevelStudents,
-	changeLevel,
-	changeAdmin,
-	loadStudentLevels,
-	loadStudentAttendanceCounts,
-	loadStudentAdmins,
-	handleAvatarError,
-	loadStatistics,
-	refreshData,
-	openEditDialog,
-	cancelEdit,
-	confirmEdit,
-	showTodayAttendance,
-	formatAttendanceTime,
-	getTimePeriodClass,
-	getTimePeriodName,
-	isSlotSigned,
-	openDateDetails,
-	openAttendanceRecordsDialog,
-	closeAttendanceRecordsDialog,
-	closeHeatmapDialog,
-	closeTrendDialog,
-	formatDateForDisplay,
-	formatCalendarTitle,
-	prevMonth,
-	nextMonth,
-	goToday,
-	getTimeSlotLabel,
-	getDateAttendanceTimes,
-	initHeatmapChart,
-	initLineChart,
-	generateHeatmapData,
-	generateLineData,
-	openHeatmapDialog,
-	openTrendDialog,
-	authenticate,
-	logout,
-	getShortcutDate,
-	openMakeupDialog,
-	cancelMakeup,
-	handleDateChange,
-	formatSelectedDate,
-	confirmDateStep,
-	selectDatetimeShortcut,
-	isDatetimeShortcutSelected,
-	selectHour,
-	isHourSelected,
-	updateAttendanceTime,
-	submitMakeup,
-	openPointsDialog,
-	handlePointsDialogClose,
-	cancelPoints,
-	confirmPoints,
-	openScoreChangeRecordsDialog,
-	closeScoreChangeRecordsDialog,
-	formatTime,
-	loadAllData,
-	timeSlots,
-	sortedScoreChangeRecords,
-	totalScoreChangePoints,
-	toggleTheme
+	// 方法
+	getLevelStudents,    // 根据等级筛选学生
+	changeLevel,         // 修改学生等级
+	changeAdmin,         // 分配学生所属管理员
+	loadStudentLevels,   // 加载学生等级数据
+	loadStudentAttendanceCounts, // 加载学生签到次数
+	loadStudentAdmins,   // 加载学生所属管理员
+	handleAvatarError,   // 头像加载失败处理
+	loadStatistics,      // 加载统计数据
+	refreshData,         // 刷新所有数据
+	openEditDialog,      // 打开编辑学生弹窗
+	cancelEdit,          // 取消编辑
+	confirmEdit,         // 确认编辑
+	showTodayAttendance, // 显示今日签到记录
+	formatAttendanceTime,// 格式化考勤时间
+	getTimePeriodClass,  // 获取时间段样式类
+	getTimePeriodName,   // 获取时间段名称
+	isSlotSigned,        // 判断时间段是否签到
+	openDateDetails,     // 打开日期详情弹窗
+	openAttendanceRecordsDialog, // 打开考勤记录弹窗
+	closeAttendanceRecordsDialog, // 关闭考勤记录弹窗
+	closeHeatmapDialog,  // 关闭热力图弹窗
+	closeTrendDialog,    // 关闭趋势图弹窗
+	formatDateForDisplay,// 格式化日期显示
+	formatCalendarTitle, // 格式化日历标题
+	prevMonth,           // 日历切换到上个月
+	nextMonth,           // 日历切换到下个月
+	goToday,             // 日历回到今天
+	getTimeSlotLabel,    // 获取时间段标签
+	getDateAttendanceTimes, // 获取指定日期的签到时间列表
+	initHeatmapChart,    // 初始化热力图
+	initLineChart,       // 初始化趋势图
+	generateHeatmapData, // 生成热力图数据
+	generateLineData,    // 生成趋势图数据
+	openHeatmapDialog,   // 打开热力图弹窗
+	openTrendDialog,     // 打开趋势图弹窗
+	authenticate,        // 身份验证
+	logout,              // 退出登录
+	getShortcutDate,     // 获取快捷日期
+	openMakeupDialog,    // 打开补卡弹窗
+	cancelMakeup,        // 取消补卡
+	handleDateChange,    // 日期选择变化处理
+	formatSelectedDate,  // 格式化选中日期
+	confirmDateStep,     // 确认补卡日期步骤
+	selectDatetimeShortcut, // 选择日期快捷项
+	isDatetimeShortcutSelected, // 判断快捷项是否选中
+	selectHour,          // 选择补卡小时
+	isHourSelected,      // 判断小时是否选中
+	updateAttendanceTime,// 更新考勤时间
+	submitMakeup,        // 提交补卡
+	openPointsDialog,    // 打开修改积分弹窗
+	handlePointsDialogClose, // 关闭积分弹窗处理
+	cancelPoints,        // 取消积分修改
+	confirmPoints,       // 确认积分修改
+	openScoreChangeRecordsDialog, // 打开改分记录弹窗
+	closeScoreChangeRecordsDialog, // 关闭改分记录弹窗
+	formatTime,          // 格式化时间
+	loadAllData,         // 加载所有核心数据
+	timeSlots,           // 时间段配置
+	sortedScoreChangeRecords, // 排序后的改分记录
+	totalScoreChangePoints,   // 总积分调整值
+	toggleTheme          // 切换主题
 } = useAdminPage()
 
-
+// 月份英文转中文映射表（用于日历/统计展示）
 const monthMap = {
 	January: '一月',
 	February: '二月',
@@ -215,43 +241,58 @@ const monthMap = {
 	December: '十二月'
 }
 
-
+// 月份观察者（预留：用于监听月份变化，暂未初始化）
 const monthObserver = null
 
-// 组件挂载时初始化
+// ===================== 生命周期 & 监听 =====================
+/**
+ * 组件挂载完成钩子
+ * 核心逻辑：
+ * 1. 设置页面标题
+ * 2. 从本地存储获取管理员密码，自动完成认证并加载数据
+ * 3. 无密码时显示身份验证界面
+ */
 onMounted(async () => {
+	// 设置页面标题
 	document.title = '超级管理员控制台 - AI坊学生管理系统'
 
+	// 从adminStore获取保存的管理员密码（需确保adminStore已全局注册）
 	const adminPassword = adminStore.getAdminPassword()
 	if (adminPassword) {
-		// 如果已有密码，直接验证并加载数据
+		// 已有密码，标记为已认证
 		isAuthenticated.value = true
 		try {
+			// 加载所有核心数据
 			await loadAllData(adminPassword)
 		} catch (error) {
+			// 加载失败：提示错误、取消认证、清空密码
 			ElMessage.error(`加载数据失败：${error.message}`)
 			isAuthenticated.value = false
 			adminStore.clearAdminPassword()
 		}
 	} else {
-		// 没有密码，显示身份验证界面
+		// 无密码，显示认证界面
 		isAuthenticated.value = false
 	}
 })
 
-// 监听日历值变化,重新渲染图表
+/**
+ * 监听日历选中日期变化
+ * 触发条件：calendarValue响应式变量变化
+ * 处理逻辑：考勤记录弹窗打开且非加载状态时，重新初始化图表
+ */
 watch(calendarValue, async () => {
 	if (attendanceRecordsDialogVisible.value && !isLoading.value) {
+		// 等待DOM更新完成后再初始化图表，避免容器未渲染
 		await nextTick()
 		initHeatmapChart()
 		initLineChart()
 	}
 })
-
 </script>
 
 <template>
-	<!-- 身份验证界面 -->
+	<!-- 1. 身份验证界面：未认证时显示 -->
 	<div v-if="!isAuthenticated" class="auth-section">
 		<div class="auth-page-header">
 			<img
@@ -267,6 +308,7 @@ watch(calendarValue, async () => {
 		<div class="auth-card">
 			<div class="auth-header">
 				<div class="auth-icon-container">
+					<!-- 管理员头像：加载失败时显示默认样式 -->
 					<img
 						v-if="adminAvatarUrl"
 						v-lazy="adminAvatarUrl"
@@ -275,8 +317,10 @@ watch(calendarValue, async () => {
 						@error="adminAvatarUrl = null" />
 					<div v-else class="icon-ring"/>
 				</div>
-			</div>      <div class="auth-form">
+			</div>
+			<div class="auth-form">
 				<div class="input-container">
+					<!-- 密码输入框：支持回车提交 -->
 					<el-input
 						v-model="specialPassword"
 						type="password"
@@ -291,6 +335,7 @@ watch(calendarValue, async () => {
 						</template>
 					</el-input>
 				</div>
+				<!-- 验证按钮：加载状态禁用 -->
 				<el-button
 					type="primary"
 					size="large"
@@ -304,7 +349,7 @@ watch(calendarValue, async () => {
 		</div>
 	</div>
 
-	<!-- 加载界面 -->
+	<!-- 2. 加载界面：已认证但数据未加载完成时显示 -->
 	<div v-else-if="!isDataLoaded" class="admin-loading">
 		<div class="loading-page-header">
 			<img
@@ -321,6 +366,7 @@ watch(calendarValue, async () => {
 				<div class="spinner-ring"/>
 			</div>
 			<div class="loading-text">数据加载中，请稍候...</div>
+			<!-- 加载进度条 -->
 			<div class="loading-progress">
 				<div class="progress-bar" :style="{ width: loadingProgress + '%' }"/>
 			</div>
@@ -328,8 +374,9 @@ watch(calendarValue, async () => {
 		</div>
 	</div>
 
-	<!-- 管理控制台界面 -->
+	<!-- 3. 管理控制台主界面：已认证且数据加载完成时显示 -->
 	<div v-else class="admin-console">
+		<!-- 3.1 头部区域：logo + 标题 + 退出按钮 -->
 		<div class="admin-header">
 			<div class="header-left">
 				<img
@@ -355,6 +402,7 @@ watch(calendarValue, async () => {
 			</div>
 		</div>
 
+		<!-- 3.2 统计卡片区域：学生总数、今日签到、本月签到 -->
 		<div class="admin-stats">
 			<div class="stat-card">
 				<div class="stat-icon">
@@ -385,7 +433,9 @@ watch(calendarValue, async () => {
 			</div>
 		</div>
 
+		<!-- 3.3 学生信息管理区域 -->
 		<div class="students-section">
+			<!-- 区域头部：标题 + 搜索 + 刷新 -->
 			<div class="section-header">
 				<h2>学生信息管理</h2>
 				<div class="header-actions">
@@ -406,6 +456,7 @@ watch(calendarValue, async () => {
 				</div>
 			</div>
 
+			<!-- 等级标签页：按学生等级分类展示 -->
 			<div class="level-tabs">
 				<el-tabs v-model="activeLevelTab" type="card" class="level-tabs-container">
 					<el-tab-pane
@@ -425,6 +476,7 @@ watch(calendarValue, async () => {
 				</el-tabs>
 			</div>
 
+			<!-- 学生卡片列表：展示当前等级下的所有学生 -->
 			<div class="students-cards-container">
 				<div
 					v-for="student in filteredStudents"
@@ -432,6 +484,7 @@ watch(calendarValue, async () => {
 					:key="student.studentId"
 					class="student-card"
 					:data-level="studentLevels[student.studentId] || 0">
+					<!-- 学生基础信息行：头像 + 基本信息 + 签到次数 + 积分 -->
 					<div class="student-main-row">
 						<div class="student-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
 							<img
@@ -462,6 +515,7 @@ watch(calendarValue, async () => {
 						</div>
 					</div>
 
+					<!-- 学生详情行：详细信息 + 操作按钮 -->
 					<div class="student-detail-row">
 						<div class="student-details">
 							<div class="detail-item">
@@ -486,6 +540,7 @@ watch(calendarValue, async () => {
 							</div>
 						</div>
 						<div class="student-actions">
+							<!-- 考勤记录按钮 -->
 							<el-button
 								type="success"
 								size="small"
@@ -495,6 +550,7 @@ watch(calendarValue, async () => {
 								<el-icon><calendar /></el-icon>
 								考勤记录
 							</el-button>
+							<!-- 补卡按钮 -->
 							<el-button
 								type="warning"
 								size="small"
@@ -504,6 +560,7 @@ watch(calendarValue, async () => {
 								<el-icon><clock /></el-icon>
 								补卡
 							</el-button>
+							<!-- 热力图按钮 -->
 							<el-button
 								type="info"
 								size="small"
@@ -513,6 +570,7 @@ watch(calendarValue, async () => {
 								<el-icon><trend-charts /></el-icon>
 								热力图
 							</el-button>
+							<!-- 趋势图按钮 -->
 							<el-button
 								type="primary"
 								size="small"
@@ -522,6 +580,7 @@ watch(calendarValue, async () => {
 								<el-icon><trend-charts /></el-icon>
 								趋势图
 							</el-button>
+							<!-- 修改积分按钮 -->
 							<el-button
 								type="success"
 								size="small"
@@ -531,6 +590,7 @@ watch(calendarValue, async () => {
 								<el-icon><edit /></el-icon>
 								修改积分
 							</el-button>
+							<!-- 改分记录按钮 -->
 							<el-button
 								type="info"
 								size="small"
@@ -543,6 +603,7 @@ watch(calendarValue, async () => {
 						</div>
 					</div>
 
+					<!-- 学生管理行：等级修改 + 管理员分配 + 编辑按钮 -->
 					<div class="student-management-row">
 						<div class="level-management">
 							<span class="management-label">学生等级：</span>
@@ -572,14 +633,17 @@ watch(calendarValue, async () => {
 						</div>
 						<div class="admin-management">
 							<span class="management-label">所属管理员：</span>
+							<!-- 管理员身份提示：等级3为管理员，无需分配 -->
 							<div v-if="(studentLevels[student.studentId] || 0) === 3" class="admin-level-notice">
 								<el-icon class="admin-icon"><user-filled /></el-icon>
 								<span>管理员身份</span>
 							</div>
+							<!-- 无可用管理员提示 -->
 							<div v-else-if="adminOptions.length === 0" class="no-admin-available">
 								<el-icon class="warning-icon"><warning /></el-icon>
 								<span>暂无可用的管理员</span>
 							</div>
+							<!-- 管理员下拉选择器 -->
 							<div v-else>
 								<el-select
 									:model-value="studentAdmins[student.studentId]?.adminStudentId || ''"
@@ -626,6 +690,7 @@ watch(calendarValue, async () => {
 				</div>
 			</div>
 
+			<!-- 分页区域：记录数 + 分页控件 -->
 			<div class="table-footer">
 				<div class="pagination-info">
 					共 {{ currentLevelStudents.length }} 条记录
@@ -641,6 +706,7 @@ watch(calendarValue, async () => {
 			</div>
 		</div>
 
+		<!-- 3.4 页脚区域：版权信息 + 模式提示 -->
 		<div class="admin-footer">
 			<div class="footer-content">
 				<div class="footer-left">
@@ -652,6 +718,8 @@ watch(calendarValue, async () => {
 			</div>
 		</div>
 
+		<!-- ===================== 弹窗组件区域 ===================== -->
+		<!-- 4.1 编辑学生信息弹窗 -->
 		<el-dialog
 			v-if="editDialogVisible"
 			v-model="editDialogVisible"
@@ -728,6 +796,7 @@ watch(calendarValue, async () => {
 			</template>
 		</el-dialog>
 
+		<!-- 4.2 今日签到记录弹窗 -->
 		<el-dialog
 			v-if="todayAttendanceDialogVisible"
 			v-model="todayAttendanceDialogVisible"
@@ -777,6 +846,7 @@ watch(calendarValue, async () => {
 			</template>
 		</el-dialog>
 
+		<!-- 4.3 学生考勤记录弹窗（日历形式） -->
 		<el-dialog
 			v-if="attendanceRecordsDialogVisible"
 			v-model="attendanceRecordsDialogVisible"
@@ -843,6 +913,7 @@ watch(calendarValue, async () => {
 			</template>
 		</el-dialog>
 
+		<!-- 4.4 日期签到详情弹窗 -->
 		<el-dialog
 			v-if="showDateDetailsDialog"
 			v-model="showDateDetailsDialog"
@@ -871,6 +942,7 @@ watch(calendarValue, async () => {
 			</div>
 		</el-dialog>
 
+		<!-- 4.5 签到热力图弹窗 -->
 		<el-dialog
 			v-if="heatmapDialogVisible"
 			v-model="heatmapDialogVisible"
@@ -915,6 +987,7 @@ watch(calendarValue, async () => {
 			</template>
 		</el-dialog>
 
+		<!-- 4.6 签到趋势图弹窗 -->
 		<el-dialog
 			v-if="trendDialogVisible"
 			v-model="trendDialogVisible"
@@ -959,6 +1032,7 @@ watch(calendarValue, async () => {
 			</template>
 		</el-dialog>
 
+		<!-- 4.7 学生补卡弹窗（分步操作：选日期→选时间） -->
 		<el-dialog
 			v-if="makeupDialogVisible"
 			v-model="makeupDialogVisible"
@@ -994,6 +1068,7 @@ watch(calendarValue, async () => {
 					</div>
 				</div>
 
+				<!-- 补卡第一步：选择日期 -->
 				<div v-if="makeupStep === 'date'" class="makeup-step-content">
 					<div class="step-title">第一步：选择补卡日期</div>
 					<div class="date-shortcuts">
@@ -1039,6 +1114,7 @@ watch(calendarValue, async () => {
 					</el-form>
 				</div>
 
+				<!-- 补卡第二步：选择时间 -->
 				<div v-if="makeupStep === 'hour'" class="makeup-step-content">
 					<div class="step-title">第二步：选择补卡时间</div>
 					<div class="selected-date-display">
@@ -1081,6 +1157,7 @@ watch(calendarValue, async () => {
 				>
 					取消
 				</el-button>
+				<!-- 日期步骤确认按钮 -->
 				<el-button
 					v-if="makeupStep === 'date'"
 					type="primary"
@@ -1091,6 +1168,7 @@ watch(calendarValue, async () => {
 				>
 					确认
 				</el-button>
+				<!-- 时间步骤提交按钮 -->
 				<el-button
 					v-if="makeupStep === 'hour'"
 					type="primary"
@@ -1106,6 +1184,7 @@ watch(calendarValue, async () => {
 			</div>
 		</el-dialog>
 
+		<!-- 4.8 修改积分弹窗 -->
 		<el-dialog
 			v-if="pointsDialogVisible"
 			v-model="pointsDialogVisible"
@@ -1172,7 +1251,7 @@ watch(calendarValue, async () => {
 			</template>
 		</el-dialog>
 
-		<!-- 改分记录查看弹窗 -->
+		<!-- 4.9 改分记录查看弹窗 -->
 		<el-dialog
 			v-if="scoreChangeRecordsDialogVisible"
 			v-model="scoreChangeRecordsDialogVisible"
@@ -1211,14 +1290,17 @@ watch(calendarValue, async () => {
 				</div>
 			</div>
 
+			<!-- 加载状态 -->
 			<div v-if="scoreChangeRecordsLoading" class="records-loading">
 				<el-icon class="is-loading"><loading /></el-icon>
 				<span>加载中...</span>
 			</div>
+			<!-- 无记录状态 -->
 			<div v-else-if="scoreChangeRecords.length === 0" class="records-empty">
 				<el-icon><box /></el-icon>
 				<span>暂无改分记录</span>
 			</div>
+			<!-- 记录列表 -->
 			<div v-else class="score-change-records-container">
 				<div class="records-grid">
 					<div

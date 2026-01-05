@@ -1,4 +1,17 @@
 
+/**
+ * ============================================================================
+ * 超级管理员页面 - 移动端样式
+ * ============================================================================
+ * 设计特点：
+ * 1. 采用玻璃拟态设计，营造现代感
+ * 2. 响应式布局，适配移动端屏幕
+ * 3. 支持深色模式切换
+ * 4. 丰富的交互动画效果
+ * ============================================================================
+ */
+
+/* ==================== 身份验证区域 ==================== */
 .auth-section-mobile {
 	min-height: 100vh;
 	display: flex;
@@ -9,6 +22,7 @@
 	background: var(--admin-primary-gradient);
 }
 
+/* 径向渐变背景层，增加视觉层次感 */
 .auth-section-mobile::before {
 	content: '';
 	position: absolute;
@@ -19,6 +33,8 @@
 	background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
 	pointer-events: none;
 }
+
+/* 身份验证页顶部导航栏 */
 .auth-page-header-mobile {
 	position: absolute;
 	top: 20px;
@@ -27,6 +43,7 @@
 	z-index: 10;
 }
 
+/* 顶部导航内容区域，包含Logo和标题 */
 .header-content-mobile {
 	display: flex;
 	align-items: center;
@@ -37,6 +54,7 @@
 	position: relative;
 }
 
+/* 居中显示的页面标题 */
 .header-content-mobile h2 {
 	position: absolute;
 	left: 50%;
@@ -47,6 +65,8 @@
 	color: var(--admin-text-primary);
 	letter-spacing: 0.5px;
 }
+
+/* Logo图标 */
 .auth-logo-mobile {
 	width: 40px;
 	height: 40px;
@@ -54,10 +74,12 @@
 	transition: all 0.3s ease;
 }
 
+/* Logo点击效果 */
 .auth-logo-mobile:active {
 	transform: scale(0.95);
 }
 
+/* ==================== 身份验证卡片 ==================== */
 .auth-card-mobile {
 	width: 100%;
 	max-width: 400px;
@@ -71,7 +93,7 @@
 	overflow: hidden;
 }
 
-/* 光影扫过效果已移除 */
+/* 光影扫过效果（已移除，但保留关键帧定义） */
 @keyframes shimmer {
 	0% {
 		transform: translateX(-100%) translateY(-100%) rotate(45deg);
@@ -80,11 +102,15 @@
 		transform: translateX(100%) translateY(100%) rotate(45deg);
 	}
 }
+
+/* 身份验证卡片头部区域 */
 .auth-header-mobile {
 	text-align: center;
 	margin-bottom: 25px;
 	padding: 0 10px;
 }
+
+/* 图标容器，居中显示头像 */
 .auth-icon-container-mobile {
 	position: relative;
 	width: 70px;
@@ -95,6 +121,7 @@
 	justify-content: center;
 }
 
+/* 头像外圈脉冲动画环 */
 .icon-ring-mobile {
 	position: absolute;
 	width: 100%;
@@ -105,6 +132,7 @@
 	animation: icon-pulse-mobile 2s ease-in-out infinite;
 }
 
+/* 脉冲动画定义 */
 @keyframes icon-pulse-mobile {
 	0%, 100% {
 		transform: scale(1);
@@ -116,6 +144,7 @@
 	}
 }
 
+/* 卡片标题 */
 .auth-header-mobile h2 {
 	font-size: 22px;
 	font-weight: 700;
@@ -123,20 +152,26 @@
 	margin: 0 0 8px 0;
 	letter-spacing: 0.5px;
 }
+
+/* ==================== 身份验证表单 ==================== */
 .auth-form-mobile {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
 	margin-top: 10px;
 }
+
+/* 输入框容器 */
 .input-container-mobile {
 	position: relative;
 }
 
+/* 密码输入框 */
 .password-input-mobile {
 	width: 100%;
 }
 
+/* Element Plus 输入框样式穿透 */
 .password-input-mobile :deep(.el-input__wrapper) {
 	border-radius: 12px;
 	border: 2px solid var(--admin-border-color);
@@ -145,14 +180,18 @@
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* 输入框悬停效果 */
 .password-input-mobile :deep(.el-input__wrapper:hover) {
 	border-color: var(--admin-primary-color);
 	box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
 }
+
+/* 输入框聚焦效果 */
 .password-input-mobile :deep(.el-input__wrapper.is-focus) {
 	border-color: var(--admin-primary-color);
 }
 
+/* 身份验证按钮 */
 .auth-button-mobile {
 	width: 100%;
 	height: 48px;
@@ -163,16 +202,19 @@
 	transition: all 0.3s ease;
 }
 
+/* 按钮悬停效果 */
 .auth-button-mobile:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
 }
 
+/* 按钮点击效果 */
 .auth-button-mobile:active {
 	transform: translateY(0);
 	box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 }
 
+/* ==================== 加载界面 ==================== */
 .admin-loading-mobile {
 	position: fixed;
 	top: 0;
@@ -187,6 +229,7 @@
 	z-index: 9999;
 }
 
+/* 加载页面顶部导航栏 */
 .loading-page-header-mobile {
 	position: absolute;
 	top: 20px;
@@ -194,6 +237,7 @@
 	z-index: 10000;
 }
 
+/* 加载页面Logo */
 .loading-logo-mobile {
 	width: 40px;
 	height: 40px;
@@ -205,12 +249,14 @@
 	transform: scale(0.95);
 }
 
+/* 加载内容容器 */
 .loading-container-mobile {
 	text-align: center;
 	color: var(--admin-text-primary);
 	padding: 20px;
 }
 
+/* 旋转动画容器 */
 .loading-spinner-mobile {
 	position: relative;
 	width: 60px;
@@ -218,6 +264,7 @@
 	margin: 0 auto 20px;
 }
 
+/* 多层旋转环 */
 .spinner-ring-mobile {
 	position: absolute;
 	width: 100%;
@@ -228,6 +275,7 @@
 	animation: spin-mobile 1.5s linear infinite;
 }
 
+/* 第二层旋转环 */
 .spinner-ring-mobile:nth-child(2) {
 	width: 45px;
 	height: 45px;
@@ -237,6 +285,7 @@
 	animation-delay: -0.5s;
 }
 
+/* 第三层旋转环 */
 .spinner-ring-mobile:nth-child(3) {
 	width: 30px;
 	height: 30px;
@@ -246,6 +295,7 @@
 	animation-delay: -1s;
 }
 
+/* 旋转动画定义 */
 @keyframes spin-mobile {
 	0% {
 		transform: rotate(0deg);
@@ -255,6 +305,7 @@
 	}
 }
 
+/* 加载提示文字 */
 .loading-text-mobile {
 	font-size: 18px;
 	font-weight: 600;
@@ -262,6 +313,7 @@
 	color: var(--admin-text-primary);
 }
 
+/* 进度条容器 */
 .loading-progress-mobile {
 	width: 250px;
 	height: 6px;
@@ -272,6 +324,7 @@
 	border: 1px solid var(--admin-glass-border);
 }
 
+/* 进度条 */
 .progress-bar-mobile {
 	height: 100%;
 	background: var(--admin-primary-gradient);
@@ -279,17 +332,20 @@
 	transition: width 0.3s ease;
 }
 
+/* 加载状态文字 */
 .loading-status-mobile {
 	font-size: 14px;
 	color: var(--admin-text-secondary);
 	font-weight: 500;
 }
 
+/* ==================== 管理员控制台 ==================== */
 .admin-console-mobile {
 	padding: 15px;
 	padding-bottom: 30px;
 }
 
+/* 管理员页面头部 */
 .admin-header-mobile {
 	display: flex;
 	align-items: center;
@@ -298,6 +354,7 @@
 	gap: 10px;
 }
 
+/* 头部内容区域 */
 .header-content-mobile {
 	display: flex;
 	align-items: center;
@@ -305,6 +362,7 @@
 	flex: 1;
 }
 
+/* 头部内容区域（重复定义） */
 .header-content-mobile {
 	display: flex;
 	align-items: center;
@@ -312,6 +370,7 @@
 	flex: 1;
 }
 
+/* Logo图标 */
 .logo-mobile {
 	width: 35px;
 	height: 35px;
@@ -324,10 +383,12 @@
 	transform: scale(0.95);
 }
 
+/* 标题区域 */
 .title-section-mobile {
 	flex: 1;
 }
 
+/* 页面主标题 */
 .title-section-mobile h1 {
 	font-size: 20px;
 	font-weight: 700;
@@ -335,6 +396,7 @@
 	color: var(--admin-text-primary);
 }
 
+/* 页面副标题 */
 .title-section-mobile p {
 	font-size: 12px;
 	color: var(--admin-text-secondary);
@@ -342,10 +404,12 @@
 	font-weight: 500;
 }
 
+/* 登出按钮容器 */
 .logout-btn-mobile {
 	flex-shrink: 0;
 }
 
+/* ==================== 统计卡片 ==================== */
 .admin-stats-mobile {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -353,6 +417,7 @@
 	margin-bottom: 20px;
 }
 
+/* 统计卡片 */
 .stat-card-mobile {
 	background: var(--admin-glass-bg);
 	backdrop-filter: blur(20px);
@@ -367,10 +432,12 @@
 	box-shadow: 0 4px 16px var(--admin-shadow-color);
 }
 
+/* 统计卡片点击效果 */
 .stat-card-mobile:active {
 	transform: scale(0.98);
 }
 
+/* 统计图标 */
 .stat-icon-mobile {
 	width: 40px;
 	height: 40px;
@@ -384,10 +451,12 @@
 	border: 1px solid var(--admin-glass-border);
 }
 
+/* 统计内容区域 */
 .stat-content-mobile {
 	text-align: center;
 }
 
+/* 统计数值 */
 .stat-value-mobile {
 	font-size: 24px;
 	font-weight: 700;
@@ -395,12 +464,14 @@
 	margin-bottom: 4px;
 }
 
+/* 统计标签 */
 .stat-label-mobile {
 	font-size: 12px;
 	color: var(--admin-text-secondary);
 	font-weight: 500;
 }
 
+/* ==================== 学生管理区域 ==================== */
 .students-section-mobile {
 	background: var(--admin-glass-bg);
 	backdrop-filter: blur(20px);
@@ -410,6 +481,7 @@
 	box-shadow: 0 4px 16px var(--admin-shadow-color);
 }
 
+/* 区域头部 */
 .section-header-mobile {
 	margin-bottom: 30px;
 	position: relative;
@@ -420,6 +492,7 @@
 	align-items: center;
 }
 
+/* 区域标题 */
 .section-header-mobile h2 {
 	font-size: 18px;
 	font-weight: 700;
@@ -429,6 +502,7 @@
 	width: 100%;
 }
 
+/* 头部操作按钮区域 */
 .header-actions-mobile {
 	display: flex;
 	gap: 10px;
@@ -438,12 +512,14 @@
 	align-items: center;
 }
 
+/* 搜索输入框 */
 .search-input-mobile {
 	flex: 0 1 auto;
 	max-width: 200px;
 	min-width: 150px;
 }
 
+/* 等级标签页 */
 .level-tabs-mobile {
 	margin-bottom: 30px;
 	margin-top: 0;
@@ -455,6 +531,8 @@
 }
 
 
+/* ==================== 学生卡片 ==================== */
+/* 学生头像容器 */
 .student-avatar-mobile {
 	width: 50px;
 	height: 50px;
@@ -465,6 +543,8 @@
 	flex-shrink: 0;
 	overflow: hidden;
 }
+
+/* 学生主要信息行 */
 .student-main-row-mobile {
 	display: flex;
 	align-items: flex-start;
@@ -474,27 +554,32 @@
 	margin-bottom: 12px;
 }
 
+/* 有头像时的样式 */
 .student-avatar-mobile.has-avatar {
 	background: transparent;
 }
 
+/* 头像图片 */
 .avatar-image-mobile {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 }
 
+/* 头像文字 */
 .avatar-text-mobile {
 	font-size: 20px;
 	font-weight: 700;
 	color: white;
 }
 
+/* 学生主要信息 */
 .student-primary-info-mobile {
 	flex: 1;
 	min-width: 0;
 }
 
+/* 学生姓名 */
 .student-name-mobile {
 	font-size: 16px;
 	font-weight: 700;
@@ -502,18 +587,21 @@
 	margin-bottom: 4px;
 }
 
+/* 学生ID */
 .student-id-mobile {
 	font-size: 12px;
 	color: var(--admin-text-secondary);
 	margin-bottom: 6px;
 }
 
+/* 学生详细信息 */
 .student-details-mobile {
 	display: flex;
 	gap: 8px;
 	flex-wrap: wrap;
 }
 
+/* 学生详情标签 */
 .student-details-mobile span {
 	font-size: 11px;
 	color: var(--admin-text-secondary);
@@ -522,6 +610,7 @@
 	border-radius: 6px;
 }
 
+/* 出勤计数容器 */
 .attendance-count-mobile {
 	display: flex;
 	flex-direction: column;
@@ -530,17 +619,20 @@
 	flex-shrink: 0;
 }
 
+/* 出勤图标 */
 .attendance-icon-mobile {
 	font-size: 20px;
 	color: var(--admin-primary-color);
 }
 
+/* 计数文字 */
 .count-text-mobile {
 	font-size: 11px;
 	color: var(--admin-text-secondary);
 	font-weight: 600;
 }
 
+/* ==================== 学生操作区域 ==================== */
 /* 调整按钮容器间距 */
 .student-actions-mobile {
 	gap: 6px; /* 从8px减小到6px */
@@ -548,11 +640,13 @@
 	flex-wrap: wrap;
 }
 
+/* 出勤操作按钮容器 */
 .attendance-actions-container {
 	display: flex;
 	margin: 8px 0;
 }
 
+/* 紧凑型按钮样式 - 记录、补签、热力图、趋势 */
 .records-btn-mobile,
 .makeup-btn-mobile,
 .heatmap-btn-mobile,
@@ -562,6 +656,7 @@
 	font-size: 12px !important;
 }
 
+/* 按钮图标样式 */
 .records-btn-mobile .el-icon,
 .makeup-btn-mobile .el-icon,
 .heatmap-btn-mobile .el-icon,
@@ -570,6 +665,8 @@
 	margin-right: 2px;
 }
 
+/* ==================== 等级和管理员管理 ==================== */
+/* 等级管理容器 */
 .level-management-mobile,
 .admin-management-mobile {
 	display: flex;
@@ -577,6 +674,7 @@
 	gap: 8px;
 }
 
+/* 管理标签 */
 .management-label-mobile {
 	font-size: 12px;
 	color: var(--admin-text-secondary);
@@ -585,6 +683,7 @@
 	min-width: 50px;
 }
 
+/* 选择器组件 */
 .level-select-mobile,
 .admin-select-mobile {
 	flex: 1;
@@ -593,6 +692,8 @@
 
 
 
+/* ==================== 编辑对话框 ==================== */
+/* 编辑对话框主容器 */
 .edit-dialog-mobile :deep(.el-dialog) {
 	border-radius: 20px;
 	background: var(--admin-glass-bg);
@@ -600,37 +701,44 @@
 	border: 1px solid var(--admin-glass-border);
 }
 
+/* 编辑对话框头部 */
 .edit-dialog-mobile :deep(.el-dialog__header) {
 	padding: 20px 20px 15px;
 	border-bottom: 1px solid var(--admin-glass-border);
 }
 
+/* 编辑对话框标题 */
 .edit-dialog-mobile :deep(.el-dialog__title) {
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
+/* 编辑对话框内容区域 */
 .edit-dialog-mobile :deep(.el-dialog__body) {
 	padding: 20px;
 	max-height: 60vh;
 	overflow-y: auto;
 }
 
+/* 编辑表单容器 */
 .edit-form-mobile {
 	padding: 0;
 }
 
+/* 表单项样式 */
 .edit-form-mobile :deep(.el-form-item) {
 	margin-bottom: 18px;
 }
 
+/* 表单标签样式 */
 .edit-form-mobile :deep(.el-form-item__label) {
 	font-size: 14px;
 	color: var(--admin-text-primary);
 	font-weight: 600;
 }
 
+/* 对话框底部操作区 */
 .dialog-footer-mobile {
 	display: flex;
 	justify-content: flex-end;
@@ -639,6 +747,8 @@
 	border-top: 1px solid var(--admin-glass-border);
 }
 
+/* ==================== 今日出勤对话框 ==================== */
+/* 今日出勤对话框主容器 */
 .today-attendance-dialog-mobile :deep(.el-dialog) {
 	border-radius: 20px;
 	background: var(--admin-glass-bg);
@@ -646,27 +756,32 @@
 	border: 1px solid var(--admin-glass-border);
 }
 
+/* 今日出勤对话框头部 */
 .today-attendance-dialog-mobile :deep(.el-dialog__header) {
 	padding: 20px 20px 15px;
 	border-bottom: 1px solid var(--admin-glass-border);
 }
 
+/* 今日出勤对话框标题 */
 .today-attendance-dialog-mobile :deep(.el-dialog__title) {
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
+/* 今日出勤对话框内容区域 */
 .today-attendance-dialog-mobile :deep(.el-dialog__body) {
 	padding: 20px;
 	max-height: 60vh;
 	overflow-y: auto;
 }
 
+/* 出勤记录容器 */
 .attendance-records-container-mobile {
 	min-height: 200px;
 }
 
+/* 无记录状态提示 */
 .no-records-mobile {
 	display: flex;
 	flex-direction: column;
@@ -676,23 +791,27 @@
 	color: var(--admin-text-secondary);
 }
 
+/* 无记录图标 */
 .no-records-icon-mobile {
 	font-size: 48px;
 	margin-bottom: 15px;
 	opacity: 0.5;
 }
 
+/* 无记录提示文字 */
 .no-records-mobile p {
 	font-size: 14px;
 	margin: 0;
 }
 
+/* 出勤记录列表 */
 .records-list-mobile {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
 }
 
+/* 出勤记录项 */
 .attendance-record-item-mobile {
 	background: var(--glass-bg);
 	backdrop-filter: blur(20px);
@@ -704,6 +823,7 @@
 	gap: 10px;
 }
 
+/* 时间段指示器 */
 .time-period-indicator-mobile {
 	display: flex;
 	align-items: center;
@@ -715,21 +835,25 @@
 	font-weight: 600;
 }
 
+/* 上午时段样式 */
 .time-period-indicator-mobile.morning {
 	background: rgba(255, 193, 7, 0.2);
 	color: #ff9800;
 }
 
+/* 下午时段样式 */
 .time-period-indicator-mobile.afternoon {
 	background: rgba(33, 150, 243, 0.2);
 	color: #2196f3;
 }
 
+/* 晚间时段样式 */
 .time-period-indicator-mobile.evening {
 	background: rgba(156, 39, 176, 0.2);
 	color: #9c27b0;
 }
 
+/* 时段指示点 */
 .indicator-dot-mobile {
 	width: 8px;
 	height: 8px;
@@ -737,21 +861,25 @@
 	background: currentColor;
 }
 
+/* 时段文字 */
 .period-text-mobile {
 	font-size: 12px;
 }
 
+/* 记录内容区域 */
 .record-content-mobile {
 	display: flex;
 	align-items: flex-start;
 	gap: 12px;
 }
 
+/* 操作按钮组布局 */
 .student-actions-mobile > div {
 	flex: 0 0 100%; /* 每个功能块占据一整行 */
 	min-width: 100%;
 }
 
+/* 出勤时间显示 */
 .attendance-time-mobile {
 	display: flex;
 	align-items: center;
@@ -760,16 +888,20 @@
 	margin-top: 4px;
 }
 
+/* 时间图标 */
 .time-icon-mobile {
 	font-size: 16px;
 	color: var(--admin-text-secondary);
 }
 
+/* 时间文字 */
 .time-text-mobile {
 	font-size: 12px;
 	color: var(--admin-text-secondary);
 }
 
+/* ==================== 出勤记录对话框 ==================== */
+/* 出勤记录对话框主容器 */
 .attendance-records-dialog-mobile :deep(.el-dialog) {
 	border-radius: 20px;
 	background: var(--admin-glass-bg);
@@ -778,23 +910,27 @@
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
+/* 出勤记录对话框头部 */
 .attendance-records-dialog-mobile :deep(.el-dialog__header) {
 	padding: 20px 20px 15px;
 	border-bottom: 1px solid var(--admin-glass-border);
 }
 
+/* 出勤记录对话框标题 */
 .attendance-records-dialog-mobile :deep(.el-dialog__title) {
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
+/* 出勤记录对话框内容区域 */
 .attendance-records-dialog-mobile :deep(.el-dialog__body) {
 	padding: 20px;
 	max-height: 70vh;
 	overflow-y: auto;
 }
 
+/* 学生信息头部卡片 */
 .student-info-header-mobile {
 	display: flex;
 	align-items: center;
@@ -806,6 +942,7 @@
 	/* margin-bottom: 20px; */
 }
 
+/* 学生大头像 */
 .student-avatar-large-mobile {
 	width: 45px;
 	height: 45px;
@@ -818,12 +955,13 @@
 	overflow: hidden;
 }
 
-
+/* 学生基本信息区域 */
 .student-info-mobile {
 	flex: 1;
 	min-width: 0;
 }
 
+/* 学生姓名 */
 .student-info-mobile h3 {
 	font-size: 16px;
 	font-weight: 700;
@@ -831,12 +969,14 @@
 	margin: 0 0 4px 0;
 }
 
+/* 学生详细信息 */
 .student-info-mobile p {
 	font-size: 12px;
 	color: var(--admin-text-secondary);
 	margin: 2px 0;
 }
 
+/* 出勤统计摘要 */
 .attendance-summary-mobile {
 	display: flex;
 	flex-direction: column;
@@ -844,6 +984,7 @@
 	gap: 8px;
 }
 
+/* 统计摘要项 */
 .summary-item-mobile {
 	display: flex;
 	flex-direction: column;
@@ -851,18 +992,30 @@
 	gap: 4px;
 }
 
+/* 统计标签 */
 .summary-label-mobile {
 	font-size: 12px;
 	color: var(--admin-text-secondary);
 }
 
+/* 统计数值 */
 .summary-value-mobile {
 	font-size: 20px;
 	font-weight: 700;
 	color: var(--admin-primary-color);
 }
 
+/* 正面状态颜色 */
+.summary-value-mobile.positive {
+	color: var(--admin-success-color);
+}
 
+/* 负面状态颜色 */
+.summary-value-mobile.negative {
+	color: var(--admin-danger-color);
+}
+
+/* 记录列表容器 */
 .records-list-mobile {
 	display: flex;
 	flex-direction: column;
@@ -870,6 +1023,8 @@
 	padding: 12px;
 }
 
+/* ==================== 补签对话框 ==================== */
+/* 补签对话框主容器 */
 .makeup-dialog-mobile :deep(.el-dialog) {
 	border-radius: 20px;
 	background: var(--admin-glass-bg);
@@ -878,58 +1033,66 @@
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
+/* 补签对话框头部 */
 .makeup-dialog-mobile :deep(.el-dialog__header) {
 	padding: 20px 20px 15px;
 	border-bottom: 1px solid var(--admin-glass-border);
 }
 
+/* 补签对话框标题 */
 .makeup-dialog-mobile :deep(.el-dialog__title) {
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
+/* 补签对话框内容区域 */
 .makeup-dialog-mobile :deep(.el-dialog__body) {
 	padding: 20px;
 	max-height: 70vh;
 	overflow-y: auto;
 }
 
-
+/* 补签步骤内容 */
 .makeup-step-content-mobile {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
 }
 
-
+/* 补签表单内容区域 */
 .makeup-form-content-mobile {
 	margin-top: 10px;
 }
 
+/* 补签日期选择器 */
 .makeup-date-picker-mobile {
 	width: 100%;
 }
 
+/* 日期选择器输入框禁用文本选择 */
 .makeup-date-picker-mobile :deep(.el-input__inner) {
 	-webkit-user-select: none;
 	user-select: none;
 }
 
+/* 日期选择器输入框禁用文本选择 */
 .makeup-date-picker-mobile :deep(input) {
 	-webkit-user-select: none;
 	user-select: none;
 }
 
+/* 只读输入框设置光标样式 */
 .makeup-date-picker-mobile :deep(input[readonly]) {
 	cursor: pointer;
 }
 
+/* 日期选择器弹层层级 */
 .makeup-date-picker-popper-mobile {
 	z-index: 2001 !important;
 }
 
-
+/* 时间段标签 */
 .time-slot-label-mobile {
 	font-size: 14px;
 	font-weight: 600;
@@ -937,8 +1100,7 @@
 	margin-bottom: 5px;
 }
 
-
-
+/* 补签对话框底部操作区 */
 .makeup-footer-mobile {
 	display: flex;
 	justify-content: flex-end;
@@ -947,12 +1109,14 @@
 	border-top: 1px solid var(--admin-glass-border);
 }
 
-
+/* 补签主按钮样式 */
 .makeup-footer-mobile .el-button--primary {
 	flex: 1;
 	max-width: 120px;
 }
 
+/* ==================== 热力图和趋势图对话框覆盖层 ==================== */
+/* 热力图覆盖层 - 固定定位覆盖全屏 */
 .heatmap-overlay-mobile {
 	position: fixed !important;
 	inset: 0 !important;
@@ -961,6 +1125,7 @@
 	animation: none !important;
 }
 
+/* 热力图对话框覆盖层 - 居中显示 */
 .heatmap-overlay-mobile .el-overlay-dialog {
 	position: fixed !important;
 	inset: 0 !important;
@@ -972,6 +1137,7 @@
 	animation: none !important;
 }
 
+/* 趋势图覆盖层 - 固定定位覆盖全屏 */
 .trend-overlay-mobile {
 	position: fixed !important;
 	inset: 0 !important;
@@ -980,6 +1146,7 @@
 	animation: none !important;
 }
 
+/* 趋势图对话框覆盖层 - 居中显示 */
 .trend-overlay-mobile .el-overlay-dialog {
 	position: fixed !important;
 	inset: 0 !important;
@@ -991,6 +1158,8 @@
 	animation: none !important;
 }
 
+/* ==================== 热力图对话框 ==================== */
+/* 热力图对话框主容器 - 使用CSS变量控制尺寸 */
 .heatmap-dialog-mobile :deep(.el-dialog) {
 	--el-dialog-width: 90%;
 	--el-dialog-margin-top: 15vh;
@@ -1010,17 +1179,20 @@
 	/* padding: var(--el-dialog-padding-primary); */
 }
 
+/* 热力图对话框头部 */
 .heatmap-dialog-mobile :deep(.el-dialog__header) {
 	padding: 20px 20px 15px;
 	border-bottom: 1px solid var(--admin-glass-border);
 }
 
+/* 热力图对话框标题 */
 .heatmap-dialog-mobile :deep(.el-dialog__title) {
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
+/* 热力图对话框内容区域 */
 .heatmap-dialog-mobile :deep(.el-dialog__body) {
 	padding: 20px;
 	max-height: 70vh;
@@ -1077,6 +1249,8 @@
 
 
 
+/* ==================== 积分对话框 ==================== */
+/* 积分对话框主容器 */
 .points-dialog-mobile :deep(.el-dialog) {
 	border-radius: 20px;
 	background: var(--admin-glass-bg);
@@ -1085,34 +1259,38 @@
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
+/* 积分对话框头部 */
 .points-dialog-mobile :deep(.el-dialog__header) {
 	padding: 20px 20px 15px;
 	border-bottom: 1px solid var(--admin-glass-border);
 }
 
+/* 积分对话框标题 */
 .points-dialog-mobile :deep(.el-dialog__title) {
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
+/* 积分对话框内容区域 */
 .points-dialog-mobile :deep(.el-dialog__body) {
 	padding: 20px;
 	max-height: 70vh;
 	overflow-y: auto;
 }
 
+/* 积分学生信息区域 */
 .points-student-info-mobile {
 	margin-bottom: 20px;
 }
 
-
+/* 积分表单容器 */
 .points-form-mobile {
 	margin-top: 20px;
 }
 
-
-/* 积分记录对话框样式 */
+/* ==================== 积分记录对话框 ==================== */
+/* 积分记录对话框覆盖层 - 固定定位覆盖全屏 */
 .score-change-records-overlay-mobile {
 	position: fixed !important;
 	inset: 0 !important;
@@ -1121,6 +1299,7 @@
 	animation: none !important;
 }
 
+/* 积分记录对话框覆盖层 - 居中显示 */
 .score-change-records-overlay-mobile .el-overlay-dialog {
 	position: fixed !important;
 	inset: 0 !important;
@@ -1132,6 +1311,7 @@
 	animation: none !important;
 }
 
+/* 积分记录对话框主容器 */
 .score-change-records-dialog-mobile :deep(.el-dialog) {
 	border-radius: 20px;
 	background: var(--admin-glass-bg);
@@ -1140,17 +1320,20 @@
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
+/* 积分记录对话框头部 */
 .score-change-records-dialog-mobile :deep(.el-dialog__header) {
 	padding: 20px 20px 15px;
 	border-bottom: 1px solid var(--admin-glass-border);
 }
 
+/* 积分记录对话框标题 */
 .score-change-records-dialog-mobile :deep(.el-dialog__title) {
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
+/* 积分记录对话框内容区域 */
 .score-change-records-dialog-mobile :deep(.el-dialog__body) {
 	padding: 20px;
 	max-height: 70vh;
@@ -1246,6 +1429,8 @@
 	color: var(--admin-danger-color);
 }
 
+/* ==================== 管理员头像 ==================== */
+/* 管理员头像 - 居中显示 */
 .admin-avatar-mobile {
 	position: absolute;
 	top: 50%;
@@ -1257,8 +1442,11 @@
 	object-fit: cover;
 	border: 3px solid var(--admin-primary-color);
 	opacity: 0.9;
+}
 
-}.auth-page-header-mobile h2 {
+/* ==================== 认证页面头部 ==================== */
+/* 认证页面主标题 */
+.auth-page-header-mobile h2 {
 	font-size: 22px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
@@ -1266,6 +1454,7 @@
 	letter-spacing: 0.5px;
 }
 
+/* 认证页面描述文字 */
 .auth-page-header-mobile p {
 	font-size: 13px;
 	color: var(--admin-text-secondary);

@@ -1,7 +1,7 @@
 <script setup>
 /**
  * 导航页面组件(桌面端)
- * 
+ *
  * @description 提供系统功能导航,展示用户信息、签到次数、积分统计等
  * @component NavigationPageDesktop
  */

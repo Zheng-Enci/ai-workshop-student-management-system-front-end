@@ -49,10 +49,10 @@ api.interceptors.response.use(
  * 学生登录接口
  * 使用学号和密码进行登录认证
  *
- * @param {Object} data - 登录数据对象
- * @param {string} data.studentId - 学号
- * @param {string} data.password - 密码
- * @returns {Promise<Object>} 登录结果数据，包含token和用户信息
+ * @param data - 登录数据对象
+ * @param data.studentId - 学号
+ * @param data.password - 密码
+ * @returns 登录结果数据，包含token和用户信息
  * @throws {Error} 登录失败时抛出错误
  */
 export const login = async data => {
@@ -84,17 +84,17 @@ export const login = async data => {
  * 学生注册接口
  * 创建新的学生账户
  *
- * @param {Object} data - 注册数据对象
- * @param {string} data.studentId - 学号
- * @param {string} data.password - 密码
- * @param {string} data.name - 姓名
- * @param {string} [data.gender] - 性别
- * @param {string} [data.phoneNumber] - 手机号
- * @param {string} [data.college] - 学院
- * @param {string} [data.major] - 专业
- * @param {number} [data.grade] - 年级
- * @param {number} [data.classNum] - 班级
- * @returns {Promise<Object>} 注册结果数据
+ * @param data - 注册数据对象
+ * @param data.studentId - 学号
+ * @param data.password - 密码
+ * @param data.name - 姓名
+ * @param [data.gender] - 性别
+ * @param [data.phoneNumber] - 手机号
+ * @param [data.college] - 学院
+ * @param [data.major] - 专业
+ * @param [data.grade] - 年级
+ * @param [data.classNum] - 班级
+ * @returns 注册结果数据
  * @throws {Error} 注册失败时抛出错误（400/409为业务错误，500+为服务器错误）
  */
 export const register = async data => {
@@ -123,8 +123,8 @@ export const register = async data => {
  * Token验证接口
  * 验证用户登录token是否有效
  *
- * @param {string} token - 用户认证token
- * @returns {Promise<boolean>} token是否有效，true表示有效，false表示无效
+ * @param token - 用户认证token
+ * @returns token是否有效，true表示有效，false表示无效
  * @throws {Error} 网络错误或服务器错误时抛出异常
  */
 export const validateToken = async token => {
@@ -163,8 +163,8 @@ export const validateToken = async token => {
  * 获取学生个人信息接口
  * 根据token获取当前登录学生的个人信息
  *
- * @param {string} token - 用户认证token
- * @returns {Promise<Object>} 学生个人信息数据
+ * @param token - 用户认证token
+ * @returns 学生个人信息数据
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentProfile = async token => {
@@ -195,16 +195,16 @@ export const getStudentProfile = async token => {
  * 更新学生个人信息接口
  * 更新当前登录学生的个人信息
  *
- * @param {string} token - 用户认证token
- * @param {Object} data - 要更新的学生信息数据
- * @param {string} [data.name] - 姓名
- * @param {string} [data.gender] - 性别
- * @param {string} [data.phoneNumber] - 手机号
- * @param {string} [data.college] - 学院
- * @param {string} [data.major] - 专业
- * @param {number} [data.grade] - 年级
- * @param {number} [data.classNum] - 班级
- * @returns {Promise<Object>} 更新结果数据
+ * @param token - 用户认证token
+ * @param data - 要更新的学生信息数据
+ * @param [data.name] - 姓名
+ * @param [data.gender] - 性别
+ * @param [data.phoneNumber] - 手机号
+ * @param [data.college] - 学院
+ * @param [data.major] - 专业
+ * @param [data.grade] - 年级
+ * @param [data.classNum] - 班级
+ * @returns 更新结果数据
  * @throws {Error} 更新失败时抛出错误
  */
 export const updateStudentInfo = async (token, data) => {
@@ -238,11 +238,11 @@ export const updateStudentInfo = async (token, data) => {
  * 修改密码接口
  * 修改当前登录学生的账户密码
  *
- * @param {string} token - 用户认证token
- * @param {Object} data - 密码修改数据
- * @param {string} data.oldPassword - 原密码
- * @param {string} data.newPassword - 新密码
- * @returns {Promise<Object>} 修改结果数据
+ * @param token - 用户认证token
+ * @param data - 密码修改数据
+ * @param data.oldPassword - 原密码
+ * @param data.newPassword - 新密码
+ * @returns 修改结果数据
  * @throws {Error} 修改失败时抛出错误
  */
 export const changePassword = async (token, data) => {
@@ -276,7 +276,7 @@ export const changePassword = async (token, data) => {
  * 获取年级统计接口
  * 获取各年级学生数量统计信息
  *
- * @returns {Promise<Object>} 年级统计数据
+ * @returns 年级统计数据
  * @throws {Error} 获取失败时抛出错误
  */
 export const getGradeStatistics = async () => {
@@ -301,7 +301,7 @@ export const getGradeStatistics = async () => {
  * 获取专业统计接口
  * 获取各专业学生数量统计信息
  *
- * @returns {Promise<Object>} 专业统计数据
+ * @returns 专业统计数据
  * @throws {Error} 获取失败时抛出错误
  */
 export const getMajorStatistics = async () => {
@@ -326,7 +326,7 @@ export const getMajorStatistics = async () => {
  * 获取学生总数接口
  * 获取系统中所有学生的总数量
  *
- * @returns {Promise<Object>} 学生总数数据
+ * @returns 学生总数数据
  * @throws {Error} 获取失败时抛出错误
  */
 export const getTotalStudentCount = async () => {
@@ -351,8 +351,8 @@ export const getTotalStudentCount = async () => {
  * 根据等级代码获取学生数量接口
  * 获取指定等级的学生数量统计
  *
- * @param {number} levelCode - 等级代码（0-3）
- * @returns {Promise<Object>} 该等级的学生数量数据
+ * @param levelCode - 等级代码（0-3）
+ * @returns 该等级的学生数量数据
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentCountByLevel = async levelCode => {
@@ -381,8 +381,8 @@ export const getStudentCountByLevel = async levelCode => {
  * 根据学号获取学生等级接口
  * 通过学号（studentId）获取学生的等级信息
  *
- * @param {string} studentId - 学号
- * @returns {Promise<Object>} 学生等级数据，data字段为等级代码(0-3)
+ * @param studentId - 学号
+ * @returns 学生等级数据，data字段为等级代码(0-3)
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentLevel = async studentId => {
@@ -409,8 +409,8 @@ export const getStudentLevel = async studentId => {
  * 根据学生信息ID获取学生等级接口
  * 通过学生信息ID（studentInfoId）获取学生的等级信息
  *
- * @param {string|number} studentInfoId - 学生信息ID（数据库主键）
- * @returns {Promise<Object>} 学生等级数据，data字段为等级代码(0-3)
+ * @param studentInfoId - 学生信息ID（数据库主键）
+ * @returns 学生等级数据，data字段为等级代码(0-3)
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentLevelByInfoId = async studentInfoId => {
@@ -437,8 +437,8 @@ export const getStudentLevelByInfoId = async studentInfoId => {
  * 通过token获取学生数据库表主键ID接口
  * 根据用户登录token获取学生的数据库表主键ID
  *
- * @param {string} token - 用户认证token
- * @returns {Promise<Object>} 响应数据，data字段为学生数据库表主键ID
+ * @param token - 用户认证token
+ * @returns 响应数据，data字段为学生数据库表主键ID
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentDatabaseTableId = async token => {
@@ -469,8 +469,8 @@ export const getStudentDatabaseTableId = async token => {
  * 根据学生信息ID获取学生姓名接口
  * 通过学生信息ID获取学生的姓名
  *
- * @param {string|number} studentInfoId - 学生信息ID（数据库主键）
- * @returns {Promise<Object>} 响应数据，data字段为学生姓名
+ * @param studentInfoId - 学生信息ID（数据库主键）
+ * @returns 响应数据，data字段为学生姓名
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentNameByInfoId = async studentInfoId => {
@@ -497,9 +497,9 @@ export const getStudentNameByInfoId = async studentInfoId => {
  * 根据学生信息ID获取学生公开字段值接口
  * 获取指定学生的某个公开字段的值（如姓名、头像等）
  *
- * @param {string|number} studentInfoId - 学生信息ID（数据库主键）
- * @param {string} fieldName - 字段名称（如'name'、'avatar'等）
- * @returns {Promise<Object>} 响应数据，data字段为字段值
+ * @param studentInfoId - 学生信息ID（数据库主键）
+ * @param fieldName - 字段名称（如'name'、'avatar'等）
+ * @returns 响应数据，data字段为字段值
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentPublicFieldValueById = async (studentInfoId, fieldName) => {
@@ -529,8 +529,8 @@ export const getStudentPublicFieldValueById = async (studentInfoId, fieldName) =
  * 使用特殊密码获取所有学生信息接口
  * 管理员使用特殊密码获取系统中所有学生的信息列表
  *
- * @param {string} specialPassword - 特殊密码（管理员密码）
- * @returns {Promise<Object>} 所有学生信息数据
+ * @param specialPassword - 特殊密码（管理员密码）
+ * @returns 所有学生信息数据
  * @throws {Error} 获取失败时抛出错误（400为特殊密码错误）
  */
 export const getAllStudentsWithSpecialPassword = async specialPassword => {
@@ -561,10 +561,10 @@ export const getAllStudentsWithSpecialPassword = async specialPassword => {
  * 设置学生等级接口
  * 管理员使用特殊密码为学生设置等级
  *
- * @param {string} specialPassword - 特殊密码（管理员密码）
- * @param {string} studentId - 学号
- * @param {number} levelCode - 等级代码（0-3）
- * @returns {Promise<Object>} 设置结果数据
+ * @param specialPassword - 特殊密码（管理员密码）
+ * @param studentId - 学号
+ * @param levelCode - 等级代码（0-3）
+ * @returns 设置结果数据
  * @throws {Error} 设置失败时抛出错误
  */
 export const setStudentLevel = async (specialPassword, studentId, levelCode) => {
@@ -598,18 +598,18 @@ export const setStudentLevel = async (specialPassword, studentId, levelCode) => 
  * 使用特殊密码更新学生信息接口
  * 管理员使用特殊密码更新指定学生的信息
  *
- * @param {string} specialPassword - 特殊密码（管理员密码）
- * @param {string} studentId - 学号
- * @param {Object} studentData - 要更新的学生信息数据
- * @param {string} [studentData.name] - 姓名
- * @param {string} [studentData.gender] - 性别
- * @param {string} [studentData.phoneNumber] - 手机号
- * @param {string} [studentData.college] - 学院
- * @param {string} [studentData.major] - 专业
- * @param {number} [studentData.grade] - 年级
- * @param {number} [studentData.classNum] - 班级
- * @param {string} [studentData.password] - 密码
- * @returns {Promise<Object>} 更新结果数据
+ * @param specialPassword - 特殊密码（管理员密码）
+ * @param studentId - 学号
+ * @param studentData - 要更新的学生信息数据
+ * @param [studentData.name] - 姓名
+ * @param [studentData.gender] - 性别
+ * @param [studentData.phoneNumber] - 手机号
+ * @param [studentData.college] - 学院
+ * @param [studentData.major] - 专业
+ * @param [studentData.grade] - 年级
+ * @param [studentData.classNum] - 班级
+ * @param [studentData.password] - 密码
+ * @returns 更新结果数据
  * @throws {Error} 更新失败时抛出错误
  */
 export const updateStudentWithSpecialPassword = async (specialPassword, studentId, studentData) => {
@@ -643,10 +643,10 @@ export const updateStudentWithSpecialPassword = async (specialPassword, studentI
  * 分配学生给管理员接口
  * 将指定学生分配给指定的管理员进行管理
  *
- * @param {string} specialPassword - 特殊密码（管理员密码）
- * @param {string} studentId - 被管理学生的学号
- * @param {string} adminStudentId - 管理员的学号
- * @returns {Promise<Object>} 分配结果数据
+ * @param specialPassword - 特殊密码（管理员密码）
+ * @param studentId - 被管理学生的学号
+ * @param adminStudentId - 管理员的学号
+ * @returns 分配结果数据
  * @throws {Error} 分配失败时抛出错误
  */
 export const assignStudentToAdmin = async (specialPassword, studentId, adminStudentId) => {
@@ -680,8 +680,8 @@ export const assignStudentToAdmin = async (specialPassword, studentId, adminStud
  * 获取管理员信息接口
  * 获取管理指定学生的管理员信息
  *
- * @param {string} managedStudentId - 被管理学生的学号
- * @returns {Promise<Object>} 管理员信息数据
+ * @param managedStudentId - 被管理学生的学号
+ * @returns 管理员信息数据
  * @throws {Error} 获取失败时抛出错误
  */
 export const getAdminInfo = async managedStudentId => {
@@ -712,8 +712,8 @@ export const getAdminInfo = async managedStudentId => {
  * 获取管理员管理的学生列表接口
  * 获取指定管理员管理的所有学生信息列表
  *
- * @param {string} adminStudentId - 管理员的学号
- * @returns {Promise<Object>} 被管理学生信息列表数据
+ * @param adminStudentId - 管理员的学号
+ * @returns 被管理学生信息列表数据
  * @throws {Error} 获取失败时抛出错误
  */
 export const getManagedStudents = async adminStudentId => {
@@ -744,9 +744,9 @@ export const getManagedStudents = async adminStudentId => {
  * 上传学生头像接口
  * 上传学生的头像图片文件
  *
- * @param {string} token - 用户认证token
- * @param {File} file - 头像文件对象（支持图片格式，最大2MB）
- * @returns {Promise<Object>} 上传结果数据，包含头像URL
+ * @param token - 用户认证token
+ * @param file - 头像文件对象（支持图片格式，最大2MB）
+ * @returns 上传结果数据，包含头像URL
  * @throws {Error} 上传失败时抛出错误（401为Token无效，413为文件过大，400为参数错误）
  */
 export const uploadAvatar = async (token, file) => {
@@ -832,9 +832,9 @@ export const uploadAvatar = async (token, file) => {
  * 根据学生ID和头像尺寸生成头像URL地址
  * 这是一个静态辅助方法，不发起网络请求，仅生成URL
  *
- * @param {string|number} studentInfoId - 学生数据库表主键ID
- * @param {number} [avatarSize=64] - 头像尺寸（像素），默认64
- * @returns {string|null} 头像URL地址，如果studentInfoId无效则返回null
+ * @param studentInfoId - 学生数据库表主键ID
+ * @param [avatarSize] - 头像尺寸（像素），默认64
+ * @returns 头像URL地址，如果studentInfoId无效则返回null
  */
 export const getAvatarUrl = (studentInfoId, avatarSize = 64) => {
 	// 验证学生ID是否有效
