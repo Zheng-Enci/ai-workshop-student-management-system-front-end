@@ -34,7 +34,7 @@ function withCheckLogging(plugin, checkName) {
       const timestamp = new Date().toLocaleTimeString('zh-CN', { hour12: false })
       
       if (logger.info) {
-        logger.info(`🔍 [${timestamp}] 正在运行 ${checkName} 检查...`, { timestamp: true })
+        logger.info(`🔍 [${timestamp}] 正在运行 ${checkName} 检查...`)
       } else {
         console.log(`🔍 [${timestamp}] 正在运行 ${checkName} 检查...`)
       }
@@ -53,7 +53,7 @@ function withCheckLogging(plugin, checkName) {
               const duration = ((Date.now() - this[startTime]) / 1000).toFixed(2)
               const endTime = new Date().toLocaleTimeString('zh-CN', { hour12: false })
               if (logger.info) {
-                logger.info(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`, { timestamp: true })
+                logger.info(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`)
               } else {
                 console.log(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`)
               }
@@ -68,7 +68,7 @@ function withCheckLogging(plugin, checkName) {
           // 延迟一点输出，让检查有时间执行
           setTimeout(() => {
             if (logger.info) {
-              logger.info(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`, { timestamp: true })
+              logger.info(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`)
             } else {
               console.log(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`)
             }
@@ -92,7 +92,7 @@ export default defineConfig({
       buildStart(pluginContext) {
         const logger = pluginContext?.logger || console
         if (logger.info) {
-          logger.info('\n📋 开始代码质量检查...', { timestamp: true })
+          logger.info('\n📋 开始代码质量检查...')
         } else {
           console.log('\n📋 开始代码质量检查...')
         }
