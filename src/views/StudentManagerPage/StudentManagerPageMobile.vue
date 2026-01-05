@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 学生管理页面组件(移动端)
+ *
+ * @description 管理员管理学生的考勤记录、补卡、热力图、趋势图等功能(移动端)
+ * @component StudentManagerPageMobile
+ */
 import { ElMessage, ElButton, ElIcon, ElInput, ElDialog, ElDatePicker, ElCalendar } from 'element-plus'
 import { ref, onMounted, computed, nextTick, watch } from 'vue'
 import 'element-plus/theme-chalk/base.css'

@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 学生管理页面组件(桌面端)
+ *
+ * @description 管理员管理学生信息页面,包括考勤记录、补卡、热力图、趋势图等功能
+ * @component StudentManagerPageDesktop
+ */
 import { nextTick, onMounted, ref, watch } from 'vue'
 import { ElButton, ElCalendar, ElDatePicker, ElDialog, ElIcon, ElInput, ElMessage, ElMessageBox } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
@@ -68,6 +74,8 @@ echarts.use([
 const router = useRouter()
 const userStore = useUserStore()
 const themeStore = useThemeStore()
+
+// 响应式数据定义
 const managedStudents = ref([])
 const loading = ref(false)
 const searchQuery = ref('')
@@ -84,6 +92,8 @@ const trendDialogChart = ref(null)
 const toggleTheme = () => {
 	themeStore.toggleTheme()
 }
+
+// 学生搜索和排序相关函数
 
 const handleSearch = () => {
 	if (!searchQuery.value.trim()) {
@@ -144,6 +154,8 @@ const sortByAttendance = () => {
 		})
 	}
 }
+
+// 考勤次数缓存
 const attendanceCounts = ref({})
 const selectedStudent = ref(null)
 const currentMakeupStudent = ref(null)
@@ -1083,6 +1095,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 </script>
 
 <template>
+	<!-- 学生管理页面主容器 -->
 	<div class="page_header">
 		<div class="page-header">
 			<!-- 页面头部左侧块 -->

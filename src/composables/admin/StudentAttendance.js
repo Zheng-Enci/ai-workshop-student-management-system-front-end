@@ -14,22 +14,39 @@ import { useAdminStore } from '@/stores/admin'
 /**
  * 学生考勤管理Composable
  */
+/**
+ * 学生考勤管理Composable函数
+ * 提供考勤记录查询、补卡操作、统计计算等功能
+ * 
+ * @returns {Object} 包含状态、计算属性和方法的对象
+ */
 export function useStudentAttendance() {
-	// 响应式状态
+	/**
+	 * 响应式状态定义
+	 */
+	// 今日考勤记录列表
 	const todayAttendanceRecords = ref([])
+	// 所有学生考勤记录列表
 	const allStudentAttendanceRecords = ref([])
+	// 加载状态标识
 	const loading = ref(false)
+	// 补卡表单数据
 	const makeupForm = ref({
-		studentInfoId: null,
-		attendanceId: null,
-		specialPassword: '',
-		date: '',
-		period: 'morning'
+		studentInfoId: null, // 学生信息ID
+		attendanceId: null, // 考勤记录ID
+		specialPassword: '', // 特殊密码（管理员密码）
+		date: '', // 补卡日期
+		period: 'morning' // 时间段：morning/afternoon/evening/night
 	})
+	// 补卡对话框显示状态
 	const makeupDialogVisible = ref(false)
+	// 考勤记录对话框显示状态
 	const attendanceRecordsDialogVisible = ref(false)
 
-	// 管理员状态
+	/**
+	 * 管理员状态管理
+	 * 用于获取管理员权限和密码
+	 */
 	const _adminStore = useAdminStore()
 
 	/**
@@ -55,16 +72,18 @@ export function useStudentAttendance() {
 
 	/**
 	 * 获取学生考勤记录
-	 * @param studentId 学生ID
-	 * @param params 查询参数
-	 * @param _params
-	 * @returns 请求结果
+	 * 根据学生ID获取该学生的所有考勤记录
+	 * 
+	 * @param {string|number} studentId - 学生ID
+	 * @param {Object} [_params={}] - 查询参数（预留，当前未使用）
+	 * @returns {Promise<Object>} 请求结果对象，包含success和message字段
 	 */
 	const fetchStudentAttendance = async (studentId, _params = {}) => {
 		loading.value = true
 		try {
 			const response = await getStudentAttendanceRecords(studentId)
 
+			// 检查响应是否成功
 			if (response.code === 200 && response.data) {
 				allStudentAttendanceRecords.value = response.data
 				return { success: true }
@@ -136,25 +155,29 @@ export function useStudentAttendance() {
 
 	/**
 	 * 提交补卡申请
-	 * @returns 请求结果
+	 * 使用特殊密码为学生补录考勤记录
+	 * 
+	 * @returns {Promise<Object>} 请求结果对象，包含success和message字段
 	 */
 	const submitMakeup = async () => {
-		// 验证表单
+		// 验证表单：检查特殊密码是否已输入
 		if (!makeupForm.value.specialPassword) {
 			return { success: false, message: '请输入特殊密码' }
 		}
 
 		loading.value = true
 		try {
+			// 调用补卡API，传入特殊密码、学生ID和考勤时间
 			const response = await makeupAttendanceWithSpecialPassword(
 				makeupForm.value.specialPassword,
 				makeupForm.value.studentInfoId,
 				makeupForm.value.attendanceTime
 			)
 
+			// 补卡成功后的处理
 			if (response.code === 200) {
 				closeMakeupDialog()
-				// 刷新考勤记录
+				// 刷新考勤记录，确保数据最新
 				if (makeupForm.value.studentInfoId) {
 					await fetchStudentAttendance(makeupForm.value.studentInfoId)
 				}
@@ -226,18 +249,22 @@ export function useStudentAttendance() {
 
 	/**
 	 * 计算考勤统计
-	 * @param attendanceRecords 考勤记录
-	 * @returns 统计结果
+	 * 统计考勤记录中各种状态的数量
+	 * 
+	 * @param {Array} attendanceRecords - 考勤记录数组
+	 * @returns {Object} 统计结果对象，包含present（出勤）、absent（缺勤）、late（迟到）、leave（请假）和total（总数）
 	 */
 	const getAttendanceStats = attendanceRecords => {
+		// 初始化统计对象
 		const stats = {
-			present: 0,
-			absent: 0,
-			late: 0,
-			leave: 0,
-			total: attendanceRecords.length
+			present: 0, // 出勤次数
+			absent: 0, // 缺勤次数
+			late: 0, // 迟到次数
+			leave: 0, // 请假次数
+			total: attendanceRecords.length // 总记录数
 		}
 
+		// 遍历记录，统计各种状态的数量
 		attendanceRecords.forEach(record => {
 			switch (record.status) {
 				case 'present':

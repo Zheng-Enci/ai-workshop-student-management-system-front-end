@@ -39,6 +39,7 @@ echarts.use([
 	CanvasRenderer
 ])
 
+// 初始化路由和Store
 const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore

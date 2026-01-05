@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 签到页面组件(桌面端)
+ *
+ * @description 学生签到功能页面,展示签到热力图、趋势图和历史记录(桌面端)
+ * @component AttendancePageDesktop
+ */
 // ECharts 按需引入
 import { Check, ArrowLeft } from '@element-plus/icons-vue'
 import { HeatmapChart, LineChart } from 'echarts/charts'

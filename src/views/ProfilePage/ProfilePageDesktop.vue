@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 个人信息页面组件(桌面端)
+ * 
+ * @description 提供用户个人信息的查看、编辑、密码修改和头像上传功能
+ * @component ProfilePageDesktop
+ */
 // Fix 1: Import order - Icons first, then Element Plus core
 import { ArrowLeft, User, Edit, Lock, Calendar, Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
 import {
@@ -49,32 +55,32 @@ import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
 const router = useRouter()
 const themeStore = useThemeStore()
 
-// Form refs
+// Form refs - 表单引用
 const formRef = ref()
 const passwordFormRef = ref()
 const fileInputRef = ref(null)
 
-// Crop refs
+// Crop refs - 头像裁剪相关引用
 const cropDialogVisible = ref(false)
 const cropCanvasRef = ref(null)
 const cropWrapperRef = ref(null)
 const cropBoxRef = ref(null)
 
-// Loading states
+// Loading states - 加载状态
 const isLoading = ref(false)
 const isPasswordLoading = ref(false)
 const avatarLoading = ref(false)
 const isUploading = ref(false)
 const isCropping = ref(false)
 
-// UI states
+// UI states - UI状态
 const isEditing = ref(false)
 const showPasswordSection = ref(false)
 const attendanceCount = ref(null)
 const studentInfoId = ref(null)
 const avatarUrl = ref(null)
 
-// Crop state
+// Crop state - 裁剪状态
 const originalImageFile = ref(null)
 const cropImage = ref(null)
 const scale = ref(1)
@@ -87,14 +93,14 @@ const dragStartY = ref(0)
 const dragStartImageX = ref(0)
 const dragStartImageY = ref(0)
 
-// Event handlers (for cleanup)
+// Event handlers (for cleanup) - 事件处理器引用
 let mouseDownHandler = null
 let mouseMoveHandler = null
 let mouseUpHandler = null
 let mouseLeaveHandler = null
 let wheelHandler = null
 
-// Form data
+// Form data - 表单数据
 const formData = reactive({
 	name: '',
 	studentId: '',
@@ -107,12 +113,14 @@ const formData = reactive({
 	password: ''
 })
 
+// Password form data - 密码表单数据
 const passwordForm = reactive({
 	oldPassword: '',
 	newPassword: '',
 	confirmPassword: ''
 })
 
+// Original data backup - 原始数据备份
 const originalData = ref({})
 
 // Fix 3: Move all utility functions BEFORE their usage (resolve no-use-before-define)
@@ -1099,7 +1107,9 @@ onMounted(() => {
 </script>
 
 <template>
+	<!-- 个人信息页面主容器 -->
 	<div class="profile-container">
+		<!-- 背景装饰效果 -->
 		<div class="background-effects">
 			<div class="gradient-orb orb-1"/>
 			<div class="gradient-orb orb-2"/>
@@ -1107,6 +1117,7 @@ onMounted(() => {
 		</div>
 
 		<div class="content-wrapper">
+			<!-- 页面头部 -->
 			<div class="page-header">
 				<el-button
 					class="back-btn"
@@ -1126,14 +1137,19 @@ onMounted(() => {
 				</div>
 			</div>
 
+			<!-- 主内容区域 -->
 			<div class="main-content">
+				<!-- 个人信息卡片 -->
 				<div class="profile-card">
+					<!-- 加载遮罩 -->
 					<div v-if="isLoading" class="loading-overlay">
 						<div class="loading-spinner"/>
 					</div>
 
+					<!-- 用户信息头部 -->
 					<div class="profile-header">
 						<div class="user-info-section">
+							<!-- 头像上传区域 -->
 							<div class="avatar-wrapper">
 								<div class="avatar-container" @click="handleAvatarClick">
 									<div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
@@ -1156,6 +1172,7 @@ onMounted(() => {
 										</el-icon>
 										<span class="upload-text">点击上传头像</span>
 									</div>
+									<!-- 文件输入 -->
 									<input
 										ref="fileInputRef"
 										type="file"
@@ -1173,6 +1190,7 @@ onMounted(() => {
 									}}</span>
 								</div>
 							</div>
+							<!-- 用户详细信息 -->
 							<div class="user-details">
 								<h2>{{ formData.name || '用户' }}</h2>
 								<p class="student-id">{{ formData.studentId || '学号' }}</p>
@@ -1185,6 +1203,7 @@ onMounted(() => {
 									</div>
 								</div>
 							</div>
+							<!-- 编辑按钮 -->
 							<div class="action-buttons">
 								<el-button
 									type="primary"
@@ -1539,10 +1558,12 @@ onMounted(() => {
 			class="crop-dialog"
 		>
 			<div class="crop-container">
+				<!-- 裁剪画布包装器 -->
 				<div ref="cropWrapperRef" class="crop-wrapper">
 					<canvas ref="cropCanvasRef" class="crop-canvas"/>
 					<div ref="cropBoxRef" class="crop-box"/>
 				</div>
+				<!-- 裁剪控制按钮 -->
 				<div class="crop-controls">
 					<el-button :icon="ZoomOut" circle @click="zoomOut"/>
 					<span class="zoom-info">{{ Math.round(scale * 100) }}%</span>
@@ -1559,5 +1580,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* 导入外部样式文件 */
 @import './css/ProfilePageDesktop.css';
 </style>

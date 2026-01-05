@@ -18,7 +18,7 @@ function analyzeFileComments(filePath, content) {
 	for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
 		const line = lines[lineIndex]
 		const trimmedLine = line.trim()
-		
+
 		// 跳过空行
 		if (trimmedLine === '') {
 			continue
@@ -115,7 +115,7 @@ function analyzeFileComments(filePath, content) {
  */
 function getAllFiles(dir, extensions = ['.js', '.vue'], excludeDirs = ['node_modules', 'dist', '.git']) {
 	const files = []
-	
+
 	if (!existsSync(dir)) {
 		return files
 	}
@@ -123,13 +123,13 @@ function getAllFiles(dir, extensions = ['.js', '.vue'], excludeDirs = ['node_mod
 	const scanDir = (currentDir) => {
 		try {
 			const entries = readdirSync(currentDir)
-			
+
 			for (const entry of entries) {
 				const fullPath = join(currentDir, entry)
-				
+
 				try {
 					const stat = statSync(fullPath)
-					
+
 					if (stat.isDirectory()) {
 						// 检查是否在排除列表中
 						if (!excludeDirs.some(exclude => fullPath.includes(exclude))) {
@@ -169,7 +169,7 @@ function performCommentAnalysis(projectRoot, options = {}) {
 	} = options
 
 	const srcPath = join(projectRoot, srcDir)
-	
+
 	if (!existsSync(srcPath)) {
 		return {
 			success: false,
@@ -178,7 +178,7 @@ function performCommentAnalysis(projectRoot, options = {}) {
 	}
 
 	const files = getAllFiles(srcPath, extensions)
-	
+
 	if (files.length === 0) {
 		return {
 			success: false,
@@ -195,16 +195,16 @@ function performCommentAnalysis(projectRoot, options = {}) {
 		try {
 			const content = readFileSync(filePath, 'utf-8')
 			const stats = analyzeFileComments(filePath, content)
-			
+
 			totalCodeLines += stats.codeLines
 			totalCommentLines += stats.commentLines
 			totalLines += stats.totalLines
 
 			if (showDetails || stats.codeLines > 0) {
-				const coverage = stats.codeLines > 0 
+				const coverage = stats.codeLines > 0
 					? ((stats.commentLines / stats.codeLines) * 100).toFixed(2)
 					: 0
-				
+
 				const fileExt = extname(filePath)
 				fileStats.push({
 					file: relative(projectRoot, filePath),
@@ -220,7 +220,7 @@ function performCommentAnalysis(projectRoot, options = {}) {
 		}
 	}
 
-	const overallCoverage = totalCodeLines > 0 
+	const overallCoverage = totalCodeLines > 0
 		? ((totalCommentLines / totalCodeLines) * 100).toFixed(2)
 		: 0
 
@@ -246,8 +246,8 @@ function performCommentAnalysis(projectRoot, options = {}) {
  */
 function getMinCoverageForFile(fileExt, minCoverageByExtension = {}, defaultMinCoverage = 0) {
 	if (minCoverageByExtension && typeof minCoverageByExtension === 'object') {
-		return minCoverageByExtension[fileExt] !== undefined 
-			? minCoverageByExtension[fileExt] 
+		return minCoverageByExtension[fileExt] !== undefined
+			? minCoverageByExtension[fileExt]
 			: defaultMinCoverage
 	}
 	return defaultMinCoverage
@@ -260,15 +260,33 @@ function getMinCoverageForFile(fileExt, minCoverageByExtension = {}, defaultMinC
  * @returns {string}
  */
 function generateMarkdownReport(stats, options = {}) {
-	const { 
-		warnThreshold = 10, 
+	const {
+		warnThreshold = 10,
 		minCoverage = 0,
 		minCoverageByExtension = {}
 	} = options
 	const { coverage, totalFiles, totalCodeLines, totalCommentLines, fileStats } = stats
 
+	// 🔥 新增：根据文件扩展名返回对应图标
+	const getFileIcon = (extension) => {
+		const iconMap = {
+			'.js': '📘',
+			'.vue': '💚',
+			'.css': '🎨',
+			'.scss': '🎨',
+			'.ts': '🔷',
+			'.tsx': '🔷',
+			'.jsx': '📘',
+			'.json': '⚙️',
+			'.md': '📄',
+			'.html': '🌐',
+			'.xml': '📋'
+		}
+		return iconMap[extension] || '📄'
+	}
+
 	let report = `# 代码注释覆盖率报告\n\n`
-	
+
 	report += `## 📊 总体统计\n\n`
 	report += `| 指标 | 数值 |\n`
 	report += `|------|------|\n`
@@ -288,7 +306,7 @@ function generateMarkdownReport(stats, options = {}) {
 		fileTypeStats[ext].totalCommentLines += file.commentLines
 		fileTypeStats[ext].count++
 	})
-	
+
 	let weightedMinCoverage = 0
 	let totalWeight = 0
 	Object.keys(fileTypeStats).forEach(ext => {
@@ -301,7 +319,7 @@ function generateMarkdownReport(stats, options = {}) {
 		totalWeight += typeStats.totalCodeLines
 	})
 	const avgMinCoverage = totalWeight > 0 ? (weightedMinCoverage / totalWeight).toFixed(1) : minCoverage
-	
+
 	report += `## 📈 状态评估\n\n`
 	if (coverage < parseFloat(avgMinCoverage)) {
 		report += `⚠️ **注释率未达到最低要求** (加权平均最低要求: ${avgMinCoverage}%, 当前: ${coverage}%)\n\n`
@@ -312,7 +330,7 @@ function generateMarkdownReport(stats, options = {}) {
 	} else {
 		report += `✅ **注释率符合要求** (≥ ${avgMinCoverage}%)\n\n`
 	}
-	
+
 	// 显示各文件类型的最低要求
 	if (Object.keys(minCoverageByExtension).length > 0) {
 		report += `### 📋 各文件类型最低要求\n\n`
@@ -343,7 +361,8 @@ function generateMarkdownReport(stats, options = {}) {
 		report += `| 文件路径 | 代码行数 | 注释行数 | 注释率 | 最低要求 |\n`
 		report += `|---------|---------|---------|--------|----------|\n`
 		lowCoverageFiles.forEach(file => {
-			report += `| ${file.file} | ${file.codeLines} | ${file.commentLines} | ${file.coverage}% | ${file.minCoverage}% |\n`
+			const fileIcon = getFileIcon(file.extension)
+			report += `| ${fileIcon} ${file.file} | ${file.codeLines} | ${file.commentLines} | ${file.coverage}% | ${file.minCoverage}% |\n`
 		})
 		report += `\n`
 	}
@@ -353,11 +372,12 @@ function generateMarkdownReport(stats, options = {}) {
 		report += `## 📋 文件详细统计\n\n`
 		report += `| 文件路径 | 代码行数 | 注释行数 | 注释率 | 状态 |\n`
 		report += `|---------|---------|---------|--------|------|\n`
-		
+
 		fileStats.forEach(file => {
 			const fileMinCoverage = getMinCoverageForFile(file.extension, minCoverageByExtension, minCoverage)
 			const status = file.coverage >= fileMinCoverage ? '✅' : '⚠️'
-			report += `| ${file.file} | ${file.codeLines} | ${file.commentLines} | ${file.coverage}% | ${status} |\n`
+			const fileIcon = getFileIcon(file.extension)
+			report += `| ${fileIcon} ${file.file} | ${file.codeLines} | ${file.commentLines} | ${file.coverage}% | ${status} |\n`
 		})
 		report += `\n`
 	}
@@ -401,7 +421,7 @@ export function commentCoveragePlugin(options = {}) {
 				try {
 					const projectRoot = process.cwd()
 					const reportsDir = join(projectRoot, 'code-quality/code-quality-reports')
-					
+
 					// 确保报告目录存在
 					if (!existsSync(reportsDir)) {
 						mkdirSync(reportsDir, { recursive: true })

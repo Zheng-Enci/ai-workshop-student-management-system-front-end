@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 超级管理员页面组件(移动端)
+ *
+ * @description 超级管理员控制台,管理所有学生信息、考勤、积分等(移动端适配)
+ * @component AdminPageMobile
+ */
 import { onMounted, watch, ref } from 'vue'
 
 import { useAdminPage } from './AdminPage.js'
@@ -68,9 +74,10 @@ import { getAvatarUrl } from '@/api/student'
 
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
-// 获取ID为2的头像URL
+// 获取管理员头像URL
 const adminAvatarUrl = ref(getAvatarUrl(2, 256))
 
+// 从useAdminPage解构所有响应式状态和方法
 const {
 	isAuthenticated,
 	specialPassword,
@@ -220,7 +227,7 @@ const monthMap = {
 
 const monthObserver = null
 
-
+// 组件挂载时初始化
 onMounted(async () => {
 	document.title = '超级管理员控制台 - AI坊学生管理系统'
 
@@ -241,6 +248,7 @@ onMounted(async () => {
 	}
 })
 
+// 监听日历值变化,重新渲染图表
 watch(calendarValue, async () => {
 	if (attendanceRecordsDialogVisible.value && !isLoading.value) {
 		await nextTick()
@@ -252,7 +260,7 @@ watch(calendarValue, async () => {
 </script>
 
 <template>
-	<!-- 身份验证界面 -->
+	<!-- 身份验证界面(移动端) -->
 	<div v-if="!isAuthenticated" class="auth-section-mobile">
 		<div class="auth-page-header-mobile">
 			<div class="header-content-mobile">

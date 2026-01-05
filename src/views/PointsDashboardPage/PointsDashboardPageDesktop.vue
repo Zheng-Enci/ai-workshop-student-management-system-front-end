@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 积分看板页面组件(桌面端)
+ * 
+ * @description 展示学生积分排行榜,包括总积分、签到积分、活动积分三个维度
+ * @component PointsDashboardPageDesktop
+ */
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -37,6 +43,7 @@ echarts.use([
 	CanvasRenderer
 ])
 
+// 初始化路由和Store
 const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
@@ -1013,7 +1020,9 @@ onUnmounted(() => {
 </script>
 
 <template>
+	<!-- 积分看板页面主容器 -->
 	<div class="points-dashboard-container">
+		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-left">
 				<el-button

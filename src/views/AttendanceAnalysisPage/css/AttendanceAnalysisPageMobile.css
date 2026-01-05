@@ -1,360 +1,548 @@
+/**
+ * 考勤分析页面 - 移动端样式
+ * @file AttendanceAnalysisPageMobile.css
+ * @description 定义考勤分析页面移动端的样式，包括头部、统计网格、图表和排名列表等。
+ */
+
+/* ==================== 页面容器 ==================== */
+
+/**
+ * 考勤分析页面的移动端容器
+ * 设置最小高度、背景颜色、文本颜色和无内边距
+ */
 .attendance-analysis-mobile {
-  min-height: 100vh;
-  background: var(--bg-color);
-  color: var(--text-color);
-  padding: 0;
+  min-height: 100vh; /* 最小高度为视口高度 */
+  background: var(--bg-color); /* 背景颜色 */
+  color: var(--text-color); /* 文本颜色 */
+  padding: 0; /* 无内边距 */
 }
 
+/* ==================== 移动端头部 ==================== */
+
+/**
+ * 移动端头部
+ * 粘性定位，顶部对齐，z-index 为 100，设置背景、底部边框、内边距，并采用 flex 布局，两端对齐，垂直居中
+ */
 .mobile-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--bg-color);
-  border-bottom: 1px solid var(--border-color);
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  position: sticky; /* 粘性定位 */
+  top: 0; /* 顶部对齐 */
+  z-index: 100; /* z-index */
+  background: var(--bg-color); /* 背景颜色 */
+  border-bottom: 1px solid var(--border-color); /* 底部边框 */
+  padding: 12px 16px; /* 内边距 */
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 两端对齐 */
 }
 
+/**
+ * 头部左侧区域
+ * 采用 flex 布局，垂直居中，子元素间距为 12px
+ */
 .header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  gap: 12px; /* 子元素间距 */
 }
 
+/**
+ * 返回按钮
+ * 设置文本颜色、字体大小和内边距
+ */
 .back-button {
-  color: var(--text-color);
-  font-size: 18px;
-  padding: 8px;
+  color: var(--text-color); /* 文本颜色 */
+  font-size: 18px; /* 字体大小 */
+  padding: 8px; /* 内边距 */
 }
 
+/**
+ * 头部图标
+ * 设置大小、鼠标样式、圆角和过渡效果
+ */
 .header-icon {
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: transform 0.3s ease;
+  width: 32px; /* 宽度 */
+  height: 32px; /* 高度 */
+  cursor: pointer; /* 鼠标样式为手型 */
+  border-radius: 50%; /* 圆形 */
+  transition: transform 0.3s ease; /* 过渡效果 */
 }
 
+/**
+ * 头部图标的悬停效果
+ * 鼠标悬停时放大图标
+ */
 .header-icon:hover {
-  transform: scale(1.1);
+  transform: scale(1.1); /* 放大 */
 }
 
+/**
+ * 页面标题
+ * 设置字体大小、字重、无外边距和文本颜色
+ */
 .page-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin: 0;
-  color: var(--text-color);
+  font-size: 18px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  margin: 0; /* 无外边距 */
+  color: var(--text-color); /* 文本颜色 */
 }
 
+/**
+ * 移动端内容区域
+ * 设置内边距
+ */
 .mobile-content {
-  padding: 16px;
+  padding: 16px; /* 内边距 */
 }
 
+/**
+ * 时间范围选择器
+ * 设置底部外边距
+ */
 .time-range-selector {
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* 底部外边距 */
 }
 
+/**
+ * 移动端统计网格布局
+ * 采用 grid 布局，两列，子元素间距为 12px，底部外边距为 20px
+ */
 .mobile-stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
+  display: grid; /* 网格布局 */
+  grid-template-columns: 1fr 1fr; /* 两列等宽 */
+  gap: 12px; /* 子元素间距 */
+  margin-bottom: 20px; /* 底部外边距 */
 }
 
+/**
+ * 统计卡片
+ * 设置背景、圆角、内边距，并采用 flex 布局，垂直居中，子元素间距为 12px，设置边框
+ */
 .stat-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid var(--border-color);
+  background: var(--card-bg); /* 背景 */
+  border-radius: 12px; /* 圆角 */
+  padding: 16px; /* 内边距 */
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  gap: 12px; /* 子元素间距 */
+  border: 1px solid var(--border-color); /* 边框 */
 }
 
+/**
+ * 统计图标
+ * 设置大小、圆角、背景、显示方式、水平垂直居中、文本颜色和字体大小
+ */
 .stat-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--primary-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 18px;
+  width: 40px; /* 宽度 */
+  height: 40px; /* 高度 */
+  border-radius: 50%; /* 圆形 */
+  background: var(--primary-color); /* 背景 */
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  color: white; /* 文本颜色 */
+  font-size: 18px; /* 字体大小 */
 }
 
+/**
+ * 统计内容区域
+ * 弹性伸展
+ */
 .stat-content {
-  flex: 1;
+  flex: 1; /* 弹性伸展 */
 }
 
+/**
+ * 统计值
+ * 设置字体大小、字重、文本颜色和底部外边距
+ */
 .stat-value {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-color);
-  margin-bottom: 4px;
+  font-size: 20px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: var(--text-color); /* 文本颜色 */
+  margin-bottom: 4px; /* 底部外边距 */
 }
 
+/**
+ * 统计标签
+ * 设置字体大小和文本颜色
+ */
 .stat-label {
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 12px; /* 字体大小 */
+  color: var(--text-secondary); /* 文本颜色 */
 }
 
+/**
+ * 移动端图表区域
+ * 设置背景、圆角、内边距、底部外边距、边框、阴影、相对定位和溢出隐藏
+ */
 .mobile-chart-section {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 16px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  position: relative;
-  overflow: hidden;
+  background: var(--card-bg); /* 背景 */
+  border-radius: 16px; /* 圆角 */
+  padding: 20px; /* 内边距 */
+  margin-bottom: 16px; /* 底部外边距 */
+  border: 1px solid var(--border-color); /* 边框 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* 阴影 */
+  position: relative; /* 相对定位 */
+  overflow: hidden; /* 溢出隐藏 */
 }
 
+/**
+ * 移动端图表区域的伪元素
+ * 顶部装饰线，设置位置、高度和背景渐变
+ */
 .mobile-chart-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  content: ''; /* 空内容 */
+  position: absolute; /* 绝对定位 */
+  top: 0; /* 顶部对齐 */
+  left: 0; /* 左侧对齐 */
+  right: 0; /* 右侧对齐 */
+  height: 3px; /* 高度 */
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); /* 背景渐变 */
 }
 
+/**
+ * 图表头部
+ * 采用 flex 布局，垂直居中，两端对齐，设置底部外边距
+ */
 .chart-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 两端对齐 */
+  margin-bottom: 16px; /* 底部外边距 */
 }
 
+/**
+ * 图表头部标题
+ * 设置字体大小、字重、无外边距、文本颜色和相对定位
+ */
 .chart-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-  color: var(--text-color);
-  position: relative;
+  font-size: 16px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  margin: 0; /* 无外边距 */
+  color: var(--text-color); /* 文本颜色 */
+  position: relative; /* 相对定位 */
 }
 
+/**
+ * 图表头部标题的伪元素
+ * 底部装饰线，设置位置、宽度、高度、背景渐变和圆角
+ */
 .chart-header h3::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 30px;
-  height: 2px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  border-radius: 1px;
+  content: ''; /* 空内容 */
+  position: absolute; /* 绝对定位 */
+  bottom: -4px; /* 底部偏移 */
+  left: 0; /* 左侧对齐 */
+  width: 30px; /* 宽度 */
+  height: 2px; /* 高度 */
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); /* 背景渐变 */
+  border-radius: 1px; /* 圆角 */
 }
 
+/**
+ * 移动端图表容器
+ * 设置宽度、高度、圆角、背景、阴影和溢出隐藏
+ */
 .mobile-chart {
-  width: 100%;
-  height: 200px;
-  border-radius: 12px;
-  background: var(--card-bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  width: 100%; /* 宽度 100% */
+  height: 200px; /* 高度 */
+  border-radius: 12px; /* 圆角 */
+  background: var(--card-bg); /* 背景 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影 */
+  overflow: hidden; /* 溢出隐藏 */
 }
 
+/**
+ * 移动端排名区域
+ * 设置背景、圆角、内边距、底部外边距和边框
+ */
 .mobile-ranking-section {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  border: 1px solid var(--border-color);
+  background: var(--card-bg); /* 背景 */
+  border-radius: 12px; /* 圆角 */
+  padding: 16px; /* 内边距 */
+  margin-bottom: 16px; /* 底部外边距 */
+  border: 1px solid var(--border-color); /* 边框 */
 }
 
+/**
+ * 排名头部
+ * 采用 flex 布局，垂直居中，两端对齐，设置底部外边距
+ */
 .ranking-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 两端对齐 */
+  margin-bottom: 16px; /* 底部外边距 */
 }
 
+/**
+ * 排名头部标题
+ * 设置字体大小、字重、无外边距和文本颜色
+ */
 .ranking-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-  color: var(--text-color);
+  font-size: 16px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  margin: 0; /* 无外边距 */
+  color: var(--text-color); /* 文本颜色 */
 }
 
+/**
+ * 移动端排名列表
+ * 采用 flex 布局，垂直排列，子元素间距为 8px
+ */
 .mobile-ranking-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 8px; /* 子元素间距 */
 }
 
+/**
+ * 移动端排名列表项
+ * 采用 flex 布局，垂直居中，底部外边距为 16px，设置背景、圆角、过渡效果、相对定位、边框、阴影、背景模糊和溢出隐藏
+ */
 .mobile-ranking-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  border-radius: 20px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 8px 32px var(--shadow-color);
-  backdrop-filter: blur(10px);
-  overflow: hidden;
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  margin-bottom: 16px; /* 底部外边距 */
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%); /* 背景渐变 */
+  border-radius: 20px; /* 圆角 */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡效果 */
+  position: relative; /* 相对定位 */
+  border: 1px solid var(--border-color); /* 边框 */
+  box-shadow: 0 8px 32px var(--shadow-color); /* 阴影 */
+  backdrop-filter: blur(10px); /* 背景模糊 */
+  overflow: hidden; /* 溢出隐藏 */
 }
 
+/**
+ * 移动端排名数字
+ * 设置大小、圆角、显示方式、水平垂直居中、字体大小、字重、背景、文本颜色、不缩小和右外边距
+ */
 .mobile-rank-number {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  background: var(--text-secondary);
-  color: white;
-  flex-shrink: 0;
-  margin-right: 10px;
+  width: 28px; /* 宽度 */
+  height: 28px; /* 高度 */
+  border-radius: 50%; /* 圆形 */
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  font-size: 12px; /* 字体大小 */
+  font-weight: 700; /* 字重 */
+  background: var(--text-secondary); /* 背景 */
+  color: white; /* 文本颜色 */
+  flex-shrink: 0; /* 不缩小 */
+  margin-right: 10px; /* 右外边距 */
 }
 
+/**
+ * 移动端第一名排名数字样式
+ * 设置背景和文本颜色
+ */
 .mobile-rank-number.first {
-  background: #ffd700;
-  color: #333;
+  background: #ffd700; /* 背景 */
+  color: #333; /* 文本颜色 */
 }
 
+/**
+ * 移动端第二名排名数字样式
+ * 设置背景和文本颜色
+ */
 .mobile-rank-number.second {
-  background: #c0c0c0;
-  color: #333;
+  background: #c0c0c0; /* 背景 */
+  color: #333; /* 文本颜色 */
 }
 
+/**
+ * 移动端第三名排名数字样式
+ * 设置背景和文本颜色
+ */
 .mobile-rank-number.third {
-  background: #cd7f32;
-  color: white;
+  background: #cd7f32; /* 背景 */
+  color: white; /* 文本颜色 */
 }
 
+/**
+ * 移动端学生信息容器
+ * 弹性伸展，垂直排列，子元素间距为 3px，最小宽度为 0，右外边距为 6px
+ */
 .mobile-student-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-  margin-right: 6px;
+  flex: 1; /* 弹性伸展 */
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 3px; /* 子元素间距 */
+  min-width: 0; /* 最小宽度 */
+  margin-right: 6px; /* 右外边距 */
 }
 
+/**
+ * 移动端学生姓名
+ * 设置字体大小、字重、文本颜色、行高、不换行、溢出隐藏和文本溢出省略
+ */
 .mobile-student-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-color);
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+  font-size: 14px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: var(--text-color); /* 文本颜色 */
+  line-height: 1.2; /* 行高 */
+  white-space: nowrap; /* 不换行 */
+  overflow: hidden; /* 溢出隐藏 */
+  text-overflow: ellipsis; /* 文本溢出省略 */
+  max-width: 100%; /* 最大宽度 */
 }
 
+/**
+ * 移动端考勤时间
+ * 设置字体大小、文本颜色和行高
+ */
 .mobile-attendance-time {
-  font-size: 11px;
-  color: var(--text-secondary);
-  line-height: 1.2;
-  white-space: nowrap;
+  font-size: 11px; /* 字体大小 */
+  color: var(--text-secondary); /* 文本颜色 */
+  line-height: 1.2; /* 行高 */
+  white-space: nowrap; /* 不换行 */
 }
 
+/**
+ * 移动端排名徽章
+ * 绝对定位，设置位置、大小、圆角、显示方式、水平垂直居中、字体大小、文本颜色、背景渐变、阴影、边框、z-index 和过渡效果
+ */
 .mobile-rank-badge {
-  position: absolute;
-  right: 16px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: #fff;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  z-index: 10;
-  transition: all 0.3s ease;
+  position: absolute; /* 绝对定位 */
+  right: 16px; /* 右侧偏移 */
+  width: 36px; /* 宽度 */
+  height: 36px; /* 高度 */
+  border-radius: 50%; /* 圆形 */
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  font-size: 16px; /* 字体大小 */
+  color: #fff; /* 文本颜色 */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 背景渐变 */
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); /* 阴影 */
+  border: 2px solid rgba(255, 255, 255, 0.2); /* 边框 */
+  z-index: 10; /* z-index */
+  transition: all 0.3s ease; /* 过渡效果 */
 }
 
+/**
+ * 移动端实时统计区域
+ * 设置背景、圆角、内边距、底部外边距和边框
+ */
 .mobile-realtime-section {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  border: 1px solid var(--border-color);
+  background: var(--card-bg); /* 背景 */
+  border-radius: 12px; /* 圆角 */
+  padding: 16px; /* 内边距 */
+  margin-bottom: 16px; /* 底部外边距 */
+  border: 1px solid var(--border-color); /* 边框 */
 }
 
+/**
+ * 实时统计头部
+ * 采用 flex 布局，垂直居中，两端对齐，设置底部外边距
+ */
 .realtime-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 两端对齐 */
+  margin-bottom: 16px; /* 底部外边距 */
 }
 
+/**
+ * 实时统计头部标题
+ * 设置字体大小、字重、无外边距和文本颜色
+ */
 .realtime-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0;
-  color: var(--text-color);
+  font-size: 16px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  margin: 0; /* 无外边距 */
+  color: var(--text-color); /* 文本颜色 */
 }
 
+/**
+ * 移动端实时统计列表
+ * 采用 flex 布局，垂直排列，子元素间距为 12px
+ */
 .mobile-realtime-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 12px; /* 子元素间距 */
 }
 
+/**
+ * 实时统计项
+ * 采用 flex 布局，两端对齐，垂直居中，设置内边距、背景、圆角和边框
+ */
 .realtime-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background: var(--bg-color);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
+  display: flex; /* 弹性布局 */
+  justify-content: space-between; /* 两端对齐 */
+  align-items: center; /* 垂直居中 */
+  padding: 12px; /* 内边距 */
+  background: var(--bg-color); /* 背景 */
+  border-radius: 8px; /* 圆角 */
+  border: 1px solid var(--border-color); /* 边框 */
 }
 
+/**
+ * 实时统计标签
+ * 设置字体大小和文本颜色
+ */
 .realtime-label {
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 14px; /* 字体大小 */
+  color: var(--text-secondary); /* 文本颜色 */
 }
 
+/**
+ * 实时统计值
+ * 设置字体大小、字重、文本颜色、文本右对齐和最大宽度
+ */
 .realtime-value {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-color);
-  text-align: right;
-  max-width: 60%;
+  font-size: 14px; /* 字体大小 */
+  font-weight: 500; /* 字重 */
+  color: var(--text-color); /* 文本颜色 */
+  text-align: right; /* 文本右对齐 */
+  max-width: 60%; /* 最大宽度 */
 }
 
+/**
+ * 移动端页脚
+ * 设置内边距和文本居中
+ */
 .mobile-footer {
-  padding: 16px;
-  text-align: center;
+  padding: 16px; /* 内边距 */
+  text-align: center; /* 文本居中 */
 }
 
+/**
+ * 最后更新时间文本
+ * 设置字体大小和文本颜色
+ */
 .last-update {
-  font-size: 12px;
-  color: var(--text-secondary);
+  font-size: 12px; /* 字体大小 */
+  color: var(--text-secondary); /* 文本颜色 */
 }
 
+/* ==================== 响应式设计 ==================== */
+
+/**
+ * 媒体查询：当屏幕宽度小于 480px 时
+ * 统计网格布局变为单列，图表高度调整，统计卡片内边距调整，统计图标大小调整，统计值字体大小调整
+ */
 @media (max-width: 480px) {
   .mobile-stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 单列布局 */
   }
 
   .mobile-chart {
-    height: 200px;
+    height: 200px; /* 图表高度 */
   }
 
   .stat-card {
-    padding: 12px;
+    padding: 12px; /* 内边距 */
   }
 
   .stat-icon {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
+    width: 36px; /* 宽度 */
+    height: 36px; /* 高度 */
+    font-size: 16px; /* 字体大小 */
   }
 
   .stat-value {
-    font-size: 18px;
+    font-size: 18px; /* 字体大小 */
   }
 }

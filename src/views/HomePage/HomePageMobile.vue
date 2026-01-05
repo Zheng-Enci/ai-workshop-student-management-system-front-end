@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 首页移动端组件
+ * 
+ * @description 移动端首页,展示系统介绍和快捷入口
+ * @component HomePageMobile
+ */
 import { User, Calendar, TrendCharts, ArrowRight, Star, Trophy, OfficeBuilding } from '@element-plus/icons-vue'
 import { ElButton, ElIcon, ElDialog } from 'element-plus'
 import { ref, onMounted } from 'vue'
@@ -12,64 +18,101 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import './css/HomePageMobile.css'
 
+// 路由实例
 const router = useRouter()
+// 主题Store实例
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
+// 更新日志对话框显示状态
 const updateLogVisible = ref(false)
+// 环境保障机制对话框显示状态
 const environmentPolicyVisible = ref(false)
+// 开发者头像URL
 const developerAvatar = ref('')
 
+/**
+ * 跳转到登录页
+ */
 const goToLogin = () => {
 	router.push('/login')
 }
 
+/**
+ * 跳转到数据看板
+ */
 const goToDashboard = () => {
 	router.push('/dashboard')
 }
 
+/**
+ * 跳转到考勤分析页
+ */
 const goToAttendanceAnalysis = () => {
 	router.push('/attendance-analysis')
 }
 
+/**
+ * 跳转到积分看板页
+ */
 const goToPointsDashboard = () => {
 	router.push('/points-dashboard')
 }
 
+/**
+ * 跳转到全部成员页
+ */
 const goToAllMembers = () => {
 	router.push('/all-members')
 }
 
+/**
+ * 加载开发者头像
+ */
 const loadDeveloperAvatar = () => {
 	// 使用项目统一的getAvatarUrl函数获取id为1的头像
 	const avatarUrl = getAvatarUrl(1)
 	if (avatarUrl) {
 		developerAvatar.value = avatarUrl
 	} else {
-		// 如果获取失败，使用默认头像
+		// 如果获取失败,使用默认头像
 		developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
 	}
 }
 
+/**
+ * 显示环境保障机制对话框
+ */
 const showEnvironmentPolicy = () => {
 	environmentPolicyVisible.value = true
 }
 
+/**
+ * 关闭环境保障机制对话框
+ */
 const closeEnvironmentPolicy = () => {
 	environmentPolicyVisible.value = false
 }
 
+/**
+ * 关闭更新日志对话框
+ */
 const handleClose = () => {
 	updateLogVisible.value = false
 }
 
+/**
+ * 组件挂载时加载开发者头像
+ */
 onMounted(() => {
 	loadDeveloperAvatar()
 })
 </script>
 
 <template>
+	<!-- 移动端首页容器 -->
 	<div class="home-container">
+		<!-- 主题切换按钮区域 -->
 		<div class="theme-toggle-container">
 			<img
 				src="@/assets/AiWorkShop_icon.png"
@@ -80,8 +123,10 @@ onMounted(() => {
 			/>
 		</div>
 
+		<!-- 主内容区域 -->
 		<div class="hero-section">
 			<div class="hero-content">
+				<!-- 左侧:Logo和系统介绍 -->
 				<div class="hero-left">
 					<div class="logo-section">
 						<div class="logo-container">
@@ -114,6 +159,7 @@ onMounted(() => {
 						</p>
 					</div>
 
+					<!-- 操作按钮区域 -->
 					<div class="action-section">
 						<el-button
 							type="primary"
@@ -129,9 +175,11 @@ onMounted(() => {
 					</div>
 				</div>
 
+				<!-- 右侧:快捷入口功能卡片 -->
 				<div class="hero-right">
 					<div class="quick-access-label">快捷入口</div>
 					<div class="features-showcase">
+						<!-- 数据看板入口 -->
 						<div class="feature-card primary" @click="goToDashboard">
 							<div class="feature-icon">
 								<el-icon><trend-charts /></el-icon>
@@ -140,6 +188,7 @@ onMounted(() => {
 							<p>实时展示积分排行、考勤统计、成员数据</p>
 						</div>
 
+						<!-- 签到分析入口 -->
 						<div class="feature-card secondary" @click="goToAttendanceAnalysis">
 							<div class="feature-icon">
 								<el-icon><calendar /></el-icon>
@@ -148,6 +197,7 @@ onMounted(() => {
 							<p>可视化展示签到趋势、出勤率统计</p>
 						</div>
 
+						<!-- 积分看板入口 -->
 						<div class="feature-card tertiary" @click="goToPointsDashboard">
 							<div class="feature-icon">
 								<el-icon><star /></el-icon>
@@ -156,6 +206,7 @@ onMounted(() => {
 							<p>展示成员积分排行和优秀成员信息</p>
 						</div>
 
+						<!-- 全部成员入口 -->
 						<div class="feature-card quaternary" @click="goToAllMembers">
 							<div class="feature-icon">
 								<el-icon><user /></el-icon>
@@ -168,6 +219,7 @@ onMounted(() => {
 			</div>
 		</div>
 
+		<!-- 页脚信息 -->
 		<div class="footer">
 			<div class="footer-content">
 				<div class="author-info">
@@ -182,6 +234,7 @@ onMounted(() => {
 		</div>
 
 
+		<!-- 系统更新日志对话框 -->
 		<el-dialog
 			v-model="updateLogVisible"
 			title="系统更新日志"
@@ -202,7 +255,7 @@ onMounted(() => {
 							</div>
 							<div class="update-content">
 								<h4>增加了积分看板页面</h4>
-								<p>新增积分看板页面，展示学生积分排行榜和优秀成员信息，支持签到积分、活动积分和总积分三种排行榜查看，提供数据可视化图表展示</p>
+								<p>新增积分看板页面,展示学生积分排行榜和优秀成员信息,支持签到积分、活动积分和总积分三种排行榜查看,提供数据可视化图表展示</p>
 							</div>
 						</div>
 						<div class="update-item">
@@ -211,7 +264,7 @@ onMounted(() => {
 							</div>
 							<div class="update-content">
 								<h4>增加积分功能</h4>
-								<p>实现完整的积分系统，包括签到积分计算、活动积分记录、总积分统计等功能，支持积分排行榜展示和优秀成员展示</p>
+								<p>实现完整的积分系统,包括签到积分计算、活动积分记录、总积分统计等功能,支持积分排行榜展示和优秀成员展示</p>
 							</div>
 						</div>
 					</div>
@@ -224,8 +277,8 @@ onMounted(() => {
 							更新总结
 						</h3>
 						<p>
-							本次更新新增积分看板页面和积分功能，为学生提供更全面的数据展示和激励体系。
-							积分看板支持签到积分、活动积分和总积分三种排行榜查看，展示优秀成员信息，提供数据可视化图表展示，
+							本次更新新增积分看板页面和积分功能,为学生提供更全面的数据展示和激励体系。
+							积分看板支持签到积分、活动积分和总积分三种排行榜查看,展示优秀成员信息,提供数据可视化图表展示,
 							让教育管理更加高效、便捷、智能。
 						</p>
 					</div>
@@ -233,6 +286,7 @@ onMounted(() => {
 			</div>
 		</el-dialog>
 
+		<!-- 环境保障机制对话框 -->
 		<el-dialog
 			v-if="environmentPolicyVisible"
 			v-model="environmentPolicyVisible"

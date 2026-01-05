@@ -1,24 +1,50 @@
+<!--
+  考勤页面设备检测组件
+  检测设备类型并自动跳转到对应的考勤页面版本
+  
+  @component AttendancePage
+  @description 作为考勤页面的入口，检测设备类型后重定向到desktop或mobile版本
+-->
 <script setup>
+/**
+ * 导入Element Plus图标和组件
+ */
 import { Loading } from '@element-plus/icons-vue'
 import { ElIcon } from 'element-plus'
 import { onMounted } from 'vue'
 import 'element-plus/theme-chalk/el-icon.css'
 import { useRouter } from 'vue-router'
 
+/**
+ * 路由实例
+ */
 const router = useRouter()
 
+/**
+ * 检测设备类型
+ * 根据窗口宽度判断设备类型
+ * 
+ * @returns {string} 'mobile' | 'desktop'
+ */
 const detectDeviceType = () => {
 	const screenWidth = window.innerWidth
 
+	// 小于768px为移动设备
 	if (screenWidth < 768) {
 		return 'mobile'
 	}
+	// 大于等于768px为桌面设备
 	return 'desktop'
 }
 
+/**
+ * 重定向到对应设备的考勤页面
+ * 检测设备类型后跳转到对应的路由
+ */
 const redirectToDevicePage = () => {
 	const deviceType = detectDeviceType()
 
+	// 根据设备类型重定向
 	if (deviceType === 'mobile') {
 		router.replace('/attendance-mobile')
 	} else {
@@ -26,15 +52,22 @@ const redirectToDevicePage = () => {
 	}
 }
 
+/**
+ * 组件挂载后立即执行重定向
+ */
 onMounted(() => {
 	redirectToDevicePage()
 })
 </script>
 
 <template>
+	<!-- 设备检测加载容器 -->
 	<div class="device-detection-container">
+		<!-- 加载动画 -->
 		<div class="loading-spinner">
+			<!-- 旋转加载图标 -->
 			<el-icon class="spinner-icon"><loading /></el-icon>
+			<!-- 加载提示文本 -->
 			<p class="loading-text">正在检测设备类型...</p>
 		</div>
 	</div>

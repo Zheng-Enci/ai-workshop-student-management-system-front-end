@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 改分记录页面组件(桌面端)
+ *
+ * @description 展示学生的积分调整记录,包括加分和扣分历史
+ * @component ScoreChangeRecordsPageDesktop
+ */
 // eslint-disable-next-line no-unused-vars
 import { ArrowLeft, Loading, Box, Document, ArrowUp, ArrowDown, Coin } from '@element-plus/icons-vue'
 // Loading 组件在模板中通过 <loading /> 使用（Vue 自动转换为 kebab-case）
@@ -13,9 +19,12 @@ import { useThemeStore } from '@/stores/theme'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 
+// 初始化路由和Store
 const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
+
+// 响应式数据定义
 
 const records = ref([])
 const loading = ref(false)
@@ -95,6 +104,7 @@ onMounted(() => {
 </script>
 
 <template>
+	<!-- 改分记录页面主容器 -->
 	<div class="score-change-records-container">
 		<div class="background-effects">
 			<div class="gradient-orb orb-1"/>

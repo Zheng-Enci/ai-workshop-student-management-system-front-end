@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 全部成员页面组件(桌面端)
+ * 
+ * @description 展示所有成员的积分信息和排名统计
+ * @component AllMembersPageDesktop
+ */
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -33,6 +39,7 @@ echarts.use([
 	CanvasRenderer
 ])
 
+// 初始化路由和Store
 const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
@@ -874,7 +881,9 @@ onUnmounted(() => {
 </script>
 
 <template>
+	<!-- 全部成员页面主容器 -->
 	<div class="points-dashboard-container" style="overflow-y: visible;">
+		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-left">
 				<el-button

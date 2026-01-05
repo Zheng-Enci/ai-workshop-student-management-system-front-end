@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 用户注册页面组件
+ *
+ * @description 新用户注册功能,包含个人信息填写和密码设置
+ * @component RegisterPage
+ */
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElIcon, ElSelect, ElOption } from 'element-plus'
 import { ref, onMounted } from 'vue'
 import 'element-plus/theme-chalk/el-form.css'

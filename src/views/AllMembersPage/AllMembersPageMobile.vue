@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 全部成员页面组件(移动端)
+ *
+ * @description 展示所有成员信息和积分排名(移动端)
+ * @component AllMembersPageMobile
+ */
 import { ArrowLeft, Loading, Box, View, User, Search } from '@element-plus/icons-vue'
 import { ElButton, ElIcon, ElDialog, ElInput } from 'element-plus'
 import { ref, onMounted, nextTick, reactive } from 'vue'

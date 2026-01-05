@@ -7,8 +7,11 @@ import { depcheckPlugin } from './code-quality/vite-plugins/vite-plugin-depcheck
 import { auditPlugin } from './code-quality/vite-plugins/vite-plugin-audit.js'
 import { commentCoveragePlugin } from './code-quality/vite-plugins/vite-plugin-comment-coverage.js'
 import { eslintReportPlugin } from './code-quality/vite-plugins/vite-plugin-eslint-report.js'
-import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 /**
  * 为插件添加检查提示信息
@@ -81,17 +84,13 @@ function withCheckLogging(plugin, checkName) {
   }
 }
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  // 通过环境变量控制是否启用代码质量检查
-  const enableCodeQualityChecks = process.env.ENABLE_CODE_QUALITY_CHECKS === 'true'
-  
-  // 代码质量检查插件数组
-  const codeQualityPlugins = enableCodeQualityChecks ? [
+// 专门用于代码质量检查的 Vite 配置
+export default defineConfig({
+  plugins: [
+    vue(),
     // 代码质量检查提示插件
     {
       name: 'code-quality-logger',
-      apply: 'serve',
       buildStart(pluginContext) {
         const logger = pluginContext?.logger || console
         if (logger.info) {
@@ -101,9 +100,10 @@ export default defineConfig(({ mode }) => {
         }
       }
     },
-    // ESLint 检查（仅开发模式）
-    (() => {
-      const eslintPlugin = eslint({
+    // ESLint 检查
+    withCheckLogging(
+      eslint({
+        eslintPath: 'eslint',
         overrideConfigFile: 'code-quality/code-quality-config/.eslintrc.js',
         ignorePath: 'code-quality/code-quality-config/.eslintignore',
         include: ['src/**/*.{js,vue}'],
@@ -111,69 +111,65 @@ export default defineConfig(({ mode }) => {
         cache: false,
         fix: true,
         failOnWarning: false,
-        failOnError: false // 构建时不阻塞
-      })
-      // 只在开发模式下运行
-      eslintPlugin.apply = 'serve'
-      return withCheckLogging(eslintPlugin, 'ESLint 代码规范')
-    })(),
+        failOnError: false
+      }),
+      'ESLint 代码规范'
+    ),
     // ESLint 报告生成
-    (() => {
-      const eslintReport = eslintReportPlugin({
+    withCheckLogging(
+      eslintReportPlugin({
         enabled: true,
         configFile: 'code-quality/code-quality-config/.eslintrc.js',
         ignorePath: 'code-quality/code-quality-config/.eslintignore',
         include: ['src/**/*.{js,vue}'],
         exclude: ['node_modules', 'dist'],
         skipOnError: true
-      })
-      return withCheckLogging(eslintReport, 'ESLint 报告生成')
-    })(),
-    // Stylelint 检查（仅开发模式）
-    (() => {
-      const stylelintPlugin = stylelint({
+      }),
+      'ESLint 报告生成'
+    ),
+    // Stylelint 检查
+    withCheckLogging(
+      stylelint({
         configFile: 'code-quality/code-quality-config/.stylelintrc.js',
         include: ['src/**/*.{css,scss,sass,less,styl,vue}'],
         exclude: ['node_modules', 'dist'],
         cache: false,
         fix: true
-      })
-      // 只在开发模式下运行
-      stylelintPlugin.apply = 'serve'
-      return withCheckLogging(stylelintPlugin, 'Stylelint 样式规范')
-    })(),
+      }),
+      'Stylelint 样式规范'
+    ),
     // CSS 分析
-    (() => {
-      const cssAnalyzer = cssAnalyzerPlugin({
+    withCheckLogging(
+      cssAnalyzerPlugin({
         enabled: true,
         threshold: 0,
         concurrency: 5,
         cacheEnabled: true,
         blockOnUnused: false
-      })
-      return withCheckLogging(cssAnalyzer, 'CSS 使用情况分析')
-    })(),
+      }),
+      'CSS 使用情况分析'
+    ),
     // 依赖检查
-    (() => {
-      const depcheck = depcheckPlugin({
+    withCheckLogging(
+      depcheckPlugin({
         enabled: true,
         configPath: 'code-quality/code-quality-config/.depcheckrc.json',
         skipOnError: true
-      })
-      return withCheckLogging(depcheck, '依赖完整性检查')
-    })(),
+      }),
+      '依赖完整性检查'
+    ),
     // 安全审计
-    (() => {
-      const audit = auditPlugin({
+    withCheckLogging(
+      auditPlugin({
         enabled: true,
         auditLevel: 'moderate',
         skipOnError: true
-      })
-      return withCheckLogging(audit, '安全漏洞审计')
-    })(),
+      }),
+      '安全漏洞审计'
+    ),
     // 注释覆盖率检查
-    (() => {
-      const commentCoverage = commentCoveragePlugin({
+    withCheckLogging(
+      commentCoveragePlugin({
         enabled: true,
         srcDir: 'src',
         extensions: ['.js', '.vue', '.css', '.scss'],
@@ -187,48 +183,10 @@ export default defineConfig(({ mode }) => {
         warnThreshold: 10,
         showDetails: false,
         skipOnError: true
-      })
-      return withCheckLogging(commentCoverage, '代码注释覆盖率')
-    })()
-  ] : []
-
-  return {
-    plugins: [
-      vue(),
-      ...codeQualityPlugins,
-      (process.env.ANALYZE === 'true' || process.env.NODE_ENV === 'production') &&
-        visualizer({
-          open: false,
-          filename: 'dist/stats.html',
-          gzipSize: true,
-          brotliSize: true,
-          template: 'treemap',
-          title: 'Bundle Analysis',
-          emitFile: true
-        })
-    ].filter(Boolean),
-  server: {
-    port: 3000,
-    host: '0.0.0.0',
-    open: false, // 禁用自动打开浏览器
-    strictPort: false,
-    proxy: {
-      // 如果有API代理需求，可以在这里配置
-    }
-  },
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['vue', 'vue-router', 'pinia'],
-          elementPlus: ['element-plus'],
-          echarts: ['echarts', 'echarts-wordcloud']
-        }
-      }
-    }
-  },
+      }),
+      '代码注释覆盖率'
+    )
+  ],
   resolve: {
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     alias: {
@@ -244,5 +202,5 @@ export default defineConfig(({ mode }) => {
       }
     }
   }
-  }
 })
+

@@ -1,8 +1,21 @@
+/**
+ * 导航页面设备检测样式文件
+ * 定义设备检测加载页面的样式
+ *
+ * @file NavigationPage.css
+ * @description 导航页面设备检测时的加载动画样式，与AllMembersPage等页面共用
+ */
+
+/**
+ * 设备检测容器
+ * 全屏居中布局，多色渐变背景
+ */
 .device-detection-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  /* 多色渐变背景，营造动态视觉效果 */
   background: linear-gradient(135deg,
     rgb(99 102 241 / 0.1) 0%,
     rgb(168 85 247 / 0.08) 25%,
@@ -11,12 +24,17 @@
     rgb(34 197 94 / 0.1) 100%);
 }
 
+/**
+ * 加载动画容器
+ * 毛玻璃卡片效果，内容垂直排列
+ */
 .loading-spinner {
   display: flex;
   flex-direction: column;
   gap: 16px;
   align-items: center;
   padding: 40px;
+  /* 毛玻璃背景效果 */
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
@@ -24,12 +42,21 @@
   backdrop-filter: blur(20px);
 }
 
+/**
+ * 旋转加载图标样式
+ * 使用主题色，带无限旋转动画
+ */
 .spinner-icon {
   font-size: 32px;
   color: var(--primary-color);
+  /* 持续旋转动画，1秒一圈 */
   animation: spin 1s linear infinite;
 }
 
+/**
+ * 加载提示文本样式
+ * 使用主题文本颜色，中等字重
+ */
 .loading-text {
   margin: 0;
   font-size: 16px;
@@ -37,6 +64,10 @@
   color: var(--text-primary);
 }
 
+/**
+ * 旋转动画关键帧定义
+ * 从0度平滑旋转到360度，形成连续循环效果
+ */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

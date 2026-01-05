@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 导航页面组件(桌面端)
+ * 
+ * @description 提供系统功能导航,展示用户信息、签到次数、积分统计等
+ * @component NavigationPageDesktop
+ */
 import {
 	Check,
 	User,
@@ -57,7 +63,7 @@ const hasAvatar = ref(false)
 const avatarLoading = ref(false)
 const avatarTipShown = ref(false)
 
-// 计算属性：判断是否为管理员
+// 计算属性:判断是否为管理员
 const isAdmin = computed(() => userStore.studentLevel?.levelCode === 3)
 
 // 方法：根据等级编码获取等级名称
@@ -334,15 +340,19 @@ onMounted(() => {
 </script>
 
 <template>
+	<!-- 导航页面主容器 -->
 	<div class="navigation-container">
+		<!-- 背景装饰效果 -->
 		<div class="background-effects">
 			<div class="gradient-orb orb-1"/>
 			<div class="gradient-orb orb-2"/>
 			<div class="gradient-orb orb-3"/>
 		</div>
 
+		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-top">
+				<!-- 头部左侧:首页按钮和Logo -->
 				<div class="header-left">
 					<el-button
 						class="home-btn"
@@ -366,12 +376,14 @@ onMounted(() => {
 					</div>
 				</div>
 
+				<!-- 头部中央:页面标题 -->
 				<div class="header-center">
 					<div class="page-title-wrapper">
 						<div class="page-title">功能导航</div>
 					</div>
 				</div>
 
+				<!-- 头部右侧:退出登录按钮 -->
 				<div class="header-right">
 					<el-button
 						type="danger"
@@ -388,10 +400,15 @@ onMounted(() => {
 			</div>
 		</div>
 
+		<!-- 主内容区域 -->
 		<div class="main-content">
+			<!-- 中心卡片布局 -->
 			<div class="center-hub-layout">
+				<!-- 中心信息卡片 -->
 				<div class="center-info-card">
+					<!-- 左侧用户信息区域 -->
 					<div class="center-left-section">
+						<!-- 用户头像 -->
 						<div
 							class="center-avatar"
 							:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
@@ -411,9 +428,11 @@ onMounted(() => {
 							</div>
 						</div>
 
+						<!-- 用户详情 -->
 						<div class="center-user-info">
 							<div class="center-user-name">{{ userStore.userInfo?.name || '学生' }}</div>
 
+							<!-- 用户等级 -->
 							<div
 								v-if="userStore.studentLevel"
 								class="center-user-level"
@@ -425,6 +444,7 @@ onMounted(() => {
 								<span>{{ getLevelName(userStore.studentLevel.levelCode) }}</span>
 							</div>
 
+							<!-- 签到次数 -->
 							<div v-if="attendanceCount !== null" class="center-attendance">
 								<el-icon class="attendance-icon" size="16">
 									<calendar/>
@@ -434,6 +454,7 @@ onMounted(() => {
 						</div>
 					</div>
 
+					<!-- 积分统计区域 -->
 					<div
 						v-if="
 							!pointsLoading &&
@@ -442,6 +463,7 @@ onMounted(() => {
 						class="center-points-section"
 					>
 						<div class="center-points-grid">
+							<!-- 总积分卡片 -->
 							<div class="center-point-item total-points">
 								<div class="center-point-icon">
 									<el-icon size="20">
@@ -454,6 +476,7 @@ onMounted(() => {
 								</div>
 							</div>
 
+							<!-- 活动积分卡片 -->
 							<div class="center-point-item activity-points">
 								<div class="center-point-icon">
 									<el-icon size="20">
@@ -468,6 +491,7 @@ onMounted(() => {
 								</div>
 							</div>
 
+							<!-- 签到积分卡片 -->
 							<div class="center-point-item signin-points">
 								<div class="center-point-icon">
 									<el-icon size="20">

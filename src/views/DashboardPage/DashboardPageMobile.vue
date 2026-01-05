@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * Dashboard 移动端主组件
+ *
+ * @description 提供系统功能导航,展示统计数据(移动端)
+ * @component DashboardPageMobile
+ */
 // ECharts 按需引入
 import { ArrowLeft, Setting, Star, Avatar, User } from '@element-plus/icons-vue'
 import { PieChart, BarChart } from 'echarts/charts'

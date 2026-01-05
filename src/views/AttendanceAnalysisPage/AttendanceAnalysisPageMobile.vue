@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 签到分析页面组件(移动端)
+ *
+ * @description 展示签到数据统计分析,包括时段分布、时间线、排行榜等(移动端)
+ * @component AttendanceAnalysisPageMobile
+ */
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import 'element-plus/theme-chalk/el-message.css'

@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 首页组件(桌面端)
+ * 
+ * @description 展示系统介绍、快捷入口和环境保障机制
+ * @component HomePageDesktop
+ */
 import './css/HomePageDesktop.css'
 import { TrendCharts, Calendar, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon, ElDialog, ElButton } from 'element-plus'

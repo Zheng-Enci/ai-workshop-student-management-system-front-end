@@ -63,11 +63,12 @@ import {
 	Lock
 } from '@element-plus/icons-vue'
 
-import { getAvatarUrl } from '@/api/student'
+const { getAvatarUrl } = '@/api/student'
 
-// 获取ID为2的头像URL
+// 获取管理员头像URL
 const adminAvatarUrl = ref(getAvatarUrl(2, 256))
 
+// 从useAdminPage解构所有响应式状态和方法
 const {
 	isAuthenticated,
 	specialPassword,
@@ -217,7 +218,7 @@ const monthMap = {
 
 const monthObserver = null
 
-
+// 组件挂载时初始化
 onMounted(async () => {
 	document.title = '超级管理员控制台 - AI坊学生管理系统'
 
@@ -238,6 +239,7 @@ onMounted(async () => {
 	}
 })
 
+// 监听日历值变化,重新渲染图表
 watch(calendarValue, async () => {
 	if (attendanceRecordsDialogVisible.value && !isLoading.value) {
 		await nextTick()

@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 签到分析页面组件(桌面端)
+ *
+ * @description 展示签到数据统计分析,包括时段分布、时间线、排行榜等(桌面端)
+ * @component AttendanceAnalysisPageDesktop
+ */
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import 'element-plus/theme-chalk/el-message.css'
@@ -43,10 +49,16 @@ import { getTodayAttendanceRecords, getDailyAttendanceCountInRange } from '@/api
 import { getStudentLevel } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
 
+// 路由和主题Store
 const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
+/**
+ * 使用主题重新初始化图表
+ * @returns {void}
+ * @description 销毁现有图表实例并重新创建,用于主题切换时更新图表样式
+ */
 const initChartsWithTheme = () => {
 	try {
 		if (periodChartInstance) {
@@ -69,6 +81,11 @@ const initChartsWithTheme = () => {
 	}
 }
 
+/**
+ * 刷新图表数据
+ * @returns {void}
+ * @description 销毁并重新创建图表实例,用于数据刷新
+ */
 const refreshCharts = () => {
 	try {
 		if (periodChartInstance) {
@@ -91,6 +108,11 @@ const refreshCharts = () => {
 	}
 }
 
+/**
+ * 处理主题切换
+ * @returns {void}
+ * @description 切换主题并延迟刷新图表以应用新主题样式
+ */
 const handleThemeToggle = () => {
 	toggleTheme()
 	window.requestAnimationFrame(() => {
@@ -119,10 +141,18 @@ const selectedTimeRange = ref('today')
 const customDateRange = ref([])
 const timelineData = ref([])
 
+// 项目启动日期,用于过滤在此之前的数据
 const PROJECT_LAUNCH_DATE = new Date('2025-09-09T00:00:00')
 
+/**
+ * 确保时间不早于项目启动日期
+ * @param {Date} time - 待检查的时间
+ * @returns {Date} - 返回原始时间或项目启动日期(取较晚者)
+ * @description 防止查询项目启动之前的数据
+ */
 const ensureTimeNotBeforeLaunch = time => (time < PROJECT_LAUNCH_DATE ? PROJECT_LAUNCH_DATE : time)
 
+// 时间范围选项配置
 const timeRangeOptions = [
 	{ label: '今日', value: 'today' },
 	{ label: '昨天', value: 'yesterday' },
@@ -137,7 +167,7 @@ const timeRangeOptions = [
 	{ label: '自定义', value: 'custom' }
 ]
 
-
+// ECharts图表实例引用
 let periodChartInstance = null
 let timelineChartInstance = null
 let refreshTimer = null
@@ -145,13 +175,24 @@ const resizeTimeout = null
 let periodResizeObserver = null
 let timelineResizeObserver = null
 
+// DOM元素引用
 const periodChart = ref(null)
 const timelineChart = ref(null)
 
+/**
+ * 返回导航页
+ * @returns {void}
+ * @description 跳转回导航中心页面
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 处理时间范围变更
+ * @returns {Promise<void>}
+ * @description 重新加载时间线数据并更新图表
+ */
 const handleTimeRangeChange = async () => {
 	try {
 		await loadTimelineData()
@@ -168,6 +209,11 @@ const handleTimeRangeChange = async () => {
 	}
 }
 
+/**
+ * 处理自定义日期范围变更
+ * @returns {Promise<void>}
+ * @description 验证日期选择后重新加载时间线数据并更新图表
+ */
 const handleCustomDateChange = async () => {
 	if (customDateRange.value && customDateRange.value.length === 2) {
 		try {
@@ -186,6 +232,12 @@ const handleCustomDateChange = async () => {
 	}
 }
 
+/**
+ * 格式化时间字符串
+ * @param {string} timeString - ISO格式时间字符串
+ * @returns {string} - 格式化后的时间(HH:mm:ss)
+ * @description 将ISO时间字符串转换为中文时间格式
+ */
 const formatTime = timeString => {
 	const date = new Date(timeString)
 	return date.toLocaleTimeString('zh-CN', {
@@ -196,6 +248,12 @@ const formatTime = timeString => {
 }
 
 
+/**
+ * 获取排行榜样式类名
+ * @param {number} index - 排名索引(从0开始)
+ * @returns {string} - 对应的CSS类名
+ * @description 根据排名返回不同的样式类名(前三名特殊样式)
+ */
 const getRankingClass = index => {
 	if (index === 0) { return 'rank-first' }
 	if (index === 1) { return 'rank-second' }
@@ -203,6 +261,12 @@ const getRankingClass = index => {
 	return 'rank-normal'
 }
 
+/**
+ * 获取等级样式类名
+ * @param {string} levelName - 等级名称
+ * @returns {string} - 对应的CSS类名
+ * @description 根据学生等级返回对应的样式类名
+ */
 const getLevelClass = levelName => {
 	if (levelName === '管理员') { return 'level-admin' }
 	if (levelName === '核心成员') { return 'level-core' }
@@ -210,6 +274,12 @@ const getLevelClass = levelName => {
 	return 'level-club'
 }
 
+/**
+ * 计算时段统计数据
+ * @param {Array<Object>} records - 签到记录数组
+ * @returns {Object} - 包含morning、afternoon、evening三个时段的签到数量
+ * @description 将签到记录按时间段(上午8-12、下午14-18、晚上19-22)进行分类统计
+ */
 const calculatePeriodStats = records => {
 	const stats = { morning: 0, afternoon: 0, evening: 0 }
 
@@ -221,6 +291,12 @@ const calculatePeriodStats = records => {
 	return stats
 }
 
+/**
+ * 计算平均签到时间
+ * @param {Array<Object>} records - 签到记录数组
+ * @returns {string} - 格式化的平均时间(HH:mm)
+ * @description 计算所有签到时间的平均值并格式化输出
+ */
 const calculateAverageTime = records => {
 	if (records.length === 0) { return '暂无数据' }
 
@@ -236,6 +312,11 @@ const calculateAverageTime = records => {
 	return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
 }
 
+/**
+ * 加载学生详细信息
+ * @returns {Promise<void>}
+ * @description 获取所有签到学生的等级信息并缓存
+ */
 const loadStudentDetails = async () => {
 	try {
 		const details = {}
@@ -273,6 +354,11 @@ const loadStudentDetails = async () => {
 	}
 }
 
+/**
+ * 初始化时段分布饼图
+ * @returns {Promise<void>}
+ * @description 创建并渲染签到时段分布的玫瑰饼图,显示上午、下午、晚上签到统计
+ */
 const initPeriodChart = async () => {
 	try {
 		await nextTick()
@@ -306,6 +392,11 @@ const initPeriodChart = async () => {
 	}
 }
 
+/**
+ * 更新时段分布图表配置
+ * @returns {void}
+ * @description 更新饼图数据和样式,支持主题切换
+ */
 const updatePeriodChart = () => {
 	const total = periodStats.value.morning + periodStats.value.afternoon + periodStats.value.evening
 	const currentIsDarkMode = themeStore.isDarkMode
@@ -477,6 +568,11 @@ const updatePeriodChart = () => {
 	periodChartInstance.setOption(option)
 }
 
+/**
+ * 初始化时间线图表
+ * @returns {Promise<void>}
+ * @description 创建并渲染签到时间线图,根据选择的时间范围显示不同类型的图表
+ */
 const initTimelineChart = async () => {
 	try {
 		await nextTick()
@@ -516,6 +612,11 @@ const initTimelineChart = async () => {
 	}
 }
 
+/**
+ * 更新时间线图表配置
+ * @returns {void}
+ * @description 根据时间范围类型(今日/其他时间范围)更新图表数据
+ */
 const updateTimelineChart = () => {
 	if (!timelineChartInstance) { return }
 
@@ -885,6 +986,11 @@ const updateTimelineChart = () => {
 	}
 }
 
+/**
+ * 加载时间线数据
+ * @returns {Promise<void>}
+ * @description 根据选择的时间范围从API获取签到统计数据
+ */
 const loadTimelineData = async () => {
 	try {
 		let startTime, endTime
@@ -997,6 +1103,11 @@ const loadTimelineData = async () => {
 	}
 }
 
+/**
+ * 加载签到数据
+ * @returns {Promise<void>}
+ * @description 获取今日签到记录并更新所有相关统计和图表
+ */
 const loadAttendanceData = async () => {
 	try {
 		isLoading.value = true
@@ -1038,17 +1149,32 @@ const loadAttendanceData = async () => {
 	}
 }
 
+/**
+ * 刷新所有数据
+ * @returns {void}
+ * @description 重新加载签到数据和时间线数据
+ */
 const refreshData = () => {
 	loadAttendanceData()
 	loadTimelineData()
 }
 
+/**
+ * 开始自动刷新
+ * @returns {void}
+ * @description 每15秒自动刷新一次签到数据
+ */
 const startAutoRefresh = () => {
 	refreshTimer = setInterval(() => {
 		loadAttendanceData()
 	}, 15000)
 }
 
+/**
+ * 停止自动刷新
+ * @returns {void}
+ * @description 清除自动刷新定时器
+ */
 const stopAutoRefresh = () => {
 	if (refreshTimer) {
 		clearInterval(refreshTimer)
@@ -1093,56 +1219,71 @@ onUnmounted(() => {
 </script>
 
 <template>
+	<!-- 签到分析页面主容器 -->
 	<div class="attendance-analysis-container">
+		<!-- 头部区域:包含返回按钮、Logo、主题切换、标题和刷新功能 -->
 		<div class="header">
 			<div class="header-left">
+				<!-- 返回按钮 -->
 				<el-button
 					class="back-btn"
 					type="primary"
 					:icon="ArrowLeft"
 					circle
 					@click="goBack"/>
+				<!-- Logo,点击切换主题 -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
 					class="logo"
 					title="切换主题模式"
 					@click="handleThemeToggle"/>
+				<!-- 标题区域 -->
 				<div class="title-section">
 					<h1>签到分析</h1>
 					<p>Attendance Analysis Dashboard</p>
 				</div>
 			</div>
+			<!-- 右侧刷新区域 -->
 			<div class="header-right">
 				<div class="refresh-section">
+					<!-- 刷新按钮 -->
 					<el-button
 						:loading="isLoading"
 						type="primary"
 						:icon="Refresh"
 						circle
 						@click="refreshData"/>
+					<!-- 最后更新时间显示 -->
 					<span class="last-update">最后更新: {{ lastUpdateTime }}</span>
 				</div>
 			</div>
 		</div>
 
+		<!-- 主内容区域:网格布局展示图表和统计信息 -->
 		<div class="main-content">
 			<div class="content-grid">
+				<!-- 左侧列:时段分布饼图和时间线图表 -->
 				<div class="left-column">
+					<!-- 时段分布图表卡片 -->
 					<div class="chart-card">
 						<div class="card-header">
 							<h3>今日签到时段分布</h3>
 							<el-icon class="header-icon"><pie-chart /></el-icon>
 						</div>
+						<!-- 时段分布饼图容器 -->
 						<div ref="periodChart" class="chart"/>
 					</div>
 
+					<!-- 时间线图表卡片 -->
 					<div class="chart-card">
 						<div class="card-header">
 							<h3>签到时间线</h3>
 							<el-icon class="header-icon"><clock /></el-icon>
 						</div>
+						<!-- 时间线控制区域 -->
 						<div class="timeline-controls">
+							<!-- 时间范围选择器 -->
 							<div class="time-range-selector">
 								<el-radio-group
 									v-model="selectedTimeRange"
@@ -1150,6 +1291,7 @@ onUnmounted(() => {
 									class="time-radio-group"
 									@change="handleTimeRangeChange"
 								>
+									<!-- 时间范围选项:今日、昨天、本周、上周、本月、昨月、最近7天、最近30天、本年度、全部 -->
 									<el-radio-button
 										v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
 										:key="option.value"
@@ -1160,6 +1302,7 @@ onUnmounted(() => {
 								</el-radio-group>
 							</div>
 
+							<!-- 自定义日期范围选择器 -->
 							<div v-if="selectedTimeRange === 'custom'" class="custom-date-range">
 								<el-date-picker
 									v-model="customDateRange"
@@ -1173,27 +1316,35 @@ onUnmounted(() => {
 								/>
 							</div>
 						</div>
+						<!-- 时间线图表容器 -->
 						<div ref="timelineChart" class="timeline-chart"/>
 					</div>
 				</div>
 
+				<!-- 右侧列:排行榜和实时动态 -->
 				<div class="right-column">
+					<!-- 今日签到排行榜卡片 -->
 					<div class="chart-card">
 						<div class="card-header">
 							<h3>今日签到排行榜</h3>
 							<el-icon class="header-icon"><trophy /></el-icon>
 						</div>
+						<!-- 排行榜列表 -->
 						<div class="ranking-list">
+							<!-- 加载动画 -->
 							<div v-if="isLoading" class="loading-overlay">
 								<div class="loading-spinner"/>
 							</div>
+							<!-- 排行榜项 -->
 							<div
 								v-for="(record, index) in rankingList"
 								:key="index"
 								class="ranking-item"
 								:class="getRankingClass(index)"
 							>
+								<!-- 排名数字 -->
 								<div class="rank-number">{{ index + 1 }}</div>
+								<!-- 学生信息:姓名和等级 -->
 								<div class="student-info">
 									<div class="student-name">{{ record.name }}</div>
 									<div class="student-details">
@@ -1202,7 +1353,9 @@ onUnmounted(() => {
 										</span>
 									</div>
 								</div>
+								<!-- 签到时间 -->
 								<div class="attendance-time">{{ formatTime(record.attendanceTime) }}</div>
+								<!-- 前三名特殊徽章 -->
 								<div v-if="index < 3" class="rank-badge">
 									<el-icon v-if="index === 0" class="trophy-icon"><trophy /></el-icon>
 									<el-icon v-else-if="index === 1" class="medal-icon"><medal /></el-icon>
@@ -1212,12 +1365,15 @@ onUnmounted(() => {
 						</div>
 					</div>
 
+					<!-- 实时签到动态卡片 -->
 					<div class="chart-card">
 						<div class="card-header">
 							<h3>实时签到动态</h3>
 							<el-icon class="header-icon"><trend-charts /></el-icon>
 						</div>
+						<!-- 实时统计信息 -->
 						<div class="realtime-stats">
+							<!-- 最近签到 -->
 							<div class="realtime-item">
 								<div class="realtime-label">最近签到</div>
 								<div v-if="latestAttendance" class="realtime-value">
@@ -1225,10 +1381,12 @@ onUnmounted(() => {
 								</div>
 								<div v-else class="realtime-value">暂无数据</div>
 							</div>
+							<!-- 平均签到时间 -->
 							<div class="realtime-item">
 								<div class="realtime-label">平均签到时间</div>
 								<div class="realtime-value">{{ averageTime }}</div>
 							</div>
+							<!-- 最早签到 -->
 							<div class="realtime-item">
 								<div class="realtime-label">最早签到</div>
 								<div v-if="earliestAttendance" class="realtime-value">

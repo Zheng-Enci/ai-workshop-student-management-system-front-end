@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 个人信息页面组件(移动端)
+ * 
+ * @description 提供用户个人信息的查看、编辑、密码修改和头像上传功能(移动端适配)
+ * @component ProfilePageMobile
+ */
 import {
 	ElMessage,
 	ElButton,
@@ -43,8 +49,10 @@ import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
 
 const router = useRouter()
 const themeStore = useThemeStore()
+// Form refs - 表单引用
 const formRef = ref()
 const passwordFormRef = ref()
+// Loading states - 加载状态
 const isLoading = ref(false)
 const isEditing = ref(false)
 const showPasswordSection = ref(false)
@@ -54,15 +62,18 @@ const studentInfoId = ref(null)
 const avatarUrl = ref(null)
 const avatarLoading = ref(false)
 const isUploading = ref(false)
+// File input ref - 文件输入引用
 const fileInputRef = ref(null)
+// Crop refs - 裁剪相关引用
 const cropDialogVisible = ref(false)
 const cropCanvasRef = ref(null)
 const cropWrapperRef = ref(null)
 const cropBoxRef = ref(null)
+// Crop state - 裁剪状态
 const originalImageFile = ref(null)
 const cropImage = ref(null)
 const scale = ref(1)
-const minScale = ref(0.1) // 动态最小缩放比例，根据图片和裁剪框尺寸计算
+const minScale = ref(0.1) // 动态最小缩放比例,根据图片和裁剪框尺寸计算
 const imageX = ref(0)
 const imageY = ref(0)
 const isCropping = ref(false)
@@ -77,7 +88,7 @@ const initialPinchDistance = ref(0)
 const initialPinchScale = ref(1)
 const initialPinchCenterX = ref(0)
 const initialPinchCenterY = ref(0)
-// 保存事件监听器引用，用于移除
+// 保存事件监听器引用,用于移除
 let mouseDownHandler = null
 let mouseMoveHandler = null
 let mouseUpHandler = null
@@ -86,6 +97,7 @@ let touchStartHandler = null
 let touchMoveHandler = null
 let touchEndHandler = null
 
+// Form data - 表单数据
 const formData = reactive({
 	name: '',
 	studentId: '',
@@ -98,6 +110,7 @@ const formData = reactive({
 	password: ''
 })
 
+// Password form data - 密码表单数据
 const passwordForm = reactive({
 	oldPassword: '',
 	newPassword: '',
@@ -1194,7 +1207,9 @@ onMounted(() => {
 </script>
 
 <template>
+	<!-- 个人信息页面主容器(移动端) -->
 	<div class="profile-container">
+		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-content">
 				<el-button
@@ -1215,14 +1230,19 @@ onMounted(() => {
 			</div>
 		</div>
 
+		<!-- 主内容区域 -->
 		<div class="main-content">
+			<!-- 个人信息卡片 -->
 			<div class="profile-card">
+				<!-- 加载遮罩 -->
 				<div v-if="isLoading" class="loading-overlay">
 					<div class="loading-spinner"/>
 				</div>
 
+				<!-- 用户信息头部 -->
 				<div class="profile-header">
 					<div class="user-info-section">
+						<!-- 头像上传区域 -->
 						<div class="avatar-wrapper">
 							<div class="avatar-container" @click="handleAvatarClick">
 								<div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
@@ -1245,6 +1265,7 @@ onMounted(() => {
 									</el-icon>
 									<span class="upload-text">点击上传头像</span>
 								</div>
+								<!-- 文件输入 -->
 								<input
 									ref="fileInputRef"
 									type="file"
@@ -1260,6 +1281,7 @@ onMounted(() => {
 								<span class="tip-text">{{ avatarUrl ? '点击头像修改头像' : '点击头像上传头像' }}</span>
 							</div>
 						</div>
+						<!-- 用户详细信息 -->
 						<div class="user-details">
 							<h2>{{ formData.name || '用户' }}</h2>
 							<p class="student-id">{{ formData.studentId || '学号' }}</p>
@@ -1273,6 +1295,7 @@ onMounted(() => {
 							</div>
 						</div>
 					</div>
+					<!-- 编辑按钮 -->
 					<div class="action-buttons">
 						<el-button
 							type="primary"
@@ -1597,10 +1620,12 @@ onMounted(() => {
 			class="crop-dialog"
 		>
 			<div class="crop-container">
+				<!-- 裁剪画布包装器 -->
 				<div ref="cropWrapperRef" class="crop-wrapper">
 					<canvas ref="cropCanvasRef" class="crop-canvas"/>
 					<div ref="cropBoxRef" class="crop-box"/>
 				</div>
+				<!-- 裁剪控制按钮 -->
 				<div class="crop-controls">
 					<el-button
 						:icon="ZoomOut"
@@ -1625,5 +1650,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* 导入外部样式文件 */
 @import './css/ProfilePageMobile.css';
 </style>

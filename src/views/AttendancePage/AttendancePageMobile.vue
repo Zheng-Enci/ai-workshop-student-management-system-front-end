@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 签到页面组件(移动端)
+ *
+ * @description 学生签到功能页面,展示当前时段签到状态和历史记录(移动端)
+ * @component AttendancePageMobile
+ */
 import { ElMessage, ElButton, ElIcon, ElDialog, ElInput } from 'element-plus'
 import { ref, onMounted, onUnmounted } from 'vue'
 import 'element-plus/theme-chalk/base.css'

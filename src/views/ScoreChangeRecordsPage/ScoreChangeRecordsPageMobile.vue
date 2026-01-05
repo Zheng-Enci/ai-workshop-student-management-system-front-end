@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 改分记录页面组件(移动端)
+ *
+ * @description 展示学生的积分调整记录,包括加分和扣分历史(移动端)
+ * @component ScoreChangeRecordsPageMobile
+ */
 import { ElButton, ElIcon } from 'element-plus'
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
