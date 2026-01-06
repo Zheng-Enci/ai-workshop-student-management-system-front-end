@@ -820,6 +820,17 @@ html.dark .slot-icon {
 	color: #fff;
 }
 
+/* 已签到时间段深色模式 - 确保绿色显示 */
+html.dark .time-slot.signed {
+	background-color: #67c23a !important;
+	border-color: #67c23a !important;
+}
+
+/* 已签到时间标签深色模式 */
+html.dark .time-slot.signed .time-label {
+	color: #fff !important;
+}
+
 /* 单元格包装器悬停深色模式 */
 html.dark .calendar-cell-wrapper-desktop:hover {
 	background-color: var(--bg-tertiary);
