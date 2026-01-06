@@ -5,29 +5,29 @@
 | 指标 | 数值 |
 |------|------|
 | 检查文件数 | 78 |
-| 错误总数 | 1544 |
-| 警告总数 | 1032 |
-| 问题总数 | 2576 |
+| 错误总数 | 1531 |
+| 警告总数 | 1048 |
+| 问题总数 | 2579 |
 
 ## 📈 状态评估
 
-❌ **发现 1544 个错误**，需要立即修复。
+❌ **发现 1531 个错误**，需要立即修复。
 
 ## 📋 按文件类型统计
 
 | 文件类型 | 文件数 | 错误 | 警告 |
 |---------|--------|------|------|
-| Vue | 36 | 1478 | 537 |
+| Vue | 36 | 1465 | 553 |
 | JavaScript | 42 | 66 | 495 |
 
 ## ⚠️ 有问题的文件
 
 | 文件路径 | 错误数 | 警告数 | 状态 |
 |---------|--------|--------|------|
-| src\views\AdminPage\AdminPageMobile.vue | 456 | 2 | ❌ |
+| src\views\AdminPage\AdminPageMobile.vue | 421 | 14 | ❌ |
 | src\views\AttendanceAnalysisPage\AttendanceAnalysisPageDesktop.vue | 343 | 46 | ❌ |
+| src\views\StudentManagerPage\StudentManagerPageMobile.vue | 132 | 47 | ❌ |
 | src\views\AdminPage\AdminPageDesktop.vue | 165 | 0 | ❌ |
-| src\views\StudentManagerPage\StudentManagerPageMobile.vue | 110 | 43 | ❌ |
 | src\views\AdminPage\AdminPage.js | 29 | 98 | ❌ |
 | src\views\AttendancePage\AttendancePageMobile.vue | 92 | 28 | ❌ |
 | src\views\StudentManagerPage\StudentManagerPageDesktop.vue | 66 | 40 | ❌ |
@@ -143,420 +143,397 @@
 | 100 | 1 | ❌ 错误 | import/order | `element-plus/dist/locale/zh-cn.mjs` import should occur before import of `vue` |
 | 116 | 7 | ❌ 错误 | no-unused-vars | 'monthMap' is assigned a value but never used. Allowed unused vars must match /^_/u. |
 | 133 | 7 | ❌ 错误 | no-unused-vars | 'monthObserver' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 149 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 是否已通过身份验证（布...'. |
-| 150 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 超级管理员验证密码（字...'. |
-| 151 | 2 | ❌ 错误 | no-unused-vars | 'authError' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 151 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 身份验证错误信息（字符...'. |
-| 152 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 身份验证加载状态（布尔...'. |
-| 153 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局数据加载状态（布尔...'. |
-| 154 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 核心数据是否加载完成（...'. |
-| 155 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 数据加载进度（百分比，...'. |
-| 156 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 数据加载状态文本（字符...'. |
-| 157 | 2 | ❌ 错误 | no-unused-vars | 'students' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 157 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 所有学生原始数据列表（...'. |
-| 158 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生搜索关键词（字符串...'. |
-| 159 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 分页当前页码（数字）'. |
-| 160 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 分页每页条数（数字）'. |
-| 161 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生总数（数字）'. |
-| 162 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 今日签到人数（数字）'. |
-| 163 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 本月签到人数（数字）'. |
-| 164 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生等级映射表（对象，...'. |
-| 166 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生所属管理员映射表（...'. |
-| 167 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生积分信息映射表（对...'. |
-| 168 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前激活的学生等级标签...'. |
-| 169 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑学生信息对话框显示...'. |
-| 170 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单引用（Ref）'. |
-| 171 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单数据（对象）'. |
-| 173 | 25 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 今日考勤记录列表（数组...'. |
-| 175 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前选中的学生信息（对...'. |
-| 176 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件选中日期（日期...'. |
-| 177 | 2 | ❌ 错误 | no-unused-vars | 'scrollPosition' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 177 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 页面滚动位置（数字）'. |
-| 179 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历时间段配置（数组）'. |
-| 180 | 2 | ❌ 错误 | no-unused-vars | 'filteredStudentAttendanceRecords' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 182 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图对话框显示状态（...'. |
-| 183 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图容器引用（Ref...'. |
-| 184 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图容器引用（Ref...'. |
-| 185 | 2 | ❌ 错误 | no-unused-vars | 'heatmapInstance' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 185 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图实例（Ref）'. |
-| 186 | 2 | ❌ 错误 | no-unused-vars | 'lineInstance' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 186 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图实例（Ref）'. |
-| 188 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选中的日期（字符串）'. |
-| 189 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡对话框显示状态（布...'. |
-| 190 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作加载状态（布尔...'. |
-| 191 | 23 | ❌ 错误 | comma-spacing | A space is required after ','. |
-| 192 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡步骤（date:选...'. |
-| 193 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单引用（Ref）'. |
-| 194 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期选择器引用（Ref...'. |
-| 195 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单数据（对象）'. |
-| 196 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分修改对话框显示状态...'. |
-| 197 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分修改加载状态（布尔...'. |
-| 198 | 23 | ❌ 错误 | comma-spacing | A space is required after ','. |
-| 199 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单引用（Ref）'. |
-| 200 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单数据（对象）'. |
-| 202 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分变动记录加载状态（...'. |
-| 203 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分变动记录列表（数组...'. |
-| 205 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期快捷选择配置（数组...'. |
-| 206 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生等级选项（数组）'. |
-| 207 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 管理员选项（数组）'. |
-| 208 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 筛选后的学生列表（数组...'. |
-| 210 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单校验规则（对象...'. |
-| 211 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单校验规则（对象...'. |
-| 212 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡日期表单校验规则（...'. |
-| 215 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 根据等级获取学生列表'. |
-| 216 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 修改学生等级'. |
-| 217 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 修改学生所属管理员'. |
-| 218 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentLevels' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 218 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载学生等级数据'. |
-| 219 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentAttendanceCounts' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 220 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentAdmins' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 220 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载学生所属管理员数据'. |
-| 221 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 头像加载失败处理'. |
-| 222 | 2 | ❌ 错误 | no-unused-vars | 'loadStatistics' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 222 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载统计数据（总数、今...'. |
-| 223 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 刷新所有数据'. |
-| 224 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开编辑学生对话框'. |
-| 225 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 取消编辑操作'. |
-| 226 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认编辑学生信息'. |
-| 227 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 显示今日考勤记录'. |
-| 229 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取时间段样式类'. |
-| 230 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取时间段名称'. |
-| 231 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 判断指定日期时间段是否...'. |
-| 232 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开日期详情对话框'. |
-| 235 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 关闭热力图对话框'. |
-| 236 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 关闭趋势图对话框'. |
-| 238 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 格式化日历标题'. |
-| 239 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历切换到上个月'. |
-| 240 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历切换到下个月'. |
-| 241 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历回到今日'. |
-| 242 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取时间段标签'. |
-| 244 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 初始化热力图'. |
-| 245 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 初始化趋势图'. |
-| 246 | 2 | ❌ 错误 | no-unused-vars | 'generateHeatmapData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 246 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 生成热力图数据'. |
-| 247 | 2 | ❌ 错误 | no-unused-vars | 'generateLineData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 247 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 生成趋势图数据'. |
-| 248 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开热力图对话框'. |
-| 249 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开趋势图对话框'. |
-| 250 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 身份验证'. |
-| 251 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 退出登录'. |
-| 252 | 2 | ❌ 错误 | no-unused-vars | 'getShortcutDate' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 252 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取快捷日期'. |
-| 253 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开补卡对话框'. |
-| 254 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 取消补卡操作'. |
-| 255 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 处理日期选择变化'. |
-| 256 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 格式化选中的日期'. |
-| 257 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认补卡日期步骤'. |
-| 260 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选择补卡小时'. |
-| 261 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 判断小时是否选中'. |
-| 262 | 2 | ❌ 错误 | no-unused-vars | 'updateAttendanceTime' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 263 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 提交补卡操作'. |
-| 264 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开积分修改对话框'. |
-| 266 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 取消积分修改'. |
-| 267 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认积分修改'. |
-| 270 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 格式化时间'. |
-| 271 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载所有核心数据'. |
-| 272 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 考勤时间段配置（数组）'. |
-| 275 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 切换主题（亮色/暗色）'. |
-| 291 | 24 | ❌ 错误 | no-undef | 'adminStore' is not defined. |
-| 305 | 4 | ❌ 错误 | no-undef | 'adminStore' is not defined. |
-| 327 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 重新初始化趋势图'. |
-| 633 | 1 | ❌ 错误 | max-len | This line has a length of 149. Maximum allowed is 120. |
-| 662 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
-| 663 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 8 tabs. |
-| 673 | 1 | ❌ 错误 | max-len | This line has a length of 200. Maximum allowed is 120. |
-| 673 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
-| 674 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
-| 678 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
-| 679 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
-| 681 | 1 | ❌ 错误 | max-len | This line has a length of 127. Maximum allowed is 120. |
-| 681 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
-| 682 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
-| 983 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 984 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 985 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 986 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 988 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 989 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 990 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 991 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 992 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 993 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 994 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 995 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 996 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 997 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 998 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 999 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1000 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1001 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1002 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1003 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1004 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1005 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1006 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1007 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1008 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1009 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1010 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1011 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1012 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1013 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1014 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1015 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1016 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1017 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1018 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1019 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1020 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1021 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1022 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1023 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1024 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1025 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1026 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1027 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1028 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1029 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1030 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1031 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1032 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1033 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1034 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1035 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1036 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1037 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1038 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1039 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1040 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1041 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1042 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1043 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1044 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1045 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1046 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1047 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1048 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1049 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1050 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1124 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1125 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1126 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1127 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1128 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1130 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1131 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1132 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1133 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1134 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1135 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1136 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1137 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1138 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1139 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1140 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1141 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1142 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1143 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1144 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1145 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1146 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1148 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1149 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1150 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1151 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1152 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1153 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1154 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1155 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1156 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1157 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1158 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1159 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1160 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1161 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1162 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1163 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1164 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1165 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1166 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1167 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1168 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1169 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1178 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1179 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1180 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1181 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1182 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1183 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1184 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1185 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1186 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1187 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1340 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1341 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1342 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1343 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1344 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1346 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1347 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1348 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1349 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1350 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1351 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1352 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1353 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1354 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1355 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1356 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1357 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1359 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1360 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1361 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1362 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1363 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1364 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1365 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1366 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1367 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1368 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1369 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1370 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1371 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1372 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1373 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1374 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1375 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1376 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1378 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1379 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1380 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1381 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1382 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1383 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1384 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1385 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1386 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1387 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1388 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1389 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1390 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1391 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1392 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1393 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1394 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1395 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1396 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1397 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1398 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1399 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1400 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1401 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1402 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1403 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1404 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1405 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1406 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1407 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1408 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1409 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1410 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1411 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1412 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1413 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1414 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1415 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1416 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1417 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1418 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1419 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1420 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1421 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
-| 1422 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
-| 1423 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
-| 1424 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1425 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1426 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1427 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1428 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1430 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1431 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1432 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1433 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1434 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1435 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1436 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1437 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1438 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1439 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1440 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1441 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1442 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1443 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1444 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1445 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1446 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
-| 1447 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
-| 1448 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
-| 1449 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
-| 1450 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
-| 1451 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
-| 1452 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
-| 1453 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
-| 1454 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
-| 1455 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
-| 1456 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
-| 1457 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1458 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1459 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1460 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1461 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1462 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1463 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1464 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1465 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
-| 1466 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1467 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
-| 1468 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1469 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1470 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1471 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1473 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1474 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
-| 1475 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1476 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1477 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1478 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1479 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1480 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1481 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1482 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1483 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1484 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1485 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1486 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1487 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1488 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1489 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1490 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1491 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1492 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1493 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1494 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1495 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1496 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1497 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1498 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1499 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1500 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1501 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1502 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1503 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1504 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
-| 1505 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1506 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
-| 1507 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
-| 1508 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 150 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 是否已通过身份验证（布...'. |
+| 151 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 超级管理员验证密码（字...'. |
+| 152 | 2 | ❌ 错误 | no-unused-vars | 'authError' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 152 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 身份验证错误信息（字符...'. |
+| 153 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 身份验证加载状态（布尔...'. |
+| 154 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局数据加载状态（布尔...'. |
+| 155 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 核心数据是否加载完成（...'. |
+| 156 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 数据加载进度（百分比，...'. |
+| 157 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 数据加载状态文本（字符...'. |
+| 158 | 2 | ❌ 错误 | no-unused-vars | 'students' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 158 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 所有学生原始数据列表（...'. |
+| 159 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生搜索关键词（字符串...'. |
+| 160 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 分页当前页码（数字）'. |
+| 161 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 分页每页条数（数字）'. |
+| 162 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生总数（数字）'. |
+| 163 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 今日签到人数（数字）'. |
+| 164 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 本月签到人数（数字）'. |
+| 165 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生等级映射表（对象，...'. |
+| 167 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生所属管理员映射表（...'. |
+| 168 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生积分信息映射表（对...'. |
+| 169 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前激活的学生等级标签...'. |
+| 170 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑学生信息对话框显示...'. |
+| 171 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单引用（Ref）'. |
+| 172 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单数据（对象）'. |
+| 174 | 25 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 今日考勤记录列表（数组...'. |
+| 176 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前选中的学生信息（对...'. |
+| 177 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件选中日期（日期...'. |
+| 178 | 2 | ❌ 错误 | no-unused-vars | 'scrollPosition' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 178 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 页面滚动位置（数字）'. |
+| 180 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历时间段配置（数组）'. |
+| 181 | 2 | ❌ 错误 | no-unused-vars | 'filteredStudentAttendanceRecords' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 183 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图对话框显示状态（...'. |
+| 184 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图容器引用（Ref...'. |
+| 185 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图容器引用（Ref...'. |
+| 186 | 2 | ❌ 错误 | no-unused-vars | 'heatmapInstance' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 186 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图实例（Ref）'. |
+| 187 | 2 | ❌ 错误 | no-unused-vars | 'lineInstance' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 187 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图实例（Ref）'. |
+| 189 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选中的日期（字符串）'. |
+| 190 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡对话框显示状态（布...'. |
+| 191 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作加载状态（布尔...'. |
+| 192 | 23 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 193 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡步骤（date:选...'. |
+| 194 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单引用（Ref）'. |
+| 195 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期选择器引用（Ref...'. |
+| 196 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单数据（对象）'. |
+| 197 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分修改对话框显示状态...'. |
+| 198 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分修改加载状态（布尔...'. |
+| 199 | 23 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 200 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单引用（Ref）'. |
+| 201 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单数据（对象）'. |
+| 203 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分变动记录加载状态（...'. |
+| 204 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分变动记录列表（数组...'. |
+| 206 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期快捷选择配置（数组...'. |
+| 207 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生等级选项（数组）'. |
+| 208 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 管理员选项（数组）'. |
+| 209 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 筛选后的学生列表（数组...'. |
+| 211 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单校验规则（对象...'. |
+| 212 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单校验规则（对象...'. |
+| 213 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡日期表单校验规则（...'. |
+| 214 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 考勤时间段配置（数组）'. |
+| 229 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 237 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 247 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentLevels' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 253 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentAttendanceCounts' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 259 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentAdmins' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 272 | 2 | ❌ 错误 | no-unused-vars | 'loadStatistics' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 282 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 343 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 428 | 2 | ❌ 错误 | no-unused-vars | 'generateHeatmapData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 432 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 434 | 2 | ❌ 错误 | no-unused-vars | 'generateLineData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 438 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 445 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 467 | 2 | ❌ 错误 | no-unused-vars | 'getShortcutDate' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 471 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 502 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "shortcut" type "Object"; prefer: "object". |
+| 509 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "shortcut" type "Object"; prefer: "object". |
+| 532 | 2 | ❌ 错误 | no-unused-vars | 'updateAttendanceTime' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 542 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 567 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 612 | 24 | ❌ 错误 | no-undef | 'adminStore' is not defined. |
+| 626 | 4 | ❌ 错误 | no-undef | 'adminStore' is not defined. |
+| 648 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 重新初始化趋势图'. |
+| 800 | 6 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 881 | 6 | ❌ 错误 | vue/attributes-order | Attribute ":loading" should go before "@click". |
+| 882 | 6 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 946 | 1 | ❌ 错误 | max-len | This line has a length of 185. Maximum allowed is 120. |
+| 974 | 9 | ❌ 错误 | vue/attributes-order | Attribute ":loading" should go before "@click". |
+| 975 | 9 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 985 | 9 | ❌ 错误 | vue/attributes-order | Attribute ":loading" should go before "@click". |
+| 986 | 9 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 996 | 9 | ❌ 错误 | vue/attributes-order | Attribute ":loading" should go before "@click". |
+| 997 | 9 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 1010 | 35 | ❌ 错误 | vue/attributes-order | Attribute "v-if" should go before "class". |
+| 1197 | 1 | ❌ 错误 | max-len | This line has a length of 149. Maximum allowed is 120. |
+| 1226 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
+| 1227 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 8 tabs. |
+| 1237 | 1 | ❌ 错误 | max-len | This line has a length of 200. Maximum allowed is 120. |
+| 1237 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
+| 1238 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
+| 1242 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
+| 1243 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
+| 1245 | 1 | ❌ 错误 | max-len | This line has a length of 127. Maximum allowed is 120. |
+| 1245 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
+| 1246 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
+| 1547 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1548 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1549 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1550 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1552 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1553 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1554 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1555 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1556 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1557 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1558 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1559 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1560 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1561 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1562 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1563 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1564 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1565 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1566 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1567 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1568 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1569 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1570 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1571 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1572 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1573 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1574 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1575 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1576 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1577 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1578 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1579 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1580 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1581 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1582 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1583 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1584 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1585 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1586 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1587 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1588 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1589 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1590 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1591 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1592 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1593 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1594 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1595 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1596 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1597 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1598 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1599 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1600 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1601 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1602 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1603 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1604 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1605 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1606 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1607 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1608 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1609 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1610 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1611 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1612 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1613 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1614 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1688 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1689 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1690 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1691 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1692 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1694 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1695 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1696 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1697 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1698 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1699 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1700 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1701 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1702 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1703 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1704 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1705 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1706 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1707 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1708 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1709 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1710 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1712 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1713 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1714 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1715 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1716 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1717 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1718 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1719 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1720 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1721 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1722 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1723 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1724 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1725 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1726 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1727 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1728 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1729 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1730 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1731 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1732 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1733 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1742 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1743 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1744 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1745 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1746 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1747 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1748 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1749 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1750 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1751 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1904 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1905 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1906 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1907 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1908 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1910 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1911 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1912 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1913 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1914 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1915 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1916 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1917 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1918 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1919 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1920 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1921 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1923 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1924 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1925 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1926 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1927 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1928 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1929 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1930 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1931 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1932 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1933 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1934 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1935 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1936 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1937 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1938 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1939 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1940 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1942 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1943 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1944 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1945 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1946 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1947 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1948 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1949 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1950 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1951 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1952 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1953 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1954 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1955 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1956 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1957 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1958 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1959 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1960 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1961 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1962 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1963 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1964 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1965 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1966 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1967 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1968 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1969 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1970 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1971 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1972 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1973 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1974 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1975 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1976 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1977 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1978 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1979 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1980 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1981 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1982 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1983 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1984 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1985 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 1986 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 1987 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 1988 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1989 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1990 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1991 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1992 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1994 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1995 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1996 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1997 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1998 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1999 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2000 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2001 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2002 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2003 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2004 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2005 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2006 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2007 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2008 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2009 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2010 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 2011 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 2012 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2013 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2014 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2015 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2016 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2017 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2018 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 2019 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2020 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 2021 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2022 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2023 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2024 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2025 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2026 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2027 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2028 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2029 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2030 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2031 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2032 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2033 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2034 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2035 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 2037 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 2038 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 2039 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2040 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2041 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2042 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2043 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2044 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2045 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2046 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2047 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2048 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2049 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2050 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2051 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2052 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2053 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2054 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2055 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2056 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2057 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2058 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2059 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2060 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2061 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2062 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2063 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2064 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2065 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2066 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2067 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2068 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2069 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2070 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2071 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2072 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
 
 ### 2. src\views\AttendanceAnalysisPage\AttendanceAnalysisPageDesktop.vue
 
@@ -952,7 +929,191 @@
 | 1799 | 3 | ❌ 错误 | vue/no-parsing-error | Parsing error: x-invalid-end-tag. |
 | 1800 | 2 | ❌ 错误 | vue/no-parsing-error | Parsing error: x-invalid-end-tag. |
 
-### 3. src\views\AdminPage\AdminPageDesktop.vue
+### 3. src\views\StudentManagerPage\StudentManagerPageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 7 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 9 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "date". |
+| 11 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "dependency". |
+| 16 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 17 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局消息提示组件'. |
+| 18 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 按钮组件'. |
+| 19 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图标容器组件'. |
+| 20 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 输入框组件'. |
+| 21 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗组件'. |
+| 23 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件'. |
+| 27 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 28 | 6 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 响应式数据创建'. |
+| 29 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 生命周期钩子-组件挂载...'. |
+| 30 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 计算属性创建'. |
+| 31 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 异步DOM更新完成回调'. |
+| 32 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 响应式数据监听'. |
+| 50 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 50 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 51 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户图标'. |
+| 52 | 10 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 53 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 星星/热力图图标'. |
+| 54 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 刷新图标'. |
+| 55 | 2 | ❌ 错误 | no-unused-vars | 'Loading' is defined but never used. Allowed unused vars must match /^_/u. |
+| 55 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载中图标'. |
+| 56 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 返回箭头图标'. |
+| 57 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 时钟/补卡图标'. |
+| 58 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 信息提示图标'. |
+| 59 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认勾选图标'. |
+| 60 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索图标'. |
+| 61 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 排序图标'. |
+| 62 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图图标'. |
+| 66 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 66 | 18 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 70 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 71 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取学生签到次数'. |
+| 72 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生补卡操作'. |
+| 77 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 78 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取学生/管理员权限等...'. |
+| 82 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 82 | 22 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 83 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 83 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 83 | 21 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 83 | 43 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户状态管理'. |
+| 90 | 7 | ❌ 错误 | no-unused-vars | 'studentManagerPageUtils' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 95 | 1 | ❌ 错误 | import/order | `echarts/core` import should occur before import of `element-plus` |
+| 97 | 1 | ❌ 错误 | import/order | `echarts/charts` import should occur before import of `element-plus` |
+| 97 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 97 | 32 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 99 | 1 | ❌ 错误 | import/order | `echarts/components` import should occur before import of `element-plus` |
+| 100 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标题组件'. |
+| 101 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 提示框组件'. |
+| 102 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 网格组件'. |
+| 103 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图例组件'. |
+| 104 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 视觉映射组件（热力图用...'. |
+| 107 | 1 | ❌ 错误 | import/order | `echarts/renderers` import should occur before import of `element-plus` |
+| 107 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 107 | 23 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 122 | 27 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 路由实例'. |
+| 123 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户状态实例'. |
+| 124 | 35 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 主题状态实例'. |
+| 125 | 32 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 管理员管理的学生列表'. |
+| 126 | 27 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局加载状态'. |
+| 127 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索框输入内容'. |
+| 128 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索过滤后的学生列表'. |
+| 129 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 排序方式：defaul...'. |
+| 132 | 31 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图容器DOM引用'. |
+| 133 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图容器DOM引用'. |
+| 134 | 34 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图ECharts实...'. |
+| 135 | 31 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图ECharts实...'. |
+| 136 | 37 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗内热力图容器DOM...'. |
+| 137 | 35 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗内趋势图容器DOM...'. |
+| 140 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生签到次数缓存 {s...'. |
+| 141 | 39 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡弹窗显示状态'. |
+| 142 | 34 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前选中的学生对象'. |
+| 143 | 40 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作选中的学生对象'. |
+| 144 | 25 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单数据'. |
+| 145 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡时间'. |
+| 147 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作加载状态'. |
+| 151 | 41 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选中学生的考勤记录列表'. |
+| 152 | 38 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件当前选中日期'. |
+| 153 | 44 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 考勤记录加载状态'. |
+| 156 | 40 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图弹窗显示状态'. |
+| 157 | 43 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图弹窗显示状态'. |
+| 219 | 7 | ❌ 错误 | no-unused-vars | 'totalAttendanceCount' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 219 | 45 | ❌ 错误 | arrow-body-style | Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`. |
+| 226 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 227 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 229 | 45 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 229 | 59 | ❌ 错误 | arrow-body-style | Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`. |
+| 235 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 235 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 236 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 238 | 30 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 239 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 240 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 257 | 55 | ❌ 错误 | sonarjs/no-redundant-boolean | Refactor the code to avoid using this boolean literal. |
+| 266 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 272 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 274 | 28 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 276 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'event'. |
+| 288 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 289 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 291 | 7 | ❌ 错误 | no-unused-vars | 'formatAttendanceTime' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 291 | 31 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 308 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 309 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 311 | 30 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 327 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 327 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 334 | 9 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 357 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 377 | 7 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 379 | 7 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 381 | 7 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 395 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 396 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 397 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 545 | 7 | ❌ 错误 | no-unused-vars | 'totalAttendanceCount' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 545 | 7 | ❌ 错误 | no-shadow | 'totalAttendanceCount' is already declared in the upper scope on line 219 column 7. |
+| 609 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 609 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 611 | 27 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 674 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 674 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 676 | 44 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 713 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 713 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 715 | 34 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 731 | 10 | ❌ 错误 | no-use-before-define | 'initializeHeatmapDialogChart' was used before it was defined. |
+| 758 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 758 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 760 | 37 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 776 | 10 | ❌ 错误 | no-use-before-define | 'initializeTrendDialogChart' was used before it was defined. |
+| 805 | 47 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 806 | 33 | ❌ 错误 | curly | Expected { after 'if' condition. |
+| 887 | 45 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 888 | 31 | ❌ 错误 | curly | Expected { after 'if' condition. |
+| 976 | 2 | ❌ 错误 | no-use-before-define | 'initHeatmapChart' was used before it was defined. |
+| 977 | 2 | ❌ 错误 | no-use-before-define | 'initLineChart' was used before it was defined. |
+| 983 | 7 | ❌ 错误 | no-unused-vars | 'initDialogHeatmapChart' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 984 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 985 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 986 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1002 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1010 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1011 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1011 | 23 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1011 | 23 | ❌ 错误 | no-undef | 'StudentManagerPageAttendance_Records_Dialog' is not defined. |
+| 1106 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1115 | 7 | ❌ 错误 | no-unused-vars | 'initDialogLineChart' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 1116 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1117 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1118 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1134 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1142 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1143 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1143 | 23 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1143 | 23 | ❌ 错误 | no-undef | 'StudentManagerPageAttendance_Records_Dialog' is not defined. |
+| 1159 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1159 | 11 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 1159 | 17 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 1381 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1381 | 11 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 1381 | 17 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 1608 | 6 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 1750 | 9 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1751 | 4 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1751 | 5 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 1820 | 34 | ❌ 错误 | vue/multiline-html-element-content-newline | Expected 1 line break after opening tag (`<div>`), but no line breaks found. |
+| 1966 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1967 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1967 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 1971 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1972 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1972 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 1976 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1977 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1977 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+
+### 4. src\views\AdminPage\AdminPageDesktop.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -1121,164 +1282,6 @@
 | 1276 | 1 | ❌ 错误 | max-len | This line has a length of 123. Maximum allowed is 120. |
 | 1286 | 1 | ❌ 错误 | max-len | This line has a length of 141. Maximum allowed is 120. |
 | 1313 | 1 | ❌ 错误 | max-len | This line has a length of 145. Maximum allowed is 120. |
-
-### 4. src\views\StudentManagerPage\StudentManagerPageMobile.vue
-
-| 行号 | 列号 | 严重程度 | 规则 | 消息 |
-|------|------|----------|------|------|
-| 7 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
-| 9 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "date". |
-| 11 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "dependency". |
-| 16 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
-| 17 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局消息提示组件'. |
-| 18 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 按钮组件'. |
-| 19 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图标容器组件'. |
-| 20 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 输入框组件'. |
-| 21 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗组件'. |
-| 23 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件'. |
-| 27 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
-| 28 | 6 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 响应式数据创建'. |
-| 29 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 生命周期钩子-组件挂载...'. |
-| 30 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 计算属性创建'. |
-| 31 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 异步DOM更新完成回调'. |
-| 32 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 响应式数据监听'. |
-| 50 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
-| 50 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
-| 51 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户图标'. |
-| 52 | 14 | ❌ 错误 | no-unused-vars | 'CalendarIcon' is defined but never used. Allowed unused vars must match /^_/u. |
-| 53 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 星星/热力图图标'. |
-| 54 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 刷新图标'. |
-| 55 | 2 | ❌ 错误 | no-unused-vars | 'Loading' is defined but never used. Allowed unused vars must match /^_/u. |
-| 55 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载中图标'. |
-| 56 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 返回箭头图标'. |
-| 57 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 时钟/补卡图标'. |
-| 58 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 信息提示图标'. |
-| 59 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认勾选图标'. |
-| 60 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索图标'. |
-| 61 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 排序图标'. |
-| 62 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图图标'. |
-| 70 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
-| 71 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取学生签到次数'. |
-| 72 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生补卡操作'. |
-| 77 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
-| 78 | 2 | ❌ 错误 | no-unused-vars | 'getManagedStudents' is defined but never used. Allowed unused vars must match /^_/u. |
-| 79 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取学生/管理员权限等...'. |
-| 84 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
-| 84 | 45 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户状态管理'. |
-| 92 | 1 | ❌ 错误 | import/order | `echarts/core` import should occur before import of `element-plus` |
-| 94 | 1 | ❌ 错误 | import/order | `echarts/charts` import should occur before import of `element-plus` |
-| 96 | 1 | ❌ 错误 | import/order | `echarts/components` import should occur before import of `element-plus` |
-| 97 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标题组件'. |
-| 98 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 提示框组件'. |
-| 99 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 网格组件'. |
-| 100 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图例组件'. |
-| 101 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 视觉映射组件（热力图用...'. |
-| 104 | 1 | ❌ 错误 | import/order | `echarts/renderers` import should occur before import of `element-plus` |
-| 119 | 27 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 路由实例'. |
-| 120 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户状态实例'. |
-| 121 | 35 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 主题状态实例'. |
-| 122 | 32 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 管理员管理的学生列表'. |
-| 123 | 27 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局加载状态'. |
-| 124 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索框输入内容'. |
-| 125 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索过滤后的学生列表'. |
-| 126 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 排序方式：defaul...'. |
-| 129 | 31 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图容器DOM引用'. |
-| 130 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图容器DOM引用'. |
-| 131 | 34 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图ECharts实...'. |
-| 132 | 31 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图ECharts实...'. |
-| 133 | 37 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗内热力图容器DOM...'. |
-| 134 | 35 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗内趋势图容器DOM...'. |
-| 137 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生签到次数缓存 {s...'. |
-| 138 | 39 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡弹窗显示状态'. |
-| 139 | 34 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前选中的学生对象'. |
-| 140 | 40 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作选中的学生对象'. |
-| 141 | 25 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单数据'. |
-| 142 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡时间'. |
-| 144 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作加载状态'. |
-| 148 | 41 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选中学生的考勤记录列表'. |
-| 149 | 38 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件当前选中日期'. |
-| 150 | 44 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 考勤记录加载状态'. |
-| 153 | 40 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图弹窗显示状态'. |
-| 154 | 43 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图弹窗显示状态'. |
-| 216 | 45 | ❌ 错误 | arrow-body-style | Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`. |
-| 223 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 224 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 226 | 45 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 226 | 59 | ❌ 错误 | arrow-body-style | Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`. |
-| 232 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
-| 232 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 233 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 235 | 30 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 236 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 237 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 254 | 62 | ❌ 错误 | no-undefined | Unexpected use of undefined. |
-| 263 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 269 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 271 | 28 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 273 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'event'. |
-| 285 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 286 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 288 | 7 | ❌ 错误 | no-unused-vars | 'formatAttendanceTime' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 288 | 31 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 303 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 304 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 306 | 30 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 318 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
-| 318 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 325 | 9 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
-| 348 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 367 | 53 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
-| 367 | 61 | ❌ 错误 | brace-style | Closing curly brace does not appear on the same line as the subsequent block. |
-| 368 | 59 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
-| 368 | 67 | ❌ 错误 | brace-style | Closing curly brace does not appear on the same line as the subsequent block. |
-| 369 | 59 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
-| 382 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 383 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 384 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 520 | 7 | ❌ 错误 | no-unused-vars | 'totalAttendanceCount' is assigned a value but never used. Allowed unused vars must match /^_/u. |
-| 520 | 7 | ❌ 错误 | no-shadow | 'totalAttendanceCount' is already declared in the upper scope on line 216 column 7. |
-| 583 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
-| 583 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 585 | 27 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 648 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
-| 648 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 650 | 44 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 683 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
-| 683 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 685 | 34 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 700 | 5 | ❌ 错误 | no-use-before-define | 'initDialogHeatmapChart' was used before it was defined. |
-| 730 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
-| 730 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 732 | 37 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
-| 747 | 5 | ❌ 错误 | no-use-before-define | 'initDialogLineChart' was used before it was defined. |
-| 805 | 2 | ❌ 错误 | no-use-before-define | 'initHeatmapChart' was used before it was defined. |
-| 806 | 2 | ❌ 错误 | no-use-before-define | 'initLineChart' was used before it was defined. |
-| 813 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 814 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 815 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 831 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 839 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 840 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 840 | 23 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
-| 840 | 23 | ❌ 错误 | no-undef | 'StudentManagerPageAttendance_Records_Dialog' is not defined. |
-| 935 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 945 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 946 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 947 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 963 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 971 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 972 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
-| 972 | 23 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
-| 972 | 23 | ❌ 错误 | no-undef | 'StudentManagerPageAttendance_Records_Dialog' is not defined. |
-| 988 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
-| 1206 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
-| 1355 | 5 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
-| 1506 | 1 | ❌ 错误 | max-len | This line has a length of 124. Maximum allowed is 120. |
-| 1609 | 1 | ❌ 错误 | max-len | This line has a length of 141. Maximum allowed is 120. |
-| 1671 | 1 | ❌ 错误 | max-len | This line has a length of 130. Maximum allowed is 120. |
-| 1807 | 1 | ❌ 错误 | max-len | This line has a length of 138. Maximum allowed is 120. |
-| 1811 | 1 | ❌ 错误 | max-len | This line has a length of 142. Maximum allowed is 120. |
-| 1815 | 1 | ❌ 错误 | max-len | This line has a length of 138. Maximum allowed is 120. |
 
 ### 5. src\views\AdminPage\AdminPage.js
 
@@ -3274,4 +3277,4 @@
 
 ---
 
-*报告生成时间: 2026/1/6 14:20:57*
+*报告生成时间: 2026/1/6 16:56:19*

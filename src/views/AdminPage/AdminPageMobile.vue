@@ -146,6 +146,7 @@ const monthObserver = null
  * - 图表相关：initHeatmapChart, generateLineData等
  */
 const {
+	// 状态变量
 	isAuthenticated,      // 是否已通过身份验证（布尔值）
 	specialPassword,      // 超级管理员验证密码（字符串）
 	authError,            // 身份验证错误信息（字符串）
@@ -210,69 +211,389 @@ const {
 	editFormRules,        // 编辑表单校验规则（对象）
 	pointsFormRules,      // 积分表单校验规则（对象）
 	makeupDateFormRules,  // 补卡日期表单校验规则（对象）
-
-	// 方法类
-	getLevelStudents,     // 根据等级获取学生列表
-	changeLevel,          // 修改学生等级
-	changeAdmin,          // 修改学生所属管理员
-	loadStudentLevels,    // 加载学生等级数据
-	loadStudentAttendanceCounts, // 加载学生签到次数
-	loadStudentAdmins,    // 加载学生所属管理员数据
-	handleAvatarError,    // 头像加载失败处理
-	loadStatistics,       // 加载统计数据（总数、今日/本月签到）
-	refreshData,          // 刷新所有数据
-	openEditDialog,       // 打开编辑学生对话框
-	cancelEdit,           // 取消编辑操作
-	confirmEdit,          // 确认编辑学生信息
-	showTodayAttendance,  // 显示今日考勤记录
-	formatAttendanceTime, // 格式化考勤时间
-	getTimePeriodClass,   // 获取时间段样式类
-	getTimePeriodName,    // 获取时间段名称
-	isSlotSigned,         // 判断指定日期时间段是否签到
-	openDateDetails,      // 打开日期详情对话框
-	openAttendanceRecordsDialog, // 打开考勤记录对话框
-	closeAttendanceRecordsDialog, // 关闭考勤记录对话框
-	closeHeatmapDialog,   // 关闭热力图对话框
-	closeTrendDialog,     // 关闭趋势图对话框
-	formatDateForDisplay, // 格式化显示日期
-	formatCalendarTitle,  // 格式化日历标题
-	prevMonth,            // 日历切换到上个月
-	nextMonth,            // 日历切换到下个月
-	goToday,              // 日历回到今日
-	getTimeSlotLabel,     // 获取时间段标签
-	getDateAttendanceTimes, // 获取指定日期的签到时间列表
-	initHeatmapChart,     // 初始化热力图
-	initLineChart,        // 初始化趋势图
-	generateHeatmapData,  // 生成热力图数据
-	generateLineData,     // 生成趋势图数据
-	openHeatmapDialog,    // 打开热力图对话框
-	openTrendDialog,      // 打开趋势图对话框
-	authenticate,         // 身份验证
-	logout,               // 退出登录
-	getShortcutDate,      // 获取快捷日期
-	openMakeupDialog,     // 打开补卡对话框
-	cancelMakeup,         // 取消补卡操作
-	handleDateChange,     // 处理日期选择变化
-	formatSelectedDate,   // 格式化选中的日期
-	confirmDateStep,      // 确认补卡日期步骤
-	selectDatetimeShortcut, // 选择快捷日期
-	isDatetimeShortcutSelected, // 判断快捷日期是否选中
-	selectHour,           // 选择补卡小时
-	isHourSelected,       // 判断小时是否选中
-	updateAttendanceTime, // 更新考勤时间
-	submitMakeup,         // 提交补卡操作
-	openPointsDialog,     // 打开积分修改对话框
-	handlePointsDialogClose, // 关闭积分修改对话框
-	cancelPoints,         // 取消积分修改
-	confirmPoints,        // 确认积分修改
-	openScoreChangeRecordsDialog, // 打开积分变动记录对话框
-	closeScoreChangeRecordsDialog, // 关闭积分变动记录对话框
-	formatTime,           // 格式化时间
-	loadAllData,          // 加载所有核心数据
 	timeSlots,            // 考勤时间段配置（数组）
 	sortedScoreChangeRecords, // 排序后的积分变动记录
 	totalScoreChangePoints, // 积分变动总分数
-	toggleTheme           // 切换主题（亮色/暗色）
+
+	// 方法函数
+	/**
+	 * 根据等级获取学生列表
+	 * @function getLevelStudents
+	 * @param {number} level - 学生等级
+	 * @returns {Array} 指定等级的学生列表
+	 */
+	getLevelStudents,
+	/**
+	 * 修改学生等级
+	 * @function changeLevel
+	 * @param {Object} student - 学生对象
+	 * @param {number} newLevel - 新等级
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	changeLevel,
+	/**
+	 * 修改学生所属管理员
+	 * @function changeAdmin
+	 * @param {Object} student - 学生对象
+	 * @param {number} newAdmin - 新管理员ID
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	changeAdmin,
+	/**
+	 * 加载学生等级数据
+	 * @function loadStudentLevels
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	loadStudentLevels,
+	/**
+	 * 加载学生签到次数
+	 * @function loadStudentAttendanceCounts
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	loadStudentAttendanceCounts,
+	/**
+	 * 加载学生所属管理员数据
+	 * @function loadStudentAdmins
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	loadStudentAdmins,
+	/**
+	 * 头像加载失败处理
+	 * @function handleAvatarError
+	 * @param {Event} event - 错误事件
+	 * @returns {void}
+	 */
+	handleAvatarError,
+	/**
+	 * 加载统计数据（总数、今日/本月签到）
+	 * @function loadStatistics
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	loadStatistics,
+	/**
+	 * 刷新所有数据
+	 * @function refreshData
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	refreshData,
+	/**
+	 * 打开编辑学生对话框
+	 * @function openEditDialog
+	 * @param {Object} student - 学生对象
+	 * @returns {void}
+	 */
+	openEditDialog,
+	/**
+	 * 取消编辑操作
+	 * @function cancelEdit
+	 * @returns {void}
+	 */
+	cancelEdit,
+	/**
+	 * 确认编辑学生信息
+	 * @function confirmEdit
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	confirmEdit,
+	/**
+	 * 显示今日考勤记录
+	 * @function showTodayAttendance
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	showTodayAttendance,
+	/**
+	 * 格式化考勤时间
+	 * @function formatAttendanceTime
+	 * @param {string} time - 时间字符串
+	 * @returns {string} 格式化后的时间
+	 */
+	formatAttendanceTime,
+	/**
+	 * 获取时间段样式类
+	 * @function getTimePeriodClass
+	 * @param {string} time - 时间字符串
+	 * @returns {string} 对应的CSS类名
+	 */
+	getTimePeriodClass,
+	/**
+	 * 获取时间段名称
+	 * @function getTimePeriodName
+	 * @param {string} time - 时间字符串
+	 * @returns {string} 时间段名称
+	 */
+	getTimePeriodName,
+	/**
+	 * 判断指定日期时间段是否签到
+	 * @function isSlotSigned
+	 * @param {string} date - 日期字符串
+	 * @param {string} slot - 时间段
+	 * @returns {boolean} 是否已签到
+	 */
+	isSlotSigned,
+	/**
+	 * 打开日期详情对话框
+	 * @function openDateDetails
+	 * @param {string} date - 日期字符串
+	 * @returns {void}
+	 */
+	openDateDetails,
+	/**
+	 * 打开考勤记录对话框
+	 * @function openAttendanceRecordsDialog
+	 * @param {Object} student - 学生对象
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	openAttendanceRecordsDialog,
+	/**
+	 * 关闭考勤记录对话框
+	 * @function closeAttendanceRecordsDialog
+	 * @returns {void}
+	 */
+	closeAttendanceRecordsDialog,
+	/**
+	 * 关闭热力图对话框
+	 * @function closeHeatmapDialog
+	 * @returns {void}
+	 */
+	closeHeatmapDialog,
+	/**
+	 * 关闭趋势图对话框
+	 * @function closeTrendDialog
+	 * @returns {void}
+	 */
+	closeTrendDialog,
+	/**
+	 * 格式化显示日期
+	 * @function formatDateForDisplay
+	 * @param {string} date - 日期字符串
+	 * @returns {string} 格式化后的日期
+	 */
+	formatDateForDisplay,
+	/**
+	 * 格式化日历标题
+	 * @function formatCalendarTitle
+	 * @param {Date} date - 日期对象
+	 * @returns {string} 格式化后的标题
+	 */
+	formatCalendarTitle,
+	/**
+	 * 日历切换到上个月
+	 * @function prevMonth
+	 * @returns {void}
+	 */
+	prevMonth,
+	/**
+	 * 日历切换到下个月
+	 * @function nextMonth
+	 * @returns {void}
+	 */
+	nextMonth,
+	/**
+	 * 日历回到今日
+	 * @function goToday
+	 * @returns {void}
+	 */
+	goToday,
+	/**
+	 * 获取时间段标签
+	 * @function getTimeSlotLabel
+	 * @param {string} time - 时间字符串
+	 * @returns {string} 时间段标签
+	 */
+	getTimeSlotLabel,
+	/**
+	 * 获取指定日期的签到时间列表
+	 * @function getDateAttendanceTimes
+	 * @param {string} date - 日期字符串
+	 * @returns {Array} 签到时间列表
+	 */
+	getDateAttendanceTimes,
+	/**
+	 * 初始化热力图
+	 * @function initHeatmapChart
+	 * @returns {void}
+	 */
+	initHeatmapChart,
+	/**
+	 * 初始化趋势图
+	 * @function initLineChart
+	 * @returns {void}
+	 */
+	initLineChart,
+	/**
+	 * 生成热力图数据
+	 * @function generateHeatmapData
+	 * @returns {Array} 热力图数据
+	 */
+	generateHeatmapData,
+	/**
+	 * 生成趋势图数据
+	 * @function generateLineData
+	 * @returns {Object} 趋势图数据
+	 */
+	generateLineData,
+	/**
+	 * 打开热力图对话框
+	 * @function openHeatmapDialog
+	 * @param {Object} student - 学生对象
+	 * @returns {void}
+	 */
+	openHeatmapDialog,
+	/**
+	 * 打开趋势图对话框
+	 * @function openTrendDialog
+	 * @param {Object} student - 学生对象
+	 * @returns {void}
+	 */
+	openTrendDialog,
+	/**
+	 * 身份验证
+	 * @function authenticate
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	authenticate,
+	/**
+	 * 退出登录
+	 * @function logout
+	 * @returns {void}
+	 */
+	logout,
+	/**
+	 * 获取快捷日期
+	 * @function getShortcutDate
+	 * @param {string} type - 日期类型
+	 * @returns {Date} 快捷日期
+	 */
+	getShortcutDate,
+	/**
+	 * 打开补卡对话框
+	 * @function openMakeupDialog
+	 * @param {Object} student - 学生对象
+	 * @returns {void}
+	 */
+	openMakeupDialog,
+	/**
+	 * 取消补卡操作
+	 * @function cancelMakeup
+	 * @returns {void}
+	 */
+	cancelMakeup,
+	/**
+	 * 处理日期选择变化
+	 * @function handleDateChange
+	 * @returns {void}
+	 */
+	handleDateChange,
+	/**
+	 * 格式化选中的日期
+	 * @function formatSelectedDate
+	 * @returns {string} 格式化后的日期
+	 */
+	formatSelectedDate,
+	/**
+	 * 确认补卡日期步骤
+	 * @function confirmDateStep
+	 * @returns {void}
+	 */
+	confirmDateStep,
+	/**
+	 * 选择快捷日期
+	 * @function selectDatetimeShortcut
+	 * @param {Object} shortcut - 快捷日期对象
+	 * @returns {void}
+	 */
+	selectDatetimeShortcut,
+	/**
+	 * 判断快捷日期是否选中
+	 * @function isDatetimeShortcutSelected
+	 * @param {Object} shortcut - 快捷日期对象
+	 * @returns {boolean} 是否选中
+	 */
+	isDatetimeShortcutSelected,
+	/**
+	 * 选择补卡小时
+	 * @function selectHour
+	 * @param {number} hour - 小时
+	 * @returns {void}
+	 */
+	selectHour,
+	/**
+	 * 判断小时是否选中
+	 * @function isHourSelected
+	 * @param {number} hour - 小时
+	 * @returns {boolean} 是否选中
+	 */
+	isHourSelected,
+	/**
+	 * 更新考勤时间
+	 * @function updateAttendanceTime
+	 * @returns {void}
+	 */
+	updateAttendanceTime,
+	/**
+	 * 提交补卡操作
+	 * @function submitMakeup
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	submitMakeup,
+	/**
+	 * 打开积分修改对话框
+	 * @function openPointsDialog
+	 * @param {Object} student - 学生对象
+	 * @returns {void}
+	 */
+	openPointsDialog,
+	/**
+	 * 关闭积分修改对话框
+	 * @function handlePointsDialogClose
+	 * @returns {void}
+	 */
+	handlePointsDialogClose,
+	/**
+	 * 取消积分修改
+	 * @function cancelPoints
+	 * @returns {void}
+	 */
+	cancelPoints,
+	/**
+	 * 确认积分修改
+	 * @function confirmPoints
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	confirmPoints,
+	/**
+	 * 打开积分变动记录对话框
+	 * @function openScoreChangeRecordsDialog
+	 * @param {Object} student - 学生对象
+	 * @returns {void}
+	 */
+	openScoreChangeRecordsDialog,
+	/**
+	 * 关闭积分变动记录对话框
+	 * @function closeScoreChangeRecordsDialog
+	 * @returns {void}
+	 */
+	closeScoreChangeRecordsDialog,
+	/**
+	 * 格式化时间
+	 * @function formatTime
+	 * @param {string|Date} time - 时间
+	 * @returns {string} 格式化后的时间
+	 */
+	formatTime,
+	/**
+	 * 加载所有核心数据
+	 * @function loadAllData
+	 * @param {string} password - 管理员密码
+	 * @returns {Promise<void>} 异步操作结果
+	 */
+	loadAllData,
+	/**
+	 * 切换主题（亮色/暗色）
+	 * @function toggleTheme
+	 * @returns {void}
+	 */
+	toggleTheme
 } = useAdminPage()
 
 // ===================== 生命周期钩子 =====================
@@ -455,6 +776,249 @@ watch(calendarValue, async () => {
 	<!-- 包含顶部导航栏、统计卡片、学生信息管理区域和底部 -->
 	<!-- 主界面包含所有管理功能模块，是用户交互的核心区域 -->
 	<div v-else class="admin-console-mobile">
+		<!-- 顶部导航栏 -->
+		<!-- 包含系统LOGO、页面标题和退出登录按钮 -->
+		<!-- 顶部导航提供系统标识和主要操作入口 -->
+		<div class="admin-header-mobile">
+			<div class="header-left-mobile">
+				<!-- 系统LOGO，点击可切换主题 -->
+				<img
+					src="@/assets/AiWorkShop_icon.png"
+					alt="AI坊学生管理系统"
+					class="header-logo-mobile"
+					title="切换主题模式"
+					@click="toggleTheme"/>
+				<h1 class="header-title-mobile">超级管理员控制台</h1>
+			</div>
+			<div class="header-right-mobile">
+				<!-- 退出登录按钮 -->
+				<!-- 退出后清除本地存储的密码信息 -->
+				<el-button
+					type="danger"
+					size="small"
+					@click="logout"
+					class="logout-btn-mobile"
+				>
+					<el-icon>
+						<switch-button/> <!-- 退出登录图标 -->
+					</el-icon>
+					<span>退出</span>
+				</el-button>
+			</div>
+		</div>
+
+		<!-- 统计卡片区域 -->
+		<!-- 显示系统核心统计数据：学生总数、今日签到、本月签到 -->
+		<!-- 统计卡片提供数据概览，便于管理员快速了解系统状态 -->
+		<div class="stats-cards-mobile">
+			<!-- 学生总数卡片 -->
+			<!-- 显示系统注册的学生总数 -->
+			<div class="stat-card-mobile">
+				<div class="card-icon-mobile">
+					<el-icon :size="28">
+						<user-filled/> <!-- 学生总数图标 -->
+					</el-icon>
+				</div>
+				<div class="card-content-mobile">
+					<div class="card-title-mobile">学生总数</div>
+					<div class="card-value-mobile">{{ totalStudents }}</div>
+				</div>
+			</div>
+			<!-- 今日签到卡片 -->
+			<!-- 显示今日签到的学生人数 -->
+			<div class="stat-card-mobile">
+				<div class="card-icon-mobile">
+					<el-icon :size="28">
+						<calendar/> <!-- 今日签到图标 -->
+					</el-icon>
+				</div>
+				<div class="card-content-mobile">
+					<div class="card-title-mobile">今日签到</div>
+					<div class="card-value-mobile">{{ todayCount }}</div>
+				</div>
+			</div>
+			<!-- 本月签到卡片 -->
+			<!-- 显示本月签到的学生人数 -->
+			<div class="stat-card-mobile">
+				<div class="card-icon-mobile">
+					<el-icon :size="28">
+						<trend-charts/> <!-- 本月签到图标 -->
+					</el-icon>
+				</div>
+				<div class="card-content-mobile">
+					<div class="card-title-mobile">本月签到</div>
+					<div class="card-value-mobile">{{ monthlyCount }}</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 学生信息管理区域 -->
+		<!-- 包含搜索、筛选、学生列表和分页功能 -->
+		<!-- 学生管理区域是核心功能区，支持学生信息的查看和编辑 -->
+		<div class="student-management-mobile">
+			<!-- 搜索和筛选工具栏 -->
+			<!-- 提供搜索框、等级筛选和功能按钮 -->
+			<div class="toolbar-mobile">
+				<!-- 学生搜索框 -->
+				<!-- 支持按姓名或学号搜索学生 -->
+				<el-input
+					v-model="searchKeyword"
+					placeholder="搜索学生姓名或学号"
+					clearable
+					class="search-input-mobile"
+				>
+					<template #prefix>
+						<el-icon>
+							<search/> <!-- 搜索图标 -->
+						</el-icon>
+					</template>
+				</el-input>
+				<!-- 今日考勤按钮 -->
+				<!-- 查看今日所有学生的签到记录 -->
+				<el-button
+					type="primary"
+					@click="showTodayAttendance"
+					:loading="isLoading"
+					class="today-attendance-btn-mobile"
+				>
+					<el-icon>
+						<calendar/> <!-- 今日考勤图标 -->
+					</el-icon>
+					<span>今日考勤</span>
+				</el-button>
+			</div>
+
+			<!-- 学生等级标签页 -->
+			<!-- 按等级分类显示学生列表 -->
+			<el-tabs
+				v-model="activeLevelTab"
+				class="level-tabs-mobile"
+				@tab-change="getLevelStudents"
+			>
+				<!-- 所有学生标签 -->
+				<el-tab-pane label="所有学生" name="all"/>
+				<!-- 一级学生标签 -->
+				<el-tab-pane label="一级" name="1"/>
+				<!-- 二级学生标签 -->
+				<el-tab-pane label="二级" name="2"/>
+				<!-- 三级学生标签 -->
+				<el-tab-pane label="三级" name="3"/>
+				<!-- 四级学生标签 -->
+				<el-tab-pane label="四级" name="4"/>
+				<!-- 五级学生标签 -->
+				<el-tab-pane label="五级" name="5"/>
+			</el-tabs>
+
+			<!-- 学生列表 -->
+			<!-- 显示当前筛选条件下的学生列表 -->
+			<!-- 每个学生卡片包含基本信息和操作按钮 -->
+			<div class="students-list-mobile">
+				<!-- 学生列表为空时的提示 -->
+				<div v-if="filteredStudents.length === 0" class="no-students-mobile">
+					<el-icon :size="48" class="no-students-icon-mobile">
+						<document/> <!-- 无学生图标 -->
+					</el-icon>
+					<p>暂无学生数据</p>
+				</div>
+				<!-- 学生列表渲染 -->
+				<template v-else>
+					<div
+						v-for="student in filteredStudents"
+						:key="student.studentId"
+						class="student-card-mobile"
+					>
+						<!-- 学生头像 -->
+						<div class="student-avatar-container-mobile">
+							<img
+								:src="getAvatarUrl(student.studentId, 64)"
+								:alt="student.name"
+								class="student-avatar-mobile"
+								@error="handleAvatarError"
+							/>
+						</div>
+						<!-- 学生信息 -->
+						<div class="student-info-mobile">
+							<div class="student-name-mobile">{{ student.name }}</div>
+							<div class="student-details-mobile">
+								<span class="student-id-mobile">学号: {{ student.studentId }}</span>
+								<span class="student-grade-mobile">{{ student.grade }}年级</span>
+								<el-tag
+									:type="student.level === 1 ? 'success' : student.level === 2 ? 'primary' : student.level === 3 ? 'warning' : student.level === 4 ? 'danger' : 'info'"
+									size="small"
+									class="level-tag-mobile"
+								>
+									{{ student.level }}级
+								</el-tag>
+							</div>
+							<div class="student-stats-mobile">
+								<span class="attendance-count-mobile">
+									<el-icon class="stat-icon-mobile">
+										<calendar/> <!-- 考勤统计图标 -->
+									</el-icon>
+									签到: {{ studentAttendanceCounts[student.studentId] || 0 }}
+								</span>
+								<span class="points-mobile">
+									<el-icon class="stat-icon-mobile">
+										<box/> <!-- 积分统计图标 -->
+									</el-icon>
+									积分: {{ studentPoints[student.studentId]?.points || 0 }}
+								</span>
+							</div>
+						</div>
+						<!-- 学生操作按钮 -->
+						<div class="student-actions-mobile">
+							<!-- 编辑学生信息按钮 -->
+							<el-button
+								size="small"
+								@click="openEditDialog(student)"
+								:loading="isLoading"
+								class="action-btn-mobile edit-btn-mobile"
+							>
+								<el-icon>
+									<edit/> <!-- 编辑图标 -->
+								</el-icon>
+							</el-button>
+							<!-- 查看考勤记录按钮 -->
+							<el-button
+								size="small"
+								@click="openAttendanceRecordsDialog(student)"
+								:loading="isLoading"
+								class="action-btn-mobile attendance-btn-mobile"
+							>
+								<el-icon>
+									<calendar/> <!-- 考勤记录图标 -->
+								</el-icon>
+							</el-button>
+							<!-- 修改积分按钮 -->
+							<el-button
+								size="small"
+								@click="openPointsDialog(student)"
+								:loading="isLoading"
+								class="action-btn-mobile points-btn-mobile"
+							>
+								<el-icon>
+									<box/> <!-- 积分图标 -->
+								</el-icon>
+							</el-button>
+						</div>
+					</div>
+				</template>
+			</div>
+
+			<!-- 分页组件 -->
+			<!-- 支持学生列表的分页浏览 -->
+			<div class="pagination-mobile" v-if="totalStudents > pageSize">
+				<el-pagination
+					v-model:current-page="currentPage"
+					v-model:page-size="pageSize"
+					:page-sizes="[10, 20, 30, 50]"
+					:total="totalStudents"
+					layout="total, sizes, prev, pager, next, jumper"
+					:hide-on-single-page="false"
+					class="pagination-controls-mobile"
+				/>
+			</div>
+		</div>
 		<!-- 顶部导航栏 -->
 		<!-- 包含系统LOGO、标题和退出登录按钮 -->
 		<div class="admin-header-mobile">

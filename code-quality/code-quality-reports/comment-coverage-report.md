@@ -4,10 +4,10 @@
 
 | 指标 | 数值 |
 |------|------|
-| 文件总数 | 105 |
-| 代码行数 | 44240 |
-| 注释行数 | 19255 |
-| 总体注释率 | 43.52% |
+| 文件总数 | 110 |
+| 代码行数 | 45137 |
+| 注释行数 | 19695 |
+| 总体注释率 | 43.63% |
 
 ## 📈 状态评估
 
@@ -29,13 +29,13 @@
 | 💚 src\views\ProfilePage\ProfilePageDesktop.vue | 1306 | 387 | 29.63% | 32% |
 | 💚 src\views\HomePage\HomePageDesktop.vue | 303 | 88 | 29.04% | 32% |
 | 💚 src\views\PointsDashboardPage\PointsDashboardPageMobile.vue | 1088 | 302 | 27.76% | 32% |
-| 💚 src\views\DashboardPage\DashboardPageMobile.vue | 930 | 238 | 25.59% | 32% |
+| 💚 src\views\AdminPage\AdminPageMobile.vue | 1846 | 443 | 24% | 32% |
 | 💚 src\views\HomePage\HomePageMobile.vue | 357 | 85 | 23.81% | 32% |
 | 💚 src\views\AttendanceAnalysisPage\AttendanceAnalysisPageDesktop.vue | 1402 | 300 | 21.4% | 32% |
-| 💚 src\views\StudentManagerPage\StudentManagerPageMobile.vue | 1601 | 283 | 17.68% | 32% |
+| 💚 src\views\StudentManagerPage\StudentManagerPageMobile.vue | 1731 | 306 | 17.68% | 32% |
 | 💚 src\views\AdminPage\AdminPageDesktop.vue | 1238 | 203 | 16.4% | 32% |
 | 🎨 src\views\AdminPage\css\AdminPageDesktop.css | 3011 | 466 | 15.48% | 16% |
-| 💚 src\views\AdminPage\AdminPageMobile.vue | 1550 | 238 | 15.35% | 32% |
+| 🎨 src\views\StudentManagerPage\css\mobile\StudentManagerPage-Search.css | 76 | 9 | 11.84% | 16% |
 
 ## 📋 文件详细统计
 
@@ -86,6 +86,7 @@
 | 💚 src\views\HomePage\HomePage.vue | 23 | 15 | 65.22% | ✅ |
 | 📘 src\stores\theme.js | 85 | 54 | 63.53% | ✅ |
 | 🎨 src\views\ProfilePage\css\ProfilePage.css | 44 | 27 | 61.36% | ✅ |
+| 🎨 src\views\StudentManagerPage\css\desktop\StudentManagerPage-HeatmapChart.css | 62 | 37 | 59.68% | ✅ |
 | 📘 src\views\ProfilePage\js\ProfilePageUtils.js | 74 | 44 | 59.46% | ✅ |
 | 💚 src\views\LoginPage\LoginPage.vue | 197 | 107 | 54.31% | ✅ |
 | 📘 src\views\AllMembersPage\js\AllMembersPageUtils.js | 59 | 32 | 54.24% | ✅ |
@@ -96,7 +97,8 @@
 | 💚 src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageDesktop.vue | 199 | 96 | 48.24% | ✅ |
 | 💚 src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageMobile.vue | 195 | 94 | 48.21% | ✅ |
 | 📘 src\api\student.js | 551 | 263 | 47.73% | ✅ |
-| 💚 src\views\StudentManagerPage\StudentManagerPageDesktop.vue | 1390 | 653 | 46.98% | ✅ |
+| 🎨 src\views\StudentManagerPage\css\desktop\StudentManagerPage-TrendChart.css | 78 | 37 | 47.44% | ✅ |
+| 💚 src\views\StudentManagerPage\StudentManagerPageDesktop.vue | 1392 | 653 | 46.91% | ✅ |
 | 📘 src\views\AllMembersPage\js\AdjustRecordsDialogManager.js | 72 | 33 | 45.83% | ✅ |
 | 💚 src\views\AttendancePage\AttendancePageDesktop.vue | 683 | 311 | 45.53% | ✅ |
 | 💚 src\views\AttendanceAnalysisPage\AttendanceAnalysisPageMobile.vue | 600 | 273 | 45.5% | ✅ |
@@ -123,6 +125,7 @@
 | 📘 src\composables\admin\StudentPersonalInformation.js | 179 | 62 | 34.64% | ✅ |
 | 💚 src\views\NavigationPage\NavigationPage.vue | 53 | 18 | 33.96% | ✅ |
 | 💚 src\views\PointsDashboardPage\PointsDashboardPageDesktop.vue | 1336 | 451 | 33.76% | ✅ |
+| 💚 src\views\DashboardPage\DashboardPageMobile.vue | 937 | 316 | 33.72% | ✅ |
 | 💚 src\views\AllMembersPage\AllMembersPage.vue | 98 | 33 | 33.67% | ✅ |
 | 💚 src\views\RegisterPage\RegisterPage.vue | 571 | 189 | 33.1% | ✅ |
 | 💚 src\views\AllMembersPage\AllMembersPageDesktop.vue | 1162 | 382 | 32.87% | ✅ |
@@ -133,20 +136,22 @@
 | 💚 src\views\HomePage\HomePageDesktop.vue | 303 | 88 | 29.04% | ⚠️ |
 | 💚 src\views\PointsDashboardPage\PointsDashboardPageMobile.vue | 1088 | 302 | 27.76% | ⚠️ |
 | 🎨 src\views\AllMembersPage\css\AllMembersPageDesktop.css | 876 | 241 | 27.51% | ✅ |
-| 💚 src\views\DashboardPage\DashboardPageMobile.vue | 930 | 238 | 25.59% | ⚠️ |
+| 💚 src\views\AdminPage\AdminPageMobile.vue | 1846 | 443 | 24% | ⚠️ |
 | 💚 src\views\HomePage\HomePageMobile.vue | 357 | 85 | 23.81% | ⚠️ |
+| 🎨 src\views\StudentManagerPage\css\mobile\StudentManagerPage-StudentCards.css | 224 | 51 | 22.77% | ✅ |
 | 💚 src\views\AttendanceAnalysisPage\AttendanceAnalysisPageDesktop.vue | 1402 | 300 | 21.4% | ⚠️ |
 | 🎨 src\views\AttendancePage\css\AttendancePageDesktop.css | 771 | 147 | 19.07% | ✅ |
 | 🎨 src\views\PointsDashboardPage\css\PointsDashboardPageMobile.css | 1080 | 206 | 19.07% | ✅ |
 | 🎨 src\views\ProfilePage\css\ProfilePageDesktop.css | 998 | 179 | 17.94% | ✅ |
-| 💚 src\views\StudentManagerPage\StudentManagerPageMobile.vue | 1601 | 283 | 17.68% | ⚠️ |
+| 💚 src\views\StudentManagerPage\StudentManagerPageMobile.vue | 1731 | 306 | 17.68% | ⚠️ |
 | 🎨 src\views\RegisterPage\css\RegisterPage.css | 427 | 75 | 17.56% | ✅ |
 | 🎨 src\views\AdminPage\css\AdminPageMobile.css | 1261 | 216 | 17.13% | ✅ |
 | 💚 src\views\AdminPage\AdminPageDesktop.vue | 1238 | 203 | 16.4% | ⚠️ |
 | 🎨 src\views\StudentManagerPage\css\desktop\StudentManagerPage-StudentCards.css | 100 | 16 | 16% | ✅ |
 | 🎨 src\views\AdminPage\css\AdminPageDesktop.css | 3011 | 466 | 15.48% | ⚠️ |
-| 💚 src\views\AdminPage\AdminPageMobile.vue | 1550 | 238 | 15.35% | ⚠️ |
+| 🎨 src\views\StudentManagerPage\css\mobile\StudentManagerPage-Search.css | 76 | 9 | 11.84% | ⚠️ |
+| 🎨 src\views\StudentManagerPage\css\mobile\StudentManagerPage-PageHeader.css | 22 | 0 | 0% | ⚠️ |
 
 ---
 
-*报告生成时间: 2026/1/6 14:08:21*
+*报告生成时间: 2026/1/6 16:56:28*
