@@ -14,14 +14,19 @@
 // ======================== 核心依赖导入区 ========================
 // Element Plus 核心组件导入
 import {
-	ElMessage,    // 全局消息提示组件
-	ElButton,     // 按钮组件
-	ElIcon,       // 图标容器组件
-	ElInput,      // 输入框组件
-	ElDialog,     // 弹窗组件
-	ElDatePicker, // 日期时间选择器组件
-	ElCalendar    // 日历组件
+	ElMessage,     // 全局消息提示组件
+	ElButton,      // 按钮组件
+	ElIcon,        // 图标容器组件
+	ElInput,       // 输入框组件
+	ElDialog,      // 弹窗组件
+	ElCalendar,    // 日历组件
+	ElDatePicker,  // 日期时间选择器组件
+	ElMessageBox   // 消息确认框组件
 } from 'element-plus'
+
+// Vant 组件导入（手机端UI库）- 暂时保留，后续可以移除
+// import { Picker as VanPicker, Popup as VanPopup, Toast as VanToast } from 'vant'
+// import 'vant/lib/index.css'
 
 // Vue3 核心组合式API导入
 import {
@@ -40,11 +45,13 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-overlay.css'
+import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-date-picker.css'
 import 'element-plus/theme-chalk/el-date-picker-panel.css'
 import 'element-plus/theme-chalk/el-time-picker.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import 'element-plus/theme-chalk/el-calendar.css'
+import 'element-plus/theme-chalk/el-message-box.css'
 
 // Element Plus 图标组件导入
 import {
@@ -138,13 +145,67 @@ const trendDialogChart = ref(null)             // 弹窗内趋势图容器DOM引
 
 // 补卡功能相关响应式数据
 const attendanceCounts = ref({})               // 学生签到次数缓存 {studentId: count}
-const makeupDialogVisible = ref(false)         // 补卡弹窗显示状态
-const selectedStudent = ref(null)              // 当前选中的学生对象
-const makeupSelectedStudent = ref(null)        // 补卡操作选中的学生对象
+const showMakeupDialog = ref(false)            // 是否显示补卡时间选择对话框
+const currentMakeupStudent = ref(null)         // 当前补卡学生对象
 const makeupForm = ref({                       // 补卡表单数据
 	attendanceTime: ''                           // 补卡时间
 })
 const makeupLoading = ref(false)               // 补卡操作加载状态
+const selectedStudent = ref(null)              // 当前选中的学生对象
+
+/**
+ * 确认选择补卡时间
+ */
+const onMakeupConfirm = () => {
+	if (!makeupForm.value.attendanceTime) {
+		ElMessage.warning('请选择补卡时间！')
+		return
+	}
+
+	// 验证时间
+	handleMakeupTimeChange(currentMakeupStudent.value, makeupForm.value.attendanceTime)
+}
+
+/**
+ * 关闭补卡对话框
+ */
+const closeMakeupDialog = () => {
+	showMakeupDialog.value = false
+	makeupForm.value.attendanceTime = ''
+	currentMakeupStudent.value = null
+}
+
+/**
+ * 取消选择补卡时间
+ */
+const onMakeupCancel = () => {
+	closeMakeupDialog()
+}
+
+/**
+ * 打开补卡时间选择对话框
+ */
+const openDatePicker = (student) => {
+	// 设置当前补卡学生
+	currentMakeupStudent.value = student
+	// 清空补卡时间
+	makeupForm.value.attendanceTime = ''
+	// 使用 nextTick 确保数据更新
+	nextTick(() => {
+		// 显示对话框
+		showMakeupDialog.value = true
+		// 延迟禁用时间选择器输入框
+		setTimeout(() => {
+			// 禁用时间选择器的输入框
+			const timeInputs = document.querySelectorAll('.el-date-picker__editor-wrap .el-input__inner')
+			timeInputs.forEach(input => {
+				input.setAttribute('readonly', 'true')
+				input.setAttribute('inputmode', 'none')
+				input.style.pointerEvents = 'none'
+			})
+		}, 300)
+	})
+}
 
 // 考勤记录功能相关响应式数据
 const attendanceRecordsDialogVisible = ref(false) // 考勤记录弹窗显示状态
@@ -155,61 +216,6 @@ const attendanceRecordsLoading = ref(false)       // 考勤记录加载状态
 // 可视化弹窗相关响应式数据
 const heatmapDialogVisible = ref(false)       // 热力图弹窗显示状态
 const trendChartDialogVisible = ref(false)    // 趋势图弹窗显示状态
-
-// 日期选择器快捷选项配置
-const timeShortcuts = [
-	{
-		text: '今天上午',
-		value: () => {
-			const today = new Date()
-			today.setHours(9, 0, 0, 0)
-			return today
-		}
-	},
-	{
-		text: '今天下午',
-		value: () => {
-			const today = new Date()
-			today.setHours(15, 0, 0, 0)
-			return today
-		}
-	},
-	{
-		text: '今天晚上',
-		value: () => {
-			const today = new Date()
-			today.setHours(20, 0, 0, 0)
-			return today
-		}
-	},
-	{
-		text: '昨天上午',
-		value: () => {
-			const yesterday = new Date()
-			yesterday.setDate(yesterday.getDate() - 1)
-			yesterday.setHours(9, 0, 0, 0)
-			return yesterday
-		}
-	},
-	{
-		text: '昨天下午',
-		value: () => {
-			const yesterday = new Date()
-			yesterday.setDate(yesterday.getDate() - 1)
-			yesterday.setHours(15, 0, 0, 0)
-			return yesterday
-		}
-	},
-	{
-		text: '昨天晚上',
-		value: () => {
-			const yesterday = new Date()
-			yesterday.setDate(yesterday.getDate() - 1)
-			yesterday.setHours(20, 0, 0, 0)
-			return yesterday
-		}
-	}
-]
 
 // ======================== 计算属性定义区 ========================
 /**
@@ -604,68 +610,88 @@ const goBack = () => {
 	router.push('/navigation')
 }
 
-/**
- * 打开补卡弹窗
- * @param {Object} student - 要补卡的学生对象
- */
-const openMakeupDialog = (student) => {
-	makeupSelectedStudent.value = student
-	makeupForm.value.attendanceTime = '' // 重置补卡时间
-	document.body.style.overflow = 'hidden' // 防止弹窗滚动穿透
-	makeupDialogVisible.value = true
-}
+
 
 /**
- * 关闭补卡弹窗并重置状态
+ * 处理补卡时间变化
+ * @param {Object} student - 学生对象
+ * @param {string} time - 选择的补卡时间
  */
-const closeMakeupDialog = () => {
-	makeupDialogVisible.value = false
-	document.body.style.overflow = '' // 恢复页面滚动
-	makeupSelectedStudent.value = null
-	makeupForm.value.attendanceTime = ''
-}
+const handleMakeupTimeChange = async (student, time) => {
+	// 验证时间：1. 不能超过当前时间  2. 必须在有效签到时间段内
+	const selectedTime = new Date(time)
+	const currentTime = new Date()
 
-/**
- * 提交补卡操作
- * 包含表单验证、权限检查、接口调用、结果处理
- */
-const submitMakeup = async () => {
-	// 表单验证：补卡时间必填
-	if (!makeupForm.value.attendanceTime) {
-		ElMessage.warning('请选择补卡时间')
+	// 1. 检查补卡时间不能超过当前时间
+	if (selectedTime > currentTime) {
+		ElMessage.error('补卡时间不能晚于当前时间')
+		makeupForm.value.attendanceTime = ''
+		showMakeupDialog.value = false
 		return
 	}
 
-	// 权限验证：未登录跳转登录页
-	if (!userStore.token) {
-		ElMessage.error('请先登录')
-		router.push('/login')
-		return
-	}
+	// 2. 检查补卡时间必须在有效签到时间段内
+	const hour = selectedTime.getHours()
+	const minute = selectedTime.getMinutes()
+	const timeInMinutes = hour * 60 + minute
 
-	makeupLoading.value = true
+	// 定义有效签到时间段（分钟数）
+	// 早上：08:00-11:00 → 480-660
+	// 下午：14:00-17:00 → 840-1020
+	// 晚上：19:00-22:00 → 1140-1320
+	const validTimeSlots = [
+		{ name: '上午', start: 480, end: 660 }, // 08:00-11:00
+		{ name: '下午', start: 840, end: 1020 }, // 14:00-17:00
+		{ name: '晚上', start: 1140, end: 1320 } // 19:00-22:00
+	]
+
+	// 检查所选时间是否在有效签到时间段内
+	const isValidTime = validTimeSlots.some(slot =>
+		timeInMinutes >= slot.start && timeInMinutes < slot.end
+	)
+
+	// 确认补卡
 	try {
-		// 调用补卡接口
+		let confirmMessage = `确定要为学生 ${student.name} 补卡吗？\n补卡时间：${selectedTime.toLocaleString('zh-CN')}`
+
+		// 如果不在有效签到时间段内，添加提示信息
+		if (!isValidTime) {
+			confirmMessage += '\n\n⚠️ 警告：补卡时间不在有效签到时间段内（早上 08:00-11:00、下午 14:00-17:00、晚上 19:00-22:00）'
+		}
+
+		await ElMessageBox.confirm(
+			confirmMessage,
+			'确认补卡',
+			{
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}
+		)
+	} catch (error) {
+		// 用户点击取消
+		return
+	}
+
+	// 用户点击确定后执行补卡
+	try {
 		const response = await makeupAttendance(
 			userStore.token,
-			makeupSelectedStudent.value.studentId,
-			makeupForm.value.attendanceTime
+			student.studentId,
+			time
 		)
 
-		// 接口调用成功处理
 		if (response.code === 200) {
-			ElMessage.success('补卡成功')
-			closeMakeupDialog()
+			ElMessage.success(`补卡成功：${student.name}`)
 			// 重新加载签到次数缓存
 			await loadAttendanceCounts()
+			// 关闭对话框
+			closeMakeupDialog()
 		} else {
 			ElMessage.error(response.message || '补卡失败')
 		}
 	} catch (error) {
-		// 异常处理
 		ElMessage.error(error.message || '补卡失败')
-	} finally {
-		makeupLoading.value = false
 	}
 }
 
@@ -930,6 +956,10 @@ const nextMonth = () => {
  * 切换到今天
  * 更新日历组件显示的月份为当前月份
  */
+const goToday = () => {
+	calendarValue.value = new Date()
+}
+
 
 
 // ======================== ECharts 初始化函数区 ========================
@@ -1422,10 +1452,51 @@ const initLineChart = () => {
 
 // ======================== 生命周期与监听区 ========================
 /**
+ * 禁用时间选择器输入框的输入法
+ */
+const disableTimePickerInputs = () => {
+	// 使用 MutationObserver 监听 DOM 变化，动态禁用新增的输入框
+	const observer = new MutationObserver(() => {
+		const timeInputs = document.querySelectorAll('.el-time-spinner__input')
+		timeInputs.forEach(input => {
+			input.setAttribute('readonly', 'true')
+			input.style.caretColor = 'transparent'
+			input.style.pointerEvents = 'none'
+			input.setAttribute('inputmode', 'none')
+		})
+	})
+
+	// 开始观察 body 下的 DOM 变化
+	observer.observe(document.body, {
+		childList: true,
+		subtree: true
+	})
+
+	return observer
+}
+
+/**
+ * 阻止时间选择器输入框的 focus 事件
+ */
+const preventTimePickerFocus = (event) => {
+	const target = event.target
+	if (target.classList.contains('el-time-spinner__input')) {
+		event.preventDefault()
+		target.blur()
+	}
+}
+
+/**
  * 组件挂载后执行的初始化逻辑
  * 包含：权限验证、数据加载、图表初始化、页面状态恢复
  */
 onMounted(async () => {
+	// 禁用时间选择器输入框
+	disableTimePickerInputs()
+
+	// 监听 focus 事件，阻止时间选择器输入框获得焦点
+	document.addEventListener('focus', preventTimePickerFocus, true)
+
 	// 未登录状态拦截
 	if (!userStore.userInfo?.studentId) {
 		ElMessage.error('请先登录')
@@ -1460,7 +1531,7 @@ onMounted(async () => {
 	window.addEventListener('pageshow', event => {
 		if (event.persisted) {
 			attendanceRecordsDialogVisible.value = false
-			makeupDialogVisible.value = false
+			showMakeupDialog.value = false
 			document.body.style.overflow = ''
 		}
 	})
@@ -1665,7 +1736,7 @@ watch(() => studentAttendanceRecords.value, () => {
 					<el-button
 						type="warning"
 						size="small"
-						@click="openMakeupDialog(student)"
+						@click="openDatePicker(student)"
 					>
 						<el-icon>
 							<clock/>
@@ -1721,117 +1792,49 @@ watch(() => studentAttendanceRecords.value, () => {
 			</div>
 		</div>
 
-		<!-- 补卡弹窗：为学生进行补卡操作 -->
+		<!-- 补卡时间选择对话框 -->
 		<el-dialog
-			v-if="makeupDialogVisible"
-			v-model="makeupDialogVisible"
-			:title="null"
+			v-if="showMakeupDialog"
+			v-model="showMakeupDialog"
+			title="选择补卡时间"
 			width="90%"
-			:close-on-click-modal="false"
-			class="makeup-dialog"
-			:show-close="false"
-			:modal="true"
+			:close-on-click-modal="true"
 			:append-to-body="true"
 			:teleported="true"
-			modal-class="makeup-overlay"
-			:destroy-on-close="true"
+			modal-class="makeup-attendance-overlay"
+			class="makeup-attendance-dialog"
+			@close="closeMakeupDialog"
 		>
-			<!-- 弹窗头部：图标和标题 -->
-			<div class="makeup-header">
-				<!-- 头部图标 -->
-				<div class="header-icon">
-					<el-icon size="28">
-						<clock/>
-					</el-icon>
-				</div>
-				<!-- 头部内容：标题和描述 -->
-				<div class="header-content">
-					<h3>学生补卡</h3>
-					<p>为指定学生进行补卡操作</p>
+			<div class="makeup-attendance-form">
+				<!-- 年月日时分选择器 -->
+				<el-date-picker
+					v-model="makeupForm.attendanceTime"
+					type="datetime"
+					placeholder="选择日期时间"
+					:default-value="new Date()"
+					value-format="YYYY-MM-DDTHH:mm:ss"
+					:editable="false"
+					:clearable="false"
+					inputmode="none"
+					class="datetime-picker"
+					popper-class="makeup-attendance-date-picker-mobile"
+					style="width: 100%;"
+				></el-date-picker>
+
+				<!-- 时间段说明 -->
+				<div class="time-slot-tips">
+					<p>有效签到时间段：</p>
+					<p>• 上午：08:00-11:00</p>
+					<p>• 下午：14:00-17:00</p>
+					<p>• 晚上：19:00-22:00</p>
 				</div>
 			</div>
-
-			<!-- 弹窗内容：学生信息和补卡表单 -->
-			<div class="makeup-content">
-				<!-- 学生信息卡片：显示选中学生信息 -->
-				<div class="student-info-card">
-					<!-- 学生头像 -->
-					<div class="student-avatar">
-						<el-icon size="36">
-							<user/>
-						</el-icon>
-					</div>
-					<!-- 学生详细信息 -->
-					<div class="student-details">
-						<!-- 学生姓名 -->
-						<div class="student-name">{{ makeupSelectedStudent?.name }}</div>
-						<!-- 学生学号 -->
-						<div class="student-id">{{ makeupSelectedStudent?.studentId }}</div>
-						<!-- 学生年级和专业 -->
-						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 ·
-							{{ makeupSelectedStudent?.major }}
-						</div>
-					</div>
+			<template #footer>
+				<div class="dialog-footer">
+					<el-button @click="onMakeupCancel">取消</el-button>
+					<el-button type="primary" @click="onMakeupConfirm">确认</el-button>
 				</div>
-
-				<!-- 表单区域：补卡时间选择 -->
-				<div class="form-section">
-					<!-- 表单头部：图标和标题 -->
-					<div class="form-header">
-						<el-icon class="form-icon">
-							<calendar/>
-						</el-icon>
-						<span class="form-title">选择补卡时间</span>
-					</div>
-					<!-- 表单内容：日期时间选择器 -->
-					<div class="form-content">
-						<!-- 日期时间选择器：支持快捷选项 -->
-						<el-date-picker
-							v-model="makeupForm.attendanceTime"
-							type="datetime"
-							placeholder="请选择补卡时间"
-							format="YYYY年MM月DD日 HH:mm"
-							value-format="YYYY-MM-DDTHH:mm:ss"
-							class="datetime-picker"
-							:shortcuts="timeShortcuts"
-						/>
-						<!-- 表单提示信息 -->
-						<div class="form-tip">
-							<el-icon>
-								<info-filled/>
-							</el-icon>
-							<span>补卡时间不受签到时间段限制</span>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- 弹窗底部：操作按钮 -->
-			<div class="makeup-footer">
-				<!-- 取消按钮：关闭弹窗 -->
-				<el-button
-					class="cancel-btn"
-					size="large"
-					@click="closeMakeupDialog"
-				>
-					取消
-				</el-button>
-				<!-- 确认补卡按钮：提交补卡操作 -->
-				<el-button
-					type="primary"
-					:loading="makeupLoading"
-					class="submit-btn"
-					size="large"
-					@click="submitMakeup"
-				>
-					<!-- 确认图标：加载中时隐藏 -->
-					<el-icon v-if="!makeupLoading">
-						<check/>
-					</el-icon>
-					<!-- 按钮文本：根据加载状态显示不同文本 -->
-					{{ makeupLoading ? '处理中...' : '确认补卡' }}
-				</el-button>
-			</div>
+			</template>
 		</el-dialog>
 
 		<!-- ======================== 考勤记录弹窗 ======================== -->
@@ -2076,3 +2079,5 @@ watch(() => studentAttendanceRecords.value, () => {
 <style scoped src="./css/mobile/StudentManagerPage-Search.css"></style>
 <!-- 学生卡片样式：包含学生信息卡片、状态显示、交互按钮等组件样式 -->
 <style scoped src="./css/mobile/StudentManagerPage-StudentCards.css"></style>
+<!-- 日期时间选择器样式：包含补卡功能的日期时间选择器组件样式 -->
+<style scoped src="./css/mobile/StudentManagerPage-DatePicker.css"></style>

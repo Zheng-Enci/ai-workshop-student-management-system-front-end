@@ -205,13 +205,18 @@ html.dark {
 	color: var(--text-primary);
 }
 
-/* 按钮区域 */
+/* 按钮区域容器 */
 .student-cards-list-item-buttons {
 	display: flex;
-	gap: 8px;
-	flex-wrap: wrap;
+	gap: 16px; /* 保留按钮间距，会从总空间中扣除后再平分 */
 	align-items: center;
-	justify-content: space-between;
+	padding-left: 16px;
+	padding-right: 16px;
+}
+/* 按钮子元素（给每个按钮添加该样式，或用子代选择器匹配） */
+.student-cards-list-item-buttons > button {
+	/* 核心：让按钮平分空间 */
+	flex: 1;
 }
 
 .student-cards-list-item-buttons .el-button {

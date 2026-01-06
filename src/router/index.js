@@ -315,34 +315,6 @@ const routes = [
 		}
 	},
 	/**
-	 * 考勤分析页面路由（桌面端）
-	 * 无需登录认证，提供考勤数据可视化分析
-	 */
-	{
-		path: '/attendance-analysis',
-		name: 'AttendanceAnalysis',
-		component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue'),
-		meta: {
-			requiresAuth: false,
-			title: '考勤分析 - 厦工AI坊学生管理系统',
-			description: '厦工AI坊学生管理系统考勤分析页面，可视化展示签到趋势、出勤率统计、时间分布图表，帮助全面了解考勤情况'
-		}
-	},
-	/**
-	 * 考勤分析页面路由（移动端）
-	 * 移动设备专用考勤分析页面，无需登录认证
-	 */
-	{
-		path: '/attendance-analysis-mobile',
-		name: 'AttendanceAnalysisMobile',
-		component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageMobile.vue'),
-		meta: {
-			requiresAuth: false,
-			title: '考勤分析 - 厦工AI坊学生管理系统',
-			description: '厦工AI坊学生管理系统考勤分析页面，可视化展示签到趋势、出勤率统计、时间分布图表，帮助全面了解考勤情况'
-		}
-	},
-	/**
 	 * 积分看板路由（自动适配）
 	 * 无需登录认证，展示积分排行榜和统计数据
 	 */
