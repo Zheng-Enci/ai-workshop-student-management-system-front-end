@@ -208,17 +208,27 @@ html.dark {
 /* 按钮区域 */
 .student-cards-list-item-buttons {
 	display: flex;
-	gap: 0;
+	gap: 8px;
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 }
 
 .student-cards-list-item-buttons .el-button {
-	font-size: 12px;
+	font-size: 13px;
 	font-weight: 500;
 	border-radius: 8px;
 	transition: all 0.2s ease;
+	padding: 6px 12px !important;
+	min-height: 32px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	gap: 4px !important;
+}
+
+.student-cards-list-item-buttons .el-button .el-icon {
+	font-size: 14px;
+	margin-right: 0;
 }
 
 .student-cards-list-item-buttons .el-button:hover {
