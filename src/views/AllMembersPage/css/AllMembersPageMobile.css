@@ -223,6 +223,7 @@
 	justify-content: space-between; /* 两端对齐 */
 	padding-right: 8px; /* 右内边距 */
 	padding-left: 8px; /* 左内边距 */
+	padding-top: 8px;
 }
 
 /**
@@ -353,7 +354,6 @@
 	display: flex; /* 弹性布局 */
 	gap: 6px; /* 子元素间距 */
 	align-items: center; /* 垂直居中 */
-	padding-top: 8px; /* 顶部内边距 */
 	border-top: 1px solid rgb(102 126 234 / 0.1); /* 顶部边框 */
 }
 

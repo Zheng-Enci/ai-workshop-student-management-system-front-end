@@ -41,7 +41,7 @@ echarts.use([
 
 /**
  * 积分看板页面组件(移动端)
- * 
+ *
  * @component PointsDashboardPageMobile
  * @description 展示学生积分排行榜,包括总积分、签到积分、活动积分三个维度(移动端适配)
  * 主要功能:
@@ -49,7 +49,7 @@ echarts.use([
  * 2. 提供图表可视化展示积分分布
  * 3. 支持查看学生改分记录
  * 4. 支持标签页切换和左右箭头导航
- * 
+ *
  * @author 前端开发团队
  * @version 1.0.0
  */
@@ -1174,7 +1174,7 @@ onUnmounted(() => {
 								<div class="legend-section">
 									<div class="legend-item">
 										<el-icon class="hint-icon">
-											<view/>
+											<View/>
 										</el-icon>
 										<span class="legend-text">点击眼睛图标可查看全部改分记录</span>
 									</div>
@@ -1271,7 +1271,7 @@ onUnmounted(() => {
 													@click="openRecordsDialog(student)"
 												>
 													<el-icon>
-														<view/>
+														<View/>
 													</el-icon>
 												</el-button>
 											</div>

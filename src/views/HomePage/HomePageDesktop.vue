@@ -32,6 +32,17 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/dist/index.css'
 
+// ===================== 类型定义 =====================
+/**
+ * @typedef {Object} HomePageDesktopProps
+ * @description HomePageDesktop组件的属性类型定义
+ */
+
+/**
+ * @typedef {Object} HomePageDesktopEmits
+ * @description HomePageDesktop组件的事件类型定义
+ */
+
 // ===================== 业务逻辑初始化 =====================
 /**
  * 使用首页共用逻辑
@@ -62,64 +73,87 @@ defineExpose({
 })
 
 // ===================== 桌面端特有逻辑 =====================
-/**
- * 环境保障政策弹窗显示状态
- * @type {Ref<boolean>}
- * @description 控制环境保障政策说明弹窗的显示/隐藏
- */
-const environmentPolicyVisible = ref(false)
-/**
- * 环境保障政策弹窗关闭状态标记
- * @type {Ref<boolean>}
- * @description 防止弹窗关闭动画期间的重复关闭操作
- */
-const isClosingEnvironmentPolicy = ref(false)
+		/**
+		 * 环境保障政策弹窗显示状态
+		 * @type {Ref<boolean>}
+		 * @description 控制环境保障政策说明弹窗的显示/隐藏
+		 */
+		const environmentPolicyVisible = ref(false)
+		/**
+		 * 环境保障政策弹窗关闭状态标记
+		 * @type {Ref<boolean>}
+		 * @description 防止弹窗关闭动画期间的重复关闭操作
+		 */
+		const isClosingEnvironmentPolicy = ref(false)
 
-/**
- * 显示环境保障政策弹窗
- * @function showEnvironmentPolicy
- * @description 点击相关按钮时触发,显示环境保障政策说明弹窗
- */
-const showEnvironmentPolicy = () => {
-	environmentPolicyVisible.value = true
-}
+		/**
+		 * 显示环境保障政策弹窗
+		 * @function showEnvironmentPolicy
+		 * @description 点击相关按钮时触发,显示环境保障政策说明弹窗
+		 */
+		const showEnvironmentPolicy = () => {
+			environmentPolicyVisible.value = true
+		}
 
-/**
- * 关闭环境保障政策弹窗
- * @function closeEnvironmentPolicy
- * @description 关闭弹窗并处理关闭动画,防止重复关闭和视觉闪烁
- * 流程:
- * 1. 检查是否正在关闭,防止重复操作
- * 2. 手动隐藏遮罩层,避免视觉闪烁
- * 3. 关闭弹窗
- * 4. 重置关闭状态标记
- */
-const closeEnvironmentPolicy = () => {
-	// 防止重复关闭:如果正在关闭中,直接返回
-	if (isClosingEnvironmentPolicy.value) { return }
-	// 标记为正在关闭状态
-	isClosingEnvironmentPolicy.value = true
+		/**
+		 * 关闭环境保障政策弹窗
+		 * @function closeEnvironmentPolicy
+		 * @description 关闭弹窗并处理关闭动画,防止重复关闭和视觉闪烁
+		 * 流程:
+		 * 1. 检查是否正在关闭,防止重复操作
+		 * 2. 手动隐藏遮罩层,避免视觉闪烁
+		 * 3. 关闭弹窗
+		 * 4. 重置关闭状态标记
+		 */
+		const closeEnvironmentPolicy = () => {
+			// 防止重复关闭:如果正在关闭中,直接返回
+			if (isClosingEnvironmentPolicy.value) { return }
+			// 标记为正在关闭状态
+			isClosingEnvironmentPolicy.value = true
 
-	// 先手动隐藏遮罩层,避免视觉闪烁
-	// 通过DOM操作直接控制遮罩层的显示状态
-	const dialogWrapper = document.querySelector('.environment-policy-overlay')
-	if (dialogWrapper) {
-		dialogWrapper.style.display = 'none'
-		dialogWrapper.style.visibility = 'hidden'
-		dialogWrapper.style.opacity = '0'
-	}
+			// 先手动隐藏遮罩层,避免视觉闪烁
+			// 通过DOM操作直接控制遮罩层的显示状态
+			const dialogWrapper = document.querySelector('.environment-policy-overlay')
+			if (dialogWrapper) {
+				dialogWrapper.style.display = 'none'
+				dialogWrapper.style.visibility = 'hidden'
+				dialogWrapper.style.opacity = '0'
+			}
 
-	// 关闭弹窗:更新响应式状态
-	environmentPolicyVisible.value = false
+			// 关闭弹窗:更新响应式状态
+			environmentPolicyVisible.value = false
 
-	// 重置关闭状态:在下一个事件循环中重置标记
-	// 确保关闭动画完成后才能再次关闭
-	setTimeout(() => {
-		isClosingEnvironmentPolicy.value = false
-	}, 0)
-}
-</script>
+			// 重置关闭状态:在下一个事件循环中重置标记
+			// 确保关闭动画完成后才能再次关闭
+			setTimeout(() => {
+				isClosingEnvironmentPolicy.value = false
+			}, 0)
+		}
 
+		// ===================== 组件导出 =====================
+		/**
+		 * 导出HomePageDesktop组件
+		 * @exports HomePageDesktop
+		 * @description 导出桌面端首页组件，包含系统介绍、功能入口和环境保障政策说明
+		 * @property {Object} setup - 组件的setup函数，包含所有响应式数据和方法
+		 * @property {Function} setup.toggleTheme - 切换主题模式的方法
+		 * @property {Function} setup.goToLogin - 跳转到登录页的方法
+		 * @property {Function} setup.goToDashboard - 跳转到数据看板的方法
+		 * @property {Function} setup.goToAttendanceAnalysis - 跳转到考勤分析的方法
+		 * @property {Function} setup.goToPointsDashboard - 跳转到积分看板的方法
+		 * @property {Function} setup.goToAllMembers - 跳转到所有成员页面的方法
+		 * @property {Ref<boolean>} setup.environmentPolicyVisible - 环境保障政策弹窗显示状态
+		 * @property {Ref<boolean>} setup.isClosingEnvironmentPolicy - 环境保障政策弹窗关闭状态标记
+		 * @property {Function} setup.showEnvironmentPolicy - 显示环境保障政策弹窗的方法
+		 * @property {Function} setup.closeEnvironmentPolicy - 关闭环境保障政策弹窗的方法
+		 */
+	</script>
+
+<!-- 
+  首页模板定义
+  @template HomePageDesktopTemplate
+  @description 定义首页桌面端的完整UI结构，包括主题切换、系统介绍、功能入口和环境保障政策弹窗
+-->
 <template>
 	<!-- 首页根容器 -->
 	<div class="home-container">

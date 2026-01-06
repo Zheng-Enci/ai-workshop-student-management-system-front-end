@@ -417,14 +417,38 @@ const passwordRules = {
 
 const originalData = ref({})
 
+/**
+ * 返回导航页面
+ * @function goBack
+ * @description 返回到导航页面
+ * @returns {void}
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 切换主题
+ * @function toggleTheme
+ * @description 切换应用的主题（亮色/暗色模式）
+ * @returns {void}
+ */
 const toggleTheme = () => {
 	themeStore.toggleTheme()
 }
 
+/**
+ * 加载用户个人资料
+ * @function loadProfile
+ * @description 从服务器加载用户个人资料、考勤次数和学生ID
+ * 1. 设置加载状态为true
+ * 2. 验证用户登录状态
+ * 3. 并行获取个人资料、考勤次数和学生ID
+ * 4. 更新表单数据和相关状态
+ * 5. 处理成功或失败的响应
+ * 6. 重置加载状态
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const loadProfile = async () => {
 	isLoading.value = true
 	try {
@@ -468,6 +492,17 @@ const loadProfile = async () => {
 	}
 }
 
+/**
+ * 加载用户头像
+ * @function loadAvatar
+ * @description 根据学生ID获取并验证头像URL，确保头像存在后再显示
+ * 1. 验证学生ID是否存在
+ * 2. 使用getAvatarUrl函数获取头像URL
+ * 3. 创建Image对象验证头像是否存在
+ * 4. 设置超时机制避免长时间等待
+ * 5. 根据验证结果更新头像URL状态
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const loadAvatar = async () => {
 	if (!studentInfoId.value) { return }
 
@@ -509,14 +544,37 @@ const loadAvatar = async () => {
 	}
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当头像图片加载失败时，将头像URL设置为null
+ * @returns {void}
+ */
 const handleAvatarError = () => {
 	avatarUrl.value = null
 }
 
+/**
+ * 处理头像点击事件
+ * @function handleAvatarClick
+ * @description 触发文件输入框的点击事件，打开文件选择对话框
+ * @returns {void}
+ */
 const handleAvatarClick = () => {
 	fileInputRef.value?.click()
 }
 
+/**
+ * 处理文件选择
+ * @function handleFileSelect
+ * @description 处理用户选择的头像文件
+ * 1. 验证文件是否存在
+ * 2. 验证文件类型是否为图片
+ * 3. 保存原始文件并显示裁剪对话框
+ * 4. 清空文件选择以允许重复选择同一文件
+ * @param {Event} event - 文件输入框的change事件
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const handleFileSelect = async event => {
 	const file = event.target.files?.[0]
 	if (!file) { return }
@@ -542,6 +600,13 @@ const handleFileSelect = async event => {
 	}
 }
 
+/**
+ * 切换编辑模式
+ * @function toggleEditMode
+ * @description 切换个人信息表单的编辑模式
+ * 如果当前处于编辑模式，则取消编辑并重置表单；否则进入编辑模式
+ * @returns {void}
+ */
 const toggleEditMode = () => {
 	if (isEditing.value) {
 		resetForm()
@@ -552,6 +617,15 @@ const toggleEditMode = () => {
 	}
 }
 
+/**
+ * 重置表单
+ * @function resetForm
+ * @description 将个人信息表单重置为原始数据状态
+ * 1. 将表单数据恢复为原始数据
+ * 2. 清空密码字段
+ * 3. 清除表单验证状态
+ * @returns {void}
+ */
 const resetForm = () => {
 	Object.assign(formData, originalData.value)
 	formData.password = ''
@@ -560,6 +634,13 @@ const resetForm = () => {
 	}
 }
 
+/**
+ * 切换密码修改区域显示状态
+ * @function togglePasswordSection
+ * @description 切换密码修改区域的显示/隐藏状态
+ * 显示时重置密码表单
+ * @returns {void}
+ */
 const togglePasswordSection = () => {
 	showPasswordSection.value = !showPasswordSection.value
 	if (showPasswordSection.value) {
@@ -567,6 +648,14 @@ const togglePasswordSection = () => {
 	}
 }
 
+/**
+ * 重置密码表单
+ * @function resetPasswordForm
+ * @description 将密码修改表单重置为空状态
+ * 1. 清空所有密码相关字段
+ * 2. 清除表单验证状态
+ * @returns {void}
+ */
 const resetPasswordForm = () => {
 	passwordForm.oldPassword = ''
 	passwordForm.newPassword = ''
@@ -576,11 +665,28 @@ const resetPasswordForm = () => {
 	}
 }
 
+/**
+ * 取消密码修改
+ * @function cancelPasswordChange
+ * @description 取消密码修改操作，隐藏密码修改区域并重置表单
+ * @returns {void}
+ */
 const cancelPasswordChange = () => {
 	showPasswordSection.value = false
 	resetPasswordForm()
 }
 
+/**
+ * 确认密码修改
+ * @function confirmPasswordChange
+ * @description 确认密码修改操作
+ * 1. 验证密码修改表单
+ * 2. 设置加载状态为true
+ * 3. 调用API修改密码
+ * 4. 处理成功或失败的响应
+ * 5. 重置加载状态
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const confirmPasswordChange = async () => {
 	if (!passwordFormRef.value) { return }
 
@@ -624,6 +730,20 @@ const confirmPasswordChange = async () => {
 	}
 }
 
+/**
+ * 保存个人信息
+ * @function saveProfile
+ * @description 保存用户修改的个人信息到服务器
+ * 1. 验证当前状态和表单引用
+ * 2. 对表单进行验证
+ * 3. 设置加载状态为true
+ * 4. 验证用户登录状态
+ * 5. 调用API更新学生信息
+ * 6. 处理成功或失败的响应
+ * 7. 更新本地存储的token（如果返回新token）
+ * 8. 重置表单状态并退出编辑模式
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const saveProfile = async () => {
 	if (isLoading.value) {
 		ElMessage.warning('系统正在加载中，请稍后重试')

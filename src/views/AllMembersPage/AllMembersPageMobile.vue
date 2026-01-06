@@ -444,16 +444,6 @@ onMounted(async () => {
 								<span>管理员</span>
 							</div>
 						</div>
-						<div
-							style="display: flex; align-items: center; gap: 4px;"
-						>
-							<el-icon
-								style="font-size: 12px; color: var(--primary-color); flex-shrink: 0;"
-							>
-								<view/>
-							</el-icon>
-							<span>点击眼睛图标可查看全部改分记录</span>
-						</div>
 						<div style="display: flex; flex-wrap: wrap; gap: 8px;">
 							<div style="display: flex; align-items: center; gap: 4px;">
 								<span

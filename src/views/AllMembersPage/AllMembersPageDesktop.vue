@@ -1354,7 +1354,7 @@ onUnmounted(() => {
 								<div class="legend-section">
 									<div class="legend-item">
 										<el-icon class="hint-icon">
-											<view/>
+											<View/>
 										</el-icon>
 										<span class="legend-text">点击眼睛图标可查看全部改分记录</span>
 									</div>
@@ -1494,7 +1494,7 @@ onUnmounted(() => {
 												@click="openRecordsDialog(student)"
 											>
 												<el-icon>
-													<view/>
+													<View/>
 												</el-icon>
 											</el-button>
 										</div>
