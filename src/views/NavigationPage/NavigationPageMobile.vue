@@ -212,10 +212,10 @@ const handleAvatarClick = () => {
 /**
  * 跳转到数据看板页面
  * @function goToDashboard
- * @description 点击数据看板入口时触发,跳转到数据看板页面
+ * @description 点击数据看板入口时触发,提示用户使用电脑端查看
  */
 const goToDashboard = () => {
-	router.push('/dashboard')
+	ElMessage.info('数据看板功能仅支持电脑端查看,请在电脑上访问')
 }
 
 /**
