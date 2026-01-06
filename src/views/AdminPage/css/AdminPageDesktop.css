@@ -756,30 +756,42 @@ html.dark .admin-console {
 	min-width: 0;
 }
 
-/* 学生姓名 - 大号字体，加粗显示 */
+/**
+ * 学生姓名样式
+ * @description 大号字体,超粗显示,带文字阴影增强可读性
+ * 使用主文本颜色,增加字间距提升视觉效果
+ */
 .student-name {
-	font-size: 18px;
-	font-weight: 800;
-	color: var(--text-primary);
-	margin-bottom: 4px;
-	text-shadow: 0 2px 8px var(--shadow-color);
-	letter-spacing: 0.5px;
+	font-size: 18px; /* 大号字体 */
+	font-weight: 800; /* 超粗字重 */
+	color: var(--text-primary); /* 主文本颜色 */
+	margin-bottom: 4px; /* 底部间距 */
+	text-shadow: 0 2px 8px var(--shadow-color); /* 文字阴影增强层次 */
+	letter-spacing: 0.5px; /* 字间距 */
 }
 
-/* 学生学号 - 中号字体，中等粗细 */
+/**
+ * 学生学号样式
+ * @description 中号字体,中等粗细,使用次要文本颜色
+ * 带轻微文字阴影,与姓名形成层次对比
+ */
 .student-id {
-	font-size: 14px;
-	color: var(--text-secondary);
-	font-weight: 600;
-	text-shadow: 0 1px 4px var(--shadow-color);
+	font-size: 14px; /* 中号字体 */
+	color: var(--text-secondary); /* 次要文本颜色 */
+	font-weight: 600; /* 中等粗细 */
+	text-shadow: 0 1px 4px var(--shadow-color); /* 轻微文字阴影 */
 }
 
-/* 学生数据库ID - 用于系统内部标识 */
+/**
+ * 学生数据库ID样式
+ * @description 用于系统内部标识的ID显示
+ * 与学号样式相同,使用次要文本颜色区分于主要信息
+ */
 .student-db-id {
-	font-size: 14px;
-	color: var(--text-secondary);
-	font-weight: 600;
-	text-shadow: 0 1px 4px var(--shadow-color);
+	font-size: 14px; /* 中号字体 */
+	color: var(--text-secondary); /* 次要文本颜色 */
+	font-weight: 600; /* 中等粗细 */
+	text-shadow: 0 1px 4px var(--shadow-color); /* 轻微文字阴影 */
 }
 
 /**
@@ -787,40 +799,58 @@ html.dark .admin-console {
  * 显示学生出勤次数的组件
  */
 
-/* 出勤次数统计 - 带图标和数字 */
+/**
+ * 出勤次数统计容器
+ * @description 显示学生签到次数的统计卡片
+ * 包含图标和数字,玻璃拟态设计,带悬停效果
+ */
 .attendance-count {
 	display: flex;
-	align-items: center;
-	gap: 8px;
-	padding: 12px 16px;
+	align-items: center; /* 垂直居中 */
+	gap: 8px; /* 图标和文字间距 */
+	padding: 12px 16px; /* 内边距 */
+	/**
+	 * 半透明背景
+	 * @description 25%不透明度的白色背景,营造玻璃拟态效果
+	 */
 	background: rgba(255, 255, 255, 0.25);
-
-	border-radius: 12px;
-	color: var(--text-primary);
-	border: 1px solid var(--glass-border);
-	box-shadow: 0 6px 20px var(--shadow-color);
-	transition: all 0.3s ease;
-	flex-shrink: 0;
+	border-radius: 12px; /* 圆角 */
+	color: var(--text-primary); /* 主文本颜色 */
+	border: 1px solid var(--glass-border); /* 玻璃态边框 */
+	box-shadow: 0 6px 20px var(--shadow-color); /* 阴影效果 */
+	transition: all 0.3s ease; /* 平滑过渡动画 */
+	flex-shrink: 0; /* 禁止收缩 */
 }
 
-/* 出勤统计悬停效果 - 放大和阴影增强 */
+/**
+ * 出勤统计悬停效果
+ * @description 鼠标悬停时放大5%,阴影增强
+ * 提供视觉反馈,增强交互体验
+ */
 .attendance-count:hover {
-	transform: scale(1.05);
-	box-shadow: 0 10px 30px var(--shadow-hover);
+	transform: scale(1.05); /* 放大5% */
+	box-shadow: 0 10px 30px var(--shadow-hover); /* 阴影增强 */
 }
 
-/* 出勤图标 */
+/**
+ * 出勤图标样式
+ * @description 16px图标,带投影效果增强立体感
+ */
 .attendance-icon {
-	font-size: 16px;
-	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+	font-size: 16px; /* 图标大小 */
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); /* 投影效果 */
 }
 
-/* 出勤数字 */
+/**
+ * 出勤数字样式
+ * @description 14px字体,超粗显示,带文字阴影
+ * 突出显示签到次数数值
+ */
 .count-text {
-	font-size: 14px;
-	font-weight: 700;
-	color: var(--admin-text-primary);
-	text-shadow: 0 2px 8px var(--admin-shadow-color);
+	font-size: 14px; /* 字体大小 */
+	font-weight: 700; /* 超粗字重 */
+	color: var(--admin-text-primary); /* 主文本颜色 */
+	text-shadow: 0 2px 8px var(--admin-shadow-color); /* 文字阴影 */
 }
 
 /**
@@ -844,112 +874,183 @@ html.dark .admin-console {
 	min-width: 120px;
 }
 
+/**
+ * 积分信息容器
+ * @description 显示学生各类积分的详细统计
+ * 包含总积分、签到积分、活动积分等信息
+ * 玻璃拟态设计,带悬停效果
+ */
 .points-info {
 	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	padding: 8px 12px;
+	flex-direction: column; /* 垂直布局 */
+	gap: 4px; /* 子元素间距 */
+	padding: 8px 12px; /* 内边距 */
+	/**
+	 * 半透明背景
+	 * @description 25%不透明度的白色背景,营造玻璃拟态效果
+	 */
 	background: rgba(255, 255, 255, 0.25);
-	
-	border-radius: 12px;
-	border: 1px solid var(--glass-border);
-	box-shadow: 0 6px 20px var(--shadow-color);
-	transition: all 0.3s ease;
-	flex-shrink: 0;
-	min-width: 120px;
+	border-radius: 12px; /* 圆角 */
+	border: 1px solid var(--glass-border); /* 玻璃态边框 */
+	box-shadow: 0 6px 20px var(--shadow-color); /* 阴影效果 */
+	transition: all 0.3s ease; /* 平滑过渡动画 */
+	flex-shrink: 0; /* 禁止收缩 */
+	min-width: 120px; /* 最小宽度 */
 }
 
+/**
+ * 积分信息悬停效果
+ * @description 鼠标悬停时放大5%,阴影增强
+ * 提供视觉反馈,增强交互体验
+ */
 .points-info:hover {
-	transform: scale(1.05);
-	box-shadow: 0 10px 30px var(--shadow-hover);
+	transform: scale(1.05); /* 放大5% */
+	box-shadow: 0 10px 30px var(--shadow-hover); /* 阴影增强 */
 }
 
+/**
+ * 积分汇总文字
+ * @description 显示总积分的文字样式
+ * 13px字体,超粗显示,居中对齐,带文字阴影
+ */
 .points-summary {
-	font-size: 13px;
-	font-weight: 700;
-	color: var(--admin-text-primary);
-	text-shadow: 0 2px 8px var(--admin-shadow-color);
-	text-align: center;
+	font-size: 13px; /* 字体大小 */
+	font-weight: 700; /* 超粗字重 */
+	color: var(--admin-text-primary); /* 主文本颜色 */
+	text-shadow: 0 2px 8px var(--admin-shadow-color); /* 文字阴影 */
+	text-align: center; /* 居中对齐 */
 }
 
+/**
+ * 积分详情容器
+ * @description 包含签到积分和活动积分的容器
+ * Flex布局,居中对齐,8px间距
+ */
 .points-details {
 	display: flex;
-	gap: 8px;
-	justify-content: center;
+	gap: 8px; /* 子元素间距 */
+	justify-content: center; /* 水平居中 */
 }
 
+/**
+ * 积分类型标签
+ * @description 显示"签到积分"、"活动积分"等标签文字
+ * 11px字体,中等粗细,使用次要文本颜色
+ */
 .points-type {
-	font-size: 11px;
-	color: var(--text-secondary);
-	font-weight: 600;
+	font-size: 11px; /* 小号字体 */
+	color: var(--text-secondary); /* 次要文本颜色 */
+	font-weight: 600; /* 中等粗细 */
 }
 
+/**
+ * 学生详细信息行
+ * @description 包含学生详细信息(年级、学院、专业等)的行
+ * Flex布局,居中对齐,20px间距
+ */
 .student-detail-row {
 	display: flex;
-	
-	align-items: center;
-	gap: 20px;
+	align-items: center; /* 垂直居中 */
+	gap: 20px; /* 子元素间距 */
 }
 
+/**
+ * 学生详细信息容器
+ * @description 包含多个详细信息项的容器
+ * Flex布局,支持换行,占据剩余空间
+ */
 .student-details {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	align-items: center;
-	flex: 1;
+	flex-wrap: wrap; /* 允许换行 */
+	gap: 16px; /* 子元素间距 */
+	align-items: center; /* 垂直居中 */
+	flex: 1; /* 占据剩余空间 */
 }
 
+/**
+ * 详细信息项
+ * @description 单个详细信息项(如"年级: 大二")
+ * Flex布局,居中对齐,不换行
+ */
 .detail-item {
 	display: flex;
-	align-items: center;
-	font-size: 13px;
-	white-space: nowrap;
+	align-items: center; /* 垂直居中 */
+	font-size: 13px; /* 字体大小 */
+	white-space: nowrap; /* 不换行 */
 }
 
+/**
+ * 详细信息标签
+ * @description 详细信息项的标签部分(如"年级:")
+ * 使用次要文本颜色,中等粗细,带轻微文字阴影
+ */
 .label {
-	color: var(--text-secondary);
-	font-weight: 600;
-	margin-right: 4px;
-	text-shadow: 0 1px 4px var(--shadow-color);
+	color: var(--text-secondary); /* 次要文本颜色 */
+	font-weight: 600; /* 中等粗细 */
+	margin-right: 4px; /* 右侧间距 */
+	text-shadow: 0 1px 4px var(--shadow-color); /* 轻微文字阴影 */
 }
 
+/**
+ * 详细信息值
+ * @description 详细信息项的值部分(如"大二")
+ * 使用主文本颜色,超粗显示,带轻微文字阴影
+ */
 .value {
-	color: var(--text-primary);
-	font-weight: 700;
-	text-shadow: 0 1px 4px var(--shadow-color);
+	color: var(--text-primary); /* 主文本颜色 */
+	font-weight: 700; /* 超粗字重 */
+	text-shadow: 0 1px 4px var(--shadow-color); /* 轻微文字阴影 */
 }
 
+/**
+ * 学生操作按钮容器
+ * @description 包含学生相关操作按钮的容器
+ * Flex布局,8px间距,禁止收缩
+ */
 .student-actions {
 	display: flex;
-	gap: 8px;
-	flex-shrink: 0;
+	gap: 8px; /* 按钮间距 */
+	flex-shrink: 0; /* 禁止收缩 */
 }
 
+/**
+ * 学生操作按钮通用样式
+ * @description 考勤记录、补卡、热力图、趋势图、积分等按钮的共用样式
+ * 玻璃拟态设计,圆角边框,带阴影和过渡动画
+ */
 .records-btn,
 .makeup-btn,
 .heatmap-btn,
 .trend-btn,
 .points-btn {
-	border-radius: 10px;
-	font-size: 12px;
-	font-weight: 700;
+	border-radius: 10px; /* 圆角 */
+	font-size: 12px; /* 字体大小 */
+	font-weight: 700; /* 超粗字重 */
+	/**
+	 * 半透明背景
+	 * @description 25%不透明度的白色背景,营造玻璃拟态效果
+	 */
 	background: rgba(255, 255, 255, 0.25);
-	
-	border: 1px solid var(--glass-border);
-	color: var(--text-primary);
-	box-shadow: 0 4px 15px var(--shadow-color);
-	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-	text-shadow: 0 1px 4px var(--shadow-color);
+	border: 1px solid var(--glass-border); /* 玻璃态边框 */
+	color: var(--text-primary); /* 主文本颜色 */
+	box-shadow: 0 4px 15px var(--shadow-color); /* 阴影效果 */
+	transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡动画 */
+	text-shadow: 0 1px 4px var(--shadow-color); /* 文字阴影 */
 }
 
+/**
+ * 学生操作按钮悬停效果
+ * @description 鼠标悬停时背景变亮,上移2px并放大5%,阴影增强
+ * 提供清晰的视觉反馈,增强交互体验
+ */
 .records-btn:hover,
 .makeup-btn:hover,
 .heatmap-btn:hover,
 .trend-btn:hover,
 .points-btn:hover {
-	background: rgba(255, 255, 255, 0.35);
-	transform: translateY(-2px) scale(1.05);
-	box-shadow: 0 8px 25px var(--shadow-hover);
+	background: rgba(255, 255, 255, 0.35); /* 背景变亮 */
+	transform: translateY(-2px) scale(1.05); /* 上移并放大 */
+	box-shadow: 0 8px 25px var(--shadow-hover); /* 阴影增强 */
 }
 
 /**

@@ -55,36 +55,147 @@ import {
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
 
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
 
+// ===================== 响应式变量定义区 =====================
+/**
+ * 今日考勤人数
+ * @type {Ref<number>}
+ * @description 当天签到的人数统计
+ */
 const todayAttendance = ref(0)
+/**
+ * 日均考勤人数
+ * @type {Ref<number>}
+ * @description 平均每日签到人数统计
+ */
 const dailyAvgAttendance = ref(0)
+/**
+ * 考勤率
+ * @type {Ref<number>}
+ * @description 考勤率百分比(0-100)
+ */
 const attendanceRate = ref(0)
+/**
+ * 月度考勤总数
+ * @type {Ref<number>}
+ * @description 当前月份的累计签到次数
+ */
 const monthlyAttendanceCount = ref(0)
+/**
+ * 工坊成员总数
+ * @type {Ref<number>}
+ * @description AI坊总成员数量
+ */
 const workshopMembersCount = ref(0)
+/**
+ * 工坊成员数(备用字段)
+ * @type {Ref<number>}
+ * @description 预留字段,用于特殊统计需求
+ */
 const workshopMembers = ref(0)
+/**
+ * 等级统计对象
+ * @type {Ref<Object>}
+ * @description 按等级分类的成员数量统计
+ * @property {number} admin - 管理员数量
+ * @property {number} core - 核心成员数量
+ * @property {number} normal - 普通成员数量
+ */
 const levelStats = ref({
 	admin: 0,
 	core: 0,
 	normal: 0
 })
+/**
+ * 社团成员数量
+ * @type {Ref<number>}
+ * @description 社团成员等级的人数统计
+ */
 const clubMembers = ref(0)
 
+/**
+ * 选中的时间范围
+ * @type {Ref<string>}
+ * @description 排行榜的时间范围选择('week'|'month'|'year')
+ */
 const selectedTimeRange = ref('week')
+/**
+ * 排行榜显示数量
+ * @type {number}
+ * @description 排行榜显示前N名学生的数量
+ */
 const selectedTopN = 16
+/**
+ * 排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储排行榜的学生数据列表
+ */
 const rankingData = ref([])
+/**
+ * 考勤图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 考勤统计图表的DOM元素引用
+ */
 const attendanceChart = ref(null)
+/**
+ * 年级统计图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 年级分布图表的DOM元素引用
+ */
 const gradeChart = ref(null)
+/**
+ * 专业统计图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 专业分布图表的DOM元素引用
+ */
 const majorChart = ref(null)
+/**
+ * 考勤图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts考勤统计图表实例
+ */
 let chartInstance = null
+/**
+ * 年级图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts年级分布图表实例
+ */
 let gradeChartInstance = null
+/**
+ * 专业图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts专业分布图表实例
+ */
 let majorChartInstance = null
 
+// ===================== 页面操作方法区 =====================
+/**
+ * 返回上一页
+ * @function goBack
+ * @description 点击返回按钮时触发,返回浏览器历史记录的上一页
+ */
 const goBack = () => {
 	router.go(-1)
 }
 
+/**
+ * 切换主题
+ * @function toggleTheme
+ * @description 切换应用的明暗主题模式
+ */
 const toggleTheme = () => {
 	themeStore.toggleTheme()
 }

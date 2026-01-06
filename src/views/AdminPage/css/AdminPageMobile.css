@@ -103,14 +103,20 @@
 	}
 }
 
-/* 身份验证卡片头部区域 */
+/**
+ * 身份验证卡片头部区域
+ * @description 包含图标、标题等头部元素的容器,居中显示
+ */
 .auth-header-mobile {
 	text-align: center;
 	margin-bottom: 25px;
 	padding: 0 10px;
 }
 
-/* 图标容器，居中显示头像 */
+/**
+ * 图标容器
+ * @description 居中显示管理员头像的容器,相对定位用于放置动画环
+ */
 .auth-icon-container-mobile {
 	position: relative;
 	width: 70px;
@@ -121,7 +127,11 @@
 	justify-content: center;
 }
 
-/* 头像外圈脉冲动画环 */
+/**
+ * 头像外圈脉冲动画环
+ * @description 围绕头像的脉冲动画环,增强视觉吸引力
+ * 动画效果: 2秒循环,缩放和透明度变化
+ */
 .icon-ring-mobile {
 	position: absolute;
 	width: 100%;
@@ -132,7 +142,10 @@
 	animation: icon-pulse-mobile 2s ease-in-out infinite;
 }
 
-/* 脉冲动画定义 */
+/**
+ * 脉冲动画定义
+ * @description 图标环的脉冲动画,从原始大小到1.1倍缩放,透明度从0.3到0.5
+ */
 @keyframes icon-pulse-mobile {
 	0%, 100% {
 		transform: scale(1);
@@ -144,7 +157,10 @@
 	}
 }
 
-/* 卡片标题 */
+/**
+ * 卡片标题样式
+ * @description 身份验证卡片的标题文字样式,使用主题文字颜色
+ */
 .auth-header-mobile h2 {
 	font-size: 22px;
 	font-weight: 700;
@@ -161,17 +177,27 @@
 	margin-top: 10px;
 }
 
-/* 输入框容器 */
+/**
+ * 输入框容器
+ * @description 密码输入框的外层容器,相对定位用于放置其他元素
+ */
 .input-container-mobile {
 	position: relative;
 }
 
-/* 密码输入框 */
+/**
+ * 密码输入框
+ * @description 身份验证密码输入框,宽度100%占满容器
+ */
 .password-input-mobile {
 	width: 100%;
 }
 
-/* Element Plus 输入框样式穿透 */
+/**
+ * Element Plus 输入框样式穿透
+ * @description 使用深度选择器修改Element Plus输入框的内部样式
+ * 包含: 圆角、边框、背景、阴影等
+ */
 .password-input-mobile :deep(.el-input__wrapper) {
 	border-radius: 12px;
 	border: 2px solid var(--admin-border-color);
@@ -180,18 +206,27 @@
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 输入框悬停效果 */
+/**
+ * 输入框悬停效果
+ * @description 鼠标悬停时边框变为主题色,阴影增强
+ */
 .password-input-mobile :deep(.el-input__wrapper:hover) {
 	border-color: var(--admin-primary-color);
 	box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
 }
 
-/* 输入框聚焦效果 */
+/**
+ * 输入框聚焦效果
+ * @description 输入框获得焦点时边框变为主题色
+ */
 .password-input-mobile :deep(.el-input__wrapper.is-focus) {
 	border-color: var(--admin-primary-color);
 }
 
-/* 身份验证按钮 */
+/**
+ * 身份验证按钮
+ * @description 提交身份验证的按钮,全宽设计,带阴影效果
+ */
 .auth-button-mobile {
 	width: 100%;
 	height: 48px;
@@ -202,13 +237,19 @@
 	transition: all 0.3s ease;
 }
 
-/* 按钮悬停效果 */
+/**
+ * 按钮悬停效果
+ * @description 鼠标悬停时按钮上移2px,阴影增强
+ */
 .auth-button-mobile:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
 }
 
-/* 按钮点击效果 */
+/**
+ * 按钮点击效果
+ * @description 按钮点击时恢复原位,阴影减弱
+ */
 .auth-button-mobile:active {
 	transform: translateY(0);
 	box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);

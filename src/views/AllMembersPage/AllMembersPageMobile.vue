@@ -22,49 +22,135 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 
 
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
 
-
+// ===================== 响应式变量定义区 =====================
+/**
+ * 总积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按总积分排序的学生列表
+ */
 const totalRanking = ref([])
+/**
+ * 优秀学生列表
+ * @type {Ref<Array>}
+ * @description 存储排名靠前的学生数据,用于展示优秀成员
+ */
 const topStudents = ref([])
+/**
+ * 搜索关键词
+ * @type {Ref<string>}
+ * @description 用户输入的搜索关键词,用于筛选学生
+ */
 const searchKeyword = ref('')
+/**
+ * 筛选后的学生列表
+ * @type {Ref<Array>}
+ * @description 根据搜索关键词筛选后的学生数据列表
+ */
 const filteredStudents = ref([])
+/**
+ * 数据加载状态
+ * @type {Ref<boolean>}
+ * @description 控制数据加载中的状态显示
+ */
 const isLoading = ref(true)
+/**
+ * 已加载的数据数量
+ * @type {Ref<number>}
+ * @description 记录已加载的学生数据数量,用于进度显示
+ */
 const loadedCount = ref(0)
+/**
+ * 总学生数量
+ * @type {Ref<number>}
+ * @description 系统中所有学生的总数
+ */
 const totalCount = ref(0)
 
-
-// 弹窗管理器
+// ===================== 弹窗管理器 =====================
+/**
+ * 改分记录弹窗管理器
+ * @type {Reactive<AdjustRecordsDialogManager>}
+ * @description 管理改分记录弹窗的打开、关闭和数据加载
+ */
 const adjustRecordsDialogManager = reactive(new AdjustRecordsDialogManager())
 
+// ===================== 页面操作方法区 =====================
+/**
+ * 返回上一页
+ * @function goBack
+ * @description 点击返回按钮时触发,跳转到导航页面
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 切换主题
+ * @function toggleTheme
+ * @description 切换应用的明暗主题模式
+ */
 const toggleTheme = () => {
 	themeStore.toggleTheme()
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当学生头像加载失败时调用,标记为无头像状态
+ * @param {Object} student - 学生对象,包含hasAvatar和avatarUrl属性
+ */
 const handleAvatarError = student => {
 	student.hasAvatar = false
 	student.avatarUrl = null
 }
 
-
+/**
+ * 打开改分记录弹窗
+ * @function openRecordsDialog
+ * @description 点击学生卡片时触发,打开该学生的改分记录弹窗
+ * @param {Object} student - 学生对象,包含学生ID等信息
+ */
 const openRecordsDialog = student => {
 	adjustRecordsDialogManager.open(student)
 }
 
-
+// ===================== 工具方法区 =====================
+/**
+ * 格式化年级
+ * @function formatGrade
+ * @description 将数字年级转换为中文显示格式
+ * @param {string|number} grade - 年级数字(1-6)
+ * @returns {string} 格式化后的年级文本,如'大一'、'大二'等
+ */
 const formatGrade = grade => {
+	// 空值处理
 	if (!grade) {
 		return ''
 	}
+	// 转换为数字
 	const gradeNum = parseInt(grade, 10)
+	// 非数字时返回原值
 	if (isNaN(gradeNum)) {
 		return grade
 	}
+	/**
+	 * 年级数字与中文的映射关系
+	 * @type {Object<number, string>}
+	 */
 	const gradeMap = {
 		1: '大一',
 		2: '大二',
@@ -76,27 +162,48 @@ const formatGrade = grade => {
 	return gradeMap[gradeNum] || `${gradeNum}年级`
 }
 
-
+/**
+ * 检查学生是否匹配搜索关键词
+ * @function checkStudentMatch
+ * @description 检查学生的姓名、性别、学院、专业是否包含搜索关键词
+ * @param {Object} student - 学生对象
+ * @param {string} keyword - 搜索关键词(已转换为小写)
+ * @returns {boolean} true表示匹配,false表示不匹配
+ */
 const checkStudentMatch = (student, keyword) => {
+	// 检查姓名是否包含关键词
 	if (student.name && student.name.toLowerCase().includes(keyword)) {
 		return true
 	}
+	// 检查性别是否包含关键词
 	if (student.gender && student.gender.toLowerCase().includes(keyword)) {
 		return true
 	}
+	// 检查学院是否包含关键词
 	if (student.college && student.college.toLowerCase().includes(keyword)) {
 		return true
 	}
+	// 检查专业是否包含关键词
 	if (student.major && student.major.toLowerCase().includes(keyword)) {
 		return true
 	}
 	return false
 }
 
+/**
+ * 检查年级是否匹配搜索关键词
+ * @function checkGradeMatch
+ * @description 检查学生的年级格式化文本是否包含搜索关键词
+ * @param {Object} student - 学生对象
+ * @param {string} keyword - 搜索关键词(已转换为小写)
+ * @returns {boolean} true表示匹配,false表示不匹配
+ */
 const checkGradeMatch = (student, keyword) => {
+	// 无年级信息时返回不匹配
 	if (!student.grade) {
 		return false
 	}
+	// 格式化年级并转换为小写进行比较
 	const gradeText = formatGrade(student.grade).toLowerCase()
 	if (gradeText.includes(keyword)) {
 		return true

@@ -107,7 +107,11 @@ html.dark .slogan-img {
 
 /* ========== 标题区域 ========== */
 
-/* 标题区域 - Flex列布局，居中对齐，占据剩余空间 */
+/**
+ * 标题区域
+ * @description Flex列布局,居中对齐,占据剩余空间
+ * 包含主标题、副标题和描述文字
+ */
 .title-section {
 	display: flex;
 	flex-direction: column;
@@ -116,7 +120,11 @@ html.dark .slogan-img {
 	flex: 1;
 }
 
-/* 主标题 - 12px超粗字体，使用渐变色文字效果 */
+/**
+ * 主标题样式
+ * @description 12px超粗字体,使用渐变色文字效果(紫蓝色渐变)
+ * 通过background-clip实现文字渐变效果
+ */
 .title-section .main-title {
 	font-size: 12px;
 	font-weight: 800;
@@ -131,7 +139,11 @@ html.dark .slogan-img {
 	display: block;
 }
 
-/* 副标题 - 20px粗字体，同样使用渐变色 */
+/**
+ * 副标题样式
+ * @description 20px粗字体,同样使用渐变色效果
+ * 与主标题保持一致的视觉风格
+ */
 .title-section h1 {
 	font-size: 20px;
 	font-weight: 700;
@@ -142,7 +154,11 @@ html.dark .slogan-img {
 	background-clip: text;
 }
 
-/* 描述文字 - 12px中等字重，次要文字颜色 */
+/**
+ * 描述文字样式
+ * @description 12px中等字重,使用次要文字颜色
+ * 用于显示页面说明或补充信息
+ */
 .title-section p {
 	font-size: 12px;
 	color: var(--text-secondary);
@@ -178,74 +194,104 @@ html.dark .slogan-img {
 	max-width: 100%;
 }
 
-/* 排行榜标签页容器 - Flex列布局 */
+/**
+ * 排行榜标签页容器
+ * @description Flex列布局,包含排行榜的导航和内容
+ * 宽度100%,无外边距,子元素无间距
+ */
 .ranking-tabs {
 	width: 100%;
 	margin-left: 0;
 	margin-top: 0;
 	display: flex;
-	flex-direction: column;
-	gap: 0;
+	flex-direction: column; /* 垂直布局 */
+	gap: 0; /* 无间距 */
 }
 
-/* 排行榜顶部栏 - Flex布局，两端对齐，支持换行 */
+/**
+ * 排行榜顶部栏
+ * @description 包含导航箭头和标签的顶部控制栏
+ * Flex布局,两端对齐,支持换行以适应小屏幕
+ */
 .ranking-topbar {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 8px;
-	flex-wrap: wrap;
-	flex-shrink: 0;
+	align-items: center; /* 垂直居中 */
+	justify-content: space-between; /* 两端对齐 */
+	gap: 8px; /* 子元素间距 */
+	flex-wrap: wrap; /* 允许换行 */
+	flex-shrink: 0; /* 禁止收缩 */
 	width: 100%;
 	margin-bottom: 1%;
 }
 
-/* 排行榜导航箭头 - 毛玻璃背景，圆角边框，带模糊效果 */
+/**
+ * 排行榜导航箭头容器
+ * @description 包含左右切换箭头的容器
+ * 毛玻璃背景效果,圆角边框,带模糊效果
+ */
 .ranking-arrows {
 	display: flex;
-	gap: 2px;
-	align-items: center;
+	gap: 2px; /* 箭头按钮间距 */
+	align-items: center; /* 垂直居中 */
 	margin-bottom: 0;
+	/**
+	 * 毛玻璃背景
+	 * @description 半透明白色背景,配合backdrop-filter实现毛玻璃效果
+	 */
 	background: rgba(255, 255, 255, 0.6);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	border-radius: 6px;
-	padding: 2px 4px;
-	backdrop-filter: blur(6px);
+	border: 1px solid rgba(102, 126, 234, 0.2); /* 主题色边框 */
+	border-radius: 6px; /* 圆角 */
+	padding: 2px 4px; /* 内边距 */
+	backdrop-filter: blur(6px); /* 背景模糊效果 */
 }
 
-/* 暗黑模式下的箭头按钮样式 */
+/**
+ * 暗黑模式下的箭头按钮样式
+ * @description 深色背景,浅色边框,适配暗色主题
+ */
 html.dark .ranking-arrows {
-	background: rgba(15, 23, 42, 0.65);
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: rgba(15, 23, 42, 0.65); /* 深色半透明背景 */
+	border: 1px solid rgba(255, 255, 255, 0.08); /* 浅色边框 */
 }
 
-/* 箭头按钮内的小按钮 - 22px正方形 */
+/**
+ * 箭头按钮内的小按钮
+ * @description Element Plus按钮在箭头容器内的样式
+ * 22px正方形,优化移动端触摸体验
+ */
 .ranking-arrows .el-button {
-	padding: 1px;
-	width: 22px;
-	height: 22px;
-	min-width: 22px;
-	min-height: 22px;
-	touch-action: manipulation;
+	padding: 1px; /* 最小内边距 */
+	width: 22px; /* 固定宽度 */
+	height: 22px; /* 固定高度 */
+	min-width: 22px; /* 最小宽度 */
+	min-height: 22px; /* 最小高度 */
+	touch-action: manipulation; /* 优化移动端触摸,禁用双击缩放 */
 }
 
-/* 排行榜标签 - 9px超粗字体，圆角背景 */
+/**
+ * 排行榜标签
+ * @description 显示当前排行榜类型的标签
+ * 9px超粗字体,圆角背景,主题色边框
+ */
 .ranking-label {
-	font-size: 9px;
-	font-weight: 700;
-	color: var(--text-primary);
-	padding: 1px 4px;
-	border-radius: 4px;
-	background: rgba(102, 126, 234, 0.1);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	line-height: 12px;
-	white-space: nowrap;
+	font-size: 9px; /* 小号字体 */
+	font-weight: 700; /* 超粗字重 */
+	color: var(--text-primary); /* 主文本色 */
+	padding: 1px 4px; /* 内边距 */
+	border-radius: 4px; /* 圆角 */
+	background: rgba(102, 126, 234, 0.1); /* 主题色半透明背景 */
+	border: 1px solid rgba(102, 126, 234, 0.2); /* 主题色边框 */
+	line-height: 12px; /* 行高 */
+	white-space: nowrap; /* 不换行 */
 }
 
-/* 暗黑模式下的标签样式 */
+/**
+ * 暗黑模式下的标签样式
+ * @description 浅色背景和边框,适配暗色主题
+ */
 html.dark .ranking-label {
-	background: rgba(255, 255, 255, 0.08);
-	border: 1px solid rgba(255, 255, 255, 0.12);
+	background: rgba(255, 255, 255, 0.08); /* 浅色半透明背景 */
+	border: 1px solid rgba(255, 255, 255, 0.12); /* 浅色边框 */
 }
 
 /* ========== 侧边栏区域 ========== */

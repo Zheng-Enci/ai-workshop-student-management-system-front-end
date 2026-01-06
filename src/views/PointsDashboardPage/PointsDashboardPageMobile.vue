@@ -39,56 +39,234 @@ echarts.use([
 	CanvasRenderer
 ])
 
-// 初始化路由和Store
+/**
+ * 积分看板页面组件(移动端)
+ * 
+ * @component PointsDashboardPageMobile
+ * @description 展示学生积分排行榜,包括总积分、签到积分、活动积分三个维度(移动端适配)
+ * 主要功能:
+ * 1. 展示三种积分排行榜(总积分、签到积分、活动积分)
+ * 2. 提供图表可视化展示积分分布
+ * 3. 支持查看学生改分记录
+ * 4. 支持标签页切换和左右箭头导航
+ * 
+ * @author 前端开发团队
+ * @version 1.0.0
+ */
+
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 主题切换方法
+ * @type {Function}
+ * @description 解构自主题Store,用于切换明暗主题
+ */
 const { toggleTheme } = themeStore
 
-// 创建 PointsDashboardPage 实例
+// ===================== 业务逻辑实例初始化 =====================
+/**
+ * 积分看板页面业务逻辑实例
+ * @type {Ref<PointsDashboardPage>}
+ * @description 封装积分看板页面的核心业务逻辑,包含数据加载、图表初始化等方法
+ */
 const dashboardPage = ref(new PointsDashboardPage())
 
+// ===================== 响应式变量定义区 =====================
+/**
+ * 当前激活的标签页
+ * @type {Ref<string>}
+ * @description 控制显示哪个排行榜:'total'|'signIn'|'activity'
+ */
 const activeTab = ref('total')
+/**
+ * 标签页顺序数组
+ * @type {Array<string>}
+ * @description 定义标签页的切换顺序,用于左右箭头切换
+ */
 const tabOrder = ['total', 'signIn', 'activity']
+/**
+ * 标签页名称映射
+ * @type {Object<string, string>}
+ * @description 标签页标识与显示名称的映射关系
+ */
 const tabLabelMap = {
 	total: '总积分排行榜',
 	signIn: '签到积分排行榜',
 	activity: '活动积分排行榜'
 }
+/**
+ * 当前标签页显示名称
+ * @type {ComputedRef<string>}
+ * @description 根据当前激活的标签页返回对应的显示名称
+ */
 const currentTabLabel = computed(() => tabLabelMap[activeTab.value] || '')
+/**
+ * 签到积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按签到积分排序的学生列表
+ */
 const signInRanking = ref([])
+/**
+ * 活动积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按活动积分排序的学生列表
+ */
 const activityRanking = ref([])
+/**
+ * 总积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按总积分排序的学生列表
+ */
 const totalRanking = ref([])
+/**
+ * 优秀学生列表
+ * @type {Ref<Array>}
+ * @description 存储排名靠前的学生数据,用于展示优秀成员
+ */
 const topStudents = ref([])
+/**
+ * 考勤数据
+ * @type {Ref<Array>}
+ * @description 存储学生的考勤相关数据
+ */
 const attendanceData = ref([])
+/**
+ * 签到积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制签到积分数据加载中的状态显示
+ */
 const signInLoading = ref(false)
+/**
+ * 活动积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制活动积分数据加载中的状态显示
+ */
 const activityLoading = ref(false)
+/**
+ * 总积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制总积分数据加载中的状态显示
+ */
 const totalLoading = ref(false)
 
-// 改分记录弹窗相关
+// ===================== 改分记录弹窗相关变量 =====================
+/**
+ * 改分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录弹窗的显示/隐藏
+ */
 const recordsDialogVisible = ref(false)
+/**
+ * 当前选中的学生
+ * @type {Ref<Object|null>}
+ * @description 存储当前查看改分记录的学生信息
+ */
 const currentStudent = ref(null)
+/**
+ * 所有改分记录
+ * @type {Ref<Array>}
+ * @description 存储当前学生的所有积分调整记录
+ */
 const allRecords = ref([])
+/**
+ * 改分记录加载状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录数据加载中的状态显示
+ */
 const recordsLoading = ref(false)
+/**
+ * 弹窗标题
+ * @type {Ref<string>}
+ * @description 改分记录弹窗的标题文本
+ */
 const dialogTitle = ref('改分记录')
+/**
+ * 是否显示改分记录内容
+ * @type {Ref<boolean>}
+ * @description 控制弹窗中改分记录内容的显示/隐藏
+ */
 const showRecordsContent = ref(true)
 
+// ===================== 图表相关变量 =====================
+/**
+ * 签到积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 签到积分柱状图的DOM元素引用
+ */
 const signInChart = ref(null)
+/**
+ * 活动积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 活动积分柱状图的DOM元素引用
+ */
 const activityChart = ref(null)
+/**
+ * 总积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 总积分柱状图的DOM元素引用
+ */
 const totalChart = ref(null)
+/**
+ * 签到积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts签到积分图表实例
+ */
 let signInChartInstance = null
+/**
+ * 活动积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts活动积分图表实例
+ */
 let activityChartInstance = null
+/**
+ * 总积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts总积分图表实例
+ */
 let totalChartInstance = null
 
+// ===================== 页面操作方法区 =====================
+/**
+ * 返回上一页
+ * @function goBack
+ * @description 点击返回按钮时触发,跳转到导航页面
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 切换标签页
+ * @function switchTab
+ * @description 根据方向切换标签页,支持循环切换
+ * @param {string} direction - 切换方向:'prev'表示上一个,'next'表示下一个
+ */
 const switchTab = direction => {
+	// 获取当前标签页在数组中的索引
 	const idx = tabOrder.indexOf(activeTab.value)
+	/**
+	 * 计算下一个标签页索引
+	 * @description 使用模运算实现循环切换
+	 * - 向前切换:索引减1,如果小于0则跳到最后一个
+	 * - 向后切换:索引加1,如果超过数组长度则跳到第一个
+	 */
 	const nextIdx = direction === 'prev'
 		? (idx - 1 + tabOrder.length) % tabOrder.length
 		: (idx + 1) % tabOrder.length
+	// 更新当前激活的标签页
 	activeTab.value = tabOrder[nextIdx]
+	// 触发标签页切换处理
 	handleTabChange(activeTab.value)
 }
 

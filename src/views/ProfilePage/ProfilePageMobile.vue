@@ -47,57 +47,290 @@ import { useThemeStore } from '@/stores/theme'
 import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
 import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
 
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
-// Form refs - 表单引用
+
+// ===================== 表单引用区 =====================
+/**
+ * 个人信息表单引用
+ * @type {Ref<ElForm|null>}
+ * @description Element Plus表单组件引用,用于表单验证和提交
+ */
 const formRef = ref()
+/**
+ * 密码修改表单引用
+ * @type {Ref<ElForm|null>}
+ * @description 密码修改表单组件引用,用于密码表单验证
+ */
 const passwordFormRef = ref()
-// Loading states - 加载状态
+
+// ===================== 加载状态变量 =====================
+/**
+ * 数据加载状态
+ * @type {Ref<boolean>}
+ * @description 控制个人信息数据加载中的状态显示
+ */
 const isLoading = ref(false)
+/**
+ * 编辑模式状态
+ * @type {Ref<boolean>}
+ * @description 控制是否处于编辑模式,编辑模式下表单可编辑
+ */
 const isEditing = ref(false)
+/**
+ * 密码修改区域显示状态
+ * @type {Ref<boolean>}
+ * @description 控制密码修改区域的显示/隐藏
+ */
 const showPasswordSection = ref(false)
+/**
+ * 密码修改加载状态
+ * @type {Ref<boolean>}
+ * @description 控制密码修改操作加载中的状态显示
+ */
 const isPasswordLoading = ref(false)
+/**
+ * 考勤次数
+ * @type {Ref<number|null>}
+ * @description 用户累计签到次数
+ */
 const attendanceCount = ref(null)
+/**
+ * 学生数据库ID
+ * @type {Ref<number|null>}
+ * @description 学生数据库表主键ID,用于头像上传等操作
+ */
 const studentInfoId = ref(null)
+/**
+ * 头像URL
+ * @type {Ref<string|null>}
+ * @description 用户头像的URL地址
+ */
 const avatarUrl = ref(null)
+/**
+ * 头像加载状态
+ * @type {Ref<boolean>}
+ * @description 控制头像加载中的状态显示
+ */
 const avatarLoading = ref(false)
+/**
+ * 头像上传状态
+ * @type {Ref<boolean>}
+ * @description 控制头像上传操作加载中的状态显示
+ */
 const isUploading = ref(false)
-// File input ref - 文件输入引用
+
+// ===================== 文件输入引用 =====================
+/**
+ * 文件输入框引用
+ * @type {Ref<HTMLInputElement|null>}
+ * @description 隐藏的文件输入框引用,用于触发文件选择
+ */
 const fileInputRef = ref(null)
-// Crop refs - 裁剪相关引用
+
+// ===================== 头像裁剪相关引用 =====================
+/**
+ * 裁剪弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制头像裁剪弹窗的显示/隐藏
+ */
 const cropDialogVisible = ref(false)
+/**
+ * 裁剪画布引用
+ * @type {Ref<HTMLCanvasElement|null>}
+ * @description Canvas元素引用,用于绘制裁剪后的头像
+ */
 const cropCanvasRef = ref(null)
+/**
+ * 裁剪容器引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 裁剪区域的容器元素引用
+ */
 const cropWrapperRef = ref(null)
+/**
+ * 裁剪框引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 裁剪框元素引用,用于定义裁剪区域
+ */
 const cropBoxRef = ref(null)
-// Crop state - 裁剪状态
+
+// ===================== 头像裁剪状态变量 =====================
+/**
+ * 原始图片文件
+ * @type {Ref<File|null>}
+ * @description 用户选择的原始图片文件对象
+ */
 const originalImageFile = ref(null)
+/**
+ * 裁剪图片对象
+ * @type {Ref<HTMLImageElement|null>}
+ * @description 用于裁剪的图片对象引用
+ */
 const cropImage = ref(null)
+/**
+ * 图片缩放比例
+ * @type {Ref<number>}
+ * @description 图片的当前缩放比例,初始值为1(100%)
+ */
 const scale = ref(1)
-const minScale = ref(0.1) // 动态最小缩放比例,根据图片和裁剪框尺寸计算
+/**
+ * 最小缩放比例
+ * @type {Ref<number>}
+ * @description 动态最小缩放比例,根据图片和裁剪框尺寸计算
+ * 防止图片过度缩小,确保裁剪框始终被图片覆盖
+ */
+const minScale = ref(0.1)
+/**
+ * 图片X轴偏移量
+ * @type {Ref<number>}
+ * @description 图片在裁剪区域中的X轴位置偏移
+ */
 const imageX = ref(0)
+/**
+ * 图片Y轴偏移量
+ * @type {Ref<number>}
+ * @description 图片在裁剪区域中的Y轴位置偏移
+ */
 const imageY = ref(0)
+/**
+ * 头像裁剪状态
+ * @type {Ref<boolean>}
+ * @description 控制头像裁剪操作进行中的状态显示
+ */
 const isCropping = ref(false)
+/**
+ * 是否正在拖拽
+ * @type {Ref<boolean>}
+ * @description 标记用户是否正在拖拽图片
+ */
 const isDragging = ref(false)
+/**
+ * 拖拽起始X坐标
+ * @type {Ref<number>}
+ * @description 记录鼠标/触摸按下时的X坐标
+ */
 const dragStartX = ref(0)
+/**
+ * 拖拽起始Y坐标
+ * @type {Ref<number>}
+ * @description 记录鼠标/触摸按下时的Y坐标
+ */
 const dragStartY = ref(0)
+/**
+ * 拖拽起始图片X偏移
+ * @type {Ref<number>}
+ * @description 记录拖拽开始时的图片X轴偏移量
+ */
 const dragStartImageX = ref(0)
+/**
+ * 拖拽起始图片Y偏移
+ * @type {Ref<number>}
+ * @description 记录拖拽开始时的图片Y轴偏移量
+ */
 const dragStartImageY = ref(0)
-// 触摸捏合缩放相关
+
+// ===================== 触摸捏合缩放相关变量 =====================
+/**
+ * 是否正在捏合缩放
+ * @type {Ref<boolean>}
+ * @description 标记用户是否正在使用双指捏合缩放图片(移动端)
+ */
 const isPinching = ref(false)
+/**
+ * 初始捏合距离
+ * @type {Ref<number>}
+ * @description 记录捏合开始时的两指间距离
+ */
 const initialPinchDistance = ref(0)
+/**
+ * 初始捏合缩放比例
+ * @type {Ref<number>}
+ * @description 记录捏合开始时的图片缩放比例
+ */
 const initialPinchScale = ref(1)
+/**
+ * 初始捏合中心X坐标
+ * @type {Ref<number>}
+ * @description 记录捏合开始时的中心点X坐标
+ */
 const initialPinchCenterX = ref(0)
+/**
+ * 初始捏合中心Y坐标
+ * @type {Ref<number>}
+ * @description 记录捏合开始时的中心点Y坐标
+ */
 const initialPinchCenterY = ref(0)
-// 保存事件监听器引用,用于移除
+
+// ===================== 事件处理器引用 =====================
+/**
+ * 鼠标按下事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseDownHandler = null
+/**
+ * 鼠标移动事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseMoveHandler = null
+/**
+ * 鼠标抬起事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseUpHandler = null
+/**
+ * 鼠标滚轮事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let wheelHandler = null
+/**
+ * 触摸开始事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器(移动端)
+ */
 let touchStartHandler = null
+/**
+ * 触摸移动事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器(移动端)
+ */
 let touchMoveHandler = null
+/**
+ * 触摸结束事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器(移动端)
+ */
 let touchEndHandler = null
 
-// Form data - 表单数据
+// ===================== 表单数据定义区 =====================
+/**
+ * 个人信息表单数据
+ * @type {Reactive<Object>}
+ * @description 存储用户的个人信息,包含所有可编辑字段
+ * @property {string} name - 姓名
+ * @property {string} studentId - 学号
+ * @property {string} gender - 性别
+ * @property {string} phoneNumber - 手机号
+ * @property {string} college - 学院
+ * @property {string} major - 专业
+ * @property {number|null} grade - 年级
+ * @property {number|null} classNum - 班级
+ * @property {string} password - 密码(编辑时使用)
+ */
 const formData = reactive({
 	name: '',
 	studentId: '',
@@ -110,7 +343,14 @@ const formData = reactive({
 	password: ''
 })
 
-// Password form data - 密码表单数据
+/**
+ * 密码修改表单数据
+ * @type {Reactive<Object>}
+ * @description 存储密码修改相关的表单数据
+ * @property {string} oldPassword - 旧密码
+ * @property {string} newPassword - 新密码
+ * @property {string} confirmPassword - 确认新密码
+ */
 const passwordForm = reactive({
 	oldPassword: '',
 	newPassword: '',

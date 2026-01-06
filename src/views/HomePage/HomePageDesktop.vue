@@ -2,22 +2,47 @@
 /**
  * 首页组件(桌面端)
  * 
- * @description 展示系统介绍、快捷入口和环境保障机制
  * @component HomePageDesktop
+ * @description 展示系统介绍、快捷入口和环境保障机制
+ * 主要功能:
+ * 1. 展示AI坊学生管理系统的介绍和特色
+ * 2. 提供快捷功能入口(登录、数据看板、考勤分析等)
+ * 3. 展示环境保障机制和政策说明
+ * 4. 支持主题切换功能
+ * 
+ * @author 前端开发团队
+ * @version 1.0.0
  */
-import './css/HomePageDesktop.css'
-import { TrendCharts, Calendar, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
-import { ElIcon, ElDialog, ElButton } from 'element-plus'
-import { ref } from 'vue'
 
+// ===================== 样式和依赖导入区 =====================
+// 导入桌面端首页样式文件
+import './css/HomePageDesktop.css'
+// Element Plus 图标组件导入
+import { TrendCharts, Calendar, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
+// Element Plus 核心组件导入
+import { ElIcon, ElDialog, ElButton } from 'element-plus'
+// Vue3 响应式API导入
+import { ref } from 'vue'
+// 首页共用业务逻辑导入
 import { useHomePageLogic } from './js/HomePage.js'
+// Element Plus 基础样式导入(按需导入,减小打包体积)
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/dist/index.css'
 
-
-// 使用共用逻辑
+// ===================== 业务逻辑初始化 =====================
+/**
+ * 使用首页共用逻辑
+ * @description 从共用逻辑模块解构出页面跳转和主题切换方法
+ * 包含的方法:
+ * - toggleTheme: 切换明暗主题
+ * - goToLogin: 跳转到登录页
+ * - goToDashboard: 跳转到数据看板
+ * - goToAttendanceAnalysis: 跳转到考勤分析
+ * - goToPointsDashboard: 跳转到积分看板
+ * - goToAllMembers: 跳转到所有成员页面
+ */
 const {
 	toggleTheme,
 	goToLogin,
@@ -27,25 +52,55 @@ const {
 	goToAllMembers
 } = useHomePageLogic()
 
-// 导出组件以便在模板中使用
+/**
+ * 导出组件供模板使用
+ * @description 使用defineExpose暴露组件实例,供父组件或模板引用
+ */
 defineExpose({
 	ElIcon
 })
 
-// 桌面端特有逻辑
+// ===================== 桌面端特有逻辑 =====================
+/**
+ * 环境保障政策弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制环境保障政策说明弹窗的显示/隐藏
+ */
 const environmentPolicyVisible = ref(false)
+/**
+ * 环境保障政策弹窗关闭状态标记
+ * @type {Ref<boolean>}
+ * @description 防止弹窗关闭动画期间的重复关闭操作
+ */
 const isClosingEnvironmentPolicy = ref(false)
 
+/**
+ * 显示环境保障政策弹窗
+ * @function showEnvironmentPolicy
+ * @description 点击相关按钮时触发,显示环境保障政策说明弹窗
+ */
 const showEnvironmentPolicy = () => {
 	environmentPolicyVisible.value = true
 }
 
+/**
+ * 关闭环境保障政策弹窗
+ * @function closeEnvironmentPolicy
+ * @description 关闭弹窗并处理关闭动画,防止重复关闭和视觉闪烁
+ * 流程:
+ * 1. 检查是否正在关闭,防止重复操作
+ * 2. 手动隐藏遮罩层,避免视觉闪烁
+ * 3. 关闭弹窗
+ * 4. 重置关闭状态标记
+ */
 const closeEnvironmentPolicy = () => {
-	// 防止重复关闭
+	// 防止重复关闭:如果正在关闭中,直接返回
 	if (isClosingEnvironmentPolicy.value) { return }
+	// 标记为正在关闭状态
 	isClosingEnvironmentPolicy.value = true
 
-	// 先手动隐藏遮罩层，避免视觉闪烁
+	// 先手动隐藏遮罩层,避免视觉闪烁
+	// 通过DOM操作直接控制遮罩层的显示状态
 	const dialogWrapper = document.querySelector('.environment-policy-overlay')
 	if (dialogWrapper) {
 		dialogWrapper.style.display = 'none'
@@ -53,10 +108,11 @@ const closeEnvironmentPolicy = () => {
 		dialogWrapper.style.opacity = '0'
 	}
 
-	// 关闭弹窗
+	// 关闭弹窗:更新响应式状态
 	environmentPolicyVisible.value = false
 
-	// 重置关闭状态
+	// 重置关闭状态:在下一个事件循环中重置标记
+	// 确保关闭动画完成后才能再次关闭
 	setTimeout(() => {
 		isClosingEnvironmentPolicy.value = false
 	}, 0)
@@ -64,8 +120,11 @@ const closeEnvironmentPolicy = () => {
 </script>
 
 <template>
+	<!-- 首页根容器 -->
 	<div class="home-container">
+		<!-- 主题切换容器:固定在页面右上角 -->
 		<div class="theme-toggle-container">
+			<!-- 系统Logo:点击切换明暗主题 -->
 			<img
 				src="@/assets/AiWorkShop_icon.png"
 				alt="AI坊"
@@ -75,20 +134,30 @@ const closeEnvironmentPolicy = () => {
 			/>
 		</div>
 
+		<!-- 主要内容区域:包含系统介绍和功能入口 -->
 		<div class="hero-section">
 			<div class="hero-content">
+				<!-- 左侧内容区:系统介绍和操作按钮 -->
 				<div class="hero-left">
+					<!-- Logo和标题区域 -->
 					<div class="logo-section">
+						<!-- Logo容器:带发光效果 -->
 						<div class="logo-container">
 							<div class="logo-glow"/>
 						</div>
+						<!-- 主标题:系统名称 -->
 						<h1 class="main-title">厦门工学院人工智能创作坊</h1>
+						<!-- 副标题:系统类型 -->
 						<p class="main-subtitle">学生管理系统</p>
+						<!-- 标语:品牌口号 -->
 						<p class="tagline">世界很大 AI无限</p>
 					</div>
 
+					<!-- 系统介绍区域 -->
 					<div class="description-section">
+						<!-- 介绍标题 -->
 						<h2 class="section-title">欢迎使用AI坊学生管理系统</h2>
+						<!-- 第一段介绍:AI坊的定位和功能 -->
 						<p class="description">
 							&nbsp;&nbsp;&nbsp;&nbsp;厦门工学院人工智能创作坊（
 							<strong style="color: #ff6b6b;">AI坊</strong>）是学校根据智能学科发展特点，
@@ -98,6 +167,7 @@ const closeEnvironmentPolicy = () => {
 							<strong style="color: #45b7d1;">研发</strong>、
 							<strong style="color: #96ceb4;">展示推广</strong>于一体的创新平台。
 						</p>
+						<!-- 第二段介绍:AI坊的培养目标和愿景 -->
 						<p class="description">
 							&nbsp;&nbsp;&nbsp;&nbsp;我们以前沿特色项目实践为导向，
 							着重培养学生的<strong style="color: #f39c12;">AI实践应用能力</strong>与
@@ -110,12 +180,15 @@ const closeEnvironmentPolicy = () => {
 						</p>
 					</div>
 
+					<!-- 操作按钮区域 -->
 					<div class="action-section">
+						<!-- 立即体验按钮:跳转到登录页 -->
 						<el-button type="primary" class="action-button" @click="goToLogin">
 							<el-icon><arrow-right /></el-icon>
 							&nbsp;立即体验
 						</el-button>
 
+						<!-- 环境保障机制按钮:显示政策说明弹窗 -->
 						<el-button class="environment-policy-button" @click="showEnvironmentPolicy">
 							<el-icon><office-building /></el-icon>
 							&nbsp;环境保障机制
@@ -123,8 +196,10 @@ const closeEnvironmentPolicy = () => {
 					</div>
 				</div>
 
+				<!-- 右侧内容区:功能卡片展示 -->
 				<div class="hero-right">
 					<div class="features-showcase">
+						<!-- 数据看板功能卡片:点击跳转到数据看板页面 -->
 						<div class="feature-card primary" title="点击查看数据看板" @click="goToDashboard">
 							<div class="feature-icon">
 								<el-icon><trend-charts /></el-icon>
@@ -133,6 +208,7 @@ const closeEnvironmentPolicy = () => {
 							<p>实时展示签到排行、考勤统计、成员数据</p>
 						</div>
 
+						<!-- 考勤分析功能卡片:点击跳转到考勤分析页面 -->
 						<div class="feature-card secondary" title="点击查看考勤分析" @click="goToAttendanceAnalysis">
 							<div class="feature-icon">
 								<el-icon><calendar /></el-icon>
@@ -141,6 +217,7 @@ const closeEnvironmentPolicy = () => {
 							<p>可视化展示签到趋势、出勤率统计</p>
 						</div>
 
+						<!-- 积分看板功能卡片:点击跳转到积分看板页面 -->
 						<div class="feature-card tertiary" title = "点击查看积分看板" @click="goToPointsDashboard">
 							<div class="feature-icon">
 								<el-icon><star /></el-icon>
@@ -149,6 +226,7 @@ const closeEnvironmentPolicy = () => {
 							<p>展示成员积分排行和优秀成员信息</p>
 						</div>
 
+						<!-- 全部成员功能卡片:点击跳转到所有成员页面 -->
 						<div class="feature-card quaternary" title = "点击查看全部成员" @click="goToAllMembers">
 							<div class="feature-icon">
 								<el-icon><user /></el-icon>
@@ -162,10 +240,13 @@ const closeEnvironmentPolicy = () => {
 		</div>
 
 
+		<!-- 页脚区域:作者信息和联系方式 -->
 		<div class="footer">
 			<div class="footer-content">
 				<div class="author-info">
+					<!-- 作者名称 -->
 					<p>项目作者：郑恩赐</p>
+					<!-- 作者联系方式:邮箱和社交媒体链接 -->
 					<div class="author-links">
 						<span class="author-contact">📧 zheng_enci@qq.com</span>
 						<a href="https://gitee.com/zheng-enci050704" target="_blank" class="author-link">🔗 Gitee</a>
@@ -175,6 +256,7 @@ const closeEnvironmentPolicy = () => {
 			</div>
 		</div>
 
+		<!-- 环境保障机制弹窗:显示AI坊的日常环境保障政策 -->
 		<el-dialog
 			v-if="environmentPolicyVisible"
 			v-model="environmentPolicyVisible"

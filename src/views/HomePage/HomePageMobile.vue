@@ -18,21 +18,51 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import './css/HomePageMobile.css'
 
-// 路由实例
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
-// 主题Store实例
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 主题切换方法
+ * @type {Function}
+ * @description 解构自主题Store,用于切换明暗主题
+ */
 const { toggleTheme } = themeStore
 
-// 更新日志对话框显示状态
+// ===================== 响应式变量定义区 =====================
+/**
+ * 更新日志对话框显示状态
+ * @type {Ref<boolean>}
+ * @description 控制系统更新日志弹窗的显示/隐藏
+ */
 const updateLogVisible = ref(false)
-// 环境保障机制对话框显示状态
+/**
+ * 环境保障机制对话框显示状态
+ * @type {Ref<boolean>}
+ * @description 控制环境保障机制说明弹窗的显示/隐藏
+ */
 const environmentPolicyVisible = ref(false)
-// 开发者头像URL
+/**
+ * 开发者头像URL
+ * @type {Ref<string>}
+ * @description 存储项目开发者的头像图片URL地址
+ */
 const developerAvatar = ref('')
 
+// ===================== 页面跳转方法区 =====================
 /**
  * 跳转到登录页
+ * @function goToLogin
+ * @description 点击"立即体验"按钮时触发,跳转到用户登录页面
  */
 const goToLogin = () => {
 	router.push('/login')
@@ -40,6 +70,8 @@ const goToLogin = () => {
 
 /**
  * 跳转到数据看板
+ * @function goToDashboard
+ * @description 点击数据看板功能卡片时触发,跳转到数据看板页面
  */
 const goToDashboard = () => {
 	router.push('/dashboard')
@@ -47,6 +79,8 @@ const goToDashboard = () => {
 
 /**
  * 跳转到考勤分析页
+ * @function goToAttendanceAnalysis
+ * @description 点击签到分析功能卡片时触发,跳转到考勤分析页面
  */
 const goToAttendanceAnalysis = () => {
 	router.push('/attendance-analysis')
@@ -54,6 +88,8 @@ const goToAttendanceAnalysis = () => {
 
 /**
  * 跳转到积分看板页
+ * @function goToPointsDashboard
+ * @description 点击积分看板功能卡片时触发,跳转到积分看板页面
  */
 const goToPointsDashboard = () => {
 	router.push('/points-dashboard')
@@ -61,27 +97,45 @@ const goToPointsDashboard = () => {
 
 /**
  * 跳转到全部成员页
+ * @function goToAllMembers
+ * @description 点击全部成员功能卡片时触发,跳转到所有成员页面
  */
 const goToAllMembers = () => {
 	router.push('/all-members')
 }
 
+// ===================== 业务逻辑方法区 =====================
 /**
  * 加载开发者头像
+ * @function loadDeveloperAvatar
+ * @description 从API获取开发者头像URL,失败时使用默认头像
+ * 流程:
+ * 1. 调用getAvatarUrl函数获取ID为1的用户头像
+ * 2. 如果获取成功,更新头像URL
+ * 3. 如果获取失败,使用默认头像URL作为fallback
  */
 const loadDeveloperAvatar = () => {
-	// 使用项目统一的getAvatarUrl函数获取id为1的头像
+	/**
+	 * 使用项目统一的getAvatarUrl函数获取id为1的头像
+	 * @description ID为1通常代表项目开发者或管理员
+	 */
 	const avatarUrl = getAvatarUrl(1)
 	if (avatarUrl) {
+		// 成功获取头像URL,更新状态
 		developerAvatar.value = avatarUrl
 	} else {
-		// 如果获取失败,使用默认头像
+		/**
+		 * 如果获取失败,使用默认头像
+		 * @description 使用字节跳动的默认头像作为fallback,确保始终有头像显示
+		 */
 		developerAvatar.value = 'https://p3-passport.byteacctimg.com/img/user-avatar/835c1120c7584cc5fc44606adacd40b0~200x200.awebp'
 	}
 }
 
 /**
  * 显示环境保障机制对话框
+ * @function showEnvironmentPolicy
+ * @description 点击"环境保障机制"按钮时触发,显示政策说明弹窗
  */
 const showEnvironmentPolicy = () => {
 	environmentPolicyVisible.value = true
@@ -89,6 +143,8 @@ const showEnvironmentPolicy = () => {
 
 /**
  * 关闭环境保障机制对话框
+ * @function closeEnvironmentPolicy
+ * @description 关闭环境保障机制说明弹窗
  */
 const closeEnvironmentPolicy = () => {
 	environmentPolicyVisible.value = false
@@ -96,13 +152,18 @@ const closeEnvironmentPolicy = () => {
 
 /**
  * 关闭更新日志对话框
+ * @function handleClose
+ * @description 关闭系统更新日志弹窗
  */
 const handleClose = () => {
 	updateLogVisible.value = false
 }
 
+// ===================== 生命周期钩子 =====================
 /**
- * 组件挂载时加载开发者头像
+ * 组件挂载生命周期钩子
+ * @description 组件挂载完成后立即加载开发者头像
+ * 确保页面显示时能够展示开发者信息
  */
 onMounted(() => {
 	loadDeveloperAvatar()

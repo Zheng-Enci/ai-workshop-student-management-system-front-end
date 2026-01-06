@@ -39,34 +39,141 @@ echarts.use([
 	CanvasRenderer
 ])
 
-// 初始化路由和Store
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 主题切换方法
+ * @type {Function}
+ * @description 解构自主题Store,用于切换明暗主题
+ */
 const { toggleTheme } = themeStore
 
+// ===================== 响应式变量定义区 =====================
+/**
+ * 当前激活的标签页
+ * @type {Ref<string>}
+ * @description 控制显示哪个排行榜:'total'|'signIn'|'activity'
+ */
 const activeTab = ref('total')
+/**
+ * 选中的排行榜显示数量
+ * @type {number}
+ * @description Java Integer最大值,表示无上限显示所有数据
+ */
 const selectedTopN = 2147483647 // Java Integer 最大值，无上限
+/**
+ * 总积分排行榜显示数量
+ * @type {number}
+ * @description Java Integer最大值,表示无上限显示所有数据
+ */
 const totalRankingTopN = 2147483647 // Java Integer 最大值，无上限
+/**
+ * 签到积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按签到积分排序的学生列表
+ */
 const signInRanking = ref([])
+/**
+ * 活动积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按活动积分排序的学生列表
+ */
 const activityRanking = ref([])
+/**
+ * 总积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按总积分排序的学生列表
+ */
 const totalRanking = ref([])
+/**
+ * 优秀学生列表
+ * @type {Ref<Array>}
+ * @description 存储排名靠前的学生数据
+ */
 const topStudents = ref([])
+/**
+ * 签到积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制签到积分数据加载中的状态显示
+ */
 const signInLoading = ref(false)
+/**
+ * 总积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制总积分数据加载中的状态显示
+ */
 const totalLoading = ref(true)
+/**
+ * 已加载的数据数量
+ * @type {Ref<number>}
+ * @description 记录已加载的学生数据数量,用于进度显示
+ */
 const loadedCount = ref(0)
 
-// 统计数据
+// ===================== 统计数据变量 =====================
+/**
+ * 总学生数量
+ * @type {Ref<number>}
+ * @description 系统中所有学生的总数
+ */
 const totalCount = ref(0)
+/**
+ * 学院统计
+ * @type {Ref<Object>}
+ * @description 按学院分类的学生数量统计
+ */
 const collegeStats = ref({})
+/**
+ * 专业统计
+ * @type {Ref<Object>}
+ * @description 按专业分类的学生数量统计
+ */
 const majorStats = ref({})
+/**
+ * 性别统计
+ * @type {Ref<Object>}
+ * @description 按性别分类的学生数量统计
+ */
 const genderStats = ref({})
+/**
+ * 年级统计
+ * @type {Ref<Object>}
+ * @description 按年级分类的学生数量统计
+ */
 const gradeStats = ref({})
 
-// 搜索功能
+// ===================== 搜索功能变量 =====================
+/**
+ * 搜索关键词
+ * @type {Ref<string>}
+ * @description 用户输入的搜索关键词,用于筛选学生
+ */
 const searchKeyword = ref('')
+/**
+ * 筛选后的学生列表
+ * @type {Ref<Array>}
+ * @description 根据搜索关键词筛选后的学生数据列表
+ */
 const filteredStudents = ref([])
 
-// 随机文案相关 - 128句技术相关激励文案
+// ===================== 随机文案相关 =====================
+/**
+ * 技术相关激励文案数组
+ * @type {Array<string>}
+ * @description 包含128句技术相关的激励文案,用于页面随机展示
+ * 文案内容涵盖编程、学习、成长等主题,激励学生持续学习
+ */
 const quotes = [
 	'每一行代码，都是向梦想更近一步',
 	'今天的代码，是明天产品的基石',
@@ -199,54 +306,109 @@ const quotes = [
 	'你的代码版本控制，记录了成长的轨迹'
 ]
 
+/**
+ * 当前显示的文案
+ * @type {Ref<string>}
+ * @description 当前正在显示的激励文案内容
+ */
 const currentQuote = ref('')
+/**
+ * 文案显示状态
+ * @type {Ref<boolean>}
+ * @description 控制文案的显示/隐藏,用于淡入淡出动画
+ */
 const showQuote = ref(false)
+/**
+ * 文案轮播定时器
+ * @type {number|null}
+ * @description 存储文案轮播的定时器ID,用于清除定时器
+ */
 let quoteTimer = null
+/**
+ * 上次显示的文案索引
+ * @type {number}
+ * @description 记录上次显示的文案在数组中的索引,避免连续显示相同文案
+ */
 let lastQuoteIndex = -1
 
-// 获取随机文案（避免连续显示相同文案）
+// ===================== 随机文案方法区 =====================
+/**
+ * 获取随机文案
+ * @function getRandomQuote
+ * @description 从文案数组中随机选择一条文案,确保不连续显示相同文案
+ * @returns {string} 随机选择的激励文案
+ */
 const getRandomQuote = () => {
 	let randomIndex
-	// 如果只有一条文案，直接返回
+	// 如果只有一条文案,直接返回
 	if (quotes.length === 1) {
 		return quotes[0]
 	}
-	// 确保不连续显示相同的文案
+	/**
+	 * 确保不连续显示相同的文案
+	 * @description 通过循环确保新选择的文案索引与上次不同
+	 */
 	do {
 		randomIndex = Math.floor(Math.random() * quotes.length)
 	} while (randomIndex === lastQuoteIndex && quotes.length > 1)
 
+	// 记录当前文案索引
 	lastQuoteIndex = randomIndex
 	return quotes[randomIndex]
 }
 
-// 更新文案（带淡入淡出效果）
+/**
+ * 更新文案(带淡入淡出效果)
+ * @function updateQuote
+ * @description 更新显示的文案,先淡出再淡入,实现平滑过渡效果
+ * 淡出时间400ms,然后显示新文案并淡入
+ */
 const updateQuote = () => {
+	// 先隐藏当前文案(淡出)
 	showQuote.value = false
+	// 等待淡出动画完成后显示新文案
 	setTimeout(() => {
 		currentQuote.value = getRandomQuote()
-		showQuote.value = true
+		showQuote.value = true // 淡入显示新文案
 	}, 400) // 淡出时间
 }
 
-// 启动文案轮播
+/**
+ * 启动文案轮播
+ * @function startQuoteRotation
+ * @description 启动文案自动轮播功能
+ * 流程:
+ * 1. 立即显示第一条随机文案
+ * 2. 每隔5-8秒随机间隔更新一次文案
+ * 3. 使用递归调用实现持续轮播
+ */
 const startQuoteRotation = () => {
-	// 立即显示第一条
+	// 立即显示第一条随机文案
 	currentQuote.value = getRandomQuote()
 	showQuote.value = true
 
-	// 每隔一段时间刷新（5-8秒随机间隔，增加自然感）
+	/**
+	 * 安排下一次文案更新
+	 * @description 使用递归调用实现持续轮播
+	 * 随机间隔5-8秒,增加自然感,避免过于机械
+	 */
 	const scheduleNext = () => {
-		const delay = 5000 + Math.random() * 3000 // 5-8秒随机
+		// 5-8秒随机间隔
+		const delay = 5000 + Math.random() * 3000
 		quoteTimer = setTimeout(() => {
 			updateQuote()
-			scheduleNext()
+			scheduleNext() // 递归调用,实现持续轮播
 		}, delay)
 	}
 	scheduleNext()
 }
 
-// 停止文案轮播
+/**
+ * 停止文案轮播
+ * @function stopQuoteRotation
+ * @description 清除文案轮播定时器,停止自动更新
+ * 在组件卸载时调用,避免内存泄漏
+ */
 const stopQuoteRotation = () => {
 	if (quoteTimer) {
 		clearTimeout(quoteTimer)
@@ -254,27 +416,99 @@ const stopQuoteRotation = () => {
 	}
 }
 
-// 改分记录弹窗相关
+// ===================== 改分记录弹窗相关变量 =====================
+/**
+ * 改分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录弹窗的显示/隐藏
+ */
 const recordsDialogVisible = ref(false)
+/**
+ * 当前选中的学生
+ * @type {Ref<Object|null>}
+ * @description 存储当前查看改分记录的学生信息
+ */
 const currentStudent = ref(null)
+/**
+ * 所有改分记录
+ * @type {Ref<Array>}
+ * @description 存储当前学生的所有积分调整记录
+ */
 const allRecords = ref([])
+/**
+ * 改分记录加载状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录数据加载中的状态显示
+ */
 const recordsLoading = ref(false)
 
-// 统计数据弹窗
+// ===================== 统计数据弹窗相关变量 =====================
+/**
+ * 统计数据弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制统计数据弹窗的显示/隐藏
+ */
 const statisticsDialogVisible = ref(false)
+/**
+ * 统计数据弹窗关闭状态标记
+ * @type {Ref<boolean>}
+ * @description 防止弹窗关闭动画期间的重复关闭操作
+ */
 const isClosingStatisticsDialog = ref(false)
 
+// ===================== 图表相关变量 =====================
+/**
+ * 签到积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 签到积分柱状图的DOM元素引用
+ */
 const signInChart = ref(null)
+/**
+ * 活动积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 活动积分柱状图的DOM元素引用
+ */
 const activityChart = ref(null)
+/**
+ * 总积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 总积分柱状图的DOM元素引用
+ */
 const totalChart = ref(null)
+/**
+ * 签到积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts签到积分图表实例
+ */
 let signInChartInstance = null
+/**
+ * 活动积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts活动积分图表实例
+ */
 let activityChartInstance = null
+/**
+ * 总积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts总积分图表实例
+ */
 let totalChartInstance = null
 
+// ===================== 页面跳转方法区 =====================
+/**
+ * 返回上一页
+ * @function goBack
+ * @description 点击返回按钮时触发,跳转到导航页面
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 跳转到积分看板页面
+ * @function goToPointsDashboard
+ * @description 点击积分看板入口时触发,跳转到积分看板页面
+ */
 const goToPointsDashboard = () => {
 	router.push('/points-dashboard')
 }

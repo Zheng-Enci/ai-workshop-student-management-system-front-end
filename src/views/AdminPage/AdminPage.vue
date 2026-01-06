@@ -5,13 +5,22 @@
  * @description 负责检测设备类型,并根据设备类型重定向到对应的桌面版或移动版管理员页面
  * @component AdminPage
  */
+// Element Plus 图标组件导入
 import { ElIcon } from 'element-plus'
+// Vue3 生命周期钩子导入
 import { onMounted } from 'vue'
+// Element Plus 图标样式导入
 import 'element-plus/theme-chalk/el-icon.css'
+// Element Plus 加载图标组件导入
 import { Loading } from '@element-plus/icons-vue'
+// Vue Router 路由功能导入
 import { useRouter } from 'vue-router'
 
-// 路由实例,用于页面跳转
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
 
 /**

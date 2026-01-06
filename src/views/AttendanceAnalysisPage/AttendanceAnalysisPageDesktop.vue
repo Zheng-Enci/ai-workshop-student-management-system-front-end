@@ -49,9 +49,24 @@ import { getTodayAttendanceRecords, getDailyAttendanceCountInRange } from '@/api
 import { getStudentLevel } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
 
-// 路由和主题Store
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 主题切换方法
+ * @type {Function}
+ * @description 解构自主题Store,用于切换明暗主题
+ */
 const { toggleTheme } = themeStore
 
 /**
@@ -122,26 +137,101 @@ const handleThemeToggle = () => {
 	})
 }
 
+// ===================== 响应式变量定义区 =====================
+/**
+ * 数据加载状态
+ * @type {Ref<boolean>}
+ * @description 控制数据加载中的状态显示
+ */
 const isLoading = ref(false)
+/**
+ * 最后更新时间
+ * @type {Ref<string>}
+ * @description 记录数据最后更新的时间字符串
+ */
 const lastUpdateTime = ref('')
+/**
+ * 考勤记录列表
+ * @type {Ref<Array>}
+ * @description 存储所有考勤记录数据
+ */
 const attendanceRecords = ref([])
+/**
+ * 总考勤次数
+ * @type {Ref<number>}
+ * @description 累计签到总次数
+ */
 const totalAttendance = ref(0)
+/**
+ * 时段统计数据
+ * @type {Ref<Object>}
+ * @description 按时段分类的签到次数统计
+ * @property {number} morning - 上午签到次数
+ * @property {number} afternoon - 下午签到次数
+ * @property {number} evening - 晚上签到次数
+ */
 const periodStats = ref({
 	morning: 0,
 	afternoon: 0,
 	evening: 0
 })
+/**
+ * 排行榜列表
+ * @type {Ref<Array>}
+ * @description 存储签到排行榜的学生数据
+ */
 const rankingList = ref([])
+/**
+ * 最早签到记录
+ * @type {Ref<Object|null>}
+ * @description 记录最早的一次签到信息
+ */
 const latestAttendance = ref(null)
+/**
+ * 最晚签到记录
+ * @type {Ref<Object|null>}
+ * @description 记录最晚的一次签到信息
+ */
 const earliestAttendance = ref(null)
+/**
+ * 平均签到时间
+ * @type {Ref<string>}
+ * @description 计算得出的平均签到时间字符串
+ */
 const averageTime = ref('')
+/**
+ * 学生详细信息
+ * @type {Ref<Object>}
+ * @description 存储学生的详细信息数据
+ */
 const studentDetails = ref({})
 
+/**
+ * 选中的时间范围
+ * @type {Ref<string>}
+ * @description 时间范围选择:'today'|'week'|'month'|'custom'
+ */
 const selectedTimeRange = ref('today')
+/**
+ * 自定义日期范围
+ * @type {Ref<Array>}
+ * @description 用户自定义的日期范围数组[startDate, endDate]
+ */
 const customDateRange = ref([])
+/**
+ * 时间线数据
+ * @type {Ref<Array>}
+ * @description 用于时间线图表展示的数据
+ */
 const timelineData = ref([])
 
-// 项目启动日期,用于过滤在此之前的数据
+// ===================== 常量定义区 =====================
+/**
+ * 项目启动日期
+ * @type {Date}
+ * @description 项目正式启动的日期,用于过滤在此之前的数据
+ * 避免显示项目启动前的无效数据
+ */
 const PROJECT_LAUNCH_DATE = new Date('2025-09-09T00:00:00')
 
 /**

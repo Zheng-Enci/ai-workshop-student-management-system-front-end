@@ -44,30 +44,110 @@ import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 
-// 初始化路由
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
 
-// 初始化 Pinia 仓库
+/**
+ * 用户状态仓库实例
+ * @type {Store}
+ * @description 管理用户登录态、用户信息存储
+ */
 const userStore = useUserStore()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 主题切换方法
+ * @type {Function}
+ * @description 解构自主题Store,用于切换明暗主题
+ */
 const { toggleTheme } = themeStore
 
-// 响应式数据定义
+// ===================== 响应式变量定义区 =====================
+/**
+ * 考勤次数
+ * @type {Ref<number|null>}
+ * @description 用户累计签到次数
+ */
 const attendanceCount = ref(null)
+/**
+ * 签到积分
+ * @type {Ref<number|null>}
+ * @description 通过签到获得的积分
+ */
 const signInPoints = ref(null)
+/**
+ * 活动积分
+ * @type {Ref<number|null>}
+ * @description 通过参与活动获得的积分
+ */
 const activityPoints = ref(null)
+/**
+ * 总积分
+ * @type {Ref<number|null>}
+ * @description 用户累计总积分
+ */
 const totalPoints = ref(null)
+/**
+ * 积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制积分数据加载中的状态显示
+ */
 const pointsLoading = ref(false)
+/**
+ * 用户头像URL
+ * @type {Ref<string|null>}
+ * @description 用户自定义头像的URL地址
+ */
 const avatarUrl = ref(null)
+/**
+ * 是否有头像
+ * @type {Ref<boolean>}
+ * @description 标记用户是否已上传自定义头像
+ */
 const hasAvatar = ref(false)
+/**
+ * 头像加载状态
+ * @type {Ref<boolean>}
+ * @description 控制头像加载中的状态显示
+ */
 const avatarLoading = ref(false)
+/**
+ * 头像提示是否已显示
+ * @type {Ref<boolean>}
+ * @description 控制"上传头像"提示只显示一次
+ */
 const avatarTipShown = ref(false)
 
-// 计算属性:判断是否为管理员
+// ===================== 计算属性区 =====================
+/**
+ * 是否为管理员
+ * @type {ComputedRef<boolean>}
+ * @description 根据用户等级判断是否为管理员(等级码为3)
+ */
 const isAdmin = computed(() => userStore.studentLevel?.levelCode === 3)
 
-// 方法：根据等级编码获取等级名称
+// ===================== 工具方法区 =====================
+/**
+ * 获取等级名称
+ * @function getLevelName
+ * @description 根据等级码返回对应的等级名称
+ * @param {number} levelCode - 等级码(0-3)
+ * @returns {string} 等级名称
+ */
 const getLevelName = levelCode => {
+	/**
+	 * 等级码与名称的映射关系
+	 * @type {Object<number, string>}
+	 */
 	const levelMap = {
 		0: '社团成员',
 		1: '普通成员',
@@ -77,8 +157,18 @@ const getLevelName = levelCode => {
 	return levelMap[levelCode] || '未知等级'
 }
 
-// 方法：根据等级编码获取等级样式类
+/**
+ * 获取等级CSS类名
+ * @function getLevelClass
+ * @description 根据等级码返回对应的CSS类名,用于样式控制
+ * @param {number} levelCode - 等级码(0-3)
+ * @returns {string} CSS类名
+ */
 const getLevelClass = levelCode => {
+	/**
+	 * 等级码与CSS类名的映射关系
+	 * @type {Object<number, string>}
+	 */
 	const levelClassMap = {
 		0: 'club-member',
 		1: 'normal-member',
@@ -88,60 +178,126 @@ const getLevelClass = levelCode => {
 	return levelClassMap[levelCode] || 'club-member'
 }
 
-// 路由跳转方法
+// ===================== 页面跳转方法区 =====================
+/**
+ * 跳转到签到页面
+ * @function goToAttendance
+ * @description 点击签到入口时触发,跳转到签到页面
+ */
 const goToAttendance = () => {
 	router.push('/attendance')
 }
 
+/**
+ * 跳转到首页
+ * @function goToHome
+ * @description 点击首页入口时触发,返回系统首页
+ */
 const goToHome = () => {
 	router.push('/')
 }
 
+/**
+ * 显示个人资料页面
+ * @function showProfile
+ * @description 点击个人资料入口时触发,跳转到个人资料页面
+ */
 const showProfile = () => {
 	router.push('/profile')
 }
 
+/**
+ * 处理头像点击事件
+ * @function handleAvatarClick
+ * @description 点击用户头像时触发,跳转到桌面端个人资料页面
+ */
 const handleAvatarClick = () => {
 	router.push('/profile/desktop')
 }
 
+/**
+ * 跳转到数据看板页面
+ * @function goToDashboard
+ * @description 点击数据看板入口时触发,跳转到数据看板页面
+ */
 const goToDashboard = () => {
 	router.push('/dashboard')
 }
 
+/**
+ * 跳转到考勤分析页面
+ * @function goToAttendanceAnalysis
+ * @description 点击考勤分析入口时触发,跳转到考勤分析页面
+ */
 const goToAttendanceAnalysis = () => {
 	router.push('/attendance-analysis')
 }
 
+/**
+ * 跳转到积分看板页面
+ * @function goToPointsDashboard
+ * @description 点击积分看板入口时触发,跳转到积分看板页面
+ */
 const goToPointsDashboard = () => {
 	router.push('/points-dashboard')
 }
 
+/**
+ * 跳转到所有成员页面
+ * @function goToAllMembers
+ * @description 点击所有成员入口时触发,跳转到所有成员页面
+ */
 const goToAllMembers = () => {
 	router.push('/all-members')
 }
 
+/**
+ * 跳转到积分变更记录页面
+ * @function goToScoreChangeRecords
+ * @description 点击积分变更记录入口时触发,跳转到积分变更记录页面
+ */
 const goToScoreChangeRecords = () => {
 	router.push('/score-change-records')
 }
 
+/**
+ * 跳转到管理员页面
+ * @function goToAdmin
+ * @description 点击管理员入口时触发,跳转到学生管理页面(仅管理员可见)
+ */
 const goToAdmin = () => {
 	router.push('/student-manager')
 }
 
-// 加载签到次数
+// ===================== 数据加载方法区 =====================
+/**
+ * 加载考勤次数
+ * @function loadAttendanceCount
+ * @description 从API获取用户的累计签到次数,并计算对应的签到积分
+ * 积分计算规则: 签到次数 × 0.64 (四舍五入)
+ * @async
+ * @returns {Promise<void>}
+ */
 const loadAttendanceCount = async () => {
 	try {
+		// 从本地存储获取登录token
 		const token = localStorage.getItem('token')
+		// 无token时直接返回,不执行后续操作
 		if (!token) { return }
 
+		// 调用API获取签到次数
 		const response = await getMyAttendanceCount(token)
 		if (response.code === 200) {
+			// 更新考勤次数
 			attendanceCount.value = response.data.count
-			// 计算签到积分：签到次数 * 0.64（四舍五入）
+			/**
+			 * 计算签到积分
+			 * @description 根据签到次数计算积分,每次签到获得0.64积分,四舍五入取整
+			 */
 			signInPoints.value = Math.round(response.data.count * 0.64)
 		}
 	} catch (error) {
+		// Token失效处理:清除本地存储并跳转到登录页
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
@@ -150,31 +306,55 @@ const loadAttendanceCount = async () => {
 	}
 }
 
-// 加载积分数据
+/**
+ * 加载积分数据
+ * @function loadPoints
+ * @description 并行加载签到积分和活动积分,计算总积分
+ * 流程:
+ * 1. 并行获取签到次数和学生数据库ID
+ * 2. 根据签到次数计算签到积分
+ * 3. 根据学生ID获取活动积分
+ * 4. 计算总积分 = 签到积分 + 活动积分
+ * @async
+ * @returns {Promise<void>}
+ */
 const loadPoints = async () => {
 	try {
+		// 开启积分加载状态
 		pointsLoading.value = true
+		// 从本地存储获取登录token
 		const token = localStorage.getItem('token')
 
+		// 无token时关闭加载状态并返回
 		if (!token) {
 			pointsLoading.value = false
 			return
 		}
 
-		// 并行请求签到数据和学生ID数据
+		/**
+		 * 并行请求签到数据和学生ID数据
+		 * @description 使用Promise.all同时请求两个接口,提升加载效率
+		 * 使用catch处理单个请求失败,避免整体失败
+		 */
 		const [attendanceResponse, studentIdResponse] = await Promise.all([
 			getMyAttendanceCount(token).catch(() => ({ code: 0, data: { count: 0 } })),
 			getStudentDatabaseTableId(token).catch(() => ({ code: 0, data: null }))
 		])
 
-		// 计算签到积分
+		/**
+		 * 计算签到积分
+		 * @description 根据签到次数计算积分,失败时设为0
+		 */
 		if (attendanceResponse.code === 200) {
 			signInPoints.value = Math.round(attendanceResponse.data.count * 0.64)
 		} else {
 			signInPoints.value = 0
 		}
 
-		// 获取活动积分
+		/**
+		 * 获取活动积分
+		 * @description 需要先获取学生数据库ID,再根据ID获取活动积分
+		 */
 		if (studentIdResponse.code === 200 && studentIdResponse.data) {
 			const activityResponse = await getTotalPointsByStudentInfoId(
 				studentIdResponse.data
@@ -188,7 +368,11 @@ const loadPoints = async () => {
 			activityPoints.value = 0
 		}
 
-		// 计算总积分
+		/**
+		 * 计算总积分
+		 * @description 总积分 = 签到积分 + 活动积分
+		 * 使用||0确保null/undefined时默认为0
+		 */
 		totalPoints.value = (signInPoints.value || 0) + (activityPoints.value || 0)
 	} catch (error) {
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {

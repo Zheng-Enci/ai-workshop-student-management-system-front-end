@@ -560,6 +560,7 @@ onMounted(() => {
 /**
  * 局部样式作用域：导入注册页面专属样式文件
  * @description 包含布局、颜色、间距、表单样式等核心样式，与主题变量联动
+ * 样式文件路径: ./css/RegisterPage.css
  */
 @import './css/RegisterPage.css';
 </style>
@@ -568,106 +569,188 @@ onMounted(() => {
 /**
  * 全局样式（非scoped）：下拉选择器自定义样式
  * @description 适配主题变量，优化下拉框视觉效果，包含悬浮/选中态、层级、背景等
+ * 注意: 这些样式需要全局作用域，因为Element Plus下拉框会渲染到body下
  */
 
-/* 性别下拉框样式 */
+/**
+ * 性别下拉框样式
+ * @description 性别选择下拉框的容器样式，包含毛玻璃效果和主题适配
+ */
 .gender-select-dropdown {
-	z-index: 3000 !important; /* 提高层级，避免被遮挡 */
+	/* 提高层级，确保下拉框显示在其他元素之上 */
+	z-index: 3000 !important;
+	/* 内边距：上下8px，左右0 */
 	padding: 8px 0;
-	background: var(--bg-primary); /* 主题变量：背景色 */
+	/* 背景色使用主题变量，支持亮色/暗色模式切换 */
+	background: var(--bg-primary);
+	/* 半透明边框，增强视觉层次 */
 	border: 1px solid rgb(255 255 255 / 0.2);
+	/* 圆角边框，提升现代感 */
 	border-radius: 12px;
+	/* 阴影效果，增强立体感 */
 	box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
-	backdrop-filter: blur(20px); /* 毛玻璃效果 */
+	/* 毛玻璃背景模糊效果 */
+	backdrop-filter: blur(20px);
 }
 
-/* 学院下拉框样式 */
+/**
+ * 学院下拉框样式
+ * @description 学院选择下拉框的容器样式，与性别下拉框保持一致的设计风格
+ */
 .college-select-dropdown {
+	/* 提高层级，避免被其他元素遮挡 */
 	z-index: 3000 !important;
-	min-width: auto; /* 自适应宽度 */
-	background: var(--bg-primary);
-	border: 1px solid rgb(255 255 255 / 0.2);
-	border-radius: 12px;
-	box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
-	backdrop-filter: blur(20px);
-}
-
-/* 年级下拉框样式 */
-.grade-select-dropdown {
-	z-index: 3000 !important;
+	/* 最小宽度自适应，根据内容自动调整 */
 	min-width: auto;
+	/* 背景色使用主题变量 */
 	background: var(--bg-primary);
+	/* 半透明边框 */
 	border: 1px solid rgb(255 255 255 / 0.2);
+	/* 圆角边框 */
 	border-radius: 12px;
+	/* 阴影效果 */
 	box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+	/* 毛玻璃背景模糊效果 */
 	backdrop-filter: blur(20px);
 }
 
-/* 下拉选项通用样式 */
+/**
+ * 年级下拉框样式
+ * @description 年级选择下拉框的容器样式，保持与其他下拉框一致的设计
+ */
+.grade-select-dropdown {
+	/* 提高层级 */
+	z-index: 3000 !important;
+	/* 最小宽度自适应 */
+	min-width: auto;
+	/* 背景色使用主题变量 */
+	background: var(--bg-primary);
+	/* 半透明边框 */
+	border: 1px solid rgb(255 255 255 / 0.2);
+	/* 圆角边框 */
+	border-radius: 12px;
+	/* 阴影效果 */
+	box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+	/* 毛玻璃背景模糊效果 */
+	backdrop-filter: blur(20px);
+}
+
+/**
+ * 下拉选项通用样式
+ * @description 所有下拉框选项的基础样式，包含布局、间距、文字样式等
+ * 适用于: 性别、学院、年级三个下拉框的选项
+ */
 .gender-select-dropdown .el-select-dropdown__item,
 .college-select-dropdown .el-select-dropdown__item,
 .grade-select-dropdown .el-select-dropdown__item {
+	/* Flex布局:水平排列，垂直居中 */
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
+	/* 最小高度40px，确保点击区域足够大 */
 	min-height: 40px;
+	/* 内边距:上下12px，左右16px */
 	padding: 12px 16px;
+	/* 外边距:上下2px，左右8px */
 	margin: 2px 8px;
+	/* 允许内容溢出可见 */
 	overflow: visible;
+	/* 文本溢出处理:不裁剪 */
 	text-overflow: clip;
+	/* 行高1.5倍，提升可读性 */
 	line-height: 1.5;
-	color: var(--text-primary); /* 主题变量：文字色 */
+	/* 文字颜色使用主题变量 */
+	color: var(--text-primary);
+	/* 文本左对齐 */
 	text-align: left;
+	/* 文本不换行 */
 	white-space: nowrap;
+	/* 圆角边框 */
 	border-radius: 8px;
-	transition: transform 0.2s ease; /* 过渡动画 */
+	/* 变换过渡动画，时长0.2秒，缓动函数ease */
+	transition: transform 0.2s ease;
 }
 
-/* 学院/年级下拉选项适配 */
+/**
+ * 学院/年级下拉选项宽度适配
+ * @description 针对学院和年级下拉框的特殊宽度处理
+ * 原因: 学院名称较长，需要特殊处理以确保显示完整
+ */
 .college-select-dropdown .el-select-dropdown__item,
 .grade-select-dropdown .el-select-dropdown__item {
+	/* 宽度自适应 */
 	width: auto;
+	/* 最小宽度100%，确保选项占满容器 */
 	min-width: 100%;
+	/* 外边距:上下4px，左右8px */
 	margin: 4px 8px;
 }
 
-/* 学院/年级下拉选项文本适配 */
+/**
+ * 学院/年级下拉选项文本容器适配
+ * @description 确保文本内容能够完整显示，不被裁剪
+ */
 .college-select-dropdown .el-select-dropdown__item span,
 .grade-select-dropdown .el-select-dropdown__item span {
+	/* 块级显示 */
 	display: block;
+	/* 宽度100% */
 	width: 100%;
+	/* 允许内容溢出可见 */
 	overflow: visible;
+	/* 文本溢出不裁剪 */
 	text-overflow: clip;
+	/* 文本不换行 */
 	white-space: nowrap;
 }
 
-/* 下拉选项悬浮态 */
+/**
+ * 下拉选项悬浮态样式
+ * @description 鼠标悬停时的视觉反馈效果
+ * 包含: 文字颜色变化、背景色变化
+ */
 .gender-select-dropdown .el-select-dropdown__item:hover,
 .college-select-dropdown .el-select-dropdown__item:hover,
 .grade-select-dropdown .el-select-dropdown__item:hover {
-	color: var(--primary-color); /* 主题变量：主色 */
-	background-color: rgb(102 126 234 / 0.15); /* 浅主色背景 */
+	/* 文字颜色变为主题主色 */
+	color: var(--primary-color);
+	/* 背景色变为浅主色半透明 */
+	background-color: rgb(102 126 234 / 0.15);
 }
 
-/* 学院/年级下拉选项悬浮动画 */
+/**
+ * 学院/年级下拉选项悬浮动画效果
+ * @description 鼠标悬停时选项向右移动4px，增强交互反馈
+ */
 .college-select-dropdown .el-select-dropdown__item:hover,
 .grade-select-dropdown .el-select-dropdown__item:hover {
-	transform: translateX(4px); /* 右移效果 */
+	/* 向右平移4px */
+	transform: translateX(4px);
 }
 
-/* 下拉选项选中态 */
+/**
+ * 下拉选项选中态样式
+ * @description 当前选中选项的视觉样式，区别于普通选项
+ */
 .gender-select-dropdown .el-select-dropdown__item.selected,
 .college-select-dropdown .el-select-dropdown__item.selected,
 .grade-select-dropdown .el-select-dropdown__item.selected {
+	/* 字体加粗，字重600 */
 	font-weight: 600;
+	/* 文字颜色为主色 */
 	color: var(--primary-color);
+	/* 背景色为主色半透明，透明度20% */
 	background-color: rgb(102 126 234 / 0.2);
 }
 
-/* 下拉选项选中+悬浮态 */
+/**
+ * 下拉选项选中+悬浮态样式
+ * @description 选中项在鼠标悬停时的样式，背景色更深
+ */
 .gender-select-dropdown .el-select-dropdown__item.selected:hover,
 .college-select-dropdown .el-select-dropdown__item.selected:hover,
 .grade-select-dropdown .el-select-dropdown__item.selected:hover {
+	/* 背景色为主色半透明，透明度25%，比选中态更深 */
 	background-color: rgb(102 126 234 / 0.25);
 }
 </style>
