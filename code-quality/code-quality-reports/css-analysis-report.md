@@ -1,6 +1,6 @@
 # CSS 使用情况分析报告
 
-**生成时间**: 2026/1/6 10:23:34
+**生成时间**: 2026/1/6 10:56:03
 **分析工具**: CSS Analyzer (Vite Plugin)
 
 ## 📊 总体统计
@@ -9,21 +9,22 @@
 |------|------|
 | 总CSS文件数 | 27 |
 | 成功分析 | 27 |
-| 分析失败 | 1 |
-| 总CSS大小 | 391.39 KB |
-| 未使用大小 | 3.67 KB |
-| 未使用比例 | 0.94% |
-| 分析耗时 | 3.52 秒 |
+| 分析失败 | 0 |
+| 总CSS大小 | 472.33 KB |
+| 未使用大小 | 4.55 KB |
+| 未使用比例 | 0.96% |
+| 分析耗时 | 3.24 秒 |
 
-## ⚠️ 存在未使用CSS的文件 (9个)
+## ⚠️ 存在未使用CSS的文件 (10个)
 
 | 文件路径 | 原始大小 | 未使用大小 | 未使用比例 | 状态 |
 |---------|---------|-----------|-----------|------|
 | `src\assets\styles\theme.css` | 5.07 KB | 0.98 KB | 19.36% | ⚠️ |
+| `src\views\AdminPage\css\AdminPageDesktop.css` | 80.40 KB | 0.88 KB | 1.09% | ⚠️ |
 | `src\views\AdminPage\css\AdminPageMobile.css` | 28.88 KB | 0.17 KB | 0.6% | ⚠️ |
-| `src\views\AllMembersPage\css\AllMembersPageMobile.css` | 7.40 KB | 0.27 KB | 3.65% | ⚠️ |
+| `src\views\AllMembersPage\css\AllMembersPageMobile.css` | 7.39 KB | 0.27 KB | 3.66% | ⚠️ |
 | `src\views\AttendancePage\css\AttendancePageDesktop.css` | 19.15 KB | 0.17 KB | 0.86% | ⚠️ |
-| `src\views\HomePage\css\HomePageDesktop.css` | 21.93 KB | 0.21 KB | 0.98% | ⚠️ |
+| `src\views\HomePage\css\HomePageDesktop.css` | 22.28 KB | 0.22 KB | 0.97% | ⚠️ |
 | `src\views\NavigationPage\css\NavigationPageDesktop.css` | 22.48 KB | 0.36 KB | 1.59% | ⚠️ |
 | `src\views\PointsDashboardPage\css\PointsDashboardPageDesktop.css` | 31.86 KB | 0.24 KB | 0.77% | ⚠️ |
 | `src\views\PointsDashboardPage\css\PointsDashboardPageMobile.css` | 26.17 KB | 0.71 KB | 2.72% | ⚠️ |
@@ -31,7 +32,7 @@
 
 ## ✅ 所有CSS都在使用中的文件 (17个)
 
-- `src\views\AllMembersPage\css\AllMembersPageDesktop.css` (22.78 KB)
+- `src\views\AllMembersPage\css\AllMembersPageDesktop.css` (22.97 KB)
 - `src\views\AttendanceAnalysisPage\css\AttendanceAnalysisPageDesktop.css` (18.32 KB)
 - `src\views\AttendanceAnalysisPage\css\AttendanceAnalysisPageMobile.css` (10.56 KB)
 - `src\views\DashboardPage\css\DashboardPageDesktop.css` (24.80 KB)
@@ -49,16 +50,12 @@
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-PageHeader.css` (2.40 KB)
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-StudentCards.css` (2.03 KB)
 
-## ❌ 分析失败的文件 (1个)
-
-- `src\views\AdminPage\css\AdminPageDesktop.css`: <css input>:1453:1: Unclosed block
-
 ## 💡 优化建议
 
-- ✅ CSS使用情况良好，未使用比例仅 0.94%
+- ✅ CSS使用情况良好，未使用比例仅 0.96%
 - 📝 建议定期检查，保持代码库整洁
 - 🔍 对于未使用的CSS，请确认是否为动态生成或第三方库所需后再删除
 
 ---
 
-*报告生成时间: 2026/1/6 10:23:34*
+*报告生成时间: 2026/1/6 10:56:03*

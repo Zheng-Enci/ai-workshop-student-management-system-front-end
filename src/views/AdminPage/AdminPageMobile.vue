@@ -14,11 +14,11 @@
  * 5. 积分管理：修改学生积分、查看积分变动记录
  * 6. 适配特性：全页面适配移动端交互逻辑和视觉布局
  */
-import { onMounted, watch, ref, nextTick } from 'vue' // Vue3核心组合式API
+import {onMounted, watch, ref, nextTick} from 'vue' // Vue3核心组合式API
 
 // 导入管理员页面核心业务逻辑（状态管理、方法封装）
 // useAdminPage包含所有管理员页面所需的响应式数据和业务方法
-import { useAdminPage } from './AdminPage.js'
+import {useAdminPage} from './AdminPage.js'
 
 // 导入移动端专属样式文件
 // 移动端样式适配不同的屏幕尺寸和交互方式
@@ -92,7 +92,7 @@ import {
 
 // 导入学生头像获取API
 // 用于获取学生头像URL，支持头像显示功能
-import { getAvatarUrl } from '@/api/student'
+import {getAvatarUrl} from '@/api/student'
 
 // 导入Element Plus中文语言包（适配移动端日历、日期选择器等组件）
 // 提供中文本地化支持，提升用户体验
@@ -349,9 +349,9 @@ watch(calendarValue, async () => {
 			<div class="auth-header-mobile">
 				<div class="auth-icon-container-mobile">
 					<!-- 管理员头像，加载失败时显示默认圆环 -->
-						<!-- 头像懒加载，失败时回退到默认样式 -->
-						<!-- 支持v-lazy指令优化性能 -->
-						<!-- 支持v-lazy指令优化性能 -->
+					<!-- 头像懒加载，失败时回退到默认样式 -->
+					<!-- 支持v-lazy指令优化性能 -->
+					<!-- 支持v-lazy指令优化性能 -->
 					<img
 						v-if="adminAvatarUrl"
 						v-lazy="adminAvatarUrl"
@@ -364,10 +364,10 @@ watch(calendarValue, async () => {
 			<div class="auth-form-mobile">
 				<div class="input-container-mobile">
 					<!-- 超级管理员密码输入框，支持回车提交 -->
-						<!-- 密码输入框支持显示/隐藏密码，提升用户体验 -->
-						<!-- 包含锁图标前缀，增强视觉识别 -->
-						<!-- 包含锁图标前缀，增强视觉识别 -->
-						<!-- 包含锁图标前缀，增强视觉识别 -->
+					<!-- 密码输入框支持显示/隐藏密码，提升用户体验 -->
+					<!-- 包含锁图标前缀，增强视觉识别 -->
+					<!-- 包含锁图标前缀，增强视觉识别 -->
+					<!-- 包含锁图标前缀，增强视觉识别 -->
 					<el-input
 						v-model="specialPassword"
 						type="password"
@@ -385,10 +385,10 @@ watch(calendarValue, async () => {
 					</el-input>
 				</div>
 				<!-- 身份验证提交按钮，加载状态禁用点击 -->
-					<!-- 防止重复提交，提升系统稳定性 -->
-					<!-- 加载状态时显示加载动画，提供视觉反馈 -->
-					<!-- 加载状态时显示加载动画，提供视觉反馈 -->
-					<!-- 加载状态时显示加载动画，提供视觉反馈 -->
+				<!-- 防止重复提交，提升系统稳定性 -->
+				<!-- 加载状态时显示加载动画，提供视觉反馈 -->
+				<!-- 加载状态时显示加载动画，提供视觉反馈 -->
+				<!-- 加载状态时显示加载动画，提供视觉反馈 -->
 				<el-button
 					type="primary"
 					size="large"
@@ -405,7 +405,7 @@ watch(calendarValue, async () => {
 	<!-- 加载界面 -->
 	<!-- 已验证身份但核心数据未加载完成时显示 -->
 	<!-- 显示加载动画、进度条和状态文本 -->
-		<!-- 数据加载期间提供视觉反馈和进度指示 -->
+	<!-- 数据加载期间提供视觉反馈和进度指示 -->
 	<div v-else-if="!isDataLoaded" class="admin-loading-mobile">
 		<div class="loading-page-header-mobile">
 			<!-- 系统LOGO，点击可切换主题 -->
@@ -418,34 +418,34 @@ watch(calendarValue, async () => {
 		</div>
 		<div class="loading-container-mobile">
 			<!-- 加载动画容器 -->
-				<!-- 三环旋转动画提供视觉反馈 -->
-				<!-- 动画效果提升用户体验，减少等待焦虑 -->
-				<!-- 动画效果提升用户体验，减少等待焦虑 -->
-				<!-- 动画效果提升用户体验，减少等待焦虑 -->
+			<!-- 三环旋转动画提供视觉反馈 -->
+			<!-- 动画效果提升用户体验，减少等待焦虑 -->
+			<!-- 动画效果提升用户体验，减少等待焦虑 -->
+			<!-- 动画效果提升用户体验，减少等待焦虑 -->
 			<div class="loading-spinner-mobile">
 				<div class="spinner-ring-mobile"/>
 				<div class="spinner-ring-mobile"/>
 				<div class="spinner-ring-mobile"/>
 			</div>
 			<!-- 加载提示文本 -->
-				<!-- 明确告知用户当前状态 -->
-				<!-- 提示文本使用中文，符合用户习惯 -->
-				<!-- 提示文本使用中文，符合用户习惯 -->
-				<!-- 提示文本使用中文，符合用户习惯 -->
+			<!-- 明确告知用户当前状态 -->
+			<!-- 提示文本使用中文，符合用户习惯 -->
+			<!-- 提示文本使用中文，符合用户习惯 -->
+			<!-- 提示文本使用中文，符合用户习惯 -->
 			<div class="loading-text-mobile">数据加载中，请稍候...</div>
 			<!-- 加载进度条 -->
-				<!-- 直观显示数据加载进度 -->
-				<!-- 进度条宽度由loadingProgress变量控制 -->
-				<!-- 进度条宽度由loadingProgress变量控制 -->
-				<!-- 进度条宽度由loadingProgress变量控制 -->
+			<!-- 直观显示数据加载进度 -->
+			<!-- 进度条宽度由loadingProgress变量控制 -->
+			<!-- 进度条宽度由loadingProgress变量控制 -->
+			<!-- 进度条宽度由loadingProgress变量控制 -->
 			<div class="loading-progress-mobile">
 				<div class="progress-bar-mobile" :style="{ width: loadingProgress + '%' }"/>
 			</div>
 			<!-- 加载状态详情文本 -->
-				<!-- 显示当前加载的具体状态信息 -->
-				<!-- 动态更新状态文本，让用户了解加载进度 -->
-				<!-- 动态更新状态文本，让用户了解加载进度 -->
-				<!-- 动态更新状态文本，让用户了解加载进度 -->
+			<!-- 显示当前加载的具体状态信息 -->
+			<!-- 动态更新状态文本，让用户了解加载进度 -->
+			<!-- 动态更新状态文本，让用户了解加载进度 -->
+			<!-- 动态更新状态文本，让用户了解加载进度 -->
 			<div class="loading-status-mobile">{{ loadingStatus }}</div>
 		</div>
 	</div>
@@ -453,10 +453,10 @@ watch(calendarValue, async () => {
 	<!-- 管理控制台主界面 -->
 	<!-- 身份验证通过且核心数据加载完成后显示 -->
 	<!-- 包含顶部导航栏、统计卡片、学生信息管理区域和底部 -->
-			<!-- 主界面包含所有管理功能模块，是用户交互的核心区域 -->
+	<!-- 主界面包含所有管理功能模块，是用户交互的核心区域 -->
 	<div v-else class="admin-console-mobile">
 		<!-- 顶部导航栏 -->
-				<!-- 包含系统LOGO、标题和退出登录按钮 -->
+		<!-- 包含系统LOGO、标题和退出登录按钮 -->
 		<div class="admin-header-mobile">
 			<div class="header-left-mobile">
 				<!-- 系统LOGO，点击可切换主题 -->
@@ -487,18 +487,18 @@ watch(calendarValue, async () => {
 		</div>
 
 		<!-- 核心统计卡片区域 -->
-				<!-- 显示学生总数、今日签到数和本月签到数三个统计卡片 -->
-						<!-- 统计卡片提供关键数据概览，点击可查看详细信息 -->
+		<!-- 显示学生总数、今日签到数和本月签到数三个统计卡片 -->
+		<!-- 统计卡片提供关键数据概览，点击可查看详细信息 -->
 		<div class="admin-stats-mobile">
 			<!-- 学生总数统计卡片 -->
 			<div class="stat-card-mobile">
 				<div class="stat-icon-mobile">
 					<el-icon>
 						<user/> <!-- 用户图标 -->
-							<!-- 学生总数统计的视觉标识 -->
-							<!-- 使用Element Plus的User图标组件 -->
-							<!-- 学生总数统计的视觉标识 -->
-							<!-- 使用Element Plus的User图标组件 -->
+						<!-- 学生总数统计的视觉标识 -->
+						<!-- 使用Element Plus的User图标组件 -->
+						<!-- 学生总数统计的视觉标识 -->
+						<!-- 使用Element Plus的User图标组件 -->
 					</el-icon>
 				</div>
 				<div class="stat-content-mobile">
@@ -511,8 +511,8 @@ watch(calendarValue, async () => {
 				<div class="stat-icon-mobile">
 					<el-icon>
 						<calendar/> <!-- 日历图标 -->
-							<!-- 今日签到统计的视觉标识 -->
-							<!-- 使用Element Plus的Calendar图标组件 -->
+						<!-- 今日签到统计的视觉标识 -->
+						<!-- 使用Element Plus的Calendar图标组件 -->
 					</el-icon>
 				</div>
 				<div class="stat-content-mobile">
@@ -525,8 +525,8 @@ watch(calendarValue, async () => {
 				<div class="stat-icon-mobile">
 					<el-icon>
 						<trend-charts/> <!-- 趋势图图标 -->
-							<!-- 本月签到统计的视觉标识 -->
-							<!-- 使用Element Plus的TrendCharts图标组件 -->
+						<!-- 本月签到统计的视觉标识 -->
+						<!-- 使用Element Plus的TrendCharts图标组件 -->
 					</el-icon>
 				</div>
 				<div class="stat-content-mobile">
@@ -537,19 +537,19 @@ watch(calendarValue, async () => {
 		</div>
 
 		<!-- 学生信息管理区域 -->
-				<!-- 包含搜索栏、等级标签页、学生卡片列表和分页器 -->
-						<!-- 学生信息管理区域支持搜索、筛选、分页等功能 -->
+		<!-- 包含搜索栏、等级标签页、学生卡片列表和分页器 -->
+		<!-- 学生信息管理区域支持搜索、筛选、分页等功能 -->
 		<div class="students-section-mobile">
 			<!-- 区域头部：标题 + 搜索/刷新操作 -->
-							<!-- 包含学生信息管理标题、搜索输入框和刷新数据按钮 -->
+			<!-- 包含学生信息管理标题、搜索输入框和刷新数据按钮 -->
 			<div class="section-header-mobile">
 				<h2>学生信息管理</h2>
 				<div class="header-actions-mobile">
 					<!-- 学生搜索输入框（支持清空） -->
-						<!-- 支持按姓名、学号等信息搜索学生 -->
-						<!-- 包含搜索图标前缀，支持一键清空功能 -->
-						<!-- 包含搜索图标前缀，支持一键清空功能 -->
-						<!-- 包含搜索图标前缀，支持一键清空功能 -->
+					<!-- 支持按姓名、学号等信息搜索学生 -->
+					<!-- 包含搜索图标前缀，支持一键清空功能 -->
+					<!-- 包含搜索图标前缀，支持一键清空功能 -->
+					<!-- 包含搜索图标前缀，支持一键清空功能 -->
 					<el-input
 						v-model="searchKeyword"
 						placeholder="搜索学生信息"
@@ -563,10 +563,10 @@ watch(calendarValue, async () => {
 						</template>
 					</el-input>
 					<!-- 数据刷新按钮（加载状态禁用） -->
-						<!-- 手动刷新数据，加载状态时禁用避免重复请求 -->
-						<!-- 刷新按钮包含图标，提升视觉识别度 -->
-						<!-- 刷新按钮包含图标，提升视觉识别度 -->
-						<!-- 刷新按钮包含图标，提升视觉识别度 -->
+					<!-- 手动刷新数据，加载状态时禁用避免重复请求 -->
+					<!-- 刷新按钮包含图标，提升视觉识别度 -->
+					<!-- 刷新按钮包含图标，提升视觉识别度 -->
+					<!-- 刷新按钮包含图标，提升视觉识别度 -->
 					<el-button :loading="isLoading" type="primary" @click="refreshData">
 						<el-icon>
 							<refresh/> <!-- 刷新图标 -->
@@ -577,15 +577,15 @@ watch(calendarValue, async () => {
 			</div>
 
 			<!-- 学生等级标签页 -->
-						<!-- 按学生等级分类显示，支持切换不同等级的学生 -->
-									<!-- 等级标签页便于快速筛选和管理不同等级的学生 -->
+			<!-- 按学生等级分类显示，支持切换不同等级的学生 -->
+			<!-- 等级标签页便于快速筛选和管理不同等级的学生 -->
 			<div class="level-tabs-mobile">
 				<el-tabs v-model="activeLevelTab" type="card" class="level-tabs-container-mobile">
 					<!-- 循环渲染等级标签页 -->
-						<!-- 根据系统配置动态生成等级标签页 -->
-						<!-- 使用v-for指令遍历levelOptions数组 -->
-						<!-- 使用v-for指令遍历levelOptions数组 -->
-						<!-- 使用v-for指令遍历levelOptions数组 -->
+					<!-- 根据系统配置动态生成等级标签页 -->
+					<!-- 使用v-for指令遍历levelOptions数组 -->
+					<!-- 使用v-for指令遍历levelOptions数组 -->
+					<!-- 使用v-for指令遍历levelOptions数组 -->
 					<el-tab-pane
 						v-for="level in levelOptions"
 						:key="level.value"
@@ -594,10 +594,10 @@ watch(calendarValue, async () => {
 						:class="`level-tab-${level.color}-mobile`"
 					>
 						<!-- 标签自定义模板：包含等级标签和学生数量 -->
-							<!-- 显示等级名称和该等级的学生总数 -->
-							<!-- 使用ElTag组件显示彩色标签，便于区分 -->
-							<!-- 使用ElTag组件显示彩色标签，便于区分 -->
-							<!-- 使用ElTag组件显示彩色标签，便于区分 -->
+						<!-- 显示等级名称和该等级的学生总数 -->
+						<!-- 使用ElTag组件显示彩色标签，便于区分 -->
+						<!-- 使用ElTag组件显示彩色标签，便于区分 -->
+						<!-- 使用ElTag组件显示彩色标签，便于区分 -->
 						<template #label>
 							<el-tag :type="level.color" size="large" class="tab-label-mobile">
 								{{ level.label }}
@@ -609,8 +609,8 @@ watch(calendarValue, async () => {
 			</div>
 
 			<!-- 学生卡片列表容器 -->
-						<!-- 循环渲染学生卡片，每个卡片包含学生信息和操作按钮 -->
-									<!-- 每个学生卡片展示基础信息、详细信息和管理操作 -->
+			<!-- 循环渲染学生卡片，每个卡片包含学生信息和操作按钮 -->
+			<!-- 每个学生卡片展示基础信息、详细信息和管理操作 -->
 			<div class="students-cards-container-mobile">
 				<!-- 循环渲染学生卡片（仅显示当前选中等级的学生） -->
 				<div
@@ -620,14 +620,14 @@ watch(calendarValue, async () => {
 					class="student-card-mobile"
 					:data-level="studentLevels[student.studentId] || 0">
 					<!-- 学生卡片主行：头像 + 基础信息 + 签到次数 + 积分 -->
-										<!-- 显示学生头像、姓名学号、签到次数和积分信息 -->
-															<!-- 学生卡片主行展示最核心的识别信息和统计数据 -->
+					<!-- 显示学生头像、姓名学号、签到次数和积分信息 -->
+					<!-- 学生卡片主行展示最核心的识别信息和统计数据 -->
 					<div class="student-main-row-mobile">
 						<!-- 学生头像（加载失败显示姓名首字符） -->
-							<!-- 优先显示头像，失败时显示姓名首字母 -->
-							<!-- 使用v-lazy指令优化加载性能，@error处理加载失败 -->
-							<!-- 支持头像懒加载，提升页面性能 -->
-							<!-- 懒加载优化页面性能，避免不必要的网络请求 -->
+						<!-- 优先显示头像，失败时显示姓名首字母 -->
+						<!-- 使用v-lazy指令优化加载性能，@error处理加载失败 -->
+						<!-- 支持头像懒加载，提升页面性能 -->
+						<!-- 懒加载优化页面性能，避免不必要的网络请求 -->
 						<div
 							class="student-avatar-mobile"
 							:class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
@@ -640,20 +640,20 @@ watch(calendarValue, async () => {
 							<span v-else class="avatar-text-mobile">{{ student.name.charAt(0) }}</span>
 						</div>
 						<!-- 学生基础信息 -->
-							<!-- 显示学生姓名、学号和数据库ID -->
-							<!-- 提供学生的基本识别信息 -->
-							<!-- 显示学生姓名、学号和数据库ID -->
-							<!-- 提供学生的基本识别信息 -->
+						<!-- 显示学生姓名、学号和数据库ID -->
+						<!-- 提供学生的基本识别信息 -->
+						<!-- 显示学生姓名、学号和数据库ID -->
+						<!-- 提供学生的基本识别信息 -->
 						<div class="student-primary-info-mobile">
 							<div class="student-name-mobile">{{ student.name }}</div>
 							<div class="student-id-mobile">学号: {{ student.studentId }}</div>
 							<div class="student-db-id-mobile">唯一ID: {{ student.id }}</div>
 						</div>
 						<!-- 学生签到次数 -->
-							<!-- 显示该学生的历史签到总次数 -->
-							<!-- 签到次数是学生参与度的重要指标 -->
-							<!-- 显示该学生的历史签到总次数 -->
-							<!-- 签到次数是学生参与度的重要指标 -->
+						<!-- 显示该学生的历史签到总次数 -->
+						<!-- 签到次数是学生参与度的重要指标 -->
+						<!-- 显示该学生的历史签到总次数 -->
+						<!-- 签到次数是学生参与度的重要指标 -->
 						<div class="attendance-count-mobile">
 							<el-icon class="attendance-icon-mobile">
 								<calendar/> <!-- 日历图标 -->
@@ -663,10 +663,10 @@ watch(calendarValue, async () => {
 								}}次</span>
 						</div>
 						<!-- 学生积分信息（签到积分 + 活动积分） -->
-							<!-- 计算并显示学生总积分，包含签到积分和活动积分 -->
-							<!-- 积分系统激励学生积极参与活动和签到 -->
-							<!-- 计算并显示学生总积分，包含签到积分和活动积分 -->
-							<!-- 积分系统激励学生积极参与活动和签到 -->
+						<!-- 计算并显示学生总积分，包含签到积分和活动积分 -->
+						<!-- 积分系统激励学生积极参与活动和签到 -->
+						<!-- 计算并显示学生总积分，包含签到积分和活动积分 -->
+						<!-- 积分系统激励学生积极参与活动和签到 -->
 						<div class="points-info-mobile">
 							<div class="points-summary-mobile">
 								<span class="points-total-mobile">总积分: {{
@@ -685,14 +685,14 @@ watch(calendarValue, async () => {
 					</div>
 
 					<!-- 学生卡片详情行：详细信息 + 操作按钮 -->
-										<!-- 显示学生详细信息（年级专业班级性别手机）和考勤操作按钮 -->
-															<!-- 学生卡片详情行提供完整的个人信息和考勤管理功能 -->
+					<!-- 显示学生详细信息（年级专业班级性别手机）和考勤操作按钮 -->
+					<!-- 学生卡片详情行提供完整的个人信息和考勤管理功能 -->
 					<div class="student-detail-row-mobile">
 						<!-- 学生详细信息 -->
-							<!-- 显示学生年级、专业、班级、性别和手机号 -->
-							<!-- 详细信息便于管理员了解学生基本情况 -->
-							<!-- 显示学生年级、专业、班级、性别和手机号 -->
-							<!-- 详细信息便于管理员了解学生基本情况 -->
+						<!-- 显示学生年级、专业、班级、性别和手机号 -->
+						<!-- 详细信息便于管理员了解学生基本情况 -->
+						<!-- 显示学生年级、专业、班级、性别和手机号 -->
+						<!-- 详细信息便于管理员了解学生基本情况 -->
 						<div class="student-details-mobile">
 							<div class="detail-item-mobile">
 								<span class="label-mobile">年级：</span>
@@ -716,21 +716,21 @@ watch(calendarValue, async () => {
 							</div>
 						</div>
 						<!-- 学生操作按钮组 -->
-							<!-- 包含考勤管理和积分管理相关的操作按钮 -->
-							<!-- 一组按钮提供对学生数据的管理功能 -->
-							<!-- 包含考勤管理和积分管理相关的操作按钮 -->
-							<!-- 一组按钮提供对学生数据的管理功能 -->
+						<!-- 包含考勤管理和积分管理相关的操作按钮 -->
+						<!-- 一组按钮提供对学生数据的管理功能 -->
+						<!-- 包含考勤管理和积分管理相关的操作按钮 -->
+						<!-- 一组按钮提供对学生数据的管理功能 -->
 						<div class="student-actions-mobile">
 							<div>
 								<div>
 									<span>考勤</span>
 								</div>
-								<div class = "attendance-actions-container">
+								<div class="attendance-actions-container">
 									<!-- 查看考勤记录按钮 -->
-										<!-- 打开日历视图显示该学生的历史考勤记录 -->
-										<!-- 日历视图便于查看学生的考勤模式和规律 -->
-										<!-- 打开日历视图显示该学生的历史考勤记录 -->
-										<!-- 日历视图便于查看学生的考勤模式和规律 -->
+									<!-- 打开日历视图显示该学生的历史考勤记录 -->
+									<!-- 日历视图便于查看学生的考勤模式和规律 -->
+									<!-- 打开日历视图显示该学生的历史考勤记录 -->
+									<!-- 日历视图便于查看学生的考勤模式和规律 -->
 									<el-button
 										type="success"
 										size="small"
@@ -743,10 +743,10 @@ watch(calendarValue, async () => {
 										考勤记录
 									</el-button>
 									<!-- 补卡操作按钮 -->
-										<!-- 允许管理员为学生添加缺失的考勤记录 -->
-										<!-- 补卡功能处理学生因技术问题未能正常签到的情况 -->
-										<!-- 允许管理员为学生添加缺失的考勤记录 -->
-										<!-- 补卡功能处理学生因技术问题未能正常签到的情况 -->
+									<!-- 允许管理员为学生添加缺失的考勤记录 -->
+									<!-- 补卡功能处理学生因技术问题未能正常签到的情况 -->
+									<!-- 允许管理员为学生添加缺失的考勤记录 -->
+									<!-- 补卡功能处理学生因技术问题未能正常签到的情况 -->
 									<el-button
 										type="warning"
 										size="small"
@@ -759,10 +759,10 @@ watch(calendarValue, async () => {
 										补卡
 									</el-button>
 									<!-- 查看考勤热力图按钮 -->
-										<!-- 显示该学生考勤的热力图可视化分析 -->
-										<!-- 热力图直观显示学生的考勤频率和规律 -->
-										<!-- 显示该学生考勤的热力图可视化分析 -->
-										<!-- 热力图直观显示学生的考勤频率和规律 -->
+									<!-- 显示该学生考勤的热力图可视化分析 -->
+									<!-- 热力图直观显示学生的考勤频率和规律 -->
+									<!-- 显示该学生考勤的热力图可视化分析 -->
+									<!-- 热力图直观显示学生的考勤频率和规律 -->
 									<el-button
 										type="info"
 										size="small"
@@ -775,10 +775,10 @@ watch(calendarValue, async () => {
 										热力图
 									</el-button>
 									<!-- 查看考勤趋势图按钮 -->
-										<!-- 显示该学生考勤的趋势图可视化分析 -->
-										<!-- 趋势图展示学生考勤的长期变化趋势 -->
-										<!-- 显示该学生考勤的趋势图可视化分析 -->
-										<!-- 趋势图展示学生考勤的长期变化趋势 -->
+									<!-- 显示该学生考勤的趋势图可视化分析 -->
+									<!-- 趋势图展示学生考勤的长期变化趋势 -->
+									<!-- 显示该学生考勤的趋势图可视化分析 -->
+									<!-- 趋势图展示学生考勤的长期变化趋势 -->
 									<el-button
 										type="primary"
 										size="small"
@@ -793,10 +793,10 @@ watch(calendarValue, async () => {
 								</div>
 							</div>
 							<!-- 修改积分按钮 -->
-								<!-- 打开积分修改对话框，允许调整学生积分 -->
-								<!-- 积分修改需要填写调整原因，确保操作可追溯 -->
-								<!-- 打开积分修改对话框，允许调整学生积分 -->
-								<!-- 积分修改需要填写调整原因，确保操作可追溯 -->
+							<!-- 打开积分修改对话框，允许调整学生积分 -->
+							<!-- 积分修改需要填写调整原因，确保操作可追溯 -->
+							<!-- 打开积分修改对话框，允许调整学生积分 -->
+							<!-- 积分修改需要填写调整原因，确保操作可追溯 -->
 							<el-button
 								type="success"
 								size="small"
@@ -809,10 +809,10 @@ watch(calendarValue, async () => {
 								修改积分
 							</el-button>
 							<!-- 查看积分变动记录按钮 -->
-								<!-- 显示该学生积分变动的完整历史记录 -->
-								<!-- 完整的积分变动历史便于审计和追踪 -->
-								<!-- 显示该学生积分变动的完整历史记录 -->
-								<!-- 完整的积分变动历史便于审计和追踪 -->
+							<!-- 显示该学生积分变动的完整历史记录 -->
+							<!-- 完整的积分变动历史便于审计和追踪 -->
+							<!-- 显示该学生积分变动的完整历史记录 -->
+							<!-- 完整的积分变动历史便于审计和追踪 -->
 							<el-button
 								type="info"
 								size="small"
@@ -828,14 +828,14 @@ watch(calendarValue, async () => {
 					</div>
 
 					<!-- 学生卡片管理行：等级修改 + 管理员分配 + 编辑按钮 -->
-										<!-- 包含等级修改下拉框、管理员分配下拉框和编辑学生信息按钮 -->
-															<!-- 学生卡片管理行提供学生分类、分配和信息编辑功能 -->
+					<!-- 包含等级修改下拉框、管理员分配下拉框和编辑学生信息按钮 -->
+					<!-- 学生卡片管理行提供学生分类、分配和信息编辑功能 -->
 					<div class="student-management-row-mobile">
 						<!-- 学生等级管理 -->
-							<!-- 允许管理员调整学生的等级分类 -->
-							<!-- 学生等级影响功能权限和管理方式 -->
-							<!-- 允许管理员调整学生的等级分类 -->
-							<!-- 学生等级影响功能权限和管理方式 -->
+						<!-- 允许管理员调整学生的等级分类 -->
+						<!-- 学生等级影响功能权限和管理方式 -->
+						<!-- 允许管理员调整学生的等级分类 -->
+						<!-- 学生等级影响功能权限和管理方式 -->
 						<div class="level-management-mobile">
 							<span class="management-label-mobile">学生等级：</span>
 							<el-select
@@ -863,10 +863,10 @@ watch(calendarValue, async () => {
 							</el-select>
 						</div>
 						<!-- 学生所属管理员管理 -->
-							<!-- 分配或修改负责该学生的学生管理员 -->
-							<!-- 为学生分配负责的学生管理员，便于精细化管理 -->
-							<!-- 分配或修改负责该学生的学生管理员 -->
-							<!-- 为学生分配负责的学生管理员，便于精细化管理 -->
+						<!-- 分配或修改负责该学生的学生管理员 -->
+						<!-- 为学生分配负责的学生管理员，便于精细化管理 -->
+						<!-- 分配或修改负责该学生的学生管理员 -->
+						<!-- 为学生分配负责的学生管理员，便于精细化管理 -->
 						<div class="admin-management-mobile">
 							<span class="management-label-mobile">所属管理员：</span>
 							<!-- 管理员等级学生（等级3）不显示分配选项 -->
@@ -915,10 +915,10 @@ watch(calendarValue, async () => {
 							</div>
 						</div>
 						<!-- 编辑学生信息按钮（带提示框） -->
-							<!-- 打开编辑对话框修改学生的基本信息 -->
-							<!-- 编辑功能允许更新学生的基本信息和联系方式 -->
-							<!-- 打开编辑对话框修改学生的基本信息 -->
-							<!-- 编辑功能允许更新学生的基本信息和联系方式 -->
+						<!-- 打开编辑对话框修改学生的基本信息 -->
+						<!-- 编辑功能允许更新学生的基本信息和联系方式 -->
+						<!-- 打开编辑对话框修改学生的基本信息 -->
+						<!-- 编辑功能允许更新学生的基本信息和联系方式 -->
 						<div class="edit-action-mobile">
 							<el-tooltip content="编辑学生信息" placement="top">
 								<el-button
@@ -940,8 +940,8 @@ watch(calendarValue, async () => {
 			</div>
 
 			<!-- 分页区域 -->
-						<!-- 显示当前页记录总数和分页控件 -->
-									<!-- 分页区域支持大量学生数据的分页浏览 -->
+			<!-- 显示当前页记录总数和分页控件 -->
+			<!-- 分页区域支持大量学生数据的分页浏览 -->
 			<div class="table-footer-mobile">
 				<div class="pagination-info-mobile">
 					共 {{ currentLevelStudents.length }} 条记录
@@ -958,8 +958,8 @@ watch(calendarValue, async () => {
 		</div>
 
 		<!-- 页面底部 -->
-				<!-- 显示系统名称和管理员模式标识 -->
-						<!-- 页面底部提供版权信息和当前用户身份标识 -->
+		<!-- 显示系统名称和管理员模式标识 -->
+		<!-- 页面底部提供版权信息和当前用户身份标识 -->
 		<div class="admin-footer-mobile">
 			<div class="footer-content-mobile">
 				<div class="footer-left-mobile">
@@ -972,17 +972,17 @@ watch(calendarValue, async () => {
 		</div>
 
 		<!-- 编辑学生信息对话框 -->
-				<!-- 弹出式对话框，用于编辑学生的基本信息 -->
-						<!-- 编辑对话框支持修改学生姓名、学号、性别、联系方式等信息 -->
+		<!-- 弹出式对话框，用于编辑学生的基本信息 -->
+		<!-- 编辑对话框支持修改学生姓名、学号、性别、联系方式等信息 -->
 		<el-dialog
 			v-if="editDialogVisible"
 			v-model="editDialogVisible"
 			title="修改学生信息"
 			width="90%"
-			:close-on-click-modal="false" <!-- 点击遮罩层不关闭 -->
-		:close-on-press-escape="false" <!-- 按ESC不关闭 -->
-		:append-to-body="true"         <!-- 挂载到body，避免层级问题 -->
-		:teleported="true"             <!-- 开启Teleport，优化移动端弹窗体验 -->
+			:close-on-click-modal="false"
+		:close-on-press-escape="false"
+		:append-to-body="true"
+		:teleported="true"
 		class="edit-dialog-mobile"
 		>
 		<el-form
@@ -1051,8 +1051,8 @@ watch(calendarValue, async () => {
 		</el-dialog>
 
 		<!-- 今日考勤记录对话框 -->
-				<!-- 弹出式对话框，显示今日所有学生的签到记录 -->
-						<!-- 今日考勤记录对话框按时间段展示当天的签到情况 -->
+		<!-- 弹出式对话框，显示今日所有学生的签到记录 -->
+		<!-- 今日考勤记录对话框按时间段展示当天的签到情况 -->
 		<el-dialog
 			v-if="todayAttendanceDialogVisible"
 			v-model="todayAttendanceDialogVisible"
@@ -1072,9 +1072,9 @@ watch(calendarValue, async () => {
 					<p>今日暂无签到记录</p>
 				</div>
 				<!-- 有记录时渲染列表 -->
-					<!-- 按时间段分组显示签到记录 -->
-					<!-- 使用v-for遍历今日签到记录数组 -->
-					<!-- 提供签到时间、学生信息和时间段标识 -->
+				<!-- 按时间段分组显示签到记录 -->
+				<!-- 使用v-for遍历今日签到记录数组 -->
+				<!-- 提供签到时间、学生信息和时间段标识 -->
 				<div v-else class="records-list-mobile">
 					<div
 						v-for="(record, index) in todayAttendanceRecords"
@@ -1112,15 +1112,15 @@ watch(calendarValue, async () => {
 		</el-dialog>
 
 		<!-- 学生考勤记录对话框（日历版） -->
-				<!-- 弹出式对话框，以日历形式展示学生考勤记录 -->
-						<!-- 考勤记录日历视图便于查看学生的历史考勤模式 -->
+		<!-- 弹出式对话框，以日历形式展示学生考勤记录 -->
+		<!-- 考勤记录日历视图便于查看学生的历史考勤模式 -->
 		<el-dialog
 			v-if="attendanceRecordsDialogVisible"
 			v-model="attendanceRecordsDialogVisible"
 			:title="`${currentStudentInfo.name} 的考勤记录`"
 			width="90%"
 			:close-on-click-modal="false"
-			:destroy-on-close="true" <!-- 关闭时销毁DOM，释放资源 -->
+			:destroy-on-close="true"
 		:append-to-body="true"
 		:teleported="true"
 		modal-class="attendance-records-overlay-mobile"
@@ -1188,8 +1188,8 @@ watch(calendarValue, async () => {
 		</el-dialog>
 
 		<!-- 日期考勤详情对话框 -->
-				<!-- 弹出式对话框，显示指定日期的详细考勤时间 -->
-						<!-- 日期考勤详情提供具体日期的签到时间列表 -->
+		<!-- 弹出式对话框，显示指定日期的详细考勤时间 -->
+		<!-- 日期考勤详情提供具体日期的签到时间列表 -->
 		<el-dialog
 			v-if="showDateDetailsDialog"
 			v-model="showDateDetailsDialog"
@@ -1204,11 +1204,11 @@ watch(calendarValue, async () => {
 			<div class="date-details-content-mobile" @click.stop>
 				<div class="selected-date-mobile">{{ formatDateForDisplay(selectedDate) }}</div>
 				<div class="attendance-times-mobile">
-						<!-- 无签到记录提示 -->
-						<!-- 提供友好的空状态提示 -->
-						<!-- 空状态包含图标和文本，提升用户体验 -->
-						<!-- 空状态包含图标和文本，提升用户体验 -->
-						<!-- 空状态包含图标和文本，提升用户体验 -->
+					<!-- 无签到记录提示 -->
+					<!-- 提供友好的空状态提示 -->
+					<!-- 空状态包含图标和文本，提升用户体验 -->
+					<!-- 空状态包含图标和文本，提升用户体验 -->
+					<!-- 空状态包含图标和文本，提升用户体验 -->
 					<div v-if="getDateAttendanceTimes(selectedDate).length === 0" class="no-attendance-mobile">
 						该日期无签到记录
 					</div>
@@ -1230,8 +1230,8 @@ watch(calendarValue, async () => {
 		</el-dialog>
 
 		<!-- 考勤热力图对话框 -->
-				<!-- 弹出式对话框，以热力图形式展示学生考勤分布 -->
-						<!-- 考勤热力图可视化展示学生考勤频率和规律 -->
+		<!-- 弹出式对话框，以热力图形式展示学生考勤分布 -->
+		<!-- 考勤热力图可视化展示学生考勤频率和规律 -->
 		<el-dialog
 			v-if="heatmapDialogVisible"
 			v-model="heatmapDialogVisible"
@@ -1279,8 +1279,8 @@ watch(calendarValue, async () => {
 		</el-dialog>
 
 		<!-- 考勤趋势图对话框 -->
-				<!-- 弹出式对话框，以趋势图形式展示学生考勤趋势 -->
-						<!-- 考勤趋势图显示学生考勤变化趋势和模式 -->
+		<!-- 弹出式对话框，以趋势图形式展示学生考勤趋势 -->
+		<!-- 考勤趋势图显示学生考勤变化趋势和模式 -->
 		<el-dialog
 			v-if="trendDialogVisible"
 			v-model="trendDialogVisible"
@@ -1328,15 +1328,15 @@ watch(calendarValue, async () => {
 		</el-dialog>
 
 		<!-- 补卡操作对话框（分步操作） -->
-				<!-- 分步骤的补卡操作对话框，先选择日期再选择时间 -->
-						<!-- 补卡操作分步进行，确保操作的准确性和安全性 -->
+		<!-- 分步骤的补卡操作对话框，先选择日期再选择时间 -->
+		<!-- 补卡操作分步进行，确保操作的准确性和安全性 -->
 		<el-dialog
 			v-if="makeupDialogVisible"
 			v-model="makeupDialogVisible"
 			:title=null
 			:close-on-click-modal="false"
 			class="makeup-dialog-mobile"
-			:show-close="false" <!-- 隐藏默认关闭按钮 -->
+			:show-close="false"
 		:modal="true"
 		:append-to-body="true"
 		:teleported="true"
@@ -1509,8 +1509,8 @@ watch(calendarValue, async () => {
 		</el-dialog>
 
 		<!-- 修改积分对话框 -->
-				<!-- 弹出式对话框，用于修改学生积分和填写改分理由 -->
-						<!-- 积分修改对话框支持积分调整和记录调整原因 -->
+		<!-- 弹出式对话框，用于修改学生积分和填写改分理由 -->
+		<!-- 积分修改对话框支持积分调整和记录调整原因 -->
 		<el-dialog
 			v-if="pointsDialogVisible"
 			v-model="pointsDialogVisible"
@@ -1586,8 +1586,8 @@ watch(calendarValue, async () => {
 		</el-dialog>
 
 		<!-- 积分变动记录查看对话框 -->
-				<!-- 弹出式对话框，查看学生积分变动历史记录 -->
-						<!-- 积分变动记录提供完整的积分调整历史追踪 -->
+		<!-- 弹出式对话框，查看学生积分变动历史记录 -->
+		<!-- 积分变动记录提供完整的积分调整历史追踪 -->
 		<el-dialog
 			v-if="scoreChangeRecordsDialogVisible"
 			v-model="scoreChangeRecordsDialogVisible"

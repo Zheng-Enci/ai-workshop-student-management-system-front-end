@@ -1352,16 +1352,24 @@ watch(() => studentAttendanceRecords.value, () => {
 })
 </script>
 
+<!-- 
+  学生管理页面模板定义(移动端)
+  @template StudentManagerPageMobileTemplate
+  @description 定义学生管理页面移动端的完整UI结构，包括头部导航、搜索区域、统计卡片、学生列表和各种弹窗
+-->
 <template>
 	<!-- 学生管理页面主容器 -->
 	<div class="student-manager-container">
-		<!-- 页面头部 -->
+		<!-- 页面头部：包含返回按钮、Logo、标题和管理员信息 -->
 		<div class="header">
+			<!-- 返回导航按钮：点击返回导航页面 -->
 			<el-button class="back-btn" @click="goBack">
 				<el-icon><arrow-left /></el-icon>
 				返回导航
 			</el-button>
+			<!-- 头部内容区域：Logo、标题和管理员信息 -->
 			<div class="header-content">
+				<!-- 系统Logo：点击切换主题模式 -->
 				<img
 					ref="logoRef"
 					src="@/assets/AiWorkShop_icon.png"
@@ -1370,10 +1378,14 @@ watch(() => studentAttendanceRecords.value, () => {
 					title="切换主题模式"
 					@click="toggleTheme"
 				/>
+				<!-- 页面标题 -->
 				<h1>学生管理</h1>
+				<!-- 管理员信息展示 -->
 				<div class="admin-info">
 					<div class="admin-details">
+						<!-- 管理员姓名 -->
 						<span class="admin-name">{{ userStore.userInfo?.name || '管理员' }}</span>
+						<!-- 管理员等级标识 -->
 						<div class="admin-level">
 							<el-icon class="level-icon"><star /></el-icon>
 							<span class="level-text">管理员</span>
@@ -1383,10 +1395,11 @@ watch(() => studentAttendanceRecords.value, () => {
 			</div>
 		</div>
 
-		<!-- 主要内容区 -->
+		<!-- 主要内容区域：包含搜索、统计和学生列表 -->
 		<div class="main-content">
-			<!-- 搜索区域 -->
+			<!-- 搜索区域：支持按姓名、学号、专业搜索 -->
 			<div class="search-section">
+				<!-- 搜索输入框：支持实时搜索和清空 -->
 				<el-input
 					v-model="searchQuery"
 					placeholder="搜索学生姓名、学号或专业..."
@@ -1396,9 +1409,11 @@ watch(() => studentAttendanceRecords.value, () => {
 					@clear="handleClearSearch"
 				>
 					<template #prefix>
+						<!-- 搜索图标 -->
 						<el-icon><search /></el-icon>
 					</template>
 				</el-input>
+				<!-- 搜索按钮：手动触发搜索 -->
 				<el-button
 					type="primary"
 					class="search-btn"
@@ -1409,34 +1424,43 @@ watch(() => studentAttendanceRecords.value, () => {
 				</el-button>
 			</div>
 
-			<!-- 统计卡片区域 -->
+			<!-- 统计卡片区域：展示管理学生总数和总签到次数 -->
 			<div class="stats-section">
+				<!-- 管理学生总数统计卡片 -->
 				<div class="stat-card">
 					<div class="stat-icon">
 						<el-icon size="24"><user /></el-icon>
 					</div>
 					<div class="stat-content">
+						<!-- 学生总数数字 -->
 						<div class="stat-number">{{ managedStudents.length }}</div>
+						<!-- 统计标签 -->
 						<div class="stat-label">管理学生总数</div>
 					</div>
 				</div>
 
+				<!-- 总签到次数统计卡片 -->
 				<div class="stat-card">
 					<div class="stat-icon">
 						<el-icon size="24"><calendar /></el-icon>
 					</div>
 					<div class="stat-content">
+						<!-- 签到总次数数字 -->
 						<div class="stat-number">{{ totalAttendanceCount }}</div>
+						<!-- 统计标签 -->
 						<div class="stat-label">总签到次数</div>
 					</div>
 				</div>
 			</div>
 
-			<!-- 学生列表区域 -->
+			<!-- 学生列表区域：展示所有管理的学生信息 -->
 			<div class="students-section">
+				<!-- 列表头部：标题和操作按钮 -->
 				<div class="section-header">
 					<h2>管理的学生列表</h2>
+					<!-- 头部操作按钮组 -->
 					<div class="header-actions">
+						<!-- 按打卡次数排序按钮：切换排序方式 -->
 						<el-button
 							type="info"
 							:class="{ 'active': sortOrder === 'attendance' }"
@@ -1445,6 +1469,7 @@ watch(() => studentAttendanceRecords.value, () => {
 							<el-icon><sort /></el-icon>
 							按打卡次数排序
 						</el-button>
+						<!-- 刷新按钮：重新加载学生列表 -->
 						<el-button
 							type="primary"
 							:loading="loading"
@@ -1456,12 +1481,15 @@ watch(() => studentAttendanceRecords.value, () => {
 					</div>
 				</div>
 
-				<!-- 学生列表（加载完成且有数据） -->
+				<!-- 学生列表：展示所有学生卡片（加载完成且有数据时显示） -->
 				<div v-if="!loading && filteredStudents.length > 0" class="students-list">
+					<!-- 单个学生卡片 -->
 					<div v-for="student in filteredStudents" :key="student.studentId" class="student-card">
-						<!-- 学生头像区域 -->
+						<!-- 学生头像区域：显示头像或默认图标和签到次数 -->
 						<div class="student-avatar">
+							<!-- 头像容器 -->
 							<div class="avatar-section">
+								<!-- 学生头像图片：加载失败时显示默认图标 -->
 								<img
 									v-if="getStudentAvatarUrl(student)"
 									:src="getStudentAvatarUrl(student)"
@@ -1469,47 +1497,59 @@ watch(() => studentAttendanceRecords.value, () => {
 									class="student-avatar-img"
 									@error="handleAvatarError"
 								/>
+								<!-- 默认用户图标：当头像加载失败或不存在时显示 -->
 								<el-icon v-else size="32"><user /></el-icon>
 							</div>
+							<!-- 签到次数显示 -->
 							<div class="attendance-count">
 								<el-icon class="attendance-icon"><calendar /></el-icon>
 								<span class="count-text">{{ getStudentAttendanceCountFromCache(student.studentId) }}次</span>
 							</div>
 						</div>
-						<!-- 学生信息区域 -->
+						<!-- 学生信息区域：显示学生详细信息 -->
 						<div class="student-info">
+							<!-- 学生姓名 -->
 							<div class="student-name">{{ student.name }}</div>
+							<!-- 学生详细信息列表 -->
 							<div class="student-details">
+								<!-- 学号信息 -->
 								<div class="detail-item">
 									<span class="label">学号：</span>
 									<span class="value">{{ student.studentId }}</span>
 								</div>
+								<!-- 年级信息 -->
 								<div class="detail-item">
 									<span class="label">年级：</span>
 									<span class="value">{{ student.grade }}年级</span>
 								</div>
+								<!-- 专业信息 -->
 								<div class="detail-item">
 									<span class="label">专业：</span>
 									<span class="value">{{ student.major }}</span>
 								</div>
+								<!-- 班级信息 -->
 								<div class="detail-item">
 									<span class="label">班级：</span>
 									<span class="value">{{ student.classNum }}班</span>
 								</div>
+								<!-- 性别信息 -->
 								<div class="detail-item">
 									<span class="label">性别：</span>
 									<span class="value">{{ student.gender }}</span>
 								</div>
+								<!-- 手机号信息 -->
 								<div class="detail-item">
 									<span class="label">手机：</span>
 									<span class="value">{{ student.phone }}</span>
 								</div>
 							</div>
 						</div>
-						<!-- 学生操作按钮区域 -->
+						<!-- 学生操作按钮区域：提供考勤记录、补卡、热力图、趋势图等功能 -->
 						<div class="student-actions">
 							<div class="attendance-info">
+								<!-- 操作按钮组 -->
 								<div class="action-buttons">
+									<!-- 考勤记录按钮：点击打开考勤记录弹窗 -->
 									<el-button
 										type="success"
 										size="small"
@@ -1519,6 +1559,7 @@ watch(() => studentAttendanceRecords.value, () => {
 										<el-icon><calendar /></el-icon>
 										考勤记录
 									</el-button>
+									<!-- 补卡按钮：点击打开补卡弹窗 -->
 									<el-button
 										type="warning"
 										size="small"
@@ -1528,6 +1569,7 @@ watch(() => studentAttendanceRecords.value, () => {
 										<el-icon><clock /></el-icon>
 										补卡
 									</el-button>
+									<!-- 热力图按钮：点击打开热力图弹窗 -->
 									<el-button
 										type="info"
 										size="small"
@@ -1537,6 +1579,7 @@ watch(() => studentAttendanceRecords.value, () => {
 										<el-icon><star /></el-icon>
 										热力图
 									</el-button>
+									<!-- 趋势图按钮：点击打开趋势图弹窗 -->
 									<el-button
 										type="primary"
 										size="small"
@@ -1552,29 +1595,37 @@ watch(() => studentAttendanceRecords.value, () => {
 					</div>
 				</div>
 
-				<!-- 空状态（无管理学生） -->
+				<!-- 空状态：无管理学生时显示 -->
 				<div v-if="!loading && managedStudents.length === 0" class="empty-state">
+					<!-- 空状态图标 -->
 					<el-icon size="64" class="empty-icon"><user /></el-icon>
+					<!-- 空状态标题 -->
 					<h3>暂无管理的学生</h3>
+					<!-- 空状态描述 -->
 					<p>您当前没有管理任何学生</p>
 				</div>
 
-				<!-- 搜索无结果状态 -->
+				<!-- 搜索无结果状态：搜索后无匹配结果时显示 -->
 				<div v-if="!loading && managedStudents.length > 0 && filteredStudents.length === 0 && searchQuery" class="no-search-results">
+					<!-- 搜索图标 -->
 					<el-icon size="64" class="empty-icon"><search /></el-icon>
+					<!-- 无结果标题 -->
 					<h3>未找到匹配的学生</h3>
+					<!-- 无结果描述 -->
 					<p>请尝试其他关键词或清空搜索条件</p>
 				</div>
 
-				<!-- 加载中状态 -->
+				<!-- 加载中状态：数据加载时显示 -->
 				<div v-if="loading" class="loading-state">
+					<!-- 加载图标 -->
 					<el-icon size="32" class="loading-icon"><loading /></el-icon>
+					<!-- 加载提示文本 -->
 					<p>加载中...</p>
 				</div>
 			</div>
 		</div>
 
-		<!-- 补卡弹窗 -->
+		<!-- 补卡弹窗：为学生进行补卡操作 -->
 		<el-dialog
 			v-if="makeupDialogVisible"
 			v-model="makeupDialogVisible"
@@ -1589,34 +1640,48 @@ watch(() => studentAttendanceRecords.value, () => {
 			modal-class="makeup-overlay"
 			:destroy-on-close="true"
 		>
+			<!-- 弹窗头部：图标和标题 -->
 			<div class="makeup-header">
+				<!-- 头部图标 -->
 				<div class="header-icon">
 					<el-icon size="28"><clock /></el-icon>
 				</div>
+				<!-- 头部内容：标题和描述 -->
 				<div class="header-content">
 					<h3>学生补卡</h3>
 					<p>为指定学生进行补卡操作</p>
 				</div>
 			</div>
 
+			<!-- 弹窗内容：学生信息和补卡表单 -->
 			<div class="makeup-content">
+				<!-- 学生信息卡片：显示选中学生信息 -->
 				<div class="student-info-card">
+					<!-- 学生头像 -->
 					<div class="student-avatar">
 						<el-icon size="36"><user /></el-icon>
 					</div>
+					<!-- 学生详细信息 -->
 					<div class="student-details">
+						<!-- 学生姓名 -->
 						<div class="student-name">{{ makeupSelectedStudent?.name }}</div>
+						<!-- 学生学号 -->
 						<div class="student-id">{{ makeupSelectedStudent?.studentId }}</div>
+						<!-- 学生年级和专业 -->
 						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 · {{ makeupSelectedStudent?.major }}</div>
 					</div>
 				</div>
 
+				<!-- 表单区域：补卡时间选择 -->
 				<div class="form-section">
+					<!-- 表单头部：图标和标题 -->
 					<div class="form-header">
 						<el-icon class="form-icon"><calendar /></el-icon>
 						<span class="form-title">选择补卡时间</span>
 					</div>
+					<!-- 表单内容：日期时间选择器 -->
 					<div class="form-content">
+						<!-- 日期时间选择器：支持快捷选项 -->
 						<el-date-picker
 							v-model="makeupForm.attendanceTime"
 							type="datetime"
@@ -1626,6 +1691,7 @@ watch(() => studentAttendanceRecords.value, () => {
 							class="datetime-picker"
 							:shortcuts="timeShortcuts"
 						/>
+						<!-- 表单提示信息 -->
 						<div class="form-tip">
 							<el-icon><info-filled /></el-icon>
 							<span>补卡时间不受签到时间段限制</span>
@@ -1634,7 +1700,9 @@ watch(() => studentAttendanceRecords.value, () => {
 				</div>
 			</div>
 
+			<!-- 弹窗底部：操作按钮 -->
 			<div class="makeup-footer">
+				<!-- 取消按钮：关闭弹窗 -->
 				<el-button
 					class="cancel-btn"
 					size="large"
@@ -1642,6 +1710,7 @@ watch(() => studentAttendanceRecords.value, () => {
 				>
 					取消
 				</el-button>
+				<!-- 确认补卡按钮：提交补卡操作 -->
 				<el-button
 					type="primary"
 					:loading="makeupLoading"
@@ -1649,13 +1718,15 @@ watch(() => studentAttendanceRecords.value, () => {
 					size="large"
 					@click="submitMakeup"
 				>
+					<!-- 确认图标：加载中时隐藏 -->
 					<el-icon v-if="!makeupLoading"><check /></el-icon>
+					<!-- 按钮文本：根据加载状态显示不同文本 -->
 					{{ makeupLoading ? '处理中...' : '确认补卡' }}
 				</el-button>
 			</div>
 		</el-dialog>
 
-		<!-- 考勤记录弹窗 -->
+		<!-- 考勤记录弹窗：展示学生考勤记录日历 -->
 		<el-dialog
 			v-if="attendanceRecordsDialogVisible"
 			v-model="attendanceRecordsDialogVisible"
@@ -1669,19 +1740,29 @@ watch(() => studentAttendanceRecords.value, () => {
 			modal-class="attendance-records-overlay"
 			:destroy-on-close="true"
 		>
+			<!-- 考勤记录容器 -->
 			<div class="attendance-records-container">
+				<!-- 记录头部：学生信息和签到统计 -->
 				<div class="records-header">
+					<!-- 学生信息区域 -->
 					<div class="student-info">
+						<!-- 学生头像大图：显示姓名首字 -->
 						<div class="student-avatar-large">
 							{{ selectedStudent?.name?.charAt(0) }}
 						</div>
+						<!-- 学生详细信息 -->
 						<div class="student-details">
+							<!-- 学生姓名 -->
 							<h3>{{ selectedStudent?.name }}</h3>
+							<!-- 学生学号 -->
 							<p>学号：{{ selectedStudent?.studentId }}</p>
+							<!-- 学生专业和年级 -->
 							<p>专业：{{ selectedStudent?.major }} | 年级：{{ selectedStudent?.grade }}年级</p>
 						</div>
 					</div>
+					<!-- 签到统计区域 -->
 					<div class="attendance-summary">
+						<!-- 总签到次数统计项 -->
 						<div class="summary-item">
 							<span class="summary-label">总签到次数</span>
 							<span class="summary-value">{{ studentAttendanceRecords.length }}</span>
@@ -1689,17 +1770,23 @@ watch(() => studentAttendanceRecords.value, () => {
 					</div>
 				</div>
 
-				<!-- 无考勤记录状态 -->
+				<!-- 无考勤记录状态：当学生没有考勤记录时显示 -->
 				<div v-if="studentAttendanceRecords.length === 0" class="no-records">
+					<!-- 无记录图标 -->
 					<el-icon class="no-records-icon"><calendar /></el-icon>
+					<!-- 无记录提示文本 -->
 					<p>暂无考勤记录</p>
 				</div>
-				<!-- 日历展示考勤记录 -->
+				<!-- 日历展示考勤记录：当有考勤记录时显示 -->
 				<div v-else class="calendar-container">
+					<!-- 日历组件：展示每月签到情况 -->
 					<el-calendar v-model="calendarValue" class="attendance-calendar">
+						<!-- 日历头部：自定义标题和操作按钮 -->
 						<template #header="{ date }">
 							<div class="calendar-header">
+								<!-- 日历标题：显示当前年月 -->
 								<div class="header-title">{{ formatCalendarTitle(date) }}</div>
+								<!-- 日历操作按钮：上个月、今天、下个月 -->
 								<div class="header-actions">
 									<el-button size="small" @click="prevMonth">上个月</el-button>
 									<el-button size="small" @click="goToday">今天</el-button>
@@ -1707,17 +1794,24 @@ watch(() => studentAttendanceRecords.value, () => {
 								</div>
 							</div>
 						</template>
+						<!-- 日历单元格：自定义日期单元格内容 -->
 						<template #date-cell="{ data }">
+							<!-- 日历单元格容器 -->
 							<div class="calendar-cell-admin">
+								<!-- 日期数字 -->
 								<div class="cell-date-admin">{{ data.day.split('-')[2] }}</div>
+								<!-- 签到状态：显示早、午、晚三个时段的签到情况 -->
 								<div class="cell-status-admin">
 									<div class="time-slot-status-admin">
+										<!-- 早上时段签到状态 -->
 										<div class="time-slot-admin morning" :class="{ 'signed': isTimeSlotSigned(data.day, 'morning') }">
 											<span class="time-label-admin">早</span>
 										</div>
+										<!-- 下午时段签到状态 -->
 										<div class="time-slot-admin afternoon" :class="{ 'signed': isTimeSlotSigned(data.day, 'afternoon') }">
 											<span class="time-label-admin">午</span>
 										</div>
+										<!-- 晚上时段签到状态 -->
 										<div class="time-slot-admin evening" :class="{ 'signed': isTimeSlotSigned(data.day, 'evening') }">
 											<span class="time-label-admin">晚</span>
 										</div>
@@ -1726,16 +1820,19 @@ watch(() => studentAttendanceRecords.value, () => {
 							</div>
 						</template>
 					</el-calendar>
-					<!-- 日历图例 -->
+					<!-- 日历图例：说明各时段的时间范围 -->
 					<div class="calendar-legend">
+						<!-- 早上时段图例 -->
 						<div class="legend-item">
 							<div class="legend-dot morning"/>
 							<span>早上 (8:00-11:00)</span>
 						</div>
+						<!-- 下午时段图例 -->
 						<div class="legend-item">
 							<div class="legend-dot afternoon"/>
 							<span>下午 (14:00-17:00)</span>
 						</div>
+						<!-- 晚上时段图例 -->
 						<div class="legend-item">
 							<div class="legend-dot evening"/>
 							<span>晚上 (19:00-22:00)</span>
@@ -1743,6 +1840,7 @@ watch(() => studentAttendanceRecords.value, () => {
 					</div>
 				</div>
 			</div>
+			<!-- 弹窗底部：关闭按钮 -->
 			<template #footer>
 				<div class="dialog-footer">
 					<el-button @click="closeAttendanceRecordsDialog">关闭</el-button>
@@ -1750,7 +1848,7 @@ watch(() => studentAttendanceRecords.value, () => {
 			</template>
 		</el-dialog>
 
-		<!-- 热力图弹窗 -->
+		<!-- 热力图弹窗：展示学生签到热力图 -->
 		<el-dialog
 			v-if="heatmapDialogVisible"
 			v-model="heatmapDialogVisible"
@@ -1764,21 +1862,29 @@ watch(() => studentAttendanceRecords.value, () => {
 			modal-class="heatmap-overlay"
 			@close="closeHeatmapDialog"
 		>
+			<!-- 热力图弹窗内容 -->
 			<div class="heatmap-dialog-content">
-				<!-- 加载中状态 -->
+				<!-- 加载中状态：数据加载时显示 -->
 				<div v-if="attendanceRecordsLoading" class="loading-container">
+					<!-- 加载图标 -->
 					<el-icon class="loading-icon"><loading /></el-icon>
+					<!-- 加载提示文本 -->
 					<p>加载中...</p>
 				</div>
-				<!-- 无数据状态 -->
+				<!-- 无数据状态：无考勤记录时显示 -->
 				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
+					<!-- 无记录图标 -->
 					<el-icon class="no-records-icon"><calendar /></el-icon>
+					<!-- 无记录提示文本 -->
 					<p>暂无考勤记录</p>
 				</div>
-				<!-- 热力图容器 -->
+				<!-- 热力图容器：展示签到热力图 -->
 				<div v-else class="chart-container">
+					<!-- 热力图图表项 -->
 					<div class="chart-item-admin">
+						<!-- 图表标题 -->
 						<div class="chart-title-admin">签到热力图</div>
+						<!-- 图表内容容器 -->
 						<div ref="heatmapDialogChart" class="chart-content-admin"/>
 					</div>
 				</div>

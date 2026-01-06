@@ -247,6 +247,7 @@ const goBack = () => {
 }
 
 /**
+/**
  * 切换标签页
  * @function switchTab
  * @description 根据方向切换标签页,支持循环切换
@@ -270,6 +271,16 @@ const switchTab = direction => {
 	handleTabChange(activeTab.value)
 }
 
+/**
+ * 初始化签到积分柱状图
+ * @function initSignInChart
+ * @description 使用ECharts初始化签到积分排行榜的横向柱状图
+ * @param {Array<Object>} data - 学生签到积分数据数组
+ * @param {number} data[].signInPoints - 签到积分
+ * @param {string} data[].name - 学生姓名
+ * @param {number} data[].totalPoints - 总积分
+ * @returns {Promise<void>}
+ */
 const initSignInChart = async data => {
 	if (!signInChart.value) {
 		await nextTick()
@@ -372,6 +383,17 @@ const initSignInChart = async data => {
 
 	signInChartInstance.setOption(option)
 }
+
+/**
+ * 初始化活动积分柱状图
+ * @function initActivityChart
+ * @description 使用ECharts初始化活动积分排行榜的横向柱状图
+ * @param {Array<Object>} data - 学生活动积分数据数组
+ * @param {number} data[].activityPoints - 活动积分
+ * @param {string} data[].name - 学生姓名
+ * @param {number} data[].targetStudentInfoId - 目标学生ID
+ * @returns {Promise<void>}
+ */
 const initActivityChart = async data => {
 	if (!activityChart.value) {
 		await nextTick()
@@ -465,6 +487,18 @@ const initActivityChart = async data => {
 	activityChartInstance.setOption(option)
 }
 
+/**
+ * 初始化总积分堆叠柱状图
+ * @function initTotalChart
+ * @description 使用ECharts初始化总积分排行榜的堆叠横向柱状图,显示签到积分和活动积分的组成
+ * @param {Array<Object>} data - 学生总积分数据数组
+ * @param {number} data[].totalPoints - 总积分
+ * @param {number} data[].signInPoints - 签到积分
+ * @param {number} data[].activityPoints - 活动积分
+ * @param {string} data[].name - 学生姓名
+ * @param {number} data[].studentInfoId - 学生ID
+ * @returns {Promise<void>}
+ */
 const initTotalChart = async data => {
 	if (!totalChart.value) {
 		await nextTick()
@@ -563,6 +597,14 @@ const initTotalChart = async data => {
 	totalChartInstance.setOption(option)
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当学生头像加载失败时,标记该学生没有头像并清空头像URL
+ * @param {Object} student - 学生对象
+ * @param {boolean} student.hasAvatar - 是否有头像
+ * @param {string|null} student.avatarUrl - 头像URL
+ */
 const handleAvatarError = student => {
 	student.hasAvatar = false
 	student.avatarUrl = null
@@ -573,6 +615,12 @@ const handleAvatarError = student => {
 
 // 已删除冗余的 loadSignInRanking 和 loadActivityRanking 函数，现在统一使用 PointsDashboardPage 管理数据
 
+/**
+ * 获取考勤数据并处理签到排行榜
+ * @function getAttendanceData
+ * @description 获取前32名学生的考勤数据,补充学生信息(姓名、年级、专业等),并格式化为图表所需格式
+ * @returns {Promise<void>}
+ */
 const getAttendanceData = async () => {
 	try {
 		// 1. 先获取原始签到排名数据
@@ -643,6 +691,14 @@ const getAttendanceData = async () => {
 	}
 }
 
+/**
+ * 填充优秀学生列表
+ * @function padTopStudents
+ * @description 将学生列表填充到指定长度,不足时添加占位符对象
+ * @param {Array<Object>} list - 学生列表
+ * @param {number} targetLength - 目标长度,默认为12
+ * @returns {Array<Object>} 填充后的列表
+ */
 const padTopStudents = (list, targetLength = 12) => {
 	const filled = [...list]
 	while (filled.length < targetLength) {
@@ -654,6 +710,12 @@ const padTopStudents = (list, targetLength = 12) => {
 	return filled
 }
 
+/**
+ * 加载总积分排行榜数据
+ * @function loadTotalRanking
+ * @description 获取前32名学生的综合排名数据,格式化为图表所需格式,并初始化总积分图表
+ * @returns {Promise<void>}
+ */
 const loadTotalRanking = async () => {
 	totalLoading.value = true
 	try {
@@ -703,6 +765,13 @@ const loadTotalRanking = async () => {
 	}
 }
 
+/**
+ * 处理标签页切换
+ * @function handleTabChange
+ * @description 根据标签页名称加载对应的数据并初始化图表
+ * @param {string} tabName - 标签页名称:'total'|'signIn'|'activity'
+ * @returns {Promise<void>}
+ */
 const handleTabChange = async tabName => {
 	await nextTick()
 	if (tabName === 'signIn') {
@@ -780,6 +849,11 @@ const handleTabChange = async tabName => {
 	}
 }
 
+/**
+ * 处理窗口大小调整
+ * @function handleResize
+ * @description 当窗口大小改变时,调整所有图表的尺寸以适应新的窗口大小
+ */
 const handleResize = () => {
 	if (signInChartInstance) {
 		signInChartInstance.resize()
@@ -795,7 +869,12 @@ const handleResize = () => {
 // 自动刷新定时器
 const refreshTimer = null
 
-// 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
+/**
+ * 刷新数据
+ * @function refreshData
+ * @description 根据当前激活的标签页刷新对应的数据,并更新排行榜和图表
+ * @returns {Promise<void>}
+ */
 const refreshData = async () => {
 	// 统一使用 PointsDashboardPage 刷新数据
 	await dashboardPage.value.refreshData()
@@ -840,6 +919,10 @@ const refreshData = async () => {
 }
 
 
+/**
+ * 监听主题模式变化
+ * @description 当主题模式切换时,重新初始化当前激活标签页的图表以适配新主题
+ */
 watch(() => themeStore.isDarkMode, () => {
 	setTimeout(() => {
 		if (activeTab.value === 'signIn' && signInRanking.value.length > 0) {
@@ -852,6 +935,15 @@ watch(() => themeStore.isDarkMode, () => {
 	}, 100)
 })
 
+/**
+ * 打开改分记录弹窗
+ * @function openRecordsDialog
+ * @description 打开指定学生的改分记录弹窗,并加载该学生的改分记录
+ * @param {Object} student - 学生对象
+ * @param {number} student.studentInfoId - 学生ID
+ * @param {string} student.name - 学生姓名
+ * @returns {Promise<void>}
+ */
 const openRecordsDialog = async student => {
 	// 恢复遮罩层样式，确保可以正常显示
 	const dialogWrapper = document.querySelector('.records-dialog-overlay')
@@ -887,6 +979,11 @@ const openRecordsDialog = async student => {
 	}
 }
 
+/**
+ * 关闭改分记录弹窗
+ * @function handleRecordsDialogClose
+ * @description 关闭改分记录弹窗,清空数据并隐藏遮罩层
+ */
 const handleRecordsDialogClose = () => {
 	// 先直接操作DOM隐藏遮罩层，避免闪烁
 	const dialogWrapper = document.querySelector('.records-dialog-overlay')
@@ -907,6 +1004,13 @@ const handleRecordsDialogClose = () => {
 	}, 0)
 }
 
+/**
+ * 格式化年级显示
+ * @function formatGrade
+ * @description 将年级数字转换为中文显示(如:1->大一,2->大二)
+ * @param {string|number} grade - 年级数字
+ * @returns {string} 格式化后的年级字符串
+ */
 const formatGrade = grade => {
 	if (!grade) { return '' }
 	const gradeNum = parseInt(grade)
@@ -922,6 +1026,13 @@ const formatGrade = grade => {
 	return gradeMap[gradeNum] || `${gradeNum}年级`
 }
 
+/**
+ * 格式化时间显示
+ * @function formatTime
+ * @description 将时间字符串格式化为"YYYY-MM-DD HH:mm"格式
+ * @param {string} timeString - 时间字符串
+ * @returns {string} 格式化后的时间字符串
+ */
 const formatTime = timeString => {
 	if (!timeString) { return '--' }
 	try {
@@ -937,12 +1048,22 @@ const formatTime = timeString => {
 	}
 }
 
+/**
+ * 组件挂载时的生命周期钩子
+ * @function onMounted
+ * @description 组件挂载时加载总积分排行榜数据并添加窗口大小调整监听器
+ */
 onMounted(async () => {
 	await nextTick()
 	await loadTotalRanking()
 	window.addEventListener('resize', handleResize)
 })
 
+/**
+ * 组件卸载时的生命周期钩子
+ * @function onUnmounted
+ * @description 组件卸载时销毁所有图表实例并移除窗口大小调整监听器
+ */
 onUnmounted(() => {
 	if (signInChartInstance) {
 		signInChartInstance.dispose()
