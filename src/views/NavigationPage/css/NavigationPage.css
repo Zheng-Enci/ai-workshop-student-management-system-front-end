@@ -15,6 +15,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+
   /* 多色渐变背景，营造动态视觉效果 */
   background: linear-gradient(135deg,
     rgb(99 102 241 / 0.1) 0%,
@@ -34,6 +35,7 @@
   gap: 16px;
   align-items: center;
   padding: 40px;
+
   /* 毛玻璃背景效果 */
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -49,6 +51,7 @@
 .spinner-icon {
   font-size: 32px;
   color: var(--primary-color);
+
   /* 持续旋转动画，1秒一圈 */
   animation: spin 1s linear infinite;
 }

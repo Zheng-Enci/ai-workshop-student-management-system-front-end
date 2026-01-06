@@ -1,60 +1,81 @@
 /* 首页容器样式 - 桌面版 */
+
 /* 定义整个首页的基础布局和样式 */
 .home-container {
 	/* 相对定位，作为子元素的定位参考 */
 	position: relative;
+
 	/* 最小高度为视口高度，确保页面占满屏幕 */
 	min-height: 100vh;
+
 	/* 隐藏横向滚动条 */
 	overflow-x: hidden;
+
 	/* 设置字体族，优先使用系统字体，提供良好的跨平台兼容性 */
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
 	/* 使用CSS变量设置文本主色，支持主题切换 */
 	color: var(--text-primary);
+
 	/* 使用渐变背景，从主背景色到次背景色，135度角渐变 */
 	background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
 
 /* 主题切换按钮容器 */
+
 /* 固定在页面右上角，方便用户切换主题 */
 .theme-toggle-container {
 	/* 固定定位，不随页面滚动 */
 	position: fixed;
+
 	/* 距离顶部32px */
 	top: 32px;
+
 	/* 距离右侧32px */
 	right: 32px;
+
 	/* 设置较高的层级，确保在其他元素之上 */
 	z-index: 1000;
 }
 
 /* 主题切换图标样式 */
+
 /* 提供主题切换的视觉反馈和交互效果 */
 .theme-toggle-icon {
 	/* 图标尺寸为56x56px */
 	width: 56px;
 	height: 56px;
+
 	/* 内边距8px，增加点击区域 */
 	padding: 8px;
+
 	/* 鼠标悬停时显示手型指针 */
 	cursor: pointer;
+
 	/* 透明背景 */
 	background: transparent;
+
 	/* 无边框 */
 	border: none;
+
 	/* 无圆角 */
 	border-radius: 0;
+
 	/* 无阴影 */
 	box-shadow: none;
+
 	/* 背景模糊效果，增强视觉层次 */
 	backdrop-filter: blur(20px);
+
 	/* 变换动画，使用缓动函数实现平滑过渡 */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
 	/* 优化性能，提示浏览器该属性会变化 */
 	will-change: transform;
 }
 
 /* 主题切换图标悬停效果 */
+
 /* 鼠标悬停时放大图标，提供视觉反馈 */
 .theme-toggle-icon:hover {
 	/* 放大到1.15倍 */
@@ -62,6 +83,7 @@
 }
 
 /* 主题切换图标激活效果 */
+
 /* 点击时稍微缩小，提供按压反馈 */
 .theme-toggle-icon:active {
 	/* 放大到1.1倍 */
@@ -69,38 +91,50 @@
 }
 
 /* 英雄区域样式 */
+
 /* 首页的主要展示区域，包含标题、描述和操作按钮 */
 .hero-section {
 	/* 使用弹性布局 */
 	display: flex;
+
 	/* 垂直居中对齐 */
 	align-items: center;
+
 	/* 水平居中对齐 */
 	justify-content: center;
+
 	/* 最小高度为视口高度 */
 	min-height: 100vh;
+
 	/* 内边距：上下60px和80px，左右40px */
 	padding: 60px 40px 80px;
 }
 
 /* 英雄内容区域 */
+
 /* 使用网格布局，左右分栏显示内容 */
 .hero-content {
 	/* 使用网格布局 */
 	display: grid;
+
 	/* 两列等宽布局 */
 	grid-template-columns: 1fr 1fr;
+
 	/* 列间距60px */
 	gap: 60px;
+
 	/* 垂直居中对齐 */
 	align-items: center;
+
 	/* 宽度100% */
 	width: 100%;
+
 	/* 最大宽度1400px，在大屏幕上限制宽度 */
 	max-width: 1400px;
 }
 
 /* 英雄区域左侧内容 */
+
 /* 包含标题、副标题和描述文字 */
 .hero-left {
 	/* 文本左对齐 */
@@ -108,6 +142,7 @@
 }
 
 /* 英雄区域右侧内容 */
+
 /* 包含功能展示卡片 */
 .hero-right {
 	/* 块级显示 */
@@ -115,6 +150,7 @@
 }
 
 /* Logo区域 */
+
 /* 包含Logo和标题 */
 .logo-section {
 	/* 底部外边距40px */
@@ -122,45 +158,58 @@
 }
 
 /* Logo容器 */
+
 /* 相对定位，用于放置Logo和光晕效果 */
 .logo-container {
 	/* 相对定位 */
 	position: relative;
+
 	/* 行内块级显示 */
 	display: inline-block;
+
 	/* 底部外边距20px */
 	margin-bottom: 20px;
 }
 
 /* Logo光晕效果 */
+
 /* 在Logo周围添加脉冲动画光晕，增强视觉效果 */
 .logo-glow {
 	/* 绝对定位，相对于logo-container */
 	position: absolute;
+
 	/* 垂直居中 */
 	top: 50%;
+
 	/* 水平居中 */
 	left: 50%;
+
 	/* 光晕尺寸140x140px */
 	width: 140px;
 	height: 140px;
+
 	/* 径向渐变，从中心向外扩散，颜色为半透明紫色 */
 	background: radial-gradient(circle, rgb(102 126 234 / 0.2) 0%, transparent 70%);
+
 	/* 圆形 */
 	border-radius: 50%;
+
 	/* 居中定位 */
 	transform: translate(-50%, -50%);
+
 	/* 脉冲动画，持续2秒，无限循环 */
 	animation: pulse 2s infinite;
 }
 
 /* 脉冲动画关键帧 */
+
 /* 定义光晕的呼吸效果 */
 @keyframes pulse {
 	/* 起始和结束状态 */
 	0%, 100% {
 		/* 透明度0.5 */
 		opacity: 0.5;
+
 		/* 保持居中，缩放比例为1 */
 		transform: translate(-50%, -50%) scale(1);
 	}
@@ -169,59 +218,76 @@
 	50% {
 		/* 透明度0.8，更明显 */
 		opacity: 0.8;
+
 		/* 放大到1.1倍 */
 		transform: translate(-50%, -50%) scale(1.1);
 	}
 }
 
 /* 主标题样式 */
+
 /* 首页的主要标题，使用渐变文字效果 */
 .main-title {
 	/* 外边距：上下0，底部10px */
 	margin: 0 0 10px;
+
 	/* 字体大小42px */
 	font-size: 42px;
+
 	/* 字体粗细700，加粗 */
 	font-weight: 700;
+
 	/* 渐变背景，从紫色到深紫色 */
 	background: linear-gradient(135deg, #667eea, #764ba2);
+
 	/* 将背景裁剪到文字形状 */
 	background-clip: text;
+
 	/* WebKit浏览器中使文字透明，显示背景渐变 */
 	-webkit-text-fill-color: transparent;
 }
 
 /* 副标题样式 */
+
 /* 首页的副标题，提供补充信息 */
 .main-subtitle {
 	/* 外边距：上下0，底部15px */
 	margin: 0 0 15px;
+
 	/* 字体大小22px */
 	font-size: 22px;
+
 	/* 字体粗细500，中等 */
 	font-weight: 500;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary);
 }
 
 /* 标语样式 */
+
 /* 首页的标语文字，使用斜体 */
 .tagline {
 	/* 外边距0 */
 	margin: 0;
+
 	/* 字体大小18px */
 	font-size: 18px;
+
 	/* 斜体 */
 	font-style: italic;
+
 	/* 使用CSS变量设置文本第三级颜色 */
 	color: var(--text-tertiary);
 }
 
 /* 描述区域 */
+
 /* 包含系统功能描述 */
 .description-section {
 	/* 最大宽度600px，限制文本宽度以提高可读性 */
 	max-width: 600px;
+
 	/* 左右自动外边距，实现居中 */
 	margin-right: auto;
 	margin-bottom: 50px;
@@ -229,74 +295,97 @@
 }
 
 /* 区域标题样式 */
+
 /* 用于各个功能区域的标题 */
 .section-title {
 	/* 弹性布局 */
 	display: flex;
+
 	/* 元素间距12px */
 	gap: 12px;
+
 	/* 垂直居中对齐 */
 	align-items: center;
+
 	/* 底部内边距12px */
 	padding-bottom: 12px;
+
 	/* 外边距：上下0，底部20px */
 	margin: 0 0 20px;
+
 	/* 字体大小32px */
 	font-size: 32px;
+
 	/* 字体粗细600，半粗 */
 	font-weight: 600;
+
 	/* 使用CSS变量设置文本主色 */
 	color: var(--text-primary);
+
 	/* 底部边框，使用主色，宽度2px */
 	border-bottom: 2px solid var(--primary-color);
 }
 
 /* 区域标题中的图标 */
+
 /* Element Plus图标样式 */
 .section-title .el-icon {
 	/* 图标大小24px */
 	font-size: 24px;
+
 	/* 使用主色 */
 	color: var(--primary-color);
 }
 
 /* 描述文字样式 */
+
 /* 功能描述文本 */
 .description {
 	/* 外边距0 */
 	margin: 0;
+
 	/* 字体大小18px */
 	font-size: 18px;
+
 	/* 行高1.7，提高可读性 */
 	line-height: 1.7;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary);
 }
 
 /* 操作按钮区域 */
+
 /* 包含主要操作按钮 */
 .action-section {
 	/* 弹性布局 */
 	display: flex;
+
 	/* 允许换行 */
 	flex-wrap: wrap;
+
 	/* 元素间距16px */
 	gap: 16px;
+
 	/* 垂直居中对齐 */
 	align-items: center;
+
 	/* 左对齐 */
 	justify-content: flex-start;
+
 	/* 底部外边距50px */
 	margin-bottom: 50px;
 }
 
 /* 按钮入场动画 */
+
 /* 定义按钮的淡入和上移动画效果 */
 @keyframes buttonEntrance {
 	/* 起始状态 */
 	0% {
 		/* 完全透明 */
 		opacity: 0;
+
 		/* 向下偏移20px */
 		transform: translateY(20px);
 	}
@@ -305,127 +394,180 @@
 	100% {
 		/* 完全不透明 */
 		opacity: 1;
+
 		/* 回到原位置 */
 		transform: translateY(0);
 	}
 }
 
 /* 基础按钮样式（低优先级，先声明） */
+
 /* 主要操作按钮的基础样式 */
 .action-button {
 	/* 相对定位，用于伪元素定位 */
 	position: relative !important;
+
 	/* 弹性布局 */
 	display: flex !important;
+
 	/* 元素间距6px */
 	gap: 6px !important;
+
 	/* 垂直居中对齐 */
 	align-items: center !important;
+
 	/* 水平居中对齐 */
 	justify-content: center !important;
+
 	/* 最小宽度120px */
 	min-width: 120px !important;
+
 	/* 最大宽度200px */
 	max-width: 200px !important;
+
 	/* 高度40px */
 	height: 40px !important;
+
 	/* 内边距：上下10px，左右32px */
 	padding: 10px 32px !important;
+
 	/* 隐藏溢出内容 */
 	overflow: hidden !important;
+
 	/* 字体大小16px */
 	font-size: 16px !important;
+
 	/* 字体粗细600，半粗 */
 	font-weight: 600 !important;
+
 	/* 行高1 */
 	line-height: 1 !important;
+
 	/* 白色文字 */
 	color: white !important;
+
 	/* 无轮廓 */
 	outline: none !important;
+
 	/* 使用CSS变量设置渐变背景 */
 	background: var(--primary-gradient) !important;
+
 	/* 无边框 */
 	border: none !important;
+
 	/* 圆角20px */
 	border-radius: 20px !important;
+
 	/* 阴影效果，使用半透明紫色 */
 	box-shadow: 0 4px 14px rgb(102 126 234 / 0.25) !important;
+
 	/* 变换动画，使用缓动函数 */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
 	/* 动画延迟0.1秒 */
 	animation-delay: 0.1s;
+
 	/* 优化性能 */
 	will-change: transform;
 }
 
 /* 环境保障机制按钮样式 */
+
 /* 用于打开环境保障机制对话框的按钮 */
 .environment-policy-button {
 	/* 弹性布局 */
 	display: flex !important;
+
 	/* 元素间距6px */
 	gap: 6px !important;
+
 	/* 垂直居中对齐 */
 	align-items: center !important;
+
 	/* 水平居中对齐 */
 	justify-content: center !important;
+
 	/* 最小宽度120px */
 	min-width: 120px !important;
+
 	/* 最大宽度200px */
 	max-width: 200px !important;
+
 	/* 高度40px */
 	height: 40px !important;
+
 	/* 内边距：上下10px，左右32px */
 	padding: 10px 32px !important;
+
 	/* 字体大小16px */
 	font-size: 16px !important;
+
 	/* 字体粗细600，半粗 */
 	font-weight: 600 !important;
+
 	/* 行高1 */
 	line-height: 1 !important;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary) !important;
+
 	/* 鼠标悬停时显示手型指针 */
 	cursor: pointer !important;
+
 	/* 无轮廓 */
 	outline: none !important;
+
 	/* 半透明蓝色背景 */
 	background: rgb(64 158 255 / 0.1) !important;
+
 	/* 使用CSS变量设置玻璃边框 */
 	border: 1px solid var(--glass-border) !important;
+
 	/* 圆角20px */
 	border-radius: 20px !important;
+
 	/* 阴影效果，使用CSS变量 */
 	box-shadow: 0 3px 12px var(--shadow-color) !important;
+
 	/* 背景模糊效果 */
 	backdrop-filter: blur(20px) !important;
+
 	/* 变换动画，使用缓动函数 */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
 	/* 优化性能 */
 	will-change: transform;
 }
 
 
 /* 按钮伪元素/hover 样式（高优先级，后声明） */
+
 /* 主要操作按钮的光泽效果 */
 .action-button::before {
 	/* 绝对定位 */
 	position: absolute;
+
 	/* 顶部对齐 */
 	top: 0;
+
 	/* 宽度100% */
 	width: 100%;
+
 	/* 高度100% */
 	height: 100%;
+
 	/* 伪元素内容为空 */
 	content: '';
+
 	/* 线性渐变，创建光泽效果 */
 	background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.2), transparent);
+
 	/* 初始位置在左侧外部 */
 	transform: translateX(-100%);
+
 	/* 变换动画，持续0.5秒 */
 	transition: transform 0.5s;
+
 	/* 优化性能 */
 	will-change: transform;
 }
@@ -437,49 +579,62 @@
 }
 
 /* 主要操作按钮悬停效果 */
+
 /* 鼠标悬停时提升按钮，增强阴影 */
 .action-button:hover {
 	/* 增强阴影效果 */
 	box-shadow: 0 6px 18px rgb(102 126 234 / 0.35) !important;
+
 	/* 向上移动1px，提供提升感 */
 	transform: translateY(-1px) !important;
 }
 
 
 /* 环境保障机制按钮悬停效果 */
+
 /* 鼠标悬停时改变颜色和背景 */
 .environment-policy-button:hover {
 	/* 使用主色 */
 	color: var(--primary-color) !important;
+
 	/* 半透明紫色背景 */
 	background: rgb(102 126 234 / 0.15) !important;
+
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color) !important;
+
 	/* 增强阴影效果 */
 	box-shadow: 0 6px 18px var(--shadow-hover) !important;
+
 	/* 向上移动1px */
 	transform: translateY(-1px) !important;
 }
 
 /* 环境保障机制按钮激活效果 */
+
 /* 点击时恢复原位置 */
 .environment-policy-button:active {
 	/* 恢复阴影 */
 	box-shadow: 0 4px 20px var(--shadow-color) !important;
+
 	/* 恢复原位置 */
 	transform: translateY(0) !important;
 }
 
 
 /* 普通文本/卡片样式（低优先级，先声明） */
+
 /* 更新日志内容标题 */
 .update-content h4 {
 	/* 外边距：上下0，底部8px */
 	margin: 0 0 8px;
+
 	/* 字体大小18px */
 	font-size: 18px;
+
 	/* 字体粗细600，半粗 */
 	font-weight: 600;
+
 	/* 使用CSS变量设置文本主色 */
 	color: var(--text-primary);
 }
@@ -488,10 +643,13 @@
 .update-content p {
 	/* 外边距0 */
 	margin: 0;
+
 	/* 字体大小14px */
 	font-size: 14px;
+
 	/* 行高1.6 */
 	line-height: 1.6;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary);
 }
@@ -500,24 +658,34 @@
 .summary-card h3 {
 	/* 弹性布局 */
 	display: flex;
+
 	/* 元素间距12px */
 	gap: 12px;
+
 	/* 垂直居中对齐 */
 	align-items: center;
+
 	/* 水平居中对齐 */
 	justify-content: center;
+
 	/* 外边距：上下0，底部20px */
 	margin: 0 0 20px;
+
 	/* 字体大小22px */
 	font-size: 22px;
+
 	/* 字体粗细600，半粗 */
 	font-weight: 600;
+
 	/* 使用CSS变量设置文本主色 */
 	color: var(--text-primary);
+
 	/* 渐变背景，从主色到次主色 */
 	background: var(--primary-gradient);
+
 	/* 将背景裁剪到文字形状 */
 	background-clip: text;
+
 	/* WebKit浏览器中使文字透明，显示背景渐变 */
 	-webkit-text-fill-color: transparent;
 }
@@ -526,10 +694,13 @@
 .summary-card p {
 	/* 外边距0 */
 	margin: 0;
+
 	/* 字体大小16px */
 	font-size: 16px;
+
 	/* 行高1.7 */
 	line-height: 1.7;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary);
 }
@@ -538,10 +709,13 @@
 .policy-content p {
 	/* 外边距：上下0，底部16px */
 	margin: 0 0 16px;
+
 	/* 字体大小16px */
 	font-size: 16px;
+
 	/* 行高1.8 */
 	line-height: 1.8;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary);
 }
@@ -551,10 +725,13 @@
 .author-info p {
 	/* 外边距：上下5px，左右0 */
 	margin: 5px 0;
+
 	/* 字体大小14px */
 	font-size: 14px;
+
 	/* 行高1.6 */
 	line-height: 1.6;
+
 	/* 透明度0.9 */
 	opacity: 0.9;
 }
@@ -563,12 +740,16 @@
 .feature-card h3 {
 	/* 外边距：上下0，底部12px */
 	margin: 0 0 12px;
+
 	/* 字体大小20px */
 	font-size: 20px;
+
 	/* 字体粗细600，半粗 */
 	font-weight: 600;
+
 	/* 使用CSS变量设置文本主色 */
 	color: var(--text-primary);
+
 	/* 文本居中对齐 */
 	text-align: center;
 }
@@ -577,12 +758,16 @@
 .feature-card p {
 	/* 外边距0 */
 	margin: 0;
+
 	/* 字体大小14px */
 	font-size: 14px;
+
 	/* 行高1.6 */
 	line-height: 1.6;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary);
+
 	/* 文本居中对齐 */
 	text-align: center;
 }
@@ -592,6 +777,7 @@
 .footer-content p {
 	/* 外边距：上下5px，左右0 */
 	margin: 5px 0;
+
 	/* 透明度0.8 */
 	opacity: 0.8;
 }
@@ -600,6 +786,7 @@
 
 
 /* 按钮内图标样式（统一优先级） */
+
 /* Element Plus图标在按钮中的样式 */
 .action-button .el-icon,
 .environment-policy-button .el-icon {
@@ -607,71 +794,96 @@
 }
 
 /* 功能展示区域 */
+
 /* 使用网格布局展示功能卡片 */
 .features-showcase {
 	/* 网格布局 */
 	display: grid;
+
 	/* 两列等宽 */
 	grid-template-columns: repeat(2, 1fr);
+
 	/* 行间距25px */
 	gap: 25px;
 }
 
 /* 功能卡片样式 */
+
 /* 单个功能展示卡片 */
 .feature-card {
 	/* 相对定位，用于伪元素定位 */
 	position: relative;
+
 	/* 内边距：上下35px，左右30px */
 	padding: 35px 30px;
+
 	/* 隐藏溢出内容 */
 	overflow: hidden;
+
 	/* 鼠标悬停时显示手型指针 */
 	cursor: pointer;
+
 	/* 使用CSS变量设置玻璃背景 */
 	background: var(--glass-bg);
+
 	/* 使用CSS变量设置玻璃边框 */
 	border: 1px solid var(--glass-border);
+
 	/* 圆角24px */
 	border-radius: 24px;
+
 	/* 背景模糊效果 */
 	backdrop-filter: blur(20px);
+
 	/* 变换和背景模糊动画 */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
 	/* 优化性能 */
 	will-change: transform;
 }
 
 /* 功能卡片激活效果 */
+
 /* 点击时提供按压反馈 */
 .feature-card:active {
 	/* 向上移动8px并稍微缩小 */
 	transform: translateY(-8px) scale(0.98);
+
 	/* 快速变换动画 */
 	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
 	/* 优化性能 */
 	will-change: transform;
 }
 
 /* 功能卡片顶部装饰条 */
+
 /* 悬停时显示的渐变装饰条 */
 .feature-card::before {
 	/* 绝对定位 */
 	position: absolute;
+
 	/* 顶部对齐 */
 	top: 0;
+
 	/* 右侧对齐 */
 	right: 0;
+
 	/* 左侧对齐 */
 	left: 0;
+
 	/* 高度3px */
 	height: 3px;
+
 	/* 伪元素内容为空 */
 	content: '';
+
 	/* 使用CSS变量设置渐变背景 */
 	background: var(--primary-gradient);
+
 	/* 初始状态：横向缩放为0，不可见 */
 	transform: scaleX(0);
+
 	/* 变换动画，使用缓动函数 */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -683,39 +895,51 @@
 }
 
 /* 功能卡片悬停效果 */
+
 /* 鼠标悬停时提升卡片，增强阴影 */
 .feature-card:hover {
 	/* 保持玻璃背景 */
 	background: var(--glass-bg);
+
 	/* 增强阴影效果 */
 	box-shadow: 0 24px 48px var(--shadow-hover);
+
 	/* 向上移动8px */
 	transform: translateY(-8px);
 }
 
 /* 功能图标样式 */
+
 /* 功能卡片中的图标 */
 .feature-icon {
 	/* 弹性布局 */
 	display: flex;
+
 	/* 垂直居中对齐 */
 	align-items: center;
+
 	/* 水平居中对齐 */
 	justify-content: center;
+
 	/* 图标尺寸60x60px */
 	width: 60px;
 	height: 60px;
+
 	/* 左右自动外边距，底部20px，实现居中 */
 	margin: 0 auto 20px;
+
 	/* 图标大小24px */
 	font-size: 24px;
+
 	/* 白色图标 */
 	color: white;
+
 	/* 圆形 */
 	border-radius: 50%;
 }
 
 /* 主要功能卡片图标背景 */
+
 /* 使用紫色渐变 */
 .feature-card.primary .feature-icon {
 	/* 渐变背景，从浅紫色到深紫色 */
@@ -723,6 +947,7 @@
 }
 
 /* 次要功能卡片图标背景 */
+
 /* 使用粉红色渐变 */
 .feature-card.secondary .feature-icon {
 	/* 渐变背景，从粉红色到红色 */
@@ -730,6 +955,7 @@
 }
 
 /* 第三功能卡片图标背景 */
+
 /* 使用蓝色渐变 */
 .feature-card.tertiary .feature-icon {
 	/* 渐变背景，从蓝色到青色 */
@@ -737,6 +963,7 @@
 }
 
 /* 第四功能卡片图标背景 */
+
 /* 使用绿色渐变 */
 .feature-card.quaternary .feature-icon {
 	/* 渐变背景，从绿色到青色 */
@@ -745,6 +972,7 @@
 
 
 /* 页脚内容第一段 */
+
 /* 较小的字体 */
 .footer-content p:first-child {
 	/* 字体大小12px */
@@ -752,6 +980,7 @@
 }
 
 /* 页脚内容最后一段 */
+
 /* 标准字体 */
 .footer-content p:last-child {
 	/* 字体大小14px */
@@ -759,24 +988,30 @@
 }
 
 /* 页脚样式 */
+
 /* 页面底部信息区域 */
 .footer {
 	/* 内边距：上下30px，左右20px */
 	padding: 30px 20px;
+
 	/* 白色文字 */
 	color: white;
+
 	/* 文本居中对齐 */
 	text-align: center;
+
 	/* 深色背景 */
 	background: #2c3e50;
 }
 
 
 /* 弹窗/对话框样式（最后声明，不影响优先级顺序） */
+
 /* 更新日志对话框容器 */
 .update-log-dialog {
 	/* 隐藏溢出内容 */
 	overflow: hidden;
+
 	/* 圆角24px */
 	border-radius: 24px;
 }
@@ -785,8 +1020,10 @@
 .update-log-dialog :deep(.el-dialog) {
 	/* 使用CSS变量设置背景色 */
 	background: var(--bg-primary);
+
 	/* 使用CSS变量设置玻璃边框 */
 	border: 1px solid var(--glass-border);
+
 	/* 圆角24px */
 	border-radius: 24px;
 }
@@ -795,10 +1032,13 @@
 .update-log-dialog :deep(.el-dialog__header) {
 	/* 内边距：上下24px，左右32px */
 	padding: 24px 32px;
+
 	/* 使用CSS变量设置玻璃背景 */
 	background: var(--glass-bg);
+
 	/* 底部边框，使用玻璃边框色 */
 	border-bottom: 1px solid var(--glass-border);
+
 	/* 背景模糊效果 */
 	backdrop-filter: blur(20px);
 }
@@ -807,14 +1047,19 @@
 .update-log-dialog :deep(.el-dialog__title) {
 	/* 字体大小24px */
 	font-size: 24px;
+
 	/* 字体粗细600，半粗 */
 	font-weight: 600;
+
 	/* 使用CSS变量设置文本主色 */
 	color: var(--text-primary);
+
 	/* 渐变背景，从主色到次主色 */
 	background: var(--primary-gradient);
+
 	/* WebKit浏览器中使文字透明，显示背景渐变 */
 	-webkit-text-fill-color: transparent;
+
 	/* 将背景裁剪到文字形状 */
 	background-clip: text;
 }
@@ -823,22 +1068,27 @@
 .update-log-dialog :deep(.el-dialog__body) {
 	/* 无内边距 */
 	padding: 0;
+
 	/* 使用CSS变量设置背景色 */
 	background: var(--bg-primary);
 }
 
 /* 更新日志内容区域 */
+
 /* 可滚动的更新日志列表 */
 .update-log-content {
 	/* 最大高度为视口高度的70% */
 	max-height: 70vh;
+
 	/* 内边距32px */
 	padding: 32px;
+
 	/* 垂直方向可滚动 */
 	overflow-y: auto;
 }
 
 /* 更新日志区域 */
+
 /* 单个更新版本的区域 */
 .update-section {
 	/* 底部外边距40px */
@@ -846,6 +1096,7 @@
 }
 
 /* 最后一个更新日志区域 */
+
 /* 移除底部外边距 */
 .update-section:last-child {
 	/* 底部外边距0 */
@@ -853,75 +1104,100 @@
 }
 
 /* 更新日志项目列表 */
+
 /* 使用网格布局 */
 .update-items {
 	/* 网格布局 */
 	display: grid;
+
 	/* 单列布局 */
 	grid-template-columns: 1fr;
+
 	/* 行间距20px */
 	gap: 20px;
 }
 
 /* 更新日志项目 */
+
 /* 单个更新日志条目 */
 .update-item {
 	/* 弹性布局 */
 	display: flex;
+
 	/* 元素间距16px */
 	gap: 16px;
+
 	/* 顶部对齐 */
 	align-items: flex-start;
+
 	/* 内边距24px */
 	padding: 24px;
+
 	/* 使用CSS变量设置玻璃背景 */
 	background: var(--glass-bg);
+
 	/* 使用CSS变量设置玻璃边框 */
 	border: 1px solid var(--glass-border);
+
 	/* 圆角16px */
 	border-radius: 16px;
+
 	/* 背景模糊效果 */
 	backdrop-filter: blur(20px);
+
 	/* 变换动画 */
 	transition: transform 0.3s ease;
+
 	/* 优化性能 */
 	will-change: transform;
 }
 
 /* 更新日志项目悬停效果 */
+
 /* 鼠标悬停时提升项目，改变边框颜色 */
 .update-item:hover {
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color);
+
 	/* 增强阴影效果 */
 	box-shadow: 0 12px 32px var(--shadow-hover);
+
 	/* 向上移动4px */
 	transform: translateY(-4px);
 }
 
 /* 更新日志图标 */
+
 /* 更新日志项目中的图标 */
 .update-icon {
 	/* 弹性布局 */
 	display: flex;
+
 	/* 不收缩 */
 	flex-shrink: 0;
+
 	/* 垂直居中对齐 */
 	align-items: center;
+
 	/* 水平居中对齐 */
 	justify-content: center;
+
 	/* 图标尺寸48x48px */
 	width: 48px;
 	height: 48px;
+
 	/* 图标大小20px */
 	font-size: 20px;
+
 	/* 白色图标 */
 	color: white;
+
 	/* 圆角12px */
 	border-radius: 12px;
 }
 
 /* 主要更新图标背景 */
+
 /* 使用紫色渐变 */
 .update-icon.primary {
 	/* 渐变背景，从浅紫色到深紫色 */
@@ -929,6 +1205,7 @@
 }
 
 /* 次要更新图标背景 */
+
 /* 使用粉红色渐变 */
 .update-icon.secondary {
 	/* 渐变背景，从粉红色到红色 */
@@ -936,6 +1213,7 @@
 }
 
 /* 第三更新图标背景 */
+
 /* 使用蓝色渐变 */
 .update-icon.tertiary {
 	/* 渐变背景，从蓝色到青色 */
@@ -943,6 +1221,7 @@
 }
 
 /* 第四更新图标背景 */
+
 /* 使用绿色渐变 */
 .update-icon.quaternary {
 	/* 渐变背景，从绿色到青色 */
@@ -950,71 +1229,91 @@
 }
 
 /* 更新摘要区域 */
+
 /* 更新日志的摘要部分 */
 .update-summary {
 	/* 顶部内边距32px */
 	padding-top: 32px;
+
 	/* 顶部外边距40px */
 	margin-top: 40px;
+
 	/* 顶部边框，使用玻璃边框色，宽度2px */
 	border-top: 2px solid var(--glass-border);
 }
 
 /* 摘要卡片样式 */
+
 /* 更新摘要的卡片容器 */
 .summary-card {
 	/* 内边距32px */
 	padding: 32px;
+
 	/* 文本居中对齐 */
 	text-align: center;
+
 	/* 使用CSS变量设置玻璃背景 */
 	background: var(--glass-bg);
+
 	/* 使用CSS变量设置玻璃边框 */
 	border: 1px solid var(--glass-border);
+
 	/* 圆角20px */
 	border-radius: 20px;
+
 	/* 背景模糊效果 */
 	backdrop-filter: blur(20px);
+
 	/* 变换动画 */
 	transition: transform 0.3s ease;
+
 	/* 优化性能 */
 	will-change: transform;
 }
 
 /* 摘要卡片悬停效果 */
+
 /* 鼠标悬停时提升卡片，改变边框颜色 */
 .summary-card:hover {
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color);
+
 	/* 增强阴影效果 */
 	box-shadow: 0 16px 32px var(--shadow-hover);
+
 	/* 向上移动4px */
 	transform: translateY(-4px);
 }
 
 /* 摘要卡片标题中的图标 */
+
 /* Element Plus图标样式 */
 .summary-card h3 .el-icon {
 	/* 图标大小24px */
 	font-size: 24px;
+
 	/* 使用主色 */
 	color: var(--primary-color);
 }
 
 /* 环境保障机制对话框容器 */
+
 /* 环境保障机制说明对话框 */
 .environment-policy-dialog {
 	/* 隐藏溢出内容 */
 	overflow: hidden;
+
 	/* 圆角24px */
 	border-radius: 24px;
 }
 
 /* 禁用环境保障机制弹窗过渡动画，避免闪烁 */
+
 /* Element Plus对话框包装器样式覆盖 */
 .environment-policy-dialog :deep(.el-dialog__wrapper) {
 	/* 禁用过渡动画 */
 	transition: none !important;
+
 	/* 禁用动画 */
 	animation: none !important;
 }
@@ -1023,14 +1322,19 @@
 .environment-policy-dialog :deep(.el-dialog) {
 	/* 使用CSS变量设置背景色 */
 	background: var(--bg-primary);
+
 	/* 使用CSS变量设置玻璃边框 */
 	border: 1px solid var(--glass-border);
+
 	/* 圆角24px */
 	border-radius: 24px;
+
 	/* 禁用变换 */
 	transform: none !important;
+
 	/* 禁用过渡动画 */
 	transition: none !important;
+
 	/* 禁用动画 */
 	animation: none !important;
 }
@@ -1039,10 +1343,13 @@
 .environment-policy-dialog :deep(.el-dialog__header) {
 	/* 内边距：上下24px，左右32px */
 	padding: 24px 32px;
+
 	/* 使用CSS变量设置玻璃背景 */
 	background: var(--glass-bg);
+
 	/* 底部边框，使用玻璃边框色 */
 	border-bottom: 1px solid var(--glass-border);
+
 	/* 背景模糊效果 */
 	backdrop-filter: blur(20px);
 }
@@ -1051,14 +1358,19 @@
 .environment-policy-dialog :deep(.el-dialog__title) {
 	/* 字体大小24px */
 	font-size: 24px;
+
 	/* 字体粗细600，半粗 */
 	font-weight: 600;
+
 	/* 使用CSS变量设置文本主色 */
 	color: var(--text-primary);
+
 	/* 渐变背景，从主色到次主色 */
 	background: var(--primary-gradient);
+
 	/* WebKit浏览器中使文字透明，显示背景渐变 */
 	-webkit-text-fill-color: transparent;
+
 	/* 将背景裁剪到文字形状 */
 	background-clip: text;
 }
@@ -1067,22 +1379,27 @@
 .environment-policy-dialog :deep(.el-dialog__body) {
 	/* 无内边距 */
 	padding: 0;
+
 	/* 使用CSS变量设置背景色 */
 	background: var(--bg-primary);
 }
 
 /* 环境保障机制内容区域 */
+
 /* 可滚动的政策内容 */
 .environment-policy-content {
 	/* 最大高度为视口高度的70% */
 	max-height: 70vh;
+
 	/* 内边距32px */
 	padding: 32px;
+
 	/* 垂直方向可滚动 */
 	overflow-y: auto;
 }
 
 /* 政策区域 */
+
 /* 单个政策条款的区域 */
 .policy-section {
 	/* 底部外边距40px */
@@ -1090,6 +1407,7 @@
 }
 
 /* 最后一个政策区域 */
+
 /* 移除底部外边距 */
 .policy-section:last-child {
 	/* 底部外边距0 */
@@ -1097,6 +1415,7 @@
 }
 
 /* 政策内容区域 */
+
 /* 政策文本的容器 */
 .policy-content {
 	/* 左侧内边距24px，用于缩进 */
@@ -1104,36 +1423,47 @@
 }
 
 /* 政策内容有序列表 */
+
 /* 编号列表样式 */
 .policy-content ol {
 	/* 左侧内边距24px */
 	padding-left: 24px;
+
 	/* 外边距：上下0，底部16px */
 	margin: 0 0 16px;
+
 	/* 字体大小16px */
 	font-size: 16px;
+
 	/* 行高1.8 */
 	line-height: 1.8;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary);
 }
 
 /* 政策内容无序列表 */
+
 /* 项目符号列表样式 */
 .policy-content ul {
 	/* 左侧内边距24px */
 	padding-left: 24px;
+
 	/* 外边距：上下8px，底部16px */
 	margin: 8px 0 16px;
+
 	/* 字体大小16px */
 	font-size: 16px;
+
 	/* 行高1.8 */
 	line-height: 1.8;
+
 	/* 使用CSS变量设置文本次要颜色 */
 	color: var(--text-secondary);
 }
 
 /* 政策内容列表项 */
+
 /* 列表中的单个项目 */
 .policy-content li {
 	/* 底部外边距8px */
@@ -1141,6 +1471,7 @@
 }
 
 /* 政策内容加粗文字 */
+
 /* 强调文本 */
 .policy-content strong {
 	/* 使用CSS变量设置文本主色 */
@@ -1149,6 +1480,7 @@
 
 
 /* 按钮 focus 样式 */
+
 /* 按钮获得焦点时的样式（当前为空） */
 .action-button:focus,
 .environment-policy-button:focus,
@@ -1159,90 +1491,114 @@
 .author-info {
 	/* 顶部内边距15px */
 	padding-top: 15px;
+
 	/* 顶部外边距20px */
 	margin-top: 20px;
+
 	/* 顶部边框，使用半透明白色 */
 	border-top: 1px solid rgb(255 255 255 / 0.1);
 }
 
 /* 作者联系方式链接 */
+
 /* 作者联系信息的链接 */
 .author-contact {
 	/* 紫色文字 */
 	color: #667eea;
+
 	/* 无下划线 */
 	text-decoration: none;
+
 	/* 变换动画 */
 	transition: transform 0.3s ease;
+
 	/* 优化性能 */
 	will-change: transform;
 }
 
 /* 作者联系方式链接悬停效果 */
+
 /* 鼠标悬停时显示下划线，降低透明度 */
 .author-contact:hover {
 	/* 显示下划线 */
 	text-decoration: underline;
+
 	/* 透明度0.8 */
 	opacity: 0.8;
 }
 
 /* 作者链接列表 */
+
 /* 作者相关链接的容器 */
 .author-links {
 	/* 弹性布局 */
 	display: flex;
+
 	/* 元素间距15px */
 	gap: 15px;
+
 	/* 水平居中对齐 */
 	justify-content: center;
+
 	/* 顶部外边距10px */
 	margin-top: 10px;
 }
 
 /* 作者链接 */
+
 /* 单个作者相关链接 */
 .author-link {
 	/* 字体粗细500，中等 */
 	font-weight: 500;
+
 	/* 紫色文字 */
 	color: #667eea;
+
 	/* 无下划线 */
 	text-decoration: none;
+
 	/* 变换动画 */
 	transition: transform 0.3s ease;
+
 	/* 优化性能 */
 	will-change: transform;
 }
 
 /* 作者链接悬停效果 */
+
 /* 鼠标悬停时显示下划线，降低透明度 */
 .author-link:hover {
 	/* 显示下划线 */
 	text-decoration: underline;
+
 	/* 透明度0.8 */
 	opacity: 0.8;
 }
 
 /* 日间模式下的footer样式调整 */
+
 /* 非暗色主题下的页脚样式 */
 html:not(.dark) .footer {
 	/* 深灰色文字 */
 	color: #333;
+
 	/* 浅灰色背景 */
 	background: #f8f9fa;
 }
 
 /* 日间模式下的作者信息段落 */
+
 /* 非暗色主题下的作者信息文字 */
 html:not(.dark) .author-info p {
 	/* 深灰色文字 */
 	color: #333;
+
 	/* 完全不透明 */
 	opacity: 1;
 }
 
 /* 日间模式下的作者联系链接 */
+
 /* 非暗色主题下的作者链接颜色 */
 html:not(.dark) .author-contact,
 html:not(.dark) .author-link {

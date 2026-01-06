@@ -1072,6 +1072,19 @@ const loadTotalRanking = async () => {
 	}
 }
 
+/**
+ * 处理标签页切换事件
+ * @function handleTabChange
+ * @description 切换标签页时触发,加载对应的数据并初始化图表
+ * 流程:
+ * 1. 等待下一个tick确保DOM更新
+ * 2. 根据标签页类型加载对应数据
+ * 3. 使用重试机制初始化图表(最多重试10次)
+ * 4. 处理加载状态和错误
+ * @param {string} tabName - 标签页名称:'signIn'|'activity'|'total'
+ * @async
+ * @returns {Promise<void>}
+ */
 const handleTabChange = async tabName => {
 	await nextTick()
 	if (tabName === 'signIn') {
@@ -1131,19 +1144,19 @@ const handleTabChange = async tabName => {
 		if (totalRanking.value.length === 0) {
 			await loadTotalRanking()
 		} else if (totalRanking.value.length > 0) {
-			const initChartWithRetry = async (retryCount = 0) => {
-				if (totalChart.value) {
-					await initTotalChart(totalRanking.value.slice(0, 32))
-				} else if (retryCount < 10) {
-					setTimeout(() => {
-						initChartWithRetry(retryCount + 1)
-					}, 100)
+				const initChartWithRetry = async (retryCount = 0) => {
+					if (totalChart.value) {
+						await initTotalChart(totalRanking.value.slice(0, 32))
+					} else if (retryCount < 10) {
+						setTimeout(() => {
+							initChartWithRetry(retryCount + 1)
+						}, 100)
+					}
 				}
+				setTimeout(() => {
+					initChartWithRetry()
+				}, 200)
 			}
-			setTimeout(() => {
-				initChartWithRetry()
-			}, 200)
-		}
 	}
 }
 
@@ -1160,9 +1173,25 @@ const handleResize = () => {
 }
 
 // 自动刷新定时器
+/**
+ * 自动刷新定时器
+ * @type {number|null}
+ * @description 存储定时器引用,用于启动和停止自动刷新功能
+ */
 let refreshTimer = null
 
-// 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
+/**
+ * 统一的刷新数据函数
+ * @function refreshData
+ * @description 根据当前激活的标签页刷新对应的数据
+ * 流程:
+ * 1. 调用dashboardPage刷新所有数据
+ * 2. 更新总积分排行榜数据
+ * 3. 更新侧边栏显示的前32名学生
+ * 4. 根据当前激活标签页更新对应排行榜
+ * @async
+ * @returns {Promise<void>}
+ */
 const refreshData = async () => {
 	// 统一使用 PointsDashboardPage 刷新数据
 	await dashboardPage.value.refreshData()
@@ -1206,7 +1235,15 @@ const refreshData = async () => {
 	}
 }
 
-// 启动自动刷新
+/**
+ * 启动自动刷新功能
+ * @function startAutoRefresh
+ * @description 设置定时器,每隔60秒自动刷新一次数据
+ * 流程:
+ * 1. 清除已存在的定时器(避免重复)
+ * 2. 创建新的定时器,每60秒调用refreshData()
+ * @returns {void}
+ */
 const startAutoRefresh = () => {
 	// 清除已存在的定时器
 	if (refreshTimer) {
@@ -1218,7 +1255,12 @@ const startAutoRefresh = () => {
 	}, 60000)
 }
 
-// 停止自动刷新
+/**
+ * 停止自动刷新功能
+ * @function stopAutoRefresh
+ * @description 清除自动刷新定时器,释放资源
+ * @returns {void}
+ */
 const stopAutoRefresh = () => {
 	if (refreshTimer) {
 		clearInterval(refreshTimer)
@@ -1238,6 +1280,20 @@ watch(() => themeStore.isDarkMode, () => {
 	}, 100)
 })
 
+/**
+ * 打开改分记录对话框
+ * @function openRecordsDialog
+ * @description 打开学生改分记录弹窗并加载对应数据
+ * 流程:
+ * 1. 重置关闭状态
+ * 2. 恢复遮罩层样式
+ * 3. 设置当前学生并显示弹窗
+ * 4. 调用API获取该学生的改分记录
+ * 5. 按时间降序排序记录
+ * @param {Object} student - 学生信息对象,包含studentInfoId等
+ * @async
+ * @returns {Promise<void>}
+ */
 const openRecordsDialog = async student => {
 	// 重置关闭状态
 	isClosingRecordsDialog.value = false
@@ -1274,6 +1330,17 @@ const openRecordsDialog = async student => {
 	}
 }
 
+/**
+ * 处理改分记录对话框关闭事件
+ * @function handleRecordsDialogClose
+ * @description 关闭改分记录弹窗,执行清理操作
+ * 流程:
+ * 1. 防止重复关闭(使用标志位)
+ * 2. 隐藏遮罩层DOM,避免闪烁
+ * 3. 清空记录数据,防止渲染问题
+ * 4. 延迟清理其他状态数据
+ * @returns {void}
+ */
 const handleRecordsDialogClose = () => {
 	// 防止重复关闭
 	if (isClosingRecordsDialog.value) { return }
@@ -1328,6 +1395,19 @@ const formatTime = timeString => {
 	}
 }
 
+/**
+ * 组件挂载完成后的生命周期钩子
+ * @function onMounted
+ * @description 组件挂载后初始化数据和启动各种功能
+ * 执行内容:
+ * 1. 等待DOM更新完成
+ * 2. 加载总积分排行榜数据
+ * 3. 监听窗口resize事件
+ * 4. 启动励志语录轮播
+ * 5. 启动自动刷新功能
+ * @async
+ * @returns {Promise<void>}
+ */
 onMounted(async () => {
 	await nextTick()
 	await loadTotalRanking()
@@ -1337,6 +1417,17 @@ onMounted(async () => {
 	startAutoRefresh()
 })
 
+/**
+ * 组件卸载前的生命周期钩子
+ * @function onUnmounted
+ * @description 组件卸载前清理资源和事件监听
+ * 清理内容:
+ * 1. 停止励志语录轮播
+ * 2. 停止自动刷新
+ * 3. 销毁所有图表实例
+ * 4. 移除窗口resize监听
+ * @returns {void}
+ */
 onUnmounted(() => {
 	stopQuoteRotation()
 	// 停止自动刷新

@@ -325,8 +325,11 @@ const originalData = ref({})
 
 // Fix 3: Move all utility functions BEFORE their usage (resolve no-use-before-define)
 /**
- * Constrain image position to ensure it covers the crop box
- * @returns
+ * 限制图片位置确保覆盖裁剪框
+ * @function constrainImagePosition
+ * @description 确保图片位置不会超出裁剪框边界
+ * 计算图片在当前缩放比例下的尺寸,并根据裁剪框位置限制图片移动范围
+ * @returns {void}
  */
 const constrainImagePosition = () => {
 	if (!cropCanvasRef.value || !cropImage.value || !cropBoxRef.value) {
@@ -379,8 +382,15 @@ const constrainImagePosition = () => {
 }
 
 /**
- * Draw the crop canvas with image and crop mask
- * @returns
+ * 绘制裁剪画布,显示图片和裁剪遮罩
+ * @function drawCropCanvas
+ * @description 在Canvas上绘制图片和半透明遮罩层
+ * 绘制流程:
+ * 1. 清空画布
+ * 2. 绘制半透明黑色遮罩
+ * 3. 清除裁剪框区域使其透明
+ * 4. 绘制裁剪框边框
+ * @returns {void}
  */
 const drawCropCanvas = () => {
 	if (!cropCanvasRef.value || !cropImage.value) {
@@ -435,8 +445,16 @@ const drawCropCanvas = () => {
 }
 
 /**
- * Remove crop event listeners to prevent memory leaks
- * @returns
+ * 移除裁剪相关的事件监听器
+ * @function removeCropEvents
+ * @description 清除所有裁剪功能的鼠标事件监听器,防止内存泄漏
+ * 移除的事件包括:
+ * - mousedown (画布上)
+ * - mousemove (文档上)
+ * - mouseup (文档上)
+ * - mouseleave (画布上)
+ * - wheel (画布上)
+ * @returns {void}
  */
 const removeCropEvents = () => {
 	if (!cropCanvasRef.value) {
@@ -463,8 +481,16 @@ const removeCropEvents = () => {
 }
 
 /**
- * Setup crop event listeners (drag, zoom)
- * @returns
+ * 设置裁剪相关的事件监听器
+ * @function setupCropEvents
+ * @description 为裁剪功能添加鼠标事件,支持拖拽移动和滚轮缩放
+ * 事件包括:
+ * - mousedown: 开始拖拽
+ * - mousemove: 拖拽中移动图片
+ * - mouseup: 结束拖拽
+ * - mouseleave: 鼠标离开画布
+ * - wheel: 滚轮缩放
+ * @returns {void}
  */
 const setupCropEvents = () => {
 	if (!cropCanvasRef.value) {
@@ -571,8 +597,15 @@ const setupCropEvents = () => {
 }
 
 /**
- * Initialize crop canvas and settings
- * @returns
+ * 初始化裁剪画布和相关设置
+ * @function initCrop
+ * @description 设置裁剪功能所需的画布尺寸、图片位置和缩放
+ * 执行步骤:
+ * 1. 设置画布尺寸匹配容器
+ * 2. 计算图片初始缩放比例
+ * 3. 将图片居中显示
+ * 4. 设置事件监听器
+ * @returns {void}
  */
 const initCrop = () => {
 	if (!cropCanvasRef.value || !cropImage.value || !cropWrapperRef.value) {
@@ -632,8 +665,15 @@ const initCrop = () => {
 }
 
 /**
- * Load user avatar from server
- * @returns
+ * 从服务器加载用户头像
+ * @function loadAvatar
+ * @description 获取用户头像URL并验证头像是否存在
+ * 流程:
+ * 1. 构建头像URL
+ * 2. 创建Image对象预加载头像
+ * 3. 根据加载结果设置头像URL
+ * @async
+ * @returns {Promise<void>}
  */
 const loadAvatar = async () => {
 	if (!studentInfoId.value) {
@@ -670,9 +710,16 @@ const loadAvatar = async () => {
 }
 
 /**
- * Show crop dialog with selected image
- * @param file - Selected image file
- * @returns
+ * 显示裁剪对话框并加载选中的图片
+ * @function showCropDialog
+ * @description 读取用户选择的图片文件,打开裁剪弹窗
+ * 流程:
+ * 1. 恢复对话框遮罩层样式
+ * 2. 使用FileReader读取图片文件
+ * 3. 加载图片为Image对象
+ * 4. 显示裁剪对话框并初始化裁剪功能
+ * @param {File} file - 用户选择的图片文件
+ * @returns {Promise<void>}
  */
 const showCropDialog = file => new Promise((resolve, reject) => {
 	try {
@@ -710,9 +757,18 @@ const showCropDialog = file => new Promise((resolve, reject) => {
 })
 
 /**
- * Upload cropped avatar file to server
- * @param file - Cropped and compressed avatar file
- * @returns
+ * 上传裁剪后的头像文件到服务器
+ * @function uploadAvatarFile
+ * @description 将裁剪并压缩后的头像文件上传到服务器
+ * 流程:
+ * 1. 验证token是否存在
+ * 2. 调用上传API上传文件
+ * 3. 处理上传成功/失败响应
+ * 4. 更新头像显示
+ * 5. 处理token过期情况
+ * @param {File} file - 裁剪并压缩后的头像文件
+ * @async
+ * @returns {Promise<void>}
  */
 const uploadAvatarFile = async file => {
 	isUploading.value = true
@@ -753,8 +809,10 @@ const uploadAvatarFile = async file => {
 }
 
 /**
- * Reset form to original data
- * @returns
+ * 重置表单到原始数据
+ * @function resetForm
+ * @description 将表单数据恢复到修改前的状态,并清除表单验证
+ * @returns {void}
  */
 const resetForm = () => {
 	Object.assign(formData, originalData.value)
@@ -765,8 +823,10 @@ const resetForm = () => {
 }
 
 /**
- * Reset password form to empty state
- * @returns
+ * 重置密码表单为空状态
+ * @function resetPasswordForm
+ * @description 清空密码修改表单的所有字段并清除验证
+ * @returns {void}
  */
 const resetPasswordForm = () => {
 	passwordForm.oldPassword = ''
@@ -779,24 +839,35 @@ const resetPasswordForm = () => {
 
 // Fix 4: Business logic functions (after utility functions)
 /**
- * Navigate back to the navigation page
- * @returns
+ * 返回导航页面
+ * @function goBack
+ * @description 跳转到导航页面
+ * @returns {void}
  */
 const goBack = () => {
 	router.push('/navigation')
 }
 
 /**
- * Toggle between light and dark theme
- * @returns
+ * 切换明暗主题
+ * @function toggleTheme
+ * @description 在亮色模式和暗色模式之间切换
+ * @returns {void}
  */
 const toggleTheme = () => {
 	themeStore.toggleTheme()
 }
 
 /**
- * Load user profile data from server
- * @returns
+ * 从服务器加载用户个人资料数据
+ * @function loadProfile
+ * @description 获取用户个人信息、考勤次数和学生ID
+ * 流程:
+ * 1. 验证token是否存在
+ * 2. 并行请求个人信息、考勤次数和学生ID
+ * 3. 将数据绑定到响应式变量
+ * @async
+ * @returns {Promise<void>}
  */
 const loadProfile = async () => {
 	isLoading.value = true

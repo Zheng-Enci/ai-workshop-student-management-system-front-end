@@ -1,7 +1,7 @@
 <script setup>
 /**
  * 首页入口组件
- * 
+ *
  * @description 负责检测设备类型,并根据设备类型重定向到对应的桌面版或移动版首页
  * @component HomePage
  */
@@ -13,9 +13,9 @@ const router = useRouter()
 
 /**
  * 检测是否为移动设备
- * 
+ *
  * @description 根据窗口宽度判断设备类型
- * @returns {boolean} true表示移动端, false表示桌面端
+ * @returns true表示移动端, false表示桌面端
  */
 const isMobile = () => window.innerWidth <= 768
 

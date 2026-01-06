@@ -1,7 +1,7 @@
 <!--
   导航页面设备检测组件
   检测设备类型并自动跳转到对应的导航页面版本
-  
+
   @component NavigationPage
   @description 作为导航页面的入口，结合屏幕宽度和UserAgent检测设备类型后重定向
 -->
@@ -23,8 +23,8 @@ const router = useRouter()
 /**
  * 检测设备类型
  * 结合屏幕宽度和UserAgent进行更准确的设备类型判断
- * 
- * @returns {string} 'mobile' | 'desktop'
+ *
+ * @returns 'mobile' | 'desktop'
  */
 const detectDeviceType = () => {
 	const screenWidth = window.innerWidth

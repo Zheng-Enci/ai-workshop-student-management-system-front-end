@@ -5,9 +5,9 @@
 | 指标 | 数值 |
 |------|------|
 | 文件总数 | 105 |
-| 代码行数 | 43410 |
-| 注释行数 | 17892 |
-| 总体注释率 | 41.22% |
+| 代码行数 | 43715 |
+| 注释行数 | 18802 |
+| 总体注释率 | 43.01% |
 
 ## 📈 状态评估
 
@@ -26,22 +26,16 @@
 
 | 文件路径 | 代码行数 | 注释行数 | 注释率 | 最低要求 |
 |---------|---------|---------|--------|----------|
-| 💚 src\views\NavigationPage\NavigationPageDesktop.vue | 602 | 190 | 31.56% | 32% |
-| 💚 src\views\AttendancePage\AttendancePageMobile.vue | 1189 | 342 | 28.76% | 32% |
-| 💚 src\views\PointsDashboardPage\PointsDashboardPageDesktop.vue | 1327 | 369 | 27.81% | 32% |
-| 💚 src\views\StudentManagerPage\StudentManagerPageDesktop.vue | 1385 | 367 | 26.5% | 32% |
-| 💚 src\views\AllMembersPage\AllMembersPageMobile.vue | 417 | 104 | 24.94% | 32% |
-| 💚 src\views\ProfilePage\ProfilePageDesktop.vue | 1306 | 316 | 24.2% | 32% |
+| 💚 src\views\ProfilePage\ProfilePageDesktop.vue | 1306 | 387 | 29.63% | 32% |
+| 💚 src\views\DashboardPage\DashboardPageMobile.vue | 750 | 200 | 26.67% | 32% |
 | 💚 src\views\HomePage\HomePageMobile.vue | 357 | 85 | 23.81% | 32% |
-| 💚 src\views\ProfilePage\ProfilePageMobile.vue | 1400 | 310 | 22.14% | 32% |
+| 💚 src\views\ProfilePage\ProfilePageMobile.vue | 1400 | 317 | 22.64% | 32% |
 | 💚 src\views\HomePage\HomePageDesktop.vue | 295 | 65 | 22.03% | 32% |
-| 💚 src\views\AllMembersPage\AllMembersPageDesktop.vue | 1144 | 241 | 21.07% | 32% |
 | 💚 src\views\StudentManagerPage\StudentManagerPageMobile.vue | 1495 | 283 | 18.93% | 32% |
 | 💚 src\views\PointsDashboardPage\PointsDashboardPageMobile.vue | 1071 | 199 | 18.58% | 32% |
 | 💚 src\views\AdminPage\AdminPageDesktop.vue | 1238 | 203 | 16.4% | 32% |
 | 🎨 src\views\AdminPage\css\AdminPageDesktop.css | 2986 | 466 | 15.61% | 16% |
-| 💚 src\views\AdminPage\AdminPageMobile.vue | 1390 | 216 | 15.54% | 32% |
-| 💚 src\views\DashboardPage\DashboardPageMobile.vue | 687 | 103 | 14.99% | 32% |
+| 💚 src\views\AdminPage\AdminPageMobile.vue | 1550 | 238 | 15.35% | 32% |
 | 💚 src\views\AttendanceAnalysisPage\AttendanceAnalysisPageDesktop.vue | 1234 | 178 | 14.42% | 32% |
 
 ## 📋 文件详细统计
@@ -102,6 +96,7 @@
 | 📘 src\views\AdminPage\AdminPage.js | 1866 | 905 | 48.5% | ✅ |
 | 💚 src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageDesktop.vue | 199 | 96 | 48.24% | ✅ |
 | 💚 src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageMobile.vue | 195 | 94 | 48.21% | ✅ |
+| 💚 src\views\StudentManagerPage\StudentManagerPageDesktop.vue | 1393 | 666 | 47.81% | ✅ |
 | 📘 src\api\student.js | 551 | 263 | 47.73% | ✅ |
 | 📘 src\views\AllMembersPage\js\AdjustRecordsDialogManager.js | 72 | 33 | 45.83% | ✅ |
 | 💚 src\views\AttendancePage\AttendancePageDesktop.vue | 683 | 311 | 45.53% | ✅ |
@@ -110,6 +105,7 @@
 | 💚 src\views\NavigationPage\NavigationPageMobile.vue | 566 | 256 | 45.23% | ✅ |
 | 📘 src\composables\admin\StudentAttendance.js | 234 | 102 | 43.59% | ✅ |
 | 🎨 src\views\LoginPage\css\LoginPage.css | 310 | 125 | 40.32% | ✅ |
+| 💚 src\views\NavigationPage\NavigationPageDesktop.vue | 608 | 242 | 39.8% | ✅ |
 | 💚 src\components\ThemeToggle.vue | 83 | 33 | 39.76% | ✅ |
 | 💚 src\views\AdminPage\AdminPage.vue | 91 | 36 | 39.56% | ✅ |
 | 📘 src\composables\admin\StudentLevel.js | 142 | 56 | 39.44% | ✅ |
@@ -121,25 +117,24 @@
 | 📘 src\composables\admin\StudentAvatar.js | 120 | 43 | 35.83% | ✅ |
 | 💚 src\views\PointsDashboardPage\PointsDashboardPage.vue | 98 | 35 | 35.71% | ✅ |
 | 💚 src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPage.vue | 98 | 35 | 35.71% | ✅ |
+| 💚 src\views\AttendancePage\AttendancePageMobile.vue | 1225 | 437 | 35.67% | ✅ |
+| 💚 src\views\AllMembersPage\AllMembersPageMobile.vue | 422 | 148 | 35.07% | ✅ |
 | 📘 src\api\AttendanceApi.js | 46 | 16 | 34.78% | ✅ |
 | 📘 src\composables\admin\StudentPersonalInformation.js | 179 | 62 | 34.64% | ✅ |
 | 💚 src\views\NavigationPage\NavigationPage.vue | 53 | 18 | 33.96% | ✅ |
+| 💚 src\views\PointsDashboardPage\PointsDashboardPageDesktop.vue | 1336 | 451 | 33.76% | ✅ |
 | 💚 src\views\AllMembersPage\AllMembersPage.vue | 98 | 33 | 33.67% | ✅ |
 | 💚 src\views\RegisterPage\RegisterPage.vue | 571 | 189 | 33.1% | ✅ |
+| 💚 src\views\AllMembersPage\AllMembersPageDesktop.vue | 1162 | 382 | 32.87% | ✅ |
 | 📘 src\api\PointsApi.js | 37 | 12 | 32.43% | ✅ |
 | 📘 src\views\AllMembersPage\js\AllMembersPage.js | 31 | 10 | 32.26% | ✅ |
 | 💚 src\views\DashboardPage\DashboardPageDesktop.vue | 1040 | 334 | 32.12% | ✅ |
-| 💚 src\views\NavigationPage\NavigationPageDesktop.vue | 602 | 190 | 31.56% | ⚠️ |
-| 💚 src\views\AttendancePage\AttendancePageMobile.vue | 1189 | 342 | 28.76% | ⚠️ |
-| 💚 src\views\PointsDashboardPage\PointsDashboardPageDesktop.vue | 1327 | 369 | 27.81% | ⚠️ |
+| 💚 src\views\ProfilePage\ProfilePageDesktop.vue | 1306 | 387 | 29.63% | ⚠️ |
 | 🎨 src\views\AllMembersPage\css\AllMembersPageDesktop.css | 858 | 232 | 27.04% | ✅ |
-| 💚 src\views\StudentManagerPage\StudentManagerPageDesktop.vue | 1385 | 367 | 26.5% | ⚠️ |
-| 💚 src\views\AllMembersPage\AllMembersPageMobile.vue | 417 | 104 | 24.94% | ⚠️ |
-| 💚 src\views\ProfilePage\ProfilePageDesktop.vue | 1306 | 316 | 24.2% | ⚠️ |
+| 💚 src\views\DashboardPage\DashboardPageMobile.vue | 750 | 200 | 26.67% | ⚠️ |
 | 💚 src\views\HomePage\HomePageMobile.vue | 357 | 85 | 23.81% | ⚠️ |
-| 💚 src\views\ProfilePage\ProfilePageMobile.vue | 1400 | 310 | 22.14% | ⚠️ |
+| 💚 src\views\ProfilePage\ProfilePageMobile.vue | 1400 | 317 | 22.64% | ⚠️ |
 | 💚 src\views\HomePage\HomePageDesktop.vue | 295 | 65 | 22.03% | ⚠️ |
-| 💚 src\views\AllMembersPage\AllMembersPageDesktop.vue | 1144 | 241 | 21.07% | ⚠️ |
 | 🎨 src\views\AttendancePage\css\AttendancePageDesktop.css | 771 | 147 | 19.07% | ✅ |
 | 🎨 src\views\PointsDashboardPage\css\PointsDashboardPageMobile.css | 1080 | 206 | 19.07% | ✅ |
 | 💚 src\views\StudentManagerPage\StudentManagerPageMobile.vue | 1495 | 283 | 18.93% | ⚠️ |
@@ -150,10 +145,9 @@
 | 💚 src\views\AdminPage\AdminPageDesktop.vue | 1238 | 203 | 16.4% | ⚠️ |
 | 🎨 src\views\StudentManagerPage\css\desktop\StudentManagerPage-StudentCards.css | 100 | 16 | 16% | ✅ |
 | 🎨 src\views\AdminPage\css\AdminPageDesktop.css | 2986 | 466 | 15.61% | ⚠️ |
-| 💚 src\views\AdminPage\AdminPageMobile.vue | 1390 | 216 | 15.54% | ⚠️ |
-| 💚 src\views\DashboardPage\DashboardPageMobile.vue | 687 | 103 | 14.99% | ⚠️ |
+| 💚 src\views\AdminPage\AdminPageMobile.vue | 1550 | 238 | 15.35% | ⚠️ |
 | 💚 src\views\AttendanceAnalysisPage\AttendanceAnalysisPageDesktop.vue | 1234 | 178 | 14.42% | ⚠️ |
 
 ---
 
-*报告生成时间: 2026/1/6 08:52:04*
+*报告生成时间: 2026/1/6 10:23:40*

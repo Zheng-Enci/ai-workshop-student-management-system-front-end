@@ -16,7 +16,7 @@ import { useThemeStore } from '@/stores/theme'
  * 首页逻辑Composable函数
  * 封装首页的所有业务逻辑和状态管理
  *
- * @returns {Object} 包含状态和方法的对象，供组件使用
+ * @returns 包含状态和方法的对象，供组件使用
  */
 export const useHomePageLogic = () => {
 	/**
@@ -107,7 +107,7 @@ export const useHomePageLogic = () => {
 	 * 处理头像加载错误
 	 * 当头像加载失败时，使用默认头像替换
 	 *
-	 * @param {Event} event - 图片加载错误事件
+	 * @param event - 图片加载错误事件
 	 */
 	const handleAvatarError = event => {
 		const { target } = event

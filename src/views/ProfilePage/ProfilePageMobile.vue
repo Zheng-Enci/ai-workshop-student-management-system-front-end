@@ -680,7 +680,14 @@ const saveProfile = async () => {
 
 /**
  * 显示裁剪对话框
- * @param file
+ * @function showCropDialog
+ * @description 显示头像裁剪对话框，将选择的图片文件加载到裁剪区域
+ * 1. 恢复遮罩层样式确保正常显示
+ * 2. 使用FileReader读取文件并转换为图片对象
+ * 3. 初始化裁剪区域和事件监听器
+ * @param {File} file - 用户选择的图片文件对象
+ * @returns {Promise<void>} 异步操作完成的Promise
+ * @throws {Error} 当图片加载失败或文件读取失败时抛出错误
  */
 const showCropDialog = async file => new Promise((resolve, reject) => {
 	try {
@@ -726,6 +733,16 @@ const showCropDialog = async file => new Promise((resolve, reject) => {
 
 /**
  * 初始化裁剪
+ * @function initCrop
+ * @description 初始化头像裁剪功能，设置Canvas尺寸、图片缩放比例和裁剪框位置
+ * 1. 验证DOM引用是否存在
+ * 2. 设置Canvas实际像素尺寸和CSS尺寸
+ * 3. 计算初始缩放比例，确保图片最短边铺满裁剪框
+ * 4. 设置图片初始位置为居中显示
+ * 5. 初始化裁剪框位置和尺寸
+ * 6. 设置动态最小缩放比例
+ * 7. 绘制初始图像并设置事件监听器
+ * @returns {void}
  */
 const initCrop = () => {
 	if (!cropCanvasRef.value || !cropImage.value || !cropWrapperRef.value) {
@@ -1113,6 +1130,10 @@ const setupCropEvents = () => {
 
 /**
  * 移除裁剪事件
+ * @function removeCropEvents
+ * @description 移除所有与头像裁剪相关的事件监听器，防止内存泄漏
+ * 包括鼠标事件、触摸事件和滚轮事件的监听器移除
+ * @returns {void}
  */
 const removeCropEvents = () => {
 	if (!cropCanvasRef.value) { return }
@@ -1144,6 +1165,13 @@ const removeCropEvents = () => {
 
 /**
  * 放大
+ * @function zoomIn
+ * @description 将图片放大0.1倍，最大放大到5倍，放大时以裁剪框中心为基准点
+ * 1. 计算新的缩放比例（最大不超过5倍）
+ * 2. 以裁剪框中心为基准点计算新的图片位置
+ * 3. 更新缩放比例并应用边界限制
+ * 4. 重新绘制裁剪画布
+ * @returns {void}
  */
 const zoomIn = () => {
 	const oldScale = scale.value
@@ -1176,6 +1204,13 @@ const zoomIn = () => {
 
 /**
  * 缩小
+ * @function zoomOut
+ * @description 将图片缩小0.1倍，最小缩小到动态计算的最小缩放比例，缩小时以裁剪框中心为基准点
+ * 1. 计算新的缩放比例（最小不低于动态计算的最小缩放比例）
+ * 2. 以裁剪框中心为基准点计算新的图片位置
+ * 3. 更新缩放比例并应用边界限制
+ * 4. 重新绘制裁剪画布
+ * @returns {void}
  */
 const zoomOut = () => {
 	const oldScale = scale.value
@@ -1208,6 +1243,11 @@ const zoomOut = () => {
 
 /**
  * 重置裁剪
+ * @function resetCrop
+ * @description 重置裁剪状态，重新初始化裁剪参数到默认值
+ * 1. 验证图片和包装器引用是否存在
+ * 2. 重新初始化裁剪参数
+ * @returns {void}
  */
 const resetCrop = () => {
 	if (!cropImage.value || !cropWrapperRef.value) { return }
@@ -1216,6 +1256,14 @@ const resetCrop = () => {
 
 /**
  * 取消裁剪
+ * @function cancelCrop
+ * @description 取消头像裁剪操作，清理事件监听器并重置裁剪状态
+ * 1. 移除所有裁剪事件监听器
+ * 2. 隐藏遮罩层避免视觉闪烁
+ * 3. 清空裁剪图片引用
+ * 4. 关闭裁剪对话框
+ * 5. 延迟清理其他裁剪相关状态数据
+ * @returns {void}
  */
 const cancelCrop = () => {
 	removeCropEvents()
@@ -1248,6 +1296,14 @@ const cancelCrop = () => {
 
 /**
  * 确认裁剪
+ * @function confirmCrop
+ * @description 确认头像裁剪操作，提取裁剪区域并上传裁剪后的头像
+ * 1. 验证必要的DOM引用是否存在
+ * 2. 计算裁剪区域在原图中的位置和尺寸
+ * 3. 创建新的Canvas进行裁剪，输出为正方形
+ * 4. 将裁剪结果转换为Blob并创建File对象
+ * 5. 压缩图片后上传到服务器
+ * @returns {Promise<void>} 异步操作完成的Promise
  */
 const confirmCrop = async () => {
 	if (!cropCanvasRef.value || !cropImage.value || !cropBoxRef.value) { return }
@@ -1330,8 +1386,16 @@ const confirmCrop = async () => {
 
 /**
  * 压缩图片直到小于2MB
- * @param file
- * @param maxSize
+ * @function compressImage
+ * @description 压缩图片文件直到其大小小于指定的最大值
+ * 1. 使用FileReader读取图片文件
+ * 2. 创建Image对象加载图片
+ * 3. 使用Canvas进行图片压缩
+ * 4. 递归压缩直到图片大小满足要求或达到最小尺寸
+ * @param {File} file - 需要压缩的图片文件
+ * @param {number} maxSize - 最大文件大小（字节），默认为2MB
+ * @returns {Promise<File>} 压缩后的文件对象
+ * @throws {Error} 当图片加载失败或文件读取失败时抛出错误
  */
 const compressImage = (file, maxSize = 2 * 1024 * 1024) => new Promise((resolve, reject) => {
 	const reader = new FileReader()
@@ -1405,6 +1469,18 @@ const compressImage = (file, maxSize = 2 * 1024 * 1024) => new Promise((resolve,
 	reader.readAsDataURL(file)
 })
 
+/**
+ * 上传头像文件
+ * @function uploadAvatarFile
+ * @description 上传裁剪后的头像文件到服务器
+ * 1. 设置上传状态为加载中
+ * 2. 验证用户登录状态
+ * 3. 调用API上传头像文件
+ * 4. 处理上传成功或失败的响应
+ * 5. 更新头像显示并重置上传状态
+ * @param {File} file - 需要上传的头像文件
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const uploadAvatarFile = async file => {
 	isUploading.value = true
 	try {

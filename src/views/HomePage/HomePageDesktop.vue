@@ -1,7 +1,7 @@
 <script setup>
 /**
  * 首页组件(桌面端)
- * 
+ *
  * @component HomePageDesktop
  * @description 展示系统介绍、快捷入口和环境保障机制
  * 主要功能:
@@ -9,7 +9,7 @@
  * 2. 提供快捷功能入口(登录、数据看板、考勤分析等)
  * 3. 展示环境保障机制和政策说明
  * 4. 支持主题切换功能
- * 
+ *
  * @author 前端开发团队
  * @version 1.0.0
  */
@@ -23,6 +23,7 @@ import { TrendCharts, Calendar, Star, User, OfficeBuilding, ArrowRight } from '@
 import { ElIcon, ElDialog, ElButton } from 'element-plus'
 // Vue3 响应式API导入
 import { ref } from 'vue'
+
 // 首页共用业务逻辑导入
 import { useHomePageLogic } from './js/HomePage.js'
 // Element Plus 基础样式导入(按需导入,减小打包体积)

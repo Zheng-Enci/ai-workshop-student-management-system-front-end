@@ -181,6 +181,13 @@ let gradeChartInstance = null
  */
 let majorChartInstance = null
 
+// ===================== 工具函数区 =====================
+/**
+ * 保存用户偏好设置
+ * @function saveUserPreferences
+ * @description 将用户选择的时间范围等偏好设置保存到本地存储
+ */
+
 // ===================== 页面操作方法区 =====================
 /**
  * 返回上一页
@@ -200,6 +207,11 @@ const toggleTheme = () => {
 	themeStore.toggleTheme()
 }
 
+/**
+ * 保存用户偏好设置
+ * @function saveUserPreferences
+ * @description 将用户选择的时间范围等偏好设置保存到本地存储
+ */
 const saveUserPreferences = () => {
 	const preferences = {
 		selectedTimeRange: selectedTimeRange.value
@@ -207,6 +219,11 @@ const saveUserPreferences = () => {
 	localStorage.setItem('dashboardPreferences', JSON.stringify(preferences))
 }
 
+/**
+ * 加载用户偏好设置
+ * @function loadUserPreferences
+ * @description 从本地存储加载用户之前选择的时间范围等偏好设置
+ */
 const loadUserPreferences = () => {
 	const saved = localStorage.getItem('dashboardPreferences')
 	if (saved) {
@@ -219,6 +236,14 @@ const loadUserPreferences = () => {
 	}
 }
 
+/**
+ * 获取指定月份的节假日
+ * @function getHolidaysForMonth
+ * @param {number} year - 年份
+ * @param {number} month - 月份(0-11)
+ * @returns {Array<string>} 指定月份的节假日日期数组
+ * @description 根据年份和月份获取该月的法定节假日日期
+ */
 const getHolidaysForMonth = (year, month) => {
 	const holidays = []
 
@@ -238,6 +263,13 @@ const getHolidaysForMonth = (year, month) => {
 	return holidays
 }
 
+/**
+ * 计算日均考勤人数
+ * @function calculateDailyAvgAttendance
+ * @param {number} monthlyCount - 月度考勤总数
+ * @returns {number} 日均考勤人数
+ * @description 计算工作日的日均考勤人数,排除周末和法定节假日
+ */
 const calculateDailyAvgAttendance = monthlyCount => {
 	const now = new Date()
 	const currentDay = now.getDate()
@@ -271,12 +303,24 @@ const calculateDailyAvgAttendance = monthlyCount => {
 	return parseFloat((monthlyCount / workingDays).toFixed(2))
 }
 
+/**
+ * 计算社团成员数量
+ * @function calculateClubMembers
+ * @description 计算社团成员数量(总成员数减去坊内成员数)
+ */
 const calculateClubMembers = () => {
 	clubMembers.value = workshopMembers.value - levelStats.value.admin - levelStats.value.core - levelStats.value.normal
 	// 坊内成员人数 = 管理员 + 核心成员 + 普通成员
 	workshopMembersCount.value = levelStats.value.admin + levelStats.value.core + levelStats.value.normal
 }
 
+/**
+ * 计算考勤率
+ * @function calculateAttendanceRate
+ * @param {number} monthlyCount - 月度考勤总数
+ * @returns {number} 考勤率百分比
+ * @description 计算月度考勤率,基于坊内成员总数计算
+ */
 const calculateAttendanceRate = monthlyCount => {
 	// 坊内成员总人数 = 管理员 + 核心成员 + 普通成员
 	const membersCount = levelStats.value.admin + levelStats.value.core + levelStats.value.normal
@@ -288,6 +332,12 @@ const calculateAttendanceRate = monthlyCount => {
 	return parseFloat(((monthlyCount / membersCount) * 100).toFixed(1))
 }
 
+/**
+ * 加载等级统计信息
+ * @function loadLevelStats
+ * @async
+ * @description 异步加载不同等级(管理员、核心成员、普通成员)的学生数量统计
+ */
 const loadLevelStats = async () => {
 	try {
 		const [adminData, coreData, normalData] = await Promise.all([
@@ -321,6 +371,13 @@ const loadLevelStats = async () => {
 	}
 }
 
+/**
+ * 获取稳定颜色
+ * @function getStableColor
+ * @param {number} index - 颜色索引
+ * @returns {string} 对应索引的颜色值
+ * @description 根据索引获取稳定的颜色值,用于图表配色
+ */
 const getStableColor = index => {
 	const colors = [
 		'#667eea', '#764ba2', '#f093fb', '#f5576c',
@@ -331,6 +388,13 @@ const getStableColor = index => {
 	return colors[index % colors.length]
 }
 
+/**
+ * 获取暗色模式下的稳定颜色
+ * @function getDarkStableColor
+ * @param {number} index - 颜色索引
+ * @returns {string} 对应索引的暗色模式颜色值
+ * @description 根据索引获取暗色模式下的稳定颜色值,用于图表配色
+ */
 const getDarkStableColor = index => {
 	const colors = [
 		'#00d4ff', '#ff6b6b', '#4ecdc4', '#45b7d1',
@@ -341,6 +405,12 @@ const getDarkStableColor = index => {
 	return colors[index % colors.length]
 }
 
+/**
+ * 初始化年级分布图表
+ * @function initGradeChart
+ * @param {Array} data - 年级统计数据
+ * @description 初始化ECharts年级分布饼图,展示不同年级的学生人数分布
+ */
 const initGradeChart = data => {
 	if (!gradeChart.value) { return }
 
@@ -420,6 +490,12 @@ const initGradeChart = data => {
 	}, 100)
 }
 
+/**
+ * 初始化专业分布图表
+ * @function initMajorChart
+ * @param {Array} data - 专业统计数据
+ * @description 初始化ECharts专业分布词云图,展示不同专业学生的人数分布
+ */
 const initMajorChart = data => {
 	if (!majorChart.value) { return }
 
@@ -488,6 +564,12 @@ const initMajorChart = data => {
 	}, 100)
 }
 
+/**
+ * 加载页面数据
+ * @function loadData
+ * @async
+ * @description 异步加载页面所需的所有统计数据,包括年级、专业、总人数、考勤等数据
+ */
 const loadData = async () => {
 	try {
 		const [
@@ -539,6 +621,13 @@ const loadData = async () => {
 	}
 }
 
+/**
+ * 根据等级码获取等级名称
+ * @function getLevelName
+ * @param {number} levelCode - 等级码(0-3)
+ * @returns {string} 对应的等级名称
+ * @description 根据学生等级码返回对应的等级名称
+ */
 const getLevelName = levelCode => {
 	const levelMap = {
 		0: '社团成员',
@@ -549,6 +638,12 @@ const getLevelName = levelCode => {
 	return levelMap[levelCode] || '社团成员'
 }
 
+/**
+ * 初始化考勤图表
+ * @function initAttendanceChart
+ * @param {Array} data - 考勤数据
+ * @description 初始化ECharts考勤柱状图,展示学生考勤排名情况
+ */
 const initAttendanceChart = data => {
 	if (!attendanceChart.value) { return }
 
@@ -606,6 +701,12 @@ const initAttendanceChart = data => {
 	chartInstance.setOption(option)
 }
 
+/**
+ * 加载排行榜数据
+ * @function loadRankingData
+ * @async
+ * @description 异步加载根据选定时间范围的排行榜数据,支持周、月、年、最近7天、最近30天、全部时间范围
+ */
 const loadRankingData = async () => {
 	try {
 		let response
@@ -674,6 +775,11 @@ const loadRankingData = async () => {
 }
 
 
+/**
+ * 处理窗口大小调整事件
+ * @function handleResize
+ * @description 当窗口大小发生变化时,重新调整所有图表的尺寸以适应新窗口大小
+ */
 const handleResize = () => {
 	if (chartInstance) {
 		chartInstance.resize()
@@ -686,12 +792,20 @@ const handleResize = () => {
 	}
 }
 
+/**
+ * 监听主题变化
+ * @description 当主题模式发生变化时,重新加载数据以更新图表颜色
+ */
 watch(() => themeStore.isDarkMode, () => {
 	setTimeout(() => {
 		loadData()
 	}, 100)
 })
 
+/**
+ * 组件挂载生命周期钩子
+ * @description 组件挂载后初始化主题、加载用户偏好、加载数据和排行榜
+ */
 onMounted(async () => {
 	try {
 		themeStore.initTheme()
@@ -704,6 +818,10 @@ onMounted(async () => {
 	}
 })
 
+/**
+ * 组件卸载生命周期钩子
+ * @description 组件卸载前销毁图表实例并移除事件监听器
+ */
 onUnmounted(() => {
 	if (chartInstance) {
 		chartInstance.dispose()
@@ -718,39 +836,53 @@ onUnmounted(() => {
 })
 </script>
 
+<!-- Dashboard 移动端页面模板 -->
 <template>
+	<!-- 主容器 -->
 	<div class="dashboard-page-mobile">
+		<!-- 移动端头部区域 -->
 		<div class="mobile-header">
+			<!-- 左侧头部内容 -->
 			<div class="header-left">
+				<!-- 返回按钮 -->
 				<el-button type="text" class="back-btn" @click="goBack">
 					<el-icon><arrow-left /></el-icon>
 				</el-button>
+				<!-- AI坊图标，点击可切换主题 -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
 					class="logo"
 					@click="toggleTheme"/>
 			</div>
+			<!-- 页面标题 -->
 			<div class="header-title">数据看板</div>
 		</div>
 
+		<!-- 移动端内容区域 -->
 		<div class="mobile-content">
+			<!-- 统计数据网格 -->
 			<div class="stats-grid">
+				<!-- 今日签到统计卡片 -->
 				<div class="stat-card">
 					<div class="stat-label">今日签到总人次</div>
 					<div class="stat-value">{{ todayAttendance }}人</div>
 				</div>
+				<!-- 本月签到统计卡片 -->
 				<div class="stat-card">
 					<div class="stat-label">本月签到总人数</div>
 					<div class="stat-value">{{ monthlyAttendanceCount }}人</div>
 				</div>
+				<!-- 坊内成员统计卡片 -->
 				<div class="stat-card">
 					<div class="stat-label">坊内成员人数</div>
 					<div class="stat-value">{{ workshopMembersCount }}人</div>
 				</div>
 			</div>
 
+			<!-- 等级统计移动端展示 -->
 			<div class="level-stats-mobile">
+				<!-- 管理员等级项 -->
 				<div class="level-item admin-level">
 					<el-icon><setting /></el-icon>
 					<div class="level-info">
@@ -758,6 +890,7 @@ onUnmounted(() => {
 						<span class="level-value">{{ levelStats.admin }}人</span>
 					</div>
 				</div>
+				<!-- 核心成员等级项 -->
 				<div class="level-item core-level">
 					<el-icon><star /></el-icon>
 					<div class="level-info">
@@ -765,6 +898,7 @@ onUnmounted(() => {
 						<span class="level-value">{{ levelStats.core }}人</span>
 					</div>
 				</div>
+				<!-- 普通成员等级项 -->
 				<div class="level-item normal-level">
 					<el-icon><avatar /></el-icon>
 					<div class="level-info">
@@ -772,6 +906,7 @@ onUnmounted(() => {
 						<span class="level-value">{{ levelStats.normal }}人</span>
 					</div>
 				</div>
+				<!-- 社团成员等级项 -->
 				<div class="level-item club-level">
 					<el-icon><user /></el-icon>
 					<div class="level-info">
@@ -781,9 +916,12 @@ onUnmounted(() => {
 				</div>
 			</div>
 
+			<!-- 排行榜区域 -->
 			<div class="ranking-section">
+				<!-- 排行榜区域头部 -->
 				<div class="section-header">
 					<h3>排行榜</h3>
+					<!-- 时间范围选择控件 -->
 					<div class="controls">
 						<el-radio-group
 							v-model="selectedTimeRange"
@@ -800,31 +938,54 @@ onUnmounted(() => {
 						</el-radio-group>
 					</div>
 				</div>
+				<!-- 考勤图表容器 -->
 				<div class="chart-container">
+					<!-- 考勤图表DOM引用 -->
 					<div ref="attendanceChart" class="chart"/>
 				</div>
 			</div>
 
+			<!-- 图表区域 -->
 			<div class="charts-section">
+				<!-- 年级分布图表项 -->
 				<div class="chart-item">
 					<h3>年级分布</h3>
+					<!-- 年级分布图表DOM引用 -->
 					<div ref="gradeChart" class="chart"/>
 				</div>
 
+				<!-- 专业分布图表项 -->
 				<div class="chart-item">
 					<h3>专业分布</h3>
+					<!-- 专业分布图表DOM引用 -->
 					<div ref="majorChart" class="chart"/>
 				</div>
 			</div>
 
+			<!-- 机制说明区域 -->
 			<div class="mechanism-section">
+				<!-- 机制说明卡片 -->
 				<div class="mechanism-card">
 					<h3>AI 坊文明公约</h3>
+					<!-- 机制内容 -->
 					<div class="mechanism-content">
 						<p>
-							厦门工学院人工智能创作坊环境保障机制适用于所有入坊师生，遵循"谁使用，谁负责；人走场清，物归原位；共同维护"原则。
-							个人工位需人走椅归、桌面整洁、垃圾自清；公共区域保持地面无杂物、设备用后归位；最后离开者需关闭照明空调、关好门窗。
-							使用者为第一责任人，团队值日督促规范，管理员巡查，违规者暂停使用权限并承担相应责任。
+							1. 保持积极的学习态度，主动参与讨论和项目开发
+						</p>
+						<p>
+							2. 尊重他人，营造和谐友好的学习氛围
+						</p>
+						<p>
+							3. 乐于分享知识和经验，共同成长进步
+						</p>
+						<p>
+							4. 遵守团队纪律，按时完成分配的任务
+						</p>
+						<p>
+							5. 勇于尝试新技术，不断提升自身技能水平
+						</p>
+						<p>
+							6. 互相帮助，共同解决学习中遇到的问题
 						</p>
 					</div>
 				</div>

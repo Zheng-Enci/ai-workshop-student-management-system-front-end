@@ -1,7 +1,7 @@
 <!--
   所有成员页面设备检测组件
   检测设备类型并自动跳转到对应的成员列表页面版本
-  
+
   @component AllMembersPage
   @description 作为成员列表页面的入口，结合屏幕宽度和UserAgent检测设备类型后重定向
 -->
@@ -23,8 +23,8 @@ const router = useRouter()
 /**
  * 检测设备类型
  * 结合屏幕宽度和UserAgent进行更准确的设备类型判断
- * 
- * @returns {string} 'mobile' | 'desktop'
+ *
+ * @returns 'mobile' | 'desktop'
  */
 const detectDeviceType = () => {
 	const screenWidth = window.innerWidth
@@ -84,6 +84,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+
   /* 多色渐变背景 */
   background: linear-gradient(135deg,
     rgb(99 102 241 / 0.1) 0%,
@@ -103,6 +104,7 @@ onMounted(() => {
   gap: 16px;
   align-items: center;
   padding: 40px;
+
   /* 毛玻璃背景 */
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -117,6 +119,7 @@ onMounted(() => {
 .spinner-icon {
   font-size: 32px;
   color: var(--primary-color);
+
   /* 旋转动画 */
   animation: spin 1s linear infinite;
 }

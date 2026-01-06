@@ -214,6 +214,14 @@ const checkGradeMatch = (student, keyword) => {
 	return false
 }
 
+/**
+ * 检查学生积分是否匹配搜索关键词
+ * @function checkPointsMatch
+ * @description 检查学生的总积分、签到积分、活动积分是否包含搜索关键词
+ * @param {Object} student - 学生对象
+ * @param {string} keyword - 搜索关键词
+ * @returns {boolean} true表示匹配,false表示不匹配
+ */
 const checkPointsMatch = (student, keyword) => {
 	if (student.totalPoints != null && student.totalPoints.toString().includes(keyword)) {
 		return true
@@ -224,6 +232,13 @@ const checkPointsMatch = (student, keyword) => {
 	return Boolean(student.activityPoints != null && student.activityPoints.toString().includes(keyword))
 }
 
+/**
+ * 处理搜索功能
+ * @function handleSearch
+ * @description 根据搜索关键词筛选学生列表
+ * 筛选字段:姓名、性别、学院、专业、年级、总积分、签到积分、活动积分
+ * @returns {void}
+ */
 const handleSearch = () => {
 	if (!searchKeyword.value.trim()) {
 		filteredStudents.value = totalRanking.value
@@ -240,6 +255,19 @@ const handleSearch = () => {
 	topStudents.value = filteredStudents.value
 }
 
+/**
+ * 获取学生卡片背景渐变色
+ * @function getStudentBackground
+ * @description 根据学生等级返回对应的背景渐变色
+ * 颜色映射:
+ * - 占位符: 默认蓝青渐变
+ * - 0级(普通): 蓝色渐变
+ * - 1级(优秀): 绿色渐变
+ * - 2级(卓越): 黄色渐变
+ * - 3级(传奇): 红色渐变
+ * @param {Object} student - 学生对象,包含levelCode或placeholder属性
+ * @returns {string} CSS渐变背景样式
+ */
 const getStudentBackground = student => {
 	if (student.placeholder) {
 		return 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%)'
@@ -259,6 +287,14 @@ const getStudentBackground = student => {
 	return 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%)'
 }
 
+/**
+ * 填充学生列表至指定长度
+ * @function padTopStudents
+ * @description 当学生数量不足时,使用占位符填充列表至指定长度
+ * @param {Array} list - 原始学生列表
+ * @param {number} targetLength - 目标列表长度,默认12
+ * @returns {Array} 填充后的学生列表
+ */
 const padTopStudents = (list, targetLength = 12) => {
 	const filled = [...list]
 	while (filled.length < targetLength) {
@@ -270,6 +306,19 @@ const padTopStudents = (list, targetLength = 12) => {
 	return filled
 }
 
+/**
+ * 组件挂载完成后的生命周期钩子
+ * @function onMounted
+ * @description 初始化页面数据
+ * 执行内容:
+ * 1. 等待DOM更新
+ * 2. 创建AllMembersPage实例并加载数据
+ * 3. 绑定学生数据到页面响应式变量
+ * 4. 使用padTopStudents处理数据
+ * 5. 更新计数器
+ * @async
+ * @returns {Promise<void>}
+ */
 onMounted(async () => {
 	await nextTick()
 

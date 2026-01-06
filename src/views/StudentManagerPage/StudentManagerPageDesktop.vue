@@ -4,6 +4,12 @@
  *
  * @description 管理员管理学生信息页面,包括考勤记录、补卡、热力图、趋势图等功能
  * @component StudentManagerPageDesktop
+ * @author AI Workshop
+ * @version 1.0.0
+ * @since 2024-01-01
+ * @see {@link https://github.com/your-repo/student-management-system}
+ * @license MIT
+ * @summary 提供管理员对学生信息的全面管理功能，包括学生列表展示、考勤记录查看、补卡操作和数据可视化。
  */
 import { nextTick, onMounted, ref, watch } from 'vue'
 import { ElButton, ElCalendar, ElDatePicker, ElDialog, ElIcon, ElInput, ElMessage, ElMessageBox } from 'element-plus'
@@ -92,6 +98,25 @@ const userStore = useUserStore()
 const themeStore = useThemeStore()
 
 // ===================== 响应式变量定义区 =====================
+
+/**
+ * 学生管理页面状态管理实例
+ * @type {Object}
+ * @description 管理学生管理页面的全局状态，包括学生列表、考勤记录等数据
+ * @property {Array} managedStudents - 管理的学生列表
+ * @property {string} adminStudentAvatarUrl - 管理员头像URL
+ * @property {Function} refreshManagedStudents - 刷新管理学生列表的方法
+ */
+const studentManagerPage = StudentManagerPage
+
+/**
+ * 主题切换状态管理实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ * @property {boolean} isDark - 是否为暗色模式
+ * @property {Function} toggleTheme - 切换主题的方法
+ */
+const themeStore = useThemeStore()
 /**
  * 管理的学生列表
  * @type {Ref<Array>}
@@ -890,21 +915,35 @@ const initCharts = () => {
 	initLineChart()
 }
 
+/**
+ * 初始化弹窗热力图
+ * @function initDialogHeatmapChart
+ * @description 初始化在弹窗中显示的考勤热力图
+ * 1. 验证DOM容器是否存在
+ * 2. 销毁已存在的图表实例
+ * 3. 创建新的ECharts实例
+ * 4. 生成热力图数据
+ * 5. 配置图表选项并应用到实例
+ * @returns {void}
+ */
 const initDialogHeatmapChart = () => {
 	console.log('开始初始化热力图')
 	console.log('heatmapDialogChart.value:', heatmapDialogChart.value)
 	console.log('容器尺寸:', heatmapDialogChart.value?.offsetWidth, heatmapDialogChart.value?.offsetHeight)
 
+	// 验证DOM容器是否存在
 	if (!heatmapDialogChart.value) {
 		console.error('热力图容器不存在')
 		return
 	}
 
+	// 如果已有实例,先销毁避免内存泄漏
 	if (heatmapInstance.value) {
 		heatmapInstance.value.dispose()
 	}
 
 	try {
+		// 创建ECharts实例
 		heatmapInstance.value = echarts.init(heatmapDialogChart.value)
 		console.log('ECharts实例创建成功')
 	} catch (error) {
@@ -912,98 +951,127 @@ const initDialogHeatmapChart = () => {
 		return
 	}
 
+	// 生成热力图数据
 	const heatmapData = generateHeatmapData()
 	console.log('热力图数据:', heatmapData)
 	console.log('考勤记录:', studentAttendanceRecords.value)
+	// 计算数据中的最大值,用于配置颜色映射
 	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
 
+	// 配置热力图选项
 	const option = {
+		// 设置背景透明
 		backgroundColor: 'transparent',
+		// 配置提示框
 		tooltip: {
-			show: false
+			show: false // 弹窗热力图不显示提示框,避免界面过于复杂
 		},
+		// 配置网格布局
 		grid: {
-			height: '60%',
-			top: '15%',
-			left: '10%',
-			right: '10%',
-			bottom: '20%'
+			height: '60%', // 图表高度占容器60%
+			top: '15%', // 顶部留白15%
+			left: '10%', // 左侧留白10%
+			right: '10%', // 右侧留白10%
+			bottom: '20%' // 底部留白20%
 		},
+		// 配置X轴(星期)
 		xAxis: {
-			type: 'category',
-			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+			type: 'category', // 类目轴
+			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'], // 星期数据
+			// 分隔区域样式
 			splitArea: {
-				show: true,
+				show: true, // 显示分隔区域
+				// 根据主题设置分隔区域颜色
 				areaStyle: {
 					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 				}
 			},
+			// 轴标签样式
 			axisLabel: {
+				// 根据主题设置标签颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 12
+				fontSize: 12 // 标签字体大小
 			},
+			// 轴线样式
 			axisLine: {
 				lineStyle: {
+					// 根据主题设置轴线颜色
 					color: themeStore.isDark ? '#444' : '#ddd'
 				}
 			}
 		},
+		// 配置Y轴(时段)
 		yAxis: {
-			type: 'category',
-			data: ['上午', '下午', '晚上'],
+			type: 'category', // 类目轴
+			data: ['上午', '下午', '晚上'], // 时段数据
+			// 分隔区域样式
 			splitArea: {
-				show: true,
+				show: true, // 显示分隔区域
+				// 根据主题设置分隔区域颜色
 				areaStyle: {
 					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 				}
 			},
+			// 轴标签样式
 			axisLabel: {
+				// 根据主题设置标签颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 12
+				fontSize: 12 // 标签字体大小
 			},
+			// 轴线样式
 			axisLine: {
 				lineStyle: {
+					// 根据主题设置轴线颜色
 					color: themeStore.isDark ? '#444' : '#ddd'
 				}
 			}
 		},
+		// 配置视觉映射组件
 		visualMap: {
-			min: 0,
-			max: maxValue,
-			calculable: false,
-			orient: 'horizontal',
-			left: 'center',
-			bottom: '5%',
-			itemWidth: 20,
-			itemHeight: 200,
+			min: 0, // 最小值
+			max: maxValue, // 最大值
+			calculable: false, // 不显示计算手柄
+			orient: 'horizontal', // 水平方向
+			left: 'center', // 居中显示
+			bottom: '5%', // 底部留白5%
+			itemWidth: 20, // 图例宽度
+			itemHeight: 200, // 图例高度
+			// 文字样式
 			textStyle: {
+				// 根据主题设置文字颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 11
+				fontSize: 11 // 文字大小
 			},
+			// 颜色映射范围
 			inRange: {
+				// 根据主题设置颜色映射
 				color: themeStore.isDark
-					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8']
-					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e']
+					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8'] // 暗色主题颜色
+					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e'] // 亮色主题颜色
 			}
 		},
+		// 配置数据系列
 		series: [{
-			name: '签到次数',
-			type: 'heatmap',
-			data: heatmapData,
+			name: '签到次数', // 系列名称
+			type: 'heatmap', // 热力图类型
+			data: heatmapData, // 热力图数据
+			// 标签配置
 			label: {
-				show: true,
-				color: '#000000',
-				fontSize: 10
+				show: true, // 显示标签
+				color: '#000000', // 标签颜色
+				fontSize: 10 // 标签字体大小
 			},
+			// 高亮状态配置
 			emphasis: {
 				itemStyle: {
-					shadowBlur: 10,
-					shadowColor: 'rgba(0, 0, 0, 0.5)'
+					shadowBlur: 10, // 阴影模糊度
+					shadowColor: 'rgba(0, 0, 0, 0.5)' // 阴影颜色
 				}
 			}
 		}]
 	}
 
+	// 应用配置到图表实例
 	try {
 		heatmapInstance.value.setOption(option)
 		console.log('热力图配置设置成功')
@@ -1012,21 +1080,35 @@ const initDialogHeatmapChart = () => {
 	}
 }
 
+/**
+ * 初始化弹窗趋势图
+ * @function initDialogLineChart
+ * @description 初始化在弹窗中显示的考勤趋势图
+ * 1. 验证DOM容器是否存在
+ * 2. 销毁已存在的图表实例
+ * 3. 创建新的ECharts实例
+ * 4. 生成趋势图数据
+ * 5. 配置图表选项并应用到实例
+ * @returns {void}
+ */
 const initDialogLineChart = () => {
 	console.log('开始初始化趋势图')
 	console.log('trendDialogChart.value:', trendDialogChart.value)
 	console.log('容器尺寸:', trendDialogChart.value?.offsetWidth, trendDialogChart.value?.offsetHeight)
 
+	// 验证DOM容器是否存在
 	if (!trendDialogChart.value) {
 		console.error('趋势图容器不存在')
 		return
 	}
 
+	// 如果已有实例,先销毁避免内存泄漏
 	if (lineInstance.value) {
 		lineInstance.value.dispose()
 	}
 
 	try {
+		// 创建ECharts实例
 		lineInstance.value = echarts.init(trendDialogChart.value)
 		console.log('ECharts实例创建成功')
 	} catch (error) {
@@ -1034,298 +1116,413 @@ const initDialogLineChart = () => {
 		return
 	}
 
+	// 生成趋势图数据
 	const lineData = generateLineData()
 	console.log('趋势图数据:', lineData)
 	console.log('考勤记录:', studentAttendanceRecords.value)
 
+	// 配置趋势图选项
 	const option = {
+		// 设置背景透明
 		backgroundColor: 'transparent',
+		// 配置提示框
 		tooltip: {
-			trigger: 'axis',
+			trigger: 'axis', // 坐标轴触发提示框
+			// 根据主题设置提示框背景色
 			backgroundColor: themeStore.isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
+			// 根据主题设置提示框边框颜色
 			borderColor: themeStore.isDark ? '#333' : '#ddd',
+			// 根据主题设置提示框文字颜色
 			textStyle: {
 				color: themeStore.isDark ? '#fff' : '#333'
 			},
+			// 自定义提示框内容格式
 			formatter(params) {
 				const date = params[0].axisValue
 				const { value } = params[0]
 				return `日期: ${date}<br/>累计签到: ${value}次`
 			}
 		},
+		// 配置网格布局
 		grid: {
-			left: '3%',
-			right: '4%',
-			bottom: '3%',
-			containLabel: true
+			left: '3%', // 左侧留白3%
+			right: '4%', // 右侧留白4%
+			bottom: '3%', // 底部留白3%
+			containLabel: true // 网格包含坐标轴标签
 		},
+		// 配置X轴(日期)
 		xAxis: {
-			type: 'category',
-			boundaryGap: false,
-			data: lineData.dates,
+			type: 'category', // 类目轴
+			boundaryGap: false, // 不留边界间隙
+			data: lineData.dates, // 日期数据
+			// 轴标签样式
 			axisLabel: {
+				// 根据主题设置标签颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 10,
-				rotate: 45
+				fontSize: 10, // 标签字体大小
+				rotate: 45 // 标签旋转45度避免重叠
 			},
+			// 轴线样式
 			axisLine: {
 				lineStyle: {
+					// 根据主题设置轴线颜色
 					color: themeStore.isDark ? '#444' : '#ddd'
 				}
 			}
 		},
+		// 配置Y轴(累计签到次数)
 		yAxis: {
-			type: 'value',
+			type: 'value', // 数值轴
+			// 轴标签样式
 			axisLabel: {
+				// 根据主题设置标签颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 12
+				fontSize: 12 // 标签字体大小
 			},
+			// 轴线样式
 			axisLine: {
 				lineStyle: {
+					// 根据主题设置轴线颜色
 					color: themeStore.isDark ? '#444' : '#ddd'
 				}
 			},
+			// 分割线样式
 			splitLine: {
 				lineStyle: {
+					// 根据主题设置分割线颜色
 					color: themeStore.isDark ? '#333' : '#eee'
 				}
 			}
 		},
+		// 配置数据系列
 		series: [{
-			name: '累计签到次数',
-			type: 'line',
-			stack: 'Total',
-			data: lineData.values,
-			smooth: true,
+			name: '累计签到次数', // 系列名称
+			type: 'line', // 折线图类型
+			stack: 'Total', // 堆叠图
+			data: lineData.values, // 趋势数据
+			smooth: true, // 平滑曲线
+			// 线条样式
 			lineStyle: {
-				color: '#50a3ba',
-				width: 3
+				color: '#50a3ba', // 线条颜色
+				width: 3 // 线条宽度
 			},
+			// 区域填充样式
 			areaStyle: {
+				// 渐变色配置
 				color: {
 					type: 'linear',
 					x: 0,
 					y: 0,
 					x2: 0,
 					y2: 1,
+					// 渐变色停止点
 					colorStops: [{
-						offset: 0, color: 'rgba(80, 163, 186, 0.3)'
+						offset: 0, color: 'rgba(80, 163, 186, 0.3)' // 起始颜色
 					}, {
-						offset: 1, color: 'rgba(80, 163, 186, 0.1)'
+						offset: 1, color: 'rgba(80, 163, 186, 0.1)' // 结束颜色
 					}]
 				}
 			},
+			// 数据项样式
 			itemStyle: {
-				color: '#50a3ba'
+				color: '#50a3ba' // 数据点颜色
 			},
+			// 高亮状态配置
 			emphasis: {
-				focus: 'series'
+				focus: 'series' // 高亮整个系列
 			}
 		}]
 	}
 
+	// 应用配置到图表实例
 	lineInstance.value.setOption(option)
 }
 
+/**
+ * 初始化页面热力图
+ * @function initHeatmapChart
+ * @description 初始化页面主区域的考勤热力图
+ * 1. 验证DOM容器是否存在
+ * 2. 销毁已存在的图表实例
+ * 3. 创建新的ECharts实例
+ * 4. 生成热力图数据
+ * 5. 配置图表选项并应用到实例
+ * @returns {void}
+ */
 const initHeatmapChart = () => {
+	// 验证DOM容器是否存在
 	if (!heatmapChart.value) { return }
 
+	// 如果已有实例,先销毁避免内存泄漏
 	if (heatmapInstance.value) {
 		heatmapInstance.value.dispose()
 	}
 
+	// 创建ECharts实例
 	heatmapInstance.value = echarts.init(heatmapChart.value)
 
+	// 生成热力图数据
 	const heatmapData = generateHeatmapData()
+	// 计算数据中的最大值,用于配置颜色映射
 	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
 
+	// 配置热力图选项
 	const option = {
+		// 设置背景透明
 		backgroundColor: 'transparent',
+		// 配置提示框
 		tooltip: {
-			show: false
+			show: false // 主页面热力图不显示提示框,避免界面过于复杂
 		},
+		// 配置网格布局
 		grid: {
-			height: '60%',
-			top: '15%',
-			left: '10%',
-			right: '10%',
-			bottom: '20%'
+			height: '60%', // 图表高度占容器60%
+			top: '15%', // 顶部留白15%
+			left: '10%', // 左侧留白10%
+			right: '10%', // 右侧留白10%
+			bottom: '20%' // 底部留白20%
 		},
+		// 配置X轴(星期)
 		xAxis: {
-			type: 'category',
-			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+			type: 'category', // 类目轴
+			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'], // 星期数据
+			// 分隔区域样式
 			splitArea: {
-				show: true,
+				show: true, // 显示分隔区域
+				// 根据主题设置分隔区域颜色
 				areaStyle: {
 					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 				}
 			},
+			// 轴标签样式
 			axisLabel: {
+				// 根据主题设置标签颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 12
+				fontSize: 12 // 标签字体大小
 			},
+			// 轴线样式
 			axisLine: {
 				lineStyle: {
+					// 根据主题设置轴线颜色
 					color: themeStore.isDark ? '#444' : '#ddd'
 				}
 			}
 		},
+		// 配置Y轴(时段)
 		yAxis: {
-			type: 'category',
-			data: ['上午', '下午', '晚上'],
+			type: 'category', // 类目轴
+			data: ['上午', '下午', '晚上'], // 时段数据
+			// 分隔区域样式
 			splitArea: {
-				show: true,
+				show: true, // 显示分隔区域
+				// 根据主题设置分隔区域颜色
 				areaStyle: {
 					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 				}
 			},
+			// 轴标签样式
 			axisLabel: {
+				// 根据主题设置标签颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 12
+				fontSize: 12 // 标签字体大小
 			},
+			// 轴线样式
 			axisLine: {
 				lineStyle: {
+					// 根据主题设置轴线颜色
 					color: themeStore.isDark ? '#444' : '#ddd'
 				}
 			}
 		},
+		// 配置视觉映射组件
 		visualMap: {
-			min: 0,
-			max: maxValue,
-			calculable: false,
-			orient: 'horizontal',
-			left: 'center',
-			bottom: '5%',
-			itemWidth: 20,
-			itemHeight: 200,
+			min: 0, // 最小值
+			max: maxValue, // 最大值
+			calculable: false, // 不显示计算手柄
+			orient: 'horizontal', // 水平方向
+			left: 'center', // 居中显示
+			bottom: '5%', // 底部留白5%
+			itemWidth: 20, // 图例宽度
+			itemHeight: 200, // 图例高度
+			// 文字样式
 			textStyle: {
+				// 根据主题设置文字颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 11
+				fontSize: 11 // 文字大小
 			},
+			// 颜色映射范围
 			inRange: {
+				// 根据主题设置颜色映射
 				color: themeStore.isDark
-					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8']
-					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e']
+					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8'] // 暗色主题颜色
+					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e'] // 亮色主题颜色
 			}
 		},
+		// 配置数据系列
 		series: [{
-			name: '签到次数',
-			type: 'heatmap',
-			data: heatmapData,
+			name: '签到次数', // 系列名称
+			type: 'heatmap', // 热力图类型
+			data: heatmapData, // 热力图数据
+			// 标签配置
 			label: {
-				show: true,
-				color: '#000000',
-				fontSize: 10
+				show: true, // 显示标签
+				color: '#000000', // 标签颜色
+				fontSize: 10 // 标签字体大小
 			},
+			// 高亮状态配置
 			emphasis: {
 				itemStyle: {
-					shadowBlur: 10,
-					shadowColor: 'rgba(0, 0, 0, 0.5)'
+					shadowBlur: 10, // 阴影模糊度
+					shadowColor: 'rgba(0, 0, 0, 0.5)' // 阴影颜色
 				}
 			}
 		}]
 	}
 
+	// 应用配置到图表实例
 	heatmapInstance.value.setOption(option)
 }
 
+/**
+ * 初始化页面趋势图
+ * @function initLineChart
+ * @description 初始化页面主区域的考勤趋势图
+ * 1. 验证DOM容器是否存在
+ * 2. 销毁已存在的图表实例
+ * 3. 创建新的ECharts实例
+ * 4. 生成趋势图数据
+ * 5. 配置图表选项并应用到实例
+ * @returns {void}
+ */
 const initLineChart = () => {
+	// 验证DOM容器是否存在
 	if (!lineChart.value) { return }
 
+	// 如果已有实例,先销毁避免内存泄漏
 	if (lineInstance.value) {
 		lineInstance.value.dispose()
 	}
 
+	// 创建ECharts实例
 	lineInstance.value = echarts.init(lineChart.value)
 
+	// 生成趋势图数据
 	const lineData = generateLineData()
 
+	// 配置趋势图选项
 	const option = {
+		// 设置背景透明
 		backgroundColor: 'transparent',
+		// 配置提示框
 		tooltip: {
-			trigger: 'axis',
+			trigger: 'axis', // 坐标轴触发提示框
+			// 根据主题设置提示框背景色
 			backgroundColor: themeStore.isDark ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
+			// 根据主题设置提示框边框颜色
 			borderColor: themeStore.isDark ? '#333' : '#ddd',
+			// 根据主题设置提示框文字颜色
 			textStyle: {
 				color: themeStore.isDark ? '#fff' : '#333'
 			},
+			// 自定义提示框内容格式
 			formatter(params) {
 				const date = params[0].axisValue
 				const { value } = params[0]
 				return `日期: ${date}<br/>累计签到: ${value}次`
 			}
 		},
+		// 配置网格布局
 		grid: {
-			left: '3%',
-			right: '4%',
-			bottom: '3%',
-			containLabel: true
+			left: '3%', // 左侧留白3%
+			right: '4%', // 右侧留白4%
+			bottom: '3%', // 底部留白3%
+			containLabel: true // 网格包含坐标轴标签
 		},
+		// 配置X轴(日期)
 		xAxis: {
-			type: 'category',
-			boundaryGap: false,
-			data: lineData.dates,
+			type: 'category', // 类目轴
+			boundaryGap: false, // 不留边界间隙
+			data: lineData.dates, // 日期数据
+			// 轴标签样式
 			axisLabel: {
+				// 根据主题设置标签颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 10,
-				rotate: 45
+				fontSize: 10, // 标签字体大小
+				rotate: 45 // 标签旋转45度避免重叠
 			},
+			// 轴线样式
 			axisLine: {
 				lineStyle: {
+					// 根据主题设置轴线颜色
 					color: themeStore.isDark ? '#444' : '#ddd'
 				}
 			}
 		},
+		// 配置Y轴(累计签到次数)
 		yAxis: {
-			type: 'value',
+			type: 'value', // 数值轴
+			// 轴标签样式
 			axisLabel: {
+				// 根据主题设置标签颜色
 				color: themeStore.isDark ? '#ccc' : '#666',
-				fontSize: 12
+				fontSize: 12 // 标签字体大小
 			},
+			// 轴线样式
 			axisLine: {
 				lineStyle: {
+					// 根据主题设置轴线颜色
 					color: themeStore.isDark ? '#444' : '#ddd'
 				}
 			},
+			// 分割线样式
 			splitLine: {
 				lineStyle: {
+					// 根据主题设置分割线颜色
 					color: themeStore.isDark ? '#333' : '#eee'
 				}
 			}
 		},
+		// 配置数据系列
 		series: [{
-			name: '累计签到次数',
-			type: 'line',
-			stack: 'Total',
-			data: lineData.values,
-			smooth: true,
+			name: '累计签到次数', // 系列名称
+			type: 'line', // 折线图类型
+			stack: 'Total', // 堆叠图
+			data: lineData.values, // 趋势数据
+			smooth: true, // 平滑曲线
+			// 线条样式
 			lineStyle: {
-				color: '#50a3ba',
-				width: 3
+				color: '#50a3ba', // 线条颜色
+				width: 3 // 线条宽度
 			},
+			// 区域填充样式
 			areaStyle: {
+				// 渐变色配置
 				color: {
 					type: 'linear',
 					x: 0,
 					y: 0,
 					x2: 0,
 					y2: 1,
+					// 渐变色停止点
 					colorStops: [{
-						offset: 0, color: 'rgba(80, 163, 186, 0.3)'
+						offset: 0, color: 'rgba(80, 163, 186, 0.3)' // 起始颜色
 					}, {
-						offset: 1, color: 'rgba(80, 163, 186, 0.1)'
+						offset: 1, color: 'rgba(80, 163, 186, 0.1)' // 结束颜色
 					}]
 				}
 			},
+			// 数据项样式
 			itemStyle: {
-				color: '#50a3ba'
+				color: '#50a3ba' // 数据点颜色
 			},
+			// 高亮状态配置
 			emphasis: {
-				focus: 'series'
+				focus: 'series' // 高亮整个系列
 			}
 		}]
 	}
 
+	// 应用配置到图表实例
 	lineInstance.value.setOption(option)
 }
 

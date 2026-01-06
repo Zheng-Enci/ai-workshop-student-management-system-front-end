@@ -1,7 +1,7 @@
 <script setup>
 /**
  * 全部成员页面组件(桌面端)
- * 
+ *
  * @description 展示所有成员的积分信息和排名统计
  * @component AllMembersPageDesktop
  */
@@ -130,25 +130,25 @@ const loadedCount = ref(0)
 const totalCount = ref(0)
 /**
  * 学院统计
- * @type {Ref<Object>}
+ * @type {Ref<object>}
  * @description 按学院分类的学生数量统计
  */
 const collegeStats = ref({})
 /**
  * 专业统计
- * @type {Ref<Object>}
+ * @type {Ref<object>}
  * @description 按专业分类的学生数量统计
  */
 const majorStats = ref({})
 /**
  * 性别统计
- * @type {Ref<Object>}
+ * @type {Ref<object>}
  * @description 按性别分类的学生数量统计
  */
 const genderStats = ref({})
 /**
  * 年级统计
- * @type {Ref<Object>}
+ * @type {Ref<object>}
  * @description 按年级分类的学生数量统计
  */
 const gradeStats = ref({})
@@ -336,7 +336,7 @@ let lastQuoteIndex = -1
  * 获取随机文案
  * @function getRandomQuote
  * @description 从文案数组中随机选择一条文案,确保不连续显示相同文案
- * @returns {string} 随机选择的激励文案
+ * @returns 随机选择的激励文案
  */
 const getRandomQuote = () => {
 	let randomIndex
@@ -425,7 +425,7 @@ const stopQuoteRotation = () => {
 const recordsDialogVisible = ref(false)
 /**
  * 当前选中的学生
- * @type {Ref<Object|null>}
+ * @type {Ref<object | null>}
  * @description 存储当前查看改分记录的学生信息
  */
 const currentStudent = ref(null)
@@ -513,6 +513,19 @@ const goToPointsDashboard = () => {
 	router.push('/points-dashboard')
 }
 
+/**
+ * 初始化签到积分柱状图
+ * @function initSignInChart
+ * @description 创建并配置签到积分排行榜的柱状图
+ * 特性:
+ * - 水平柱状图展示学生排名
+ * - 根据排名动态计算柱状颜色
+ * - 支持明暗主题切换
+ * - 显示学生姓名、专业、年级信息
+ * @param data - 学生签到积分数据数组
+ * @async
+ * @returns
+ */
 const initSignInChart = async data => {
 	if (!signInChart.value) {
 		await nextTick()
@@ -625,6 +638,19 @@ const initSignInChart = async data => {
 	signInChartInstance.setOption(option)
 }
 
+/**
+ * 初始化活动积分柱状图
+ * @function initActivityChart
+ * @description 创建并配置活动积分排行榜的柱状图
+ * 特性:
+ * - 水平柱状图展示学生排名
+ * - 根据排名动态计算柱状颜色
+ * - 支持明暗主题切换
+ * - 显示学生姓名、专业、年级信息
+ * @param data - 学生活动积分数据数组
+ * @async
+ * @returns
+ */
 const initActivityChart = async data => {
 	if (!activityChart.value) {
 		await nextTick()
@@ -737,6 +763,19 @@ const initActivityChart = async data => {
 	activityChartInstance.setOption(option)
 }
 
+/**
+ * 初始化总积分柱状图
+ * @function initTotalChart
+ * @description 创建并配置总积分排行榜的柱状图
+ * 特性:
+ * - 水平柱状图展示学生排名
+ * - 双柱显示签到积分和活动积分
+ * - 根据排名动态计算柱状颜色
+ * - 支持明暗主题切换
+ * @param data - 学生总积分数据数组
+ * @async
+ * @returns
+ */
 const initTotalChart = async data => {
 	if (!totalChart.value) {
 		await nextTick()
@@ -844,12 +883,29 @@ const initTotalChart = async data => {
 	totalChartInstance.setOption(option)
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当学生头像加载失败时调用,标记为无头像状态
+ * @param student - 学生对象,包含hasAvatar和avatarUrl属性
+ * @returns
+ */
 const handleAvatarError = student => {
 	student.hasAvatar = false
 	student.avatarUrl = null
 }
 
-
+/**
+ * 加载签到积分排行榜数据
+ * @function loadSignInRanking
+ * @description 从服务器获取签到次数排名并转换为积分显示
+ * 流程:
+ * 1. 调用API获取签到排名数据
+ * 2. 将签到次数转换为积分(1次=0.64分)
+ * 3. 初始化签到积分图表
+ * @async
+ * @returns
+ */
 const loadSignInRanking = async () => {
 	signInLoading.value = true
 	try {
@@ -884,6 +940,14 @@ const loadSignInRanking = async () => {
 	}
 }
 
+/**
+ * 填充学生列表至指定长度
+ * @function padTopStudents
+ * @description 当学生数量不足时,使用占位符填充列表至指定长度
+ * @param list - 原始学生列表
+ * @param targetLength - 目标列表长度,默认12
+ * @returns 填充后的学生列表
+ */
 const padTopStudents = (list, targetLength = 12) => {
 	const filled = [...list]
 	while (filled.length < targetLength) {
@@ -895,6 +959,12 @@ const padTopStudents = (list, targetLength = 12) => {
 	return filled
 }
 
+/**
+ * 处理窗口大小变化
+ * @function handleResize
+ * @description 当窗口大小改变时,重新调整所有图表尺寸
+ * @returns
+ */
 const handleResize = () => {
 	if (signInChartInstance) {
 		signInChartInstance.resize()
@@ -907,7 +977,19 @@ const handleResize = () => {
 	}
 }
 
-// 计算统计数据
+/**
+ * 计算学生统计数据
+ * @function calculateStatistics
+ * @description 统计学生的学院、专业、性别、年级分布情况
+ * 统计内容:
+ * - 总学生数量
+ * - 按学院分类的数量
+ * - 按专业分类的数量
+ * - 按性别分类的数量
+ * - 按年级分类的数量
+ * @param students - 学生数据数组
+ * @returns
+ */
 const calculateStatistics = students => {
 	totalCount.value = students.length
 
@@ -957,14 +1039,26 @@ watch(() => themeStore.isDarkMode, () => {
 })
 
 
-// 打开统计数据弹窗
+/**
+ * 打开统计数据弹窗
+ * @function showStatisticsDialog
+ * @description 显示学生统计数据对话框
+ * 重置关闭状态并显示弹窗
+ * @returns
+ */
 const showStatisticsDialog = () => {
 	// 重置关闭状态
 	isClosingStatisticsDialog.value = false
 	statisticsDialogVisible.value = true
 }
 
-// 关闭统计数据弹窗
+/**
+ * 关闭统计数据弹窗
+ * @function closeStatisticsDialog
+ * @description 关闭学生统计数据对话框
+ * 防止重复关闭,并隐藏遮罩层
+ * @returns
+ */
 const closeStatisticsDialog = () => {
 	// 防止重复关闭
 	if (isClosingStatisticsDialog.value) { return }
@@ -987,6 +1081,13 @@ const closeStatisticsDialog = () => {
 	}, 0)
 }
 
+/**
+ * 格式化年级
+ * @function formatGrade
+ * @description 将数字年级转换为中文显示格式
+ * @param grade - 年级数字(1-6)
+ * @returns 格式化后的年级文本,如'大一'、'大二'等
+ */
 const formatGrade = grade => {
 	if (!grade) { return '' }
 	const gradeNum = parseInt(grade)
@@ -1002,6 +1103,13 @@ const formatGrade = grade => {
 	return gradeMap[gradeNum] || `${gradeNum}年级`
 }
 
+/**
+ * 格式化时间
+ * @function formatTime
+ * @description 将时间字符串格式化为 YYYY-MM-DD HH:MM 格式
+ * @param timeString - 时间字符串
+ * @returns 格式化后的时间字符串,无效时返回原始值
+ */
 const formatTime = timeString => {
 	if (!timeString) { return '--' }
 	try {
@@ -1017,7 +1125,13 @@ const formatTime = timeString => {
 	}
 }
 
-// 搜索处理函数
+/**
+ * 处理搜索功能
+ * @function handleSearch
+ * @description 根据搜索关键词筛选学生列表
+ * 筛选字段:姓名、性别、学院、专业、年级、总积分、签到积分、活动积分
+ * @returns
+ */
 const handleSearch = () => {
 	if (!searchKeyword.value.trim()) {
 		filteredStudents.value = totalRanking.value
@@ -1061,6 +1175,22 @@ const handleSearch = () => {
 }
 
 
+/**
+ * 组件挂载完成后的生命周期钩子
+ * @function onMounted
+ * @description 初始化页面数据和启动各种功能
+ * 执行内容:
+ * 1. 等待DOM更新
+ * 2. 创建AllMembersPage实例并加载数据
+ * 3. 绑定学生数据到页面响应式变量
+ * 4. 使用padTopStudents处理数据
+ * 5. 更新计数器
+ * 6. 计算统计数据
+ * 7. 监听窗口resize事件
+ * 8. 启动励志语录轮播
+ * @async
+ * @returns {Promise<void>}
+ */
 onMounted(async () => {
 	await nextTick()
 
@@ -1087,18 +1217,45 @@ onMounted(async () => {
 })
 
 // 创建响应式实例（替换原有的 ref 定义）
+/**
+ * 改分记录弹窗管理器
+ * @type {Reactive<AdjustRecordsDialogManager>}
+ * @description 管理改分记录弹窗的打开、关闭和数据加载
+ */
 const adjustRecordsDialogManager = reactive(new AdjustRecordsDialogManager())
 
 // 方法修改为调用类方法
+/**
+ * 打开改分记录弹窗
+ * @function openRecordsDialog
+ * @description 点击学生卡片时触发,打开该学生的改分记录弹窗
+ * @param student - 学生对象,包含学生ID等信息
+ * @returns
+ */
 const openRecordsDialog = student => {
 	adjustRecordsDialogManager.open(student)
 }
 
+/**
+ * 处理改分记录弹窗关闭事件
+ * @function handleRecordsDialogClose
+ * @description 关闭改分记录弹窗时调用管理器的关闭方法
+ * @returns
+ */
 const handleRecordsDialogClose = () => {
 	adjustRecordsDialogManager.handleDialogClose()
 }
 
-
+/**
+ * 组件卸载前的生命周期钩子
+ * @function onUnmounted
+ * @description 组件卸载前清理资源和事件监听
+ * 清理内容:
+ * 1. 停止励志语录轮播
+ * 2. 销毁所有图表实例
+ * 3. 移除窗口resize监听
+ * @returns {void}
+ */
 onUnmounted(() => {
 	stopQuoteRotation()
 	if (signInChartInstance) {
@@ -1216,7 +1373,7 @@ onUnmounted(() => {
 										<span class="legend-text">总活动积分</span>
 									</div>
 								</div>
-								<div class="legend-section" style="display: flex; align-items: center; gap: 20px;">
+								<div class="legend-section" style="display: flex; gap: 20px; align-items: center;">
 									<div class="legend-item">
 										<el-input
 											v-model="searchKeyword"

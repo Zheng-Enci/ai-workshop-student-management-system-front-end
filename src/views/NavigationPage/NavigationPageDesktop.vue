@@ -140,8 +140,8 @@ const isAdmin = computed(() => userStore.studentLevel?.levelCode === 3)
  * 获取等级名称
  * @function getLevelName
  * @description 根据等级码返回对应的等级名称
- * @param {number} levelCode - 等级码(0-3)
- * @returns {string} 等级名称
+ * @param levelCode - 等级码(0-3)
+ * @returns 等级名称
  */
 const getLevelName = levelCode => {
 	/**
@@ -161,8 +161,8 @@ const getLevelName = levelCode => {
  * 获取等级CSS类名
  * @function getLevelClass
  * @description 根据等级码返回对应的CSS类名,用于样式控制
- * @param {number} levelCode - 等级码(0-3)
- * @returns {string} CSS类名
+ * @param levelCode - 等级码(0-3)
+ * @returns CSS类名
  */
 const getLevelClass = levelCode => {
 	/**
@@ -276,7 +276,7 @@ const goToAdmin = () => {
  * @description 从API获取用户的累计签到次数,并计算对应的签到积分
  * 积分计算规则: 签到次数 × 0.64 (四舍五入)
  * @async
- * @returns {Promise<void>}
+ * @returns
  */
 const loadAttendanceCount = async () => {
 	try {
@@ -316,7 +316,7 @@ const loadAttendanceCount = async () => {
  * 3. 根据学生ID获取活动积分
  * 4. 计算总积分 = 签到积分 + 活动积分
  * @async
- * @returns {Promise<void>}
+ * @returns
  */
 const loadPoints = async () => {
 	try {
@@ -390,26 +390,44 @@ const loadPoints = async () => {
 	}
 }
 
-// 加载学生等级
+/**
+ * 加载学生等级信息
+ * @function loadStudentLevel
+ * @description 根据学生ID获取用户的等级信息并存储到全局状态
+ * 等级信息包括:等级码、等级名称等,用于权限控制和界面展示
+ * @async
+ * @returns
+ */
 const loadStudentLevel = async () => {
 	try {
+		// 检查用户信息和学生ID是否存在
 		if (!userStore.userInfo?.studentId) { return }
 
+		// 调用API获取学生等级信息
 		const response = await getStudentLevel(userStore.userInfo.studentId)
 		if (response.code === 200) {
+			// 将等级信息存储到全局状态
 			userStore.setStudentLevel(response.data)
 		}
 	} catch (error) {
+		// 加载失败时不做处理,静默失败
 		return
 	}
 }
 
-// 显示默认头像并提示
+/**
+ * 显示默认头像并提示用户上传
+ * @function showDefaultAvatar
+ * @description 当用户没有头像或头像加载失败时,显示默认头像图标
+ * 同时提示用户前往个人信息页面上传自定义头像(仅提示一次)
+ * @returns
+ */
 const showDefaultAvatar = () => {
+	// 重置头像相关状态
 	hasAvatar.value = false
 	avatarUrl.value = null
 
-	// 显示提示消息（只显示一次）
+	// 显示提示消息(只显示一次,避免重复打扰用户)
 	if (!avatarTipShown.value) {
 		ElMessage.info({
 			message: '你还没有上传头像，点击头像前往个人信息页面上传',
@@ -420,12 +438,28 @@ const showDefaultAvatar = () => {
 	}
 }
 
-// 加载用户头像
+/**
+ * 加载用户头像
+ * @function loadUserAvatar
+ * @description 从服务器获取用户自定义头像并进行验证显示
+ * 加载流程:
+ * 1. 验证登录状态(token)
+ * 2. 获取学生数据库ID
+ * 3. 构建头像URL
+ * 4. 使用fetch验证头像是否存在
+ * 5. 使用Image对象加载并显示头像
+ *
+ * @async
+ * @returns
+ */
 const loadUserAvatar = async () => {
 	try {
+		// 开启头像加载状态
 		avatarLoading.value = true
+		// 从本地存储获取登录token
 		const token = localStorage.getItem('token')
 
+		// 未登录时显示默认头像
 		if (!token) {
 			showDefaultAvatar()
 			avatarLoading.value = false
@@ -441,25 +475,31 @@ const loadUserAvatar = async () => {
 		}
 
 		const studentInfoId = idResponse.data
+		// 构建头像URL,尺寸为配置值的2倍(适配高清屏)
 		const avatarUrlString = getAvatarUrl(
 			studentInfoId,
 			NavigationPageConfig.AVATAR_SIZE * 2
 		)
 
+		// URL无效时显示默认头像
 		if (!avatarUrlString) {
 			showDefaultAvatar()
 			avatarLoading.value = false
 			return
 		}
 
-		// 使用fetch验证头像是否存在（更可靠的方式）
+		/**
+		 * 使用fetch验证头像是否存在(更可靠的方式)
+		 * @description 先发送HTTP请求验证响应状态和Content-Type,
+		 * 避免直接加载无效URL导致404错误
+		 */
 		try {
 			const response = await fetch(avatarUrlString, { method: 'GET' })
 			if (response.ok) {
 				const contentType = response.headers.get('content-type')
-				// 检查响应是否为图片类型
+				// 检查响应是否为图片类型(排除JSON错误响应)
 				if (contentType && contentType.startsWith('image/')) {
-					// 头像存在，使用Image对象加载
+					// 头像存在,使用Image对象加载以触发lazy-loading
 					const img = new Image()
 					img.onload = () => {
 						avatarUrl.value = avatarUrlString
@@ -472,17 +512,17 @@ const loadUserAvatar = async () => {
 					}
 					img.src = avatarUrlString
 				} else {
-					// 返回的不是图片（可能是JSON错误信息），头像不存在
+					// 返回的不是图片(可能是JSON错误信息),头像不存在
 					showDefaultAvatar()
 					avatarLoading.value = false
 				}
 			} else {
-				// 响应状态码不是200，头像不存在
+				// 响应状态码不是200,头像不存在
 				showDefaultAvatar()
 				avatarLoading.value = false
 			}
 		} catch (fetchError) {
-			// fetch失败（网络错误或CORS问题），使用Image对象作为降级方案
+			// fetch失败(网络错误或CORS问题),使用Image对象作为降级方案
 			const img = new Image()
 			img.onload = () => {
 				avatarUrl.value = avatarUrlString
@@ -496,25 +536,43 @@ const loadUserAvatar = async () => {
 			img.src = avatarUrlString
 		}
 	} catch (error) {
+		// Token失效处理:清除本地存储并跳转到登录页
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
 			router.push('/login')
 		} else {
+			// 其他错误显示默认头像
 			showDefaultAvatar()
 		}
 		avatarLoading.value = false
 	}
 }
 
-// 退出登录处理
+/**
+ * 退出登录处理
+ * @function handleLogout
+ * @description 用户点击退出登录按钮时触发
+ * 操作流程:
+ * 1. 调用userStore.logout()清除用户状态
+ * 2. 显示成功提示消息
+ * 3. 跳转到登录页面
+ * @returns
+ */
 const handleLogout = () => {
 	userStore.logout()
 	ElMessage.success('已退出登录')
 	router.push('/login')
 }
 
-// 挂载后加载数据
+/**
+ * 组件挂载后初始化数据加载
+ * @description 在Vue组件挂载到DOM后,并行加载以下数据:
+ * 1. 考勤次数 - 用户累计签到次数
+ * 2. 学生等级 - 用户权限等级信息
+ * 3. 积分数据 - 签到积分和活动积分
+ * 4. 用户头像 - 自定义头像或默认头像
+ */
 onMounted(() => {
 	loadAttendanceCount()
 	loadStudentLevel()

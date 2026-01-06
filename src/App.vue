@@ -8,14 +8,14 @@
 <script>
 /**
  * 应用根组件
- * 
+ *
  * @component App
  * @description 作为整个Vue应用的入口根组件,负责以下功能:
  * 1. 提供路由视图容器,根据路由动态渲染页面组件
  * 2. 定义全局样式和基础布局
  * 3. 设置全局字体、颜色主题变量等基础配置
  * 4. 确保应用全屏显示和响应式布局
- * 
+ *
  * @author 前端开发团队
  * @version 1.0.0
  */
@@ -44,8 +44,10 @@ export default {
 .app-container {
   /* 宽度占满父容器 */
   width: 100%;
+
   /* 最小高度为视口高度,确保内容不足时也能全屏显示 */
   min-height: 100vh;
+
   /* 清除默认内边距和外边距 */
   padding: 0;
   margin: 0;
@@ -90,6 +92,7 @@ export default {
 body {
   /* 宽度占满视口 */
   width: 100%;
+
   /* 清除默认内边距和外边距 */
   padding: 0;
   margin: 0;
@@ -99,6 +102,7 @@ body {
    * @description 隐藏横向滚动条,防止页面出现不必要的水平滚动
    */
   overflow-x: hidden;
+
   /* 背景颜色使用主题变量,支持主题切换 */
   background-color: var(--bg-primary);
 }

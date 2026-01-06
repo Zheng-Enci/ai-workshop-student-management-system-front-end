@@ -10,9 +10,9 @@
 
 // ======================== 依赖导入区 ========================
 // Element Plus 组件及消息提示
-import { ElMessage, ElButton, ElIcon, ElDialog, ElInput } from 'element-plus'
+import {ElMessage, ElButton, ElIcon, ElDialog, ElInput} from 'element-plus'
 // Vue3 核心响应式API及生命周期钩子
-import { ref, onMounted, onUnmounted } from 'vue'
+import {ref, onMounted, onUnmounted} from 'vue'
 // Element Plus 基础样式（按需导入）
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
@@ -23,16 +23,16 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 // Element Plus 图标组件
-import { Check, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor, User, Loading } from '@element-plus/icons-vue'
+import {Check, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor, User, Loading} from '@element-plus/icons-vue'
 // Vue Router 路由跳转
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
 
 // 业务接口导入
-import { signIn } from '@/api/attendance' // 签到提交接口
-import { getStudentDatabaseTableId, getAvatarUrl } from '@/api/student' // 学生信息及头像接口
+import {signIn} from '@/api/attendance' // 签到提交接口
+import {getStudentDatabaseTableId, getAvatarUrl} from '@/api/student' // 学生信息及头像接口
 // Pinia 状态管理
-import { useThemeStore } from '@/stores/theme' // 主题切换状态
-import { useUserStore } from '@/stores/user' // 用户信息状态
+import {useThemeStore} from '@/stores/theme' // 主题切换状态
+import {useUserStore} from '@/stores/user' // 用户信息状态
 // 页面配置常量
 import AttendancePageConfig from '@/views/AttendancePage/js/AttendancePageConfig'
 
@@ -44,7 +44,7 @@ const userStore = useUserStore()
 /** 主题状态仓库实例 - 用于切换明暗主题 */
 const themeStore = useThemeStore()
 /** 解构主题切换方法 */
-const { toggleTheme } = themeStore
+const {toggleTheme} = themeStore
 /** 路由实例 - 用于页面跳转 */
 const router = useRouter()
 /** 学生等级 - 预留扩展字段，暂未使用 */
@@ -80,6 +80,8 @@ const avatarTipShown = ref(false)
 /**
  * 展示默认头像并提示上传
  * @description 当用户未上传头像时调用，显示默认图标并给出上传提示（仅首次）
+ * @function showDefaultAvatar
+ * @returns {void}
  */
 const showDefaultAvatar = () => {
 	hasAvatar.value = false
@@ -98,6 +100,8 @@ const showDefaultAvatar = () => {
 /**
  * 处理头像点击事件
  * @description 点击头像跳转到个人资料页面，用于上传/修改头像
+ * @function handleAvatarClick
+ * @returns {void}
  */
 const handleAvatarClick = () => {
 	router.push('/profile')
@@ -106,7 +110,14 @@ const handleAvatarClick = () => {
 /**
  * 加载用户头像
  * @description 从接口获取学生ID，再获取头像URL，失败则显示默认头像
- * @async 异步方法，需等待接口响应
+ * 加载流程:
+ * 1. 验证登录token是否存在
+ * 2. 调用接口获取学生数据库ID
+ * 3. 根据ID和配置尺寸构建头像URL
+ * 4. 更新头像显示状态
+ * @function loadUserAvatar
+ * @async
+ * @returns {Promise<void>}
  */
 const loadUserAvatar = async () => {
 	try {
@@ -145,6 +156,8 @@ const loadUserAvatar = async () => {
 /**
  * 返回导航页面
  * @description 点击返回按钮时触发，跳转到导航主页
+ * @function goToNavigation
+ * @returns {void}
  */
 const goToNavigation = () => {
 	router.push('/navigation')
@@ -153,6 +166,11 @@ const goToNavigation = () => {
 /**
  * 获取当前所处的签到时段
  * @description 根据当前小时数判断属于上午/下午/晚上签到时段，非签到时段返回null
+ * 签到时段规则:
+ * - 上午: 8:00 - 10:59 (8点到11点前)
+ * - 下午: 14:00 - 16:59 (14点到17点前)
+ * - 晚上: 19:00 - 21:59 (19点到22点前)
+ * @function getCurrentTimeSlot
  * @returns {string|null} 时段标识：morning/afternoon/evening 或 null
  */
 const getCurrentTimeSlot = () => {
@@ -160,11 +178,17 @@ const getCurrentTimeSlot = () => {
 	const hour = now.getHours() // 获取当前小时（0-23）
 
 	// 上午签到时段：8:00 - 10:59
-	if (hour >= 8 && hour < 11) { return 'morning' }
+	if (hour >= 8 && hour < 11) {
+		return 'morning'
+	}
 	// 下午签到时段：14:00 - 16:59
-	if (hour >= 14 && hour < 17) { return 'afternoon' }
+	if (hour >= 14 && hour < 17) {
+		return 'afternoon'
+	}
 	// 晚上签到时段：19:00 - 21:59
-	if (hour >= 19 && hour < 22) { return 'evening' }
+	if (hour >= 19 && hour < 22) {
+		return 'evening'
+	}
 	// 非签到时段
 	return null
 }
@@ -172,12 +196,19 @@ const getCurrentTimeSlot = () => {
 /**
  * 判断当前时段是否已签到
  * @description 先获取当前时段，再检查该时段的签到状态
+ * 逻辑流程:
+ * 1. 获取当前所处的时段
+ * 2. 如果非签到时段,返回false
+ * 3. 检查该时段是否有签到记录
+ * @function isCurrentSlotSigned
  * @returns {boolean} true=已签到，false=未签到/非签到时段
  */
 const isCurrentSlotSigned = () => {
 	try {
 		const currentSlot = getCurrentTimeSlot()
-		if (!currentSlot) { return false } // 非签到时段直接返回未签到
+		if (!currentSlot) {
+			return false
+		} // 非签到时段直接返回未签到
 		return isSlotSigned(currentSlot)
 	} catch (error) { // 异常时返回未签到，避免页面逻辑中断
 		console.error('判断当前时段签到状态失败:', error)
@@ -188,17 +219,26 @@ const isCurrentSlotSigned = () => {
 /**
  * 检查指定时段是否已签到
  * @description 对比签到时间的日期与今日是否一致，一致则为已签到
+ * 判断逻辑:
+ * 1. 获取该时段的签到时间(ISO格式)
+ * 2. 解析签到时间的日期部分
+ * 3. 对比今日日期与签到日期
+ * @function isSlotSigned
  * @param {string} slot 时段标识：morning/afternoon/evening
  * @returns {boolean} true=已签到，false=未签到
  */
 const isSlotSigned = slot => {
 	try {
 		// 签到状态对象异常时返回未签到
-		if (!attendanceStatus.value || typeof attendanceStatus.value !== 'object') { return false }
+		if (!attendanceStatus.value || typeof attendanceStatus.value !== 'object') {
+			return false
+		}
 
 		// 获取该时段的签到时间
 		const signTime = attendanceStatus.value[slot]
-		if (!signTime) { return false } // 无签到时间则未签到
+		if (!signTime) {
+			return false
+		} // 无签到时间则未签到
 
 		// 对比日期（忽略时间部分）
 		const today = new Date().toDateString()
@@ -214,6 +254,14 @@ const isSlotSigned = slot => {
 /**
  * 加载本地存储的签到状态
  * @description 从localStorage读取当日签到状态，异常则重置为默认值
+ * 存储规则:
+ * - Key: attendance_${today} (attendance_Wed Jan 05 2026)
+ * - Value: JSON字符串 { morning: ISO时间, afternoon: ISO时间, evening: ISO时间 }
+ * 验证规则:
+ * - 必须包含morning/afternoon/evening三个字段
+ * - 不合法的数据会被重置为默认值
+ * @function loadAttendanceStatus
+ * @returns {void}
  */
 const loadAttendanceStatus = () => {
 	const today = new Date().toDateString() // 今日日期字符串（格式：Wed Jan 05 2026）
@@ -227,22 +275,29 @@ const loadAttendanceStatus = () => {
 				attendanceStatus.value = parsed // 合法则更新状态
 			} else {
 				// 格式不合法，重置为默认值
-				attendanceStatus.value = { morning: null, afternoon: null, evening: null }
+				attendanceStatus.value = {morning: null, afternoon: null, evening: null}
 			}
 		} catch (e) { // 解析失败，重置为默认值
 			console.error('解析本地签到状态失败:', e)
-			attendanceStatus.value = { morning: null, afternoon: null, evening: null }
+			attendanceStatus.value = {morning: null, afternoon: null, evening: null}
 		}
 	} else {
 		// 无本地存储，初始化默认状态
-		attendanceStatus.value = { morning: null, afternoon: null, evening: null }
+		attendanceStatus.value = {morning: null, afternoon: null, evening: null}
 	}
 }
 
 /**
  * 同步本地签到状态
  * @description 重新读取本地存储的签到状态，用于定时刷新
- * @async 异步方法（实际无异步操作，预留扩展）
+ * 使用场景:
+ * - 整点时同步一次,确保状态最新
+ * - 其他地方修改了localStorage后同步
+ * 兼容处理:
+ * - 确保每个时段值不为空,空字符串/undefined/null都会转为null
+ * @function syncAllAttendanceStatus
+ * @async
+ * @returns {Promise<void>}
  */
 const syncAllAttendanceStatus = async () => {
 	try {
@@ -262,18 +317,24 @@ const syncAllAttendanceStatus = async () => {
 				}
 			} catch (e) { // 解析失败，重置状态
 				console.error('同步本地签到状态失败:', e)
-				attendanceStatus.value = { morning: null, afternoon: null, evening: null }
+				attendanceStatus.value = {morning: null, afternoon: null, evening: null}
 			}
 		}
 	} catch (error) { // 捕获外层异常
 		console.error('同步签到状态异常:', error)
-		attendanceStatus.value = { morning: null, afternoon: null, evening: null }
+		attendanceStatus.value = {morning: null, afternoon: null, evening: null}
 	}
 }
 
 /**
  * 保存签到状态到本地存储
  * @description 将当前签到状态持久化到localStorage，避免页面刷新后丢失
+ * 存储规则:
+ * - Key: attendance_${today} (按日期区分)
+ * - Value: JSON字符串
+ * - 防护措施: 状态异常时保存默认值,避免存储错误数据
+ * @function saveAttendanceStatus
+ * @returns {void}
  */
 const saveAttendanceStatus = () => {
 	const today = new Date().toDateString()
@@ -282,7 +343,7 @@ const saveAttendanceStatus = () => {
 		localStorage.setItem(`attendance_${today}`, JSON.stringify(attendanceStatus.value))
 	} else {
 		// 状态异常，保存默认值
-		const defaultStatus = { morning: null, afternoon: null, evening: null }
+		const defaultStatus = {morning: null, afternoon: null, evening: null}
 		localStorage.setItem(`attendance_${today}`, JSON.stringify(defaultStatus))
 	}
 }
@@ -290,6 +351,19 @@ const saveAttendanceStatus = () => {
 /**
  * 检查当前是否在签到时间内
  * @description 实时更新当前时间、签到时段状态、下次签到时间；整点时同步签到状态
+ * 执行频率: 每秒调用一次
+ * 主要功能:
+ * 1. 更新当前时间显示(HH:MM:SS格式)
+ * 2. 判断是否在签到时段内
+ * 3. 计算下次签到时间(非签到时段)
+ * 4. 整点时同步签到状态
+ *
+ * 签到时段配置:
+ * - 上午: 08:00 - 10:59 (8-11点前)
+ * - 下午: 14:00 - 16:59 (14-17点前)
+ * - 晚上: 19:00 - 21:59 (19-22点前)
+ * @function checkSignTime
+ * @returns {void}
  */
 const checkSignTime = () => {
 	const now = new Date()
@@ -302,9 +376,9 @@ const checkSignTime = () => {
 
 	// 定义三个签到时段的配置
 	const signTimeRanges = [
-		{ start: 8, end: 11, name: '上午' }, // 上午8点-11点
-		{ start: 14, end: 17, name: '下午' }, // 下午14点-17点
-		{ start: 19, end: 22, name: '晚上' } // 晚上19点-22点
+		{start: 8, end: 11, name: '上午'}, // 上午8点-11点
+		{start: 14, end: 17, name: '下午'}, // 下午14点-17点
+		{start: 19, end: 22, name: '晚上'} // 晚上19点-22点
 	]
 
 	let inTime = false // 是否在签到时段内
@@ -345,6 +419,13 @@ const checkSignTime = () => {
 /**
  * 提交签到请求（前置校验）
  * @description 点击签到按钮时触发，先校验时段和签到状态，通过则弹出验证码弹窗
+ * 校验流程:
+ * 1. 检查是否在签到时段内
+ * 2. 检查当前时段是否已签到
+ * 3. 通过校验则弹出验证码输入弹窗
+ * @function submitAttendance
+ * @async
+ * @returns {Promise<void>}
  */
 const submitAttendance = async () => {
 	// 非签到时段，提示下次签到时间
@@ -367,7 +448,15 @@ const submitAttendance = async () => {
 /**
  * 确认验证码并提交签到
  * @description 验证验证码格式，调用签到接口，更新本地签到状态
- * @async 异步方法，需等待接口响应
+ * 执行流程:
+ * 1. 验证码格式校验(6位数字)
+ * 2. 获取登录token
+ * 3. 调用签到接口
+ * 4. 更新本地签到状态
+ * 5. 处理接口响应(成功/失败/重复签到)
+ * @function confirmVerificationCode
+ * @async
+ * @returns {Promise<void>}
  */
 const confirmVerificationCode = async () => {
 	// 验证码格式校验：非空且6位数字
@@ -448,6 +537,8 @@ const confirmVerificationCode = async () => {
 /**
  * 处理验证码弹窗关闭事件
  * @description 弹窗关闭时清空验证码输入框，避免残留
+ * @function handleVerificationCodeDialogClose
+ * @returns {void}
  */
 const handleVerificationCodeDialogClose = () => {
 	inputVerificationCode.value = ''
@@ -456,6 +547,8 @@ const handleVerificationCodeDialogClose = () => {
 /**
  * 取消签到（关闭验证码弹窗）
  * @description 点击取消按钮时触发，关闭弹窗
+ * @function cancelVerificationCode
+ * @returns {void}
  */
 const cancelVerificationCode = () => {
 	showVerificationCodeDialog.value = false
@@ -464,6 +557,10 @@ const cancelVerificationCode = () => {
 /**
  * 加载学生等级
  * @description 从Pinia/本地存储读取用户等级，异常则设为0
+ * 优先级: Pinia Store > localStorage
+ * 预留扩展: 当前仅读取,暂未在页面中使用
+ * @function loadStudentLevel
+ * @returns {void}
  */
 const loadStudentLevel = () => {
 	try {
@@ -480,7 +577,15 @@ const loadStudentLevel = () => {
 /**
  * 组件挂载完成钩子
  * @description 初始化页面数据：加载签到状态、启动时间定时器、加载学生等级和头像
- * @async 异步钩子，需等待异步方法执行
+ * 初始化顺序:
+ * 1. 加载本地签到状态
+ * 2. 首次检查签到时间
+ * 3. 启动定时器(每秒更新)
+ * 4. 加载学生等级
+ * 5. 加载用户头像
+ * 6. 延迟同步签到状态(避免初始化冲突)
+ * @onMounted
+ * @async
  */
 onMounted(async () => {
 	try {
@@ -496,13 +601,15 @@ onMounted(async () => {
 		}, 500)
 	} catch (error) { // 初始化异常，重置签到状态
 		console.error('组件初始化失败:', error)
-		attendanceStatus.value = { morning: null, afternoon: null, evening: null }
+		attendanceStatus.value = {morning: null, afternoon: null, evening: null}
 	}
 })
 
 /**
  * 组件卸载前钩子
  * @description 清除定时器，避免内存泄漏
+ * @onUnmounted
+ * @returns {void}
  */
 onUnmounted(() => {
 	if (timeInterval.value) {
@@ -544,15 +651,18 @@ onUnmounted(() => {
 					title="切换主题模式"
 					@click="toggleTheme"/>
 				<!-- 用户头像容器：点击跳转到个人资料页 -->
-				<div class="user-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }" @click="handleAvatarClick">
+				<div class="user-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
+					 @click="handleAvatarClick">
 					<!-- 自定义头像：懒加载 -->
 					<img
 						v-if="hasAvatar && avatarUrl"
 						v-lazy="avatarUrl"
 						alt="用户头像"
-						class="avatar-image-mobile" />
+						class="avatar-image-mobile"/>
 					<!-- 默认头像图标：无自定义头像时显示 -->
-					<el-icon v-else size="24" class="avatar-icon-mobile"><User /></el-icon>
+					<el-icon v-else size="24" class="avatar-icon-mobile">
+						<User/>
+					</el-icon>
 				</div>
 				<!-- 页面主标题 -->
 				<h1>AI坊学生签到</h1>
@@ -567,12 +677,16 @@ onUnmounted(() => {
 					<div class="time-info-mobile">
 						<!-- 当前时间展示 -->
 						<div class="current-time-mobile">
-							<el-icon class="time-icon-mobile"><Clock /></el-icon>
+							<el-icon class="time-icon-mobile">
+								<Clock/>
+							</el-icon>
 							<span>{{ currentTime }}</span>
 						</div>
 						<!-- 下次签到时间：仅非签到时段显示 -->
 						<div v-if="!isInSignTime" class="next-time-mobile">
-							<el-icon class="next-icon-mobile"><Calendar /></el-icon>
+							<el-icon class="next-icon-mobile">
+								<Calendar/>
+							</el-icon>
 							<span>下次签到：{{ nextSignTime }}</span>
 						</div>
 					</div>
@@ -582,46 +696,58 @@ onUnmounted(() => {
 				<div class="sign-button-container-mobile">
 					<button
 						class="modern-sign-button-mobile"
-					<!-- 禁用条件：加载中 / 非签到时段 / 已签到 -->
-					:disabled="loading || !isInSignTime || isCurrentSlotSigned()"
-					<!-- 动态样式：加载中/禁用/已签到状态 -->
-					:class="{
-					'loading': loading,
-					'disabled': !isInSignTime || isCurrentSlotSigned(),
-					'success': isInSignTime && isCurrentSlotSigned()
-					}"
-					@click="submitAttendance"
+						:disabled="loading || !isInSignTime || isCurrentSlotSigned()"
+						:class="{
+							'loading': loading,
+							'disabled': !isInSignTime || isCurrentSlotSigned(),
+							'success': isInSignTime && isCurrentSlotSigned()
+						}"
+						@click="submitAttendance"
 					>
-					<div class="button-background-mobile"/>
-					<div class="button-content-mobile">
-						<div class="icon-container-mobile">
-							<!-- 可签到状态：显示勾选图标 -->
-							<el-icon v-if="!loading && isInSignTime && !isCurrentSlotSigned()" size="40" class="main-icon-mobile"><Check /></el-icon>
-							<!-- 已签到状态：显示绿色勾选图标 -->
-							<el-icon v-else-if="!loading && isInSignTime && isCurrentSlotSigned()" size="40" class="main-icon-mobile success-icon-mobile"><Check /></el-icon>
-							<!-- 非签到时段：显示时钟图标 -->
-							<el-icon v-else-if="!loading && !isInSignTime" size="40" class="main-icon-mobile disabled-icon-mobile"><Clock /></el-icon>
-							<!-- 加载中：显示旋转加载图标 -->
-							<el-icon v-else size="28" class="loading-icon-mobile"><Loading /></el-icon>
+						<div class="button-background-mobile"/>
+						<div class="button-content-mobile">
+							<div class="icon-container-mobile">
+								<!-- 可签到状态：显示勾选图标 -->
+								<el-icon v-if="!loading && isInSignTime && !isCurrentSlotSigned()" size="40"
+										 class="main-icon-mobile">
+									<Check/>
+								</el-icon>
+								<!-- 已签到状态：显示绿色勾选图标 -->
+								<el-icon v-else-if="!loading && isInSignTime && isCurrentSlotSigned()" size="40"
+										 class="main-icon-mobile success-icon-mobile">
+									<Check/>
+								</el-icon>
+								<!-- 非签到时段：显示时钟图标 -->
+								<el-icon v-else-if="!loading && !isInSignTime" size="40"
+										 class="main-icon-mobile disabled-icon-mobile">
+									<Clock/>
+								</el-icon>
+								<!-- 加载中：显示旋转加载图标 -->
+								<el-icon v-else size="28" class="loading-icon-mobile">
+									<Loading/>
+								</el-icon>
+							</div>
+							<!-- 按钮文本：根据状态动态显示 -->
+							<span v-if="!loading" class="button-text-mobile">
+								{{ !isInSignTime ? '非签到时间' : (isCurrentSlotSigned() ? '已签到' : '点击签到') }}
+							</span>
+							<!-- 加载中文本 -->
+							<span v-else class="loading-text-mobile">签到中...</span>
 						</div>
-						<!-- 按钮文本：根据状态动态显示 -->
-						<span v-if="!loading" class="button-text-mobile">
-                {{ !isInSignTime ? '非签到时间' : (isCurrentSlotSigned() ? '已签到' : '点击签到') }}
-              </span>
-						<!-- 加载中文本 -->
-						<span v-else class="loading-text-mobile">签到中...</span>
-					</div>
-					<!-- 按钮点击波纹效果 -->
-					<div class="ripple-effect-mobile"/>
+						<!-- 按钮点击波纹效果 -->
+						<div class="ripple-effect-mobile"/>
 					</button>
 				</div>
 
 				<!-- 签到状态卡片组：展示早中晚三个时段的签到状态 -->
 				<div class="status-cards-mobile">
 					<!-- 上午签到状态卡片 -->
-					<div class="status-card-mobile" :class="{ 'active': getCurrentTimeSlot() === 'morning', 'signed': isSlotSigned('morning') }">
+					<div class="status-card-mobile"
+						 :class="{ 'active': getCurrentTimeSlot() === 'morning', 'signed': isSlotSigned('morning') }">
 						<div class="card-icon-mobile">
-							<el-icon><Sunrise /></el-icon>
+							<el-icon>
+								<Sunrise/>
+							</el-icon>
 						</div>
 						<div class="card-content-mobile">
 							<div class="card-title-mobile">上午签到</div>
@@ -633,9 +759,12 @@ onUnmounted(() => {
 					</div>
 
 					<!-- 下午签到状态卡片 -->
-					<div class="status-card-mobile" :class="{ 'active': getCurrentTimeSlot() === 'afternoon', 'signed': isSlotSigned('afternoon') }">
+					<div class="status-card-mobile"
+						 :class="{ 'active': getCurrentTimeSlot() === 'afternoon', 'signed': isSlotSigned('afternoon') }">
 						<div class="card-icon-mobile">
-							<el-icon><Sunny /></el-icon>
+							<el-icon>
+								<Sunny/>
+							</el-icon>
 						</div>
 						<div class="card-content-mobile">
 							<div class="card-title-mobile">下午签到</div>
@@ -647,9 +776,12 @@ onUnmounted(() => {
 					</div>
 
 					<!-- 晚上签到状态卡片 -->
-					<div class="status-card-mobile" :class="{ 'active': getCurrentTimeSlot() === 'evening', 'signed': isSlotSigned('evening') }">
+					<div class="status-card-mobile"
+						 :class="{ 'active': getCurrentTimeSlot() === 'evening', 'signed': isSlotSigned('evening') }">
 						<div class="card-icon-mobile">
-							<el-icon><Moon /></el-icon>
+							<el-icon>
+								<Moon/>
+							</el-icon>
 						</div>
 						<div class="card-content-mobile">
 							<div class="card-title-mobile">晚上签到</div>
@@ -664,7 +796,9 @@ onUnmounted(() => {
 				<!-- 桌面端提示卡片：引导用户在电脑端查看详细记录 -->
 				<div class="desktop-tip-card-mobile">
 					<div class="tip-icon-mobile">
-						<el-icon><Monitor /></el-icon>
+						<el-icon>
+							<Monitor/>
+						</el-icon>
 					</div>
 					<div class="tip-content-mobile">
 						<p class="tip-text-mobile">💡 提示：如需查看详细签到记录和历史数据，请在电脑端访问</p>
@@ -679,11 +813,11 @@ onUnmounted(() => {
 			v-model="showVerificationCodeDialog"
 			title="输入签到验证码"
 			width="90%"
-			:close-on-click-modal="false" <!-- 点击遮罩层不关闭 -->
-		:close-on-press-escape="false" <!-- 按ESC不关闭 -->
-		destroy-on-close <!-- 关闭时销毁内容，避免缓存 -->
-		class="verification-code-dialog-mobile"
-		@close="handleVerificationCodeDialogClose"
+			:close-on-click-modal="false"
+			:close-on-press-escape="false"
+			destroy-on-close
+			class="verification-code-dialog-mobile"
+			@close="handleVerificationCodeDialogClose"
 		>
 		<div class="verification-code-content-mobile">
 			<!-- 验证码提示文本 -->
@@ -1021,19 +1155,17 @@ h1 {
 	overflow: hidden; /* 隐藏溢出的波纹效果 */
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡 */
 	/* 多层阴影：增强立体感 */
-	box-shadow:
-		0 8px 28px rgba(102, 126, 234, 0.3),
-		0 0 0 1px rgba(255, 255, 255, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	box-shadow: 0 8px 28px rgba(102, 126, 234, 0.3),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /** 签到按钮hover效果（非禁用）：缩放，阴影放大 */
 .modern-sign-button-mobile:hover:not(:disabled) {
 	transform: translateY(-2px) scale(1.02); /* 上移+轻微放大 */
-	box-shadow:
-		0 12px 36px rgba(102, 126, 234, 0.4),
-		0 0 0 1px rgba(255, 255, 255, 0.2),
-		inset 0 1px 0 rgba(255, 255, 255, 0.3);
+	box-shadow: 0 12px 36px rgba(102, 126, 234, 0.4),
+	0 0 0 1px rgba(255, 255, 255, 0.2),
+	inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /** 签到按钮点击效果（非禁用）：轻微缩小 */
@@ -1051,19 +1183,17 @@ h1 {
 /** 非签到时段/已签到状态：灰色渐变背景 */
 .modern-sign-button-mobile.disabled {
 	background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
-	box-shadow:
-		0 6px 20px rgba(158, 158, 158, 0.3),
-		0 0 0 1px rgba(255, 255, 255, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.1);
+	box-shadow: 0 6px 20px rgba(158, 158, 158, 0.3),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /** 已签到状态：绿色渐变背景 */
 .modern-sign-button-mobile.success {
 	background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-	box-shadow:
-		0 8px 28px rgba(76, 175, 80, 0.3),
-		0 0 0 1px rgba(255, 255, 255, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	box-shadow: 0 8px 28px rgba(76, 175, 80, 0.3),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /** 加载中状态：脉冲动画 */
@@ -1302,8 +1432,12 @@ h1 {
 
 /** 旋转动画：用于加载中图标 */
 @keyframes spin-mobile {
-	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 /** 验证码弹窗：圆角样式 */
@@ -1394,22 +1528,19 @@ h1 {
 /** 脉冲动画：加载中按钮的呼吸效果 */
 @keyframes pulse-mobile {
 	0% {
-		box-shadow:
-			0 8px 28px rgba(102, 126, 234, 0.3),
-			0 0 0 1px rgba(255, 255, 255, 0.1),
-			inset 0 1px 0 rgba(255, 255, 255, 0.2);
+		box-shadow: 0 8px 28px rgba(102, 126, 234, 0.3),
+		0 0 0 1px rgba(255, 255, 255, 0.1),
+		inset 0 1px 0 rgba(255, 255, 255, 0.2);
 	}
 	50% {
-		box-shadow:
-			0 12px 36px rgba(102, 126, 234, 0.5),
-			0 0 0 6px rgba(102, 126, 234, 0.1),
-			inset 0 1px 0 rgba(255, 255, 255, 0.3);
+		box-shadow: 0 12px 36px rgba(102, 126, 234, 0.5),
+		0 0 0 6px rgba(102, 126, 234, 0.1),
+		inset 0 1px 0 rgba(255, 255, 255, 0.3);
 	}
 	100% {
-		box-shadow:
-			0 8px 28px rgba(102, 126, 234, 0.3),
-			0 0 0 1px rgba(255, 255, 255, 0.1),
-			inset 0 1px 0 rgba(255, 255, 255, 0.2);
+		box-shadow: 0 8px 28px rgba(102, 126, 234, 0.3),
+		0 0 0 1px rgba(255, 255, 255, 0.1),
+		inset 0 1px 0 rgba(255, 255, 255, 0.2);
 	}
 }
 </style>
