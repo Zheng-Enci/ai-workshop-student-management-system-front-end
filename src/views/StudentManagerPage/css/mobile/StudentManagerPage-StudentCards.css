@@ -1,0 +1,290 @@
+/* ==================== CSS 变量定义 ==================== */
+/**
+ * 全局 CSS 自定义属性
+ * 用于统一管理主题颜色、背景色、文字颜色等样式变量
+ * 使用 CSS 变量可以实现主题切换和样式复用，便于维护
+ */
+:root {
+	/* 主题色系 */
+	--primary-color: #667eea; /* 主色调 */
+	--secondary-color: #764ba2; /* 辅助色 */
+	--success-color: #67c23a; /* 成功色 */
+	--warning-color: #e6a23c; /* 警告色 */
+	--danger-color: #f56c6c; /* 危险色 */
+	--info-color: #909399; /* 信息色 */
+
+	/* 背景色系 - 浅色模式 */
+	--bg-primary: #ffffff; /* 一级背景 */
+	--bg-secondary: #f8f9fa; /* 二级背景 */
+	--bg-tertiary: #e9ecef; /* 三级背景 */
+
+	/* 文字色系 - 浅色模式 */
+	--text-primary: #1a202c; /* 一级文字 */
+	--text-secondary: #2d3748; /* 二级文字 */
+	--text-tertiary: #4a5568; /* 三级文字 */
+
+	/* 其他样式变量 */
+	--border-color: #e2e8f0; /* 边框颜色 */
+	--shadow-color: rgba(0, 0, 0, 0.1); /* 默认阴影 */
+	--shadow-hover: rgba(0, 0, 0, 0.15); /* 悬停阴影 */
+	--glass-bg: rgba(255, 255, 255, 0.95); /* 玻璃背景 */
+	--glass-border: rgba(255, 255, 255, 0.3); /* 玻璃边框 */
+}
+
+/* ==================== 深色模式变量覆盖 ==================== */
+html.dark {
+	/* 背景色系 - 深色模式 */
+	--bg-primary: #0f172a; /* 一级背景 */
+	--bg-secondary: #1e293b; /* 二级背景 */
+	--bg-tertiary: #334155; /* 三级背景 */
+
+	/* 文字色系 - 深色模式 */
+	--text-primary: #e2e8f0; /* 一级文字 */
+	--text-secondary: #cbd5e1; /* 二级文字 */
+	--text-tertiary: #94a3b8; /* 三级文字 */
+
+	/* 其他样式变量 - 深色模式 */
+	--border-color: #334155; /* 边框颜色 */
+	--shadow-color: rgba(0, 0, 0, 0.4); /* 默认阴影 */
+	--shadow-hover: rgba(0, 0, 0, 0.6); /* 悬停阴影 */
+	--glass-bg: rgba(15, 23, 42, 0.8); /* 玻璃背景 */
+	--glass-border: rgba(255, 255, 255, 0.1); /* 玻璃边框 */
+}
+
+/* 主容器 */
+.student-cards {
+	padding: 16px;
+	background-color: var(--bg-secondary);
+}
+
+/* 列表头部 */
+.student-cards-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	padding: 0 4px;
+}
+
+.student-cards-header-title {
+	font-size: 20px;
+	font-weight: 600;
+	color: var(--text-primary);
+	margin: 0;
+}
+
+.student-cards-header-buttons {
+	display: flex;
+	gap: 0;
+	align-items: center;
+}
+
+/* 学生列表 */
+.student-cards-list {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+/* 单个学生卡片 */
+.student-cards-list-item {
+	padding: 16px;
+	border-radius: 16px;
+	background-color: var(--bg-primary);
+	box-shadow: 0 2px 8px var(--shadow-color);
+	transition: all 0.3s ease;
+}
+
+.student-cards-list-item:hover {
+	box-shadow: 0 4px 12px var(--shadow-hover);
+	transform: translateY(-2px);
+}
+
+/* 卡片头部：头像和信息 */
+.student-cards-list-item-header {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.student-avatar-img {
+	width: 64px;
+	height: 64px;
+	border-radius: 25%;
+	object-fit: cover;
+	border: 3px solid var(--border-color);
+	flex-shrink: 0;
+}
+
+.student-cards-list-item-header-name--student_id-attendance-count {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.student-cards-list-item-header-name--student_id-attendance-count > div {
+	font-size: 14px;
+	color: var(--text-tertiary);
+	line-height: 1.5;
+}
+
+.student-cards-list-item-header-name--student_id-attendance-count > div span:first-child {
+	font-weight: 500;
+	color: var(--text-primary);
+	margin-right: 4px;
+}
+
+.stat-item {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.label-checkin-count {
+	font-weight: 500;
+	color: var(--text-tertiary);
+}
+
+.stat-item .value {
+	font-weight: 600;
+	color: var(--primary-color);
+}
+
+/* 积分区域 */
+.student-cards-list-item-points {
+	display: flex;
+	gap: 4px;
+	padding: 12px;
+	border-radius: 12px;
+	flex-wrap: wrap;
+	background-color: var(--bg-tertiary);
+	margin-bottom: 8px;
+}
+
+.student-cards-list-item-points > div {
+	font-size: 14px;
+	color: var(--text-tertiary);
+	min-width: 100px;
+}
+
+.student-cards-list-item-points > div span:first-child {
+	font-weight: 500;
+}
+
+.student-cards-list-item-points > div span:last-child {
+	font-weight: 600;
+	color: var(--text-primary);
+	margin-left: 4px;
+}
+
+/* 其他信息区域 */
+.student-cards-list-item-other_info {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px 20px;
+	padding: 12px;
+	margin-bottom: 16px;
+	border-radius: 12px;
+	background-color: var(--bg-tertiary);
+}
+
+.student-cards-list-item-other_info > div {
+	font-size: 13px;
+	color: var(--text-tertiary);
+	line-height: 1.6;
+}
+
+.student-cards-list-item-other_info > div span:first-child {
+	font-weight: 500;
+	margin-right: 4px;
+}
+
+.student-cards-list-item-other_info > div span:last-child {
+	color: var(--text-primary);
+}
+
+/* 按钮区域 */
+.student-cards-list-item-buttons {
+	display: flex;
+	gap: 0;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.student-cards-list-item-buttons .el-button {
+	font-size: 12px;
+	font-weight: 500;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.student-cards-list-item-buttons .el-button:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+/* 空状态样式 */
+.empty-state,
+.no-search-results,
+.loading-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 60px 20px;
+	text-align: center;
+}
+
+.empty-icon,
+.loading-icon {
+	color: var(--text-tertiary);
+	margin-bottom: 16px;
+}
+
+.empty-state h3,
+.no-search-results h3 {
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--text-primary);
+	margin-bottom: 8px;
+}
+
+.empty-state p,
+.no-search-results p {
+	font-size: 14px;
+	color: var(--text-tertiary);
+	margin: 0;
+}
+
+.loading-icon {
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+/* 响应式优化 */
+@media (max-width: 375px) {
+	.student-cards {
+		padding: 12px;
+	}
+
+	.student-cards-list-item {
+		padding: 12px;
+	}
+
+	.student-avatar-img {
+		width: 48px;
+		height: 48px;
+	}
+
+	.student-cards-list-item-points,
+	.student-cards-list-item-other_info {
+		gap: 8px 12px;
+	}
+}

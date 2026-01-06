@@ -1,0 +1,97 @@
+/**
+ * 搜索区域样式
+ * 用于移动端学生管理页面的搜索功能组件
+ */
+
+.search {
+	padding: 12px 16px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* 搜索输入框容器 */
+.search :deep(.el-input) {
+	width: 100%;
+}
+
+/* 搜索输入框内部样式 */
+.search :deep(.el-input__wrapper) {
+	border-radius: 24px;
+	padding: 8px 16px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	border: 1px solid #dcdfe6;
+	transition: all 0.3s ease;
+}
+
+.search :deep(.el-input__wrapper:hover) {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	border-color: #c0c4cc;
+}
+
+.search :deep(.el-input__wrapper.is-focus) {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	border-color: #409eff;
+}
+
+/* 搜索输入框文字样式 */
+.search :deep(.el-input__inner) {
+	font-size: 14px;
+	color: #333;
+}
+
+/* 搜索图标样式 */
+.search :deep(.el-input__prefix) {
+	margin-right: 8px;
+}
+
+.search :deep(.el-input__prefix .el-icon) {
+	font-size: 18px;
+	color: #909399;
+}
+
+/* 清空按钮样式 */
+.search :deep(.el-input__suffix) {
+	margin-left: 8px;
+}
+
+.search :deep(.el-input__clear) {
+	font-size: 14px;
+	color: #909399;
+	transition: color 0.3s ease;
+}
+
+.search :deep(.el-input__clear:hover) {
+	color: #409eff;
+}
+
+/* 夜间模式样式 */
+:global(.dark) .search :deep(.el-input__wrapper) {
+	border-color: rgba(255, 255, 255, 0.15);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .search :deep(.el-input__wrapper:hover) {
+	border-color: rgba(255, 255, 255, 0.25);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+:global(.dark) .search :deep(.el-input__wrapper.is-focus) {
+	border-color: rgba(64, 158, 255, 0.8);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+:global(.dark) .search :deep(.el-input__inner) {
+	color: #e5e5e5;
+}
+
+:global(.dark) .search :deep(.el-input__prefix .el-icon) {
+	color: #a0a0a0;
+}
+
+:global(.dark) .search :deep(.el-input__clear) {
+	color: #a0a0a0;
+}
+
+:global(.dark) .search :deep(.el-input__clear:hover) {
+	color: #409eff;
+}

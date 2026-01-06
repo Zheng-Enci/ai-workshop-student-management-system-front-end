@@ -49,7 +49,7 @@ import 'element-plus/theme-chalk/el-calendar.css'
 // Element Plus 图标组件导入
 import {
 	User,          // 用户图标
-	Calendar as CalendarIcon, // 日历图标（重命名避免冲突）
+	Calendar,// 日历图标
 	Star,          // 星星/热力图图标
 	Refresh,       // 刷新图标
 	Loading,       // 加载中图标
@@ -63,7 +63,7 @@ import {
 } from '@element-plus/icons-vue'
 
 // Vue Router 路由钩子导入
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
 
 // ======================== 业务API导入区 ========================
 // 考勤相关接口
@@ -75,23 +75,26 @@ import {
 
 // 学生相关接口
 import {
-	getManagedStudents, // 获取管理员管理的学生列表
 	getStudentLevel     // 获取学生/管理员权限等级
 } from '@/api/student'
 
 // ======================== 状态管理导入区 ========================
-import { useThemeStore } from '@/stores/theme' // 主题状态管理
-import { useUserStore } from '@/stores/user'   // 用户状态管理
+import {useThemeStore} from '@/stores/theme' // 主题状态管理
+import {useUserStore} from '@/stores/user'   // 用户状态管理
 
 // ======================== 工具模块导入区 ========================
 import StudentManagerPage from '@/views/StudentManagerPage/js/StudentManagerPage' // 学生管理核心逻辑
 import StudentManagerPageUtils from '@/views/StudentManagerPage/js/StudentManagerPageUtils' // 工具函数集
 
+// ======================== 实例化工具模块 ========================
+const studentManagerPageUtils = StudentManagerPageUtils
+const studentManagerPage = StudentManagerPage
+
 // ======================== ECharts 可视化配置区 ========================
 // ECharts 核心库导入
 import * as echarts from 'echarts/core'
 // ECharts 图表类型导入
-import { LineChart, HeatmapChart } from 'echarts/charts'
+import {LineChart, HeatmapChart} from 'echarts/charts'
 // ECharts 组件导入
 import {
 	TitleComponent,      // 标题组件
@@ -101,7 +104,7 @@ import {
 	VisualMapComponent   // 视觉映射组件（热力图用）
 } from 'echarts/components'
 // ECharts 渲染器导入
-import { CanvasRenderer } from 'echarts/renderers'
+import {CanvasRenderer} from 'echarts/renderers'
 
 // 注册ECharts需要的组件和渲染器
 echarts.use([
@@ -251,7 +254,7 @@ const getStudentAvatarUrl = (student) => {
 	]
 
 	// 筛选有效ID（非空、非undefined、非空字符串）
-	const validId = possibleIds.find(id => id != null && id !== undefined && id !== '')
+	const validId = possibleIds.find(id => id != null && true && id !== '')
 
 	if (!validId) {
 		console.warn('未找到有效的学生ID:', student)
@@ -286,7 +289,9 @@ const handleAvatarError = (event) => {
  * @returns {string} 格式化后的时间字符串
  */
 const formatAttendanceTime = (timeString) => {
-	if (!timeString) { return '' }
+	if (!timeString) {
+		return ''
+	}
 	const date = new Date(timeString)
 	return date.toLocaleString('zh-CN', {
 		year: 'numeric',
@@ -304,10 +309,14 @@ const formatAttendanceTime = (timeString) => {
  * @returns {string} 格式化后的标题字符串
  */
 const formatCalendarTitle = (date) => {
-	if (!date) { return '2025年9月' }
+	if (!date) {
+		return '2025年9月'
+	}
 	const dateObj = new Date(date)
 	// 处理无效日期
-	if (isNaN(dateObj.getTime())) { return '2025年9月' }
+	if (isNaN(dateObj.getTime())) {
+		return '2025年9月'
+	}
 	const year = dateObj.getFullYear()
 	const month = dateObj.getMonth() + 1
 	return `${year}年${month}月`
@@ -364,9 +373,13 @@ const generateHeatmapData = () => {
 				const hour = date.getHours()
 
 				if (dayOfWeek === dayIndex) {
-					if (slot === '上午' && hour >= 8 && hour < 11) { count++ }
-					else if (slot === '下午' && hour >= 14 && hour < 17) { count++ }
-					else if (slot === '晚上' && hour >= 19 && hour < 22) { count++ }
+					if (slot === '上午' && hour >= 8 && hour < 11) {
+						count++
+					} else if (slot === '下午' && hour >= 14 && hour < 17) {
+						count++
+					} else if (slot === '晚上' && hour >= 19 && hour < 22) {
+						count++
+					}
 				}
 			})
 			// 存储[周几索引, 时段索引, 次数]
@@ -384,7 +397,9 @@ const generateHeatmapData = () => {
  * @returns {boolean} 是否签到
  */
 const isTimeSlotSigned = (dateString, timeSlot) => {
-	if (!studentAttendanceRecords.value || studentAttendanceRecords.value.length === 0) { return false }
+	if (!studentAttendanceRecords.value || studentAttendanceRecords.value.length === 0) {
+		return false
+	}
 
 	const targetDate = new Date(dateString)
 	const year = targetDate.getFullYear()
@@ -400,13 +415,21 @@ const isTimeSlotSigned = (dateString, timeSlot) => {
 		const recordDateStr = `${recordYear}-${recordMonth}-${recordDay}`
 
 		// 日期不匹配直接返回false
-		if (recordDateStr !== dateStr) { return false }
+		if (recordDateStr !== dateStr) {
+			return false
+		}
 
 		// 检查时段匹配
 		const hour = recordDate.getHours()
-		if (timeSlot === 'morning' && hour >= 8 && hour < 11) { return true }
-		if (timeSlot === 'afternoon' && hour >= 14 && hour < 17) { return true }
-		if (timeSlot === 'evening' && hour >= 19 && hour < 22) { return true }
+		if (timeSlot === 'morning' && hour >= 8 && hour < 11) {
+			return true
+		}
+		if (timeSlot === 'afternoon' && hour >= 14 && hour < 17) {
+			return true
+		}
+		if (timeSlot === 'evening' && hour >= 19 && hour < 22) {
+			return true
+		}
 
 		return false
 	})
@@ -484,6 +507,7 @@ const sortByAttendance = () => {
 		// 当前是按签到排序，切换为默认排序
 		sortOrder.value = 'default'
 		filteredStudents.value = [...managedStudents.value]
+		ElMessage.success('已恢复默认排序')
 	} else {
 		// 切换为按签到次数降序排序
 		sortOrder.value = 'attendance'
@@ -492,6 +516,7 @@ const sortByAttendance = () => {
 			const countB = getStudentAttendanceCountFromCache(b.studentId)
 			return countB - countA
 		})
+		ElMessage.success('已按打卡次数降序排序')
 	}
 }
 
@@ -509,10 +534,10 @@ const loadManagedStudents = async () => {
 	loading.value = true
 	try {
 		// 初始化学生管理核心数据
-		await StudentManagerPage.initData(userStore.token)
+		await studentManagerPage.initData(userStore.token, userStore.userInfo.studentDatabaseTableId)
 
 		// 获取处理后的学生数据
-		const students = StudentManagerPage.students || []
+		const students = studentManagerPage.students || []
 		managedStudents.value = students
 
 		// 初始化签到次数缓存
@@ -569,6 +594,7 @@ const loadAttendanceCounts = async () => {
  */
 const refreshStudents = () => {
 	loadManagedStudents()
+	ElMessage.success('列表已刷新')
 }
 
 /**
@@ -649,76 +675,72 @@ const submitMakeup = async () => {
  */
 const openAttendanceRecordsDialog = async (student) => {
 	selectedStudent.value = student
-
+	attendanceRecordsLoading.value = true
 	try {
-		attendanceRecordsLoading.value = true
-		// 调用接口获取考勤记录
+		// 调用API获取学生考勤记录
 		const response = await getStudentAttendanceRecords(student.studentId)
+
 		if (response.code === 200) {
-			studentAttendanceRecords.value = response.data || []
+			// 成功获取考勤记录，更新本地状态
+			studentAttendanceRecords.value = response.data.attendanceRecords || []
 			attendanceRecordsDialogVisible.value = true
-			document.body.style.overflow = 'hidden' // 防止滚动穿透
+			// 重置日历到今天
+			calendarValue.value = new Date()
 		} else {
 			ElMessage.error(response.message || '获取考勤记录失败')
 		}
 	} catch (error) {
-		ElMessage.error(`获取考勤记录失败：${error.message}`)
+		ElMessage.error(error.message || '获取考勤记录失败')
 	} finally {
 		attendanceRecordsLoading.value = false
 	}
 }
 
 /**
- * 关闭考勤记录弹窗并重置状态
+ * 关闭考勤记录弹窗
  */
 const closeAttendanceRecordsDialog = () => {
 	attendanceRecordsDialogVisible.value = false
-	document.body.style.overflow = '' // 恢复页面滚动
-	selectedStudent.value = null
 	studentAttendanceRecords.value = []
+	selectedStudent.value = null
 }
 
 /**
- * 打开热力图弹窗并加载数据+初始化图表
+ * 打开热力图弹窗
  * @param {Object} student - 要查看的学生对象
  */
 const openHeatmapDialog = async (student) => {
 	selectedStudent.value = student
-
+	attendanceRecordsLoading.value = true
 	try {
-		attendanceRecordsLoading.value = true
-		// 获取考勤记录数据
-		const records = await getStudentAttendanceRecords(student.studentId)
-		if (records) {
-			studentAttendanceRecords.value = records
-			heatmapDialogVisible.value = true
-			document.body.style.overflow = 'hidden'
+		// 调用API获取学生考勤记录
+		const response = await getStudentAttendanceRecords(student.studentId)
 
-			// 等待DOM更新完成后初始化图表
+		if (response.code === 200) {
+			// 成功获取考勤记录，更新本地状态
+			studentAttendanceRecords.value = response.data.attendanceRecords || []
+			heatmapDialogVisible.value = true
+			// 在下一个tick后初始化图表
 			await nextTick()
-			setTimeout(() => {
-				initDialogHeatmapChart()
-			}, 100)
+			await initializeHeatmapDialogChart()
 		} else {
-			ElMessage.error('获取考勤记录失败')
+			ElMessage.error(response.message || '获取考勤记录失败')
 		}
 	} catch (error) {
-		ElMessage.error(`获取考勤记录失败：${error.message}`)
+		ElMessage.error(error.message || '获取考勤记录失败')
 	} finally {
 		attendanceRecordsLoading.value = false
 	}
 }
 
 /**
- * 关闭热力图弹窗并销毁ECharts实例
+ * 关闭热力图弹窗
  */
 const closeHeatmapDialog = () => {
 	heatmapDialogVisible.value = false
-	document.body.style.overflow = ''
-	selectedStudent.value = null
 	studentAttendanceRecords.value = []
-
-	// 销毁ECharts实例释放资源
+	selectedStudent.value = null
+	// 销毁图表实例
 	if (heatmapInstance.value) {
 		heatmapInstance.value.dispose()
 		heatmapInstance.value = null
@@ -726,46 +748,41 @@ const closeHeatmapDialog = () => {
 }
 
 /**
- * 打开趋势图弹窗并加载数据+初始化图表
+ * 打开趋势图弹窗
  * @param {Object} student - 要查看的学生对象
  */
 const openTrendChartDialog = async (student) => {
 	selectedStudent.value = student
-
+	attendanceRecordsLoading.value = true
 	try {
-		attendanceRecordsLoading.value = true
-		// 获取考勤记录数据
-		const records = await getStudentAttendanceRecords(student.studentId)
-		if (records) {
-			studentAttendanceRecords.value = records
-			trendChartDialogVisible.value = true
-			document.body.style.overflow = 'hidden'
+		// 调用API获取学生考勤记录
+		const response = await getStudentAttendanceRecords(student.studentId)
 
-			// 等待DOM更新完成后初始化图表
+		if (response.code === 200) {
+			// 成功获取考勤记录，更新本地状态
+			studentAttendanceRecords.value = response.data.attendanceRecords || []
+			trendChartDialogVisible.value = true
+			// 在下一个tick后初始化图表
 			await nextTick()
-			setTimeout(() => {
-				initDialogLineChart()
-			}, 100)
+			await initializeTrendDialogChart()
 		} else {
-			ElMessage.error('获取考勤记录失败')
+			ElMessage.error(response.message || '获取考勤记录失败')
 		}
 	} catch (error) {
-		ElMessage.error(`获取考勤记录失败：${error.message}`)
+		ElMessage.error(error.message || '获取考勤记录失败')
 	} finally {
 		attendanceRecordsLoading.value = false
 	}
 }
 
 /**
- * 关闭趋势图弹窗并销毁ECharts实例
+ * 关闭趋势图弹窗
  */
 const closeTrendChartDialog = () => {
 	trendChartDialogVisible.value = false
-	document.body.style.overflow = ''
-	selectedStudent.value = null
 	studentAttendanceRecords.value = []
-
-	// 销毁ECharts实例释放资源
+	selectedStudent.value = null
+	// 销毁图表实例
 	if (lineInstance.value) {
 		lineInstance.value.dispose()
 		lineInstance.value = null
@@ -773,29 +790,174 @@ const closeTrendChartDialog = () => {
 }
 
 /**
- * 日历组件-切换到上个月
+ * 初始化弹窗热力图
+ * 在DOM更新完成后调用，创建ECharts实例并配置图表
+ */
+const initializeHeatmapDialogChart = async () => {
+	if (!heatmapDialogChart.value) return
+
+	// 销毁现有实例（如果存在）
+	if (heatmapInstance.value) {
+		heatmapInstance.value.dispose()
+	}
+
+	// 创建新的ECharts实例
+	heatmapInstance.value = echarts.init(heatmapDialogChart.value)
+
+	// 生成热力图数据
+	const heatmapData = generateHeatmapData()
+
+	// 配置图表选项
+	const option = {
+		title: {
+			text: '签到热力图',
+			left: 'center',
+			textStyle: {
+				fontSize: 16,
+				fontWeight: 'bold'
+			}
+		},
+		tooltip: {
+			position: 'top'
+		},
+		animation: false,
+		grid: {
+			height: '50%',
+			y: '10%'
+		},
+		xAxis: {
+			type: 'category',
+			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+			splitArea: {
+				show: true
+			}
+		},
+		yAxis: {
+			type: 'category',
+			data: ['上午', '下午', '晚上'],
+			splitArea: {
+				show: true
+			}
+		},
+		visualMap: {
+			min: 0,
+			max: Math.max(...heatmapData.map(item => item[2]), 1),
+			calculable: true,
+			orient: 'horizontal',
+			left: 'center',
+			bottom: '15%'
+		},
+		series: [{
+			name: '签到次数',
+			type: 'heatmap',
+			data: heatmapData,
+			emphasis: {
+				itemStyle: {
+					borderColor: '#fff',
+					borderWidth: 1
+				}
+			}
+		}]
+	}
+
+	// 应用配置并渲染图表
+	heatmapInstance.value.setOption(option)
+
+	// 监听窗口大小变化，自动调整图表尺寸
+	window.addEventListener('resize', () => {
+		if (heatmapInstance.value) {
+			heatmapInstance.value.resize()
+		}
+	})
+}
+
+/**
+ * 初始化弹窗趋势图
+ * 在DOM更新完成后调用，创建ECharts实例并配置图表
+ */
+const initializeTrendDialogChart = async () => {
+	if (!trendDialogChart.value) return
+
+	// 销毁现有实例（如果存在）
+	if (lineInstance.value) {
+		lineInstance.value.dispose()
+	}
+
+	// 创建新的ECharts实例
+	lineInstance.value = echarts.init(trendDialogChart.value)
+
+	// 生成趋势图数据
+	const lineData = generateLineData()
+
+	// 配置图表选项
+	const option = {
+		title: {
+			text: '签到趋势图',
+			left: 'center',
+			textStyle: {
+				fontSize: 16,
+				fontWeight: 'bold'
+			}
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		xAxis: {
+			type: 'category',
+			data: lineData.dates,
+			axisLabel: {
+				rotate: 45,
+				fontSize: 10
+			}
+		},
+		yAxis: {
+			type: 'value',
+			name: '累计签到次数'
+		},
+		series: [{
+			data: lineData.values,
+			type: 'line',
+			smooth: true,
+			areaStyle: {}
+		}]
+	}
+
+	// 应用配置并渲染图表
+	lineInstance.value.setOption(option)
+
+	// 监听窗口大小变化，自动调整图表尺寸
+	window.addEventListener('resize', () => {
+		if (lineInstance.value) {
+			lineInstance.value.resize()
+		}
+	})
+}
+
+/**
+ * 切换到上个月
+ * 更新日历组件显示的月份为当前月份的前一个月
  */
 const prevMonth = () => {
-	const date = new Date(calendarValue.value)
-	date.setMonth(date.getMonth() - 1)
-	calendarValue.value = date
+	const current = new Date(calendarValue.value)
+	current.setMonth(current.getMonth() - 1)
+	calendarValue.value = current
 }
 
 /**
- * 日历组件-切换到下个月
+ * 切换到下个月
+ * 更新日历组件显示的月份为当前月份的后一个月
  */
 const nextMonth = () => {
-	const date = new Date(calendarValue.value)
-	date.setMonth(date.getMonth() + 1)
-	calendarValue.value = date
+	const current = new Date(calendarValue.value)
+	current.setMonth(current.getMonth() + 1)
+	calendarValue.value = current
 }
 
 /**
- * 日历组件-跳转到今天
+ * 切换到今天
+ * 更新日历组件显示的月份为当前月份
  */
-const goToday = () => {
-	calendarValue.value = new Date()
-}
+
 
 // ======================== ECharts 初始化函数区 ========================
 /**
@@ -985,7 +1147,7 @@ const initDialogLineChart = () => {
 			// 自定义提示框内容
 			formatter(params) {
 				const date = params[0].axisValue
-				const { value } = params[0]
+				const {value} = params[0]
 				return `日期: ${date}<br/>累计签到: ${value}次`
 			}
 		},
@@ -1069,7 +1231,9 @@ const initDialogLineChart = () => {
  * 初始化页面内热力图（非弹窗）
  */
 const initHeatmapChart = () => {
-	if (!heatmapChart.value) { return }
+	if (!heatmapChart.value) {
+		return
+	}
 
 	// 销毁旧实例
 	if (heatmapInstance.value) {
@@ -1178,7 +1342,9 @@ const initHeatmapChart = () => {
  * 初始化页面内趋势图（非弹窗）
  */
 const initLineChart = () => {
-	if (!lineChart.value) { return }
+	if (!lineChart.value) {
+		return
+	}
 
 	// 销毁旧实例
 	if (lineInstance.value) {
@@ -1203,7 +1369,7 @@ const initLineChart = () => {
 			},
 			formatter(params) {
 				const date = params[0].axisValue
-				const { value } = params[0]
+				const {value} = params[0]
 				return `日期: ${date}<br/>累计签到: ${value}次`
 			}
 		},
@@ -1352,276 +1518,253 @@ watch(() => studentAttendanceRecords.value, () => {
 })
 </script>
 
-<!-- 
+<!--
   学生管理页面模板定义(移动端)
   @template StudentManagerPageMobileTemplate
   @description 定义学生管理页面移动端的完整UI结构，包括头部导航、搜索区域、统计卡片、学生列表和各种弹窗
 -->
 <template>
-	<!-- 学生管理页面主容器 -->
-	<div class="student-manager-container">
-		<!-- 页面头部：包含返回按钮、Logo、标题和管理员信息 -->
-		<div class="header">
+	<!-- ======================== 学生管理页面(移动端) ======================== -->
+	<!-- 管理员端移动端学生管理核心页面，提供以下主要功能： -->
+	<!-- 1. 学生信息展示与搜索排序 -->
+	<!-- 2. 考勤记录查看与补卡操作 -->
+	<!-- 3. 签到热力图与趋势图可视化 -->
+	<!-- 4. 主题切换与响应式布局 -->
+	
+	<!-- 页面头部：包含返回按钮、Logo、标题和管理员信息 -->
+	<div class="page-header">
+		<div class="page-header-left">
 			<!-- 返回导航按钮：点击返回导航页面 -->
-			<el-button class="back-btn" @click="goBack">
-				<el-icon><arrow-left /></el-icon>
-				返回导航
+			<el-button @click="goBack">
+				<el-icon>
+					<arrow-left/>
+				</el-icon>
 			</el-button>
 			<!-- 头部内容区域：Logo、标题和管理员信息 -->
-			<div class="header-content">
-				<!-- 系统Logo：点击切换主题模式 -->
-				<img
-					ref="logoRef"
-					src="@/assets/AiWorkShop_icon.png"
-					alt="AI坊学生管理系统"
-					class="logo"
-					title="切换主题模式"
-					@click="toggleTheme"
-				/>
-				<!-- 页面标题 -->
-				<h1>学生管理</h1>
-				<!-- 管理员信息展示 -->
-				<div class="admin-info">
-					<div class="admin-details">
-						<!-- 管理员姓名 -->
-						<span class="admin-name">{{ userStore.userInfo?.name || '管理员' }}</span>
-						<!-- 管理员等级标识 -->
-						<div class="admin-level">
-							<el-icon class="level-icon"><star /></el-icon>
-							<span class="level-text">管理员</span>
-						</div>
-					</div>
-				</div>
+			<!-- 系统Logo：点击切换主题模式 -->
+			<img
+				ref="logoRef"
+				src="@/assets/AiWorkShop_icon.png"
+				alt="AI坊学生管理系统"
+				class="logo"
+				title="切换主题模式"
+				@click="toggleTheme"
+			/>
+		</div>
+		<!-- 页面标题 -->
+		<h1 class="page-header-title">学生管理</h1>
+		<!-- 管理员头像 -->
+		<div v-if="studentManagerPage.adminStudentAvatarUrl" class="page-header-right">
+			<img
+				v-lazy="studentManagerPage.adminStudentAvatarUrl"
+				alt="管理员头像"
+			/>
+		</div>
+	</div>
+	<!-- 搜索区域：支持按姓名、学号、专业搜索 -->
+	<div class="search">
+		<!-- 搜索输入框：支持实时搜索和清空 -->
+		<el-input
+			v-model="searchQuery"
+			placeholder="搜索学生姓名、学号或专业..."
+			clearable
+			@input="handleSearch"
+			@clear="handleClearSearch"
+		>
+			<template #prefix>
+				<!-- 搜索图标 -->
+				<el-icon>
+					<search/>
+				</el-icon>
+			</template>
+		</el-input>
+	</div>
+	<!-- 学生管理页面主容器 -->
+	<!-- 主要内容区域：包含搜索、统计和学生列表 -->
+	<div class="student-cards">
+		<!-- 学生列表区域：展示所有管理的学生信息 -->
+		<!-- 列表头部：标题和操作按钮 -->
+		<div class="student-cards-header">
+			<h2 class="student-cards-header-title">管理的学生列表</h2>
+			<!-- 头部操作按钮组 -->
+			<div class="student-cards-header-buttons">
+				<!-- 按打卡次数排序按钮：切换排序方式 -->
+				<el-button
+					type="info"
+					class = "student-cards-header-buttons-left"
+					@click="sortByAttendance"
+				>
+					<el-icon>
+						<sort/>
+					</el-icon>
+				</el-button>
+				<!-- 刷新按钮：重新加载学生列表 -->
+				<el-button
+					type="primary"
+					:loading="loading"
+					@click="refreshStudents"
+					class = "student-cards-header-buttons-right"
+				>
+					<el-icon>
+						<refresh/>
+					</el-icon>
+				</el-button>
 			</div>
 		</div>
 
-		<!-- 主要内容区域：包含搜索、统计和学生列表 -->
-		<div class="main-content">
-			<!-- 搜索区域：支持按姓名、学号、专业搜索 -->
-			<div class="search-section">
-				<!-- 搜索输入框：支持实时搜索和清空 -->
-				<el-input
-					v-model="searchQuery"
-					placeholder="搜索学生姓名、学号或专业..."
-					class="search-input"
-					clearable
-					@input="handleSearch"
-					@clear="handleClearSearch"
-				>
-					<template #prefix>
-						<!-- 搜索图标 -->
-						<el-icon><search /></el-icon>
-					</template>
-				</el-input>
-				<!-- 搜索按钮：手动触发搜索 -->
-				<el-button
-					type="primary"
-					class="search-btn"
-					:icon="Search"
-					@click="handleSearch"
-				>
-					搜索
-				</el-button>
+		<!-- 学生列表：展示所有学生卡片（加载完成且有数据时显示） -->
+		<!-- 学生卡片列表块内容 -->
+		<div v-if="!loading && filteredStudents.length > 0" class="student-cards-list">
+			<div v-for="student in filteredStudents" :key="student.studentId" class="student-cards-list-item">
+				<!-- 学生卡片头部块 -->
+				<div class="student-cards-list-item-header">
+					<!-- 块1：头像 -->
+					<img
+						v-if="getStudentAvatarUrl(student)"
+						v-lazy="getStudentAvatarUrl(student)"
+						:alt="student.name"
+						class="student-avatar-img"
+						@error="handleAvatarError"
+					/>
+
+					<!-- 块2：学号 名字和签到次数 -->
+					<div class="student-cards-list-item-header-name--student_id-attendance-count">
+						<div>
+							<span>姓名：</span>
+							<span>{{ student.name }}</span>
+						</div>
+						<div>
+							<span>学号：</span>
+							<span>{{ student.studentId }}</span>
+						</div>
+						<div class="stat-item">
+							<span class="label-checkin-count">签到次数：</span>
+							<span class="value">{{ student.checkInCount }}次</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- 学生卡片积分块 -->
+				<div class="student-cards-list-item-points">
+					<div>
+						<span>总积分:&nbsp;</span>
+						<span>{{ student.points + Math.round(student.checkInCount * 0.64) }}</span>
+					</div>
+
+					<div>
+						<span>活动积分:&nbsp;</span>
+						<span>{{ student.points }}</span>
+					</div>
+					<div>
+						<span>签到积分:&nbsp;</span>
+						<span>{{ Math.round(student.checkInCount * 0.64) }}</span>
+					</div>
+				</div>
+				<!-- 学生卡片其他信息块 -->
+				<div class="student-cards-list-item-other_info">
+					<div>
+						<span>年级:&nbsp;</span>
+						<span>{{ student.grade }}年级</span>
+					</div>
+					<div>
+						<span>学院:&nbsp;</span>
+						<span>{{ student.college }}</span>
+					</div>
+					<div>
+						<span>专业:&nbsp;</span>
+						<span>{{ student.major }}</span>
+					</div>
+					<div>
+						<span>班级:&nbsp;</span>
+						<span>{{ student.classNum }}班</span>
+					</div>
+					<div>
+						<span>性别:&nbsp;</span>
+						<span>{{ student.gender }}</span>
+					</div>
+					<div>
+						<span>手机:&nbsp;</span>
+						<span>{{ student.phone }}</span>
+					</div>
+				</div>
+				<!-- 学生卡片按钮块 -->
+				<div class="student-cards-list-item-buttons">
+					<el-button
+						type="success"
+						size="small"
+						@click="openAttendanceRecordsDialog(student)"
+					>
+						<el-icon>
+							<calendar/>
+						</el-icon>
+						考勤记录
+					</el-button>
+					<el-button
+						type="warning"
+						size="small"
+						@click="openMakeupDialog(student)"
+					>
+						<el-icon>
+							<clock/>
+						</el-icon>
+						补卡
+					</el-button>
+					<el-button
+						type="info"
+						size="small"
+						@click="openHeatmapDialog(student)"
+					>
+						<el-icon>
+							<star/>
+						</el-icon>
+						热力图
+					</el-button>
+					<el-button
+						type="primary"
+						size="small"
+						@click="openTrendChartDialog(student)"
+					>
+						<el-icon>
+							<trend-charts/>
+						</el-icon>
+						趋势图
+					</el-button>
+				</div>
 			</div>
 
-			<!-- 统计卡片区域：展示管理学生总数和总签到次数 -->
-			<div class="stats-section">
-				<!-- 管理学生总数统计卡片 -->
-				<div class="stat-card">
-					<div class="stat-icon">
-						<el-icon size="24"><user /></el-icon>
-					</div>
-					<div class="stat-content">
-						<!-- 学生总数数字 -->
-						<div class="stat-number">{{ managedStudents.length }}</div>
-						<!-- 统计标签 -->
-						<div class="stat-label">管理学生总数</div>
-					</div>
-				</div>
-
-				<!-- 总签到次数统计卡片 -->
-				<div class="stat-card">
-					<div class="stat-icon">
-						<el-icon size="24"><calendar /></el-icon>
-					</div>
-					<div class="stat-content">
-						<!-- 签到总次数数字 -->
-						<div class="stat-number">{{ totalAttendanceCount }}</div>
-						<!-- 统计标签 -->
-						<div class="stat-label">总签到次数</div>
-					</div>
-				</div>
+			<!-- 空状态：无管理学生时显示 -->
+			<div v-if="!loading && managedStudents.length === 0" class="empty-state">
+				<!-- 空状态图标 -->
+				<el-icon size="64" class="empty-icon">
+					<user/>
+				</el-icon>
+				<!-- 空状态标题 -->
+				<h3>暂无管理的学生</h3>
+				<!-- 空状态描述 -->
+				<p>您当前没有管理任何学生</p>
 			</div>
 
-			<!-- 学生列表区域：展示所有管理的学生信息 -->
-			<div class="students-section">
-				<!-- 列表头部：标题和操作按钮 -->
-				<div class="section-header">
-					<h2>管理的学生列表</h2>
-					<!-- 头部操作按钮组 -->
-					<div class="header-actions">
-						<!-- 按打卡次数排序按钮：切换排序方式 -->
-						<el-button
-							type="info"
-							:class="{ 'active': sortOrder === 'attendance' }"
-							@click="sortByAttendance"
-						>
-							<el-icon><sort /></el-icon>
-							按打卡次数排序
-						</el-button>
-						<!-- 刷新按钮：重新加载学生列表 -->
-						<el-button
-							type="primary"
-							:loading="loading"
-							@click="refreshStudents"
-						>
-							<el-icon><refresh /></el-icon>
-							刷新
-						</el-button>
-					</div>
-				</div>
+			<!-- 搜索无结果状态：搜索后无匹配结果时显示 -->
+			<div v-if="!loading && managedStudents.length > 0 && filteredStudents.length === 0 && searchQuery"
+				 class="no-search-results">
+				<!-- 搜索图标 -->
+				<el-icon size="64" class="empty-icon">
+					<search/>
+				</el-icon>
+				<!-- 无结果标题 -->
+				<h3>未找到匹配的学生</h3>
+				<!-- 无结果描述 -->
+				<p>请尝试其他关键词或清空搜索条件</p>
+			</div>
 
-				<!-- 学生列表：展示所有学生卡片（加载完成且有数据时显示） -->
-				<div v-if="!loading && filteredStudents.length > 0" class="students-list">
-					<!-- 单个学生卡片 -->
-					<div v-for="student in filteredStudents" :key="student.studentId" class="student-card">
-						<!-- 学生头像区域：显示头像或默认图标和签到次数 -->
-						<div class="student-avatar">
-							<!-- 头像容器 -->
-							<div class="avatar-section">
-								<!-- 学生头像图片：加载失败时显示默认图标 -->
-								<img
-									v-if="getStudentAvatarUrl(student)"
-									:src="getStudentAvatarUrl(student)"
-									:alt="student.name"
-									class="student-avatar-img"
-									@error="handleAvatarError"
-								/>
-								<!-- 默认用户图标：当头像加载失败或不存在时显示 -->
-								<el-icon v-else size="32"><user /></el-icon>
-							</div>
-							<!-- 签到次数显示 -->
-							<div class="attendance-count">
-								<el-icon class="attendance-icon"><calendar /></el-icon>
-								<span class="count-text">{{ getStudentAttendanceCountFromCache(student.studentId) }}次</span>
-							</div>
-						</div>
-						<!-- 学生信息区域：显示学生详细信息 -->
-						<div class="student-info">
-							<!-- 学生姓名 -->
-							<div class="student-name">{{ student.name }}</div>
-							<!-- 学生详细信息列表 -->
-							<div class="student-details">
-								<!-- 学号信息 -->
-								<div class="detail-item">
-									<span class="label">学号：</span>
-									<span class="value">{{ student.studentId }}</span>
-								</div>
-								<!-- 年级信息 -->
-								<div class="detail-item">
-									<span class="label">年级：</span>
-									<span class="value">{{ student.grade }}年级</span>
-								</div>
-								<!-- 专业信息 -->
-								<div class="detail-item">
-									<span class="label">专业：</span>
-									<span class="value">{{ student.major }}</span>
-								</div>
-								<!-- 班级信息 -->
-								<div class="detail-item">
-									<span class="label">班级：</span>
-									<span class="value">{{ student.classNum }}班</span>
-								</div>
-								<!-- 性别信息 -->
-								<div class="detail-item">
-									<span class="label">性别：</span>
-									<span class="value">{{ student.gender }}</span>
-								</div>
-								<!-- 手机号信息 -->
-								<div class="detail-item">
-									<span class="label">手机：</span>
-									<span class="value">{{ student.phone }}</span>
-								</div>
-							</div>
-						</div>
-						<!-- 学生操作按钮区域：提供考勤记录、补卡、热力图、趋势图等功能 -->
-						<div class="student-actions">
-							<div class="attendance-info">
-								<!-- 操作按钮组 -->
-								<div class="action-buttons">
-									<!-- 考勤记录按钮：点击打开考勤记录弹窗 -->
-									<el-button
-										type="success"
-										size="small"
-										class="records-btn"
-										@click="openAttendanceRecordsDialog(student)"
-									>
-										<el-icon><calendar /></el-icon>
-										考勤记录
-									</el-button>
-									<!-- 补卡按钮：点击打开补卡弹窗 -->
-									<el-button
-										type="warning"
-										size="small"
-										class="makeup-btn"
-										@click="openMakeupDialog(student)"
-									>
-										<el-icon><clock /></el-icon>
-										补卡
-									</el-button>
-									<!-- 热力图按钮：点击打开热力图弹窗 -->
-									<el-button
-										type="info"
-										size="small"
-										class="heatmap-btn"
-										@click="openHeatmapDialog(student)"
-									>
-										<el-icon><star /></el-icon>
-										热力图
-									</el-button>
-									<!-- 趋势图按钮：点击打开趋势图弹窗 -->
-									<el-button
-										type="primary"
-										size="small"
-										class="trend-btn"
-										@click="openTrendChartDialog(student)"
-									>
-										<el-icon><trend-charts /></el-icon>
-										趋势图
-									</el-button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- 空状态：无管理学生时显示 -->
-				<div v-if="!loading && managedStudents.length === 0" class="empty-state">
-					<!-- 空状态图标 -->
-					<el-icon size="64" class="empty-icon"><user /></el-icon>
-					<!-- 空状态标题 -->
-					<h3>暂无管理的学生</h3>
-					<!-- 空状态描述 -->
-					<p>您当前没有管理任何学生</p>
-				</div>
-
-				<!-- 搜索无结果状态：搜索后无匹配结果时显示 -->
-				<div v-if="!loading && managedStudents.length > 0 && filteredStudents.length === 0 && searchQuery" class="no-search-results">
-					<!-- 搜索图标 -->
-					<el-icon size="64" class="empty-icon"><search /></el-icon>
-					<!-- 无结果标题 -->
-					<h3>未找到匹配的学生</h3>
-					<!-- 无结果描述 -->
-					<p>请尝试其他关键词或清空搜索条件</p>
-				</div>
-
-				<!-- 加载中状态：数据加载时显示 -->
-				<div v-if="loading" class="loading-state">
-					<!-- 加载图标 -->
-					<el-icon size="32" class="loading-icon"><loading /></el-icon>
-					<!-- 加载提示文本 -->
-					<p>加载中...</p>
-				</div>
+			<!-- 加载中状态：数据加载时显示 -->
+			<div v-if="loading" class="loading-state">
+				<!-- 加载图标 -->
+				<el-icon size="32" class="loading-icon">
+					<loading/>
+				</el-icon>
+				<!-- 加载提示文本 -->
+				<p>加载中...</p>
 			</div>
 		</div>
 
@@ -1644,7 +1787,9 @@ watch(() => studentAttendanceRecords.value, () => {
 			<div class="makeup-header">
 				<!-- 头部图标 -->
 				<div class="header-icon">
-					<el-icon size="28"><clock /></el-icon>
+					<el-icon size="28">
+						<clock/>
+					</el-icon>
 				</div>
 				<!-- 头部内容：标题和描述 -->
 				<div class="header-content">
@@ -1659,7 +1804,9 @@ watch(() => studentAttendanceRecords.value, () => {
 				<div class="student-info-card">
 					<!-- 学生头像 -->
 					<div class="student-avatar">
-						<el-icon size="36"><user /></el-icon>
+						<el-icon size="36">
+							<user/>
+						</el-icon>
 					</div>
 					<!-- 学生详细信息 -->
 					<div class="student-details">
@@ -1668,7 +1815,9 @@ watch(() => studentAttendanceRecords.value, () => {
 						<!-- 学生学号 -->
 						<div class="student-id">{{ makeupSelectedStudent?.studentId }}</div>
 						<!-- 学生年级和专业 -->
-						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 · {{ makeupSelectedStudent?.major }}</div>
+						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 ·
+							{{ makeupSelectedStudent?.major }}
+						</div>
 					</div>
 				</div>
 
@@ -1676,7 +1825,9 @@ watch(() => studentAttendanceRecords.value, () => {
 				<div class="form-section">
 					<!-- 表单头部：图标和标题 -->
 					<div class="form-header">
-						<el-icon class="form-icon"><calendar /></el-icon>
+						<el-icon class="form-icon">
+							<calendar/>
+						</el-icon>
 						<span class="form-title">选择补卡时间</span>
 					</div>
 					<!-- 表单内容：日期时间选择器 -->
@@ -1693,7 +1844,9 @@ watch(() => studentAttendanceRecords.value, () => {
 						/>
 						<!-- 表单提示信息 -->
 						<div class="form-tip">
-							<el-icon><info-filled /></el-icon>
+							<el-icon>
+								<info-filled/>
+							</el-icon>
 							<span>补卡时间不受签到时间段限制</span>
 						</div>
 					</div>
@@ -1719,14 +1872,19 @@ watch(() => studentAttendanceRecords.value, () => {
 					@click="submitMakeup"
 				>
 					<!-- 确认图标：加载中时隐藏 -->
-					<el-icon v-if="!makeupLoading"><check /></el-icon>
+					<el-icon v-if="!makeupLoading">
+						<check/>
+					</el-icon>
 					<!-- 按钮文本：根据加载状态显示不同文本 -->
 					{{ makeupLoading ? '处理中...' : '确认补卡' }}
 				</el-button>
 			</div>
 		</el-dialog>
 
-		<!-- 考勤记录弹窗：展示学生考勤记录日历 -->
+		<!-- ======================== 考勤记录弹窗 ======================== -->
+<!-- 展示学生考勤记录日历，包含早、午、晚三个时段的签到情况 -->
+<!-- 支持日历视图查看、签到状态显示、图例说明等功能 -->
+<!-- 弹窗宽度95%，点击模态框不关闭，确保用户操作安全 -->
 		<el-dialog
 			v-if="attendanceRecordsDialogVisible"
 			v-model="attendanceRecordsDialogVisible"
@@ -1773,7 +1931,9 @@ watch(() => studentAttendanceRecords.value, () => {
 				<!-- 无考勤记录状态：当学生没有考勤记录时显示 -->
 				<div v-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
 					<!-- 无记录图标 -->
-					<el-icon class="no-records-icon"><calendar /></el-icon>
+					<el-icon class="no-records-icon">
+						<calendar/>
+					</el-icon>
 					<!-- 无记录提示文本 -->
 					<p>暂无考勤记录</p>
 				</div>
@@ -1804,15 +1964,18 @@ watch(() => studentAttendanceRecords.value, () => {
 								<div class="cell-status-admin">
 									<div class="time-slot-status-admin">
 										<!-- 早上时段签到状态 -->
-										<div class="time-slot-admin morning" :class="{ 'signed': isTimeSlotSigned(data.day, 'morning') }">
+										<div class="time-slot-admin morning"
+											 :class="{ 'signed': isTimeSlotSigned(data.day, 'morning') }">
 											<span class="time-label-admin">早</span>
 										</div>
 										<!-- 下午时段签到状态 -->
-										<div class="time-slot-admin afternoon" :class="{ 'signed': isTimeSlotSigned(data.day, 'afternoon') }">
+										<div class="time-slot-admin afternoon"
+											 :class="{ 'signed': isTimeSlotSigned(data.day, 'afternoon') }">
 											<span class="time-label-admin">午</span>
 										</div>
 										<!-- 晚上时段签到状态 -->
-										<div class="time-slot-admin evening" :class="{ 'signed': isTimeSlotSigned(data.day, 'evening') }">
+										<div class="time-slot-admin evening"
+											 :class="{ 'signed': isTimeSlotSigned(data.day, 'evening') }">
 											<span class="time-label-admin">晚</span>
 										</div>
 									</div>
@@ -1848,7 +2011,10 @@ watch(() => studentAttendanceRecords.value, () => {
 			</template>
 		</el-dialog>
 
-		<!-- 热力图弹窗：展示学生签到热力图 -->
+		<!-- ======================== 热力图弹窗 ======================== -->
+<!-- 展示学生签到热力图，直观显示一周内各时段的签到频率 -->
+<!-- 使用颜色深浅表示签到次数多少，红色表示高频签到时段 -->
+<!-- 弹窗宽度80%，关闭时销毁实例，避免内存泄漏 -->
 		<el-dialog
 			v-if="heatmapDialogVisible"
 			v-model="heatmapDialogVisible"
@@ -1867,14 +2033,18 @@ watch(() => studentAttendanceRecords.value, () => {
 				<!-- 加载中状态：数据加载时显示 -->
 				<div v-if="attendanceRecordsLoading" class="loading-container">
 					<!-- 加载图标 -->
-					<el-icon class="loading-icon"><loading /></el-icon>
+					<el-icon class="loading-icon">
+						<loading/>
+					</el-icon>
 					<!-- 加载提示文本 -->
 					<p>加载中...</p>
 				</div>
 				<!-- 无数据状态：无考勤记录时显示 -->
 				<div v-else-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
 					<!-- 无记录图标 -->
-					<el-icon class="no-records-icon"><calendar /></el-icon>
+					<el-icon class="no-records-icon">
+						<calendar/>
+					</el-icon>
 					<!-- 无记录提示文本 -->
 					<p>暂无考勤记录</p>
 				</div>
@@ -1896,7 +2066,11 @@ watch(() => studentAttendanceRecords.value, () => {
 			</template>
 		</el-dialog>
 
-		<!-- 趋势图弹窗 -->
+		<!-- ======================== 趋势图弹窗 ======================== -->
+<!-- 展示学生签到趋势图，显示一段时间内的签到频率变化 -->
+<!-- 使用折线图展示签到次数随时间的变化趋势 -->
+<!-- 支持查看不同时间段的签到趋势，帮助分析学生出勤规律 -->
+<!-- 弹窗宽度80%，关闭时销毁实例，避免内存泄漏 -->
 		<el-dialog
 			v-if="trendChartDialogVisible"
 			v-model="trendChartDialogVisible"
@@ -1913,12 +2087,16 @@ watch(() => studentAttendanceRecords.value, () => {
 			<div class="trend-chart-dialog-content">
 				<!-- 加载中状态 -->
 				<div v-if="attendanceRecordsLoading" class="loading-container">
-					<el-icon class="loading-icon"><loading /></el-icon>
+					<el-icon class="loading-icon">
+						<loading/>
+					</el-icon>
 					<p>加载中...</p>
 				</div>
 				<!-- 无数据状态 -->
 				<div v-else-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
-					<el-icon class="no-records-icon"><calendar /></el-icon>
+					<el-icon class="no-records-icon">
+						<calendar/>
+					</el-icon>
 					<p>暂无考勤记录</p>
 				</div>
 				<!-- 趋势图容器 -->
@@ -1938,4 +2116,10 @@ watch(() => studentAttendanceRecords.value, () => {
 	</div>
 </template>
 
-<style scoped></style>
+<!-- ======================== 样式文件导入区 ======================== -->
+<!-- 页面头部样式：包含页面标题、用户信息、主题切换等组件样式 -->
+<style scoped src="./css/mobile/StudentManagerPage-PageHeader.css"></style>
+<!-- 搜索功能样式：包含搜索框、筛选器、搜索结果等组件样式 -->
+<style scoped src="./css/mobile/StudentManagerPage-Search.css"></style>
+<!-- 学生卡片样式：包含学生信息卡片、状态显示、交互按钮等组件样式 -->
+<style scoped src="./css/mobile/StudentManagerPage-StudentCards.css"></style>
