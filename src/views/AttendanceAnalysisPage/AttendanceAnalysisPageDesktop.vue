@@ -1,7 +1,6 @@
-<script setup>
 /**
  * 签到分析页面组件(桌面端)
- *
+ * 
  * @description 管理员端桌面端签到数据统计分析组件，提供签到时段分布、时间线趋势、签到排行榜等功能
  * @component AttendanceAnalysisPageDesktop
  * @author 开发团队
@@ -13,15 +12,42 @@
  * @feature 签到排行榜展示学生签到顺序和等级
  * @feature 实时签到动态显示最新、最早和平均签到时间
  * @feature 支持亮色/暗色主题切换，图表样式自适应
+ * @feature 自动刷新数据功能，每15秒更新一次
+ */
+<script setup>
+/**
+ * Vue 核心响应式 API
+ * @description 提供组件的响应式状态管理和生命周期钩子
+ */
+
+// ===================== 导入依赖区 =====================
+/**
+ * Vue 核心响应式 API
+ * @description 提供组件的响应式状态管理和生命周期钩子
  */
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+
+/**
+ * Vue 路由实例
+ * @description 用于页面导航和路由管理
+ */
 import { useRouter } from 'vue-router'
+
+/**
+ * Element Plus 样式导入
+ * @description 引入组件所需的Element Plus样式文件
+ */
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-radio-group.css'
 import 'element-plus/theme-chalk/el-radio-button.css'
 import 'element-plus/theme-chalk/el-date-picker.css'
+
+/**
+ * Element Plus 图标导入
+ * @description 引入页面所需的Element Plus图标组件
+ */
 import {
 	ArrowLeft,
 	Refresh,
@@ -32,18 +58,44 @@ import {
 	Star,
 	TrendCharts
 } from '@element-plus/icons-vue'
+
 // ECharts 按需引入
+/**
+ * ECharts 图表类型
+ * @description 引入需要使用的图表类型
+ */
 import { PieChart as EChartsPieChart, LineChart, ScatterChart } from 'echarts/charts'
+
+/**
+ * ECharts 组件
+ * @description 引入图表需要的组件
+ */
 import {
 	TitleComponent,
 	TooltipComponent,
 	GridComponent,
 	LegendComponent
 } from 'echarts/components'
+
+/**
+ * ECharts 核心库
+ * @description 图表初始化和配置的核心库
+ */
 import * as echarts from 'echarts/core'
+
+/**
+ * ECharts 渲染器
+ * @description 负责图表的渲染实现
+ */
 import { CanvasRenderer } from 'echarts/renderers'
+
+/**
+ * Element Plus 组件导入
+ * @description 引入页面所需的Element Plus组件
+ */
 import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton, ElDatePicker } from 'element-plus'
 
+// 注册 ECharts 组件和渲染器
 echarts.use([
 	TitleComponent,
 	TooltipComponent,
@@ -54,8 +106,12 @@ echarts.use([
 	ScatterChart,
 	CanvasRenderer
 ])
+
+// API 接口导入
 import { getTodayAttendanceRecords, getDailyAttendanceCountInRange } from '@/api/attendance'
 import { getStudentLevel } from '@/api/student'
+
+// Pinia 状态管理
 import { useThemeStore } from '@/stores/theme'
 
 // ===================== 全局实例初始化 =====================
@@ -245,13 +301,23 @@ const PROJECT_LAUNCH_DATE = new Date('2025-09-09T00:00:00')
 
 /**
  * 确保时间不早于项目启动日期
- * @param {Date} time - 待检查的时间
- * @returns {Date} - 返回原始时间或项目启动日期(取较晚者)
- * @description 防止查询项目启动之前的数据
+ * @function ensureTimeNotBeforeLaunch
+ * @param {Date} time - 待检查的时间对象
+ * @returns {Date} - 返回原始时间或项目启动日期的较晚者
+ * @description 防止查询项目启动之前的无效数据，确保所有查询时间范围都在项目启动日期之后
+ * @example
+ * const validTime = ensureTimeNotBeforeLaunch(new Date('2025-08-01'));
+ * // 返回 PROJECT_LAUNCH_DATE (2025-09-09)，因为传入时间早于项目启动日期
  */
 const ensureTimeNotBeforeLaunch = time => (time < PROJECT_LAUNCH_DATE ? PROJECT_LAUNCH_DATE : time)
 
-// 时间范围选项配置
+/**
+ * 时间范围选项配置
+ * @type {Array<Object>}
+ * @description 提供给用户选择的时间范围选项列表
+ * @property {string} label - 显示在界面上的选项名称
+ * @property {string} value - 选项的实际值，用于内部逻辑判断
+ */
 const timeRangeOptions = [
 	{ label: '今日', value: 'today' },
 	{ label: '昨天', value: 'yesterday' },
@@ -266,16 +332,68 @@ const timeRangeOptions = [
 	{ label: '自定义', value: 'custom' }
 ]
 
-// ECharts图表实例引用
+/**
+ * ECharts图表实例引用
+ * @description 用于管理图表实例的生命周期和交互
+ */
+/**
+ * 时段分布饼图实例
+ * @type {Object|null}
+ * @description 存储签到时段分布饼图的ECharts实例
+ */
 let periodChartInstance = null
+
+/**
+ * 时间线图表实例
+ * @type {Object|null}
+ * @description 存储签到时间线图表的ECharts实例
+ */
 let timelineChartInstance = null
+
+/**
+ * 数据刷新定时器
+ * @type {number|null}
+ * @description 用于定时刷新签到数据的定时器ID
+ */
 let refreshTimer = null
+
+/**
+ * 图表大小调整定时器
+ * @type {number|null}
+ * @description 用于防抖处理图表大小调整的定时器ID
+ */
 const resizeTimeout = null
+
+/**
+ * 时段图表大小观察器
+ * @type {ResizeObserver|null}
+ * @description 监听时段分布图表容器大小变化的ResizeObserver实例
+ */
 let periodResizeObserver = null
+
+/**
+ * 时间线图表大小观察器
+ * @type {ResizeObserver|null}
+ * @description 监听时间线图表容器大小变化的ResizeObserver实例
+ */
 let timelineResizeObserver = null
 
-// DOM元素引用
+/**
+ * DOM元素引用
+ * @description 用于获取和操作页面DOM元素的引用
+ */
+/**
+ * 时段分布图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 时段分布饼图的DOM容器引用
+ */
 const periodChart = ref(null)
+
+/**
+ * 时间线图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 时间线图表的DOM容器引用
+ */
 const timelineChart = ref(null)
 
 /**
@@ -1294,6 +1412,17 @@ const stopAutoRefresh = () => {
 }
 
 
+/**
+ * 组件挂载后钩子
+ * @function onMounted
+ * @returns {Promise<void>}
+ * @description 组件挂载完成后执行的初始化操作
+ * - 添加ResizeObserver错误监听，防止控制台出现无害错误信息
+ * - 延迟100ms确保DOM完全渲染
+ * - 加载初始签到数据
+ * - 加载时间线数据
+ * - 启动自动刷新机制
+ */
 onMounted(async () => {
 	window.addEventListener('error', event => {
 		if (event.message.includes('ResizeObserver loop completed with undelivered notifications')) {
@@ -1309,6 +1438,18 @@ onMounted(async () => {
 	startAutoRefresh()
 })
 
+/**
+ * 组件卸载前钩子
+ * @function onUnmounted
+ * @returns {void}
+ * @description 组件卸载前执行的清理操作，释放资源防止内存泄漏
+ * - 停止自动刷新定时器
+ * - 清除可能存在的超时定时器
+ * - 断开时段分布图表的ResizeObserver连接
+ * - 断开时间线图表的ResizeObserver连接
+ * - 销毁时段分布图表实例
+ * - 销毁时间线图表实例
+ */
 onUnmounted(() => {
 	stopAutoRefresh()
 	if (resizeTimeout) {
@@ -1372,90 +1513,236 @@ onUnmounted(() => {
 		</div>
 
 		<!-- 主内容区域:网格布局展示图表和统计信息 -->
-		<div class="main-content">
-			<div class="content-grid">
-				<!-- 左侧列:时段分布饼图和时间线图表 -->
-				<div class="left-column">
-					<!-- 时段分布图表卡片 -->
-					<div class="chart-card">
-						<div class="card-header">
-							<h3>今日签到时段分布</h3>
-							<el-icon class="header-icon"><pie-chart /></el-icon>
-						</div>
-						<!-- 时段分布饼图容器 -->
-						<div ref="periodChart" class="chart"/>
+	<!-- @description 使用响应式网格布局，将页面内容分为左侧图表区域和右侧统计区域 -->
+	<!-- @class main-content 主内容区域容器类 -->
+	<div class="main-content">
+		<!-- 内容网格布局 -->
+		<!-- @description 采用双列网格布局，左侧展示图表，右侧展示排行榜和统计信息 -->
+		<!-- @class content-grid 网格布局容器类 -->
+		<div class="content-grid">
+			<!-- 左侧列:时段分布饼图和时间线图表 -->
+			<!-- @description 左侧区域包含两个主要图表卡片，展示签到时段分布和时间线趋势 -->
+			<!-- @class left-column 左侧列容器类 -->
+			<div class="left-column">
+				<!-- 时段分布图表卡片 -->
+				<!-- @description 展示今日签到时段分布的玫瑰饼图，按上午、下午、晚上分类统计 -->
+				<!-- @class chart-card 图表卡片容器类 -->
+				<div class="chart-card">
+					<!-- 卡片头部 -->
+					<!-- @description 包含图表标题和图标，提供视觉识别和主题切换支持 -->
+					<!-- @class card-header 卡片头部容器类 -->
+					<div class="card-header">
+						<h3>今日签到时段分布</h3>
+						<el-icon class="header-icon"><pie-chart /></el-icon>
 					</div>
+					<!-- 时段分布饼图容器 -->
+					<!-- @description ECharts饼图的DOM容器，通过ref引用进行图表初始化 -->
+					<!-- @ref periodChart 饼图容器的Vue引用，用于图表实例化 -->
+					<!-- @class chart 图表容器类 -->
+					<div ref="periodChart" class="chart"/>
+				</div>
 
-					<!-- 时间线图表卡片 -->
-					<div class="chart-card">
-						<div class="card-header">
-							<h3>签到时间线</h3>
-							<el-icon class="header-icon"><clock /></el-icon>
-						</div>
-						<!-- 时间线控制区域 -->
-						<div class="timeline-controls">
-							<!-- 时间范围选择器 -->
-							<div class="time-range-selector">
-								<el-radio-group
-									v-model="selectedTimeRange"
-									size="small"
-									class="time-radio-group"
-									@change="handleTimeRangeChange"
+				<!-- 时间线图表卡片 -->
+				<!-- @description 根据选择的时间范围展示签到数据趋势，支持今日散点图和其他时间范围的折线图 -->
+				<!-- @class chart-card 图表卡片容器类 -->
+				<div class="chart-card">
+					<!-- 卡片头部 -->
+					<!-- @description 包含图表标题和时钟图标，直观表示时间线数据 -->
+					<!-- @class card-header 卡片头部容器类 -->
+					<div class="card-header">
+						<h3>签到时间线</h3>
+						<el-icon class="header-icon"><clock /></el-icon>
+					</div>
+					<!-- 时间线控制区域 -->
+					<!-- @description 包含时间范围选择器和自定义日期选择器，控制图表显示的数据范围 -->
+					<!-- @class timeline-controls 时间线控制区域类 -->
+					<div class="timeline-controls">
+						<!-- 时间范围选择器 -->
+						<!-- @description 提供预设时间范围选项，如今日、昨天、本周等 -->
+						<!-- @class time-range-selector 时间范围选择器容器类 -->
+						<div class="time-range-selector">
+							<!-- Element Plus 单选按钮组 -->
+							<!-- @component el-radio-group Element Plus的单选按钮组组件 -->
+							<!-- @v-model selectedTimeRange 绑定选择的时间范围值 -->
+							<!-- @size small 设置按钮组大小为小型 -->
+							<!-- @class time-radio-group 自定义样式类 -->
+							<!-- @event @change 时间范围变化时触发handleTimeRangeChange方法 -->
+							<el-radio-group
+								v-model="selectedTimeRange"
+								size="small"
+								class="time-radio-group"
+								@change="handleTimeRangeChange"
+							>
+								<!-- 时间范围选项 -->
+								<!-- @description 遍历timeRangeOptions生成单选按钮，过滤掉自定义选项 -->
+								<!-- @v-for 循环渲染时间范围选项 -->
+								<!-- @key 使用option.value作为唯一标识 -->
+								<!-- @label 设置选项的值 -->
+								<el-radio-button
+									v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
+									:key="option.value"
+									:label="option.value"
 								>
-									<!-- 时间范围选项:今日、昨天、本周、上周、本月、昨月、最近7天、最近30天、本年度、全部 -->
-									<el-radio-button
-										v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
-										:key="option.value"
-										:label="option.value"
-									>
-										{{ option.label }}
-									</el-radio-button>
-								</el-radio-group>
-							</div>
-
-							<!-- 自定义日期范围选择器 -->
-							<div v-if="selectedTimeRange === 'custom'" class="custom-date-range">
-								<el-date-picker
-									v-model="customDateRange"
-									type="daterange"
-									range-separator="至"
-									start-placeholder="开始日期"
-									end-placeholder="结束日期"
-									size="small"
-									class="custom-date-picker"
-									@change="handleCustomDateChange"
-								/>
-							</div>
+									{{ option.label }}
+								</el-radio-button>
+							</el-radio-group>
 						</div>
-						<!-- 时间线图表容器 -->
-						<div ref="timelineChart" class="timeline-chart"/>
+
+						<!-- 自定义日期范围选择器 -->
+						<!-- @description 当选择"自定义"时间范围时显示，允许用户选择任意日期范围 -->
+						<!-- @v-if 条件渲染，仅当selectedTimeRange为'custom'时显示 -->
+						<!-- @class custom-date-range 自定义日期范围容器类 -->
+						<div v-if="selectedTimeRange === 'custom'" class="custom-date-range">
+							<!-- Element Plus 日期范围选择器 -->
+							<!-- @component el-date-picker Element Plus的日期选择器组件 -->
+							<!-- @v-model customDateRange 绑定选择的自定义日期范围 -->
+							<!-- @type daterange 设置为日期范围选择模式 -->
+							<!-- @range-separator 设置范围分隔符为"至" -->
+							<!-- @start-placeholder 设置开始日期占位符 -->
+							<!-- @end-placeholder 设置结束日期占位符 -->
+							<!-- @size small 设置日期选择器大小为小型 -->
+							<!-- @class custom-date-picker 自定义样式类 -->
+							<!-- @event @change 日期范围变化时触发handleCustomDateChange方法 -->
+							<el-date-picker
+								v-model="customDateRange"
+								type="daterange"
+								range-separator="至"
+								start-placeholder="开始日期"
+								end-placeholder="结束日期"
+								size="small"
+								class="custom-date-picker"
+								@change="handleCustomDateChange"
+							/>
+						</div>
+					</div>
+					<!-- 时间线图表容器 -->
+					<!-- @description ECharts时间线图表的DOM容器，通过ref引用进行图表初始化 -->
+					<!-- @ref timelineChart 时间线图表容器的Vue引用，用于图表实例化 -->
+					<!-- @class timeline-chart 时间线图表容器类 -->
+					<div ref="timelineChart" class="timeline-chart"/>
+				</div>
+			</div>
+
+			<!-- 右侧列:排行榜和实时动态 -->
+			<!-- @description 右侧区域包含签到排行榜和实时签到动态两个卡片，展示详细的签到信息 -->
+			<!-- @class right-column 右侧列容器类 -->
+			<div class="right-column">
+				<!-- 今日签到排行榜卡片 -->
+				<!-- @description 展示今日签到学生的排行榜，按签到时间排序，前三名有特殊样式 -->
+				<!-- @class chart-card 图表卡片容器类 -->
+				<div class="chart-card">
+					<!-- 卡片头部 -->
+					<!-- @description 包含排行榜标题和奖杯图标，突出显示排名信息 -->
+					<!-- @class card-header 卡片头部容器类 -->
+					<div class="card-header">
+						<h3>今日签到排行榜</h3>
+						<el-icon class="header-icon"><trophy /></el-icon>
+					</div>
+					<!-- 排行榜列表 -->
+					<!-- @description 显示所有签到学生的排名、姓名、等级和签到时间 -->
+					<!-- @class ranking-list 排行榜列表容器类 -->
+					<div class="ranking-list">
+						<!-- 加载动画 -->
+						<!-- @description 数据加载时显示的覆盖层和加载动画 -->
+						<!-- @v-if 条件渲染，仅当isLoading为true时显示 -->
+						<!-- @class loading-overlay 加载覆盖层类 -->
+						<div v-if="isLoading" class="loading-overlay">
+							<div class="loading-spinner"/>
+						</div>
+						<!-- 排行榜项 -->
+						<!-- @description 单个学生的排名信息项，包含排名、姓名、等级和签到时间 -->
+						<!-- @v-for 循环渲染排行榜数据 -->
+						<!-- @key 使用index作为唯一标识 -->
+						<!-- @class ranking-item 排行榜项基础类 -->
+						<!-- @:class 动态添加排名样式类，前三名有特殊颜色和样式 -->
+						<div
+							v-for="(record, index) in rankingList"
+							:key="index"
+							class="ranking-item"
+							:class="getRankingClass(index)"
+						>
+							<!-- 排名数字 -->
+							<!-- @description 显示学生的签到排名，从1开始计数 -->
+							<!-- @class rank-number 排名数字类 -->
+							<div class="rank-number">{{ index + 1 }}</div>
+							<!-- 学生信息:姓名和等级 -->
+							<!-- @description 显示学生的姓名和等级信息，等级根据学生ID从API获取 -->
+							<!-- @class student-info 学生信息容器类 -->
+							<div class="student-info">
+								<div class="student-name">{{ record.name }}</div>
+								<div 
+									class="student-level"
+									:class="getLevelClass(studentDetails[record.scheduleId]?.levelName || '社团成员')"
+								>
+									{{ studentDetails[record.scheduleId]?.levelName || '社团成员' }}
+								</div>
+							</div>
+							<!-- 签到时间 -->
+							<!-- @description 显示学生的具体签到时间，使用formatTime函数格式化 -->
+							<!-- @class attendance-time 签到时间类 -->
+							<div class="attendance-time">{{ formatTime(record.attendanceTime) }}</div>
+						</div>
 					</div>
 				</div>
 
-				<!-- 右侧列:排行榜和实时动态 -->
-				<div class="right-column">
-					<!-- 今日签到排行榜卡片 -->
-					<div class="chart-card">
-						<div class="card-header">
-							<h3>今日签到排行榜</h3>
-							<el-icon class="header-icon"><trophy /></el-icon>
-						</div>
-						<!-- 排行榜列表 -->
-						<div class="ranking-list">
-							<!-- 加载动画 -->
-							<div v-if="isLoading" class="loading-overlay">
-								<div class="loading-spinner"/>
+				<!-- 实时签到动态卡片 -->
+				<!-- @description 展示今日签到的实时统计信息，包括最早、最晚和平均签到时间 -->
+				<!-- @class chart-card 图表卡片容器类 -->
+				<div class="chart-card">
+					<!-- 卡片头部 -->
+					<!-- @description 包含统计标题和趋势图表图标，突出显示实时数据特性 -->
+					<!-- @class card-header 卡片头部容器类 -->
+					<div class="card-header">
+						<h3>实时签到动态</h3>
+						<el-icon class="header-icon"><trend-charts /></el-icon>
+					</div>
+					<!-- 统计信息内容 -->
+					<!-- @description 以网格布局显示三项核心统计信息 -->
+					<!-- @class stats-content 统计内容容器类 -->
+					<div class="stats-content">
+						<!-- 最早签到 -->
+						<!-- @description 显示今日最早签到的学生信息和时间 -->
+						<!-- @class stat-item 统计项容器类 -->
+						<div class="stat-item">
+							<div class="stat-label">最早签到</div>
+							<div class="stat-value">
+								<el-icon class="stat-icon"><star /></el-icon>
+								<span v-if="earliestAttendance">
+									{{ earliestAttendance.name }}<br/>
+									{{ formatTime(earliestAttendance.attendanceTime) }}
+								</span>
+								<span v-else>暂无数据</span>
 							</div>
-							<!-- 排行榜项 -->
-							<div
-								v-for="(record, index) in rankingList"
-								:key="index"
-								class="ranking-item"
-								:class="getRankingClass(index)"
-							>
-								<!-- 排名数字 -->
-								<div class="rank-number">{{ index + 1 }}</div>
-								<!-- 学生信息:姓名和等级 -->
+						</div>
+						<!-- 最晚签到 -->
+						<!-- @description 显示今日最晚签到的学生信息和时间 -->
+						<!-- @class stat-item 统计项容器类 -->
+						<div class="stat-item">
+							<div class="stat-label">最晚签到</div>
+							<div class="stat-value">
+								<el-icon class="stat-icon"><clock /></el-icon>
+								<span v-if="latestAttendance">
+									{{ latestAttendance.name }}<br/>
+									{{ formatTime(latestAttendance.attendanceTime) }}
+								</span>
+								<span v-else>暂无数据</span>
+							</div>
+						</div>
+						<!-- 平均签到时间 -->
+						<!-- @description 显示今日所有签到学生的平均签到时间 -->
+						<!-- @class stat-item 统计项容器类 -->
+						<div class="stat-item">
+							<div class="stat-label">平均签到时间</div>
+							<div class="stat-value">
+								<el-icon class="stat-icon"><medal /></el-icon>
+								<span>{{ averageTime }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 								<div class="student-info">
 									<div class="student-name">{{ record.name }}</div>
 									<div class="student-details">

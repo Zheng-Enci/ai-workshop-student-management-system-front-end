@@ -69,12 +69,6 @@ const router = useRouter()
  */
 const themeStore = useThemeStore()
 
-/**
- * AI坊图标点击事件处理
- * @description 点击AI坊图标时触发主题切换功能
- * @event click
- */
-
 // ===================== 响应式变量定义区 =====================
 /**
  * 今日考勤人数
@@ -381,8 +375,15 @@ const loadLevelStats = async () => {
  * 获取稳定颜色
  * @function getStableColor
  * @param {number} index - 颜色索引
- * @returns {string} 对应索引的颜色值
- * @description 根据索引获取稳定的颜色值,用于图表配色
+ * @returns {string} 对应索引的颜色值（十六进制格式）
+ * @description 根据索引获取稳定的颜色值,用于图表配色。使用模运算确保颜色循环使用。
+ * @example
+ * ```javascript
+ * // 获取第一个颜色
+ * const color1 = getStableColor(0); // '#667eea'
+ * // 获取第17个颜色（循环到第1个）
+ * const color17 = getStableColor(16); // '#667eea'
+ * ```
  */
 const getStableColor = index => {
 	const colors = [
@@ -398,8 +399,15 @@ const getStableColor = index => {
  * 获取暗色模式下的稳定颜色
  * @function getDarkStableColor
  * @param {number} index - 颜色索引
- * @returns {string} 对应索引的暗色模式颜色值
- * @description 根据索引获取暗色模式下的稳定颜色值,用于图表配色
+ * @returns {string} 对应索引的暗色模式颜色值（十六进制格式）
+ * @description 根据索引获取暗色模式下的稳定颜色值,用于图表配色。使用模运算确保颜色循环使用。
+ * @example
+ * ```javascript
+ * // 获取暗色模式下的第一个颜色
+ * const darkColor1 = getDarkStableColor(0); // '#00d4ff'
+ * // 获取暗色模式下的第17个颜色（循环到第1个）
+ * const darkColor17 = getDarkStableColor(16); // '#00d4ff'
+ * ```
  */
 const getDarkStableColor = index => {
 	const colors = [
@@ -640,7 +648,21 @@ const loadData = async () => {
  * @function getLevelName
  * @param {number} levelCode - 等级码(0-3)
  * @returns {string} 对应的等级名称
- * @description 根据学生等级码返回对应的等级名称
+ * @description 根据学生等级码返回对应的等级名称。等级码与等级名称的映射关系：
+ * - 0: 社团成员
+ * - 1: 普通成员
+ * - 2: 核心成员
+ * - 3: 管理员
+ * 对于未知的等级码，默认返回'社团成员'。
+ * @example
+ * ```javascript
+ * // 获取管理员等级名称
+ * const adminLevel = getLevelName(3); // '管理员'
+ * // 获取普通成员等级名称
+ * const normalLevel = getLevelName(1); // '普通成员'
+ * // 获取未知等级码的默认值
+ * const unknownLevel = getLevelName(5); // '社团成员'
+ * ```
  */
 const getLevelName = levelCode => {
 	const levelMap = {
@@ -656,7 +678,20 @@ const getLevelName = levelCode => {
  * 初始化考勤图表
  * @function initAttendanceChart
  * @param {Array} data - 考勤数据
- * @description 初始化ECharts考勤柱状图,展示学生考勤排名情况
+ * @description 初始化ECharts考勤柱状图,展示学生考勤排名情况。
+ * 该函数会先检查图表DOM引用是否存在，然后销毁已有的图表实例，重新初始化新的图表实例。
+ * @param {Array} data - 考勤数据数组，每个元素包含name(学生姓名)、value(签到次数)等字段
+ * @returns {void}
+ * @example
+ * ```javascript
+ * // 初始化考勤图表
+ * const chartData = [
+ *   { name: '张三', value: 20 },
+ *   { name: '李四', value: 18 },
+ *   { name: '王五', value: 15 }
+ * ];
+ * initAttendanceChart(chartData);
+ * ```
  */
 const initAttendanceChart = data => {
 	if (!attendanceChart.value) { return }
@@ -726,6 +761,12 @@ const loadRankingData = async () => {
 		let response
 
 		switch (selectedTimeRange.value) {
+			/**
+			 * 本周时间范围处理
+			 * @case 'week'
+			 * @description 计算本周的开始日期（周一），并获取本周的排行榜数据
+			 * @example 2023-12-18（周一）到2023-12-24（周日）
+			 */
 			case 'week': {
 				const now = new Date()
 				const dayOfWeek = now.getDay()
@@ -735,6 +776,12 @@ const loadRankingData = async () => {
 				response = await getWeeklyRanking(weekStart, selectedTopN)
 				break
 			}
+			/**
+			 * 本月时间范围处理
+			 * @case 'month'
+			 * @description 获取当前年份和月份，并获取本月的排行榜数据
+			 * @example 2023年12月的完整数据
+			 */
 			case 'month': {
 				const currentDate = new Date()
 				const currentYear = currentDate.getFullYear()
@@ -742,16 +789,47 @@ const loadRankingData = async () => {
 				response = await getMonthlyRanking(currentYear, currentMonth, selectedTopN)
 				break
 			}
+			/**
+			 * 本年时间范围处理
+			 * @case 'year'
+			 * @description 获取当前年份，并获取本年的排行榜数据
+			 * @example 2023年的完整数据
+			 */
 			case 'year':
 				response = await getYearlyRanking(new Date().getFullYear(), selectedTopN)
 				break
+			/**
+			 * 最近7天时间范围处理
+			 * @case 'last7days'
+			 * @description 获取最近7天的排行榜数据（包含当天）
+			 * @example 当前日期为2023-12-24时，获取2023-12-18到2023-12-24的数据
+			 */
 			case 'last7days':
 				response = await getLast7DaysRanking(selectedTopN)
 				break
+			/**
+			 * 最近30天时间范围处理
+			 * @case 'last30days'
+			 * @description 获取最近30天的排行榜数据（包含当天）
+			 * @example 当前日期为2023-12-24时，获取2023-11-25到2023-12-24的数据
+			 */
 			case 'last30days':
 				response = await getLast30DaysRanking(selectedTopN)
 				break
+			/**
+			 * 全部时间范围处理
+			 * @case 'all'
+			 * @description 获取从项目启动日期到当前日期的完整排行榜数据
+			 * @example 从2024-09-09（项目启动）到当前日期的所有数据
+			 */
 			case 'all': {
+				/**
+				 * 项目启动日期
+				 * @constant
+				 * @type {Date}
+				 * @description AI坊项目的正式启动日期，用于计算全时间段的排行榜数据范围
+				 * @value '2024-09-09T00:00:00' 项目启动的具体日期时间
+				 */
 				const PROJECT_LAUNCH_DATE = new Date('2024-09-09T00:00:00')
 				const now = new Date()
 				const [startDate] = PROJECT_LAUNCH_DATE.toISOString().split('T')
@@ -761,6 +839,12 @@ const loadRankingData = async () => {
 				response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
 				break
 			}
+			/**
+			 * 默认时间范围处理
+			 * @case default
+			 * @description 当没有匹配到指定的时间范围时，默认获取当月的排行榜数据
+			 * @example 当前月份的前10名学生数据
+			 */
 			default:
 				response = await getCurrentMonthTop10Students()
 				break
@@ -853,16 +937,34 @@ onUnmounted(() => {
 <!-- Dashboard 移动端页面模板 -->
 <template>
 	<!-- 主容器 -->
+	<!-- @description Dashboard移动端页面的根容器，包含所有页面内容 -->
+	<!-- @class dashboard-page-mobile 页面主容器类 -->
 	<div class="dashboard-page-mobile">
 		<!-- 移动端头部区域 -->
+		<!-- @description 页面顶部导航栏，包含返回按钮、AI坊图标和页面标题 -->
+		<!-- @class mobile-header 移动端头部容器类 -->
 		<div class="mobile-header">
 			<!-- 左侧头部内容 -->
+			<!-- @description 头部左侧区域，包含返回按钮和AI坊图标 -->
+			<!-- @class header-left 头部左侧容器类 -->
 			<div class="header-left">
 				<!-- 返回按钮 -->
+				<!-- @description 返回上一页的按钮，点击触发goBack函数 -->
+				<!-- @component el-button 按钮组件 -->
+				<!-- @class back-btn 返回按钮样式类 -->
+				<!-- @event click 点击事件，触发goBack函数 -->
 				<el-button type="text" class="back-btn" @click="goBack">
+					<!-- 返回图标 -->
+					<!-- @component el-icon 图标容器 -->
+					<!-- @icon arrow-left 返回箭头图标 -->
 					<el-icon><arrow-left /></el-icon>
 				</el-button>
-				<!-- AI坊图标，点击可切换主题 -->
+				<!-- AI坊图标 -->
+				<!-- @description AI坊的Logo图标，点击可切换主题 -->
+				<!-- @src @/assets/AiWorkShop_icon.png 图标资源路径 -->
+				<!-- @alt AI坊 图标替代文本 -->
+				<!-- @class logo 图标样式类 -->
+				<!-- @event click 点击事件，触发toggleTheme函数 -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
@@ -870,137 +972,287 @@ onUnmounted(() => {
 					@click="toggleTheme"/>
 			</div>
 			<!-- 页面标题 -->
+			<!-- @description 页面的主标题，显示"数据看板" -->
+			<!-- @class header-title 标题样式类 -->
 			<div class="header-title">数据看板</div>
 		</div>
 
 		<!-- 移动端内容区域 -->
+		<!-- @description 页面的主要内容区域，包含所有统计卡片、图表和排行榜 -->
+		<!-- @class mobile-content 移动端内容容器类 -->
 		<div class="mobile-content">
 			<!-- 统计数据网格 -->
+			<!-- @description 展示核心统计数据的网格布局，包含今日签到总人次、本月签到总人数和坊内成员人数 -->
+			<!-- @class stats-grid 统计数据网格容器类，使用响应式网格布局 -->
 			<div class="stats-grid">
 				<!-- 今日签到统计卡片 -->
+				<!-- @description 展示当天实际签到总人次的统计卡片，反映当日活跃度 -->
+				<!-- @class stat-card 统计卡片样式类，提供统一的卡片样式 -->
 				<div class="stat-card">
+					<!-- 统计标签 -->
+					<!-- @description 卡片的描述性标签，说明统计数据的含义 -->
+					<!-- @class stat-label 统计标签样式类，定义标签的字体和颜色 -->
 					<div class="stat-label">今日签到总人次</div>
+					<!-- 统计数值 -->
+					<!-- @description 显示具体的统计数值，使用响应式数据绑定 -->
+					<!-- @class stat-value 统计数值样式类，定义数值的字体大小和颜色 -->
+					<!-- @data todayAttendance 今日签到总人次的响应式数据，从后端API获取 -->
 					<div class="stat-value">{{ todayAttendance }}人</div>
-					<!-- 统计说明：展示当天实际签到的总人次 -->
 				</div>
 				<!-- 本月签到统计卡片 -->
+				<!-- @description 展示当月累计签到总人数的统计卡片，反映月度活跃度趋势 -->
+				<!-- @class stat-card 统计卡片样式类，提供统一的卡片样式 -->
 				<div class="stat-card">
+					<!-- 统计标签 -->
+					<!-- @description 卡片的描述性标签，说明统计数据的含义 -->
+					<!-- @class stat-label 统计标签样式类，定义标签的字体和颜色 -->
 					<div class="stat-label">本月签到总人数</div>
+					<!-- 统计数值 -->
+					<!-- @description 显示具体的统计数值，使用响应式数据绑定 -->
+					<!-- @class stat-value 统计数值样式类，定义数值的字体大小和颜色 -->
+					<!-- @data monthlyAttendanceCount 本月签到总人数的响应式数据，从后端API获取 -->
 					<div class="stat-value">{{ monthlyAttendanceCount }}人</div>
-					<!-- 统计说明：展示当月累计签到的总人数 -->
 				</div>
 				<!-- 坊内成员统计卡片 -->
+				<!-- @description 展示AI坊内成员（管理员+核心成员+普通成员）总人数的统计卡片 -->
+				<!-- @class stat-card 统计卡片样式类，提供统一的卡片样式 -->
 				<div class="stat-card">
+					<!-- 统计标签 -->
+					<!-- @description 卡片的描述性标签，说明统计数据的含义 -->
+					<!-- @class stat-label 统计标签样式类，定义标签的字体和颜色 -->
 					<div class="stat-label">坊内成员人数</div>
+					<!-- 统计数值 -->
+					<!-- @description 显示具体的统计数值，使用响应式数据绑定 -->
+					<!-- @class stat-value 统计数值样式类，定义数值的字体大小和颜色 -->
+					<!-- @data workshopMembersCount 坊内成员人数的响应式数据，通过calculateClubMembers函数计算得出 -->
 					<div class="stat-value">{{ workshopMembersCount }}人</div>
-					<!-- 统计说明：展示AI坊内成员（管理员+核心成员+普通成员）的总人数 -->
 				</div>
 			</div>
 
 			<!-- 等级统计移动端展示 -->
+			<!-- @description 展示不同等级成员数量的统计区域，包括管理员、核心成员、普通成员和社团成员 -->
+			<!-- @class level-stats-mobile 等级统计移动端容器类 -->
 			<div class="level-stats-mobile">
 				<!-- 管理员等级项 -->
+				<!-- @description 展示管理员等级成员数量的统计项 -->
+				<!-- @class level-item 等级项样式类 -->
+				<!-- @class admin-level 管理员等级样式类 -->
 				<div class="level-item admin-level">
+					<!-- 设置图标 -->
+					<!-- @component el-icon 图标容器 -->
+					<!-- @icon setting 设置图标，代表管理员权限 -->
 					<el-icon><setting /></el-icon>
+					<!-- 等级信息区域 -->
+					<!-- @class level-info 等级信息容器类 -->
 					<div class="level-info">
+						<!-- 等级标签 -->
+						<!-- @class level-label 等级标签样式类 -->
 						<span class="level-label">管理员</span>
+						<!-- 等级数值 -->
+						<!-- @class level-value 等级数值样式类 -->
+						<!-- @data levelStats.admin 管理员数量的响应式数据 -->
 						<span class="level-value">{{ levelStats.admin }}人</span>
 					</div>
 				</div>
 				<!-- 核心成员等级项 -->
+				<!-- @description 展示核心成员等级数量的统计项 -->
+				<!-- @class level-item 等级项样式类 -->
+				<!-- @class core-level 核心成员等级样式类 -->
 				<div class="level-item core-level">
+					<!-- 星星图标 -->
+					<!-- @component el-icon 图标容器 -->
+					<!-- @icon star 星星图标，代表核心成员身份 -->
 					<el-icon><star /></el-icon>
+					<!-- 等级信息区域 -->
+					<!-- @class level-info 等级信息容器类 -->
 					<div class="level-info">
+						<!-- 等级标签 -->
+						<!-- @class level-label 等级标签样式类 -->
 						<span class="level-label">核心成员</span>
+						<!-- 等级数值 -->
+						<!-- @class level-value 等级数值样式类 -->
+						<!-- @data levelStats.core 核心成员数量的响应式数据 -->
 						<span class="level-value">{{ levelStats.core }}人</span>
 					</div>
 				</div>
 				<!-- 普通成员等级项 -->
+				<!-- @description 展示普通成员等级数量的统计项 -->
+				<!-- @class level-item 等级项样式类 -->
+				<!-- @class normal-level 普通成员等级样式类 -->
 				<div class="level-item normal-level">
+					<!-- 头像图标 -->
+					<!-- @component el-icon 图标容器 -->
+					<!-- @icon avatar 头像图标，代表普通成员身份 -->
 					<el-icon><avatar /></el-icon>
+					<!-- 等级信息区域 -->
+					<!-- @class level-info 等级信息容器类 -->
 					<div class="level-info">
+						<!-- 等级标签 -->
+						<!-- @class level-label 等级标签样式类 -->
 						<span class="level-label">普通成员</span>
+						<!-- 等级数值 -->
+						<!-- @class level-value 等级数值样式类 -->
+						<!-- @data levelStats.normal 普通成员数量的响应式数据 -->
 						<span class="level-value">{{ levelStats.normal }}人</span>
 					</div>
 				</div>
 				<!-- 社团成员等级项 -->
+				<!-- @description 展示社团成员等级数量的统计项 -->
+				<!-- @class level-item 等级项样式类 -->
+				<!-- @class club-level 社团成员等级样式类 -->
 				<div class="level-item club-level">
+					<!-- 用户图标 -->
+					<!-- @component el-icon 图标容器 -->
+					<!-- @icon user 用户图标，代表社团成员身份 -->
 					<el-icon><user /></el-icon>
+					<!-- 等级信息区域 -->
+					<!-- @class level-info 等级信息容器类 -->
 					<div class="level-info">
+						<!-- 等级标签 -->
+						<!-- @class level-label 等级标签样式类 -->
 						<span class="level-label">社团成员</span>
+						<!-- 等级数值 -->
+						<!-- @class level-value 等级数值样式类 -->
+						<!-- @data clubMembers 社团成员数量的响应式数据 -->
 						<span class="level-value">{{ clubMembers }}人</span>
 					</div>
 				</div>
 			</div>
 
 			<!-- 排行榜区域 -->
+			<!-- @description 展示学生考勤排名的区域，包括时间范围选择器和考勤图表 -->
+			<!-- @class ranking-section 排行榜区域容器类 -->
 			<div class="ranking-section">
 				<!-- 排行榜区域头部 -->
+				<!-- @description 排行榜区域的头部，包含标题和时间范围选择控件 -->
+				<!-- @class section-header 区域头部样式类 -->
 				<div class="section-header">
+					<!-- 区域标题 -->
 					<h3>排行榜</h3>
-					<!-- 时间范围选择控件 -->
+					<!-- 时间范围选择控件容器 -->
+					<!-- @class controls 控件容器样式类 -->
 					<div class="controls">
+						<!-- 时间范围选择器 -->
+						<!-- @component el-radio-group 单选按钮组组件 -->
+						<!-- @v-model selectedTimeRange 绑定的响应式变量，控制当前选中的时间范围 -->
+						<!-- @size small 控件大小 -->
+						<!-- @class time-radio-group 时间选择器样式类 -->
+						<!-- @event change 选择变化事件，触发loadRankingData函数重新加载排行榜数据 -->
 						<el-radio-group
 							v-model="selectedTimeRange"
 							size="small"
 							class="time-radio-group"
 							@change="loadRankingData"
 						>
+							<!-- 周排行选项 -->
+							<!-- @component el-radio-button 单选按钮组件 -->
+							<!-- @label week 选项值，代表本周 -->
 							<el-radio-button label="week">本周</el-radio-button>
+							<!-- 月排行选项 -->
+							<!-- @component el-radio-button 单选按钮组件 -->
+							<!-- @label month 选项值，代表本月 -->
 							<el-radio-button label="month">本月</el-radio-button>
+							<!-- 年排行选项 -->
+							<!-- @component el-radio-button 单选按钮组件 -->
+							<!-- @label year 选项值，代表本年度 -->
 							<el-radio-button label="year">本年度</el-radio-button>
+							<!-- 最近7天排行选项 -->
+							<!-- @component el-radio-button 单选按钮组件 -->
+							<!-- @label last7days 选项值，代表最近7天 -->
 							<el-radio-button label="last7days">最近7天</el-radio-button>
+							<!-- 最近30天排行选项 -->
+							<!-- @component el-radio-button 单选按钮组件 -->
+							<!-- @label last30days 选项值，代表最近30天 -->
 							<el-radio-button label="last30days">最近30天</el-radio-button>
+							<!-- 全部时间排行选项 -->
+							<!-- @component el-radio-button 单选按钮组件 -->
+							<!-- @label all 选项值，代表全部时间 -->
 							<el-radio-button label="all">全部</el-radio-button>
 						</el-radio-group>
 					</div>
 				</div>
 				<!-- 考勤图表容器 -->
+				<!-- @description 考勤排行榜图表的容器 -->
+				<!-- @class chart-container 图表容器样式类 -->
 				<div class="chart-container">
 					<!-- 考勤图表DOM引用 -->
+					<!-- @ref attendanceChart 考勤图表的DOM引用，用于初始化ECharts实例 -->
+					<!-- @class chart 图表样式类 -->
 					<div ref="attendanceChart" class="chart"/>
 				</div>
 			</div>
 
 			<!-- 图表区域 -->
+			<!-- @description 展示年级分布和专业分布图表的区域 -->
+			<!-- @class charts-section 图表区域容器类 -->
 			<div class="charts-section">
 				<!-- 年级分布图表项 -->
+				<!-- @description 展示学生年级分布情况的图表项 -->
+				<!-- @class chart-item 图表项样式类 -->
 				<div class="chart-item">
+					<!-- 图表标题 -->
 					<h3>年级分布</h3>
 					<!-- 年级分布图表DOM引用 -->
+					<!-- @ref gradeChart 年级分布图表的DOM引用，用于初始化ECharts实例 -->
+					<!-- @class chart 图表样式类 -->
 					<div ref="gradeChart" class="chart"/>
 				</div>
 
 				<!-- 专业分布图表项 -->
+				<!-- @description 展示学生专业分布情况的图表项 -->
+				<!-- @class chart-item 图表项样式类 -->
 				<div class="chart-item">
+					<!-- 图表标题 -->
 					<h3>专业分布</h3>
 					<!-- 专业分布图表DOM引用 -->
+					<!-- @ref majorChart 专业分布图表的DOM引用，用于初始化ECharts实例 -->
+					<!-- @class chart 图表样式类 -->
 					<div ref="majorChart" class="chart"/>
 				</div>
 			</div>
 
 			<!-- 机制说明区域 -->
+			<!-- @description 展示AI坊文明公约和相关机制说明的区域，提供团队准则和行为规范 -->
+			<!-- @class mechanism-section 机制说明区域容器类 -->
 			<div class="mechanism-section">
 				<!-- 机制说明卡片 -->
+				<!-- @description AI坊文明公约的卡片式容器，包含标题和具体条款内容 -->
+				<!-- @class mechanism-card 机制说明卡片样式类 -->
 				<div class="mechanism-card">
+					<!-- 卡片标题 -->
+					<!-- @description 文明公约卡片的主标题，清晰展示内容主题 -->
 					<h3>AI 坊文明公约</h3>
-					<!-- 机制内容 -->
+					<!-- 机制内容区域 -->
+					<!-- @description 包含文明公约具体条款的内容区域，以有序列表形式展示 -->
+					<!-- @class mechanism-content 机制内容容器类 -->
 					<div class="mechanism-content">
+						<!-- 文明公约第1条 -->
+						<!-- @description 关于学习态度的规定，要求成员积极参与团队活动 -->
 						<p>
 							1. 保持积极的学习态度，主动参与讨论和项目开发
 						</p>
+						<!-- 文明公约第2条 -->
+						<!-- @description 关于团队氛围的规定，要求成员尊重他人 -->
 						<p>
 							2. 尊重他人，营造和谐友好的学习氛围
 						</p>
+						<!-- 文明公约第3条 -->
+						<!-- @description 关于知识分享的规定，鼓励成员互相交流 -->
 						<p>
 							3. 乐于分享知识和经验，共同成长进步
 						</p>
+						<!-- 文明公约第4条 -->
+						<!-- @description 关于团队纪律的规定，要求成员按时完成任务 -->
 						<p>
 							4. 遵守团队纪律，按时完成分配的任务
 						</p>
+						<!-- 文明公约第5条 -->
+						<!-- @description 关于技术探索的规定，鼓励成员尝试新技术 -->
 						<p>
 							5. 勇于尝试新技术，不断提升自身技能水平
 						</p>
+						<!-- 文明公约第6条 -->
+						<!-- @description 关于互助合作的规定，鼓励成员互相帮助 -->
 						<p>
 							6. 互相帮助，共同解决学习中遇到的问题
 						</p>
@@ -1014,12 +1266,18 @@ onUnmounted(() => {
 <style scoped>
 /**
  * 页面主样式文件引入
- * @description 引入DashboardPageMobile.css作为主要样式文件
+ * @description 引入DashboardPageMobile.css作为主要样式文件，包含页面布局和组件样式
+ * @source ./css/DashboardPageMobile.css
  */
 @import './css/DashboardPageMobile.css';
 </style>
 
 <style>
+/**
+ * 移动端页面样式定义
+ * @description 定义DashboardPageMobile.vue组件的移动端专属样式，确保在移动设备上的良好显示效果
+ * @scope global 全局样式作用域，影响组件内的所有元素
+ */
 /**
  * 时间范围选择器样式
  * @description 自定义时间范围选择器的布局和间距，使用弹性布局确保在移动设备上良好显示

@@ -1,0 +1,127 @@
+/**
+ * 学生管理页面 - 热力图样式
+ * @file StudentManagerPage-HeatmapChart.css
+ * @description 定义签到热力图和趋势图的容器样式
+ */
+
+/* ==================== 图表容器样式 ==================== */
+
+/**
+ * 图表容器
+ * 包含图表的整体布局容器
+ */
+.chart-container {
+	width: 100%;
+	padding: 20px;
+}
+
+/**
+ * 图表项容器
+ * 单个图表的包装容器
+ */
+.chart-item-admin {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/**
+ * 图表标题
+ * 热力图/趋势图的标题文字
+ */
+.chart-title-admin {
+	font-size: 18px;
+	font-weight: bold;
+	color: var(--admin-text-primary);
+	margin-bottom: 15px;
+	text-align: center;
+}
+
+/**
+ * 图表内容区域 - 固定高度
+ * ECharts图表的DOM容器，必须有固定高度才能正确渲染
+ */
+.chart-content-admin {
+	width: 100%;
+	height: 400px;
+}
+
+/* ==================== 加载状态样式 ==================== */
+
+/**
+ * 加载中容器
+ * 显示加载图标和文字
+ */
+.loading-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 60px 20px;
+}
+
+/**
+ * 加载图标
+ * 旋转的加载动画
+ */
+.loading-icon {
+	font-size: 40px;
+	margin-bottom: 16px;
+	animation: rotate 2s linear infinite;
+}
+
+/**
+ * 加载图标旋转动画
+ */
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* ==================== 无数据状态样式 ==================== */
+
+/**
+ * 无记录容器
+ * 显示空状态图标和提示文字
+ */
+.no-records {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 60px 20px;
+	color: #999;
+}
+
+/**
+ * 无记录图标
+ */
+.no-records-icon {
+	font-size: 48px;
+	margin-bottom: 16px;
+	color: #999;
+}
+
+/* ==================== 夜间模式适配 ==================== */
+
+/**
+ * 暗色模式下的文字颜色
+ */
+html.dark .chart-title-admin {
+	color: var(--admin-text-primary, #e5e7eb);
+}
+
+/**
+ * 暗色模式下的无记录文字颜色
+ */
+html.dark .no-records {
+	color: #6b7280;
+}
+
+html.dark .no-records-icon {
+	color: #6b7280;
+}

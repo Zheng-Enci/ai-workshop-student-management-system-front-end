@@ -709,9 +709,9 @@ const openHeatmapDialog = async student => {
 
 	try {
 		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = true
-		const response = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
-		if (response.code === 200) {
-			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = response.data || []
+		const records = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
+		if (records) {
+			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = records
 			heatmapDialogVisible.value = true
 			document.body.style.overflow = 'hidden'
 
@@ -720,7 +720,7 @@ const openHeatmapDialog = async student => {
 				initDialogHeatmapChart()
 			}, 100)
 		} else {
-			ElMessage.error(response.message || '获取考勤记录失败')
+			ElMessage.error('获取考勤记录失败')
 		}
 	} catch (error) {
 		ElMessage.error(`获取考勤记录失败：${error.message}`)
@@ -746,9 +746,9 @@ const openTrendChartDialog = async student => {
 
 	try {
 		StudentManagerPageAttendance_Records_Dialog.state.attendanceRecordsLoading = true
-		const response = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
-		if (response.code === 200) {
-			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = response.data || []
+		const records = await studentManagerPageStudentAttendanceServer.getStudentAttendanceRecords(student.studentId)
+		if (records) {
+			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords = records
 			trendChartDialogVisible.value = true
 			document.body.style.overflow = 'hidden'
 
@@ -757,7 +757,7 @@ const openTrendChartDialog = async student => {
 				initDialogLineChart()
 			}, 100)
 		} else {
-			ElMessage.error(response.message || '获取考勤记录失败')
+			ElMessage.error('获取考勤记录失败')
 		}
 	} catch (error) {
 		ElMessage.error(`获取考勤记录失败：${error.message}`)
@@ -937,7 +937,7 @@ const initDialogHeatmapChart = () => {
 	// 生成热力图数据
 	const heatmapData = generateHeatmapData()
 	console.log('热力图数据:', heatmapData)
-	console.log('考勤记录:', studentAttendanceRecords.value)
+	console.log('考勤记录:', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 	// 计算数据中的最大值,用于配置颜色映射
 	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
 
@@ -1102,7 +1102,7 @@ const initDialogLineChart = () => {
 	// 生成趋势图数据
 	const lineData = generateLineData()
 	console.log('趋势图数据:', lineData)
-	console.log('考勤记录:', studentAttendanceRecords.value)
+	console.log('考勤记录:', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 
 	// 配置趋势图选项
 	const option = {
@@ -1530,7 +1530,7 @@ const generateLineData = () => {
 	 * 遍历考勤记录,统计每日签到次数
 	 * @description 将每条记录的日期提取出来,统计同一天的签到次数
 	 */
-	StudentManagerPageAttendance_Records_Dialog.studentAttendanceRecords.forEach(record => {
+	StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.forEach(record => {
 		const date = new Date(record.attendanceDateTime)
 		const dateStr = date.toISOString().split('T')[0] // 提取日期部分(YYYY-MM-DD)
 		// 累加该日期的签到次数
@@ -1586,7 +1586,7 @@ const generateHeatmapData = () => {
 			 * 遍历考勤记录,统计当前星期和时段的签到次数
 			 * @description 检查每条记录是否属于当前的星期和时段
 			 */
-			StudentManagerPageAttendance_Records_Dialog.studentAttendanceRecords.forEach(record => {
+			StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.forEach(record => {
 				const date = new Date(record.attendanceDateTime)
 				// 获取星期几(0=周日,1=周一,...,6=周六)
 				// 转换为索引(0=周一,1=周二,...,6=周日)
@@ -1890,7 +1890,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 			@close="StudentManagerPageAttendance_Records_Dialog.closeAttendanceRecordsDialog()"
 		>
 			<div>
-				<div v-if="StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0">
+				<div v-if="!StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords || StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0">
 					<el-icon>
 						<calendar/>
 					</el-icon>
@@ -1969,7 +1969,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 					</el-icon>
 					<p>加载中...</p>
 				</div>
-				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
+				<div v-else-if="!StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords || StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0" class="no-records">
 					<el-icon class="no-records-icon">
 						<calendar/>
 					</el-icon>
@@ -2009,7 +2009,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 					</el-icon>
 					<p>加载中...</p>
 				</div>
-				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
+				<div v-else-if="!StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords || StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0" class="no-records">
 					<el-icon class="no-records-icon">
 						<calendar/>
 					</el-icon>
@@ -2034,4 +2034,5 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 <style scoped src="./css/desktop/StudentManagerPage-PageHeader.css"></style>
 <style scoped src="./css/desktop/StudentManagerPage-StudentCards.css"></style>
 <style scoped src="./css/desktop/StudentManagerPage-Attendance_Records_Dialog.css"></style>
+<style scoped src="./css/desktop/StudentManagerPage-HeatmapChart.css"></style>
 

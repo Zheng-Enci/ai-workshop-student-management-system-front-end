@@ -688,9 +688,9 @@ const openHeatmapDialog = async (student) => {
 	try {
 		attendanceRecordsLoading.value = true
 		// 获取考勤记录数据
-		const response = await getStudentAttendanceRecords(student.studentId)
-		if (response.code === 200) {
-			studentAttendanceRecords.value = response.data || []
+		const records = await getStudentAttendanceRecords(student.studentId)
+		if (records) {
+			studentAttendanceRecords.value = records
 			heatmapDialogVisible.value = true
 			document.body.style.overflow = 'hidden'
 
@@ -700,7 +700,7 @@ const openHeatmapDialog = async (student) => {
 				initDialogHeatmapChart()
 			}, 100)
 		} else {
-			ElMessage.error(response.message || '获取考勤记录失败')
+			ElMessage.error('获取考勤记录失败')
 		}
 	} catch (error) {
 		ElMessage.error(`获取考勤记录失败：${error.message}`)
@@ -735,9 +735,9 @@ const openTrendChartDialog = async (student) => {
 	try {
 		attendanceRecordsLoading.value = true
 		// 获取考勤记录数据
-		const response = await getStudentAttendanceRecords(student.studentId)
-		if (response.code === 200) {
-			studentAttendanceRecords.value = response.data || []
+		const records = await getStudentAttendanceRecords(student.studentId)
+		if (records) {
+			studentAttendanceRecords.value = records
 			trendChartDialogVisible.value = true
 			document.body.style.overflow = 'hidden'
 
@@ -747,7 +747,7 @@ const openTrendChartDialog = async (student) => {
 				initDialogLineChart()
 			}, 100)
 		} else {
-			ElMessage.error(response.message || '获取考勤记录失败')
+			ElMessage.error('获取考勤记录失败')
 		}
 	} catch (error) {
 		ElMessage.error(`获取考勤记录失败：${error.message}`)
@@ -837,7 +837,7 @@ const initDialogHeatmapChart = () => {
 	// 生成热力图数据
 	const heatmapData = generateHeatmapData()
 	console.log('热力图数据:', heatmapData)
-	console.log('考勤记录:', studentAttendanceRecords.value)
+	console.log('考勤记录:', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
 
 	// 热力图配置项
@@ -969,7 +969,7 @@ const initDialogLineChart = () => {
 	// 生成趋势图数据
 	const lineData = generateLineData()
 	console.log('趋势图数据:', lineData)
-	console.log('考勤记录:', studentAttendanceRecords.value)
+	console.log('考勤记录:', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 
 	// 趋势图配置项
 	const option = {
@@ -1765,13 +1765,13 @@ watch(() => studentAttendanceRecords.value, () => {
 						<!-- 总签到次数统计项 -->
 						<div class="summary-item">
 							<span class="summary-label">总签到次数</span>
-							<span class="summary-value">{{ studentAttendanceRecords.length }}</span>
+							<span class="summary-value">{{ studentAttendanceRecords?.length || 0 }}</span>
 						</div>
 					</div>
 				</div>
 
 				<!-- 无考勤记录状态：当学生没有考勤记录时显示 -->
-				<div v-if="studentAttendanceRecords.length === 0" class="no-records">
+				<div v-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
 					<!-- 无记录图标 -->
 					<el-icon class="no-records-icon"><calendar /></el-icon>
 					<!-- 无记录提示文本 -->
@@ -1872,7 +1872,7 @@ watch(() => studentAttendanceRecords.value, () => {
 					<p>加载中...</p>
 				</div>
 				<!-- 无数据状态：无考勤记录时显示 -->
-				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
+				<div v-else-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
 					<!-- 无记录图标 -->
 					<el-icon class="no-records-icon"><calendar /></el-icon>
 					<!-- 无记录提示文本 -->
@@ -1917,7 +1917,7 @@ watch(() => studentAttendanceRecords.value, () => {
 					<p>加载中...</p>
 				</div>
 				<!-- 无数据状态 -->
-				<div v-else-if="studentAttendanceRecords.length === 0" class="no-records">
+				<div v-else-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
 					<el-icon class="no-records-icon"><calendar /></el-icon>
 					<p>暂无考勤记录</p>
 				</div>
