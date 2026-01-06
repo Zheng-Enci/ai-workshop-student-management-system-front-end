@@ -2,8 +2,17 @@
 /**
  * 签到分析页面组件(桌面端)
  *
- * @description 展示签到数据统计分析,包括时段分布、时间线、排行榜等(桌面端)
+ * @description 管理员端桌面端签到数据统计分析组件，提供签到时段分布、时间线趋势、签到排行榜等功能
  * @component AttendanceAnalysisPageDesktop
+ * @author 开发团队
+ * @date 2026-01-06
+ * @version 1.0.0
+ * @dependency vue: ^3.3.0, vue-router: ^4.2.0, element-plus: ^2.0.0, echarts: ^5.4.0
+ * @feature 时段分布饼图展示今日签到时段统计
+ * @feature 时间线图表支持多种时间范围选择查看
+ * @feature 签到排行榜展示学生签到顺序和等级
+ * @feature 实时签到动态显示最新、最早和平均签到时间
+ * @feature 支持亮色/暗色主题切换，图表样式自适应
  */
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
@@ -1078,8 +1087,15 @@ const updateTimelineChart = () => {
 
 /**
  * 加载时间线数据
+ * @async
+ * @function loadTimelineData
  * @returns {Promise<void>}
- * @description 根据选择的时间范围从API获取签到统计数据
+ * @description 根据选择的时间范围从API获取签到统计数据，并更新时间线图表
+ * @param {string} selectedTimeRange - 选择的时间范围（today/yesterday/week/lastWeek/month/lastMonth/last7days/last30days/year/all/custom）
+ * @param {Array<Date>} customDateRange - 自定义日期范围数组，仅当selectedTimeRange为custom时有效
+ * @throws {Error} 当API请求失败时抛出错误
+ * @example
+ * await loadTimelineData()
  */
 const loadTimelineData = async () => {
 	try {
@@ -1195,8 +1211,13 @@ const loadTimelineData = async () => {
 
 /**
  * 加载签到数据
+ * @async
+ * @function loadAttendanceData
  * @returns {Promise<void>}
- * @description 获取今日签到记录并更新所有相关统计和图表
+ * @description 获取今日签到记录并更新所有相关统计和图表，包括总人数、时段统计、排行榜、极值签到记录和平均签到时间
+ * @throws {Error} 当API请求失败时抛出错误
+ * @example
+ * await loadAttendanceData()
  */
 const loadAttendanceData = async () => {
 	try {

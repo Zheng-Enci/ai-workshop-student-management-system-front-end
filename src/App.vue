@@ -5,7 +5,7 @@
   @component App
   @description 作为Vue应用的根组件,定义全局样式和路由视图容器
 -->
-<script>
+<script setup>
 /**
  * 应用根组件
  *
@@ -15,25 +15,24 @@
  * 2. 定义全局样式和基础布局
  * 3. 设置全局字体、颜色主题变量等基础配置
  * 4. 确保应用全屏显示和响应式布局
+ * 5. 配置Element Plus中文语言包
  *
  * @author 前端开发团队
  * @version 1.0.0
  */
-export default {
-	/**
-	 * 组件名称
-	 * @type {string}
-	 */
-	name: 'App'
-}
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 </script>
 
 <template>
-	<!-- 应用主容器,包含路由视图 -->
-	<div class="app-container">
-		<!-- 路由视图:根据当前路由动态渲染对应的页面组件 -->
-		<router-view/>
-	</div>
+	<!-- Element Plus 全局配置：中文语言包 -->
+	<el-config-provider :locale="zhCn">
+		<!-- 应用主容器,包含路由视图 -->
+		<div class="app-container">
+			<!-- 路由视图:根据当前路由动态渲染对应的页面组件 -->
+			<router-view/>
+		</div>
+	</el-config-provider>
 </template>
 
 <style>

@@ -13,6 +13,7 @@
  */
 import { nextTick, onMounted, ref, watch } from 'vue'
 import { ElButton, ElCalendar, ElDatePicker, ElDialog, ElIcon, ElInput, ElMessage, ElMessageBox } from 'element-plus'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'

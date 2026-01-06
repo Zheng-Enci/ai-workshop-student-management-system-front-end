@@ -69,6 +69,12 @@ const router = useRouter()
  */
 const themeStore = useThemeStore()
 
+/**
+ * AI坊图标点击事件处理
+ * @description 点击AI坊图标时触发主题切换功能
+ * @event click
+ */
+
 // ===================== 响应式变量定义区 =====================
 /**
  * 今日考勤人数
@@ -568,7 +574,15 @@ const initMajorChart = data => {
  * 加载页面数据
  * @function loadData
  * @async
- * @description 异步加载页面所需的所有统计数据,包括年级、专业、总人数、考勤等数据
+ * @description 异步加载页面所需的所有统计数据,包括年级分布、专业分布、总人数、考勤数据等
+ * @returns {Promise<void>}
+ * @throws {Error} 当任何数据加载失败时抛出错误
+ * @example
+ * ```javascript
+ * // 调用加载数据函数
+ * await loadData();
+ * console.log('页面数据加载完成');
+ * ```
  */
 const loadData = async () => {
 	try {
@@ -867,16 +881,19 @@ onUnmounted(() => {
 				<div class="stat-card">
 					<div class="stat-label">今日签到总人次</div>
 					<div class="stat-value">{{ todayAttendance }}人</div>
+					<!-- 统计说明：展示当天实际签到的总人次 -->
 				</div>
 				<!-- 本月签到统计卡片 -->
 				<div class="stat-card">
 					<div class="stat-label">本月签到总人数</div>
 					<div class="stat-value">{{ monthlyAttendanceCount }}人</div>
+					<!-- 统计说明：展示当月累计签到的总人数 -->
 				</div>
 				<!-- 坊内成员统计卡片 -->
 				<div class="stat-card">
 					<div class="stat-label">坊内成员人数</div>
 					<div class="stat-value">{{ workshopMembersCount }}人</div>
+					<!-- 统计说明：展示AI坊内成员（管理员+核心成员+普通成员）的总人数 -->
 				</div>
 			</div>
 
@@ -995,10 +1012,18 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/**
+ * 页面主样式文件引入
+ * @description 引入DashboardPageMobile.css作为主要样式文件
+ */
 @import './css/DashboardPageMobile.css';
 </style>
 
 <style>
+/**
+ * 时间范围选择器样式
+ * @description 自定义时间范围选择器的布局和间距，使用弹性布局确保在移动设备上良好显示
+ */
 .time-radio-group {
   display: flex;
   flex-wrap: wrap;
@@ -1006,10 +1031,18 @@ onUnmounted(() => {
   align-items: center;
 }
 
+/**
+ * 单选按钮样式
+ * @description 为时间范围选择器中的单选按钮提供基础样式，移除默认边距
+ */
 .time-radio-group .el-radio-button {
   margin: 0;
 }
 
+/**
+ * 单选按钮内部样式
+ * @description 定义单选按钮的内部样式，包括内边距、字体大小、边框圆角和过渡效果
+ */
 .time-radio-group .el-radio-button__inner {
   padding: 6px 12px;
   font-size: 12px;
@@ -1017,12 +1050,20 @@ onUnmounted(() => {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+/**
+ * 暗色模式下单选按钮内部样式
+ * @description 定义暗色模式下单选按钮的内部样式，调整颜色和背景色以适应暗色主题
+ */
 html.dark .time-radio-group .el-radio-button__inner {
   color: #e2e8f0;
   background-color: #1e293b;
   border-color: #334155;
 }
 
+/**
+ * 选中状态下单选按钮样式
+ * @description 定义选中状态下单选按钮的样式，突出显示当前选中的选项
+ */
 .time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
   color: #fff;
   background-color: #409eff;
@@ -1030,6 +1071,10 @@ html.dark .time-radio-group .el-radio-button__inner {
   box-shadow: 0 2px 8px rgb(64 158 255 / 0.3);
 }
 
+/**
+ * 暗色模式下选中状态单选按钮样式
+ * @description 定义暗色模式下选中状态单选按钮的样式，使用不同的颜色方案适应暗色主题
+ */
 :where(.dark) .time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
   color: #fff;
   background-color: #667eea;
