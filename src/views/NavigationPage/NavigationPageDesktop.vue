@@ -803,7 +803,7 @@ onMounted(() => {
 							<div class="section-divider"/>
 						</div>
 
-						<div class="navigation-grid grid-4-cols">
+						<div class="navigation-grid">
 							<div class="nav-card" @click="goToDashboard">
 								<div class="nav-icon">
 									<el-icon size="28">
