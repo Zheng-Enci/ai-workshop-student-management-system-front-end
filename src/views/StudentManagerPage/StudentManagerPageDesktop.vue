@@ -100,24 +100,6 @@ const themeStore = useThemeStore()
 // ===================== 响应式变量定义区 =====================
 
 /**
- * 学生管理页面状态管理实例
- * @type {Object}
- * @description 管理学生管理页面的全局状态，包括学生列表、考勤记录等数据
- * @property {Array} managedStudents - 管理的学生列表
- * @property {string} adminStudentAvatarUrl - 管理员头像URL
- * @property {Function} refreshManagedStudents - 刷新管理学生列表的方法
- */
-const studentManagerPage = StudentManagerPage
-
-/**
- * 主题切换状态管理实例
- * @type {Store}
- * @description 管理应用主题切换(亮色/暗色模式)
- * @property {boolean} isDark - 是否为暗色模式
- * @property {Function} toggleTheme - 切换主题的方法
- */
-const themeStore = useThemeStore()
-/**
  * 管理的学生列表
  * @type {Ref<Array>}
  * @description 存储当前管理员负责管理的所有学生数据
