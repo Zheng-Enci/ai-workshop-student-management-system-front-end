@@ -80,12 +80,20 @@ html.dark .student-cards-list-item * {
 	display: flex;
 	align-items: center;
 	gap: 16px;
+	padding: 12px;
+	border-radius: 12px;
+	background-color: var(--bg-tertiary);
+	flex-wrap: wrap;
 }
+
 /* 学生卡片内容单个学生卡片其他信息块 */
 .student-cards-list-item-other_info {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 4px;
+	gap: 12px 20px;
+	padding: 12px;
+	border-radius: 12px;
+	background-color: var(--bg-tertiary);
 }
 .student-cards-list-item-other_info div {
 	margin-right: 16px;
