@@ -14,7 +14,6 @@ import {
 	Star,
 	UserFilled,
 	House,
-	TrendCharts,
 	Trophy,
 	Coin,
 	Document
@@ -222,15 +221,6 @@ const handleAvatarClick = () => {
  */
 const goToDashboard = () => {
 	router.push('/dashboard')
-}
-
-/**
- * 跳转到考勤分析页面
- * @function goToAttendanceAnalysis
- * @description 点击考勤分析入口时触发,跳转到考勤分析页面
- */
-const goToAttendanceAnalysis = () => {
-	router.push('/attendance-analysis')
 }
 
 /**
@@ -823,18 +813,6 @@ onMounted(() => {
 								<div class="nav-content">
 									<div class="nav-label">数据看板</div>
 									<div class="nav-description">查看数据统计图表</div>
-								</div>
-							</div>
-
-							<div class="nav-card" @click="goToAttendanceAnalysis">
-								<div class="nav-icon">
-									<el-icon size="28">
-										<trend-charts/>
-									</el-icon>
-								</div>
-								<div class="nav-content">
-									<div class="nav-label">签到分析</div>
-									<div class="nav-description">查看签到时段分析</div>
 								</div>
 							</div>
 

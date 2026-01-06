@@ -16,7 +16,7 @@
 
 // ===================== 依赖导入区 =====================
 // Element Plus 图标组件导入
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, TrendCharts, ArrowRight, Trophy, Coin, Document } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, ArrowRight, Trophy, Coin, Document } from '@element-plus/icons-vue'
 // Element Plus 核心组件导入
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
 // Vue3 核心API导入
@@ -216,15 +216,6 @@ const handleAvatarClick = () => {
  */
 const goToDashboard = () => {
 	ElMessage.info('数据看板功能仅支持电脑端查看,请在电脑上访问')
-}
-
-/**
- * 跳转到考勤分析页面
- * @function goToAttendanceAnalysis
- * @description 点击考勤分析入口时触发,跳转到考勤分析页面
- */
-const goToAttendanceAnalysis = () => {
-	router.push('/attendance-analysis')
 }
 
 /**
@@ -753,22 +744,6 @@ onMounted(() => {
 								<div class="card-text">
 									<h3>数据看板</h3>
 									<p>查看数据统计图表</p>
-								</div>
-								<div class="card-arrow">
-									<el-icon><arrow-right /></el-icon>
-								</div>
-							</div>
-						</div>
-
-						<div class="feature-card" @click="goToAttendanceAnalysis">
-							<div class="card-background"/>
-							<div class="card-content">
-								<div class="card-icon">
-									<el-icon size="28"><trend-charts /></el-icon>
-								</div>
-								<div class="card-text">
-									<h3>签到分析</h3>
-									<p>查看签到时段分析</p>
 								</div>
 								<div class="card-arrow">
 									<el-icon><arrow-right /></el-icon>
