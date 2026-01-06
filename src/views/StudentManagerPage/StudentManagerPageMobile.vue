@@ -50,7 +50,6 @@ import 'element-plus/theme-chalk/el-calendar.css'
 import {
 	User,          // 用户图标
 	Calendar,// 日历图标
-	Star,          // 星星/热力图图标
 	Refresh,       // 刷新图标
 	Loading,       // 加载中图标
 	ArrowLeft,     // 返回箭头图标
@@ -59,7 +58,6 @@ import {
 	Check,         // 确认勾选图标
 	Search,        // 搜索图标
 	Sort,          // 排序图标
-	TrendCharts    // 趋势图图标
 } from '@element-plus/icons-vue'
 
 // Vue Router 路由钩子导入
@@ -69,8 +67,7 @@ import {useRouter} from 'vue-router'
 // 考勤相关接口
 import {
 	getStudentAttendanceCount,  // 获取学生签到次数
-	makeupAttendance,           // 学生补卡操作
-	getStudentAttendanceRecords // 获取学生考勤记录列表
+	makeupAttendance            // 学生补卡操作
 } from '@/api/attendance'
 
 // 学生相关接口
@@ -91,32 +88,7 @@ const studentManagerPageUtils = StudentManagerPageUtils
 const studentManagerPage = StudentManagerPage
 
 // ======================== ECharts 可视化配置区 ========================
-// ECharts 核心库导入
-import * as echarts from 'echarts/core'
-// ECharts 图表类型导入
-import {LineChart, HeatmapChart} from 'echarts/charts'
-// ECharts 组件导入
-import {
-	TitleComponent,      // 标题组件
-	TooltipComponent,    // 提示框组件
-	GridComponent,       // 网格组件
-	LegendComponent,     // 图例组件
-	VisualMapComponent   // 视觉映射组件（热力图用）
-} from 'echarts/components'
-// ECharts 渲染器导入
-import {CanvasRenderer} from 'echarts/renderers'
-
-// 注册ECharts需要的组件和渲染器
-echarts.use([
-	TitleComponent,
-	TooltipComponent,
-	GridComponent,
-	LegendComponent,
-	VisualMapComponent,
-	LineChart,
-	HeatmapChart,
-	CanvasRenderer
-])
+// 不再需要ECharts，已删除热力图和趋势图功能
 
 // ======================== 响应式数据定义区 ========================
 const router = useRouter()                     // 路由实例
@@ -128,14 +100,6 @@ const searchQuery = ref('')                    // 搜索框输入内容
 const filteredStudents = ref([])               // 搜索过滤后的学生列表
 const sortOrder = ref('default')               // 排序方式：default-默认 | attendance-按签到次数
 
-// ECharts 实例相关响应式引用
-const heatmapChart = ref(null)                 // 热力图容器DOM引用
-const lineChart = ref(null)                    // 趋势图容器DOM引用
-const heatmapInstance = ref(null)              // 热力图ECharts实例
-const lineInstance = ref(null)                 // 趋势图ECharts实例
-const heatmapDialogChart = ref(null)           // 弹窗内热力图容器DOM引用
-const trendDialogChart = ref(null)             // 弹窗内趋势图容器DOM引用
-
 // 补卡功能相关响应式数据
 const attendanceCounts = ref({})               // 学生签到次数缓存 {studentId: count}
 const makeupDialogVisible = ref(false)         // 补卡弹窗显示状态
@@ -145,16 +109,6 @@ const makeupForm = ref({                       // 补卡表单数据
 	attendanceTime: ''                           // 补卡时间
 })
 const makeupLoading = ref(false)               // 补卡操作加载状态
-
-// 考勤记录功能相关响应式数据
-const attendanceRecordsDialogVisible = ref(false) // 考勤记录弹窗显示状态
-const studentAttendanceRecords = ref([])          // 选中学生的考勤记录列表
-const calendarValue = ref(new Date())             // 日历组件当前选中日期
-const attendanceRecordsLoading = ref(false)       // 考勤记录加载状态
-
-// 可视化弹窗相关响应式数据
-const heatmapDialogVisible = ref(false)       // 热力图弹窗显示状态
-const trendChartDialogVisible = ref(false)    // 趋势图弹窗显示状态
 
 // 日期选择器快捷选项配置
 const timeShortcuts = [
@@ -605,6 +559,15 @@ const goBack = () => {
 }
 
 /**
+ * 显示仅电脑端可用提示
+ * @function showPCOnlyTip
+ * @description 点击考勤记录按钮时显示提示
+ */
+const showPCOnlyTip = () => {
+	ElMessage.info('查看该学生详细签到记录请前往电脑端')
+}
+
+/**
  * 打开补卡弹窗
  * @param {Object} student - 要补卡的学生对象
  */
@@ -697,101 +660,7 @@ const openAttendanceRecordsDialog = async (student) => {
 }
 
 /**
- * 关闭考勤记录弹窗
- */
-const closeAttendanceRecordsDialog = () => {
-	attendanceRecordsDialogVisible.value = false
-	studentAttendanceRecords.value = []
-	selectedStudent.value = null
-}
-
-/**
- * 打开热力图弹窗
- * @param {Object} student - 要查看的学生对象
- */
-const openHeatmapDialog = async (student) => {
-	selectedStudent.value = student
-	attendanceRecordsLoading.value = true
-	try {
-		// 调用API获取学生考勤记录
-		const response = await getStudentAttendanceRecords(student.studentId)
-
-		if (response.code === 200) {
-			// 成功获取考勤记录，更新本地状态
-			studentAttendanceRecords.value = response.data.attendanceRecords || []
-			heatmapDialogVisible.value = true
-			// 在下一个tick后初始化图表
-			await nextTick()
-			await initializeHeatmapDialogChart()
-		} else {
-			ElMessage.error(response.message || '获取考勤记录失败')
-		}
-	} catch (error) {
-		ElMessage.error(error.message || '获取考勤记录失败')
-	} finally {
-		attendanceRecordsLoading.value = false
-	}
-}
-
-/**
- * 关闭热力图弹窗
- */
-const closeHeatmapDialog = () => {
-	heatmapDialogVisible.value = false
-	studentAttendanceRecords.value = []
-	selectedStudent.value = null
-	// 销毁图表实例
-	if (heatmapInstance.value) {
-		heatmapInstance.value.dispose()
-		heatmapInstance.value = null
-	}
-}
-
-/**
- * 打开趋势图弹窗
- * @param {Object} student - 要查看的学生对象
- */
-const openTrendChartDialog = async (student) => {
-	selectedStudent.value = student
-	attendanceRecordsLoading.value = true
-	try {
-		// 调用API获取学生考勤记录
-		const response = await getStudentAttendanceRecords(student.studentId)
-
-		if (response.code === 200) {
-			// 成功获取考勤记录，更新本地状态
-			studentAttendanceRecords.value = response.data.attendanceRecords || []
-			trendChartDialogVisible.value = true
-			// 在下一个tick后初始化图表
-			await nextTick()
-			await initializeTrendDialogChart()
-		} else {
-			ElMessage.error(response.message || '获取考勤记录失败')
-		}
-	} catch (error) {
-		ElMessage.error(error.message || '获取考勤记录失败')
-	} finally {
-		attendanceRecordsLoading.value = false
-	}
-}
-
-/**
- * 关闭趋势图弹窗
- */
-const closeTrendChartDialog = () => {
-	trendChartDialogVisible.value = false
-	studentAttendanceRecords.value = []
-	selectedStudent.value = null
-	// 销毁图表实例
-	if (lineInstance.value) {
-		lineInstance.value.dispose()
-		lineInstance.value = null
-	}
-}
-
-/**
- * 初始化弹窗热力图
- * 在DOM更新完成后调用，创建ECharts实例并配置图表
+ * 已删除考勤记录、热力图、趋势图功能，请在电脑端查看
  */
 const initializeHeatmapDialogChart = async () => {
 	if (!heatmapDialogChart.value) return
@@ -1692,16 +1561,6 @@ watch(() => studentAttendanceRecords.value, () => {
 					<el-button
 						type="success"
 						size="small"
-						@click="openAttendanceRecordsDialog(student)"
-					>
-						<el-icon>
-							<calendar/>
-						</el-icon>
-						考勤记录
-					</el-button>
-					<el-button
-						type="warning"
-						size="small"
 						@click="openMakeupDialog(student)"
 					>
 						<el-icon>
@@ -1712,22 +1571,12 @@ watch(() => studentAttendanceRecords.value, () => {
 					<el-button
 						type="info"
 						size="small"
-						@click="openHeatmapDialog(student)"
+						@click="showPCOnlyTip"
 					>
 						<el-icon>
-							<star/>
+							<calendar/>
 						</el-icon>
-						热力图
-					</el-button>
-					<el-button
-						type="primary"
-						size="small"
-						@click="openTrendChartDialog(student)"
-					>
-						<el-icon>
-							<trend-charts/>
-						</el-icon>
-						趋势图
+						考勤记录
 					</el-button>
 				</div>
 			</div>
