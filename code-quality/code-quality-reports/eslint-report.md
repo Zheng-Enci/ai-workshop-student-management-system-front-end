@@ -6,8 +6,8 @@
 |------|------|
 | 检查文件数 | 78 |
 | 错误总数 | 1544 |
-| 警告总数 | 1021 |
-| 问题总数 | 2565 |
+| 警告总数 | 1032 |
+| 问题总数 | 2576 |
 
 ## 📈 状态评估
 
@@ -17,7 +17,7 @@
 
 | 文件类型 | 文件数 | 错误 | 警告 |
 |---------|--------|------|------|
-| Vue | 36 | 1478 | 526 |
+| Vue | 36 | 1478 | 537 |
 | JavaScript | 42 | 66 | 495 |
 
 ## ⚠️ 有问题的文件
@@ -43,11 +43,11 @@
 | src\views\HomePage\HomePageDesktop.vue | 34 | 4 | ❌ |
 | src\views\AttendancePage\AttendancePageDesktop.vue | 16 | 16 | ❌ |
 | src\views\AllMembersPage\AllMembersPageMobile.vue | 3 | 27 | ❌ |
+| src\views\DashboardPage\DashboardPageMobile.vue | 0 | 30 | ⚠️ |
 | src\composables\admin\StudentPoints.js | 6 | 23 | ❌ |
 | src\composables\admin\StudentLevel.js | 7 | 18 | ❌ |
 | src\composables\admin\StudentPersonalInformation.js | 2 | 20 | ❌ |
 | src\views\StudentManagerPage\js\StudentManagerPage-Attendance_Records_Dialog.js | 2 | 19 | ❌ |
-| src\views\DashboardPage\DashboardPageMobile.vue | 0 | 19 | ⚠️ |
 | src\views\NavigationPage\NavigationPageDesktop.vue | 0 | 19 | ⚠️ |
 | src\composables\admin\StudentAvatar.js | 3 | 14 | ❌ |
 | src\views\DashboardPage\DashboardPageDesktop.vue | 0 | 17 | ⚠️ |
@@ -1645,8 +1645,8 @@
 | 1922 | 1 | ❌ 错误 | max-len | This line has a length of 208. Maximum allowed is 120. |
 | 1927 | 1 | ❌ 错误 | max-len | This line has a length of 270. Maximum allowed is 120. |
 | 1929 | 1 | ❌ 错误 | max-len | This line has a length of 206. Maximum allowed is 120. |
-| 1972 | 1 | ❌ 错误 | max-len | This line has a length of 219. Maximum allowed is 120. |
-| 2012 | 1 | ❌ 错误 | max-len | This line has a length of 219. Maximum allowed is 120. |
+| 1972 | 1 | ❌ 错误 | max-len | This line has a length of 232. Maximum allowed is 120. |
+| 2012 | 1 | ❌ 错误 | max-len | This line has a length of 230. Maximum allowed is 120. |
 
 ### 8. src\api\student.js
 
@@ -2354,7 +2354,42 @@
 | 295 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
 | 296 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 20. src\composables\admin\StudentPoints.js
+### 20. src\views\DashboardPage\DashboardPageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 111 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 242 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 243 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 244 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 269 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 270 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 320 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 321 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 377 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 378 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 401 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 402 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 425 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 510 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 586 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 649 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 650 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 680 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 683 | 1 | ⚠️ 警告 | jsdoc/check-param-names | Duplicate @param "data" |
+| 683 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 684 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 766 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "case". |
+| 781 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "case". |
+| 794 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "case". |
+| 803 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "case". |
+| 812 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "case". |
+| 821 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "case". |
+| 831 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "value". |
+| 844 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "case". |
+
+### 21. src\composables\admin\StudentPoints.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2388,7 +2423,7 @@
 | 367 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 | 369 | 24 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
 
-### 21. src\composables\admin\StudentLevel.js
+### 22. src\composables\admin\StudentLevel.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2418,7 +2453,7 @@
 | 195 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 | 197 | 27 | ❌ 错误 | no-return-await | Redundant use of `await` on a return value. |
 
-### 22. src\composables\admin\StudentPersonalInformation.js
+### 23. src\composables\admin\StudentPersonalInformation.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2445,7 +2480,7 @@
 | 241 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 | 243 | 24 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
 
-### 23. src\views\StudentManagerPage\js\StudentManagerPage-Attendance_Records_Dialog.js
+### 24. src\views\StudentManagerPage\js\StudentManagerPage-Attendance_Records_Dialog.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2470,30 +2505,6 @@
 | 126 | 1 | ⚠️ 警告 | jsdoc/require-param-description | Missing JSDoc @param "value" description. |
 | 126 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "value" type. |
 | 133 | 16 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
-
-### 24. src\views\DashboardPage\DashboardPageMobile.vue
-
-| 行号 | 列号 | 严重程度 | 规则 | 消息 |
-|------|------|----------|------|------|
-| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
-| 117 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
-| 248 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 249 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 250 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 275 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 276 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 326 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 327 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 383 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 384 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 400 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 401 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 417 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 502 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 578 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 641 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
-| 642 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
-| 658 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
 
 ### 25. src\views\NavigationPage\NavigationPageDesktop.vue
 
@@ -3263,4 +3274,4 @@
 
 ---
 
-*报告生成时间: 2026/1/6 14:08:14*
+*报告生成时间: 2026/1/6 14:20:57*
