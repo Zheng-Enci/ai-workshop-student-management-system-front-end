@@ -76,8 +76,8 @@ import {
 } from '@element-plus/icons-vue'
 
 // ===================== 业务变量定义区 =====================
-// 导入获取管理员头像的API（注：原代码此处语法错误，应为import导入，此处保留原逻辑）
-const { getAvatarUrl } = '@/api/student'
+// 导入获取管理员头像的API
+import { getAvatarUrl } from '@/api/student'
 
 // 响应式变量 - 管理员头像URL（参数：2为管理员类型，256为头像尺寸）
 const adminAvatarUrl = ref(getAvatarUrl(2, 256))
