@@ -104,7 +104,7 @@ html.dark .student-cards-list-item {
  * !important确保覆盖其他样式规则
  */
 html.dark .student-cards-list-item * {
-	color: #5a6c7d !important;    /* 中灰色文字，在深色背景下清晰可读 */
+	color: #c8c8c8 !important;    /* 中灰色文字，在深色背景下清晰可读 */
 }
 
 /* ========================================
