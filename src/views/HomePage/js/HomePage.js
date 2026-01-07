@@ -72,11 +72,11 @@ export const useHomePageLogic = () => {
 	}
 
 	/**
-	 * 跳转到考勤分析页面
-	 * 导航到考勤分析页面，查看考勤数据可视化
+	 * 跳转到超级管理员身份验证页面
+	 * 导航到超级管理员身份验证页面，需要特殊密码验证
 	 */
-	const goToAttendanceAnalysis = () => {
-		router.push('/attendance-analysis')
+	const goToAdminSystem = () => {
+		router.push('/admin/desktop')
 	}
 
 	/**
@@ -150,7 +150,7 @@ export const useHomePageLogic = () => {
 		developerAvatar,
 		goToLogin,
 		goToDashboard,
-		goToAttendanceAnalysis,
+		goToAdminSystem,
 		goToPointsDashboard,
 		goToAllMembers,
 		showContactForm,

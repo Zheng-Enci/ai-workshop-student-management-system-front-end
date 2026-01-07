@@ -5,7 +5,7 @@
  * @description 移动端首页,展示系统介绍和快捷入口
  * @component HomePageMobile
  */
-import { User, Calendar, TrendCharts, ArrowRight, Star, Trophy, OfficeBuilding } from '@element-plus/icons-vue'
+import { User, Lock, TrendCharts, ArrowRight, Star, Trophy, OfficeBuilding } from '@element-plus/icons-vue'
 import { ElButton, ElIcon, ElDialog } from 'element-plus'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -78,12 +78,12 @@ const goToDashboard = () => {
 }
 
 /**
- * 跳转到考勤分析页
- * @function goToAttendanceAnalysis
- * @description 点击签到分析功能卡片时触发,跳转到考勤分析页面
+ * 跳转到超级管理员系统
+ * @function goToAdminSystem
+ * @description 点击超级管理员系统功能卡片时触发,跳转到超级管理员身份验证页面
  */
-const goToAttendanceAnalysis = () => {
-	router.push('/attendance-analysis')
+const goToAdminSystem = () => {
+	router.push('/admin/mobile')
 }
 
 /**
@@ -249,13 +249,13 @@ onMounted(() => {
 							<p>实时展示积分排行、考勤统计、成员数据</p>
 						</div>
 
-						<!-- 签到分析入口 -->
-						<div class="feature-card secondary" @click="goToAttendanceAnalysis">
+						<!-- 超级管理员系统入口 -->
+						<div class="feature-card secondary" @click="goToAdminSystem">
 							<div class="feature-icon">
-								<el-icon><calendar /></el-icon>
+								<el-icon><lock /></el-icon>
 							</div>
-							<h3>签到分析</h3>
-							<p>可视化展示签到趋势、出勤率统计</p>
+							<h3>超级管理员系统</h3>
+							<p>管理学生信息、调整积分、处理考勤记录</p>
 						</div>
 
 						<!-- 积分看板入口 -->

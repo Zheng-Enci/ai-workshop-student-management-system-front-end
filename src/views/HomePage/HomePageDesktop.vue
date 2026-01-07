@@ -18,7 +18,7 @@
 // 导入桌面端首页样式文件
 import './css/HomePageDesktop.css'
 // Element Plus 图标组件导入
-import { TrendCharts, Calendar, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
+import { TrendCharts, Lock, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
 // Element Plus 核心组件导入
 import { ElIcon, ElDialog, ElButton } from 'element-plus'
 // Vue3 响应式API导入
@@ -51,7 +51,7 @@ import 'element-plus/dist/index.css'
  * - toggleTheme: 切换明暗主题
  * - goToLogin: 跳转到登录页
  * - goToDashboard: 跳转到数据看板
- * - goToAttendanceAnalysis: 跳转到考勤分析
+ * - goToAdminSystem: 跳转到超级管理员系统
  * - goToPointsDashboard: 跳转到积分看板
  * - goToAllMembers: 跳转到所有成员页面
  */
@@ -59,7 +59,7 @@ const {
 	toggleTheme,
 	goToLogin,
 	goToDashboard,
-	goToAttendanceAnalysis,
+	goToAdminSystem,
 	goToPointsDashboard,
 	goToAllMembers
 } = useHomePageLogic()
@@ -139,7 +139,7 @@ defineExpose({
 		 * @property {Function} setup.toggleTheme - 切换主题模式的方法
 		 * @property {Function} setup.goToLogin - 跳转到登录页的方法
 		 * @property {Function} setup.goToDashboard - 跳转到数据看板的方法
-		 * @property {Function} setup.goToAttendanceAnalysis - 跳转到考勤分析的方法
+		 * @property {Function} setup.goToAdminSystem - 跳转到超级管理员系统的方法
 		 * @property {Function} setup.goToPointsDashboard - 跳转到积分看板的方法
 		 * @property {Function} setup.goToAllMembers - 跳转到所有成员页面的方法
 		 * @property {Ref<boolean>} setup.environmentPolicyVisible - 环境保障政策弹窗显示状态
@@ -243,13 +243,13 @@ defineExpose({
 							<p>实时展示签到排行、考勤统计、成员数据</p>
 						</div>
 
-						<!-- 考勤分析功能卡片:点击跳转到考勤分析页面 -->
-						<div class="feature-card secondary" title="点击查看考勤分析" @click="goToAttendanceAnalysis">
+						<!-- 超级管理员系统功能卡片:点击跳转到超级管理员身份验证页面 -->
+						<div class="feature-card secondary" title="点击进入超级管理员系统" @click="goToAdminSystem">
 							<div class="feature-icon">
-								<el-icon><calendar /></el-icon>
+								<el-icon><lock /></el-icon>
 							</div>
-							<h3>签到分析</h3>
-							<p>可视化展示签到趋势、出勤率统计</p>
+							<h3>超级管理员系统</h3>
+							<p>管理学生信息、调整积分、处理考勤记录</p>
 						</div>
 
 						<!-- 积分看板功能卡片:点击跳转到积分看板页面 -->
