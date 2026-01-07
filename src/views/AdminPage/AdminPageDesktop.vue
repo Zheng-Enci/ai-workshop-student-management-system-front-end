@@ -29,6 +29,7 @@ import {
 
 // Vue 核心组合式API
 import {onMounted, watch, ref, nextTick} from 'vue'
+import {useRouter} from 'vue-router'
 
 // 自定义hooks - 封装管理员页面的核心业务逻辑
 import {useAdminPage} from './js/AdminPage.js'
@@ -72,7 +73,8 @@ import {
 	Document,        // 文档图标
 	Loading,         // 加载图标
 	Box,             // 盒子图标
-	Lock             // 锁图标
+	Lock, House  ,
+	Key
 } from '@element-plus/icons-vue'
 
 // ===================== 业务变量定义区 =====================
@@ -244,6 +246,18 @@ const monthMap = {
 // 月份观察者（预留：用于监听月份变化，暂未初始化）
 const monthObserver = null
 
+// 路由实例
+const router = useRouter()
+
+/**
+ * 前往首页
+ * @function goToHome
+ * @description 跳转到系统首页
+ */
+const goToHome = () => {
+	router.push('/')
+}
+
 // ===================== 生命周期 & 监听 =====================
 /**
  * 组件挂载完成钩子
@@ -298,7 +312,14 @@ watch(calendarValue, async () => {
 		<div class="identify-authentication-page-header">
 			<div class="identify-authentication-page-header-left">
 				<!-- 该按钮前往首页 -->
-				<el-button @click="router.push('/')">返回首页</el-button>
+				<el-button
+					type="primary"
+					:icon="House"
+					circle
+					size="large"
+					@click="goToHome"
+					title="返回首页"
+				/>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
@@ -306,57 +327,51 @@ watch(calendarValue, async () => {
 					@click="toggleTheme"/>
 			</div>
 
-			<h2 class="identify-authentication-page-header-title">身份验证</h2>
+			<h2 class="identify-authentication-page-header-title">超级管理员身份验证</h2>
 			<!-- 这里是一个锁标志 让页面看起来更有安全感 -->
 			<div class="identify-authentication-page-header-right">
-				<el-icon>
-					<lock/>
+				<el-icon class="identify-authentication-page-header-right-icon">
+					<Lock/>
 				</el-icon>
 			</div>
 		</div>
-		<div class="auth-card">
-			<div class="auth-header">
-				<div class="auth-icon-container">
-					<!-- 管理员头像：加载失败时显示默认样式 -->
-					<img
-						v-if="adminAvatarUrl"
-						v-lazy="adminAvatarUrl"
-						alt="Admin Avatar"
-						class="admin-avatar"
-						@error="adminAvatarUrl = null"/>
-					<div v-else class="icon-ring"/>
-				</div>
-			</div>
-			<div class="auth-form">
-				<div class="input-container">
-					<!-- 密码输入框：支持回车提交 -->
-					<el-input
-						v-model="specialPassword"
-						type="password"
-						placeholder="请输入特殊密码"
-						show-password
-						size="large"
-						class="password-input"
-						@keyup.enter="authenticate"
-					>
-						<template #prefix>
-							<el-icon>
-								<lock/>
-							</el-icon>
-						</template>
-					</el-input>
-				</div>
-				<!-- 验证按钮：加载状态禁用 -->
-				<el-button
-					type="primary"
-					size="large"
-					:loading="authLoading"
-					class="auth-button"
-					@click="authenticate"
-				>
-					<span>验证身份</span>
-				</el-button>
-			</div>
+		<!-- 身份认证页面主体 -->
+		<div class="identify-authentication-page-body">
+			<!-- 管理员头像：加载失败时显示默认样式 -->
+			<img
+				v-if="adminAvatarUrl"
+				v-lazy="adminAvatarUrl"
+				alt="Admin Avatar"
+				@error="adminAvatarUrl = null"/>
+			<!-- 密码输入框：支持回车提交 -->
+			<el-input
+				v-model="specialPassword"
+				type="password"
+				placeholder="请输入特殊密码"
+				show-password
+				size="large"
+				@keyup.enter="authenticate"
+			>
+				<template #prefix>
+					<el-icon>
+						<lock/>
+					</el-icon>
+				</template>
+			</el-input>
+
+			<!-- 验证按钮：加载状态禁用 -->
+			<el-button
+				type="primary"
+				size="large"
+				:loading="authLoading"
+				@click="authenticate"
+			>
+				<el-icon>
+					<Key/>
+				</el-icon>
+				<span>验证身份</span>
+			</el-button>
+
 		</div>
 	</div>
 
