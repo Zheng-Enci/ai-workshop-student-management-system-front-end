@@ -1226,3 +1226,97 @@ html:not(.dark) .author-link {
 		max-width: none;
 	}
 }
+
+/* ==================== 首页入场动画（移动端） ==================== */
+
+/* 从上方淡入动画 */
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translateY(-30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 从下方淡入动画 */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 缩放淡入动画 */
+@keyframes zoomIn {
+	from {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* 应用动画到主题切换按钮 */
+.theme-toggle-container {
+	animation: fadeInDown 0.6s ease-out;
+}
+
+/* 应用动画到英雄区域 */
+.hero-section {
+	animation: fadeInUp 0.8s ease-out;
+}
+
+/* 应用动画到标题 */
+.hero-title {
+	animation: fadeInDown 0.6s ease-out 0.2s both;
+}
+
+/* 应用动画到副标题 */
+.hero-subtitle {
+	animation: fadeInDown 0.6s ease-out 0.3s both;
+}
+
+/* 应用动画到快捷入口标签 */
+.hero-right .quick-access-label {
+	animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+/* 应用动画到功能卡片 - 数据看板 */
+.hero-right .feature-card.primary {
+	animation: fadeInUp 0.5s ease-out 0.5s both;
+}
+
+/* 应用动画到功能卡片 - 超级管理员系统 */
+.hero-right .feature-card.secondary {
+	animation: fadeInUp 0.5s ease-out 0.6s both;
+}
+
+/* 应用动画到功能卡片 - 积分看板 */
+.hero-right .feature-card.tertiary {
+	animation: fadeInUp 0.5s ease-out 0.7s both;
+}
+
+/* 应用动画到功能卡片 - 全部成员 */
+.hero-right .feature-card.quaternary {
+	animation: fadeInUp 0.5s ease-out 0.8s both;
+}
+
+/* 应用动画到操作按钮 */
+.action-section {
+	animation: fadeInUp 0.6s ease-out 0.9s both;
+}
+
+/* 应用动画到页脚 */
+.footer {
+	animation: fadeInUp 0.8s ease-out 1s both;
+}
+
