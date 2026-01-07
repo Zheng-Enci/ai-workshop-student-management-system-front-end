@@ -220,7 +220,7 @@ const handleAvatarClick = () => {
  * @description 点击数据看板入口时触发,跳转到数据看板页面
  */
 const goToDashboard = () => {
-	router.push('/dashboard')
+	router.push('/dashboard-desktop')
 }
 
 /**

@@ -189,6 +189,20 @@ const routes = [
 		}
 	},
 	/**
+	 * 数据看板路由（桌面端）
+	 * 桌面设备专用数据看板页面，无需登录认证
+	 */
+	{
+		path: '/dashboard-desktop',
+		name: 'DashboardDesktop',
+		component: () => import('../views/DashboardPage/DashboardPageDesktop.vue'),
+		meta: {
+			requiresAuth: false,
+			title: '数据看板 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统数据看板页面，实时展示积分排行、考勤统计、成员数据，为管理决策提供参考'
+		}
+	},
+	/**
 	 * 个人中心路由（自动适配）
 	 * 需要登录认证，管理个人信息和账号设置
 	 */

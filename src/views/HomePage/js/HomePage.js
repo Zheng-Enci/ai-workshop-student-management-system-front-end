@@ -68,7 +68,7 @@ export const useHomePageLogic = () => {
 	 * 导航到数据看板页面，查看系统统计数据
 	 */
 	const goToDashboard = () => {
-		router.push('/dashboard')
+		router.push('/dashboard-desktop')
 	}
 
 	/**

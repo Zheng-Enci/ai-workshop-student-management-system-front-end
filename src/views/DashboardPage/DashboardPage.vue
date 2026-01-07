@@ -25,6 +25,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, Setting } from '@element-plus/icons-vue'
 import { ElButton, ElIcon } from 'element-plus'
+import DashboardPageDesktop from './DashboardPageDesktop.vue'
 
 // ===================== 全局实例初始化 =====================
 const router = useRouter()
