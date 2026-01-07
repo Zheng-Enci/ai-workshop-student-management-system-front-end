@@ -1732,22 +1732,33 @@ watch(() => studentAttendanceRecords.value, () => {
 					</div>
 				</div>
 				<!-- 学生卡片按钮块 -->
+				<!-- 功能：提供学生操作按钮（补卡、考勤记录） -->
+				<!-- 使用Flexbox水平布局排列按钮 -->
 				<div class="student-cards-list-item-buttons">
+					<!-- 补卡按钮：打开补卡时间选择对话框 -->
+					<!-- type="warning": 使用警告色（橙色）按钮 -->
+					<!-- size="small": 小尺寸按钮，适合卡片内展示 -->
+					<!-- @click: 点击时触发openDatePicker函数，传入当前学生对象 -->
 					<el-button
 						type="warning"
 						size="small"
 						@click="openDatePicker(student)"
 					>
+						<!-- 时钟图标：表示时间选择 -->
 						<el-icon>
 							<clock/>
 						</el-icon>
 						补卡
 					</el-button>
+					<!-- 考勤记录按钮：点击查看学生考勤记录 -->
+					<!-- type="success": 使用成功色（绿色）按钮 -->
+					<!-- 注意：移动端简化显示，提示前往电脑端查看详细记录 -->
 					<el-button
 						type="success"
 						size="small"
 						@click="ElMessage.info('详细考勤记录请前往电脑端查看')"
 					>
+						<!-- 日历图标：表示考勤记录 -->
 						<el-icon>
 							<calendar/>
 						</el-icon>
@@ -1756,9 +1767,11 @@ watch(() => studentAttendanceRecords.value, () => {
 				</div>
 			</div>
 
+			<!-- ======================== 空状态显示区域 ======================== -->
 			<!-- 空状态：无管理学生时显示 -->
+			<!-- 条件：加载完成、原始学生列表为空 -->
 			<div v-if="!loading && managedStudents.length === 0" class="empty-state">
-				<!-- 空状态图标 -->
+				<!-- 空状态图标：用户图标，尺寸64px -->
 				<el-icon size="64" class="empty-icon">
 					<user/>
 				</el-icon>
@@ -1769,9 +1782,10 @@ watch(() => studentAttendanceRecords.value, () => {
 			</div>
 
 			<!-- 搜索无结果状态：搜索后无匹配结果时显示 -->
+			<!-- 条件：加载完成、原始列表有数据、搜索后无结果、搜索框有内容 -->
 			<div v-if="!loading && managedStudents.length > 0 && filteredStudents.length === 0 && searchQuery"
 				 class="no-search-results">
-				<!-- 搜索图标 -->
+				<!-- 搜索图标：提示搜索相关 -->
 				<el-icon size="64" class="empty-icon">
 					<search/>
 				</el-icon>
@@ -1782,8 +1796,9 @@ watch(() => studentAttendanceRecords.value, () => {
 			</div>
 
 			<!-- 加载中状态：数据加载时显示 -->
+			<!-- 条件：loading状态为true -->
 			<div v-if="loading" class="loading-state">
-				<!-- 加载图标 -->
+				<!-- 加载图标：旋转动画效果 -->
 				<el-icon size="32" class="loading-icon">
 					<loading/>
 				</el-icon>
@@ -1792,7 +1807,10 @@ watch(() => studentAttendanceRecords.value, () => {
 			</div>
 		</div>
 
-		<!-- 补卡时间选择对话框 -->
+		<!-- ======================== 补卡时间选择对话框 ======================== -->
+		<!-- 功能：为学生手动添加补卡记录 -->
+		<!-- 宽度：90%以适应移动端屏幕 -->
+		<!-- 关闭行为：点击遮罩层可关闭（:close-on-click-modal="true"） -->
 		<el-dialog
 			v-if="showMakeupDialog"
 			v-model="showMakeupDialog"
@@ -1805,8 +1823,15 @@ watch(() => studentAttendanceRecords.value, () => {
 			class="makeup-attendance-dialog"
 			@close="closeMakeupDialog"
 		>
+			<!-- 补卡表单内容容器 -->
 			<div class="makeup-attendance-form">
-				<!-- 年月日时分选择器 -->
+				<!-- ======================== 日期时间选择器 ======================== -->
+				<!-- 功能：选择补卡的年月日时分 -->
+				<!-- type="datetime": 日期时间选择器 -->
+				<!-- :editable="false": 禁用手动编辑，防止格式错误 -->
+				<!-- :clearable="false": 禁用清空，必须选择时间 -->
+				<!-- value-format: 返回值格式为YYYY-MM-DDTHH:mm:ss -->
+				<!-- inputmode="none": 禁用移动端键盘，只使用弹窗选择 -->
 				<el-date-picker
 					v-model="makeupForm.attendanceTime"
 					type="datetime"
@@ -1821,7 +1846,9 @@ watch(() => studentAttendanceRecords.value, () => {
 					style="width: 100%;"
 				></el-date-picker>
 
-				<!-- 时间段说明 -->
+				<!-- ======================== 时间段说明 ======================== -->
+				<!-- 功能：提示用户有效签到时间段 -->
+				<!-- 说明：补卡时间建议在有效签到时间段内 -->
 				<div class="time-slot-tips">
 					<p>有效签到时间段：</p>
 					<p>• 上午：08:00-11:00</p>
@@ -1829,18 +1856,24 @@ watch(() => studentAttendanceRecords.value, () => {
 					<p>• 晚上：19:00-22:00</p>
 				</div>
 			</div>
+			<!-- ======================== 对话框底部按钮 ======================== -->
 			<template #footer>
 				<div class="dialog-footer">
+					<!-- 取消按钮：关闭对话框，不保存 -->
 					<el-button @click="onMakeupCancel">取消</el-button>
+					<!-- 确认按钮：提交补卡时间，执行补卡操作 -->
+					<!-- type="primary": 使用主题色按钮，强调主要操作 -->
 					<el-button type="primary" @click="onMakeupConfirm">确认</el-button>
 				</div>
 			</template>
 		</el-dialog>
 
 		<!-- ======================== 考勤记录弹窗 ======================== -->
-<!-- 展示学生考勤记录日历，包含早、午、晚三个时段的签到情况 -->
-<!-- 支持日历视图查看、签到状态显示、图例说明等功能 -->
-<!-- 弹窗宽度95%，点击模态框不关闭，确保用户操作安全 -->
+		<!-- 功能：展示学生考勤记录日历，包含早、午、晚三个时段的签到情况 -->
+		<!-- 特性：支持日历视图查看、签到状态显示、图例说明等功能 -->
+		<!-- 宽度：95%以适应移动端屏幕 -->
+		<!-- 关闭行为：点击模态框不关闭（:close-on-click-modal="false"），确保用户操作安全 -->
+		<!-- 生命周期：关闭时销毁组件（:destroy-on-close="true"），避免数据残留 -->
 		<el-dialog
 			v-if="attendanceRecordsDialogVisible"
 			v-model="attendanceRecordsDialogVisible"
@@ -1856,15 +1889,17 @@ watch(() => studentAttendanceRecords.value, () => {
 		>
 			<!-- 考勤记录容器 -->
 			<div class="attendance-records-container">
-				<!-- 记录头部：学生信息和签到统计 -->
+				<!-- ======================== 记录头部区域 ======================== -->
+				<!-- 功能：显示学生基本信息和签到统计数据 -->
 				<div class="records-header">
-					<!-- 学生信息区域 -->
+					<!-- ======================== 学生信息区域 ======================== -->
+					<!-- 功能：显示学生头像、姓名、学号、专业、年级等基本信息 -->
 					<div class="student-info">
-						<!-- 学生头像大图：显示姓名首字 -->
+						<!-- 学生头像大图：显示姓名首字作为标识 -->
 						<div class="student-avatar-large">
 							{{ selectedStudent?.name?.charAt(0) }}
 						</div>
-						<!-- 学生详细信息 -->
+						<!-- 学生详细信息：姓名、学号、专业、年级 -->
 						<div class="student-details">
 							<!-- 学生姓名 -->
 							<h3>{{ selectedStudent?.name }}</h3>
@@ -1874,64 +1909,99 @@ watch(() => studentAttendanceRecords.value, () => {
 							<p>专业：{{ selectedStudent?.major }} | 年级：{{ selectedStudent?.grade }}年级</p>
 						</div>
 					</div>
-					<!-- 签到统计区域 -->
+
+					<!-- ======================== 签到统计区域 ======================== -->
+					<!-- 功能：显示学生总签到次数等统计数据 -->
 					<div class="attendance-summary">
 						<!-- 总签到次数统计项 -->
 						<div class="summary-item">
+							<!-- 统计标签 -->
 							<span class="summary-label">总签到次数</span>
+							<!-- 统计数值：若无记录显示0 -->
 							<span class="summary-value">{{ studentAttendanceRecords?.length || 0 }}</span>
 						</div>
 					</div>
 				</div>
 
-				<!-- 无考勤记录状态：当学生没有考勤记录时显示 -->
+				<!-- ======================== 无考勤记录状态 ======================== -->
+				<!-- 功能：当学生没有考勤记录时显示空状态 -->
+				<!-- 条件：studentAttendanceRecords为空或长度为0 -->
 				<div v-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
-					<!-- 无记录图标 -->
+					<!-- 无记录图标：日历图标 -->
 					<el-icon class="no-records-icon">
 						<calendar/>
 					</el-icon>
 					<!-- 无记录提示文本 -->
 					<p>暂无考勤记录</p>
 				</div>
-				<!-- 日历展示考勤记录：当有考勤记录时显示 -->
+
+				<!-- ======================== 日历展示考勤记录 ======================== -->
+				<!-- 功能：当有考勤记录时，使用日历组件展示每月签到情况 -->
+				<!-- 日历单元格显示日期和三个时段（早、午、晚）的签到状态 -->
+				<!-- 条件：存在考勤记录数据 -->
 				<div v-else class="calendar-container">
-					<!-- 日历组件：展示每月签到情况 -->
+					<!-- ======================== 日历组件 ======================== -->
+					<!-- 功能：展示每月日历，自定义每个日期单元格的内容 -->
+					<!-- 绑定：v-model绑定calendarValue响应式变量 -->
 					<el-calendar v-model="calendarValue" class="attendance-calendar">
-						<!-- 日历头部：自定义标题和操作按钮 -->
+						<!-- ======================== 日历头部插槽 ======================== -->
+						<!-- 功能：自定义日历头部，显示当前年月和操作按钮 -->
+						<!-- 参数：date - 当前显示的日期 -->
 						<template #header="{ date }">
 							<div class="calendar-header">
 								<!-- 日历标题：显示当前年月 -->
+								<!-- 使用formatCalendarTitle函数格式化为"YYYY年MM月" -->
 								<div class="header-title">{{ formatCalendarTitle(date) }}</div>
 								<!-- 日历操作按钮：上个月、今天、下个月 -->
 								<div class="header-actions">
+									<!-- 上个月按钮：切换到上个月 -->
 									<el-button size="small" @click="prevMonth">上个月</el-button>
+									<!-- 今天按钮：快速回到当前月份 -->
 									<el-button size="small" @click="goToday">今天</el-button>
+									<!-- 下个月按钮：切换到下个月 -->
 									<el-button size="small" @click="nextMonth">下个月</el-button>
 								</div>
 							</div>
 						</template>
-						<!-- 日历单元格：自定义日期单元格内容 -->
+
+						<!-- ======================== 日历单元格插槽 ======================== -->
+						<!-- 功能：自定义每个日期单元格的内容 -->
+						<!-- 参数：data - 包含日期等信息的数据对象 -->
+						<!-- 显示：日期数字 + 早/午/晚三个时段的签到状态 -->
 						<template #date-cell="{ data }">
 							<!-- 日历单元格容器 -->
 							<div class="calendar-cell-admin">
-								<!-- 日期数字 -->
+								<!-- 日期数字：从data.day中提取日期部分（YYYY-MM-DD -> DD） -->
 								<div class="cell-date-admin">{{ data.day.split('-')[2] }}</div>
 								<!-- 签到状态：显示早、午、晚三个时段的签到情况 -->
+								<!-- 已签到的时段会添加'signed'类名，显示不同颜色 -->
 								<div class="cell-status-admin">
+									<!-- 时段状态容器 -->
 									<div class="time-slot-status-admin">
-										<!-- 早上时段签到状态 -->
+										<!-- ======================== 早上时段签到状态 ======================== -->
+										<!-- 时间范围：8:00-11:00 -->
+										<!-- 动态类名：isTimeSlotSigned(data.day, 'morning')返回true时添加signed类 -->
 										<div class="time-slot-admin morning"
 											 :class="{ 'signed': isTimeSlotSigned(data.day, 'morning') }">
+											<!-- 时段标签 -->
 											<span class="time-label-admin">早</span>
 										</div>
-										<!-- 下午时段签到状态 -->
+
+										<!-- ======================== 下午时段签到状态 ======================== -->
+										<!-- 时间范围：14:00-17:00 -->
+										<!-- 动态类名：isTimeSlotSigned(data.day, 'afternoon')返回true时添加signed类 -->
 										<div class="time-slot-admin afternoon"
 											 :class="{ 'signed': isTimeSlotSigned(data.day, 'afternoon') }">
+											<!-- 时段标签 -->
 											<span class="time-label-admin">午</span>
 										</div>
-										<!-- 晚上时段签到状态 -->
+
+										<!-- ======================== 晚上时段签到状态 ======================== -->
+										<!-- 时间范围：19:00-22:00 -->
+										<!-- 动态类名：isTimeSlotSigned(data.day, 'evening')返回true时添加signed类 -->
 										<div class="time-slot-admin evening"
 											 :class="{ 'signed': isTimeSlotSigned(data.day, 'evening') }">
+											<!-- 时段标签 -->
 											<span class="time-label-admin">晚</span>
 										</div>
 									</div>
@@ -1939,38 +2009,49 @@ watch(() => studentAttendanceRecords.value, () => {
 							</div>
 						</template>
 					</el-calendar>
-					<!-- 日历图例：说明各时段的时间范围 -->
+
+					<!-- ======================== 日历图例 ======================== -->
+					<!-- 功能：说明各时段的颜色含义和时间范围 -->
 					<div class="calendar-legend">
 						<!-- 早上时段图例 -->
 						<div class="legend-item">
+							<!-- 图例圆点：早时段的颜色标识 -->
 							<div class="legend-dot morning"/>
+							<!-- 图例说明文字 -->
 							<span>早上 (8:00-11:00)</span>
 						</div>
 						<!-- 下午时段图例 -->
 						<div class="legend-item">
+							<!-- 图例圆点：午时段的颜色标识 -->
 							<div class="legend-dot afternoon"/>
+							<!-- 图例说明文字 -->
 							<span>下午 (14:00-17:00)</span>
 						</div>
 						<!-- 晚上时段图例 -->
 						<div class="legend-item">
+							<!-- 图例圆点：晚时段的颜色标识 -->
 							<div class="legend-dot evening"/>
+							<!-- 图例说明文字 -->
 							<span>晚上 (19:00-22:00)</span>
 						</div>
 					</div>
 				</div>
 			</div>
-			<!-- 弹窗底部：关闭按钮 -->
+
+			<!-- ======================== 考勤记录弹窗底部 ======================== -->
 			<template #footer>
 				<div class="dialog-footer">
+					<!-- 关闭按钮：关闭考勤记录弹窗 -->
 					<el-button @click="closeAttendanceRecordsDialog">关闭</el-button>
 				</div>
 			</template>
 		</el-dialog>
 
 		<!-- ======================== 热力图弹窗 ======================== -->
-<!-- 展示学生签到热力图，直观显示一周内各时段的签到频率 -->
-<!-- 使用颜色深浅表示签到次数多少，红色表示高频签到时段 -->
-<!-- 弹窗宽度80%，关闭时销毁实例，避免内存泄漏 -->
+		<!-- 功能：展示学生签到热力图，直观显示一周内各时段的签到频率 -->
+		<!-- 特性：使用颜色深浅表示签到次数多少，颜色越深签到次数越多 -->
+		<!-- 宽度：80%以适应移动端屏幕 -->
+		<!-- 生命周期：关闭时销毁实例（destroy-on-close），避免内存泄漏 -->
 		<el-dialog
 			v-if="heatmapDialogVisible"
 			v-model="heatmapDialogVisible"
@@ -1984,49 +2065,62 @@ watch(() => studentAttendanceRecords.value, () => {
 			modal-class="heatmap-overlay"
 			@close="closeHeatmapDialog"
 		>
-			<!-- 热力图弹窗内容 -->
+			<!-- 热力图弹窗内容容器 -->
 			<div class="heatmap-dialog-content">
-				<!-- 加载中状态：数据加载时显示 -->
+				<!-- ======================== 加载中状态 ======================== -->
+				<!-- 功能：数据加载时显示加载动画 -->
+				<!-- 条件：attendanceRecordsLoading为true -->
 				<div v-if="attendanceRecordsLoading" class="loading-container">
-					<!-- 加载图标 -->
+					<!-- 加载图标：旋转动画 -->
 					<el-icon class="loading-icon">
 						<loading/>
 					</el-icon>
 					<!-- 加载提示文本 -->
 					<p>加载中...</p>
 				</div>
-				<!-- 无数据状态：无考勤记录时显示 -->
+
+				<!-- ======================== 无数据状态 ======================== -->
+				<!-- 功能：无考勤记录时显示空状态 -->
+				<!-- 条件：studentAttendanceRecords为空或长度为0 -->
 				<div v-else-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
-					<!-- 无记录图标 -->
+					<!-- 无记录图标：日历图标 -->
 					<el-icon class="no-records-icon">
 						<calendar/>
 					</el-icon>
 					<!-- 无记录提示文本 -->
 					<p>暂无考勤记录</p>
 				</div>
-				<!-- 热力图容器：展示签到热力图 -->
+
+				<!-- ======================== 热力图容器 ======================== -->
+				<!-- 功能：展示签到热力图 -->
+				<!-- 条件：存在考勤记录数据 -->
 				<div v-else class="chart-container">
 					<!-- 热力图图表项 -->
 					<div class="chart-item-admin">
-						<!-- 图表标题 -->
+						<!-- 图表标题：说明图表类型 -->
 						<div class="chart-title-admin">签到热力图</div>
-						<!-- 图表内容容器 -->
+						<!-- 图表内容容器：ECharts挂载点 -->
+						<!-- ref: 挂载ECharts实例的DOM引用 -->
 						<div ref="heatmapDialogChart" class="chart-content-admin"/>
 					</div>
 				</div>
 			</div>
+
+			<!-- ======================== 热力图弹窗底部 ======================== -->
 			<template #footer>
 				<div class="dialog-footer">
+					<!-- 关闭按钮：关闭热力图弹窗 -->
 					<el-button @click="closeHeatmapDialog">关闭</el-button>
 				</div>
 			</template>
 		</el-dialog>
 
 		<!-- ======================== 趋势图弹窗 ======================== -->
-<!-- 展示学生签到趋势图，显示一段时间内的签到频率变化 -->
-<!-- 使用折线图展示签到次数随时间的变化趋势 -->
-<!-- 支持查看不同时间段的签到趋势，帮助分析学生出勤规律 -->
-<!-- 弹窗宽度80%，关闭时销毁实例，避免内存泄漏 -->
+		<!-- 功能：展示学生签到趋势图，显示一段时间内的签到频率变化 -->
+		<!-- 特性：使用折线图展示签到次数随时间的变化趋势 -->
+		<!-- 用途：支持查看不同时间段的签到趋势，帮助分析学生出勤规律 -->
+		<!-- 宽度：80%以适应移动端屏幕 -->
+		<!-- 生命周期：关闭时销毁实例（destroy-on-close），避免内存泄漏 -->
 		<el-dialog
 			v-if="trendChartDialogVisible"
 			v-model="trendChartDialogVisible"
@@ -2040,31 +2134,51 @@ watch(() => studentAttendanceRecords.value, () => {
 			modal-class="trend-overlay"
 			@close="closeTrendChartDialog"
 		>
+			<!-- 趋势图弹窗内容容器 -->
 			<div class="trend-chart-dialog-content">
-				<!-- 加载中状态 -->
+				<!-- ======================== 加载中状态 ======================== -->
+				<!-- 功能：数据加载时显示加载动画 -->
+				<!-- 条件：attendanceRecordsLoading为true -->
 				<div v-if="attendanceRecordsLoading" class="loading-container">
+					<!-- 加载图标：旋转动画 -->
 					<el-icon class="loading-icon">
 						<loading/>
 					</el-icon>
+					<!-- 加载提示文本 -->
 					<p>加载中...</p>
 				</div>
-				<!-- 无数据状态 -->
+
+				<!-- ======================== 无数据状态 ======================== -->
+				<!-- 功能：无考勤记录时显示空状态 -->
+				<!-- 条件：studentAttendanceRecords为空或长度为0 -->
 				<div v-else-if="!studentAttendanceRecords || studentAttendanceRecords.length === 0" class="no-records">
+					<!-- 无记录图标：日历图标 -->
 					<el-icon class="no-records-icon">
 						<calendar/>
 					</el-icon>
+					<!-- 无记录提示文本 -->
 					<p>暂无考勤记录</p>
 				</div>
-				<!-- 趋势图容器 -->
+
+				<!-- ======================== 趋势图容器 ======================== -->
+				<!-- 功能：展示签到趋势图 -->
+				<!-- 条件：存在考勤记录数据 -->
 				<div v-else class="chart-container">
+					<!-- 趋势图图表项 -->
 					<div class="chart-item-admin">
+						<!-- 图表标题：说明图表类型 -->
 						<div class="chart-title-admin">签到趋势图</div>
+						<!-- 图表内容容器：ECharts挂载点 -->
+						<!-- ref: 挂载ECharts实例的DOM引用 -->
 						<div ref="trendDialogChart" class="chart-content-admin"/>
 					</div>
 				</div>
 			</div>
+
+			<!-- ======================== 趋势图弹窗底部 ======================== -->
 			<template #footer>
 				<div class="dialog-footer">
+					<!-- 关闭按钮：关闭趋势图弹窗 -->
 					<el-button @click="closeTrendChartDialog">关闭</el-button>
 				</div>
 			</template>
@@ -2073,11 +2187,17 @@ watch(() => studentAttendanceRecords.value, () => {
 </template>
 
 <!-- ======================== 样式文件导入区 ======================== -->
+<!-- 功能：按模块引入独立的CSS样式文件，提高代码可维护性 -->
+<!-- 使用scoped限定样式作用域，避免样式污染 -->
+
 <!-- 页面头部样式：包含页面标题、用户信息、主题切换等组件样式 -->
 <style scoped src="./css/mobile/StudentManagerPage-PageHeader.css"></style>
+
 <!-- 搜索功能样式：包含搜索框、筛选器、搜索结果等组件样式 -->
 <style scoped src="./css/mobile/StudentManagerPage-Search.css"></style>
+
 <!-- 学生卡片样式：包含学生信息卡片、状态显示、交互按钮等组件样式 -->
 <style scoped src="./css/mobile/StudentManagerPage-StudentCards.css"></style>
+
 <!-- 日期时间选择器样式：包含补卡功能的日期时间选择器组件样式 -->
 <style scoped src="./css/mobile/StudentManagerPage-DatePicker.css"></style>

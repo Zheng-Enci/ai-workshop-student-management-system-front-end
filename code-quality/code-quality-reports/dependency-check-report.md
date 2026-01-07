@@ -4,6 +4,7 @@
 
 ```
 Unused dependencies
+* vant
 Unused devDependencies
 * cross-env
 
@@ -17,4 +18,4 @@ Unused devDependencies
 
 ---
 
-*报告生成时间: 2026/1/6 16:56:26*
+*报告生成时间: 2026/1/7 08:56:46*
