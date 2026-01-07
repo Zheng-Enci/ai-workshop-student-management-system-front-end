@@ -18,11 +18,11 @@ import {onMounted, watch, ref, nextTick} from 'vue' // Vue3核心组合式API
 
 // 导入管理员页面核心业务逻辑（状态管理、方法封装）
 // useAdminPage包含所有管理员页面所需的响应式数据和业务方法
-import {useAdminPage} from './AdminPage.js'
+import {useAdminPage} from './js/AdminPage.js'
 
 // 导入移动端专属样式文件
 // 移动端样式适配不同的屏幕尺寸和交互方式
-import './css/AdminPageMobile.css'
+import './css/mobile/AdminPageMobile.css'
 
 // Element Plus 组件按需导入（仅导入移动端使用的组件）
 // 按需导入可以减小打包体积，提升移动端性能

@@ -1,0 +1,27 @@
+/**
+ * ============================================================================
+ * 超级管理员页面 - 身份验证页面头部样式
+ * ============================================================================
+ */
+
+/* ==================== 页面头部 ==================== */
+.identify-authentication-page-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px 32px;
+}
+.identify-authentication-page-header-left {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+.identify-authentication-page-header-left img {
+	width: 64px;
+	height: 64px;
+}
+
+.identify-authentication-page-header-right .el-icon {
+	font-size: 64px;
+}
+

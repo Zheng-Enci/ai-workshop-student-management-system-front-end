@@ -28,10 +28,10 @@ import {
 } from 'element-plus'
 
 // Vue 核心组合式API
-import { onMounted, watch, ref, nextTick } from 'vue'
+import {onMounted, watch, ref, nextTick} from 'vue'
 
 // 自定义hooks - 封装管理员页面的核心业务逻辑
-import { useAdminPage } from './AdminPage.js'
+import {useAdminPage} from './js/AdminPage.js'
 
 // Element Plus 样式导入（按需导入）
 import 'element-plus/theme-chalk/el-message.css'
@@ -77,7 +77,7 @@ import {
 
 // ===================== 业务变量定义区 =====================
 // 导入获取管理员头像的API
-import { getAvatarUrl } from '@/api/student'
+import {getAvatarUrl} from '@/api/student'
 
 // 响应式变量 - 管理员头像URL（参数：2为管理员类型，256为头像尺寸）
 const adminAvatarUrl = ref(getAvatarUrl(2, 256))
@@ -293,17 +293,26 @@ watch(calendarValue, async () => {
 
 <template>
 	<!-- 1. 身份验证界面：未认证时显示 -->
-	<div v-if="!isAuthenticated" class="auth-section">
-		<div class="auth-page-header">
-			<img
-				src="@/assets/AiWorkShop_icon.png"
-				alt="AI坊学生管理系统"
-				class="auth-logo"
-				title="切换主题模式"
-				@click="toggleTheme"/>
-		</div>
-		<div class="page-title-container">
-			<h2 class="page-title">身份验证</h2>
+	<div v-if="!isAuthenticated">
+		<!-- 身份认证页面顶部 -->
+		<div class="identify-authentication-page-header">
+			<div class="identify-authentication-page-header-left">
+				<!-- 该按钮前往首页 -->
+				<el-button @click="router.push('/')">返回首页</el-button>
+				<img
+					src="@/assets/AiWorkShop_icon.png"
+					alt="AI坊学生管理系统"
+					title="切换主题模式"
+					@click="toggleTheme"/>
+			</div>
+
+			<h2 class="identify-authentication-page-header-title">身份验证</h2>
+			<!-- 这里是一个锁标志 让页面看起来更有安全感 -->
+			<div class="identify-authentication-page-header-right">
+				<el-icon>
+					<lock/>
+				</el-icon>
+			</div>
 		</div>
 		<div class="auth-card">
 			<div class="auth-header">
@@ -314,7 +323,7 @@ watch(calendarValue, async () => {
 						v-lazy="adminAvatarUrl"
 						alt="Admin Avatar"
 						class="admin-avatar"
-						@error="adminAvatarUrl = null" />
+						@error="adminAvatarUrl = null"/>
 					<div v-else class="icon-ring"/>
 				</div>
 			</div>
@@ -331,7 +340,9 @@ watch(calendarValue, async () => {
 						@keyup.enter="authenticate"
 					>
 						<template #prefix>
-							<el-icon><lock /></el-icon>
+							<el-icon>
+								<lock/>
+							</el-icon>
 						</template>
 					</el-input>
 				</div>
@@ -396,7 +407,9 @@ watch(calendarValue, async () => {
 					size="small"
 					class="logout-btn"
 					@click="logout">
-					<el-icon><switch-button /></el-icon>
+					<el-icon>
+						<switch-button/>
+					</el-icon>
 					退出登录
 				</el-button>
 			</div>
@@ -406,7 +419,9 @@ watch(calendarValue, async () => {
 		<div class="admin-stats">
 			<div class="stat-card">
 				<div class="stat-icon">
-					<el-icon><user /></el-icon>
+					<el-icon>
+						<user/>
+					</el-icon>
 				</div>
 				<div class="stat-content">
 					<div class="stat-value">{{ totalStudents }}</div>
@@ -415,7 +430,9 @@ watch(calendarValue, async () => {
 			</div>
 			<div class="stat-card" style="cursor: pointer;" @click="showTodayAttendance">
 				<div class="stat-icon">
-					<el-icon><calendar /></el-icon>
+					<el-icon>
+						<calendar/>
+					</el-icon>
 				</div>
 				<div class="stat-content">
 					<div class="stat-value">{{ todayCount }}</div>
@@ -424,7 +441,9 @@ watch(calendarValue, async () => {
 			</div>
 			<div class="stat-card">
 				<div class="stat-icon">
-					<el-icon><trend-charts /></el-icon>
+					<el-icon>
+						<trend-charts/>
+					</el-icon>
 				</div>
 				<div class="stat-content">
 					<div class="stat-value">{{ monthlyCount }}</div>
@@ -446,11 +465,15 @@ watch(calendarValue, async () => {
 						class="search-input"
 					>
 						<template #prefix>
-							<el-icon><search /></el-icon>
+							<el-icon>
+								<search/>
+							</el-icon>
 						</template>
 					</el-input>
 					<el-button :loading="isLoading" type="primary" @click="refreshData">
-						<el-icon><refresh /></el-icon>
+						<el-icon>
+							<refresh/>
+						</el-icon>
 						刷新数据
 					</el-button>
 				</div>
@@ -486,13 +509,14 @@ watch(calendarValue, async () => {
 					:data-level="studentLevels[student.studentId] || 0">
 					<!-- 学生基础信息行：头像 + 基本信息 + 签到次数 + 积分 -->
 					<div class="student-main-row">
-						<div class="student-avatar" :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
+						<div class="student-avatar"
+							 :class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
 							<img
 								v-if="student.hasAvatar && student.avatarUrl"
 								v-lazy="student.avatarUrl"
 								alt="头像"
 								class="avatar-image"
-								@error="handleAvatarError(student)" />
+								@error="handleAvatarError(student)"/>
 							<span v-else class="avatar-text">{{ student.name.charAt(0) }}</span>
 						</div>
 						<div class="student-primary-info">
@@ -501,16 +525,26 @@ watch(calendarValue, async () => {
 							<div class="student-db-id">唯一ID: {{ student.id }}</div>
 						</div>
 						<div class="attendance-count">
-							<el-icon class="attendance-icon"><calendar /></el-icon>
-							<span class="count-text">{{ studentAttendanceCounts[student.studentId] || 0 }}次</span>
+							<el-icon class="attendance-icon">
+								<calendar/>
+							</el-icon>
+							<span class="count-text">{{
+									studentAttendanceCounts[student.studentId] || 0
+								}}次</span>
 						</div>
 						<div class="points-info">
 							<div class="points-summary">
-								<span class="points-total">总积分: {{ Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) + ((studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0) }}</span>
+								<span class="points-total">总积分: {{
+										Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) + ((studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0)
+									}}</span>
 							</div>
 							<div class="points-details">
-								<span class="points-type">签到: {{ Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) }}</span>
-								<span class="points-type">活动: {{ (studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0 }}</span>
+								<span class="points-type">签到: {{
+										Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64)
+									}}</span>
+								<span class="points-type">活动: {{
+										(studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0
+									}}</span>
 							</div>
 						</div>
 					</div>
@@ -547,7 +581,9 @@ watch(calendarValue, async () => {
 								class="records-btn"
 								@click="openAttendanceRecordsDialog(student)"
 							>
-								<el-icon><calendar /></el-icon>
+								<el-icon>
+									<calendar/>
+								</el-icon>
 								考勤记录
 							</el-button>
 							<!-- 补卡按钮 -->
@@ -557,7 +593,9 @@ watch(calendarValue, async () => {
 								class="makeup-btn"
 								@click="openMakeupDialog(student)"
 							>
-								<el-icon><clock /></el-icon>
+								<el-icon>
+									<clock/>
+								</el-icon>
 								补卡
 							</el-button>
 							<!-- 热力图按钮 -->
@@ -567,7 +605,9 @@ watch(calendarValue, async () => {
 								class="heatmap-btn"
 								@click="openHeatmapDialog(student)"
 							>
-								<el-icon><trend-charts /></el-icon>
+								<el-icon>
+									<trend-charts/>
+								</el-icon>
 								热力图
 							</el-button>
 							<!-- 趋势图按钮 -->
@@ -577,7 +617,9 @@ watch(calendarValue, async () => {
 								class="trend-btn"
 								@click="openTrendDialog(student)"
 							>
-								<el-icon><trend-charts /></el-icon>
+								<el-icon>
+									<trend-charts/>
+								</el-icon>
 								趋势图
 							</el-button>
 							<!-- 修改积分按钮 -->
@@ -587,7 +629,9 @@ watch(calendarValue, async () => {
 								class="points-btn"
 								@click="openPointsDialog(student)"
 							>
-								<el-icon><edit /></el-icon>
+								<el-icon>
+									<edit/>
+								</el-icon>
 								修改积分
 							</el-button>
 							<!-- 改分记录按钮 -->
@@ -597,7 +641,9 @@ watch(calendarValue, async () => {
 								class="score-records-btn"
 								@click="openScoreChangeRecordsDialog(student)"
 							>
-								<el-icon><document /></el-icon>
+								<el-icon>
+									<document/>
+								</el-icon>
 								改分记录
 							</el-button>
 						</div>
@@ -634,13 +680,18 @@ watch(calendarValue, async () => {
 						<div class="admin-management">
 							<span class="management-label">所属管理员：</span>
 							<!-- 管理员身份提示：等级3为管理员，无需分配 -->
-							<div v-if="(studentLevels[student.studentId] || 0) === 3" class="admin-level-notice">
-								<el-icon class="admin-icon"><user-filled /></el-icon>
+							<div v-if="(studentLevels[student.studentId] || 0) === 3"
+								 class="admin-level-notice">
+								<el-icon class="admin-icon">
+									<user-filled/>
+								</el-icon>
 								<span>管理员身份</span>
 							</div>
 							<!-- 无可用管理员提示 -->
 							<div v-else-if="adminOptions.length === 0" class="no-admin-available">
-								<el-icon class="warning-icon"><warning /></el-icon>
+								<el-icon class="warning-icon">
+									<warning/>
+								</el-icon>
 								<span>暂无可用的管理员</span>
 							</div>
 							<!-- 管理员下拉选择器 -->
@@ -662,7 +713,9 @@ watch(calendarValue, async () => {
 										:value="option.value"
 									>
 										<div class="admin-option">
-											<el-icon class="option-icon"><user-filled /></el-icon>
+											<el-icon class="option-icon">
+												<user-filled/>
+											</el-icon>
 											<div class="option-text">
 												<div class="option-name">{{ option.student.name }}</div>
 												<div class="option-id">{{ option.student.studentId }}</div>
@@ -681,7 +734,9 @@ watch(calendarValue, async () => {
 									class="edit-btn"
 									@click="openEditDialog(student)"
 								>
-									<el-icon><edit /></el-icon>
+									<el-icon>
+										<edit/>
+									</el-icon>
 									编辑
 								</el-button>
 							</el-tooltip>
@@ -739,33 +794,33 @@ watch(calendarValue, async () => {
 				class="edit-form"
 			>
 				<el-form-item label="姓名" prop="name">
-					<el-input v-model="editForm.name" placeholder="请输入学生姓名" />
+					<el-input v-model="editForm.name" placeholder="请输入学生姓名"/>
 				</el-form-item>
 				<el-form-item label="学号" prop="studentId">
-					<el-input v-model="editForm.studentId" placeholder="请输入学号" />
+					<el-input v-model="editForm.studentId" placeholder="请输入学号"/>
 				</el-form-item>
 				<el-form-item label="性别" prop="gender">
 					<el-select v-model="editForm.gender" placeholder="请选择性别" style="width: 100%">
-						<el-option label="男" value="男" />
-						<el-option label="女" value="女" />
+						<el-option label="男" value="男"/>
+						<el-option label="女" value="女"/>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="手机号" prop="phoneNumber">
-					<el-input v-model="editForm.phoneNumber" placeholder="请输入手机号" />
+					<el-input v-model="editForm.phoneNumber" placeholder="请输入手机号"/>
 				</el-form-item>
 				<el-form-item label="学院" prop="college">
-					<el-input v-model="editForm.college" placeholder="请输入学院" />
+					<el-input v-model="editForm.college" placeholder="请输入学院"/>
 				</el-form-item>
 				<el-form-item label="专业" prop="major">
-					<el-input v-model="editForm.major" placeholder="请输入专业" />
+					<el-input v-model="editForm.major" placeholder="请输入专业"/>
 				</el-form-item>
 				<el-form-item label="年级" prop="grade">
 					<el-select v-model="editForm.grade" placeholder="请选择年级" style="width: 100%">
-						<el-option label="1年级" :value="1" />
-						<el-option label="2年级" :value="2" />
-						<el-option label="3年级" :value="3" />
-						<el-option label="4年级" :value="4" />
-						<el-option label="5年级" :value="5" />
+						<el-option label="1年级" :value="1"/>
+						<el-option label="2年级" :value="2"/>
+						<el-option label="3年级" :value="3"/>
+						<el-option label="4年级" :value="4"/>
+						<el-option label="5年级" :value="5"/>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="班级" prop="classNum">
@@ -809,7 +864,9 @@ watch(calendarValue, async () => {
 		>
 			<div class="attendance-records-container">
 				<div v-if="todayAttendanceRecords.length === 0" class="no-records">
-					<el-icon class="no-records-icon"><calendar /></el-icon>
+					<el-icon class="no-records-icon">
+						<calendar/>
+					</el-icon>
 					<p>今日暂无签到记录</p>
 				</div>
 				<div v-else class="records-list">
@@ -832,7 +889,9 @@ watch(calendarValue, async () => {
 								<div class="student-id">{{ record.scheduleId }}</div>
 							</div>
 							<div class="attendance-time">
-								<el-icon class="time-icon"><clock /></el-icon>
+								<el-icon class="time-icon">
+									<clock/>
+								</el-icon>
 								<span class="time-text">{{ formatAttendanceTime(record.attendanceTime) }}</span>
 							</div>
 						</div>
@@ -878,7 +937,8 @@ watch(calendarValue, async () => {
 			</div>
 
 			<div class="attendance-records-container">
-				<el-calendar v-model="calendarValue" :locale="zhCn" class="attendance-calendar-admin attendance-fullcalendar">
+				<el-calendar v-model="calendarValue" :locale="zhCn"
+							 class="attendance-calendar-admin attendance-fullcalendar">
 					<template #header="{ date }">
 						<div class="calendar-header-admin">
 							<div class="header-title-admin">{{ formatCalendarTitle(date) }}</div>
@@ -932,8 +992,11 @@ watch(calendarValue, async () => {
 						该日期无签到记录
 					</div>
 					<div v-else>
-						<div v-for="(time, index) in getDateAttendanceTimes(selectedDate)" :key="index" class="attendance-time-item-admin">
-							<el-icon class="time-icon-admin"><clock /></el-icon>
+						<div v-for="(time, index) in getDateAttendanceTimes(selectedDate)" :key="index"
+							 class="attendance-time-item-admin">
+							<el-icon class="time-icon-admin">
+								<clock/>
+							</el-icon>
 							<span class="time-text-admin">{{ formatAttendanceTime(time) }}</span>
 							<span class="time-slot-label-admin">{{ getTimeSlotLabel(time) }}</span>
 						</div>
@@ -1048,7 +1111,9 @@ watch(calendarValue, async () => {
 		>
 			<div class="makeup-header">
 				<div class="header-icon">
-					<el-icon size="28"><clock /></el-icon>
+					<el-icon size="28">
+						<clock/>
+					</el-icon>
 				</div>
 				<div class="header-content">
 					<h3>学生补卡</h3>
@@ -1059,12 +1124,16 @@ watch(calendarValue, async () => {
 			<div class="makeup-content">
 				<div class="student-info-card">
 					<div class="student-avatar">
-						<el-icon size="36"><user /></el-icon>
+						<el-icon size="36">
+							<user/>
+						</el-icon>
 					</div>
 					<div class="student-details">
 						<div class="student-name">{{ makeupSelectedStudent?.name }}</div>
 						<div class="student-id">{{ makeupSelectedStudent?.studentId }}</div>
-						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 · {{ makeupSelectedStudent?.major }}</div>
+						<div class="student-grade">{{ makeupSelectedStudent?.grade }}年级 ·
+							{{ makeupSelectedStudent?.major }}
+						</div>
 					</div>
 				</div>
 
@@ -1080,7 +1149,9 @@ watch(calendarValue, async () => {
 							class="date-shortcut-btn"
 							@click="selectDatetimeShortcut(shortcut)"
 						>
-							<el-icon><clock /></el-icon>
+							<el-icon>
+								<clock/>
+							</el-icon>
 							<span>{{ shortcut.label }}</span>
 						</el-button>
 					</div>
@@ -1107,7 +1178,9 @@ watch(calendarValue, async () => {
 								@change="handleDateChange"
 							>
 								<template #prefix-icon>
-									<el-icon><calendar /></el-icon>
+									<el-icon>
+										<calendar/>
+									</el-icon>
 								</template>
 							</el-date-picker>
 						</el-form-item>
@@ -1118,7 +1191,9 @@ watch(calendarValue, async () => {
 				<div v-if="makeupStep === 'hour'" class="makeup-step-content">
 					<div class="step-title">第二步：选择补卡时间</div>
 					<div class="selected-date-display">
-						<el-icon><calendar /></el-icon>
+						<el-icon>
+							<calendar/>
+						</el-icon>
 						<span>已选择日期：{{ formatSelectedDate() }}</span>
 					</div>
 					<div class="hour-buttons-group">
@@ -1142,7 +1217,9 @@ watch(calendarValue, async () => {
 							</template>
 						</div>
 						<div class="form-tip">
-							<el-icon><warning /></el-icon>
+							<el-icon>
+								<warning/>
+							</el-icon>
 							<span>补卡时间必须在有效签到时间段内（早上 08:00-11:00、下午 14:00-17:00、晚上 19:00-22:00），且不能晚于当前时间</span>
 						</div>
 					</div>
@@ -1178,7 +1255,9 @@ watch(calendarValue, async () => {
 					size="large"
 					@click="submitMakeup"
 				>
-					<el-icon v-if="!makeupLoading"><clock /></el-icon>
+					<el-icon v-if="!makeupLoading">
+						<clock/>
+					</el-icon>
 					{{ makeupLoading ? '处理中...' : '确认补卡' }}
 				</el-button>
 			</div>
@@ -1206,7 +1285,9 @@ watch(calendarValue, async () => {
 					<div class="student-info-details">
 						<div class="student-name-card">{{ pointsSelectedStudent.name }}</div>
 						<div class="student-id-card">学号：{{ pointsSelectedStudent.studentId }}</div>
-						<div class="student-major-card">{{ pointsSelectedStudent.major }} | {{ pointsSelectedStudent.grade }}年级</div>
+						<div class="student-major-card">{{ pointsSelectedStudent.major }} |
+							{{ pointsSelectedStudent.grade }}年级
+						</div>
 					</div>
 				</div>
 			</div>
@@ -1226,7 +1307,9 @@ watch(calendarValue, async () => {
 						style="width: 100%"
 					/>
 					<div class="form-tip">
-						<el-icon><warning /></el-icon>
+						<el-icon>
+							<warning/>
+						</el-icon>
 						<span>正数表示加分，负数表示扣分</span>
 					</div>
 				</el-form-item>
@@ -1273,7 +1356,8 @@ watch(calendarValue, async () => {
 					<h3>{{ currentScoreChangeRecordsStudent?.name || '学生' }}</h3>
 					<p>学号：{{ currentScoreChangeRecordsStudent?.studentId }}</p>
 					<p v-if="currentScoreChangeRecordsStudent?.major && currentScoreChangeRecordsStudent?.grade">
-						专业：{{ currentScoreChangeRecordsStudent.major }} | 年级：{{ currentScoreChangeRecordsStudent.grade }}年级
+						专业：{{ currentScoreChangeRecordsStudent.major }} |
+						年级：{{ currentScoreChangeRecordsStudent.grade }}年级
 					</p>
 				</div>
 				<div class="attendance-summary">
@@ -1283,7 +1367,8 @@ watch(calendarValue, async () => {
 					</div>
 					<div class="summary-item">
 						<span class="summary-label">总调整分数</span>
-						<span class="summary-value" :class="{ positive: totalScoreChangePoints >= 0, negative: totalScoreChangePoints < 0 }">
+						<span class="summary-value"
+							  :class="{ positive: totalScoreChangePoints >= 0, negative: totalScoreChangePoints < 0 }">
 							{{ totalScoreChangePoints > 0 ? `+${totalScoreChangePoints}` : totalScoreChangePoints }}
 						</span>
 					</div>
@@ -1292,12 +1377,16 @@ watch(calendarValue, async () => {
 
 			<!-- 加载状态 -->
 			<div v-if="scoreChangeRecordsLoading" class="records-loading">
-				<el-icon class="is-loading"><loading /></el-icon>
+				<el-icon class="is-loading">
+					<loading/>
+				</el-icon>
 				<span>加载中...</span>
 			</div>
 			<!-- 无记录状态 -->
 			<div v-else-if="scoreChangeRecords.length === 0" class="records-empty">
-				<el-icon><box /></el-icon>
+				<el-icon>
+					<box/>
+				</el-icon>
 				<span>暂无改分记录</span>
 			</div>
 			<!-- 记录列表 -->
@@ -1310,7 +1399,8 @@ watch(calendarValue, async () => {
 					>
 						<div class="record-header">
 							<span class="record-time">{{ formatTime(record.createTime) }}</span>
-							<span class="record-points-badge" :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
+							<span class="record-points-badge"
+								  :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
 								{{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
 							</span>
 						</div>
@@ -1327,4 +1417,6 @@ watch(calendarValue, async () => {
 	</div>
 </template>
 
-<style scoped src = "./css/AdminPageDesktop.css"></style>
+<style scoped src="./css/desktop/AdminPageDesktop.css"></style>
+<style scoped src="./css/desktop/AdminPage-identify_authentication_page.css"></style>
+

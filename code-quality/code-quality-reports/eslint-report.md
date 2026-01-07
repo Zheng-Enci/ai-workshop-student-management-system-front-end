@@ -25,7 +25,7 @@
 | 文件路径 | 错误数 | 警告数 | 状态 |
 |---------|--------|--------|------|
 | src\views\AdminPage\AdminPageMobile.vue | 421 | 14 | ❌ |
-| src\views\StudentManagerPage\StudentManagerPageMobile.vue | 158 | 49 | ❌ |
+| src\views\StudentManagerPage\StudentManagerPageMobile.vue | 148 | 49 | ❌ |
 | src\views\AdminPage\AdminPageDesktop.vue | 165 | 0 | ❌ |
 | src\views\AdminPage\AdminPage.js | 29 | 98 | ❌ |
 | src\views\AttendancePage\AttendancePageMobile.vue | 92 | 28 | ❌ |
@@ -51,6 +51,7 @@
 | src\api\StudentApi.js | 0 | 14 | ⚠️ |
 | src\api\points.js | 0 | 14 | ⚠️ |
 | src\views\NavigationPage\NavigationPageMobile.vue | 2 | 11 | ❌ |
+| src\views\HomePage\HomePageMobile.vue | 10 | 1 | ❌ |
 | src\api\AttendanceApi.js | 0 | 10 | ⚠️ |
 | src\views\LoginPage\LoginPage.vue | 6 | 4 | ❌ |
 | src\App.vue | 7 | 2 | ❌ |
@@ -71,20 +72,19 @@
 | src\views\StudentManagerPage\js\StudentManagerPage.js | 1 | 4 | ❌ |
 | src\api\StatisticsApi.js | 0 | 4 | ⚠️ |
 | src\router\index.js | 0 | 4 | ⚠️ |
+| src\views\DashboardPage\DashboardPage.vue | 3 | 1 | ❌ |
 | src\views\PointsDashboardPage\PointsDashboardPage.vue | 3 | 1 | ❌ |
 | src\views\ProfilePage\ProfilePage.vue | 3 | 1 | ❌ |
 | src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageDesktop.vue | 0 | 4 | ⚠️ |
 | src\views\StudentManagerPage\js\StudentManagerPageUtils.js | 0 | 4 | ⚠️ |
 | src\api\super_admin.js | 0 | 3 | ⚠️ |
 | src\stores\user.js | 0 | 3 | ⚠️ |
-| src\views\DashboardPage\DashboardPage.vue | 2 | 1 | ❌ |
 | src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPage.vue | 2 | 1 | ❌ |
 | src\views\StudentManagerPage\StudentManagerPage.vue | 2 | 1 | ❌ |
 | src\api\StudentManagementApi.js | 0 | 2 | ⚠️ |
 | src\composables\ApiInterceptor.js | 0 | 2 | ⚠️ |
 | src\views\AllMembersPage\AllMembersPage.vue | 1 | 1 | ❌ |
 | src\views\HomePage\HomePage.vue | 0 | 2 | ⚠️ |
-| src\views\HomePage\HomePageMobile.vue | 1 | 1 | ❌ |
 | src\views\HomePage\js\HomePage.js | 0 | 2 | ⚠️ |
 | src\views\ProfilePage\js\ProfilePageUtils.js | 0 | 2 | ⚠️ |
 | src\stores\theme.js | 0 | 1 | ⚠️ |
@@ -720,29 +720,19 @@
 | 1481 | 33 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
 | 1482 | 8 | ❌ 错误 | prefer-destructuring | Use object destructuring. |
 | 1650 | 6 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
-| 1772 | 9 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
-| 1773 | 4 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
-| 1773 | 5 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
-| 1810 | 5 | ❌ 错误 | vue/html-self-closing | Require self-closing on Vue.js custom components (<el-date-picker>). |
-| 1841 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 1842 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 1843 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 1923 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
-| 1924 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
-| 1924 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
-| 1928 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
-| 1929 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
-| 1929 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
-| 1933 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
-| 1934 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
-| 1934 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
-| 1971 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 1972 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 1973 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 2026 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 2027 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 2028 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
-| 2029 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 0 tabs. |
+| 1786 | 9 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1787 | 4 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1787 | 5 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 1835 | 5 | ❌ 错误 | vue/html-self-closing | Require self-closing on Vue.js custom components (<el-date-picker>). |
+| 1984 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1985 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1985 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 1993 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1994 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1994 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 2002 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 2003 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 2003 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
 
 ### 3. src\views\AdminPage\AdminPageDesktop.vue
 
@@ -2147,7 +2137,23 @@
 | 384 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 | 439 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 28. src\api\AttendanceApi.js
+### 28. src\views\HomePage\HomePageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 77 | 2 | ❌ 错误 | no-undef | 'ElMessage' is not defined. |
+| 350 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 351 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 352 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 353 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 354 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 355 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 356 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 368 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+
+### 29. src\api\AttendanceApi.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2162,7 +2168,7 @@
 | 53 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "date" type. |
 | 54 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 29. src\views\LoginPage\LoginPage.vue
+### 30. src\views\LoginPage\LoginPage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2177,7 +2183,7 @@
 | 176 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 | 186 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 
-### 30. src\App.vue
+### 31. src\App.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2446,7 +2452,7 @@
 | 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
 | 24 | 18 | ❌ 错误 | import/no-unresolved | Unable to resolve path to module 'element-plus/es/locale/lang/zh-cn'. |
 
-### 31. src\stores\admin.js
+### 32. src\stores\admin.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2460,7 +2466,7 @@
 | 71 | 5 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 | 72 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 32. src\views\PointsDashboardPage\js\PointsDashboardPageUtils.js
+### 33. src\views\PointsDashboardPage\js\PointsDashboardPageUtils.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2474,7 +2480,7 @@
 | 112 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "top" type. |
 | 113 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 33. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageMobile.vue
+### 34. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageMobile.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2488,7 +2494,7 @@
 | 128 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 | 297 | 1 | ❌ 错误 | max-len | This line has a length of 149. Maximum allowed is 120. |
 
-### 34. src\views\AllMembersPage\js\AllMembersPageUtils.js
+### 35. src\views\AllMembersPage\js\AllMembersPageUtils.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2501,7 +2507,7 @@
 | 65 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "endRank" type. |
 | 66 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 35. src\views\AllMembersPage\js\PointsServer.js
+### 36. src\views\AllMembersPage\js\PointsServer.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2514,7 +2520,7 @@
 | 40 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
 | 41 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 36. src\views\AttendancePage\AttendancePage.vue
+### 37. src\views\AttendancePage\AttendancePage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2527,7 +2533,7 @@
 | 69 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 | 94 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 
-### 37. src\views\PointsDashboardPage\js\PointsDashboardPage.js
+### 38. src\views\PointsDashboardPage\js\PointsDashboardPage.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2540,7 +2546,7 @@
 | 118 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 | 157 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 38. src\views\RegisterPage\RegisterPage.vue
+### 39. src\views\RegisterPage\RegisterPage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2553,7 +2559,7 @@
 | 178 | 5 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
 | 201 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 39. src\api\PointsApi.js
+### 40. src\api\PointsApi.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2564,7 +2570,7 @@
 | 37 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
 | 38 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 40. src\views\AdminPage\AdminPage.vue
+### 41. src\views\AdminPage\AdminPage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2575,7 +2581,7 @@
 | 30 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 | 46 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 
-### 41. src\views\AllMembersPage\js\AdjustRecordsDialogManager.js
+### 42. src\views\AllMembersPage\js\AdjustRecordsDialogManager.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2586,7 +2592,7 @@
 | 110 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "points" type. |
 | 111 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 42. src\views\AllMembersPage\js\PersonalInformation.js
+### 43. src\views\AllMembersPage\js\PersonalInformation.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2597,7 +2603,7 @@
 | 68 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
 | 68 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 43. src\views\StudentManagerPage\js\StudentManagerPageStudentAttendanceServer.js
+### 44. src\views\StudentManagerPage\js\StudentManagerPageStudentAttendanceServer.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2608,7 +2614,7 @@
 | 38 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentAttendanceRecords" type. |
 | 39 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 44. src\components\ThemeToggle.vue
+### 45. src\components\ThemeToggle.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2618,7 +2624,7 @@
 | 29 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag (preference). Replace "const" JSDoc tag with "constant". |
 | 30 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag (preference). Replace "const" JSDoc tag with "constant". |
 
-### 45. src\views\StudentManagerPage\js\StudentManagerPage.js
+### 46. src\views\StudentManagerPage\js\StudentManagerPage.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2628,7 +2634,7 @@
 | 18 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 | 30 | 5 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
 
-### 46. src\api\StatisticsApi.js
+### 47. src\api\StatisticsApi.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2637,16 +2643,25 @@
 | 35 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
 | 35 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 47. src\router\index.js
+### 48. src\router\index.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
-| 478 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
-| 479 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
-| 494 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
-| 495 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "isValid" type. |
+| 492 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 493 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 508 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 509 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "isValid" type. |
 
-### 48. src\views\PointsDashboardPage\PointsDashboardPage.vue
+### 49. src\views\DashboardPage\DashboardPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 26 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `vue` |
+| 27 | 1 | ❌ 错误 | import/order | There should be at least one empty line between import groups |
+| 27 | 1 | ❌ 错误 | import/order | `element-plus` import should occur before import of `vue` |
+
+### 50. src\views\PointsDashboardPage\PointsDashboardPage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2655,7 +2670,7 @@
 | 26 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 | 27 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 49. src\views\ProfilePage\ProfilePage.vue
+### 51. src\views\ProfilePage\ProfilePage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2664,7 +2679,7 @@
 | 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
 | 17 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 
-### 50. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageDesktop.vue
+### 52. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageDesktop.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2673,7 +2688,7 @@
 | 98 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 | 129 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 51. src\views\StudentManagerPage\js\StudentManagerPageUtils.js
+### 53. src\views\StudentManagerPage\js\StudentManagerPageUtils.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2682,7 +2697,7 @@
 | 17 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
 | 18 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 52. src\api\super_admin.js
+### 54. src\api\super_admin.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2690,7 +2705,7 @@
 | 32 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
 | 32 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 53. src\stores\user.js
+### 55. src\stores\user.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2698,15 +2713,7 @@
 | 37 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
 | 55 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "level" type. |
 
-### 54. src\views\DashboardPage\DashboardPage.vue
-
-| 行号 | 列号 | 严重程度 | 规则 | 消息 |
-|------|------|----------|------|------|
-| 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
-| 26 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `vue` |
-| 27 | 1 | ❌ 错误 | import/order | `element-plus` import should occur before import of `vue` |
-
-### 55. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPage.vue
+### 56. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2714,7 +2721,7 @@
 | 26 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 | 27 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 56. src\views\StudentManagerPage\StudentManagerPage.vue
+### 57. src\views\StudentManagerPage\StudentManagerPage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
@@ -2722,40 +2729,33 @@
 | 20 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
 | 21 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
 
-### 57. src\api\StudentManagementApi.js
+### 58. src\api\StudentManagementApi.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
 | 8 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
 | 9 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 58. src\composables\ApiInterceptor.js
+### 59. src\composables\ApiInterceptor.js
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
 | 26 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 | 51 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "api" type. |
 
-### 59. src\views\AllMembersPage\AllMembersPage.vue
+### 60. src\views\AllMembersPage\AllMembersPage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
 | 15 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
 | 27 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
 
-### 60. src\views\HomePage\HomePage.vue
+### 61. src\views\HomePage\HomePage.vue
 
 | 行号 | 列号 | 严重程度 | 规则 | 消息 |
 |------|------|----------|------|------|
 | 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
 | 18 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
-
-### 61. src\views\HomePage\HomePageMobile.vue
-
-| 行号 | 列号 | 严重程度 | 规则 | 消息 |
-|------|------|----------|------|------|
-| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
-| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
 
 ### 62. src\views\HomePage\js\HomePage.js
 
@@ -2791,4 +2791,4 @@
 
 ---
 
-*报告生成时间: 2026/1/7 08:56:36*
+*报告生成时间: 2026/1/7 11:00:53*

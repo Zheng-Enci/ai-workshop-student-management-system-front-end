@@ -1,6 +1,6 @@
 # CSS 使用情况分析报告
 
-**生成时间**: 2026/1/7 08:56:40
+**生成时间**: 2026/1/7 11:00:56
 **分析工具**: CSS Analyzer (Vite Plugin)
 
 ## 📊 总体统计
@@ -10,10 +10,10 @@
 | 总CSS文件数 | 30 |
 | 成功分析 | 30 |
 | 分析失败 | 0 |
-| 总CSS大小 | 458.75 KB |
+| 总CSS大小 | 464.17 KB |
 | 未使用大小 | 5.54 KB |
-| 未使用比例 | 1.21% |
-| 分析耗时 | 3.92 秒 |
+| 未使用比例 | 1.19% |
+| 分析耗时 | 3.20 秒 |
 
 ## ⚠️ 严重问题（包含未使用的 CSS 选择器）
 
@@ -97,17 +97,17 @@
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-Attendance_Records_Dialog.css` (1.65 KB)
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-HeatmapChart.css` (1.82 KB)
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-PageHeader.css` (2.40 KB)
-- `src\views\StudentManagerPage\css\desktop\StudentManagerPage-StudentCards.css` (2.22 KB)
+- `src\views\StudentManagerPage\css\desktop\StudentManagerPage-StudentCards.css` (5.37 KB)
 - `src\views\StudentManagerPage\css\desktop\StudentManagerPage-TrendChart.css` (1.92 KB)
 - `src\views\StudentManagerPage\css\mobile\StudentManagerPage-PageHeader.css` (0.34 KB)
-- `src\views\StudentManagerPage\css\mobile\StudentManagerPage-Search.css` (1.86 KB)
+- `src\views\StudentManagerPage\css\mobile\StudentManagerPage-Search.css` (4.12 KB)
 
 ## 💡 优化建议
 
-- ✅ CSS使用情况良好，未使用比例仅 1.21%
+- ✅ CSS使用情况良好，未使用比例仅 1.19%
 - 📝 建议定期检查，保持代码库整洁
 - 🔍 对于未使用的CSS，请确认是否为动态生成或第三方库所需后再删除
 
 ---
 
-*报告生成时间: 2026/1/7 08:56:40*
+*报告生成时间: 2026/1/7 11:00:56*
