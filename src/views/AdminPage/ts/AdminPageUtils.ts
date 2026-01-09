@@ -9,7 +9,7 @@
 import {ElMessage} from 'element-plus'
 import SpecialPasswordApi from "../../../api/SpecialPasswordApi";
 import StudentApi from "../../../api/StudentApi";
-import {AdminPageConfig} from "./AdminPageConfig";
+import {adminPageConfig, AdminPageConfig} from "./AdminPageConfig";
 import type { StudentInfo, RawStudentData, LevelMap } from './types';
 
 /**
@@ -124,7 +124,7 @@ class AdminPageUtils {
 					// 添加性别显示名称
 					genderDisplay: studentGender === '男' ? '男' : studentGender === '女' ? '女' : '未知',
 					// 使用StudentApi的getAvatarUrl方法生成头像URL
-					avatarUrl: StudentApi.getAvatarUrl(student.id, AdminPageConfig.avatarSize) as string | null | undefined
+					avatarUrl: StudentApi.getAvatarUrl(student.id, adminPageConfig.studentAvatarSize) as string | null | undefined
 				};
 			});
 
@@ -135,6 +135,74 @@ class AdminPageUtils {
 			return [];
 		}
 	}
+	/**
+	 * 搜索学生信息
+	 * 根据搜索关键词在学生列表的所有字段（除了头像URL）中查找匹配的学生
+	 *
+	 * @static
+	 * @param {StudentInfo[]} students - 学生列表
+	 * @param {string} keyword - 搜索关键词
+	 * @returns {StudentInfo[]} 匹配的学生列表
+	 * @example
+	 * // 搜索学生
+	 * const students = AdminPageUtils.searchStudents(studentList, '张三')
+	 * console.log(students)
+	 *
+	 * // 搜索专业
+	 * const computerStudents = AdminPageUtils.searchStudents(studentList, '计算机')
+	 *
+	 * // 搜索班级
+	 * const class1Students = AdminPageUtils.searchStudents(studentList, '1班')
+	 *
+	 * // 搜索等级
+	 * const adminStudents = AdminPageUtils.searchStudents(studentList, '管理员')
+	 */
+	static searchStudents(students: StudentInfo[], keyword: string): StudentInfo[] {
+		// 如果关键词为空，返回所有学生
+		if (!keyword || keyword.trim() === '') {
+			return students;
+		}
+
+		// 将关键词转为小写，实现不区分大小写的搜索
+		const lowerKeyword = keyword.toLowerCase().trim();
+
+		// 过滤匹配的学生
+		return students.filter((student) => {
+			// 在所有字段中搜索（除了头像URL）
+			return (
+				// 唯一ID
+				String(student.id).includes(lowerKeyword) ||
+				// 学号
+				student.studentId.toLowerCase().includes(lowerKeyword) ||
+				// 姓名
+				student.name.toLowerCase().includes(lowerKeyword) ||
+				// 年级
+				String(student.grade).includes(lowerKeyword) ||
+				// 专业
+				student.major.toLowerCase().includes(lowerKeyword) ||
+				// 班级（包含"班"字）
+				(String(student.classNum) + '班').includes(lowerKeyword) ||
+				String(student.classNum).includes(lowerKeyword) ||
+				// 性别（男/女）
+				student.gender.toLowerCase().includes(lowerKeyword) ||
+				// 性别显示（男/女/未知）
+				student.genderDisplay.toLowerCase().includes(lowerKeyword) ||
+				// 手机号
+				student.phoneNumber.includes(lowerKeyword) ||
+				// 签到次数
+				String(student.attendanceCount).includes(lowerKeyword) ||
+				// 总积分
+				String(student.totalPoints).includes(lowerKeyword) ||
+				// 等级（0, 1, 2, 3）
+				String(student.level).includes(lowerKeyword) ||
+				// 等级名称（社团成员、普通成员、核心成员、管理员）
+				student.levelName.toLowerCase().includes(lowerKeyword) ||
+				// 所属管理员ID
+				(student.adminId !== null && String(student.adminId).includes(lowerKeyword))
+			);
+		});
+	}
+
 }
 
 /**

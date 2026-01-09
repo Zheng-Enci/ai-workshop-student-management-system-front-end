@@ -5,12 +5,13 @@
 	justify-content: space-between;
 	animation: fade-in 1.6s ease-in-out;
 }
-.main-page-buttons-and-search .el-button {
-	border-radius: 16px;
-}
+
 .main-page-buttons-and-search-buttons {
 	display: flex;
 	gap: 16px;
+}
+.main-page-buttons-and-search-buttons .el-button {
+	border-radius: 16px;
 }
 
 .main-page-buttons-and-search-buttons .el-button:hover {
@@ -24,10 +25,10 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 32px;
+	gap: 16px;
 }
-.main-page-buttons-and-search-search .el-input {
-	transform: scale(1.128);
+.main-page-buttons-and-search-search .el-button {
+	border-radius: 16px;
 }
 
 @keyframes fade-in {

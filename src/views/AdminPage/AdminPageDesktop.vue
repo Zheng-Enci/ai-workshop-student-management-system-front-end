@@ -28,7 +28,7 @@ import {useRouter} from 'vue-router'
 const router = useRouter()
 
 // Vue 核心组合式API
-import {onMounted, watch, ref, nextTick, computed} from 'vue'
+import {onMounted, nextTick} from 'vue'
 
 // Element Plus 样式导入（按需导入）
 import 'element-plus/theme-chalk/el-message.css'
@@ -69,213 +69,29 @@ import {
 	Loading,         // 加载图标
 	Box,             // 盒子图标
 	Lock, House,
-	Key, Star,
+	Key, Star, RefreshLeft, Refresh,
 } from '@element-plus/icons-vue'
 import {
 	toShowAllMembersCount,
 	toShowMembersOfTheClubCount,
 	toShowOrdinaryMembersCount,
 	toShowCoreMembersCount,
-	toShowAdminMembersCount, toShowStudentInfos, authenticate, currentSelectedLevel, isAuthenticating
+	toShowAdminMembersCount, authenticate, currentSelectedLevel, isAuthenticating, superAdminAvatarUrl,
+	toShowStudentInfos, searchStudents, loadData, refreshData, resetPageState
 } from './ts/AdminPage.ts'
 
 
 // ===================== 业务变量定义区 =====================
-// 导入获取管理员头像的API
-import {getAvatarUrl} from '@/api/student'
 // 在现有的导入语句下添加
 import LoadingMask from '../../components/LoadingMask.vue'
 
 
-// 响应式变量 - 管理员头像URL（参数：2为管理员类型，256为头像尺寸）
-const adminAvatarUrl = ref(getAvatarUrl(2, 256))
-
-// 定义所有响应式状态和方法
-// 认证相关
-
-const authLoading = ref(false)
-// 通用加载状态
-const isLoading = ref(false)
-// 搜索和分页
-const searchKeyword = ref('')
-const currentPage = ref(1)
-const pageSize = ref(20)
-
-const studentAttendanceCounts = ref({})
-const studentAdmins = ref({})
-const studentPoints = ref({})
-// 界面状态
-const activeLevelTab = ref('0')
-const editDialogVisible = ref(false)
-const editFormRef = ref(null)
-const editForm = ref({})
-const todayAttendanceDialogVisible = ref(false)
-const todayAttendanceRecords = ref([])
-const attendanceRecordsDialogVisible = ref(false)
-const currentStudentInfo = ref({})
-const calendarValue = ref(new Date())
-const allStudentAttendanceRecords = ref([])
-const calendarSlots = ref([])
-// 图表相关
-const heatmapDialogVisible = ref(false)
-const trendDialogVisible = ref(false)
-const heatmapChart = ref(null)
-const lineChart = ref(null)
-// 日期详情
-const showDateDetailsDialog = ref(false)
-const selectedDate = ref('')
-// 补卡相关
-const makeupDialogVisible = ref(false)
-const makeupLoading = ref(false)
-const makeupSelectedStudent = ref(null)
-const makeupStep = ref('date')
-const makeupFormRef = ref(null)
-const datePickerRef = ref(null)
-const makeupForm = ref({selectedDate: '', selectedHour: null})
-// 积分相关
-const pointsDialogVisible = ref(false)
-const pointsLoading = ref(false)
-const pointsSelectedStudent = ref(null)
-const pointsFormRef = ref(null)
-const pointsForm = ref({changePoints: 0, adjustReason: ''})
-const scoreChangeRecordsDialogVisible = ref(false)
-const scoreChangeRecordsLoading = ref(false)
-const scoreChangeRecords = ref([])
-const currentScoreChangeRecordsStudent = ref(null)
-// 配置项
-const datetimeShortcuts = ref([])
-const levelOptions = ref([
-	{value: 0, label: '社团成员', color: 'info'},
-	{value: 1, label: '普通成员', color: 'success'},
-	{value: 2, label: '核心成员', color: 'warning'},
-	{value: 3, label: '管理员', color: 'danger'}
-])
-const adminOptions = ref([])
-
-
-// 筛选后数据
-const filteredStudents = computed(() => {
-	const students = toShowStudentInfos.value
-	if (!searchKeyword.value) return students
-	const keyword = searchKeyword.value.toLowerCase()
-	return students.filter(student =>
-		student.name.toLowerCase().includes(keyword) ||
-		student.studentId.toLowerCase().includes(keyword)
-	)
-})
-
-// 当前等级的学生
-const currentLevelStudents = computed(() => {
-	return filteredStudents.value.filter(student =>
-		student.level === parseInt(activeLevelTab.value)
-	)
-})
-
-// 调试：监听学生数据变化
-watch(() => toShowStudentInfos.value, (newVal) => {
-
-	// 统计等级分布
-	newVal.reduce((acc, student) => {
-		acc[student.level] = (acc[student.level] || 0) + 1
-		return acc
-	}, {});
-// 检查是否有学生等级为undefined或null
-	const invalidLevelStudents = newVal.filter(s => s.level === undefined || s.level === null)
-	if (invalidLevelStudents.length > 0) {
-		console.error('[AdminPageDesktop调试] 发现无效等级的学生:', invalidLevelStudents.slice(0, 10))
-	}
-}, {deep: true})
-// 表单校验规则
-const editFormRules = ref({})
-const pointsFormRules = ref({})
-const makeupDateFormRules = ref({})
-// 时间段配置
-const timeSlots = ref([])
-
-
-const changeLevel = () => {
-}
-const changeAdmin = () => {
-}
-const handleAvatarError = () => {
-}
-
-const openEditDialog = () => {
-}
-const cancelEdit = () => {
-}
-const confirmEdit = () => {
-}
-
-const formatAttendanceTime = () => ''
-const getTimePeriodClass = () => ''
-const getTimePeriodName = () => ''
-const isSlotSigned = () => false
-const openDateDetails = () => {
-}
-const openAttendanceRecordsDialog = () => {
-}
-const closeAttendanceRecordsDialog = () => {
-}
-const closeHeatmapDialog = () => {
-}
-const closeTrendDialog = () => {
-}
-const formatDateForDisplay = () => ''
-const formatCalendarTitle = () => ''
-const prevMonth = () => {
-}
-const nextMonth = () => {
-}
-const goToday = () => {
-}
-const getTimeSlotLabel = () => ''
-const getDateAttendanceTimes = () => []
-const initHeatmapChart = () => {
-}
-const initLineChart = () => {
-}
-const openHeatmapDialog = () => {
-}
-const openTrendDialog = () => {
-}
-const openMakeupDialog = () => {
-}
-const cancelMakeup = () => {
-}
-const handleDateChange = () => {
-}
-const formatSelectedDate = () => ''
-const confirmDateStep = () => {
-}
-const selectDatetimeShortcut = () => {
-}
-const isDatetimeShortcutSelected = () => false
-const selectHour = () => {
-}
-const isHourSelected = () => false
-const submitMakeup = () => {
-}
-const openPointsDialog = () => {
-}
-const handlePointsDialogClose = () => {
-}
-const cancelPoints = () => {
-}
-const confirmPoints = () => {
-}
-const openScoreChangeRecordsDialog = () => {
-}
-const closeScoreChangeRecordsDialog = () => {
-}
-const formatTime = () => ''
-const sortedScoreChangeRecords = ref([])
-// 修改导入
 import {pageState} from './ts/AdminPage.ts'
 import {toggleTheme} from "./ts/AdminPage.ts";
 import {logout} from "./ts/AdminPage.ts";
 import {specialPassword} from "./ts/AdminPage.ts";
-import {setStudentLevelDisplay} from "./ts/AdminPage.js";
+import {setStudentLevelDisplay} from "./ts/AdminPage.ts";
+import {searchKeyword} from './ts/AdminPage.ts'
 
 // ===================== 生命周期 & 监听 =====================
 /**
@@ -289,27 +105,13 @@ onMounted(async () => {
 	// 设置页面标题
 	document.title = '超级管理员控制台 - AI坊学生管理系统'
 
-	// 重置页面状态为身份验证状态 主要是防止浏览器缓存导致的错误
-	specialPassword.value = ''
-	pageState.value = 'auth'
+	// 重置数据为初始状态
+	resetPageState()
 
 
 	await nextTick()
 })
 
-/**
- * 监听日历选中日期变化
- * 触发条件：calendarValue响应式变量变化
- * 处理逻辑：考勤记录弹窗打开且非加载状态时，重新初始化图表
- */
-watch(calendarValue, async () => {
-	if (attendanceRecordsDialogVisible.value && !isLoading.value) {
-		// 等待DOM更新完成后再初始化图表，避免容器未渲染
-		await nextTick()
-		initHeatmapChart()
-		initLineChart()
-	}
-})
 </script>
 
 <template>
@@ -347,10 +149,10 @@ watch(calendarValue, async () => {
 		<div class="identify-authentication-page-body">
 			<!-- 管理员头像：加载失败时显示默认样式 -->
 			<img
-				v-if="adminAvatarUrl"
-				v-lazy="adminAvatarUrl"
+				v-if="superAdminAvatarUrl"
+				v-lazy="superAdminAvatarUrl"
 				alt="Admin Avatar"
-				@error="adminAvatarUrl = null"/>
+			/>
 			<!-- 密码输入框：支持回车提交 -->
 			<el-input
 				v-model="specialPassword"
@@ -383,7 +185,7 @@ watch(calendarValue, async () => {
 		</div>
 	</div>
 
-	<!-- 3. 管理控制台主界面：已认证且数据加载完成时显示 -->
+	<!-- 2. 管理控制台主界面：已认证且数据加载完成时显示 -->
 	<div v-else class="main-page">
 		<!-- 3.1 头部区域：logo + 标题 + 退出按钮 -->
 		<div class="main-page-header">
@@ -417,7 +219,6 @@ watch(calendarValue, async () => {
 			<div class="main-page-buttons-and-search-buttons">
 				<el-button
 					type="primary"
-					size="large"
 					:class="{ 'active': currentSelectedLevel === -1}"
 					@click="setStudentLevelDisplay(-1)">
 					<el-icon>
@@ -428,29 +229,32 @@ watch(calendarValue, async () => {
 				</el-button>
 				<el-button
 					type="info"
-					size="large"
 					:class="{ 'active': currentSelectedLevel === 0 }"
 					@click="setStudentLevelDisplay(0)">
 					<el-icon>
 						<User/>
 					</el-icon>
 					社团成员
-					<el-tag type="info" size="small" style="margin-left: 8px;">{{ toShowMembersOfTheClubCount }}</el-tag>
+					<el-tag type="info" size="small" style="margin-left: 8px;">{{
+							toShowMembersOfTheClubCount
+						}}
+					</el-tag>
 				</el-button>
 				<el-button
 					type="success"
-					size="large"
 					:class="{ 'active': currentSelectedLevel === 1 }"
 					@click="setStudentLevelDisplay(1)">
 					<el-icon>
 						<Box/>
 					</el-icon>
 					普通成员
-					<el-tag type="success" size="small" style="margin-left: 8px;">{{ toShowOrdinaryMembersCount }}</el-tag>
+					<el-tag type="success" size="small" style="margin-left: 8px;">{{
+							toShowOrdinaryMembersCount
+						}}
+					</el-tag>
 				</el-button>
 				<el-button
 					type="warning"
-					size="large"
 					:class="{ 'active': currentSelectedLevel === 2 }"
 					@click="setStudentLevelDisplay(2)">
 					<el-icon>
@@ -461,7 +265,6 @@ watch(calendarValue, async () => {
 				</el-button>
 				<el-button
 					type="danger"
-					size="large"
 					:class="{ 'active': currentSelectedLevel === 3 }"
 					@click="setStudentLevelDisplay(3)">
 					<el-icon>
@@ -477,6 +280,7 @@ watch(calendarValue, async () => {
 					v-model="searchKeyword"
 					placeholder="搜索学生信息"
 					clearable
+					@blur="searchStudents"
 				>
 					<template #prefix>
 						<el-icon>
@@ -484,89 +288,90 @@ watch(calendarValue, async () => {
 						</el-icon>
 					</template>
 				</el-input>
+
+				<!-- 刷新按钮 -->
 				<el-button
-					type="primary"
+					type="success"
 					size="default"
-					class="search-button"
+					@click="refreshData"
 				>
 					<el-icon>
-						<search/>
+						<refresh/>
 					</el-icon>
-					搜索
+					刷新数据
 				</el-button>
 			</div>
+
 		</div>
 		<div>
 			<!-- 学生卡片列表：展示当前等级下的所有学生 -->
-			<div class="students-cards-container">
+			<div>
 				<div
-					v-for="student in filteredStudents"
-					:key="student.studentId"
-					class="student-card"
-					:data-level="student.level">
+					v-for="studentInfo in toShowStudentInfos"
+					:key="studentInfo.id"
+				>
 					<!-- 学生基础信息行：头像 + 基本信息 + 签到次数 + 积分 -->
 					<div class="student-main-row">
 						<div class="student-avatar">
 							<img
-								v-if="student.hasAvatar && student.avatarUrl"
-								v-lazy="student.avatarUrl"
+								v-if="studentInfo.avatarUrl"
+								v-lazy="studentInfo.avatarUrl"
 								alt="头像"
 								class="avatar-image"
-								@error="handleAvatarError(student)"/>
-							<span v-else class="avatar-text">{{ student.name.charAt(0) }}</span>
+							/>
 						</div>
-						<div class="student-primary-info">
-							<div class="student-name">{{ student.name }}</div>
-							<div class="student-id">学号: {{ student.studentId }}</div>
-							<div class="student-db-id">唯一ID: {{ student.id }}</div>
+						<div>
+							<div>{{ studentInfo.name }}</div>
+							<div>学号: {{ studentInfo.studentId }}</div>
+							<div>唯一ID: {{ studentInfo.id }}</div>
 						</div>
-						<div class="attendance-count">
-							<el-icon class="attendance-icon">
+						<div>
+							<el-icon >
 								<calendar/>
 							</el-icon>
-							<span class="count-text">{{
-									studentAttendanceCounts[student.studentId] || 0
+							<span>{{
+									studentInfo.attendanceCount
 								}}次</span>
 						</div>
 						<div class="points-info">
 							<div class="points-summary">
 								<span class="points-total">总积分: {{
-										Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) + ((studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0)
+										Math.round(studentInfo.attendanceCount * 0.64) +  studentInfo.totalPoints
 									}}</span>
 							</div>
-							<div class="points-details">
-								<span class="points-type">签到: {{
-										Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64)
+							<div>
+								<span>签到: {{
+										Math.round(studentInfo.attendanceCount * 0.64)
 									}}</span>
-								<span class="points-type">活动: {{
-										(studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0
+								<span>活动: {{
+										studentInfo.totalPoints
 									}}</span>
 							</div>
 						</div>
 					</div>
 
 					<!-- 学生详情行：详细信息 + 操作按钮 -->
-					<div class="student-detail-row">
-						<div class="student-details">
-							<div class="detail-item">
+					<div>
+						<div>
+							<div>
 								<span class="label">年级：</span>
-								<span class="value">{{ student.grade }}年级</span>
+								<span class="value">{{ studentInfo.grade }}年级</span>
 							</div>
 							<div class="detail-item">
 								<span class="label">专业：</span>
-								<span class="value">{{ student.major }}</span>
+								<span class="value">{{ studentInfo.major }}</span>
 							</div>
 							<div class="detail-item">
 								<span class="label">班级：</span>
-								<span class="value">{{ student.classNum }}班</span>
+								<span class="value">{{ studentInfo.classNum }}班</span>
 							</div>
 							<div class="detail-item">
 								<span class="label">性别：</span>
-								<span class="value">{{ student.gender }}</span>
+								<span class="value">{{ studentInfo.gender }}</span>
 							</div>
 							<div class="detail-item">
 								<span class="label">手机：</span>
-								<span class="value">{{ student.phoneNumber }}</span>
+								<span class="value">{{ studentInfo.phoneNumber }}</span>
 							</div>
 						</div>
 						<div class="student-actions">
@@ -650,12 +455,12 @@ watch(calendarValue, async () => {
 						<div class="level-management">
 							<span class="management-label">学生等级：</span>
 							<el-select
-								:model-value="student.level"
+								:model-value="studentInfo.level"
 								size="small"
 								style="width: 120px;"
 								:loading="isLoading"
 								class="level-select"
-								@change="(value) => changeLevel(student.studentId, value)"
+								@change="(value) => changeLevel(studentInfo.studentId, value)"
 								@visible-change="(visible) => {
 									if (visible) {
 
@@ -679,57 +484,57 @@ watch(calendarValue, async () => {
 							</el-select>
 							<!-- 调试：显示当前等级信息 -->
 							<span style="margin-left: 8px; font-size: 12px; color: #666;">
-								{{ student.levelName }}
+								{{ studentInfo.levelName }}
 							</span>
 						</div>
-						<div class="admin-management">
-							<span class="management-label">所属管理员：</span>
-							<!-- 管理员身份提示：等级3为管理员，无需分配 -->
-							<div v-if="student.level === 3"
-								 class="admin-level-notice">
-								<el-icon class="admin-icon">
-									<user-filled/>
-								</el-icon>
-								<span>管理员身份</span>
-							</div>
-							<!-- 无可用管理员提示 -->
-							<div v-else-if="adminOptions.length === 0" class="no-admin-available">
-								<el-icon class="warning-icon">
-									<warning/>
-								</el-icon>
-								<span>暂无可用的管理员</span>
-							</div>
-							<!-- 管理员下拉选择器 -->
-							<div v-else>
-								<el-select
-									:model-value="studentAdmins[student.studentId]?.adminStudentId || ''"
-									size="small"
-									style="width: 180px;"
-									:loading="isLoading"
-									class="admin-select"
-									placeholder="分配管理员"
-									clearable
-									@change="(value) => changeAdmin(student.studentId, value)"
-								>
-									<el-option
-										v-for="option in adminOptions"
-										:key="option.value"
-										:label="option.label"
-										:value="option.value"
-									>
-										<div class="admin-option">
-											<el-icon class="option-icon">
-												<user-filled/>
-											</el-icon>
-											<div class="option-text">
-												<div class="option-name">{{ option.student.name }}</div>
-												<div class="option-id">{{ option.student.studentId }}</div>
-											</div>
-										</div>
-									</el-option>
-								</el-select>
-							</div>
-						</div>
+<!--						<div class="admin-management">-->
+<!--							<span class="management-label">所属管理员：</span>-->
+<!--							&lt;!&ndash; 管理员身份提示：等级3为管理员，无需分配 &ndash;&gt;-->
+<!--							<div v-if="studentInfo.level === 3"-->
+<!--								 class="admin-level-notice">-->
+<!--								<el-icon class="admin-icon">-->
+<!--									<user-filled/>-->
+<!--								</el-icon>-->
+<!--								<span>管理员身份</span>-->
+<!--							</div>-->
+<!--							&lt;!&ndash; 无可用管理员提示 &ndash;&gt;-->
+<!--							<div v-else-if="studentInfo.length === 0" class="no-admin-available">-->
+<!--								<el-icon class="warning-icon">-->
+<!--									<warning/>-->
+<!--								</el-icon>-->
+<!--								<span>暂无可用的管理员</span>-->
+<!--							</div>-->
+<!--							&lt;!&ndash; 管理员下拉选择器 &ndash;&gt;-->
+<!--							<div v-else>-->
+<!--								<el-select-->
+<!--									:model-value="studentAdmins[student.studentId]?.adminStudentId || ''"-->
+<!--									size="small"-->
+<!--									style="width: 180px;"-->
+<!--									:loading="isLoading"-->
+<!--									class="admin-select"-->
+<!--									placeholder="分配管理员"-->
+<!--									clearable-->
+<!--									@change="(value) => changeAdmin(student.studentId, value)"-->
+<!--								>-->
+<!--									<el-option-->
+<!--										v-for="option in adminOptions"-->
+<!--										:key="option.value"-->
+<!--										:label="option.label"-->
+<!--										:value="option.value"-->
+<!--									>-->
+<!--										<div class="admin-option">-->
+<!--											<el-icon class="option-icon">-->
+<!--												<user-filled/>-->
+<!--											</el-icon>-->
+<!--											<div class="option-text">-->
+<!--												<div class="option-name">{{ option.student.name }}</div>-->
+<!--												<div class="option-id">{{ option.student.studentId }}</div>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</el-option>-->
+<!--								</el-select>-->
+<!--							</div>-->
+<!--						</div>-->
 						<div class="edit-action">
 							<el-tooltip content="编辑学生信息" placement="top">
 								<el-button
@@ -747,33 +552,6 @@ watch(calendarValue, async () => {
 							</el-tooltip>
 						</div>
 					</div>
-				</div>
-			</div>
-
-			<!-- 分页区域：记录数 + 分页控件 -->
-			<div class="table-footer">
-				<div class="pagination-info">
-					共 {{ currentLevelStudents.length }} 条记录
-				</div>
-				<el-pagination
-					v-model:current-page="currentPage"
-					v-model:page-size="pageSize"
-					:page-sizes="[10, 20, 50, 100]"
-					:total="currentLevelStudents.length"
-					layout="total, sizes, prev, pager, next, jumper"
-					class="pagination"
-				/>
-			</div>
-		</div>
-
-		<!-- 3.4 页脚区域：版权信息 + 模式提示 -->
-		<div class="admin-footer">
-			<div class="footer-content">
-				<div class="footer-left">
-					<span>人工智能创作坊学生管理系统</span>
-				</div>
-				<div class="footer-right">
-					<span>超级管理员模式</span>
 				</div>
 			</div>
 		</div>

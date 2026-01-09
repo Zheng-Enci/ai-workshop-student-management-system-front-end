@@ -14,6 +14,13 @@ import {nextTick, ref} from "vue";
 import {useThemeStore} from '../../../stores/theme'
 // 导入加载蒙版 Store
 import {useLoadingMaskStore} from '../../../stores/loading'
+import {adminPageConfig} from "./AdminPageConfig";
+import StudentApi from "../../../api/StudentApi.js";
+
+/**
+ * 超级管理员头像 URL
+ */
+let superAdminAvatarUrl = StudentApi.getAvatarUrl(adminPageConfig.superAdminInfoId, adminPageConfig.superAdminAvatarSize_desktop)
 
 /**
  * 页面状态
@@ -90,17 +97,22 @@ const loadingMaskStore = useLoadingMaskStore()
  */
 const toShowStudentInfos = ref<StudentInfo[]>([])
 
-const allMembersCount = ref<number>(0)
-const membersOfTheClubCount = ref<number>(0)
-const ordinaryMembersCount = ref<number>(0)
-const coreMembersCount = ref<number>(0)
-const adminMembersCount = ref<number>(0)
 export const toShowAllMembersCount = ref<number>(0)
 export const toShowMembersOfTheClubCount = ref<number>(0)
 export const toShowOrdinaryMembersCount = ref<number>(0)
 export const toShowCoreMembersCount = ref<number>(0)
 export const toShowAdminMembersCount = ref<number>(0)
 
+/**
+ * 搜索关键词
+ * 使用ref创建响应式变量，存储当前搜索关键词
+ */
+const searchKeyword = ref('')
+
+/**
+ * 搜索结果
+ */
+let searchResult: StudentInfo[] = []
 
 /**
  * 验证特殊密码
@@ -129,19 +141,16 @@ export async function validateSpecialPassword(): Promise<boolean> {
 
 		// 如果验证成功（response为true）
 		if (response) {
-			// 切换页面状态到加载页面
-			pageState.value = 'main'
-
-			// 设置定时器，四分钟后自动清除密码和恢复身份验证页面
+			// 设置定时器，四分钟后自动退出登录
 			// 这是一个安全机制，防止密码长期有效导致的安全风险
 			setTimeout(() => {
 				// 退出登录
 				logout()
 			}, 4 * 60 * 1000)
+			return true
+		} else {
+			return false
 		}
-
-		// 返回验证结果
-		return response
 	} catch (error) {
 		// 验证失败，保持在身份验证页面
 		pageState.value = 'auth'
@@ -187,8 +196,6 @@ export async function loadData(): Promise<void> {
 		allStudentInfos.value = fetchedStudentInfos
 		toShowStudentInfos.value = fetchedStudentInfos
 
-		// 更新学生数据统计信息
-		allMembersCount.value = fetchedStudentInfos.length
 
 		// 统计各等级学生数量
 		const levelCounts = fetchedStudentInfos.reduce((acc, student) => {
@@ -196,10 +203,6 @@ export async function loadData(): Promise<void> {
 			return acc
 		}, {} as Record<number, number>)
 
-		membersOfTheClubCount.value = levelCounts[0] || 0
-		ordinaryMembersCount.value = levelCounts[1] || 0
-		coreMembersCount.value = levelCounts[2] || 0
-		adminMembersCount.value = levelCounts[3] || 0
 
 		// 为各个身份的信息数组赋值
 		membersOfTheClubInfos.value = fetchedStudentInfos.filter(student => student.level === 0)
@@ -208,7 +211,7 @@ export async function loadData(): Promise<void> {
 		adminMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 3)
 
 		// 更新待显示的数量统计
-		toShowAllMembersCount.value = allMembersCount.value
+		toShowAllMembersCount.value = fetchedStudentInfos.length
 		toShowMembersOfTheClubCount.value = levelCounts[0] || 0
 		toShowOrdinaryMembersCount.value = levelCounts[1] || 0
 		toShowCoreMembersCount.value = levelCounts[2] || 0
@@ -229,6 +232,60 @@ export async function loadData(): Promise<void> {
 		// 加载失败，回到身份验证页面
 		pageState.value = 'auth'
 	}
+}
+export async function refreshData(): Promise<void> {
+	// 打开加载蒙版
+	loadingMaskStore.showLoadingMask("正在刷新数据...")
+	try {
+		// 调用工具函数获取学生综合信息
+		// 传入之前验证并存储的specialPassword作为认证凭证
+		const fetchedStudentInfos = await AdminPageUtils.getStudentComprehensiveInfo(
+			specialPassword.value,
+		)
+
+		// 将获取到的学生信息数据存储到响应式变量中
+		// 直接替换整个数组，触发响应式更新
+		allStudentInfos.value = fetchedStudentInfos
+
+		searchResult = AdminPageUtils.searchStudents(allStudentInfos.value, searchKeyword.value)
+		// 计算各个身份的学生数量
+		const levelCounts = searchResult.reduce((acc, student) => {
+			acc[student.level] = (acc[student.level] || 0) + 1
+			return acc
+		}, {} as Record<number, number>)
+		// 更新要显示的数量统计
+		toShowAllMembersCount.value = searchResult.length
+		toShowMembersOfTheClubCount.value = levelCounts[0] || 0
+		toShowOrdinaryMembersCount.value = levelCounts[1] || 0
+		toShowCoreMembersCount.value = levelCounts[2] || 0
+		toShowAdminMembersCount.value = levelCounts[3] || 0
+		// 更新待显示的学生数据 (依据当前要显示的身份)
+		toShowStudentInfos.value = currentSelectedLevel.value === -1? searchResult : searchResult.filter(student => student.level === currentSelectedLevel.value)
+
+		// 为各个身份的信息数组赋值
+		membersOfTheClubInfos.value = fetchedStudentInfos.filter(student => student.level === 0)
+		ordinaryMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 1)
+		coreMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 2)
+		adminMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 3)
+		ElMessage.success("数据刷新成功")
+	} catch (error) {
+		// 捕获数据获取过程中的错误
+		// 如果错误对象是Error类型，使用其message属性获取具体错误信息
+		// 否则使用默认错误提示"未知错误"
+		const errorMessage = error instanceof Error ? error.message : "未知错误"
+
+		// 显示错误提示消息，告知用户加载数据失败的具体原因
+		ElMessage.error(`刷新数据失败: ${errorMessage}`)
+
+		// 加载失败，回到身份验证页面
+		pageState.value = 'auth'
+	}
+	// 关闭加载蒙版
+	nextTick().then(() => {
+		setTimeout(() => {
+			loadingMaskStore.hideLoadingMask()
+		}, 512)  // 延迟 512ms 关闭，确保页面渲染完成和动画执行完毕
+	})
 }
 
 /**
@@ -272,6 +329,8 @@ export async function authenticate(): Promise<void> {
 		if (isValid) {
 			// 打开加载蒙版
 			loadingMaskStore.showLoadingMask("身份验证成功, 正在加载学生数据...")
+			// 切换页面状态到加载页面
+			pageState.value = 'main'
 			// 加载学生数据
 			await loadData()
 		}
@@ -304,13 +363,7 @@ export async function authenticate(): Promise<void> {
  * logout()
  */
 export function logout(): void {
-	// 清空密码和学生数据
-	specialPassword.value = ''
-	allStudentInfos.value = []
-	toShowStudentInfos.value = []
-
-	// 切换页面状态到身份验证页面
-	pageState.value = 'auth'
+	resetPageState()
 }
 
 /**
@@ -347,10 +400,6 @@ export function toggleTheme(): void {
  */
 export function setStudentLevelDisplay(level: number): void {
 
-	if (level === currentSelectedLevel.value) {
-		ElMessage.warning('当前已显示该等级的成员')
-		return
-	}
 	// 打开加载蒙版
 	loadingMaskStore.showLoadingMask("正在切换学生列表...")
 
@@ -359,19 +408,19 @@ export function setStudentLevelDisplay(level: number): void {
 		// 使用已经预先筛选好的对应等级的学生数据数组，避免重复筛选，提高性能
 		switch (level) {
 			case -1:
-				toShowStudentInfos.value = allStudentInfos.value
+				toShowStudentInfos.value = searchResult.length > 0 ? searchResult : allStudentInfos.value
 				break
 			case 0:
-				toShowStudentInfos.value = membersOfTheClubInfos.value
+				toShowStudentInfos.value = searchResult.length > 0 ? searchResult.filter(student => student.level === 0) : membersOfTheClubInfos.value
 				break
 			case 1:
-				toShowStudentInfos.value = ordinaryMembersInfos.value
+				toShowStudentInfos.value = searchResult.length > 0 ? searchResult.filter(student => student.level === 1) : ordinaryMembersInfos.value
 				break
 			case 2:
-				toShowStudentInfos.value = coreMembersInfos.value
+				toShowStudentInfos.value = searchResult.length > 0 ? searchResult.filter(student => student.level === 2) : coreMembersInfos.value
 				break
 			case 3:
-				toShowStudentInfos.value = adminMembersInfos.value
+				toShowStudentInfos.value = searchResult.length > 0 ? searchResult.filter(student => student.level === 3) : adminMembersInfos.value
 				break
 		}
 		// 设置当前选中的等级
@@ -387,8 +436,80 @@ export function setStudentLevelDisplay(level: number): void {
 	}, 128)  // 延迟 256ms 切换，确保蒙版渲染完成
 }
 
+/**
+ * 搜索学生·
+ */
+export function searchStudents(): void {
+	// 打开加载蒙版
+	loadingMaskStore.showLoadingMask(`正在搜索有关 ${searchKeyword.value} 的学生...`)
+
+	searchResult = AdminPageUtils.searchStudents(allStudentInfos.value, searchKeyword.value)
+	// 计算各个身份的学生数量
+	const levelCounts = searchResult.reduce((acc, student) => {
+		acc[student.level] = (acc[student.level] || 0) + 1
+		return acc
+	}, {} as Record<number, number>)
+	// 更新待显示的数量统计
+	toShowAllMembersCount.value = searchResult.length
+	toShowMembersOfTheClubCount.value = levelCounts[0] || 0
+	toShowOrdinaryMembersCount.value = levelCounts[1] || 0
+	toShowCoreMembersCount.value = levelCounts[2] || 0
+	toShowAdminMembersCount.value = levelCounts[3] || 0
+	// 更新待显示的学生数据 (依据当前要显示的身份)
+	toShowStudentInfos.value = currentSelectedLevel.value === -1? searchResult : searchResult.filter(student => student.level === currentSelectedLevel.value)
+	// 关闭加载蒙版
+	nextTick().then(() => {
+		setTimeout(() => {
+			loadingMaskStore.hideLoadingMask()
+		}, 512)  // 延迟 512ms 关闭，确保页面渲染完成和动画执行完毕
+	})
+}
+/**
+ * 重置页面所有变量到默认值
+ * 用于页面挂载时初始化状态，确保每次页面加载都从初始状态开始
+ *
+ * @returns {void} 无返回值
+ * @example
+ * // 在 onMounted 中调用
+ * onMounted(() => {
+ *   resetPageState()
+ *   authenticate()
+ * })
+ */
+export function resetPageState(): void {
+	// 重置页面状态
+	pageState.value = 'auth'
+	currentSelectedLevel.value = -1
+	specialPassword.value = ''
+
+	// 重置学生数据
+	allStudentInfos.value = []
+	membersOfTheClubInfos.value = []
+	ordinaryMembersInfos.value = []
+	coreMembersInfos.value = []
+	adminMembersInfos.value = []
+	toShowStudentInfos.value = []
+
+	// 重置数量统计
+	toShowAllMembersCount.value = 0
+	toShowMembersOfTheClubCount.value = 0
+	toShowOrdinaryMembersCount.value = 0
+	toShowCoreMembersCount.value = 0
+	toShowAdminMembersCount.value = 0
+
+	// 重置搜索相关
+	searchKeyword.value = ''
+	searchResult = []
+
+	// 重置加载状态
+	isAuthenticating.value = false
+}
+
+
 // 导出响应式变量，供Vue组件使用
 export {
 	pageState, specialPassword, toShowStudentInfos, allStudentInfos, currentSelectedLevel,
 	isAuthenticating, // 验证按钮是否点击状态
+	superAdminAvatarUrl, // 超级管理员头像 URL
+	searchKeyword, // 搜索关键词
 }

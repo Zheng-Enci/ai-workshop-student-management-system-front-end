@@ -1,16 +1,15 @@
 <template>
 	<!-- 加载蒙版 -->
-	<Transition name="loading-mask-fade">
-		<div v-if="loadingMaskStore.isShowLoadingMask" class="loading-mask">
-			<img src="@/assets/loading.gif" alt="加载中...">
-			<p>{{ loadingMaskStore.loadingMaskText }}</p>
-		</div>
-	</Transition>
+	<div v-if="loadingMaskStore.isShowLoadingMask" class="loading-mask">
+		<img src="@/assets/loading.gif" alt="加载中...">
+		<p>{{ loadingMaskStore.loadingMaskText }}</p>
+	</div>
+
 </template>
 
 <script setup lang="ts">
-import { useLoadingMaskStore } from '../stores/loading'
-import type { LoadingMaskStore } from '../stores/loading'
+import {useLoadingMaskStore} from '../stores/loading'
+import type {LoadingMaskStore} from '../stores/loading'
 
 const loadingMaskStore: LoadingMaskStore = useLoadingMaskStore()
 </script>
@@ -83,4 +82,5 @@ html.dark .loading-mask {
 		opacity: 1; /* 动画结束状态：完全不透明，完全可见 */
 	}
 }
+
 </style>
