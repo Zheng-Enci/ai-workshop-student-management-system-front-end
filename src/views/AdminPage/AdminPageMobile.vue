@@ -18,7 +18,10 @@ import {onMounted, watch, ref, nextTick} from 'vue' // Vue3核心组合式API
 
 // 导入管理员页面核心业务逻辑（状态管理、方法封装）
 // useAdminPage包含所有管理员页面所需的响应式数据和业务方法
-import {useAdminPage} from './js/AdminPage.js'
+import {useAdminPage} from './ts/AdminPage.js'
+
+// 导入AdminPage模块，用于控制身份验证页面的显示
+import * as AdminPage from './ts/AdminPage.js'
 
 // 导入移动端专属样式文件
 // 移动端样式适配不同的屏幕尺寸和交互方式
@@ -613,6 +616,7 @@ onMounted(async () => {
 	if (adminPassword) {
 		// 如果已有密码，直接标记为已验证并加载数据
 		// 检查本地存储中是否已有有效密码，实现自动登录
+		AdminPage.isShowIdentifyAuthenticationPage.value = false
 		isAuthenticated.value = true
 		try {
 			// 加载所有核心数据（学生、考勤、积分等）
@@ -623,12 +627,14 @@ onMounted(async () => {
 			// 错误处理机制，确保用户在数据加载失败时能重新登录
 			ElMessage.error(`加载数据失败：${error.message}`)
 			isAuthenticated.value = false
+			AdminPage.isShowIdentifyAuthenticationPage.value = true
 			adminStore.clearAdminPassword()
 		}
 	} else {
 		// 没有保存的密码，显示身份验证界面
 		// 当本地没有有效密码时，显示验证界面要求用户输入密码
 		isAuthenticated.value = false
+		AdminPage.isShowIdentifyAuthenticationPage.value = true
 	}
 })
 
@@ -653,7 +659,7 @@ watch(calendarValue, async () => {
 <template>
 	<!-- 身份验证界面(移动端) -->
 	<!-- 未通过身份验证时显示，仅展示密码输入框和验证按钮 -->
-	<div v-if="!isAuthenticated" class="auth-section-mobile">
+	<div v-if="AdminPage.isShowIdentifyAuthenticationPage" class="auth-section-mobile">
 		<div class="auth-page-header-mobile">
 			<div class="header-content-mobile">
 				<!-- 系统LOGO，点击可切换主题 -->

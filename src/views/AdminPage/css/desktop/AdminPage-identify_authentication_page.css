@@ -30,6 +30,9 @@
 	width: 64px;
 	height: 64px;
 }
+.identify-authentication-page-header-left img:hover {
+	transform: scale(1.1);
+}
 
 .identify-authentication-page-header-right-icon {
 	font-size: 50px;
