@@ -103,16 +103,46 @@ export const toShowOrdinaryMembersCount = ref<number>(0)
 export const toShowCoreMembersCount = ref<number>(0)
 export const toShowAdminMembersCount = ref<number>(0)
 
-/**
- * 搜索关键词
- * 使用ref创建响应式变量，存储当前搜索关键词
+/**F
+ * 搜索关键词（多关键词以空格分隔）
  */
-const searchKeyword = ref('')
+const searchKeywords = ref('')
+
 
 /**
  * 搜索结果
  */
 let searchResult: StudentInfo[] = []
+
+/**
+ * 管理员姓名映射表（优化性能）
+ * key: 管理员ID（学生ID）
+ * value: 管理员姓名
+ */
+let adminNameMap = new Map<number, string>()
+
+/**
+ * 更新管理员姓名映射表
+ * 在数据加载后调用，建立ID到姓名的快速查找映射
+ */
+function updateAdminNameMap(): void {
+	adminNameMap.clear()
+	allStudentInfos.value.forEach(student => {
+		if (student.id !== null && student.id !== undefined) {
+			adminNameMap.set(student.id, student.name)
+		}
+	})
+}
+
+/**
+ * 根据管理员ID获取管理员姓名
+ * @param adminId 管理员ID
+ * @returns 管理员姓名，如果找不到则返回默认值
+ */
+export function getAdminName(adminId: number | null): string {
+	if (!adminId) return '无管理员'
+	return adminNameMap.get(adminId) || '未知管理员'
+}
 
 /**
  * 验证特殊密码
@@ -217,6 +247,9 @@ export async function loadData(): Promise<void> {
 		toShowCoreMembersCount.value = levelCounts[2] || 0
 		toShowAdminMembersCount.value = levelCounts[3] || 0
 
+		// 更新管理员姓名映射表
+		updateAdminNameMap()
+
 		// 设置页面状态为主页面
 		pageState.value = 'main'
 
@@ -246,27 +279,12 @@ export async function refreshData(): Promise<void> {
 		// 将获取到的学生信息数据存储到响应式变量中
 		// 直接替换整个数组，触发响应式更新
 		allStudentInfos.value = fetchedStudentInfos
+		toShowStudentInfos.value = fetchedStudentInfos
+		searchKeywords.value = ''
 
-		searchResult = AdminPageUtils.searchStudents(allStudentInfos.value, searchKeyword.value)
-		// 计算各个身份的学生数量
-		const levelCounts = searchResult.reduce((acc, student) => {
-			acc[student.level] = (acc[student.level] || 0) + 1
-			return acc
-		}, {} as Record<number, number>)
-		// 更新要显示的数量统计
-		toShowAllMembersCount.value = searchResult.length
-		toShowMembersOfTheClubCount.value = levelCounts[0] || 0
-		toShowOrdinaryMembersCount.value = levelCounts[1] || 0
-		toShowCoreMembersCount.value = levelCounts[2] || 0
-		toShowAdminMembersCount.value = levelCounts[3] || 0
-		// 更新待显示的学生数据 (依据当前要显示的身份)
-		toShowStudentInfos.value = currentSelectedLevel.value === -1? searchResult : searchResult.filter(student => student.level === currentSelectedLevel.value)
+		// 更新管理员姓名映射表
+		updateAdminNameMap()
 
-		// 为各个身份的信息数组赋值
-		membersOfTheClubInfos.value = fetchedStudentInfos.filter(student => student.level === 0)
-		ordinaryMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 1)
-		coreMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 2)
-		adminMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 3)
 		ElMessage.success("数据刷新成功")
 	} catch (error) {
 		// 捕获数据获取过程中的错误
@@ -375,88 +393,22 @@ export function toggleTheme(): void {
 	themeStore.toggleTheme()
 }
 
-/**
- * 设置学生等级显示
- * 根据指定的等级筛选学生数据，并更新到ShowStudentInfos响应式变量中
- * 用于在主页面中点击不同身份按钮时，动态切换显示对应等级的学生信息
- *
- * @param level - 学生等级，可选值：
- *               - undefined 或 -1: 显示所有学生（全部成员）
- *               - 0: 显示社团成员
- *               - 1: 显示普通成员
- *               - 2: 显示核心成员
- *               - 3: 显示管理员
- * @returns {void} 无返回值
- *
- * @example
- * // 显示所有学生（全部成员）
- * setStudentLevelDisplay(-1)
- *
- * // 只显示社团成员
- * setStudentLevelDisplay(0)
- *
- * // 只显示管理员
- * setStudentLevelDisplay(3)
- */
-export function setStudentLevelDisplay(level: number): void {
-
-	// 打开加载蒙版
-	loadingMaskStore.showLoadingMask("正在切换学生列表...")
-
-	setTimeout(() => {
-		// 根据指定的等级直接赋值对应的学生数据数组
-		// 使用已经预先筛选好的对应等级的学生数据数组，避免重复筛选，提高性能
-		switch (level) {
-			case -1:
-				toShowStudentInfos.value = searchResult.length > 0 ? searchResult : allStudentInfos.value
-				break
-			case 0:
-				toShowStudentInfos.value = searchResult.length > 0 ? searchResult.filter(student => student.level === 0) : membersOfTheClubInfos.value
-				break
-			case 1:
-				toShowStudentInfos.value = searchResult.length > 0 ? searchResult.filter(student => student.level === 1) : ordinaryMembersInfos.value
-				break
-			case 2:
-				toShowStudentInfos.value = searchResult.length > 0 ? searchResult.filter(student => student.level === 2) : coreMembersInfos.value
-				break
-			case 3:
-				toShowStudentInfos.value = searchResult.length > 0 ? searchResult.filter(student => student.level === 3) : adminMembersInfos.value
-				break
-		}
-		// 设置当前选中的等级
-		currentSelectedLevel.value = level
-
-		// 使用nextTick等待DOM更新和动画执行完成
-		nextTick().then(() => {
-			setTimeout(() => {
-				// 关闭加载蒙版
-				loadingMaskStore.hideLoadingMask()
-			}, 128)  // 延迟 512ms 关闭，确保页面渲染完成和动画执行完毕
-		})
-	}, 128)  // 延迟 256ms 切换，确保蒙版渲染完成
-}
 
 /**
- * 搜索学生·
+ * 搜索学生（支持空格分隔的多关键词）
  */
 export function searchStudents(): void {
 	// 打开加载蒙版
-	loadingMaskStore.showLoadingMask(`正在搜索有关 ${searchKeyword.value} 的学生...`)
+	loadingMaskStore.showLoadingMask(`正在搜索有关 ${searchKeywords.value} 的学生...`)
 
-	searchResult = AdminPageUtils.searchStudents(allStudentInfos.value, searchKeyword.value)
-	// 计算各个身份的学生数量
-	const levelCounts = searchResult.reduce((acc, student) => {
-		acc[student.level] = (acc[student.level] || 0) + 1
-		return acc
-	}, {} as Record<number, number>)
-	// 更新待显示的数量统计
-	toShowAllMembersCount.value = searchResult.length
-	toShowMembersOfTheClubCount.value = levelCounts[0] || 0
-	toShowOrdinaryMembersCount.value = levelCounts[1] || 0
-	toShowCoreMembersCount.value = levelCounts[2] || 0
-	toShowAdminMembersCount.value = levelCounts[3] || 0
+	// 将搜索关键词按空格分割，过滤空字符串
+	const keywords = searchKeywords.value.trim().split(/\s+/).filter(k => k)
+
+	searchResult = AdminPageUtils.searchStudents(allStudentInfos.value, keywords)
+
+
 	// 更新待显示的学生数据 (依据当前要显示的身份)
-	toShowStudentInfos.value = currentSelectedLevel.value === -1? searchResult : searchResult.filter(student => student.level === currentSelectedLevel.value)
+	toShowStudentInfos.value = searchResult
 	// 关闭加载蒙版
 	nextTick().then(() => {
 		setTimeout(() => {
@@ -464,6 +416,7 @@ export function searchStudents(): void {
 		}, 512)  // 延迟 512ms 关闭，确保页面渲染完成和动画执行完毕
 	})
 }
+
 /**
  * 重置页面所有变量到默认值
  * 用于页面挂载时初始化状态，确保每次页面加载都从初始状态开始
@@ -498,7 +451,7 @@ export function resetPageState(): void {
 	toShowAdminMembersCount.value = 0
 
 	// 重置搜索相关
-	searchKeyword.value = ''
+	searchKeywords.value = ''
 	searchResult = []
 
 	// 重置加载状态
@@ -511,5 +464,5 @@ export {
 	pageState, specialPassword, toShowStudentInfos, allStudentInfos, currentSelectedLevel,
 	isAuthenticating, // 验证按钮是否点击状态
 	superAdminAvatarUrl, // 超级管理员头像 URL
-	searchKeyword, // 搜索关键词
+	searchKeywords, // 搜索关键词
 }

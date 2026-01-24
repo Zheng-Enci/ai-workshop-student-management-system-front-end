@@ -20,7 +20,7 @@ import {
 	ElDatePicker,    // 日期选择器
 	ElTag,           // 标签
 	ElTooltip,       // 提示框
-	ElPagination,    // 分页组件
+	// 分页组件
 	ElCalendar       // 日历组件
 } from 'element-plus'
 import {useRouter} from 'vue-router'
@@ -62,22 +62,18 @@ import {
 	Search,          // 搜索图标
 	SwitchButton,    // 切换按钮图标
 	Edit,            // 编辑图标
-	UserFilled,      // 填充用户图标
+	// 填充用户图标
 	Clock,           // 时钟图标
 	Warning,         // 警告图标
 	Document,        // 文档图标
 	Loading,         // 加载图标
 	Box,             // 盒子图标
 	Lock, House,
-	Key, Star, RefreshLeft, Refresh,
+	Key, Refresh,
 } from '@element-plus/icons-vue'
 import {
-	toShowAllMembersCount,
-	toShowMembersOfTheClubCount,
-	toShowOrdinaryMembersCount,
-	toShowCoreMembersCount,
-	toShowAdminMembersCount, authenticate, currentSelectedLevel, isAuthenticating, superAdminAvatarUrl,
-	toShowStudentInfos, searchStudents, loadData, refreshData, resetPageState
+	authenticate, isAuthenticating, superAdminAvatarUrl,
+	toShowStudentInfos, searchStudents, refreshData, resetPageState, getAdminName
 } from './ts/AdminPage.ts'
 
 
@@ -90,8 +86,7 @@ import {pageState} from './ts/AdminPage.ts'
 import {toggleTheme} from "./ts/AdminPage.ts";
 import {logout} from "./ts/AdminPage.ts";
 import {specialPassword} from "./ts/AdminPage.ts";
-import {setStudentLevelDisplay} from "./ts/AdminPage.ts";
-import {searchKeyword} from './ts/AdminPage.ts'
+import {searchKeywords} from './ts/AdminPage.ts'
 
 // ===================== 生命周期 & 监听 =====================
 /**
@@ -216,69 +211,10 @@ onMounted(async () => {
 
 		<!-- 等级标签页：按学生等级分类展示 -->
 		<div class="main-page-buttons-and-search">
-			<div class="main-page-buttons-and-search-buttons">
-				<el-button
-					type="primary"
-					:class="{ 'active': currentSelectedLevel === -1}"
-					@click="setStudentLevelDisplay(-1)">
-					<el-icon>
-						<UserFilled/>
-					</el-icon>
-					全部成员
-					<el-tag type="primary" size="small" style="margin-left: 8px;">{{ toShowAllMembersCount }}</el-tag>
-				</el-button>
-				<el-button
-					type="info"
-					:class="{ 'active': currentSelectedLevel === 0 }"
-					@click="setStudentLevelDisplay(0)">
-					<el-icon>
-						<User/>
-					</el-icon>
-					社团成员
-					<el-tag type="info" size="small" style="margin-left: 8px;">{{
-							toShowMembersOfTheClubCount
-						}}
-					</el-tag>
-				</el-button>
-				<el-button
-					type="success"
-					:class="{ 'active': currentSelectedLevel === 1 }"
-					@click="setStudentLevelDisplay(1)">
-					<el-icon>
-						<Box/>
-					</el-icon>
-					普通成员
-					<el-tag type="success" size="small" style="margin-left: 8px;">{{
-							toShowOrdinaryMembersCount
-						}}
-					</el-tag>
-				</el-button>
-				<el-button
-					type="warning"
-					:class="{ 'active': currentSelectedLevel === 2 }"
-					@click="setStudentLevelDisplay(2)">
-					<el-icon>
-						<Star/>
-					</el-icon>
-					核心成员
-					<el-tag type="warning" size="small" style="margin-left: 8px;">{{ toShowCoreMembersCount }}</el-tag>
-				</el-button>
-				<el-button
-					type="danger"
-					:class="{ 'active': currentSelectedLevel === 3 }"
-					@click="setStudentLevelDisplay(3)">
-					<el-icon>
-						<Lock/>
-					</el-icon>
-					管理员
-					<el-tag type="danger" size="small" style="margin-left: 8px;">{{ toShowAdminMembersCount }}</el-tag>
-				</el-button>
-			</div>
-
 			<div class="main-page-buttons-and-search-search">
 				<el-input
-					v-model="searchKeyword"
-					placeholder="搜索学生信息"
+					v-model="searchKeywords"
+					placeholder="搜索学生信息,支持多词搜索(空格隔开)"
 					clearable
 					@blur="searchStudents"
 				>
@@ -303,84 +239,80 @@ onMounted(async () => {
 			</div>
 
 		</div>
-		<div>
-			<!-- 学生卡片列表：展示当前等级下的所有学生 -->
-			<div>
-				<div
-					v-for="studentInfo in toShowStudentInfos"
-					:key="studentInfo.id"
-				>
-					<!-- 学生基础信息行：头像 + 基本信息 + 签到次数 + 积分 -->
-					<div class="student-main-row">
-						<div class="student-avatar">
-							<img
-								v-if="studentInfo.avatarUrl"
-								v-lazy="studentInfo.avatarUrl"
-								alt="头像"
-								class="avatar-image"
-							/>
-						</div>
-						<div>
-							<div>{{ studentInfo.name }}</div>
-							<div>学号: {{ studentInfo.studentId }}</div>
-							<div>唯一ID: {{ studentInfo.id }}</div>
-						</div>
-						<div>
-							<el-icon >
-								<calendar/>
-							</el-icon>
-							<span>{{
-									studentInfo.attendanceCount
-								}}次</span>
-						</div>
-						<div class="points-info">
-							<div class="points-summary">
-								<span class="points-total">总积分: {{
-										Math.round(studentInfo.attendanceCount * 0.64) +  studentInfo.totalPoints
-									}}</span>
-							</div>
-							<div>
-								<span>签到: {{
-										Math.round(studentInfo.attendanceCount * 0.64)
-									}}</span>
-								<span>活动: {{
-										studentInfo.totalPoints
-									}}</span>
-							</div>
-						</div>
+		<div class="student-cards">
+			<div
+				v-for="studentInfo in toShowStudentInfos"
+				:key="studentInfo.id"
+				class="student-cards-item"
+			>
+				<!-- 学生卡片头部 -->
+				<div class="student-cards-item-header">
+					<img
+						v-if="studentInfo.avatarUrl"
+						v-lazy="studentInfo.avatarUrl"
+						alt="头像"
+					/>
+					<div class="student-cards-item-header-student-info">
+						<div>{{ studentInfo.id }}</div>
+						<div>{{ studentInfo.name }}</div>
+						<div>{{ studentInfo.studentId }}</div>
 					</div>
 
-					<!-- 学生详情行：详细信息 + 操作按钮 -->
-					<div>
+					<div class="student-cards-item-header-points">
 						<div>
-							<div>
-								<span class="label">年级：</span>
-								<span class="value">{{ studentInfo.grade }}年级</span>
-							</div>
-							<div class="detail-item">
-								<span class="label">专业：</span>
-								<span class="value">{{ studentInfo.major }}</span>
-							</div>
-							<div class="detail-item">
-								<span class="label">班级：</span>
-								<span class="value">{{ studentInfo.classNum }}班</span>
-							</div>
-							<div class="detail-item">
-								<span class="label">性别：</span>
-								<span class="value">{{ studentInfo.gender }}</span>
-							</div>
-							<div class="detail-item">
-								<span class="label">手机：</span>
-								<span class="value">{{ studentInfo.phoneNumber }}</span>
-							</div>
+								<span>总积分: {{
+										Math.round(studentInfo.attendanceCount * 0.64) + studentInfo.totalPoints
+									}}</span>
 						</div>
-						<div class="student-actions">
+						<div>
+								<span>签到: {{
+										Math.round(studentInfo.attendanceCount * 0.64)
+									}} ({{
+										studentInfo.attendanceCount
+									}})</span>
+							<span>&nbsp;&nbsp;活动: {{
+									studentInfo.totalPoints
+								}}</span>
+						</div>
+					</div>
+				</div>
+				<!-- 学生卡片学生信息 -->
+				<div class="student-cards-item-student-info">
+					<span>年级：{{ studentInfo.grade }}年级</span>
+					<span>专业：{{ studentInfo.major }}</span>
+					<span>班级：{{ studentInfo.classNum }}班</span>
+					<span>性别：{{ studentInfo.gender }}</span>
+					<span>手机：{{ studentInfo.phoneNumber }}</span>
+					<span>身份：
+					<el-button
+						type="primary"
+						size="small"
+					>
+						<el-icon>
+							<user/>
+						</el-icon>
+						{{ studentInfo.levelName }}
+					</el-button>
+					</span>
+
+					<span v-if = "studentInfo.level !== 3">所属管理员：<el-button
+						type="primary"
+						size="small"
+					>
+						  <el-icon>
+							<user/>
+						  </el-icon>
+						 {{ getAdminName(studentInfo.adminId) }}
+						</el-button>
+					</span>
+				</div>
+				<div class="student-cards-item-buttons">
+					<div>
+						<span>考勤</span>
+						<div>
 							<!-- 考勤记录按钮 -->
 							<el-button
 								type="success"
-								size="small"
-								class="records-btn"
-								@click="openAttendanceRecordsDialog(student)"
 							>
 								<el-icon>
 									<calendar/>
@@ -390,9 +322,6 @@ onMounted(async () => {
 							<!-- 补卡按钮 -->
 							<el-button
 								type="warning"
-								size="small"
-								class="makeup-btn"
-								@click="openMakeupDialog(student)"
 							>
 								<el-icon>
 									<clock/>
@@ -402,9 +331,6 @@ onMounted(async () => {
 							<!-- 热力图按钮 -->
 							<el-button
 								type="info"
-								size="small"
-								class="heatmap-btn"
-								@click="openHeatmapDialog(student)"
 							>
 								<el-icon>
 									<trend-charts/>
@@ -414,21 +340,20 @@ onMounted(async () => {
 							<!-- 趋势图按钮 -->
 							<el-button
 								type="primary"
-								size="small"
-								class="trend-btn"
-								@click="openTrendDialog(student)"
 							>
 								<el-icon>
 									<trend-charts/>
 								</el-icon>
 								趋势图
 							</el-button>
+						</div>
+					</div>
+					<div>
+						<span>积分</span>
+						<div>
 							<!-- 修改积分按钮 -->
 							<el-button
 								type="success"
-								size="small"
-								class="points-btn"
-								@click="openPointsDialog(student)"
 							>
 								<el-icon>
 									<edit/>
@@ -438,9 +363,6 @@ onMounted(async () => {
 							<!-- 改分记录按钮 -->
 							<el-button
 								type="info"
-								size="small"
-								class="score-records-btn"
-								@click="openScoreChangeRecordsDialog(student)"
 							>
 								<el-icon>
 									<document/>
@@ -449,107 +371,17 @@ onMounted(async () => {
 							</el-button>
 						</div>
 					</div>
-
-					<!-- 学生管理行：等级修改 + 管理员分配 + 编辑按钮 -->
-					<div class="student-management-row">
-						<div class="level-management">
-							<span class="management-label">学生等级：</span>
-							<el-select
-								:model-value="studentInfo.level"
-								size="small"
-								style="width: 120px;"
-								:loading="isLoading"
-								class="level-select"
-								@change="(value) => changeLevel(studentInfo.studentId, value)"
-								@visible-change="(visible) => {
-									if (visible) {
-
-									}
-								}"
+					<div>
+						<span>个人信息</span>
+						<div>
+							<el-button
+								type="primary"
 							>
-								<el-option
-									v-for="option in levelOptions"
-									:key="option.value"
-									:label="option.label"
-									:value="option.value"
-								>
-									<el-tag
-										:type="option.color"
-										size="small"
-										style="width: 100%; text-align: center;"
-									>
-										{{ option.label }}
-									</el-tag>
-								</el-option>
-							</el-select>
-							<!-- 调试：显示当前等级信息 -->
-							<span style="margin-left: 8px; font-size: 12px; color: #666;">
-								{{ studentInfo.levelName }}
-							</span>
-						</div>
-<!--						<div class="admin-management">-->
-<!--							<span class="management-label">所属管理员：</span>-->
-<!--							&lt;!&ndash; 管理员身份提示：等级3为管理员，无需分配 &ndash;&gt;-->
-<!--							<div v-if="studentInfo.level === 3"-->
-<!--								 class="admin-level-notice">-->
-<!--								<el-icon class="admin-icon">-->
-<!--									<user-filled/>-->
-<!--								</el-icon>-->
-<!--								<span>管理员身份</span>-->
-<!--							</div>-->
-<!--							&lt;!&ndash; 无可用管理员提示 &ndash;&gt;-->
-<!--							<div v-else-if="studentInfo.length === 0" class="no-admin-available">-->
-<!--								<el-icon class="warning-icon">-->
-<!--									<warning/>-->
-<!--								</el-icon>-->
-<!--								<span>暂无可用的管理员</span>-->
-<!--							</div>-->
-<!--							&lt;!&ndash; 管理员下拉选择器 &ndash;&gt;-->
-<!--							<div v-else>-->
-<!--								<el-select-->
-<!--									:model-value="studentAdmins[student.studentId]?.adminStudentId || ''"-->
-<!--									size="small"-->
-<!--									style="width: 180px;"-->
-<!--									:loading="isLoading"-->
-<!--									class="admin-select"-->
-<!--									placeholder="分配管理员"-->
-<!--									clearable-->
-<!--									@change="(value) => changeAdmin(student.studentId, value)"-->
-<!--								>-->
-<!--									<el-option-->
-<!--										v-for="option in adminOptions"-->
-<!--										:key="option.value"-->
-<!--										:label="option.label"-->
-<!--										:value="option.value"-->
-<!--									>-->
-<!--										<div class="admin-option">-->
-<!--											<el-icon class="option-icon">-->
-<!--												<user-filled/>-->
-<!--											</el-icon>-->
-<!--											<div class="option-text">-->
-<!--												<div class="option-name">{{ option.student.name }}</div>-->
-<!--												<div class="option-id">{{ option.student.studentId }}</div>-->
-<!--											</div>-->
-<!--										</div>-->
-<!--									</el-option>-->
-<!--								</el-select>-->
-<!--							</div>-->
-<!--						</div>-->
-						<div class="edit-action">
-							<el-tooltip content="编辑学生信息" placement="top">
-								<el-button
-									type="primary"
-									size="small"
-									:loading="isLoading"
-									class="edit-btn"
-									@click="openEditDialog(student)"
-								>
-									<el-icon>
-										<edit/>
-									</el-icon>
-									编辑
-								</el-button>
-							</el-tooltip>
+								<el-icon>
+									<edit/>
+								</el-icon>
+								编辑
+							</el-button>
 						</div>
 					</div>
 				</div>
@@ -1202,4 +1034,5 @@ onMounted(async () => {
 <style scoped src="./css/desktop/AdminPage-identify_authentication_page.css"></style>
 <style scoped src="./css/desktop/AdminPage-main_page_header.css"></style>
 <style scoped src="./css/desktop/AdminPage-main_page_buttons_and_search.css"></style>
+<style scoped src="./css/desktop/AdminPage-main_page_student_cards.css"></style>
 

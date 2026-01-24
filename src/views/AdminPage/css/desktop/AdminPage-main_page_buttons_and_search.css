@@ -30,11 +30,15 @@
 .main-page-buttons-and-search-search .el-button {
 	border-radius: 16px;
 }
+.main-page-buttons-and-search-search .el-input {
+	width: 300px;
+}
+
 
 @keyframes fade-in {
 	from {
 		opacity: 0;
 	} to {
-		opacity: 1;
-	}
+		  opacity: 1;
+	  }
 }
