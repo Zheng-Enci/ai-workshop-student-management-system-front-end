@@ -58,34 +58,6 @@ const specialPassword = ref('')
  */
 const allStudentInfos = ref<StudentInfo[]>([])
 
-/**
- * 社团成员信息数据
- * 使用ref创建响应式变量，存储等级为0的社团成员数据
- * 包含社团成员的基本信息、等级、管理员等信息
- */
-const membersOfTheClubInfos = ref<StudentInfo[]>([])
-
-/**
- * 普通成员信息数据
- * 使用ref创建响应式变量，存储等级为1的普通成员数据
- * 包含普通成员的基本信息、等级、管理员等信息
- */
-const ordinaryMembersInfos = ref<StudentInfo[]>([])
-
-/**
- * 核心成员信息数据
- * 使用ref创建响应式变量，存储等级为2的核心成员数据
- * 包含核心成员的基本信息、等级、管理员等信息
- */
-const coreMembersInfos = ref<StudentInfo[]>([])
-
-/**
- * 管理员成员信息数据
- * 使用ref创建响应式变量，存储等级为3的管理员成员数据
- * 包含管理员成员的基本信息、等级、管理员等信息
- */
-const adminMembersInfos = ref<StudentInfo[]>([])
-
 // 导入loading mask store
 const loadingMaskStore = useLoadingMaskStore()
 
@@ -97,17 +69,10 @@ const loadingMaskStore = useLoadingMaskStore()
  */
 const toShowStudentInfos = ref<StudentInfo[]>([])
 
-export const toShowAllMembersCount = ref<number>(0)
-export const toShowMembersOfTheClubCount = ref<number>(0)
-export const toShowOrdinaryMembersCount = ref<number>(0)
-export const toShowCoreMembersCount = ref<number>(0)
-export const toShowAdminMembersCount = ref<number>(0)
-
-/**F
+/**
  * 搜索关键词（多关键词以空格分隔）
  */
 const searchKeywords = ref('')
-
 
 /**
  * 搜索结果
@@ -226,27 +191,6 @@ export async function loadData(): Promise<void> {
 		allStudentInfos.value = fetchedStudentInfos
 		toShowStudentInfos.value = fetchedStudentInfos
 
-
-		// 统计各等级学生数量
-		const levelCounts = fetchedStudentInfos.reduce((acc, student) => {
-			acc[student.level] = (acc[student.level] || 0) + 1
-			return acc
-		}, {} as Record<number, number>)
-
-
-		// 为各个身份的信息数组赋值
-		membersOfTheClubInfos.value = fetchedStudentInfos.filter(student => student.level === 0)
-		ordinaryMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 1)
-		coreMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 2)
-		adminMembersInfos.value = fetchedStudentInfos.filter(student => student.level === 3)
-
-		// 更新待显示的数量统计
-		toShowAllMembersCount.value = fetchedStudentInfos.length
-		toShowMembersOfTheClubCount.value = levelCounts[0] || 0
-		toShowOrdinaryMembersCount.value = levelCounts[1] || 0
-		toShowCoreMembersCount.value = levelCounts[2] || 0
-		toShowAdminMembersCount.value = levelCounts[3] || 0
-
 		// 更新管理员姓名映射表
 		updateAdminNameMap()
 
@@ -266,6 +210,7 @@ export async function loadData(): Promise<void> {
 		pageState.value = 'auth'
 	}
 }
+
 export async function refreshData(): Promise<void> {
 	// 打开加载蒙版
 	loadingMaskStore.showLoadingMask("正在刷新数据...")
@@ -406,8 +351,7 @@ export function searchStudents(): void {
 
 	searchResult = AdminPageUtils.searchStudents(allStudentInfos.value, keywords)
 
-
-	// 更新待显示的学生数据 (依据当前要显示的身份)
+	// 更新待显示的学生数据
 	toShowStudentInfos.value = searchResult
 	// 关闭加载蒙版
 	nextTick().then(() => {
@@ -437,18 +381,7 @@ export function resetPageState(): void {
 
 	// 重置学生数据
 	allStudentInfos.value = []
-	membersOfTheClubInfos.value = []
-	ordinaryMembersInfos.value = []
-	coreMembersInfos.value = []
-	adminMembersInfos.value = []
 	toShowStudentInfos.value = []
-
-	// 重置数量统计
-	toShowAllMembersCount.value = 0
-	toShowMembersOfTheClubCount.value = 0
-	toShowOrdinaryMembersCount.value = 0
-	toShowCoreMembersCount.value = 0
-	toShowAdminMembersCount.value = 0
 
 	// 重置搜索相关
 	searchKeywords.value = ''
@@ -458,10 +391,85 @@ export function resetPageState(): void {
 	isAuthenticating.value = false
 }
 
+/**
+ * 更新学生等级
+ * 直接更新本地数据，无需重新从服务器获取
+ *
+ * @param {number} studentId - 学生数据库表主键ID
+ * @param {number} newLevel - 新的等级（0-3）
+ * @param {string} newLevelName - 新等级的名称
+ * @returns {void} 无返回值
+ * @description
+ * - 更新所有相关数组中的学生等级信息
+ * - 自动更新当前显示的列表（toShowStudentInfos）
+ * - 如果新等级是管理员（level=3），更新管理员姓名映射表
+ * - 如果原等级是管理员，从管理员姓名映射表中移除
+ * - 不需要重新获取数据，性能更优
+ *
+ * @example
+ * // 将学生ID为123的学生等级改为"核心成员"
+ * updateStudentLevel(123, 2, '核心成员')
+ *
+ * // 将学生ID为456的学生等级改为"管理员"
+ * updateStudentLevel(456, 3, '管理员')
+ */
+export function updateStudentLevel(studentId: number, newLevel: number, newLevelName: string): void {
+	// 辅助函数：在指定数组中查找学生并更新等级
+	const updateStudentInArray = (students: StudentInfo[]) => {
+		// 查找目标学生
+		const student = students.find(s => s.id === studentId)
+
+		// 如果找到，更新其等级信息
+		if (student) {
+			student.level = newLevel
+			student.levelName = newLevelName
+		}
+	}
+
+	// 查找学生对象（用于获取原等级和管理员映射更新）
+	const student = allStudentInfos.value.find(s => s.id === studentId)
+
+	// 如果找不到学生，直接返回
+	if (!student) {
+		return
+	}
+
+	// 保存原等级
+	const oldLevel = student.level
+
+	// 更新所有相关数组中的学生信息
+	// 1. 更新原始数据源
+	updateStudentInArray(allStudentInfos.value)
+
+	// 2. 更新当前显示的学生列表
+	updateStudentInArray(toShowStudentInfos.value)
+
+	// 3. 更新管理员姓名映射表
+	// 情况1：原等级是管理员，新等级不是管理员 → 从映射表中移除
+	if (oldLevel === 3 && newLevel !== 3) {
+		adminNameMap.delete(studentId)
+	}
+
+	// 情况2：原等级不是管理员，新等级是管理员 → 添加到映射表
+	if (oldLevel !== 3 && newLevel === 3) {
+		adminNameMap.set(studentId, student.name)
+	}
+
+	// 情况3：原等级和新等级都是管理员 → 更新映射表（名称可能改变）
+	if (oldLevel === 3 && newLevel === 3) {
+		adminNameMap.set(studentId, student.name)
+	}
+}
+
+
 
 // 导出响应式变量，供Vue组件使用
 export {
-	pageState, specialPassword, toShowStudentInfos, allStudentInfos, currentSelectedLevel,
+	pageState,
+	specialPassword,
+	toShowStudentInfos,
+	allStudentInfos,
+	currentSelectedLevel,
 	isAuthenticating, // 验证按钮是否点击状态
 	superAdminAvatarUrl, // 超级管理员头像 URL
 	searchKeywords, // 搜索关键词
