@@ -460,6 +460,43 @@ export function updateStudentLevel(studentId: number, newLevel: number, newLevel
 		adminNameMap.set(studentId, student.name)
 	}
 }
+/**
+ * 更新学生所属管理员
+ * 直接更新本地数据，无需重新从服务器获取
+ *
+ * @param {number} studentId - 学生数据库表主键ID
+ * @param {number} newAdminId - 新的管理员ID
+ * @returns {void} 无返回值
+ * @description
+ * - 更新所有相关数组中的学生管理员信息
+ * - 自动更新当前显示的列表（toShowStudentInfos）
+ * - 不需要重新获取数据，性能更优
+ * - 管理员姓名通过 getAdminName() 函数动态获取
+ *
+ * @example
+ * // 将学生ID为123的学生管理员改为ID为456的管理员
+ * updateStudentAdmin(123, 456)
+ */
+export function updateStudentAdmin(studentId: number, newAdminId: number): void {
+	// 辅助函数：在指定数组中查找学生并更新管理员信息
+	const updateStudentAdminInArray = (students: StudentInfo[]) => {
+		// 查找目标学生
+		const student = students.find(s => s.id === studentId)
+
+		// 如果找到，只更新其管理员ID
+		if (student) {
+			student.adminId = newAdminId
+		}
+	}
+
+	// 更新所有相关数组中的学生信息
+	// 1. 更新原始数据源
+	updateStudentAdminInArray(allStudentInfos.value)
+
+	// 2. 更新当前显示的学生列表
+	updateStudentAdminInArray(toShowStudentInfos.value)
+}
+
 
 
 

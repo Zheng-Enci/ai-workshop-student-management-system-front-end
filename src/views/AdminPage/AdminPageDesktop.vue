@@ -11,17 +11,6 @@ import {
 	ElIcon,          // 图标容器
 	ElInput,         // 输入框
 	ElButton,        // 按钮
-	ElSelect,        // 下拉选择器
-	ElOption,        // 下拉选项
-	ElDialog,        // 弹窗
-	ElForm,          // 表单
-	ElFormItem,      // 表单项
-	ElInputNumber,   // 数字输入框
-	ElDatePicker,    // 日期选择器
-	ElTag,           // 标签
-	ElTooltip,       // 提示框
-	// 分页组件
-	ElCalendar       // 日历组件
 } from 'element-plus'
 import {useRouter} from 'vue-router'
 
@@ -64,10 +53,7 @@ import {
 	Edit,            // 编辑图标
 	// 填充用户图标
 	Clock,           // 时钟图标
-	Warning,         // 警告图标
 	Document,        // 文档图标
-	Loading,         // 加载图标
-	Box,             // 盒子图标
 	Lock, House,
 	Key, Refresh,
 } from '@element-plus/icons-vue'
@@ -82,7 +68,6 @@ import {
 import LoadingMask from '../../components/LoadingMask.vue'
 
 
-
 import {pageState} from './ts/AdminPage.ts'
 import {toggleTheme} from "./ts/AdminPage.ts";
 import {logout} from "./ts/AdminPage.ts";
@@ -91,17 +76,27 @@ import {searchKeywords} from './ts/AdminPage.ts'
 
 // 导入 ChangeLevelForm 组件
 import ChangeLevelForm from './forms/desktop/ChangeLevelForm.vue'
+import ChangeAdminForm from './forms/desktop/ChangeAdminForm.vue'
 
 
 // 定义响应式变量
 const changeLevelDialogVisible = ref(false)
 const selectedStudent = ref(null)
 
+const changeAdminDialogVisible = ref(false)
+const selectedStudentForAdminChange = ref(null)
+
+
 // 打开修改身份弹窗
 const openChangeLevelDialog = (student) => {
 	selectedStudent.value = student
 	changeLevelDialogVisible.value = true
 }
+const openChangeAdminDialog = (student) => {
+	selectedStudentForAdminChange.value = student
+	changeAdminDialogVisible.value = true
+}
+
 
 // ===================== 生命周期 & 监听 =====================
 /**
@@ -311,15 +306,15 @@ onMounted(async () => {
 					</el-button>
 					</span>
 
-					<span v-if = "studentInfo.level !== 3">所属管理员：<el-button
+					<span v-if="studentInfo.level !== 3">所属管理员：<el-button
 						type="primary"
 						size="small"
+						@click="openChangeAdminDialog(studentInfo)"
 					>
-						  <el-icon>
-							<user/>
-						  </el-icon>
-						 {{ getAdminName(studentInfo.adminId) }}
-						</el-button>
+						<el-icon><user/></el-icon>
+						{{ getAdminName(studentInfo.adminId) }}
+					</el-button>
+
 					</span>
 				</div>
 				<div class="student-cards-item-buttons">
@@ -409,6 +404,11 @@ onMounted(async () => {
 		v-model="changeLevelDialogVisible"
 		:student="selectedStudent"
 	/>
+	<ChangeAdminForm
+		v-model="changeAdminDialogVisible"
+		:student="selectedStudentForAdminChange"
+	/>
+
 </template>
 
 <style scoped src="./css/desktop/AdminPageDesktop.css"></style>

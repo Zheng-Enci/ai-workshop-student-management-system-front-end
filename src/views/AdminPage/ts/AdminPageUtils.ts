@@ -7,9 +7,9 @@
  */
 
 import {ElMessage} from 'element-plus'
-import SpecialPasswordApi from "../../../api/SpecialPasswordApi";
+import SpecialPasswordApi from "../../../api/ts/SpecialPasswordApi";
 import StudentApi from "../../../api/StudentApi";
-import {adminPageConfig, AdminPageConfig} from "./AdminPageConfig";
+import {adminPageConfig} from "./AdminPageConfig";
 import type {StudentInfo, RawStudentData, LevelMap} from './types';
 
 /**
