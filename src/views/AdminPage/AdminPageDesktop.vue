@@ -77,6 +77,7 @@ import {searchKeywords} from './ts/AdminPage.ts'
 // 导入 ChangeLevelForm 组件
 import ChangeLevelForm from './forms/desktop/ChangeLevelForm.vue'
 import ChangeAdminForm from './forms/desktop/ChangeAdminForm.vue'
+import ViewAttendanceRecordsForm from './forms/desktop/ViewAttendanceRecordsForm.vue'
 
 
 // 定义响应式变量
@@ -86,6 +87,15 @@ const selectedStudent = ref(null)
 const changeAdminDialogVisible = ref(false)
 const selectedStudentForAdminChange = ref(null)
 
+// 状态变量
+const attendanceDialogVisible = ref(false)
+const selectedStudentForAttendance = ref(null)
+
+// 打开考勤记录弹窗
+const openAttendanceDialog = (student) => {
+	selectedStudentForAttendance.value = student
+	attendanceDialogVisible.value = true
+}
 
 // 打开修改身份弹窗
 const openChangeLevelDialog = (student) => {
@@ -321,15 +331,15 @@ onMounted(async () => {
 					<div>
 						<span>考勤</span>
 						<div>
-							<!-- 考勤记录按钮 -->
+							<!-- 在学生卡片的考勤按钮上添加点击事件 -->
 							<el-button
 								type="success"
+								@click="openAttendanceDialog(studentInfo)"
 							>
-								<el-icon>
-									<calendar/>
-								</el-icon>
+								<el-icon><calendar/></el-icon>
 								考勤记录
 							</el-button>
+
 							<!-- 补卡按钮 -->
 							<el-button
 								type="warning"
@@ -407,6 +417,11 @@ onMounted(async () => {
 	<ChangeAdminForm
 		v-model="changeAdminDialogVisible"
 		:student="selectedStudentForAdminChange"
+	/>
+	<!-- 添加组件 -->
+	<ViewAttendanceRecordsForm
+		v-model="attendanceDialogVisible"
+		:student="selectedStudentForAttendance"
 	/>
 
 </template>
