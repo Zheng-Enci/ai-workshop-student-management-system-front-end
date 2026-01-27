@@ -83,6 +83,7 @@ import ChangeAdminForm from './forms/desktop/ChangeAdminForm.vue'               
 import ViewAttendanceRecordsForm from './forms/desktop/ViewAttendanceRecordsForm.vue' // 查看考勤记录组件
 import MakeupAttendanceForm from './forms/desktop/MakeupAttendanceForm.vue'          // 补卡组件
 import CreatePointsRecordForm from './forms/desktop/CreatePointsRecordForm.vue'      // 创建积分记录组件
+import ViewPointsRecordsForm from './forms/desktop/ViewPointsRecordsForm.vue'        // 查看改分记录组件
 
 // ===================== 第二部分：路由实例 =====================
 const router = useRouter()
@@ -120,6 +121,12 @@ const makeupAttendanceDialogVisible = ref(false)
  */
 const createPointsRecordDialogVisible = ref(false)
 
+/**
+ * 查看改分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const viewPointsRecordsDialogVisible = ref(false)
+
 // 3.2 选中学生状态
 /**
  * 当前选中的学生对象（用于修改身份）
@@ -150,6 +157,12 @@ const selectedStudentForMakeup = ref(null)
  * @type {Ref<Object|null>}
  */
 const selectedStudentForPointsRecord = ref(null)
+
+/**
+ * 当前选中的学生对象（用于查看改分记录操作）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForViewPointsRecords = ref(null)
 
 // 3.3 子组件引用
 /**
@@ -214,6 +227,16 @@ const openMakeupAttendanceDialog = (student) => {
 const openCreatePointsRecordDialog = (student) => {
 	selectedStudentForPointsRecord.value = student
 	createPointsRecordDialogVisible.value = true
+}
+
+/**
+ * 打开查看改分记录弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示改分记录对话框
+ */
+const openViewPointsRecordsDialog = (student) => {
+	selectedStudentForViewPointsRecords.value = student
+	viewPointsRecordsDialogVisible.value = true
 }
 
 /**
@@ -550,9 +573,10 @@ onMounted(async () => {
 								</el-icon>
 								修改积分
 							</el-button>
-							<!-- 查看改分记录按钮（功能待实现） -->
+							<!-- 查看改分记录按钮 -->
 							<el-button
 								type="info"
+								@click="openViewPointsRecordsDialog(studentInfo)"
 							>
 								<el-icon>
 									<Document/>
@@ -612,6 +636,12 @@ onMounted(async () => {
 	<CreatePointsRecordForm
 		v-model="createPointsRecordDialogVisible"
 		:student="selectedStudentForPointsRecord"
+	/>
+
+	<!-- 查看改分记录弹窗组件 -->
+	<ViewPointsRecordsForm
+		v-model="viewPointsRecordsDialogVisible"
+		:student="selectedStudentForViewPointsRecords"
 	/>
 
 	<!-- 考勤热力图弹窗组件 -->

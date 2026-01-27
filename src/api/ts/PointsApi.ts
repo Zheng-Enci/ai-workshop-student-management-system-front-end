@@ -50,7 +50,7 @@ export interface TopStudentInfo {
  */
 export interface AdjustRecord {
 	adjustReason: string
-	adjustPoint: number
+	adjustPoints: number
 	createTime: string
 }
 

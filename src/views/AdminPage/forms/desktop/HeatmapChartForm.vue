@@ -108,7 +108,6 @@ const closeHeatmapDialog = () => {
  */
 const initDialogHeatmapChart = () => {
 	if (!heatmapDialogChart.value) {
-		console.error('热力图容器不存在')
 		return
 	}
 
@@ -119,7 +118,6 @@ const initDialogHeatmapChart = () => {
 	try {
 		heatmapInstance.value = echarts.init(heatmapDialogChart.value)
 	} catch (error) {
-		console.error('ECharts初始化失败:', error)
 		return
 	}
 
