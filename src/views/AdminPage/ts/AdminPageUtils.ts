@@ -110,6 +110,7 @@ class AdminPageUtils {
 					id: student.id ?? 0,
 					studentId: String(student.studentId ?? ''),
 					name: student.name ?? '',
+					college: student.college ?? '',
 					grade: student.grade ?? 1,
 					major: student.major ?? '',
 					classNum: student.classNum ?? 1,
@@ -175,6 +176,8 @@ class AdminPageUtils {
 					student.name.toLowerCase().includes(lowerKeyword) ||
 					// 年级
 					String(student.grade).includes(lowerKeyword) ||
+					// 学院
+					student.college.toLowerCase().includes(lowerKeyword) ||
 					// 专业
 					student.major.toLowerCase().includes(lowerKeyword) ||
 					// 班级（包含"班"字）

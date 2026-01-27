@@ -27,6 +27,32 @@ interface AxiosRequestConfig {
 }
 
 /**
+ * 学生信息更新类型
+ * 定义可通过特殊密码修改的学生信息字段
+ */
+interface StudentUpdateInfo {
+	name: string
+	studentId: string
+	gender: string
+	phoneNumber: string
+	college: string
+	major: string
+	grade: number
+	classNum: number
+	password: string
+}
+
+/**
+ * Axios更新学生信息请求配置类型
+ */
+interface UpdateStudentRequestConfig {
+	params: {
+		'special-password': string
+		'student-id': string
+	}
+}
+
+/**
  * Axios错误类型
  */
 interface AxiosError {
@@ -107,6 +133,7 @@ class SpecialPasswordApi {
 		})
 		return response.data
 	}
+
 	/**
 	 * 分配学生为管理员
 	 * 通过特殊密码将指定学生分配给指定管理员进行管理
@@ -136,6 +163,7 @@ class SpecialPasswordApi {
 		})
 		return response.data
 	}
+
 	/**
 	 * 特殊密码补卡
 	 * 通过特殊密码为指定学生在指定时间进行补卡操作
@@ -166,6 +194,7 @@ class SpecialPasswordApi {
 		})
 		return response.data
 	}
+
 	/**
 	 * 创建积分记录
 	 * 通过特殊密码为指定学生创建积分记录，记录积分变更原因和分数
@@ -197,6 +226,62 @@ class SpecialPasswordApi {
 				'X-Special-Password': specialPassword
 			}
 		}).catch((error: AxiosError) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
+	/**
+	 * 管理员更新学生信息
+	 * 通过特殊密码更新指定学生的所有信息，包括学号、姓名、联系方式等
+	 *
+	 * @static
+	 * @param {string} specialPassword - 特殊密码（请联系系统管理员获取）
+	 * @param {string} oldStudentId - 要修改的学生学号（旧学号）
+	 * @param {StudentUpdateInfo} studentInfo - 新的学生信息对象
+	 * @returns {Promise<ApiResponse<boolean>>} 响应数据对象，data字段为修改结果(true/false)
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * // 更新学号为2021001001的学生信息
+	 * const result = await SpecialPasswordApi.updateStudentWithSpecialPassword(
+	 *   'password123',
+	 *   '2021001001',
+	 *   {
+	 *     name: '张三',
+	 *     studentId: '2021001002',
+	 *     gender: '男',
+	 *     phoneNumber: '13812345678',
+	 *     college: '计算机学院',
+	 *     major: '软件工程',
+	 *     grade: 3,
+	 *     classNum: 1,
+	 *     password: 'newpassword123'
+	 *   }
+	 * )
+	 * console.log(result.data) // true表示修改成功
+	 */
+	static async updateStudentWithSpecialPassword(
+		specialPassword: string,
+		oldStudentId: string,
+		studentInfo: StudentUpdateInfo
+	): Promise<ApiResponse<boolean>> {
+		const response = await this.api.put('/api/v1/students/update-with-special-password', {
+			name: studentInfo.name,
+			studentId: studentInfo.studentId,
+			gender: studentInfo.gender,
+			phoneNumber: studentInfo.phoneNumber,
+			college: studentInfo.college,
+			major: studentInfo.major,
+			grade: studentInfo.grade,
+			classNum: studentInfo.classNum,
+			password: studentInfo.password
+		}, {
+			params: {
+				'special-password': specialPassword,
+				'student-id': oldStudentId
+			}
+		} as UpdateStudentRequestConfig).catch((error: AxiosError) => {
 			const msg = error.response?.data?.message
 			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 		})

@@ -84,6 +84,7 @@ import ViewAttendanceRecordsForm from './forms/desktop/ViewAttendanceRecordsForm
 import MakeupAttendanceForm from './forms/desktop/MakeupAttendanceForm.vue'          // 补卡组件
 import CreatePointsRecordForm from './forms/desktop/CreatePointsRecordForm.vue'      // 创建积分记录组件
 import ViewPointsRecordsForm from './forms/desktop/ViewPointsRecordsForm.vue'        // 查看改分记录组件
+import UpdateStudentInfoForm from './forms/desktop/UpdateStudentInfoForm.vue'      // 修改学生个人信息组件
 
 // ===================== 第二部分：路由实例 =====================
 const router = useRouter()
@@ -127,6 +128,12 @@ const createPointsRecordDialogVisible = ref(false)
  */
 const viewPointsRecordsDialogVisible = ref(false)
 
+/**
+ * 修改学生个人信息弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const updateStudentInfoDialogVisible = ref(false)
+
 // 3.2 选中学生状态
 /**
  * 当前选中的学生对象（用于修改身份）
@@ -163,6 +170,12 @@ const selectedStudentForPointsRecord = ref(null)
  * @type {Ref<Object|null>}
  */
 const selectedStudentForViewPointsRecords = ref(null)
+
+/**
+ * 当前选中的学生对象（用于修改个人信息）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForUpdateInfo = ref(null)
 
 // 3.3 子组件引用
 /**
@@ -237,6 +250,16 @@ const openCreatePointsRecordDialog = (student) => {
 const openViewPointsRecordsDialog = (student) => {
 	selectedStudentForViewPointsRecords.value = student
 	viewPointsRecordsDialogVisible.value = true
+}
+
+/**
+ * 打开修改学生个人信息弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示修改个人信息对话框
+ */
+const openUpdateStudentInfoDialog = (student) => {
+	selectedStudentForUpdateInfo.value = student
+	updateStudentInfoDialogVisible.value = true
 }
 
 /**
@@ -474,6 +497,7 @@ onMounted(async () => {
 				<!-- 学生详细信息：年级、专业、班级、性别、手机、身份、所属管理员 -->
 				<div class="student-cards-item-student-info">
 					<span>年级：{{ studentInfo.grade }}年级</span>
+					<span>学院：{{ studentInfo.college }}</span>
 					<span>专业：{{ studentInfo.major }}</span>
 					<span>班级：{{ studentInfo.classNum }}班</span>
 					<span>性别：{{ studentInfo.gender }}</span>
@@ -590,9 +614,10 @@ onMounted(async () => {
 					<div>
 						<span>个人信息</span>
 						<div>
-							<!-- 编辑个人信息按钮（功能待实现） -->
+							<!-- 编辑个人信息按钮 -->
 							<el-button
 								type="primary"
+								@click="openUpdateStudentInfoDialog(studentInfo)"
 							>
 								<el-icon>
 									<Edit/>
@@ -638,11 +663,18 @@ onMounted(async () => {
 		:student="selectedStudentForPointsRecord"
 	/>
 
-	<!-- 查看改分记录弹窗组件 -->
-	<ViewPointsRecordsForm
-		v-model="viewPointsRecordsDialogVisible"
-		:student="selectedStudentForViewPointsRecords"
-	/>
+<!-- 查看改分记录弹窗组件 -->
+<ViewPointsRecordsForm
+	v-model="viewPointsRecordsDialogVisible"
+	:student="selectedStudentForViewPointsRecords"
+/>
+
+<!-- 修改学生个人信息弹窗组件 -->
+<UpdateStudentInfoForm
+	v-model="updateStudentInfoDialogVisible"
+	:student="selectedStudentForUpdateInfo"
+	@success="refreshData"
+/>
 
 	<!-- 考勤热力图弹窗组件 -->
 	<HeatmapChartForm ref="heatmapChartFormRef" />
