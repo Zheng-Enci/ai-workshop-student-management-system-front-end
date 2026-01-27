@@ -82,6 +82,7 @@ import ChangeLevelForm from './forms/desktop/ChangeLevelForm.vue'               
 import ChangeAdminForm from './forms/desktop/ChangeAdminForm.vue'                  // 修改所属管理员组件
 import ViewAttendanceRecordsForm from './forms/desktop/ViewAttendanceRecordsForm.vue' // 查看考勤记录组件
 import MakeupAttendanceForm from './forms/desktop/MakeupAttendanceForm.vue'          // 补卡组件
+import CreatePointsRecordForm from './forms/desktop/CreatePointsRecordForm.vue'      // 创建积分记录组件
 
 // ===================== 第二部分：路由实例 =====================
 const router = useRouter()
@@ -113,6 +114,12 @@ const attendanceDialogVisible = ref(false)
  */
 const makeupAttendanceDialogVisible = ref(false)
 
+/**
+ * 创建积分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const createPointsRecordDialogVisible = ref(false)
+
 // 3.2 选中学生状态
 /**
  * 当前选中的学生对象（用于修改身份）
@@ -137,6 +144,12 @@ const selectedStudentForAttendance = ref(null)
  * @type {Ref<Object|null>}
  */
 const selectedStudentForMakeup = ref(null)
+
+/**
+ * 当前选中的学生对象（用于创建积分记录操作）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForPointsRecord = ref(null)
 
 // 3.3 子组件引用
 /**
@@ -191,6 +204,16 @@ const openAttendanceDialog = (student) => {
 const openMakeupAttendanceDialog = (student) => {
 	selectedStudentForMakeup.value = student
 	makeupAttendanceDialogVisible.value = true
+}
+
+/**
+ * 打开创建积分记录弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示创建积分记录对话框
+ */
+const openCreatePointsRecordDialog = (student) => {
+	selectedStudentForPointsRecord.value = student
+	createPointsRecordDialogVisible.value = true
 }
 
 /**
@@ -517,9 +540,10 @@ onMounted(async () => {
 					<div>
 						<span>积分</span>
 						<div>
-							<!-- 修改积分按钮（功能待实现） -->
+							<!-- 修改积分按钮 -->
 							<el-button
 								type="success"
+								@click="openCreatePointsRecordDialog(studentInfo)"
 							>
 								<el-icon>
 									<Edit/>
@@ -582,6 +606,12 @@ onMounted(async () => {
 	<MakeupAttendanceForm
 		v-model="makeupAttendanceDialogVisible"
 		:student="selectedStudentForMakeup"
+	/>
+
+	<!-- 创建积分记录弹窗组件 -->
+	<CreatePointsRecordForm
+		v-model="createPointsRecordDialogVisible"
+		:student="selectedStudentForPointsRecord"
 	/>
 
 	<!-- 考勤热力图弹窗组件 -->

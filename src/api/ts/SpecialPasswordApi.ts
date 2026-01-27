@@ -166,6 +166,43 @@ class SpecialPasswordApi {
 		})
 		return response.data
 	}
+	/**
+	 * 创建积分记录
+	 * 通过特殊密码为指定学生创建积分记录，记录积分变更原因和分数
+	 *
+	 * @static
+	 * @param {string} specialPassword - 特殊密码（请联系系统管理员获取）
+	 * @param {number} targetStudentInfoId - 目标学生数据库表主键ID
+	 * @param {number} changePoints - 改分分数（正数为加分，负数为扣分）
+	 * @param {string} adjustReason - 改分理由
+	 * @returns {Promise<ApiResponse<null>>} 响应数据对象，data字段为null
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * // 为ID为123的学生增加10分，理由是"参加活动表现优秀"
+	 * const result = await SpecialPasswordApi.createPointsRecord('password123', 123, 10, '参加活动表现优秀')
+	 * console.log(result.data) // null表示创建成功
+	 */
+	static async createPointsRecord(
+		specialPassword: string,
+		targetStudentInfoId: number,
+		changePoints: number,
+		adjustReason: string
+	): Promise<ApiResponse<null>> {
+		const response = await this.api.post('/api/v1/points', {
+			adjustReason: adjustReason,
+			changePoints: changePoints,
+			targetStudentInfoId: targetStudentInfoId
+		}, {
+			headers: {
+				'X-Special-Password': specialPassword
+			}
+		}).catch((error: AxiosError) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
 
 }
 
