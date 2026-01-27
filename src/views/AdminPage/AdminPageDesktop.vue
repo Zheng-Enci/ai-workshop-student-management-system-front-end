@@ -73,6 +73,7 @@ import {toggleTheme} from "./ts/AdminPage.ts";
 import {logout} from "./ts/AdminPage.ts";
 import {specialPassword} from "./ts/AdminPage.ts";
 import {searchKeywords} from './ts/AdminPage.ts'
+import HeatmapChartForm from './forms/desktop/HeatmapChartForm.vue'
 
 // 导入 ChangeLevelForm 组件
 import ChangeLevelForm from './forms/desktop/ChangeLevelForm.vue'
@@ -118,6 +119,12 @@ const openChangeAdminDialog = (student) => {
 	selectedStudentForAdminChange.value = student
 	changeAdminDialogVisible.value = true
 }
+const heatmapChartFormRef = ref(null)
+
+const openHeatmapDialog = (student) => {
+	heatmapChartFormRef.value.openHeatmapDialog(student)
+}
+
 
 
 // ===================== 生命周期 & 监听 =====================
@@ -365,6 +372,7 @@ onMounted(async () => {
 							<!-- 热力图按钮 -->
 							<el-button
 								type="info"
+								@click="openHeatmapDialog(studentInfo)"
 							>
 								<el-icon>
 									<trend-charts/>
@@ -440,6 +448,7 @@ onMounted(async () => {
 		v-model="makeupAttendanceDialogVisible"
 		:student="selectedStudentForMakeup"
 	/>
+	<HeatmapChartForm ref="heatmapChartFormRef" />
 
 </template>
 
