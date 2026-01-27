@@ -5,21 +5,32 @@
  * 技术栈：Vue3 + Script Setup + Element Plus + 组合式API
  */
 
-// ===================== 依赖导入区 =====================
-// Element Plus 核心组件导入
+// ===================== 第一部分：依赖导入区 =====================
+
+// 1.1 Vue 核心依赖
+import { useRouter } from 'vue-router'
+import { onMounted, nextTick, ref } from 'vue'
+
+// 1.2 Element Plus 核心组件
+import { ElIcon, ElInput, ElButton } from 'element-plus'
+
+// 1.3 Element Plus 图标组件
 import {
-	ElIcon,          // 图标容器
-	ElInput,         // 输入框
-	ElButton,        // 按钮
-} from 'element-plus'
-import {useRouter} from 'vue-router'
+	User,            // 用户图标
+	Calendar,        // 日历图标
+	TrendCharts,     // 趋势图图标
+	Search,          // 搜索图标
+	SwitchButton,    // 切换按钮图标
+	Edit,            // 编辑图标
+	Clock,           // 时钟图标
+	Document,        // 文档图标
+	Lock,            // 锁图标
+	House,           // 房屋图标
+	Key,             // 钥匙图标
+	Refresh,         // 刷新图标
+} from '@element-plus/icons-vue'
 
-const router = useRouter()
-
-// Vue 核心组合式API
-import {onMounted, nextTick, ref} from 'vue'
-
-// Element Plus 样式导入（按需导入）
+// 1.4 Element Plus 样式导入（按需导入，减少包体积）
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -43,101 +54,171 @@ import 'element-plus/theme-chalk/el-tabs.css'
 import 'element-plus/theme-chalk/el-tab-pane.css'
 import 'element-plus/theme-chalk/el-tag.css'
 
-// Element Plus 图标组件导入
+// 1.5 业务逻辑模块导入
 import {
-	User,            // 用户图标
-	Calendar,        // 日历图标
-	TrendCharts,     // 趋势图图标
-	Search,          // 搜索图标
-	SwitchButton,    // 切换按钮图标
-	Edit,            // 编辑图标
-	// 填充用户图标
-	Clock,           // 时钟图标
-	Document,        // 文档图标
-	Lock, House,
-	Key, Refresh,
-} from '@element-plus/icons-vue'
-import {
-	authenticate, isAuthenticating, superAdminAvatarUrl,
-	toShowStudentInfos, searchStudents, refreshData, resetPageState, getAdminName
+	authenticate,                      // 身份验证函数
+	isAuthenticating,                  // 验证状态
+	superAdminAvatarUrl,               // 管理员头像URL
+	toShowStudentInfos,                // 待展示的学生列表
+	searchStudents,                    // 搜索学生函数
+	refreshData,                      // 刷新数据函数
+	resetPageState,                   // 重置页面状态
+	getAdminName,                     // 获取管理员名称
+	pageState,                        // 页面状态
+	toggleTheme,                      // 切换主题函数
+	logout,                           // 退出登录函数
+	specialPassword,                  // 特殊密码
+	searchKeywords,                   // 搜索关键词
 } from './ts/AdminPage.ts'
 
-
-// ===================== 业务变量定义区 =====================
-// 在现有的导入语句下添加
+// 1.6 业务组件导入
+// 全局组件
 import LoadingMask from '../../components/LoadingMask.vue'
 
+// 表单弹窗组件
+import HeatmapChartForm from './forms/desktop/HeatmapChartForm.vue'              // 考勤热力图组件
+import AttendanceTrendChartForm from './forms/desktop/AttendanceTrendChartForm.vue' // 考勤趋势图组件
+import ChangeLevelForm from './forms/desktop/ChangeLevelForm.vue'                  // 修改学生身份组件
+import ChangeAdminForm from './forms/desktop/ChangeAdminForm.vue'                  // 修改所属管理员组件
+import ViewAttendanceRecordsForm from './forms/desktop/ViewAttendanceRecordsForm.vue' // 查看考勤记录组件
+import MakeupAttendanceForm from './forms/desktop/MakeupAttendanceForm.vue'          // 补卡组件
 
-import {pageState} from './ts/AdminPage.ts'
-import {toggleTheme} from "./ts/AdminPage.ts";
-import {logout} from "./ts/AdminPage.ts";
-import {specialPassword} from "./ts/AdminPage.ts";
-import {searchKeywords} from './ts/AdminPage.ts'
-import HeatmapChartForm from './forms/desktop/HeatmapChartForm.vue'
-import AttendanceTrendChartForm from './forms/desktop/AttendanceTrendChartForm.vue'
-// 导入 ChangeLevelForm 组件
-import ChangeLevelForm from './forms/desktop/ChangeLevelForm.vue'
-import ChangeAdminForm from './forms/desktop/ChangeAdminForm.vue'
-import ViewAttendanceRecordsForm from './forms/desktop/ViewAttendanceRecordsForm.vue'
-// 在文件顶部导入区域添加
-import MakeupAttendanceForm from './forms/desktop/MakeupAttendanceForm.vue'
-const trendChartFormRef = ref(null)  // 添加这一行
+// ===================== 第二部分：路由实例 =====================
+const router = useRouter()
 
-const openTrendChartDialog = (student) => {  // 添加这一行
-	trendChartFormRef.value.openTrendChartDialog(student)
-}
-// 补卡弹窗状态
-const makeupAttendanceDialogVisible = ref(false)
-const selectedStudentForMakeup = ref(null)
+// ===================== 第三部分：响应式状态定义区 =====================
 
-// 打开补卡弹窗
-const openMakeupAttendanceDialog = (student) => {
-	selectedStudentForMakeup.value = student
-	makeupAttendanceDialogVisible.value = true
-}
-
-
-// 定义响应式变量
+// 3.1 弹窗显示状态
+/**
+ * 修改学生身份弹窗显示状态
+ * @type {Ref<boolean>}
+ */
 const changeLevelDialogVisible = ref(false)
+
+/**
+ * 修改所属管理员弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const changeAdminDialogVisible = ref(false)
+
+/**
+ * 查看考勤记录弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const attendanceDialogVisible = ref(false)
+
+/**
+ * 补卡弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const makeupAttendanceDialogVisible = ref(false)
+
+// 3.2 选中学生状态
+/**
+ * 当前选中的学生对象（用于修改身份）
+ * @type {Ref<Object|null>}
+ */
 const selectedStudent = ref(null)
 
-const changeAdminDialogVisible = ref(false)
+/**
+ * 当前选中的学生对象（用于修改管理员）
+ * @type {Ref<Object|null>}
+ */
 const selectedStudentForAdminChange = ref(null)
 
-// 状态变量
-const attendanceDialogVisible = ref(false)
+/**
+ * 当前选中的学生对象（用于查看考勤记录）
+ * @type {Ref<Object|null>}
+ */
 const selectedStudentForAttendance = ref(null)
 
-// 打开考勤记录弹窗
+/**
+ * 当前选中的学生对象（用于补卡操作）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForMakeup = ref(null)
+
+// 3.3 子组件引用
+/**
+ * 热力图组件引用，用于调用组件方法
+ * @type {Ref<Object|null>}
+ */
+const heatmapChartFormRef = ref(null)
+
+/**
+ * 趋势图组件引用，用于调用组件方法
+ * @type {Ref<Object|null>}
+ */
+const trendChartFormRef = ref(null)
+
+// ===================== 第四部分：弹窗操作函数区 =====================
+
+/**
+ * 打开修改学生身份弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示修改身份对话框
+ */
+const openChangeLevelDialog = (student) => {
+	selectedStudent.value = student
+	changeLevelDialogVisible.value = true
+}
+
+/**
+ * 打开修改所属管理员弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示修改管理员对话框
+ */
+const openChangeAdminDialog = (student) => {
+	selectedStudentForAdminChange.value = student
+	changeAdminDialogVisible.value = true
+}
+
+/**
+ * 打开查看考勤记录弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示考勤记录对话框
+ */
 const openAttendanceDialog = (student) => {
 	selectedStudentForAttendance.value = student
 	attendanceDialogVisible.value = true
 }
 
-// 打开修改身份弹窗
-const openChangeLevelDialog = (student) => {
-	selectedStudent.value = student
-	changeLevelDialogVisible.value = true
+/**
+ * 打开补卡操作弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示补卡对话框
+ */
+const openMakeupAttendanceDialog = (student) => {
+	selectedStudentForMakeup.value = student
+	makeupAttendanceDialogVisible.value = true
 }
-const openChangeAdminDialog = (student) => {
-	selectedStudentForAdminChange.value = student
-	changeAdminDialogVisible.value = true
-}
-const heatmapChartFormRef = ref(null)
 
+/**
+ * 打开考勤热力图弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 调用热力图子组件的打开方法，展示学生签到热力图
+ */
 const openHeatmapDialog = (student) => {
 	heatmapChartFormRef.value.openHeatmapDialog(student)
 }
 
+/**
+ * 打开考勤趋势图弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 调用趋势图子组件的打开方法，展示学生签到累计趋势
+ */
+const openTrendChartDialog = (student) => {
+	trendChartFormRef.value.openTrendChartDialog(student)
+}
 
+// ===================== 第五部分：生命周期钩子区 =====================
 
-// ===================== 生命周期 & 监听 =====================
 /**
  * 组件挂载完成钩子
- * 核心逻辑：
+ * 执行逻辑：
  * 1. 设置页面标题
- * 2. 从本地存储获取管理员密码，自动完成认证并加载数据
- * 3. 无密码时显示身份验证界面
+ * 2. 重置页面状态为初始值
+ * 3. 等待 DOM 更新完成
  */
 onMounted(async () => {
 	// 设置页面标题
@@ -146,21 +227,25 @@ onMounted(async () => {
 	// 重置数据为初始状态
 	resetPageState()
 
-
+	// 等待 DOM 更新
 	await nextTick()
 })
-
 </script>
 
 <template>
-	<!-- 加载蒙版 -->
+	<!-- ===================== 模板区域 ===================== -->
+
+	<!-- 加载蒙版：全局加载状态提示 -->
 	<LoadingMask/>
-	<!-- 1. 身份验证界面：未认证时显示 -->
+
+	<!-- ===================== 1. 身份验证界面 ===================== -->
+	<!-- 显示条件：未通过身份验证时显示 -->
 	<div v-if="pageState === 'auth'">
-		<!-- 身份认证页面顶部 -->
+		<!-- 身份认证页面顶部：包含返回按钮、系统logo和锁图标 -->
 		<div class="identify-authentication-page-header">
+			<!-- 左侧区域：返回按钮和系统logo -->
 			<div class="identify-authentication-page-header-left">
-				<!-- 该按钮前往首页 -->
+				<!-- 返回首页按钮 -->
 				<el-button
 					type="primary"
 					:icon="House"
@@ -168,30 +253,36 @@ onMounted(async () => {
 					size="large"
 					@click="router.push('/')"
 				/>
+				<!-- 系统logo（点击可切换主题） -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
 					title="切换主题模式"
-					@click="toggleTheme"/>
+					@click="toggleTheme"
+				/>
 			</div>
 
+			<!-- 页面标题 -->
 			<h2 class="identify-authentication-page-header-title">超级管理员身份验证</h2>
-			<!-- 这里是一个锁标志 让页面看起来更有安全感 -->
+
+			<!-- 右侧区域：安全锁图标 -->
 			<div class="identify-authentication-page-header-right">
 				<el-icon class="identify-authentication-page-header-right-icon">
 					<Lock/>
 				</el-icon>
 			</div>
 		</div>
-		<!-- 身份认证页面主体 -->
+
+		<!-- 身份认证页面主体：包含头像、密码输入和验证按钮 -->
 		<div class="identify-authentication-page-body">
-			<!-- 管理员头像：加载失败时显示默认样式 -->
+			<!-- 管理员头像 -->
 			<img
 				v-if="superAdminAvatarUrl"
 				v-lazy="superAdminAvatarUrl"
 				alt="Admin Avatar"
 			/>
-			<!-- 密码输入框：支持回车提交 -->
+
+			<!-- 密码输入框：支持回车提交和密码显示切换 -->
 			<el-input
 				v-model="specialPassword"
 				type="password"
@@ -202,12 +293,12 @@ onMounted(async () => {
 			>
 				<template #prefix>
 					<el-icon>
-						<lock/>
+						<Lock/>
 					</el-icon>
 				</template>
 			</el-input>
 
-			<!-- 验证按钮：加载状态禁用 -->
+			<!-- 身份验证按钮：加载时显示loading状态 -->
 			<el-button
 				type="primary"
 				size="large"
@@ -219,42 +310,50 @@ onMounted(async () => {
 				</el-icon>
 				<span>验证身份</span>
 			</el-button>
-
 		</div>
 	</div>
 
-	<!-- 2. 管理控制台主界面：已认证且数据加载完成时显示 -->
+	<!-- ===================== 2. 管理控制台主界面 ===================== -->
+	<!-- 显示条件：已通过身份验证时显示 -->
 	<div v-else class="main-page">
-		<!-- 3.1 头部区域：logo + 标题 + 退出按钮 -->
+		<!-- 2.1 页面头部：logo、标题和退出按钮 -->
 		<div class="main-page-header">
+			<!-- 左侧区域：系统logo和控制台标题 -->
 			<div class="main-page-header-left">
+				<!-- 系统logo（点击可切换主题） -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
 					title="切换主题模式"
-					@click="toggleTheme"/>
+					@click="toggleTheme"
+				/>
+				<!-- 控制台标题区域 -->
 				<div class="main-page-header-left-title">
 					<h1>超级管理员控制台</h1>
 					<p>Super Admin Console</p>
 				</div>
 			</div>
+
+			<!-- 右侧区域：退出登录按钮 -->
 			<div class="main-page-header-right">
 				<el-button
 					type="danger"
 					size="large"
-					@click="logout">
+					@click="logout"
+				>
 					<el-icon>
-						<switch-button/>
+						<SwitchButton/>
 					</el-icon>
 					退出登录
 				</el-button>
 			</div>
 		</div>
 
-
-		<!-- 等级标签页：按学生等级分类展示 -->
+		<!-- 2.2 搜索和刷新功能区域 -->
 		<div class="main-page-buttons-and-search">
+			<!-- 搜索框和刷新按钮容器 -->
 			<div class="main-page-buttons-and-search-search">
+				<!-- 多关键词搜索框：支持按学号、姓名等多维度搜索 -->
 				<el-input
 					v-model="searchKeywords"
 					placeholder="搜索学生信息,支持多词搜索(空格隔开)"
@@ -263,169 +362,192 @@ onMounted(async () => {
 				>
 					<template #prefix>
 						<el-icon>
-							<search/>
+							<Search/>
 						</el-icon>
 					</template>
 				</el-input>
 
-				<!-- 刷新按钮 -->
+				<!-- 刷新数据按钮 -->
 				<el-button
 					type="success"
 					size="default"
 					@click="refreshData"
 				>
 					<el-icon>
-						<refresh/>
+						<Refresh/>
 					</el-icon>
 					刷新数据
 				</el-button>
 			</div>
-
 		</div>
+
+		<!-- 2.3 学生卡片列表区域 -->
 		<div class="student-cards">
+			<!-- 遍历学生列表，每个学生生成一张卡片 -->
 			<div
 				v-for="studentInfo in toShowStudentInfos"
 				:key="studentInfo.id"
 				class="student-cards-item"
 			>
-				<!-- 学生卡片头部 -->
+				<!-- 学生卡片头部：头像、基本信息和积分展示 -->
 				<div class="student-cards-item-header">
+					<!-- 学生头像 -->
 					<img
 						v-if="studentInfo.avatarUrl"
 						v-lazy="studentInfo.avatarUrl"
 						alt="头像"
 					/>
+
+					<!-- 学生基本信息：ID、姓名、学号 -->
 					<div class="student-cards-item-header-student-info">
 						<div>{{ studentInfo.id }}</div>
 						<div>{{ studentInfo.name }}</div>
 						<div>{{ studentInfo.studentId }}</div>
 					</div>
 
+					<!-- 积分信息：总积分、签到积分、活动积分 -->
 					<div class="student-cards-item-header-points">
 						<div>
-								<span>总积分: {{
-										Math.round(studentInfo.attendanceCount * 0.64) + studentInfo.totalPoints
-									}}</span>
+							<span>总积分: {{
+								Math.round(studentInfo.attendanceCount * 0.64) + studentInfo.totalPoints
+							}}</span>
 						</div>
 						<div>
-								<span>签到: {{
-										Math.round(studentInfo.attendanceCount * 0.64)
-									}} ({{
-										studentInfo.attendanceCount
-									}})</span>
+							<span>签到: {{
+								Math.round(studentInfo.attendanceCount * 0.64)
+							}} ({{
+								studentInfo.attendanceCount
+							}})</span>
 							<span>&nbsp;&nbsp;活动: {{
-									studentInfo.totalPoints
-								}}</span>
+								studentInfo.totalPoints
+							}}</span>
 						</div>
 					</div>
 				</div>
-				<!-- 学生卡片学生信息 -->
+
+				<!-- 学生详细信息：年级、专业、班级、性别、手机、身份、所属管理员 -->
 				<div class="student-cards-item-student-info">
 					<span>年级：{{ studentInfo.grade }}年级</span>
 					<span>专业：{{ studentInfo.major }}</span>
 					<span>班级：{{ studentInfo.classNum }}班</span>
 					<span>性别：{{ studentInfo.gender }}</span>
 					<span>手机：{{ studentInfo.phoneNumber }}</span>
+					<!-- 学生身份：可点击修改 -->
 					<span>身份：
-					<el-button
-						type="primary"
-						size="small"
-						@click="openChangeLevelDialog(studentInfo)"
-					>
-						<el-icon>
-							<user/>
-						</el-icon>
-						{{ studentInfo.levelName }}
-					</el-button>
+						<el-button
+							type="primary"
+							size="small"
+							@click="openChangeLevelDialog(studentInfo)"
+						>
+							<el-icon>
+								<User/>
+							</el-icon>
+							{{ studentInfo.levelName }}
+						</el-button>
 					</span>
-
-					<span v-if="studentInfo.level !== 3">所属管理员：<el-button
-						type="primary"
-						size="small"
-						@click="openChangeAdminDialog(studentInfo)"
-					>
-						<el-icon><user/></el-icon>
-						{{ getAdminName(studentInfo.adminId) }}
-					</el-button>
-
+					<!-- 所属管理员：仅非超级管理员显示，可点击修改 -->
+					<span v-if="studentInfo.level !== 3">
+						所属管理员：
+						<el-button
+							type="primary"
+							size="small"
+							@click="openChangeAdminDialog(studentInfo)"
+						>
+							<el-icon>
+								<User/>
+							</el-icon>
+							{{ getAdminName(studentInfo.adminId) }}
+						</el-button>
 					</span>
 				</div>
+
+				<!-- 学生卡片操作按钮区：考勤、积分、个人信息 -->
 				<div class="student-cards-item-buttons">
+					<!-- 考勤相关操作 -->
 					<div>
 						<span>考勤</span>
 						<div>
-							<!-- 在学生卡片的考勤按钮上添加点击事件 -->
+							<!-- 查看考勤记录按钮 -->
 							<el-button
 								type="success"
 								@click="openAttendanceDialog(studentInfo)"
 							>
-								<el-icon><calendar/></el-icon>
+								<el-icon>
+									<Calendar/>
+								</el-icon>
 								考勤记录
 							</el-button>
 
-							<!-- 补卡按钮 -->
+							<!-- 补卡操作按钮 -->
 							<el-button
 								type="warning"
 								@click="openMakeupAttendanceDialog(studentInfo)"
 							>
 								<el-icon>
-									<clock/>
+									<Clock/>
 								</el-icon>
 								补卡
 							</el-button>
-							<!-- 热力图按钮 -->
+
+							<!-- 查看热力图按钮 -->
 							<el-button
 								type="info"
 								@click="openHeatmapDialog(studentInfo)"
 							>
 								<el-icon>
-									<trend-charts/>
+									<TrendCharts/>
 								</el-icon>
 								热力图
 							</el-button>
-							<!-- 趋势图按钮 -->
+
+							<!-- 查看趋势图按钮 -->
 							<el-button
 								type="primary"
 								@click="openTrendChartDialog(studentInfo)"
 							>
 								<el-icon>
-									<trend-charts/>
+									<TrendCharts/>
 								</el-icon>
 								趋势图
 							</el-button>
 						</div>
 					</div>
+
+					<!-- 积分相关操作 -->
 					<div>
 						<span>积分</span>
 						<div>
-							<!-- 修改积分按钮 -->
+							<!-- 修改积分按钮（功能待实现） -->
 							<el-button
 								type="success"
 							>
 								<el-icon>
-									<edit/>
+									<Edit/>
 								</el-icon>
 								修改积分
 							</el-button>
-							<!-- 改分记录按钮 -->
+							<!-- 查看改分记录按钮（功能待实现） -->
 							<el-button
 								type="info"
 							>
 								<el-icon>
-									<document/>
+									<Document/>
 								</el-icon>
 								改分记录
 							</el-button>
 						</div>
 					</div>
+
+					<!-- 个人信息操作 -->
 					<div>
 						<span>个人信息</span>
 						<div>
+							<!-- 编辑个人信息按钮（功能待实现） -->
 							<el-button
 								type="primary"
 							>
 								<el-icon>
-									<edit/>
+									<Edit/>
 								</el-icon>
 								编辑
 							</el-button>
@@ -435,33 +557,43 @@ onMounted(async () => {
 			</div>
 		</div>
 	</div>
-	<!-- ChangeLevelForm 组件 -->
+
+	<!-- ===================== 3. 表单弹窗组件 ===================== -->
+
+	<!-- 修改学生身份弹窗组件 -->
 	<ChangeLevelForm
 		v-model="changeLevelDialogVisible"
 		:student="selectedStudent"
 	/>
+
+	<!-- 修改所属管理员弹窗组件 -->
 	<ChangeAdminForm
 		v-model="changeAdminDialogVisible"
 		:student="selectedStudentForAdminChange"
 	/>
-	<!-- 添加组件 -->
+
+	<!-- 查看考勤记录弹窗组件 -->
 	<ViewAttendanceRecordsForm
 		v-model="attendanceDialogVisible"
 		:student="selectedStudentForAttendance"
 	/>
+
+	<!-- 补卡操作弹窗组件 -->
 	<MakeupAttendanceForm
 		v-model="makeupAttendanceDialogVisible"
 		:student="selectedStudentForMakeup"
 	/>
+
+	<!-- 考勤热力图弹窗组件 -->
 	<HeatmapChartForm ref="heatmapChartFormRef" />
+
+	<!-- 考勤趋势图弹窗组件 -->
 	<AttendanceTrendChartForm ref="trendChartFormRef" />
-
-
 </template>
 
+<!-- 样式文件导入：按模块分别导入 -->
 <style scoped src="./css/desktop/AdminPageDesktop.css"></style>
 <style scoped src="./css/desktop/AdminPage-identify_authentication_page.css"></style>
 <style scoped src="./css/desktop/AdminPage-main_page_header.css"></style>
 <style scoped src="./css/desktop/AdminPage-main_page_buttons_and_search.css"></style>
 <style scoped src="./css/desktop/AdminPage-main_page_student_cards.css"></style>
-
