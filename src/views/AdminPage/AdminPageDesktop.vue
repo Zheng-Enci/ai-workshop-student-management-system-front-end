@@ -74,14 +74,18 @@ import {logout} from "./ts/AdminPage.ts";
 import {specialPassword} from "./ts/AdminPage.ts";
 import {searchKeywords} from './ts/AdminPage.ts'
 import HeatmapChartForm from './forms/desktop/HeatmapChartForm.vue'
-
+import AttendanceTrendChartForm from './forms/desktop/AttendanceTrendChartForm.vue'
 // 导入 ChangeLevelForm 组件
 import ChangeLevelForm from './forms/desktop/ChangeLevelForm.vue'
 import ChangeAdminForm from './forms/desktop/ChangeAdminForm.vue'
 import ViewAttendanceRecordsForm from './forms/desktop/ViewAttendanceRecordsForm.vue'
 // 在文件顶部导入区域添加
 import MakeupAttendanceForm from './forms/desktop/MakeupAttendanceForm.vue'
+const trendChartFormRef = ref(null)  // 添加这一行
 
+const openTrendChartDialog = (student) => {  // 添加这一行
+	trendChartFormRef.value.openTrendChartDialog(student)
+}
 // 补卡弹窗状态
 const makeupAttendanceDialogVisible = ref(false)
 const selectedStudentForMakeup = ref(null)
@@ -382,6 +386,7 @@ onMounted(async () => {
 							<!-- 趋势图按钮 -->
 							<el-button
 								type="primary"
+								@click="openTrendChartDialog(studentInfo)"
 							>
 								<el-icon>
 									<trend-charts/>
@@ -449,6 +454,8 @@ onMounted(async () => {
 		:student="selectedStudentForMakeup"
 	/>
 	<HeatmapChartForm ref="heatmapChartFormRef" />
+	<AttendanceTrendChartForm ref="trendChartFormRef" />
+
 
 </template>
 
