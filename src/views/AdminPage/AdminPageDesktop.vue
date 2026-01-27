@@ -78,6 +78,18 @@ import {searchKeywords} from './ts/AdminPage.ts'
 import ChangeLevelForm from './forms/desktop/ChangeLevelForm.vue'
 import ChangeAdminForm from './forms/desktop/ChangeAdminForm.vue'
 import ViewAttendanceRecordsForm from './forms/desktop/ViewAttendanceRecordsForm.vue'
+// 在文件顶部导入区域添加
+import MakeupAttendanceForm from './forms/desktop/MakeupAttendanceForm.vue'
+
+// 补卡弹窗状态
+const makeupAttendanceDialogVisible = ref(false)
+const selectedStudentForMakeup = ref(null)
+
+// 打开补卡弹窗
+const openMakeupAttendanceDialog = (student) => {
+	selectedStudentForMakeup.value = student
+	makeupAttendanceDialogVisible.value = true
+}
 
 
 // 定义响应式变量
@@ -343,6 +355,7 @@ onMounted(async () => {
 							<!-- 补卡按钮 -->
 							<el-button
 								type="warning"
+								@click="openMakeupAttendanceDialog(studentInfo)"
 							>
 								<el-icon>
 									<clock/>
@@ -422,6 +435,10 @@ onMounted(async () => {
 	<ViewAttendanceRecordsForm
 		v-model="attendanceDialogVisible"
 		:student="selectedStudentForAttendance"
+	/>
+	<MakeupAttendanceForm
+		v-model="makeupAttendanceDialogVisible"
+		:student="selectedStudentForMakeup"
 	/>
 
 </template>

@@ -136,6 +136,36 @@ class SpecialPasswordApi {
 		})
 		return response.data
 	}
+	/**
+	 * 特殊密码补卡
+	 * 通过特殊密码为指定学生在指定时间进行补卡操作
+	 *
+	 * @static
+	 * @param {string} specialPassword - 特殊密码（请联系系统管理员获取）
+	 * @param {string} targetStudentId - 目标补卡学生学号（以20-30开头的10位数字）
+	 * @param {string} targetAttendanceDateTime - 目标补卡时间（ISO 8601格式：YYYY-MM-DDTHH:mm:ss）
+	 * @returns {Promise<ApiResponse<boolean>>} 响应数据对象，data字段为补卡结果(true/false)
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * // 为学号2021001001的学生在2024-01-15 08:30:00进行补卡
+	 * const result = await SpecialPasswordApi.makeupAttendanceWithSpecialPassword('password123', '2021001001', '2024-01-15T08:30:00')
+	 * console.log(result.data) // true表示补卡成功
+	 */
+	static async makeupAttendanceWithSpecialPassword(
+		specialPassword: string,
+		targetStudentId: string,
+		targetAttendanceDateTime: string
+	): Promise<ApiResponse<boolean>> {
+		const response = await this.api.post('/api/v1/attendance/makeup-with-special-password', {
+			specialPassword: specialPassword,
+			targetStudentId: targetStudentId,
+			targetAttendanceDateTime: targetAttendanceDateTime
+		}).catch((error: AxiosError) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
 
 }
 
