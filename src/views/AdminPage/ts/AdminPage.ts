@@ -275,7 +275,6 @@ const isAuthenticating = ref(false)
  * }
  */
 export async function authenticate(): Promise<void> {
-	specialPassword.value = 'axiezhixingiaigg'
 	// 如果正在验证身份，则直接返回
 	if (isAuthenticating.value) {
 		// 防止用户重复点击验证按钮
