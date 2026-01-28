@@ -9,6 +9,8 @@ import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
+import LoadingMask from '@/components/LoadingMask.vue'
 
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
@@ -22,7 +24,7 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
-import { ArrowLeft, Box, DataAnalysis, Loading, Search, User, View } from '@element-plus/icons-vue'
+import { ArrowLeft, Box, DataAnalysis, Search, User, View } from '@element-plus/icons-vue'
 import { BarChart } from 'echarts/charts'
 import { GridComponent } from 'echarts/components'
 import * as echarts from 'echarts/core'
@@ -52,6 +54,12 @@ const router = useRouter()
  * @description 管理应用主题切换(亮色/暗色模式)
  */
 const themeStore = useThemeStore()
+/**
+ * 全局加载蒙版 Store
+ * @type {Store}
+ * @description 管理全局加载蒙版的显示和隐藏
+ */
+const loadingMaskStore = useLoadingMaskStore()
 /**
  * 主题切换方法
  * @type {Function}
@@ -102,18 +110,6 @@ const totalRanking = ref([])
  * @description 存储排名靠前的学生数据
  */
 const topStudents = ref([])
-/**
- * 签到积分加载状态
- * @type {Ref<boolean>}
- * @description 控制签到积分数据加载中的状态显示
- */
-const signInLoading = ref(false)
-/**
- * 总积分加载状态
- * @type {Ref<boolean>}
- * @description 控制总积分数据加载中的状态显示
- */
-const totalLoading = ref(true)
 /**
  * 已加载的数据数量
  * @type {Ref<number>}
@@ -907,7 +903,6 @@ const handleAvatarError = student => {
  * @returns
  */
 const loadSignInRanking = async () => {
-	signInLoading.value = true
 	try {
 		const response = await getAttendanceTopRanking(selectedTopN)
 		if (response.code === 200 && response.data) {
@@ -916,7 +911,6 @@ const loadSignInRanking = async () => {
 				attendanceCount: item.attendanceCount,
 				signInPoints: Math.round(item.attendanceCount * 0.64)
 			}))
-			signInLoading.value = false
 			await nextTick()
 			if (signInRanking.value.length > 0) {
 				const initChartWithRetry = async (retryCount = 0) => {
@@ -935,8 +929,6 @@ const loadSignInRanking = async () => {
 		}
 	} catch (error) {
 		signInRanking.value = []
-	} finally {
-		signInLoading.value = false
 	}
 }
 
@@ -1181,36 +1173,45 @@ const handleSearch = () => {
  * @description 初始化页面数据和启动各种功能
  * 执行内容:
  * 1. 等待DOM更新
- * 2. 创建AllMembersPage实例并加载数据
- * 3. 绑定学生数据到页面响应式变量
- * 4. 使用padTopStudents处理数据
- * 5. 更新计数器
- * 6. 计算统计数据
- * 7. 监听窗口resize事件
- * 8. 启动励志语录轮播
+ * 2. 显示全局加载蒙版
+ * 3. 创建AllMembersPage实例并加载数据
+ * 4. 绑定学生数据到页面响应式变量
+ * 5. 使用padTopStudents处理数据
+ * 6. 更新计数器
+ * 7. 计算统计数据
+ * 8. 隐藏全局加载蒙版
+ * 9. 监听窗口resize事件
+ * 10. 启动励志语录轮播
  * @async
  * @returns {Promise<void>}
  */
 onMounted(async () => {
-	await nextTick()
+	try {
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在加载全部成员数据...')
+		await nextTick()
 
-	// 使用 AllMembersPage 加载数据
-	const allMembersPage = new AllMembersPage()
-	await allMembersPage.initData()
+		// 使用 AllMembersPage 加载数据
+		const allMembersPage = new AllMembersPage()
+		await allMembersPage.initData()
 
-	// 将加载的学生数据绑定到页面
-	totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
-	filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
+		// 将加载的学生数据绑定到页面
+		totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
+		filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
 
-	// 调用 padTopStudents 处理数据
-	topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
+		// 调用 padTopStudents 处理数据
+		topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
 
-	// 更新计数器
-	loadedCount.value = filteredStudents.value.length
-	totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
+		// 更新计数器
+		loadedCount.value = filteredStudents.value.length
+		totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
 
-	// 计算统计数据
-	calculateStatistics(totalRanking.value)
+		// 计算统计数据
+		calculateStatistics(totalRanking.value)
+	} finally {
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
+	}
 
 	window.addEventListener('resize', handleResize)
 	startQuoteRotation()
@@ -1274,6 +1275,8 @@ onUnmounted(() => {
 <template>
 	<!-- 全部成员页面主容器 -->
 	<div class="points-dashboard-container" style="overflow-y: visible;">
+		<!-- 全局加载蒙版 -->
+		<LoadingMask/>
 		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-left">
@@ -1504,16 +1507,8 @@ onUnmounted(() => {
 						</div>
 					</div>
 
-					<!-- 加载中：显示加载动画 -->
-					<div v-else-if="totalLoading" class="side-empty">
-						<el-icon class="is-loading" size="48">
-							<loading/>
-						</el-icon>
-						<span>数据加载中...</span>
-					</div>
-
 					<!-- 无数据：显示暂无数据 -->
-					<div v-else class="side-empty">
+					<div v-if="topStudents.length === 0" class="side-empty">
 						<el-icon size="48">
 							<box/>
 						</el-icon>
