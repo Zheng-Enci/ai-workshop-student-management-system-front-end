@@ -76,7 +76,7 @@ export const useHomePageLogic = () => {
 	 * 导航到超级管理员身份验证页面，需要特殊密码验证
 	 */
 	const goToAdminSystem = () => {
-		router.push('/admin/desktop')
+		router.push('/admin')
 	}
 
 	/**
