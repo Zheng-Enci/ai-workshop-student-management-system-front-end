@@ -46,7 +46,6 @@ import {
 	getCurrentMonthTop10Students, // 获取当月TOP10签到学生
 	getWeeklyRanking, // 获取周签到排行榜
 	getMonthlyRanking, // 获取月签到排行榜
-	getYearlyRanking, // 获取年签到排行榜
 	getTopStudentsByTimeRange, // 按时间范围获取TOP学生
 	getLast7DaysRanking, // 获取近7天签到排行榜
 	getLast30DaysRanking, // 获取近30天签到排行榜
@@ -114,7 +113,7 @@ const selectedTopN = 16 // 排行榜展示TOP数量
 const timeRangeOptions = [
 	{ label: '本周', value: 'week' },
 	{ label: '本月', value: 'month' },
-	{ label: '本年度', value: 'year' },
+	{ label: '今日', value: 'today' },
 	{ label: '最近7天', value: 'last7days' },
 	{ label: '最近30天', value: 'last30days' },
 	{ label: '全部', value: 'all' }
@@ -642,9 +641,13 @@ const loadRankingData = async () => {
 				response = await getMonthlyRanking(now.getFullYear(), now.getMonth() + 1, selectedTopN)
 				break
 			}
-			case 'year':
-				response = await getYearlyRanking(new Date().getFullYear(), selectedTopN)
+			case 'today': {
+				const today = new Date().toISOString().split('T')[0]
+				const startTime = `${today}T00:00:00`
+				const endTime = `${today}T23:59:59`
+				response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
 				break
+			}
 			case 'last7days':
 				response = await getLast7DaysRanking(selectedTopN)
 				break
