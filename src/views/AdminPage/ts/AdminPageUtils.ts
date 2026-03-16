@@ -7,10 +7,10 @@
  */
 
 import {ElMessage} from 'element-plus'
-import SpecialPasswordApi from "../../../api/ts/SpecialPasswordApi";
+import SpecialPasswordApi from "../../../api/SpecialPasswordApi";
 import StudentApi from "../../../api/StudentApi";
-import {adminPageConfig} from "./AdminPageConfig";
-import type {StudentInfo, RawStudentData, LevelMap} from './types';
+import {adminPageConfig, AdminPageConfig} from "./AdminPageConfig";
+import type { StudentInfo, RawStudentData, LevelMap } from './types';
 
 /**
  * 管理员页面工具类
@@ -110,7 +110,6 @@ class AdminPageUtils {
 					id: student.id ?? 0,
 					studentId: String(student.studentId ?? ''),
 					name: student.name ?? '',
-					college: student.college ?? '',
 					grade: student.grade ?? 1,
 					major: student.major ?? '',
 					classNum: student.classNum ?? 1,
@@ -136,88 +135,72 @@ class AdminPageUtils {
 			return [];
 		}
 	}
-
 	/**
 	 * 搜索学生信息
-	 * 根据多个搜索关键词在学生列表的所有字段（除了头像URL）中查找匹配的学生
-	 * 学生必须匹配所有关键词（AND 逻辑）
+	 * 根据搜索关键词在学生列表的所有字段（除了头像URL）中查找匹配的学生
 	 *
 	 * @static
 	 * @param {StudentInfo[]} students - 学生列表
-	 * @param {string[]} keywords - 搜索关键词数组
+	 * @param {string} keyword - 搜索关键词
 	 * @returns {StudentInfo[]} 匹配的学生列表
 	 * @example
-	 * // 单关键词搜索
-	 * const students = AdminPageUtils.searchStudents(studentList, ['张三'])
+	 * // 搜索学生
+	 * const students = AdminPageUtils.searchStudents(studentList, '张三')
 	 * console.log(students)
 	 *
-	 * // 多关键词搜索（学生必须同时包含所有关键词）
-	 * const computerStudents = AdminPageUtils.searchStudents(studentList, ['张三', '计算机'])
+	 * // 搜索专业
+	 * const computerStudents = AdminPageUtils.searchStudents(studentList, '计算机')
+	 *
+	 * // 搜索班级
+	 * const class1Students = AdminPageUtils.searchStudents(studentList, '1班')
+	 *
+	 * // 搜索等级
+	 * const adminStudents = AdminPageUtils.searchStudents(studentList, '管理员')
 	 */
-	static searchStudents(students: StudentInfo[], keywords: string[]): StudentInfo[] {
-		// 如果关键词数组为空或全是空字符串，返回所有学生
-		if (!keywords || keywords.length === 0 || keywords.every(k => !k || k.trim() === '')) {
+	static searchStudents(students: StudentInfo[], keyword: string): StudentInfo[] {
+		// 如果关键词为空，返回所有学生
+		if (!keyword || keyword.trim() === '') {
 			return students;
 		}
 
-		// 过滤空关键词并将每个关键词转为小写
-		const lowerKeywords = keywords.filter(k => k && k.trim() !== '').map(k => k.toLowerCase().trim());
+		// 将关键词转为小写，实现不区分大小写的搜索
+		const lowerKeyword = keyword.toLowerCase().trim();
 
-		// 第一步：先搜索匹配的学生
-		const matchedStudents = students.filter((student) => {
-			// 学生必须匹配所有关键词
-			return lowerKeywords.every((lowerKeyword) => {
-				return (
-					// 唯一ID
-					String(student.id).includes(lowerKeyword) ||
-					// 学号
-					student.studentId.toLowerCase().includes(lowerKeyword) ||
-					// 姓名
-					student.name.toLowerCase().includes(lowerKeyword) ||
-					// 年级
-					String(student.grade).includes(lowerKeyword) ||
-					// 学院
-					student.college.toLowerCase().includes(lowerKeyword) ||
-					// 专业
-					student.major.toLowerCase().includes(lowerKeyword) ||
-					// 班级（包含"班"字）
-					(String(student.classNum) + '班').includes(lowerKeyword) ||
-					String(student.classNum).includes(lowerKeyword) ||
-					// 性别（男/女）
-					student.gender.toLowerCase().includes(lowerKeyword) ||
-					// 性别显示（男/女/未知）
-					student.genderDisplay.toLowerCase().includes(lowerKeyword) ||
-					// 手机号
-					student.phoneNumber.includes(lowerKeyword) ||
-					// 签到次数
-					String(student.attendanceCount).includes(lowerKeyword) ||
-					// 总积分
-					String(student.totalPoints).includes(lowerKeyword) ||
-					// 等级（0, 1, 2, 3）
-					String(student.level).includes(lowerKeyword) ||
-					// 等级名称（社团成员、普通成员、核心成员、管理员）
-					student.levelName.toLowerCase().includes(lowerKeyword) ||
-					// 所属管理员ID
-					(student.adminId !== null && String(student.adminId).includes(lowerKeyword))
-				);
-			});
+		// 过滤匹配的学生
+		return students.filter((student) => {
+			// 在所有字段中搜索（除了头像URL）
+			return (
+				// 唯一ID
+				String(student.id).includes(lowerKeyword) ||
+				// 学号
+				student.studentId.toLowerCase().includes(lowerKeyword) ||
+				// 姓名
+				student.name.toLowerCase().includes(lowerKeyword) ||
+				// 年级
+				String(student.grade).includes(lowerKeyword) ||
+				// 专业
+				student.major.toLowerCase().includes(lowerKeyword) ||
+				// 班级（包含"班"字）
+				(String(student.classNum) + '班').includes(lowerKeyword) ||
+				String(student.classNum).includes(lowerKeyword) ||
+				// 性别（男/女）
+				student.gender.toLowerCase().includes(lowerKeyword) ||
+				// 性别显示（男/女/未知）
+				student.genderDisplay.toLowerCase().includes(lowerKeyword) ||
+				// 手机号
+				student.phoneNumber.includes(lowerKeyword) ||
+				// 签到次数
+				String(student.attendanceCount).includes(lowerKeyword) ||
+				// 总积分
+				String(student.totalPoints).includes(lowerKeyword) ||
+				// 等级（0, 1, 2, 3）
+				String(student.level).includes(lowerKeyword) ||
+				// 等级名称（社团成员、普通成员、核心成员、管理员）
+				student.levelName.toLowerCase().includes(lowerKeyword) ||
+				// 所属管理员ID
+				(student.adminId !== null && String(student.adminId).includes(lowerKeyword))
+			);
 		});
-
-		// 第二步：收集匹配学生的ID集合（用于去重）
-		const matchedStudentIds = new Set(matchedStudents.map(s => s.id));
-
-		// 第三步：如果匹配的学生中有管理员，则添加他管理的所有学生
-		matchedStudents.forEach(student => {
-			// 如果匹配的学生是管理员（level = 3）
-			if (student.level === 3) {
-				// 查找所有由这个管理员管理的学生
-				const managedStudents = students.filter(s => s.adminId === student.id);
-				// 将这些学生添加到结果中
-				managedStudents.forEach(s => matchedStudentIds.add(s.id));
-			}
-		});
-		// 第四步：根据ID集合返回最终结果
-		return students.filter(student => matchedStudentIds.has(student.id));
 	}
 
 }

@@ -44,10 +44,8 @@ import {
 	getStudentDatabaseTableId
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
 import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
 import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
-import LoadingMask from '@/components/LoadingMask.vue'
 
 // ===================== 全局实例初始化 =====================
 /**
@@ -62,12 +60,6 @@ const router = useRouter()
  * @description 管理应用主题切换(亮色/暗色模式)
  */
 const themeStore = useThemeStore()
-/**
- * 全局加载蒙版 Store
- * @type {Store}
- * @description 管理全局加载蒙版的显示和隐藏
- */
-const loadingMaskStore = useLoadingMaskStore()
 
 // ===================== 表单引用区 =====================
 /**
@@ -458,54 +450,45 @@ const toggleTheme = () => {
  * @returns {Promise<void>} 异步操作完成的Promise
  */
 const loadProfile = async () => {
+	isLoading.value = true
 	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在加载个人信息...')
-		isLoading.value = true
-		try {
-			const token = localStorage.getItem('token')
-			if (!token) {
-				ElMessage.error('请先登录')
-				router.push('/login')
-				return
-			}
+		const token = localStorage.getItem('token')
+		if (!token) {
+			ElMessage.error('请先登录')
+			router.push('/login')
+			return
+		}
 
-			const [profileResponse, attendanceResponse, studentIdResponse] = await Promise.all([
-				getStudentProfile(token),
-				getMyAttendanceCount(token),
-				getStudentDatabaseTableId(token)
-			])
+		const [profileResponse, attendanceResponse, studentIdResponse] = await Promise.all([
+			getStudentProfile(token),
+			getMyAttendanceCount(token),
+			getStudentDatabaseTableId(token)
+		])
 
-			if (profileResponse.code === 200) {
-				Object.assign(formData, profileResponse.data)
-				originalData.value = { ...profileResponse.data }
-			} else {
-				ElMessage.error(profileResponse.message || '获取个人信息失败')
-			}
+		if (profileResponse.code === 200) {
+			Object.assign(formData, profileResponse.data)
+			originalData.value = { ...profileResponse.data }
+		} else {
+			ElMessage.error(profileResponse.message || '获取个人信息失败')
+		}
 
-			if (attendanceResponse.code === 200) {
-				attendanceCount.value = attendanceResponse.data.count
-			}
+		if (attendanceResponse.code === 200) {
+			attendanceCount.value = attendanceResponse.data.count
+		}
 
-			if (studentIdResponse.code === 200) {
-				studentInfoId.value = studentIdResponse.data
-				await loadAvatar()
-			}
-		} catch (error) {
-			ElMessage.error(`获取个人信息失败：${error.message}`)
-			if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
-				localStorage.removeItem('token')
-				localStorage.removeItem('userInfo')
-				router.push('/login')
-			}
-		} finally {
-			isLoading.value = false
+		if (studentIdResponse.code === 200) {
+			studentInfoId.value = studentIdResponse.data
+			await loadAvatar()
 		}
 	} catch (error) {
-		console.error('加载个人信息失败：', error)
+		ElMessage.error(`获取个人信息失败：${error.message}`)
+		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+			localStorage.removeItem('token')
+			localStorage.removeItem('userInfo')
+			router.push('/login')
+		}
 	} finally {
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
+		isLoading.value = false
 	}
 }
 
@@ -713,46 +696,37 @@ const confirmPasswordChange = async () => {
 		return
 	}
 
+	isPasswordLoading.value = true
 	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在修改密码...')
-		isPasswordLoading.value = true
-		try {
-			const token = localStorage.getItem('token')
-			if (!token) {
-				ElMessage.error('请先登录')
-				router.push('/login')
-				return
-			}
+		const token = localStorage.getItem('token')
+		if (!token) {
+			ElMessage.error('请先登录')
+			router.push('/login')
+			return
+		}
 
-			const response = await changePassword(token, {
-				oldPassword: passwordForm.oldPassword,
-				newPassword: passwordForm.newPassword,
-				confirmPassword: passwordForm.confirmPassword
-			})
+		const response = await changePassword(token, {
+			oldPassword: passwordForm.oldPassword,
+			newPassword: passwordForm.newPassword,
+			confirmPassword: passwordForm.confirmPassword
+		})
 
-			if (response.code === 200) {
-				ElMessage.success('密码修改成功')
-				showPasswordSection.value = false
-				resetPasswordForm()
-			} else {
-				ElMessage.error(response.message || '修改密码失败')
-			}
-		} catch (error) {
-			ElMessage.error(`修改密码失败：${error.message}`)
-			if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
-				localStorage.removeItem('token')
-				localStorage.removeItem('userInfo')
-				router.push('/login')
-			}
-		} finally {
-			isPasswordLoading.value = false
+		if (response.code === 200) {
+			ElMessage.success('密码修改成功')
+			showPasswordSection.value = false
+			resetPasswordForm()
+		} else {
+			ElMessage.error(response.message || '修改密码失败')
 		}
 	} catch (error) {
-		console.error('修改密码失败：', error)
+		ElMessage.error(`修改密码失败：${error.message}`)
+		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+			localStorage.removeItem('token')
+			localStorage.removeItem('userInfo')
+			router.push('/login')
+		}
 	} finally {
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
+		isPasswordLoading.value = false
 	}
 }
 
@@ -788,48 +762,39 @@ const saveProfile = async () => {
 		return
 	}
 
+	isLoading.value = true
 	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在保存个人信息...')
-		isLoading.value = true
-		try {
-			const token = localStorage.getItem('token')
-			if (!token) {
-				ElMessage.error('请先登录')
-				router.push('/login')
-				return
-			}
+		const token = localStorage.getItem('token')
+		if (!token) {
+			ElMessage.error('请先登录')
+			router.push('/login')
+			return
+		}
 
-			const updateData = { ...formData }
+		const updateData = { ...formData }
 
-			const response = await updateStudentInfo(token, updateData)
+		const response = await updateStudentInfo(token, updateData)
 
-			if (response.code === 200) {
-				ElMessage.success('个人信息更新成功')
-				if (response.data && response.data.token) {
-					localStorage.setItem('token', response.data.token)
-				}
-				originalData.value = { ...formData }
-				formData.password = ''
-				isEditing.value = false
-			} else {
-				ElMessage.error(response.message || '更新个人信息失败')
+		if (response.code === 200) {
+			ElMessage.success('个人信息更新成功')
+			if (response.data && response.data.token) {
+				localStorage.setItem('token', response.data.token)
 			}
-		} catch (error) {
-			ElMessage.error(`更新个人信息失败：${error.message}`)
-			if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
-				localStorage.removeItem('token')
-				localStorage.removeItem('userInfo')
-				router.push('/login')
-			}
-		} finally {
-			isLoading.value = false
+			originalData.value = { ...formData }
+			formData.password = ''
+			isEditing.value = false
+		} else {
+			ElMessage.error(response.message || '更新个人信息失败')
 		}
 	} catch (error) {
-		console.error('保存个人信息失败：', error)
+		ElMessage.error(`更新个人信息失败：${error.message}`)
+		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+			localStorage.removeItem('token')
+			localStorage.removeItem('userInfo')
+			router.push('/login')
+		}
 	} finally {
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
+		isLoading.value = false
 	}
 }
 
@@ -1680,8 +1645,6 @@ onMounted(() => {
 <template>
 	<!-- 个人信息页面主容器(移动端) -->
 	<div class="profile-container">
-		<!-- 全局加载蒙版 -->
-		<LoadingMask/>
 		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-content">

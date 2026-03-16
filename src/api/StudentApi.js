@@ -139,41 +139,6 @@ class StudentApi {
 			}
 		}
 	}
-	/**
-	 * 修改学生等级
-	 * 通过学号修改学生等级
-	 *
-	 * @param {string} studentId - 学生学号
-	 * @param {number} newLevel - 新的等级（0-3）
-	 * @param {string} specialPassword - 特殊密码（用于认证）
-	 * @returns {Promise<Object>} 响应数据对象
-	 * @throws {Error} 如果请求失败，抛出错误
-	 */
-	static async updateStudentLevel(studentId, newLevel, specialPassword) {
-		try {
-			const response = await this.api.post('/api/v1/students/set-level', {
-				'studentId': studentId,
-				'levelCode': newLevel
-			}, {
-				params: {
-					'special-password': specialPassword
-				}
-			})
-			return response.data
-		} catch (error) {
-			if (error.response) {
-				const { status } = error.response
-				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试或联系管理员')
-				} else {
-					throw new Error(error.response.data.message)
-				}
-			} else {
-				throw new Error('网络错误，修改学生等级失败，请检查网络连接')
-			}
-		}
-	}
-
 }
 
 export default StudentApi

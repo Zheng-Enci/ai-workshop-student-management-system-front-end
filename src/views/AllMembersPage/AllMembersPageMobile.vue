@@ -5,14 +5,12 @@
  * @description 展示所有成员信息和积分排名(移动端)
  * @component AllMembersPageMobile
  */
-import { ArrowLeft, Box, View, User, Search } from '@element-plus/icons-vue'
+import { ArrowLeft, Loading, Box, View, User, Search } from '@element-plus/icons-vue'
 import { ElButton, ElIcon, ElDialog, ElInput } from 'element-plus'
 import { ref, onMounted, nextTick, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
-import LoadingMask from '@/components/LoadingMask.vue'
 import AdjustRecordsDialogManager from '@/views/AllMembersPage/js/AdjustRecordsDialogManager'
 import AllMembersPage from '@/views/AllMembersPage/js/AllMembersPage'
 
@@ -37,12 +35,6 @@ const router = useRouter()
  * @description 管理应用主题切换(亮色/暗色模式)
  */
 const themeStore = useThemeStore()
-/**
- * 全局加载蒙版 Store
- * @type {Store}
- * @description 管理全局加载蒙版的显示和隐藏
- */
-const loadingMaskStore = useLoadingMaskStore()
 
 // ===================== 响应式变量定义区 =====================
 /**
@@ -69,6 +61,12 @@ const searchKeyword = ref('')
  * @description 根据搜索关键词筛选后的学生数据列表
  */
 const filteredStudents = ref([])
+/**
+ * 数据加载状态
+ * @type {Ref<boolean>}
+ * @description 控制数据加载中的状态显示
+ */
+const isLoading = ref(true)
 /**
  * 已加载的数据数量
  * @type {Ref<number>}
@@ -314,46 +312,35 @@ const padTopStudents = (list, targetLength = 12) => {
  * @description 初始化页面数据
  * 执行内容:
  * 1. 等待DOM更新
- * 2. 显示全局加载蒙版
- * 3. 创建AllMembersPage实例并加载数据
- * 4. 绑定学生数据到页面响应式变量
- * 5. 使用padTopStudents处理数据
- * 6. 更新计数器
- * 7. 隐藏全局加载蒙版
+ * 2. 创建AllMembersPage实例并加载数据
+ * 3. 绑定学生数据到页面响应式变量
+ * 4. 使用padTopStudents处理数据
+ * 5. 更新计数器
  * @async
  * @returns {Promise<void>}
  */
 onMounted(async () => {
-	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在加载全部成员数据...')
-		await nextTick()
+	await nextTick()
 
-		// 使用 AllMembersPage 加载数据
-		const allMembersPage = new AllMembersPage()
-		await allMembersPage.initData()
+	// 使用 AllMembersPage 加载数据
+	const allMembersPage = new AllMembersPage()
+	await allMembersPage.initData()
 
-		// 将加载的学生数据绑定到页面
-		totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
-		filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
+	// 将加载的学生数据绑定到页面
+	totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
+	filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
 
-		// 调用 padTopStudents 处理数据
-		topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
+	// 调用 padTopStudents 处理数据
+	topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
 
-		// 更新计数器
-		loadedCount.value = filteredStudents.value.length
-		totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
-	} finally {
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
-	}
+	// 更新计数器
+	loadedCount.value = filteredStudents.value.length
+	totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
 })
 </script>
 
 <template>
 	<div style="min-height: 100vh; background: var(--bg-primary); display: flex; flex-direction: column;">
-		<!-- 全局加载蒙版 -->
-		<LoadingMask/>
 		<!--顶部导航栏-->
 		<div
 			style="position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.05);
@@ -544,9 +531,20 @@ onMounted(async () => {
 					</div>
 				</div>
 			</div>
+			<!-- 加载中状态 -->
+			<div
+				v-else-if="isLoading"
+				style="display: flex; flex-direction: column; align-items: center; justify-content: center;
+				gap: 12px; color: var(--text-secondary); padding: 60px 20px; font-size: 14px;"
+			>
+				<el-icon class="is-loading" size="48">
+					<loading/>
+				</el-icon>
+				<span>数据加载中...</span>
+			</div>
 			<!-- 暂无数据状态 -->
 			<div
-				v-if="topStudents.length === 0"
+				v-else
 				style="display: flex; flex-direction: column; align-items: center; justify-content: center;
 				gap: 8px; color: var(--text-secondary); padding: 60px 20px; font-size: 14px;"
 			>

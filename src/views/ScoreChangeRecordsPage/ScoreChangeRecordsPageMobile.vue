@@ -10,12 +10,10 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
-import LoadingMask from '@/components/LoadingMask.vue'
 
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import { ArrowLeft, Box, Document, ArrowUp, ArrowDown, Coin } from '@element-plus/icons-vue'
+import { ArrowLeft, Loading, Box, Document, ArrowUp, ArrowDown, Coin } from '@element-plus/icons-vue'
 
 import { getAllAdjustRecordsByStudentInfoId } from '@/api/points'
 import { getStudentDatabaseTableId } from '@/api/student'
@@ -34,12 +32,6 @@ const router = useRouter()
  */
 const themeStore = useThemeStore()
 /**
- * 全局加载蒙版 Store
- * @type {Store}
- * @description 管理全局加载蒙版的显示和隐藏
- */
-const loadingMaskStore = useLoadingMaskStore()
-/**
  * 主题切换方法
  * @type {Function}
  * @description 解构自主题Store,用于切换明暗主题
@@ -53,6 +45,12 @@ const { toggleTheme } = themeStore
  * @description 存储所有积分调整记录,包含加分和扣分记录
  */
 const records = ref([])
+/**
+ * 数据加载状态
+ * @type {Ref<boolean>}
+ * @description 控制数据加载中的状态显示
+ */
+const loading = ref(false)
 
 // ===================== 计算属性区 =====================
 /**
@@ -131,8 +129,8 @@ const formatTime = timeString => {
  */
 const loadRecords = async () => {
 	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在加载改分记录...')
+		// 开启加载状态
+		loading.value = true
 		// 从本地存储获取登录token
 		const token = localStorage.getItem('token')
 		// 无token时跳转到登录页
@@ -179,8 +177,8 @@ const loadRecords = async () => {
 			records.value = []
 		}
 	} finally {
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
+		// 无论成功或失败,都要关闭加载状态
+		loading.value = false
 	}
 }
 
@@ -205,8 +203,6 @@ onMounted(() => {
 
 <template>
 	<div class="score-change-records-container">
-		<!-- 全局加载蒙版 -->
-		<LoadingMask/>
 		<div class="background-effects">
 			<div class="gradient-orb orb-1"/>
 			<div class="gradient-orb orb-2"/>
@@ -276,8 +272,14 @@ onMounted(() => {
 					</div>
 				</div>
 
+				<!-- 加载状态 -->
+				<div v-if="loading" class="loading-container">
+					<el-icon class="is-loading"><loading /></el-icon>
+					<span>加载中...</span>
+				</div>
+
 				<!-- 空状态 -->
-				<div v-if="records.length === 0" class="empty-container">
+				<div v-else-if="records.length === 0" class="empty-container">
 					<el-icon><box /></el-icon>
 					<span>暂无改分记录</span>
 				</div>

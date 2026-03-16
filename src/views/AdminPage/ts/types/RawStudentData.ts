@@ -5,7 +5,6 @@ export type RawStudentData = {
 	id?: number
 	studentId?: string | number
 	name?: string
-	college?: string
 	grade?: number
 	major?: string
 	classNum?: number

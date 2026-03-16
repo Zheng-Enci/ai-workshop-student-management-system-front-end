@@ -10,9 +10,9 @@
 
 // ======================== 依赖导入区 ========================
 // Element Plus 图标组件按需引入
-import { ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar } from '@element-plus/icons-vue'
+import {ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar} from '@element-plus/icons-vue'
 // ECharts 图表类型按需引入
-import { PieChart, BarChart } from 'echarts/charts'
+import {PieChart, BarChart} from 'echarts/charts'
 // ECharts 组件按需引入
 import {
 	TitleComponent,
@@ -23,33 +23,36 @@ import {
 // ECharts 核心库
 import * as echarts from 'echarts/core'
 // ECharts 渲染器（Canvas模式）
-import { CanvasRenderer } from 'echarts/renderers'
+import {CanvasRenderer} from 'echarts/renderers'
 // Element Plus 组件按需引入
-import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton } from 'element-plus'
-// Vue 3 核心API
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import {ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton, ElProgress} from 'element-plus'
+// Vue 3 核心 API
+import {ref, onMounted, onUnmounted, nextTick, watch} from 'vue'
 // Element Plus 样式按需引入
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-radio-group.css'
 import 'element-plus/theme-chalk/el-radio-button.css'
+import 'element-plus/theme-chalk/el-progress.css'
 // Vue Router 路由钩子
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
 // ECharts 词云扩展
 import 'echarts-wordcloud'
+
+// ======================== 导入验证码管理类 ========================
+import VerificationCode from './ts/verificationCode'
 
 // ======================== API 接口导入区 ========================
 // 考勤相关接口
 import {
 	getMonthlyAttendanceCount, // 获取月度签到总人数
-	getCurrentMonthTop10Students, // 获取当月TOP10签到学生
+	getCurrentMonthTop10Students, // 获取当月 TOP10 签到学生
 	getWeeklyRanking, // 获取周签到排行榜
 	getMonthlyRanking, // 获取月签到排行榜
-	getTopStudentsByTimeRange, // 按时间范围获取TOP学生
-	getLast7DaysRanking, // 获取近7天签到排行榜
-	getLast30DaysRanking, // 获取近30天签到排行榜
-	getVerificationCode // 获取签到验证码
+	getTopStudentsByTimeRange, // 按时间范围获取 TOP 学生
+	getLast7DaysRanking, // 获取近 7 天签到排行榜
+	getLast30DaysRanking // 获取近 30 天签到排行榜
 } from '@/api/attendance'
 // 考勤API类（兼容不同命名规范）
 import AttendanceApi from '@/api/AttendanceApi'
@@ -61,14 +64,14 @@ import {
 	getStudentCountByLevel // 按等级获取学生数
 } from '@/api/student'
 // 主题状态管理
-import { useThemeStore } from '@/stores/theme'
+import {useThemeStore} from '@/stores/theme'
 
 // ======================== 全局实例与状态初始化 ========================
 // 路由实例
 const router = useRouter()
 // 主题仓库实例
 const themeStore = useThemeStore()
-const { toggleTheme } = themeStore
+const {toggleTheme} = themeStore
 
 // ECharts DOM容器引用（模板ref绑定）
 const gradeChart = ref(null) // 年级分布图表容器
@@ -79,13 +82,6 @@ const attendanceChart = ref(null) // 签到排行榜图表容器
 const progressWidth = ref(0)
 // 当前二维码类型：website-签到入口 / wechat-公众号
 const currentQRType = ref('website')
-// 签到验证码相关状态
-const verificationCode = ref('') // 验证码内容
-const verificationCodeStatus = ref('loading') // 验证码状态：loading/error/success
-const verificationCodeInterval = ref(null) // 验证码刷新定时器
-const verificationCodeRetryCount = ref(0) // 验证码获取失败重试次数
-const verificationCodeHasSuccess = ref(false) // 是否成功获取过验证码
-const MAX_RETRY_COUNT = 8 // 验证码最大重试次数
 
 // 进度条定时器（页面加载动画）
 const progressInterval = ref(null)
@@ -111,12 +107,12 @@ const selectedTopN = 16 // 排行榜展示TOP数量
 
 // 时间范围选项配置（过滤/展示用）
 const timeRangeOptions = [
-	{ label: '本周', value: 'week' },
-	{ label: '本月', value: 'month' },
-	{ label: '今日', value: 'today' },
-	{ label: '最近7天', value: 'last7days' },
-	{ label: '最近30天', value: 'last30days' },
-	{ label: '全部', value: 'all' }
+	{label: '本周', value: 'week'},
+	{label: '本月', value: 'month'},
+	{label: '今日', value: 'today'},
+	{label: '最近7天', value: 'last7days'},
+	{label: '最近30天', value: 'last30days'},
+	{label: '全部', value: 'all'}
 ]
 
 // ECharts 实例存储（用于销毁/重置）
@@ -335,7 +331,9 @@ const getDarkStableColor = index => {
  */
 const initGradeChart = data => {
 	// 容器未挂载时跳过初始化
-	if (!gradeChart.value) { return }
+	if (!gradeChart.value) {
+		return
+	}
 
 	// 销毁旧实例（避免内存泄漏）
 	if (gradeChartInstance) {
@@ -416,7 +414,9 @@ const initGradeChart = data => {
  */
 const initMajorChart = data => {
 	// 容器未挂载时跳过初始化
-	if (!majorChart.value) { return }
+	if (!majorChart.value) {
+		return
+	}
 
 	// 销毁旧实例（避免内存泄漏）
 	if (majorChartInstance) {
@@ -501,7 +501,9 @@ const initMajorChart = data => {
  */
 const initAttendanceChart = data => {
 	// 容器未挂载时跳过初始化
-	if (!attendanceChart.value) { return }
+	if (!attendanceChart.value) {
+		return
+	}
 
 	// 销毁旧实例（避免内存泄漏）
 	if (attendanceChartInstance) {
@@ -673,7 +675,7 @@ const loadRankingData = async () => {
 
 		// API调用成功时处理数据
 		if (response.code === 200) {
-			const { data } = response
+			const {data} = response
 			// 格式化数据为前端所需结构
 			const processedData = data.map(item => ({
 				name: item.studentName,
@@ -740,63 +742,6 @@ const loadLevelStats = async () => {
 		}
 	} catch (error) {
 		ElMessage.error('获取等级统计失败')
-	}
-}
-
-/**
- * 加载签到验证码（带重试机制）
- * 重试逻辑：
- * - 最多重试8次
- * - 成功后重置重试次数
- * - 失败达到上限后停止重试并标记错误
- */
-const loadVerificationCode = async () => {
-	// 已失败达上限且未成功过，直接标记错误
-	if (!verificationCodeHasSuccess.value && verificationCodeRetryCount.value >= MAX_RETRY_COUNT) {
-		verificationCodeStatus.value = 'error'
-		return
-	}
-
-	try {
-		const response = await getVerificationCode()
-		// API调用成功且有数据
-		if (response.code === 200 && response.data) {
-			// 验证码变化时更新
-			if (verificationCode.value !== response.data) {
-				verificationCode.value = response.data
-				verificationCodeStatus.value = 'success'
-			}
-			verificationCodeHasSuccess.value = true
-			verificationCodeRetryCount.value = 0 // 重置重试次数
-		} else if (!verificationCodeHasSuccess.value) {
-			// 无数据且未成功过，增加重试次数
-			verificationCodeRetryCount.value += 1
-			// 达到重试上限
-			if (verificationCodeRetryCount.value >= MAX_RETRY_COUNT) {
-				verificationCode.value = ''
-				verificationCodeStatus.value = 'error'
-				// 清除定时器
-				if (verificationCodeInterval.value) {
-					clearInterval(verificationCodeInterval.value)
-					verificationCodeInterval.value = null
-				}
-			}
-		}
-	} catch (error) {
-		// 请求异常且未成功过，增加重试次数
-		if (!verificationCodeHasSuccess.value) {
-			verificationCodeRetryCount.value += 1
-			// 达到重试上限
-			if (verificationCodeRetryCount.value >= MAX_RETRY_COUNT) {
-				verificationCode.value = ''
-				verificationCodeStatus.value = 'error'
-				// 清除定时器
-				if (verificationCodeInterval.value) {
-					clearInterval(verificationCodeInterval.value)
-					verificationCodeInterval.value = null
-				}
-			}
-		}
 	}
 }
 
@@ -885,13 +830,10 @@ const startProgress = () => {
 
 /**
  * 启动验证码自动刷新
- * 刷新频率：500ms/次（带重试机制）
+ * 使用 VerificationCode 类的自动刷新机制
  */
 const startVerificationCodeRefresh = () => {
-	loadVerificationCode() // 立即加载一次
-	verificationCodeInterval.value = setInterval(() => {
-		loadVerificationCode()
-	}, 500)
+	VerificationCode.startAutoRefresh()
 }
 
 /**
@@ -953,10 +895,7 @@ onUnmounted(() => {
 	if (progressInterval.value) {
 		clearInterval(progressInterval.value)
 	}
-	if (verificationCodeInterval.value) {
-		clearInterval(verificationCodeInterval.value)
-	}
-	// 销毁ECharts实例（避免内存泄漏）
+	// 销毁 ECharts 实例（避免内存泄漏）
 	if (gradeChartInstance) {
 		gradeChartInstance.dispose()
 	}
@@ -1055,14 +994,14 @@ echarts.use([
 						<div class="stats-row">
 							<div class="total-count">
 								<span class="label">
-									<el-icon class="stat-icon"><calendar /></el-icon>
+									<el-icon class="stat-icon"><calendar/></el-icon>
 									本月签到总人数
 								</span>
 								<span class="value">{{ monthlyAttendanceCount }}人</span>
 							</div>
 							<div class="total-count">
 								<span class="label">
-									<el-icon class="stat-icon"><clock /></el-icon>
+									<el-icon class="stat-icon"><clock/></el-icon>
 									今日签到总人次
 								</span>
 								<span class="value">{{ todayCount }}人</span>
@@ -1114,7 +1053,7 @@ echarts.use([
 						<div class="stats-row">
 							<div class="total-count">
 								<span class="label">
-									<el-icon class="stat-icon"><user /></el-icon>
+									<el-icon class="stat-icon"><user/></el-icon>
 									坊内成员人数
 								</span>
 								<span class="value">{{ workshopMembersCount }}人</span>
@@ -1123,7 +1062,9 @@ echarts.use([
 							<div class="level-stats">
 								<div class="level-item admin-level">
 									<div class="level-icon">
-										<el-icon><setting /></el-icon>
+										<el-icon>
+											<setting/>
+										</el-icon>
 									</div>
 									<div class="level-content">
 										<span class="level-label">管理员</span>
@@ -1132,7 +1073,9 @@ echarts.use([
 								</div>
 								<div class="level-item core-level">
 									<div class="level-icon">
-										<el-icon><star /></el-icon>
+										<el-icon>
+											<star/>
+										</el-icon>
 									</div>
 									<div class="level-content">
 										<span class="level-label">核心成员</span>
@@ -1141,7 +1084,9 @@ echarts.use([
 								</div>
 								<div class="level-item normal-level">
 									<div class="level-icon">
-										<el-icon><avatar /></el-icon>
+										<el-icon>
+											<avatar/>
+										</el-icon>
 									</div>
 									<div class="level-content">
 										<span class="level-label">普通成员</span>
@@ -1150,7 +1095,9 @@ echarts.use([
 								</div>
 								<div class="level-item club-level">
 									<div class="level-icon">
-										<el-icon><user /></el-icon>
+										<el-icon>
+											<user/>
+										</el-icon>
 									</div>
 									<div class="level-content">
 										<span class="level-label">社团成员</span>
@@ -1182,9 +1129,28 @@ echarts.use([
 			<div class="verification-code-card">
 				<div class="verification-code-label">签到验证码</div>
 				<div class="verification-code-value">
-					<span v-if="verificationCodeStatus === 'loading'">获取中...</span>
-					<span v-else-if="verificationCodeStatus === 'success'">{{ verificationCode }}</span>
-					<span v-else-if="verificationCodeStatus === 'error'" class="error-text">本机无权获取</span>
+					<!-- 根据验证码状态显示不同内容 -->
+					<span v-if="VerificationCode.getVerificationCodeStatus() === '本机无权获取验证码'"
+						  style="font-size: 19px;padding: 10px 10px;">本机无权获取验证码</span>
+					<span v-else-if="VerificationCode.getVerificationCodeStatus() === '验证码获取失败'"
+						  style="font-size: 19px;">验证码获取失败</span>
+					<div v-else-if="VerificationCode.getVerificationCodeStatus() === '正在申请获取验证码'">
+					<span
+						style="font-size: 16px;padding: 10px 10px;">正在申请获取验证码...</span>
+						<ElProgress
+							:percentage="VerificationCode.remainingTimePercent"
+							:show-text="false"
+							color="#409EFF"
+						/>
+					</div>
+					<div v-else-if="VerificationCode.getVerificationCodeStatus() === '验证码'">
+						<span>{{ VerificationCode.getVerificationCodeData() }}</span>
+						<ElProgress
+							:percentage="VerificationCode.remainingTimePercent"
+							:show-text="false"
+							color="#409EFF"
+						/>
+					</div>
 				</div>
 			</div>
 

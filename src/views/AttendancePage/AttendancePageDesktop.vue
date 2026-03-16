@@ -51,10 +51,6 @@ import { getMyAttendanceRecords } from '@/api/attendance'
 import { useThemeStore } from '@/stores/theme'
 // 状态管理：用户信息
 import { useUserStore } from '@/stores/user'
-// 状态管理：全局加载蒙版
-import { useLoadingMaskStore } from '@/stores/loading'
-// 全局加载蒙版组件
-import LoadingMask from '@/components/LoadingMask.vue'
 
 // ===================== ECharts 组件注册 =====================
 // 注册ECharts所需组件（按需引入，减小打包体积）
@@ -79,8 +75,6 @@ const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 // 路由实例
 const router = useRouter()
-// 全局加载蒙版 Store
-const loadingMaskStore = useLoadingMaskStore()
 
 // ===================== 响应式变量定义区 =====================
 /**
@@ -681,8 +675,6 @@ const initCharts = () => {
  */
 const loadAttendanceRecords = async () => {
 	try {
-		// 显示加载蒙版
-		loadingMaskStore.showLoadingMask('正在加载签到记录...')
 		// 调用API获取签到记录
 		const response = await getMyAttendanceRecords()
 		// 接口返回成功且有数据时更新记录并初始化图表
@@ -695,9 +687,6 @@ const loadAttendanceRecords = async () => {
 	} catch (error) {
 		// 错误容错（可扩展：添加错误提示、日志上报）
 		console.error('加载签到记录失败：', error)
-	} finally {
-		// 隐藏加载蒙版
-		loadingMaskStore.hideLoadingMask()
 	}
 }
 
@@ -826,8 +815,6 @@ onUnmounted(() => {
 <template>
 	<!-- 签到页面根容器（桌面端） -->
 	<div class="attendance-container-desktop">
-		<!-- 全局加载蒙版 -->
-		<LoadingMask/>
 		<!-- 背景装饰效果 -->
 		<div class="background-effects-desktop">
 			<div class="gradient-orb-desktop orb-1"/>

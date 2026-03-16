@@ -48,10 +48,8 @@ import {
 	getStudentDatabaseTableId
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
 import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
 import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
-import LoadingMask from '@/components/LoadingMask.vue'
 
 // ===================== 全局实例初始化 =====================
 /**
@@ -66,12 +64,6 @@ const router = useRouter()
  * @description 管理应用主题切换(亮色/暗色模式)
  */
 const themeStore = useThemeStore()
-/**
- * 全局加载蒙版 Store
- * @type {Store}
- * @description 管理全局加载蒙版的显示和隐藏
- */
-const loadingMaskStore = useLoadingMaskStore()
 
 // ===================== 表单引用区 =====================
 /**
@@ -878,11 +870,9 @@ const toggleTheme = () => {
  * @returns {Promise<void>}
  */
 const loadProfile = async () => {
-	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在加载个人信息...')
-		isLoading.value = true
+	isLoading.value = true
 
+	try {
 		const token = localStorage.getItem('token')
 		if (!token) {
 			ElMessage.error('请先登录')
@@ -920,8 +910,6 @@ const loadProfile = async () => {
 		}
 	} finally {
 		isLoading.value = false
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
 	}
 }
 
@@ -1218,11 +1206,9 @@ const confirmPasswordChange = async () => {
 		return
 	}
 
-	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在修改密码...')
-		isPasswordLoading.value = true
+	isPasswordLoading.value = true
 
+	try {
 		const token = localStorage.getItem('token')
 		if (!token) {
 			ElMessage.error('请先登录')
@@ -1252,8 +1238,6 @@ const confirmPasswordChange = async () => {
 		}
 	} finally {
 		isPasswordLoading.value = false
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
 	}
 }
 
@@ -1279,11 +1263,9 @@ const saveProfile = async () => {
 		return
 	}
 
-	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在保存个人信息...')
-		isLoading.value = true
+	isLoading.value = true
 
+	try {
 		const token = localStorage.getItem('token')
 		if (!token) {
 			ElMessage.error('请先登录')
@@ -1314,8 +1296,6 @@ const saveProfile = async () => {
 		}
 	} finally {
 		isLoading.value = false
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
 	}
 }
 
@@ -1400,8 +1380,6 @@ onMounted(() => {
 <template>
 	<!-- 个人信息页面主容器 -->
 	<div class="profile-container">
-		<!-- 全局加载蒙版 -->
-		<LoadingMask/>
 		<!-- 背景装饰效果 -->
 		<div class="background-effects">
 			<div class="gradient-orb orb-1"/>

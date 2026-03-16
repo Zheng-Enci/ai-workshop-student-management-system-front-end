@@ -1,14 +1,20 @@
-<script setup lang="ts">
+<script setup>
 /**
  * 管理员页面入口组件
- *
+ * 
  * @description 负责检测设备类型,并根据设备类型重定向到对应的桌面版或移动版管理员页面
  * @component AdminPage
  */
-import { onMounted, nextTick } from 'vue'
+// Element Plus 图标组件导入
+import { ElIcon } from 'element-plus'
+// Vue3 生命周期钩子导入
+import { onMounted } from 'vue'
+// Element Plus 图标样式导入
+import 'element-plus/theme-chalk/el-icon.css'
+// Element Plus 加载图标组件导入
+import { Loading } from '@element-plus/icons-vue'
+// Vue Router 路由功能导入
 import { useRouter } from 'vue-router'
-import { useLoadingMaskStore } from '@/stores/loading'
-import LoadingMask from '../../components/LoadingMask.vue'
 
 /**
  * 路由实例
@@ -18,13 +24,8 @@ import LoadingMask from '../../components/LoadingMask.vue'
 const router = useRouter()
 
 /**
- * 全局加载蒙版 Store
- */
-const loadingMaskStore = useLoadingMaskStore()
-
-/**
  * 检测设备类型
- *
+ * 
  * @description 结合屏幕宽度和User-Agent判断设备类型
  * @returns {string} 'mobile' 表示移动端, 'desktop' 表示桌面端
  */
@@ -42,7 +43,7 @@ const detectDeviceType = () => {
 
 /**
  * 重定向到对应设备的页面
- *
+ * 
  * @description 根据设备类型跳转到桌面版或移动版管理员页面
  */
 const redirectToDevicePage = () => {
@@ -55,46 +56,78 @@ const redirectToDevicePage = () => {
 	} else {
 		router.replace('/admin/desktop')
 	}
-
-	// 在跳转后关闭加载蒙版
-	nextTick(() => {
-		loadingMaskStore.hideLoadingMask()
-	})
 }
 
 /**
  * 组件挂载时立即执行设备检测和页面跳转
  */
 onMounted(() => {
-	nextTick(() => {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在检测设备类型...')
-		// 执行设备检测和重定向
-		redirectToDevicePage()
-	})
+	redirectToDevicePage()
 })
 </script>
 
 <template>
 	<!-- 设备检测页面容器 -->
-	<div class="admin-page-device-detection-container">
-		<LoadingMask/>
+	<div class="device-detection-container">
+		<!-- 加载动画区域 -->
+		<div class="loading-spinner">
+			<!-- 旋转加载图标 -->
+			<el-icon class="spinner-icon"><loading /></el-icon>
+			<!-- 加载提示文本 -->
+			<p class="loading-text">正在检测设备类型...</p>
+		</div>
 	</div>
 </template>
 
 <style scoped>
 /* 设备检测页面容器样式 */
-.admin-page-device-detection-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 100vh;
-	/* 渐变背景 */
-	background: linear-gradient(135deg,
-		rgba(99, 102, 241, 0.1) 0%,
-		rgba(168, 85, 247, 0.08) 25%,
-		rgba(236, 72, 153, 0.06) 50%,
-		rgba(251, 146, 60, 0.08) 75%,
-		rgba(34, 197, 94, 0.1) 100%);
+.device-detection-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* 渐变背景 */
+  background: linear-gradient(135deg,
+    rgba(99, 102, 241, 0.1) 0%,
+    rgba(168, 85, 247, 0.08) 25%,
+    rgba(236, 72, 153, 0.06) 50%,
+    rgba(251, 146, 60, 0.08) 75%,
+    rgba(34, 197, 94, 0.1) 100%);
+}
+
+/* 加载动画容器样式 */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--shadow-color);
+}
+
+/* 旋转图标动画样式 */
+.spinner-icon {
+  font-size: 32px;
+  color: var(--primary-color);
+  /* 旋转动画 */
+  animation: spin 1s linear infinite;
+}
+
+/* 加载文本样式 */
+.loading-text {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* 旋转动画定义 */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 </style>
