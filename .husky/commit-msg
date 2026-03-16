@@ -1,5 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-npx --no -- commitlint --config code-quality/code-quality-config/commitlint.config.js --edit ${1}
-

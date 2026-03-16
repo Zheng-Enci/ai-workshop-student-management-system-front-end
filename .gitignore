@@ -23,6 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 
+# Development tools
+.codebuddy
+.husky
+.github
+
 # Coverage
 coverage
 *.lcov
