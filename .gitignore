@@ -28,6 +28,9 @@ dist-ssr
 .husky
 .github
 
+# Conflict backup files
+*冲突文件*
+
 # Coverage
 coverage
 *.lcov
