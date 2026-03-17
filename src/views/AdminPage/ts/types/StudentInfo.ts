@@ -5,6 +5,7 @@ export interface StudentInfo {
 	id: number
 	studentId: string
 	name: string
+	college: string
 	grade: number
 	major: string
 	classNum: number

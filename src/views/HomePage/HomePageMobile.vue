@@ -83,7 +83,7 @@ const goToDashboard = () => {
  * @description 点击超级管理员系统功能卡片时触发,跳转到超级管理员身份验证页面
  */
 const goToAdminSystem = () => {
-	router.push('/admin/mobile')
+	router.push('/admin')
 }
 
 /**

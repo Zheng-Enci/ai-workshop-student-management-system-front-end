@@ -5,20 +5,24 @@
   @component NavigationPage
   @description 作为导航页面的入口，结合屏幕宽度和UserAgent检测设备类型后重定向
 -->
-<script setup>
+<script setup lang="ts">
 /**
  * 导入Element Plus图标和组件
  */
-import { Loading } from '@element-plus/icons-vue'
-import { ElIcon } from 'element-plus'
-import { onMounted } from 'vue'
+import { onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import 'element-plus/theme-chalk/el-icon.css'
+import { useLoadingMaskStore } from '@/stores/loading'
+import LoadingMask from '@/components/LoadingMask.vue'
 
 /**
  * 路由实例
  */
 const router = useRouter()
+
+/**
+ * 全局加载蒙版 Store
+ */
+const loadingMaskStore = useLoadingMaskStore()
 
 /**
  * 检测设备类型
@@ -43,6 +47,7 @@ const detectDeviceType = () => {
  * 根据检测到的设备类型跳转到对应的路由
  */
 const redirectToDevicePage = () => {
+	// 执行设备检测（符合项目要求,入口文件需要做设备检测）
 	const deviceType = detectDeviceType()
 
 	// 根据设备类型重定向到对应的导航页面
@@ -51,30 +56,46 @@ const redirectToDevicePage = () => {
 	} else {
 		router.replace('/navigation-desktop')
 	}
+
+	// 在跳转后关闭加载蒙版
+	nextTick(() => {
+		loadingMaskStore.hideLoadingMask()
+	})
 }
 
 /**
- * 组件挂载后立即执行重定向
+ * 组件挂载时立即执行设备检测和页面跳转
  */
 onMounted(() => {
-	redirectToDevicePage()
+	nextTick(() => {
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在检测设备类型...')
+		// 执行设备检测和重定向
+		redirectToDevicePage()
+	})
 })
 </script>
 
 <template>
-	<!-- 设备检测加载容器 -->
-	<div class="device-detection-container">
-		<!-- 加载动画 -->
-		<div class="loading-spinner">
-			<!-- 旋转加载图标 -->
-			<el-icon class="spinner-icon"><loading /></el-icon>
-			<!-- 加载提示文本 -->
-			<p class="loading-text">正在检测设备类型...</p>
-		</div>
+	<!-- 设备检测页面容器 -->
+	<div class="navigation-page-device-detection-container">
+		<LoadingMask/>
 	</div>
 </template>
 
 <style scoped>
-/* 导入导航页面的CSS样式 */
-@import './css/NavigationPage.css';
+/* 设备检测页面容器样式 */
+.navigation-page-device-detection-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	/* 渐变背景 */
+	background: linear-gradient(135deg,
+		rgba(99, 102, 241, 0.1) 0%,
+		rgba(168, 85, 247, 0.08) 25%,
+		rgba(236, 72, 153, 0.06) 50%,
+		rgba(251, 146, 60, 0.08) 75%,
+		rgba(34, 197, 94, 0.1) 100%);
+}
 </style>

@@ -929,7 +929,6 @@ html.dark .club-level .level-value {
   justify-content: center; /* 垂直居中 */
   width: 150px; /* 宽度 */
   min-height: 100px; /* 最小高度 */
-  padding: 20px; /* 内边距 */
   background: var(--bg-secondary); /* 背景颜色 */
   border: 1px solid var(--border-color); /* 边框 */
   border-radius: 12px; /* 圆角 */
@@ -960,6 +959,7 @@ html.dark .club-level .level-value {
   letter-spacing: 4px; /* 字间距 */
   text-shadow: 0 2px 4px rgb(102 126 234 / 0.3); /* 文本阴影 */
   transition: opacity 0.3s ease; /* 过渡效果 */
+	justify-content: center;
 }
 
 /**
