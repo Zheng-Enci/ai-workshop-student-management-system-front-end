@@ -220,6 +220,29 @@ class AdminPageUtils {
 		return students.filter(student => matchedStudentIds.has(student.id));
 	}
 
+	/**
+	 * 将二维数组数据导出为CSV文件
+	 *
+	 * @static
+	 * @param {string[][]} data - 二维数组，每个子数组代表CSV中的一行
+	 * @param {string} filename - 导出的文件名，默认为'export.csv'
+	 * @example
+	 * AdminPageUtils.exportToCSV([['姓名', '学号'], ['张三', '001']], 'data.csv')
+	 */
+	static exportToCSV(data: string[][], filename: string = 'export.csv'): void {
+		const csvContent = data.map(row => row.join(',')).join('\n');
+		const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+		const link = document.createElement('a');
+		const url = URL.createObjectURL(blob);
+
+		link.setAttribute('href', url);
+		link.setAttribute('download', filename);
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		URL.revokeObjectURL(url);
+	}
+
 }
 
 /**
