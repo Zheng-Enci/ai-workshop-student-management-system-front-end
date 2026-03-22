@@ -28,6 +28,8 @@ import {
 	House,           // 房屋图标
 	Key,             // 钥匙图标
 	Refresh,         // 刷新图标
+	Download,        // 下载图标
+	ArrowRight,      // 右箭头图标
 } from '@element-plus/icons-vue'
 
 // 1.4 Element Plus 样式导入（按需导入，减少包体积）
@@ -85,6 +87,7 @@ import MakeupAttendanceForm from './forms/mobile/MakeupAttendanceForm.vue'      
 import CreatePointsRecordForm from './forms/mobile/CreatePointsRecordForm.vue'      // 创建积分记录组件
 import ViewPointsRecordsForm from './forms/mobile/ViewPointsRecordsForm.vue'        // 查看改分记录组件
 import UpdateStudentInfoForm from './forms/mobile/UpdateStudentInfoForm.vue'      // 修改学生个人信息组件
+import DataDownloadForm from './forms/mobile/DataDownloadForm.vue'                // 数据下载表单组件
 
 // ===================== 第二部分：路由实例 =====================
 const router = useRouter()
@@ -92,6 +95,18 @@ const router = useRouter()
 // ===================== 第三部分：响应式状态定义区 =====================
 
 // 3.1 弹窗显示状态
+/**
+ * 数据下载表单弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const dataDownloadDialogVisible = ref(false)
+
+/**
+ * 是否显示数据下载按钮
+ * @type {Ref<boolean>}
+ */
+const showDownloadButton = ref(false)
+
 /**
  * 修改学生身份弹窗显示状态
  * @type {Ref<boolean>}
@@ -406,6 +421,7 @@ onMounted(async () => {
 			<!-- 右侧区域：退出登录按钮 -->
 			<div class="main-page-header-right">
 				<el-button
+					v-if="!showDownloadButton"
 					type="danger"
 					size="large"
 					@click="logout"
@@ -414,6 +430,39 @@ onMounted(async () => {
 						<SwitchButton/>
 					</el-icon>
 					退出登录
+				</el-button>
+				<el-button
+					v-if="!showDownloadButton"
+					type="info"
+					size="large"
+					@click="showDownloadButton = true"
+					class="arrow-button"
+				>
+					<el-icon>
+						<ArrowRight/>
+					</el-icon>
+				</el-button>
+				<el-button
+					v-if="showDownloadButton"
+					type="primary"
+					size="large"
+					@click="dataDownloadDialogVisible = true"
+				>
+					<el-icon>
+						<Download/>
+					</el-icon>
+					导出数据
+				</el-button>
+				<el-button
+					v-if="showDownloadButton"
+					type="info"
+					size="large"
+					@click="showDownloadButton = false"
+					class="arrow-button"
+				>
+					<el-icon>
+						<ArrowRight style="transform: rotate(180deg)"/>
+					</el-icon>
 				</el-button>
 			</div>
 		</div>
@@ -688,6 +737,9 @@ onMounted(async () => {
 
 	<!-- 考勤趋势图弹窗组件 -->
 	<AttendanceTrendChartForm ref="trendChartFormRef" />
+
+	<!-- 数据下载表单弹窗组件 -->
+	<DataDownloadForm v-model="dataDownloadDialogVisible" />
 </template>
 
 <!-- 样式文件导入：按模块分别导入 -->
