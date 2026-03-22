@@ -15,6 +15,17 @@ interface TopRankingResponse {
 	}>
 }
 
+interface TimeRangeTopStudentsResponse {
+	data: Array<{
+		studentId: string
+		name: string
+		count: number
+		college: string
+		major: string
+		grade: number
+	}>
+}
+
 interface AttendanceRecord {
 	id: string
 	studentId: string
@@ -94,6 +105,33 @@ class AttendanceApi {
 			const params = date ? { date } : {}
 			const response = await this.api.get<AttendanceCountResponse>('/api/v1/attendance/today-attendance-count', {
 				params
+			})
+			return response.data.data
+		} catch (error) {
+			const axiosError = error as AxiosError<{ message: string }>
+			const msg = axiosError.response?.data?.message
+			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		}
+	}
+
+	/**
+	 * 获取指定时间内签到次数最多的前N名学生
+	 * @param startTime - 开始时间，格式：yyyy-MM-dd HH:mm:ss
+	 * @param endTime - 结束时间，格式：yyyy-MM-dd HH:mm:ss
+	 * @param topN - 排名数量，默认 10，最少为 1
+	 * @returns 响应数据，data为学生信息列表，包含学号、姓名、签到次数、学院、专业、年级
+	 */
+	static async getTopStudentsByTimeRange(startTime: string, endTime: string, topN: number = 10): Promise<Array<{
+		studentId: string
+		name: string
+		count: number
+		college: string
+		major: string
+		grade: number
+	}>> {
+		try {
+			const response = await this.api.get<TimeRangeTopStudentsResponse>('/api/v1/attendance/get-top-students-by-attendance-count-in-time-range', {
+				params: { startTime, endTime, topN }
 			})
 			return response.data.data
 		} catch (error) {

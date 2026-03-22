@@ -1,0 +1,56 @@
+[1mdiff --git a/src/api/ts/AttendanceApi.ts b/src/api/ts/AttendanceApi.ts[m
+[1mindex 43a74c0..6663ece 100644[m
+[1m--- a/src/api/ts/AttendanceApi.ts[m
+[1m+++ b/src/api/ts/AttendanceApi.ts[m
+[36m@@ -15,6 +15,17 @@[m [minterface TopRankingResponse {[m
+ 	}>[m
+ }[m
+ [m
+[32m+[m[32minterface TimeRangeTopStudentsResponse {[m
+[32m+[m	[32mdata: Array<{[m
+[32m+[m		[32mstudentId: string[m
+[32m+[m		[32mname: string[m
+[32m+[m		[32mcount: number[m
+[32m+[m		[32mcollege: string[m
+[32m+[m		[32mmajor: string[m
+[32m+[m		[32mgrade: number[m
+[32m+[m	[32m}>[m
+[32m+[m[32m}[m
+[32m+[m
+ interface AttendanceRecord {[m
+ 	id: string[m
+ 	studentId: string[m
+[36m@@ -103,6 +114,33 @@[m [mclass AttendanceApi {[m
+ 		}[m
+ 	}[m
+ [m
+[32m+[m	[32m/**[m
+[32m+[m	[32m * 获取指定时间内签到次数最多的前N名学生[m
+[32m+[m	[32m * @param startTime - 开始时间，格式：yyyy-MM-dd HH:mm:ss[m
+[32m+[m	[32m * @param endTime - 结束时间，格式：yyyy-MM-dd HH:mm:ss[m
+[32m+[m	[32m * @param topN - 排名数量，默认 10，最少为 1[m
+[32m+[m	[32m * @returns 响应数据，data为学生信息列表，包含学号、姓名、签到次数、学院、专业、年级[m
+[32m+[m	[32m */[m
+[32m+[m	[32mstatic async getTopStudentsByTimeRange(startTime: string, endTime: string, topN: number = 10): Promise<Array<{[m
+[32m+[m		[32mstudentId: string[m
+[32m+[m		[32mname: string[m
+[32m+[m		[32mcount: number[m
+[32m+[m		[32mcollege: string[m
+[32m+[m		[32mmajor: string[m
+[32m+[m		[32mgrade: number[m
+[32m+[m	[32m}>> {[m
+[32m+[m		[32mtry {[m
+[32m+[m			[32mconst response = await this.api.get<TimeRangeTopStudentsResponse>('/api/v1/attendance/get-top-students-by-attendance-count-in-time-range', {[m
+[32m+[m				[32mparams: { startTime, endTime, topN }[m
+[32m+[m			[32m})[m
+[32m+[m			[32mreturn response.data.data[m
+[32m+[m		[32m} catch (error) {[m
+[32m+[m			[32mconst axiosError = error as AxiosError<{ message: string }>[m
+[32m+[m			[32mconst msg = axiosError.response?.data?.message[m
+[32m+[m			[32mthrow new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)[m
+[32m+[m		[32m}[m
+[32m+[m	[32m}[m
+[32m+[m
+ 	/**[m
+ 	 * 获取验证码[m
+ 	 * 从验证码服务获取签到验证码[m
