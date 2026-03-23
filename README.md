@@ -75,6 +75,13 @@ AI Workshop Student Management System is a modern student management system buil
 - ✅ Admin assignment
 - ✅ Data statistics viewing
 
+#### 6. Invitation Code Management
+- ✅ Query personal invitation code
+- ✅ Copy invitation code to clipboard
+- ✅ Refresh invitation code
+- ✅ Verify invitation code during registration
+- ✅ Desktop and mobile support
+
 ## 🛠 Tech Stack
 
 ### Core Framework
