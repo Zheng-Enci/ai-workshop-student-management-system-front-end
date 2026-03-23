@@ -98,7 +98,8 @@ const form = ref({
 	grade: '',
 	classNum: null,
 	password: '',
-	confirmPassword: ''
+	confirmPassword: '',
+	invitationCode: ''
 })
 
 /**
@@ -181,6 +182,15 @@ const rules = {
 					callback()
 				}
 			},
+			trigger: 'blur'
+		}
+	],
+	// 邀请码校验：必填 + UUID格式
+	invitationCode: [
+		{ required: true, message: '请输入邀请码', trigger: 'blur' },
+		{
+			pattern: /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
+			message: '请输入正确的邀请码格式',
 			trigger: 'blur'
 		}
 	]
@@ -513,7 +523,7 @@ onMounted(() => {
 					</el-form-item>
 
 					<!-- 确认密码字段 -->
-					<el-form-item prop="confirmPassword" class="form-item last-input-form-item">
+					<el-form-item prop="confirmPassword" class="form-item password-form-item">
 						<div class="input-group">
 							<div class="input-icon">
 								<el-icon>
@@ -527,6 +537,23 @@ onMounted(() => {
 								class="custom-input"
 								size="large"
 								show-password
+							/>
+						</div>
+					</el-form-item>
+
+					<!-- 邀请码字段 -->
+					<el-form-item prop="invitationCode" class="form-item last-input-form-item">
+						<div class="input-group">
+							<div class="input-icon">
+								<el-icon>
+									<collection/>
+								</el-icon>
+							</div>
+							<el-input
+								v-model="form.invitationCode"
+								placeholder="请输入邀请码"
+								class="custom-input"
+								size="large"
 							/>
 						</div>
 					</el-form-item>
