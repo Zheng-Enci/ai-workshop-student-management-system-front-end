@@ -1,7 +1,7 @@
 <script setup>
 /**
  * 导航页面组件(移动端)
- * 
+ *
  * @component NavigationPageMobile
  * @description 移动端导航主页,提供系统功能入口和用户信息展示
  * 主要功能:
@@ -9,7 +9,7 @@
  * 2. 提供签到、数据看板、积分看板等功能入口
  * 3. 根据用户等级显示不同的功能入口
  * 4. 支持主题切换功能
- * 
+ *
  * @author 前端开发团队
  * @version 1.0.0
  */
@@ -414,7 +414,7 @@ const loadStudentLevel = async () => {
 		}
 	} catch (error) {
 		// 静默失败,不显示错误提示
-		return
+
 	}
 }
 
@@ -869,14 +869,6 @@ onMounted(() => {
 </style>
 
 <style>
-.dark .logout-btn.el-button--danger.is-plain {
-  color: #fff !important;
-  background-color: #000 !important;
-  border-color: #000 !important;
-}
 
-.dark .logout-btn:active {
-  color: var(--danger-color) !important;
-}
 </style>
 

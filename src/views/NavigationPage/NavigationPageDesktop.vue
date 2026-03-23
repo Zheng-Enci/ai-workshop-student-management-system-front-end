@@ -907,15 +907,5 @@ onMounted(() => {
 
 <style>
 /* 暗色模式下退出按钮样式 */
-.dark .logout-btn.is-plain {
-	color: #fff !important;
-	background-color: #000 !important;
-	border-color: #000 !important;
-}
 
-.dark .logout-btn.is-plain:hover {
-	color: white !important;
-	background-color: #000 !important;
-	border-color: #000 !important;
-}
 </style>
