@@ -1,9 +1,9 @@
 <script setup lang="ts">
 /**
- * 邀请码表单
+ * 邀请码表单（移动端）
  * 功能描述: 显示当前用户的邀请码，支持复制功能
  * 自包含组件: 包含所有状态、逻辑和 API 调用
- * 样式来源: 遵循 AdminPage 表单风格
+ * 样式来源: 遵循 AdminPage 表单风格，适配移动端
  */
 
 import 'element-plus/theme-chalk/base.css'
@@ -154,7 +154,7 @@ const handleClose = () => {
 		v-model="dialogVisible"
 		v-if="dialogVisible"
 		title="我的邀请码"
-		width="500px"
+		width="90%"
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
 		:append-to-body="true"
@@ -165,7 +165,7 @@ const handleClose = () => {
 	>
 		<div class="invitation-code-form-container">
 			<!-- 加载状态 -->
-			<div v-if="isLoading" style="text-align: center; padding: 60px;">
+			<div v-if="isLoading" style="text-align: center; padding: 60px 20px;">
 				<el-icon :size="48" class="is-loading">
 					<Star/>
 				</el-icon>
@@ -173,7 +173,7 @@ const handleClose = () => {
 			</div>
 
 			<!-- 错误提示 -->
-			<div v-else-if="errorMessage" style="text-align: center; padding: 60px;">
+			<div v-else-if="errorMessage" style="text-align: center; padding: 60px 20px;">
 				<el-icon :size="48" style="color: #F56C6C;">
 					<Star/>
 				</el-icon>
@@ -181,7 +181,7 @@ const handleClose = () => {
 			</div>
 
 			<!-- 无数据提示 -->
-			<div v-else-if="!invitationCode" style="text-align: center; padding: 60px;">
+			<div v-else-if="!invitationCode" style="text-align: center; padding: 60px 20px;">
 				<el-icon :size="48">
 					<Star/>
 				</el-icon>
@@ -256,22 +256,22 @@ const handleClose = () => {
 }
 
 .invitation-code-value {
-	font-size: 24px;
+	font-size: 20px;
 	font-weight: 600;
 	color: #303133;
-	padding: 16px 24px;
+	padding: 16px 20px;
 	background: #F5F7FA;
 	border-radius: 8px;
 	font-family: 'Courier New', monospace;
 	letter-spacing: 1px;
 	word-break: break-all;
-	max-width: 400px;
+	max-width: 90%;
 }
 
 .invitation-code-tip {
 	font-size: 12px;
 	color: #909399;
-	max-width: 300px;
+	max-width: 280px;
 }
 
 /* ==================== 按钮区域 ==================== */
@@ -279,6 +279,8 @@ const handleClose = () => {
 .invitation-code-actions {
 	display: flex;
 	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 /* ==================== 夜间模式适配 ==================== */

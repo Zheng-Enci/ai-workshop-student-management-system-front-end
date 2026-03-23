@@ -33,6 +33,8 @@ import { useThemeStore } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
 // 页面配置常量导入
 import NavigationPageConfig from '@/views/NavigationPage/js/NavigationPageConfig'
+// 邀请码表单导入
+import InvitationCodeForm from '@/views/NavigationPage/form/mobile/InvitationCodeForm.vue'
 // Element Plus 基础样式导入(按需导入)
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
@@ -122,6 +124,13 @@ const avatarLoading = ref(false)
  * @description 控制"上传头像"提示只显示一次
  */
 const avatarTipShown = ref(false)
+
+/**
+ * 邀请码表单显示状态
+ * @type {Ref<boolean>}
+ * @description 控制邀请码表单的显示与隐藏
+ */
+const invitationFormVisible = ref(false)
 
 /**
  * 是否为管理员
@@ -252,6 +261,15 @@ const goToScoreChangeRecords = () => {
  */
 const goToAdmin = () => {
 	router.push('/student-manager')
+}
+
+/**
+ * 跳转到邀请码页面
+ * @function goToInvitationCode
+ * @description 点击邀请码入口时触发,打开邀请码表单
+ */
+const goToInvitationCode = () => {
+	invitationFormVisible.value = true
 }
 
 /**
@@ -722,6 +740,22 @@ onMounted(() => {
 								</div>
 							</div>
 						</div>
+
+						<div class="feature-card" @click="goToInvitationCode">
+							<div class="card-background"/>
+							<div class="card-content">
+								<div class="card-icon">
+									<el-icon size="28"><star /></el-icon>
+								</div>
+								<div class="card-text">
+									<h3>邀请码</h3>
+									<p>查看我的邀请码</p>
+								</div>
+								<div class="card-arrow">
+									<el-icon><arrow-right /></el-icon>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -814,6 +848,8 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
+
+		<invitation-code-form v-model="invitationFormVisible"/>
 
 		<div class="footer">
 			<el-button
