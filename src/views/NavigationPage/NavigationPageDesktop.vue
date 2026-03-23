@@ -29,6 +29,8 @@ import { useRouter } from 'vue-router'
 import { getMyAttendanceCount } from '@/api/attendance'
 import { getTotalPointsByStudentInfoId } from '@/api/points'
 import { getStudentLevel, getStudentDatabaseTableId, getAvatarUrl } from '@/api/student'
+// 导入邀请码表单
+import InvitationCodeForm from '@/views/NavigationPage/form/desktop/InvitationCodeForm.vue'
 // 导入 Pinia 仓库
 import { useThemeStore } from '@/stores/theme'
 import { useUserStore } from '@/stores/user'
@@ -125,6 +127,8 @@ const avatarLoading = ref(false)
  * @description 控制"上传头像"提示只显示一次
  */
 const avatarTipShown = ref(false)
+
+const invitationFormVisible = ref(false)
 
 // ===================== 计算属性区 =====================
 /**
@@ -248,6 +252,15 @@ const goToAllMembers = () => {
  */
 const goToScoreChangeRecords = () => {
 	router.push('/score-change-records')
+}
+
+/**
+ * 邀请码功能
+ * @function handleInvitationCode
+ * @description 点击邀请码卡片时触发，打开邀请码表单
+ */
+const handleInvitationCode = () => {
+	invitationFormVisible.value = true
 }
 
 /**
@@ -788,6 +801,18 @@ onMounted(() => {
 									<div class="nav-description">查看所有积分调整记录</div>
 								</div>
 							</div>
+
+							<div class="nav-card" @click="handleInvitationCode">
+								<div class="nav-icon">
+									<el-icon size="28">
+										<star/>
+									</el-icon>
+								</div>
+								<div class="nav-content">
+									<div class="nav-label">邀请码</div>
+									<div class="nav-description">查看我的邀请码</div>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -871,6 +896,8 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
+
+		<invitation-code-form v-model="invitationFormVisible"/>
 	</div>
 </template>
 

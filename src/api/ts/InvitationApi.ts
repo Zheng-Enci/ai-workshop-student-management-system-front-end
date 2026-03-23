@@ -12,8 +12,10 @@ import type { AxiosInstance, AxiosError } from 'axios'
 /**
  * API响应类型
  */
-interface InvitationCodeResponse {
-	data: string
+export interface ApiResponse<T> {
+	code: number
+	message: string
+	data: T
 }
 
 /**
@@ -50,22 +52,22 @@ class InvitationApi {
 	 * 如果用户没有邀请码，系统会自动生成一个新的邀请码
 	 *
 	 * @static
-	 * @returns {Promise<string>} 邀请码字符串（UUID格式）
+	 * @param {string} token - 用户认证token
+	 * @returns {Promise<ApiResponse<string>>} 响应数据对象，data字段为邀请码字符串（UUID格式）
 	 * @throws {Error} 网络错误或服务器错误时抛出异常
 	 * @example
 	 * // 查询当前用户的邀请码
-	 * const invitationCode = await InvitationApi.getInvitationCode()
-	 * console.log(invitationCode) // "550e8400-e29b-41d4-a716-446655440000"
+	 * const result = await InvitationApi.getInvitationCode('your-token-here')
+	 * console.log(result.data) // "550e8400-e29b-41d4-a716-446655440000"
 	 */
-	static async getInvitationCode(): Promise<string> {
-		try {
-			const response = await this.api.get<InvitationCodeResponse>('/api/v1/invitation-code')
-			return response.data.data
-		} catch (error) {
-			const axiosError = error as AxiosError<{ message: string }>
-			const msg = axiosError.response?.data?.message
-			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
-		}
+	static async getInvitationCode(token: string): Promise<ApiResponse<string>> {
+		const response = await this.api.get<ApiResponse<string>>('/api/v1/invitation-code', {
+			params: { token }
+		}).catch((error: AxiosError) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
 	}
 }
 
