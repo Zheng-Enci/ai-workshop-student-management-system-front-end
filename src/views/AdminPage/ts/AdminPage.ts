@@ -105,6 +105,7 @@ function updateAdminNameMap(): void {
  * @returns 管理员姓名，如果找不到则返回默认值
  */
 export function getAdminName(adminId: number | null): string {
+
 	if (!adminId) return '无管理员'
 	return adminNameMap.get(adminId) || '未知管理员'
 }
@@ -141,9 +142,10 @@ export async function validateSpecialPassword(): Promise<boolean> {
 			setTimeout(() => {
 				// 退出登录
 				logout()
-			}, 4 * 60 * 1000)
+			}, 8 * 60 * 1000)
 			return true
 		} else {
+			ElMessage.error('密码错误')
 			return false
 		}
 	} catch (error) {
@@ -496,6 +498,35 @@ export function updateStudentAdmin(studentId: number, newAdminId: number): void 
 	updateStudentAdminInArray(toShowStudentInfos.value)
 }
 
+/**
+ * 排序学生列表
+ * 根据指定的排序字段对学生列表进行排序
+ *
+ * @param {string} sortBy - 排序字段，'id' 表示按ID排序，'all_point' 表示按总积分排序
+ * @returns {void} 无返回值
+ * @description
+ * - 按 'id' 排序：升序排列，ID小的在前
+ * - 按 'all_point' 排序：降序排列，积分高的在前
+ * - 同时更新 allStudentInfos 和 toShowStudentInfos
+ *
+ * @example
+ * // 按ID排序
+ * sortStudents('id')
+ *
+ * // 按总积分排序
+ * sortStudents('all_point')
+ */
+export function sortStudents(sortBy: string): void {
+	if (sortBy === 'id') {
+		toShowStudentInfos.value.sort((a, b) => a.id - b.id)
+	} else if (sortBy === 'all_point') {
+		toShowStudentInfos.value.sort((a, b) => (Math.round(b.attendanceCount * 0.64) + b.totalPoints) - (Math.round(a.attendanceCount * 0.64) + a.totalPoints))
+	} else if (sortBy === 'attendance_count') {
+		toShowStudentInfos.value.sort((a, b) => b.attendanceCount - a.attendanceCount)
+	} else if (sortBy === 'activity_count') {
+		toShowStudentInfos.value.sort((a, b) => b.totalPoints - a.totalPoints)
+	} 
+}
 
 
 

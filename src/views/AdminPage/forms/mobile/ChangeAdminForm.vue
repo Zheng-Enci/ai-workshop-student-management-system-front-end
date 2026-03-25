@@ -11,7 +11,7 @@ import SpecialPasswordApi from '../../../../api/ts/SpecialPasswordApi.ts'
 import {specialPassword, updateStudentAdmin} from '../../ts/AdminPage.ts'
 import {useLoadingMaskStore} from '../../../../stores/loading'
 import {nextTick} from 'vue'
-import {toShowStudentInfos} from '../../ts/AdminPage.ts'
+import {allStudentInfos} from '../../ts/AdminPage.ts'
 
 // Props
 const props = defineProps({
@@ -42,7 +42,7 @@ const selectedAdminId = ref(null)
 
 // 管理员选项（从现有学生数据中提取等级为3的管理员）
 const adminOptions = computed(() => {
-	const admins = toShowStudentInfos.value.filter(student => student.level === 3)
+	const admins = allStudentInfos.value.filter(student => student.level === 3)
 	return admins.map(admin => ({
 		label: admin.name,
 		value: admin.id,

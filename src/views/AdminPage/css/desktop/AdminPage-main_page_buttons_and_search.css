@@ -24,14 +24,18 @@
 .main-page-buttons-and-search-search {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	gap: 16px;
 }
 .main-page-buttons-and-search-search .el-button {
 	border-radius: 16px;
+	flex-shrink: 0;
 }
 .main-page-buttons-and-search-search .el-input {
-	width: 300px;
+	flex: 1;
+	min-width: 300px;
+}
+.main-page-buttons-and-search-search .el-select {
+	min-width: 120px;
 }
 
 

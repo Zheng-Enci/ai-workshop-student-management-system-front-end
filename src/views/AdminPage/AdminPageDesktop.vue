@@ -8,11 +8,11 @@
 // ===================== 第一部分：依赖导入区 =====================
 
 // 1.1 Vue 核心依赖
-import { useRouter } from 'vue-router'
-import { onMounted, nextTick, ref } from 'vue'
+import {useRouter} from 'vue-router'
+import {onMounted, nextTick, ref} from 'vue'
 
 // 1.2 Element Plus 核心组件
-import { ElIcon, ElInput, ElButton } from 'element-plus'
+import {ElIcon, ElInput, ElButton, ElSelect, ElOption} from 'element-plus'
 
 // 1.3 Element Plus 图标组件
 import {
@@ -69,6 +69,7 @@ import {
 	logout,                           // 退出登录函数
 	specialPassword,                  // 特殊密码
 	searchKeywords,                   // 搜索关键词
+	sortStudents,                     // 排序学生函数
 } from './ts/AdminPage.ts'
 
 // 1.6 业务组件导入
@@ -183,6 +184,12 @@ const selectedStudentForViewPointsRecords = ref(null)
  * @type {Ref<Object|null>}
  */
 const selectedStudentForUpdateInfo = ref(null)
+
+/**
+ * 当前排序方式
+ * @type {Ref<string>}
+ */
+const currentSortBy = ref('id')
 
 // 3.3 子组件引用
 /**
@@ -464,6 +471,19 @@ onMounted(async () => {
 					</el-icon>
 					刷新数据
 				</el-button>
+
+				<!-- 排序下拉选择框 -->
+				<el-select
+					v-model="currentSortBy"
+					placeholder="排序方式"
+					size="default"
+					@change="sortStudents"
+				>
+					<el-option label="ID" value="id"/>
+					<el-option label="总积分" value="all_point"/>
+					<el-option label="签到积分" value="attendance_count"/>
+					<el-option label="活动积分" value="activity_count"/>
+				</el-select>
 			</div>
 		</div>
 
@@ -495,18 +515,18 @@ onMounted(async () => {
 					<div class="student-cards-item-header-points">
 						<div>
 							<span>总积分: {{
-								Math.round(studentInfo.attendanceCount * 0.64) + studentInfo.totalPoints
-							}}</span>
+									Math.round(studentInfo.attendanceCount * 0.64) + studentInfo.totalPoints
+								}}</span>
 						</div>
 						<div>
 							<span>签到: {{
-								Math.round(studentInfo.attendanceCount * 0.64)
-							}} ({{
-								studentInfo.attendanceCount
-							}})</span>
+									Math.round(studentInfo.attendanceCount * 0.64)
+								}} ({{
+									studentInfo.attendanceCount
+								}})</span>
 							<span>&nbsp;&nbsp;活动: {{
-								studentInfo.totalPoints
-							}}</span>
+									studentInfo.totalPoints
+								}}</span>
 						</div>
 					</div>
 				</div>
@@ -680,27 +700,27 @@ onMounted(async () => {
 		:student="selectedStudentForPointsRecord"
 	/>
 
-<!-- 查看改分记录弹窗组件 -->
-<ViewPointsRecordsForm
-	v-model="viewPointsRecordsDialogVisible"
-	:student="selectedStudentForViewPointsRecords"
-/>
+	<!-- 查看改分记录弹窗组件 -->
+	<ViewPointsRecordsForm
+		v-model="viewPointsRecordsDialogVisible"
+		:student="selectedStudentForViewPointsRecords"
+	/>
 
-<!-- 修改学生个人信息弹窗组件 -->
-<UpdateStudentInfoForm
-	v-model="updateStudentInfoDialogVisible"
-	:student="selectedStudentForUpdateInfo"
-	@success="refreshData"
-/>
+	<!-- 修改学生个人信息弹窗组件 -->
+	<UpdateStudentInfoForm
+		v-model="updateStudentInfoDialogVisible"
+		:student="selectedStudentForUpdateInfo"
+		@success="refreshData"
+	/>
 
 	<!-- 考勤热力图弹窗组件 -->
-	<HeatmapChartForm ref="heatmapChartFormRef" />
+	<HeatmapChartForm ref="heatmapChartFormRef"/>
 
 	<!-- 考勤趋势图弹窗组件 -->
-	<AttendanceTrendChartForm ref="trendChartFormRef" />
+	<AttendanceTrendChartForm ref="trendChartFormRef"/>
 
 	<!-- 数据下载表单弹窗组件 -->
-	<DataDownloadForm v-model="dataDownloadDialogVisible" />
+	<DataDownloadForm v-model="dataDownloadDialogVisible"/>
 </template>
 
 <!-- 样式文件导入：按模块分别导入 -->
