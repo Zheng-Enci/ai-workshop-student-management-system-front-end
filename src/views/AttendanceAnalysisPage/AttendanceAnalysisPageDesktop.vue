@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
 import { ElButton, ElIcon } from 'element-plus'
-import { House } from '@element-plus/icons-vue'
+import { ArrowLeft } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -23,7 +23,7 @@ const goBack = () => {
 					circle
 					@click="goBack"
 				>
-					<el-icon><House /></el-icon>
+					<el-icon><ArrowLeft /></el-icon>
 				</el-button>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
