@@ -14,7 +14,7 @@
 	padding: 24px 60px;
 }
 
-.home-btn {
+.header-home-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -29,7 +29,7 @@
 	will-change: transform;
 }
 
-.home-btn .el-icon {
+.header-home-btn .el-icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -37,7 +37,7 @@
 	height: 20px;
 }
 
-.home-btn:hover {
+.header-home-btn:hover {
 	box-shadow: 0 6px 20px rgb(102 126 234 / 0.35);
 	transform: translateY(-2px);
 }

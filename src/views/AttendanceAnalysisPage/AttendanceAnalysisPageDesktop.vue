@@ -18,7 +18,7 @@ const goBack = () => {
 		<div class="header-header">
 			<div class="header-header-left">
 				<el-button
-					class="home-btn"
+					class="header-home-btn"
 					type="primary"
 					:icon="House"
 					circle
