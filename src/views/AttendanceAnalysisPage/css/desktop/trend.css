@@ -1,9 +1,9 @@
-.chart-container {
+.trend-container {
 	width: 100%;
 	padding: 40px 60px;
 }
 
-.chart-card {
+.trend-card {
 	background: rgb(255 255 255 / 0.05);
 	border: 1px solid rgb(255 255 255 / 0.1);
 	border-radius: 16px;
@@ -11,7 +11,7 @@
 	backdrop-filter: blur(20px);
 }
 
-.chart-title {
+.trend-title {
 	font-size: 24px;
 	font-weight: 700;
 	margin-bottom: 24px;
@@ -20,7 +20,7 @@
 	-webkit-text-fill-color: transparent;
 }
 
-.chart-content {
+.trend-content {
 	width: 100%;
 	height: 400px;
 }
