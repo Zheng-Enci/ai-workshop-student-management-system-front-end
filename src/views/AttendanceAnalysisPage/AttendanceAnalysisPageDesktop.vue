@@ -13,6 +13,22 @@ const { toggleTheme } = themeStore
 const chartRef = ref(null);
 let trendChart: AttendanceTrendChart | null = null;
 
+const timeRange = ref('sevenDays');
+
+const timeRanges = [
+	{ label: '最近一天', value: 'oneDay' },
+	{ label: '最近七天', value: 'sevenDays' },
+	{ label: '最近三十天', value: 'thirtyDays' },
+	{ label: '最近三个月', value: 'threeMonths' },
+	{ label: '最近半年', value: 'halfYear' },
+	{ label: '最近一年', value: 'oneYear' },
+	{ label: '全部', value: 'all' }
+];
+
+const handleTimeRangeChange = (range: string) => {
+	timeRange.value = range;
+};
+
 const goBack = () => {
 	router.push('/navigation-desktop')
 }
@@ -68,6 +84,16 @@ onUnmounted(() => {
 		<div class="attendance-trend-container">
 			<div class="attendance-trend-card">
 				<div class="attendance-trend-title">签到趋势</div>
+				<div class="attendance-trend-buttons">
+					<el-button
+						v-for="range in timeRanges"
+						:key="range.value"
+						:type="timeRange === range.value ? 'primary' : 'default'"
+						@click="handleTimeRangeChange(range.value)"
+					>
+						{{ range.label }}
+					</el-button>
+				</div>
 				<div ref="chartRef" class="attendance-trend-content"></div>
 			</div>
 		</div>
