@@ -197,7 +197,7 @@ const goToAttendance = () => {
  * @description 点击考勤分析入口时触发,跳转到考勤分析页面
  */
 const goToAttendanceAnalysis = () => {
-	router.push('/attendance-analysis')
+	router.push('/attendance')
 }
 
 /**
