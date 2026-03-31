@@ -42,5 +42,4 @@ const goBack = () => {
 <style scoped>
 @import './css/desktop/header.css';
 @import './css/desktop/page.css';
-@import './css/desktop/home-btn.css';
 </style>
