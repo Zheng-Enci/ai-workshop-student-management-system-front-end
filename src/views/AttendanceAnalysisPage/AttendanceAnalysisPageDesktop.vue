@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
-import { ElButton } from 'element-plus'
+import { ElButton, ElIcon } from 'element-plus'
 import { House } from '@element-plus/icons-vue'
 
 const router = useRouter()
@@ -20,10 +20,11 @@ const goBack = () => {
 				<el-button
 					class="header-home-btn"
 					type="primary"
-					:icon="House"
 					circle
 					@click="goBack"
-				/>
+				>
+					<el-icon><House /></el-icon>
+				</el-button>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="Logo"
