@@ -165,10 +165,10 @@ onUnmounted(() => {
 				</div>
 			</div>
 		</div>
-		<div class="trend-container">
-			<div class="trend-card">
-				<div class="trend-title">签到趋势</div>
-				<div ref="chartRef" class="trend-content"></div>
+		<div class="attendance-trend-container">
+			<div class="attendance-trend-card">
+				<div class="attendance-trend-title">签到趋势</div>
+				<div ref="chartRef" class="attendance-trend-content"></div>
 			</div>
 		</div>
 	</div>
@@ -177,5 +177,5 @@ onUnmounted(() => {
 <style scoped>
 @import './css/desktop/header.css';
 @import './css/desktop/page.css';
-@import './css/desktop/trend.css';
+@import './css/desktop/attendance-trend.css';
 </style>
