@@ -26,5 +26,5 @@ const goBack = () => {
 </template>
 
 <style scoped>
-@import './css/AttendanceAnalysisPageDesktop.css';
+@import './css/desktop/header.css';
 </style>
