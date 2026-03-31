@@ -34,6 +34,7 @@ const goBack = () => {
 				/>
 				<div class="header-title-section">
 					<h1>考勤分析</h1>
+					<p>人工智能创作坊</p>
 				</div>
 			</div>
 		</div>
