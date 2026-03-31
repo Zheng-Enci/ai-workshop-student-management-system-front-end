@@ -192,6 +192,15 @@ const goToAttendance = () => {
 }
 
 /**
+ * 跳转到考勤分析页面
+ * @function goToAttendanceAnalysis
+ * @description 点击考勤分析入口时触发,跳转到考勤分析页面
+ */
+const goToAttendanceAnalysis = () => {
+	router.push('/attendance-analysis')
+}
+
+/**
  * 跳转到首页
  * @function goToHome
  * @description 点击首页入口时触发,返回系统首页
@@ -829,6 +838,18 @@ onMounted(() => {
 						</div>
 
 						<div class="navigation-grid">
+							<div class="nav-card" @click="goToAttendanceAnalysis">
+								<div class="nav-icon">
+									<el-icon size="28">
+										<data-analysis/>
+									</el-icon>
+								</div>
+								<div class="nav-content">
+									<div class="nav-label">考勤分析</div>
+									<div class="nav-description">查看考勤数据分析</div>
+								</div>
+							</div>
+
 							<div class="nav-card" @click="goToDashboard">
 								<div class="nav-icon">
 									<el-icon size="28">
