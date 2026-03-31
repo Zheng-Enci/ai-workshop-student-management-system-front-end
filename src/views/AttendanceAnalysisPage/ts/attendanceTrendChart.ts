@@ -24,25 +24,30 @@ function getDateRange(timeRange: string): DateRange {
 	let startDate: Date
 
 	switch (timeRange) {
-		case 'oneDay':
+		case '最近一天':
 			startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 			break;
-		case 'sevenDays':
+		case '七天':
+		case '最近七天':
 			startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
 			break;
-		case 'thirtyDays':
+		case '三十天':
+		case '最近三十天':
 			startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 			break;
-		case 'threeMonths':
+		case '三个月':
+		case '最近三个月':
 			startDate = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
 			break;
-		case 'halfYear':
+		case '半年':
+		case '最近半年':
 			startDate = new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
 			break;
-		case 'oneYear':
+		case '一年':
+		case '最近一年':
 			startDate = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
 			break;
-		case 'all':
+		case '全部':
 			startDate = new Date(2020, 0, 1);
 			break;
 		default:

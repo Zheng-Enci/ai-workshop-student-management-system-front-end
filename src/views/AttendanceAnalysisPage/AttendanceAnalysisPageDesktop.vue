@@ -13,16 +13,16 @@ const { toggleTheme } = themeStore
 const chartRef = ref(null);
 let trendChart: AttendanceTrendChart | null = null;
 
-const timeRange = ref('sevenDays');
+const timeRange = ref('最近七天');
 
 const timeRanges = [
-	{ label: '最近一天', value: 'oneDay' },
-	{ label: '最近七天', value: 'sevenDays' },
-	{ label: '最近三十天', value: 'thirtyDays' },
-	{ label: '最近三个月', value: 'threeMonths' },
-	{ label: '最近半年', value: 'halfYear' },
-	{ label: '最近一年', value: 'oneYear' },
-	{ label: '全部', value: 'all' }
+	{ label: '最近一天', value: '最近一天' },
+	{ label: '最近七天', value: '最近七天' },
+	{ label: '最近三十天', value: '最近三十天' },
+	{ label: '最近三个月', value: '最近三个月' },
+	{ label: '最近半年', value: '最近半年' },
+	{ label: '最近一年', value: '最近一年' },
+	{ label: '全部', value: '全部' }
 ];
 
 const handleTimeRangeChange = (range: string) => {
