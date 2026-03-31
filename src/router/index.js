@@ -453,6 +453,48 @@ const routes = [
 			title: '全部成员 - 厦工AI坊学生管理系统',
 			description: '厦工AI坊学生管理系统全部成员页面，查看所有成员信息、积分排名、学院专业等详细资料，支持快速搜索筛选'
 		}
+	},
+	/**
+	 * 考勤分析页面路由（自动适配）
+	 * 需要登录认证，查看考勤数据分析
+	 */
+	{
+		path: '/attendance-analysis',
+		name: 'AttendanceAnalysis',
+		component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPage.vue'),
+		meta: {
+			requiresAuth: true,
+			title: '考勤分析 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统考勤分析页面，查看考勤数据统计、签到趋势分析、成员考勤情况'
+		}
+	},
+	/**
+	 * 考勤分析页面路由（移动端）
+	 * 移动设备专用考勤分析页面，需要登录认证
+	 */
+	{
+		path: '/attendance-analysis-mobile',
+		name: 'AttendanceAnalysisMobile',
+		component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageMobile.vue'),
+		meta: {
+			requiresAuth: true,
+			title: '考勤分析 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统考勤分析页面，查看考勤数据统计、签到趋势分析、成员考勤情况'
+		}
+	},
+	/**
+	 * 考勤分析页面路由（桌面端）
+	 * 桌面设备专用考勤分析页面，需要登录认证
+	 */
+	{
+		path: '/attendance-analysis-desktop',
+		name: 'AttendanceAnalysisDesktop',
+		component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue'),
+		meta: {
+			requiresAuth: true,
+			title: '考勤分析 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统考勤分析页面，查看考勤数据统计、签到趋势分析、成员考勤情况'
+		}
 	}
 ]
 
