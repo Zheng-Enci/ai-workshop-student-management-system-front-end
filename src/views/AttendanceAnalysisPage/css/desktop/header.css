@@ -1,4 +1,4 @@
-.header {
+.header-header {
 	position: relative;
 	z-index: 10;
 	background: rgb(255 255 255 / 0.05);
@@ -6,7 +6,7 @@
 	backdrop-filter: blur(20px);
 }
 
-.header-left {
+.header-header-left {
 	display: flex;
 	flex-shrink: 0;
 	gap: 20px;
@@ -14,7 +14,7 @@
 	padding: 24px 60px;
 }
 
-.logo {
+.header-logo {
 	width: 56px;
 	height: 56px;
 	cursor: pointer;
@@ -23,12 +23,12 @@
 		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.logo:hover {
+.header-logo:hover {
 	filter: brightness(1.15);
 	transform: scale(1.05) rotate(3deg);
 }
 
-.title-section h1 {
+.header-title-section h1 {
 	margin: 0;
 	font-size: 28px;
 	font-weight: 700;

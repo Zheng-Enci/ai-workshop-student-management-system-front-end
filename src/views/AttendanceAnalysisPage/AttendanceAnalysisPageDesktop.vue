@@ -10,14 +10,14 @@ const goBack = () => {
 
 <template>
 	<div class="attendance-analysis-page">
-		<div class="header">
-			<div class="header-left">
+		<div class="header-header">
+			<div class="header-header-left">
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="Logo"
-					class="logo"
+					class="header-logo"
 				/>
-				<div class="title-section">
+				<div class="header-title-section">
 					<h1>考勤分析</h1>
 				</div>
 			</div>
