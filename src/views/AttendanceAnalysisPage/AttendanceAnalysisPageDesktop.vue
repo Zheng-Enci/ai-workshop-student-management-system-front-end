@@ -11,7 +11,7 @@ const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
 const chartRef = ref(null)
-let trendChart: AttendanceTrendChart | null = null
+let trendChart: AttendanceTrendChart | null = null;
 
 const goBack = () => {
 	router.push('/navigation-desktop')
