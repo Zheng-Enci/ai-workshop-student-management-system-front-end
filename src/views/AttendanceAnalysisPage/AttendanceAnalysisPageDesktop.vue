@@ -10,7 +10,7 @@ const router = useRouter()
 const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 
-const chartRef = ref(null)
+const chartRef = ref(null);
 let trendChart: AttendanceTrendChart | null = null;
 
 const goBack = () => {
