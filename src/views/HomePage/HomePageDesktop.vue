@@ -53,10 +53,6 @@ const environmentPolicyRef = ref(null)
 const showEnvironmentPolicy = () => {
 	environmentPolicyRef.value?.showEnvironmentPolicy()
 }
-
-const closeEnvironmentPolicy = () => {
-	environmentPolicyRef.value?.closeEnvironmentPolicy()
-}
 	</script>
 
 <!-- 
