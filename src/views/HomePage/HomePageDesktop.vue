@@ -290,13 +290,14 @@ defineExpose({
 		<div class="footer">
 			<div class="footer-content">
 				<div class="author-info">
-					<!-- 作者名称 -->
 					<p>项目作者：郑恩赐</p>
-					<!-- 作者联系方式:邮箱和社交媒体链接 -->
 					<div class="author-links">
 						<span class="author-contact">📧 zheng_enci@qq.com</span>
 						<a href="https://gitee.com/zheng-enci050704" target="_blank" class="author-link">🔗 Gitee</a>
 						<a href="https://juejin.cn/user/2883382090934252" target="_blank" class="author-link">📝 掘金</a>
+						<a href="https://blog.csdn.net/2301_79239314" target="_blank" class="author-link">📄 CSDN</a>
+						<a href="https://github.com/Zheng-Enci" target="_blank" class="author-link">🌐 GitHub</a>
+						<a href="https://gitcode.com/ZhengEnCi" target="_blank" class="author-link">💻 GitCode</a>
 					</div>
 				</div>
 			</div>
