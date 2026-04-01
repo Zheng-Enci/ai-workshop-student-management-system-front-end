@@ -17,8 +17,7 @@
 // ===================== 样式和依赖导入区 =====================
 // Element Plus 图标组件导入
 import { TrendCharts, Lock, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
-// Element Plus 核心组件导入
-import { ElButton } from 'element-plus'
+import { ElIcon, ElButton } from 'element-plus'
 // Vue3 响应式API导入
 import { ref } from 'vue'
 
@@ -32,10 +31,6 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/dist/index.css'
 
 // ===================== 类型定义 =====================
-/**
- * @typedef {Object} HomePageDesktopProps
- * @description HomePageDesktop组件的属性类型定义
- */
 
 /**
  * @typedef {Object} HomePageDesktopEmits
@@ -43,18 +38,6 @@ import 'element-plus/dist/index.css'
  */
 
 // ===================== 业务逻辑初始化 =====================
-/**
- * 使用首页共用逻辑
- * @description 从共用逻辑模块解构出页面跳转和主题切换方法
- * 包含的方法:
- * - toggleTheme: 切换明暗主题
- * - goToLogin: 跳转到登录页
- * - goToDashboard: 跳转到数据看板
- * - goToAdminSystem: 跳转到超级管理员系统
- * - goToPointsDashboard: 跳转到积分看板
- * - goToAllMembers: 跳转到所有成员页面
- * - goToAttendanceAnalysis: 跳转到考勤分析页面
- */
 const {
 	toggleTheme,
 	goToLogin,
