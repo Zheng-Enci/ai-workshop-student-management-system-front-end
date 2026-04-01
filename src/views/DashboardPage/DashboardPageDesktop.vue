@@ -910,7 +910,7 @@ echarts.use([
 			<div class="header-left">
 				<!-- 返回按钮 -->
 				<el-button
-					class="back-btn"
+					class="header-back-btn"
 					type="primary"
 					:icon="ArrowLeft"
 					circle
@@ -919,19 +919,19 @@ echarts.use([
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
-					class="logo"
+					class="header-logo"
 					title="切换主题模式"
 					@click="toggleTheme"/>
 				<!-- 标题区域 -->
-				<div class="title-section">
+				<div class="header-title-section">
 					<h1>人工智能创作坊</h1>
 					<p>Artificial Intelligence Workshop</p>
 				</div>
 			</div>
 			<div class="header-right">
 				<!-- 标语 -->
-				<div class="slogan">
-					<img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="slogan-img"/>
+				<div class="header-slogan">
+					<img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="header-slogan-img"/>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 /**
  * 仪表板页面 - 桌面端样式
  * @file DashboardPageDesktop.css
- * @description 定义仪表板页面桌面端的样式，包括页面布局、头部、统计卡片、图表、等级统计和二维码显示等。
+ * @description 定义仪表板页面桌面端的样式，包括页面布局、统计卡片、图表、等级统计和二维码显示等。
  */
 
 /* ==================== 页面容器 ==================== */
@@ -19,149 +19,9 @@
   background: var(--bg-primary); /* 背景颜色 */
 }
 
-/* ==================== 页面头部 ==================== */
+/* ==================== 导入头部样式 ==================== */
 
-/**
- * 页面头部容器
- * 采用 flex 布局，垂直居中，两端对齐，设置无内边距、背景和底部边框
- */
-.header {
-  display: flex; /* 弹性布局 */
-  align-items: center; /* 垂直居中 */
-  justify-content: space-between; /* 两端对齐 */
-  padding: 0; /* 无内边距 */
-  background: var(--bg-primary); /* 背景颜色 */
-  border-bottom: 1px solid var(--border-color); /* 底部边框 */
-}
-
-/**
- * 头部左侧区域
- * 采用 flex 布局，子元素间距为 20px，垂直居中
- */
-.header-left {
-  display: flex; /* 弹性布局 */
-  gap: 20px; /* 子元素间距 */
-  align-items: center; /* 垂直居中 */
-}
-
-/**
- * 返回按钮
- * 设置大小、背景、无边框和阴影
- */
-.back-btn {
-  width: 40px; /* 宽度 */
-  height: 40px; /* 高度 */
-  background: var(--primary-color); /* 背景颜色 */
-  border: none; /* 无边框 */
-  box-shadow: 0 4px 12px rgb(102 126 234 / 0.3); /* 阴影 */
-}
-
-/**
- * Logo图片
- * 设置大小、鼠标样式和过渡效果
- */
-.logo {
-  width: 60px; /* 宽度 */
-  height: 60px; /* 高度 */
-  cursor: pointer; /* 鼠标样式为手型 */
-  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡效果 */
-}
-
-/**
- * Logo图片的悬停效果
- * 鼠标悬停时增加亮度并放大
- */
-.logo:hover {
-  filter: brightness(1.2); /* 增加亮度 */
-  transform: scale(1.1); /* 放大 */
-}
-
-/**
- * 标题区域主标题
- * 设置外边距、字体大小、字重和颜色
- */
-.title-section h1 {
-  margin: 0 0 5px; /* 底部外边距 */
-  font-size: 28px; /* 字体大小 */
-  font-weight: 700; /* 字重 */
-  color: #2c3e50; /* 颜色 */
-}
-
-/**
- * 暗色模式下标题区域主标题样式
- * 设置文本颜色
- */
-.dark .title-section h1 {
-  color: #fff; /* 文本颜色 */
-}
-
-/**
- * 标题区域副标题
- * 设置无外边距、字体大小和颜色
- */
-.title-section p {
-  margin: 0; /* 无外边距 */
-  font-size: 16px; /* 字体大小 */
-  color: #7f8c8d; /* 颜色 */
-}
-
-/**
- * 机制区域描述
- * 设置无外边距、字体大小、行高、文本颜色和文本对齐
- */
-.mechanism-section p {
-  margin: 0; /* 无外边距 */
-  font-size: 16px; /* 字体大小 */
-  line-height: 1.8; /* 行高 */
-  color: var(--text-secondary); /* 文本颜色 */
-  text-align: justify; /* 文本对齐 */
-}
-
-/**
- * 暗色模式下标题区域副标题样式
- * 设置文本颜色
- */
-.dark .title-section p {
-  color: #e2e8f0; /* 文本颜色 */
-}
-
-/**
- * 头部右侧区域
- * 采用 flex 布局，子元素间距为 20px，垂直居中
- */
-.header-right {
-  display: flex; /* 弹性布局 */
-  gap: 20px; /* 子元素间距 */
-  align-items: center; /* 垂直居中 */
-}
-
-/**
- * 标语区域
- * 采用 flex 布局，垂直居中，设置内边距和右外边距
- */
-.slogan {
-  display: flex; /* 弹性布局 */
-  align-items: center; /* 垂直居中 */
-  padding: 8px 16px; /* 内边距 */
-  margin-right: 8px; /* 右外边距 */
-}
-
-/**
- * 标语图片
- * 设置高度和过渡效果
- */
-.slogan-img {
-  height: 80px; /* 高度 */
-  transition: filter 0.3s ease; /* 过渡效果 */
-}
-
-/**
- * 暗色模式下标语图片样式
- * 设置滤镜反转
- */
-.dark .slogan-img {
-  filter: invert(1); /* 滤镜反转 */
-}
+@import './desktop/header.css';
 
 /* ==================== 主要内容区域 ==================== */
 
@@ -1338,31 +1198,6 @@ html.dark .qr-switch-btn.el-button--primary {
 
   .phone-display {
     display: none; /* 隐藏 */
-  }
-}
-
-/**
- * 媒体查询：当屏幕宽度小于等于 768px 时
- * 头部变为垂直布局，主要内容容器和卡片内边距调整，页脚内边距调整
- */
-@media (width <= 768px) {
-  .header {
-    flex-direction: column; /* 垂直布局 */
-    gap: 20px; /* 子元素间距 */
-    padding: 20px; /* 内边距 */
-    text-align: center; /* 文本居中 */
-  }
-
-  .main-content {
-    padding: 20px; /* 内边距 */
-  }
-
-  .punch-card, .overview-card {
-    padding: 20px; /* 内边距 */
-  }
-
-  .footer {
-    padding: 15px 20px; /* 内边距 */
   }
 }
 
