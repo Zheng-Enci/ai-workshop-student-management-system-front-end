@@ -657,14 +657,14 @@ onMounted(() => {
 		<!-- 主内容区域 -->
 		<div class="main-content">
 			<!-- 中心卡片布局 -->
-			<div class="center-hub-layout">
+			<div class="user-card-hub-layout">
 				<!-- 中心信息卡片 -->
-				<div class="center-info-card">
+				<div class="user-card-info-card">
 					<!-- 左侧用户信息区域 -->
-					<div class="center-left-section">
+					<div class="user-card-left-section">
 						<!-- 用户头像 -->
 						<div
-							class="center-avatar"
+							class="user-card-avatar"
 							:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
 							@click="handleAvatarClick"
 						>
@@ -672,24 +672,24 @@ onMounted(() => {
 								v-if="hasAvatar && avatarUrl"
 								v-lazy="avatarUrl"
 								alt="用户头像"
-								class="center-avatar-image"
+								class="user-card-avatar-image"
 							/>
-							<el-icon v-else size="32" class="center-avatar-icon">
+							<el-icon v-else size="32" class="user-card-avatar-icon">
 								<user/>
 							</el-icon>
-							<div v-if="avatarLoading" class="center-avatar-loading">
+							<div v-if="avatarLoading" class="user-card-avatar-loading">
 								<img src="@/assets/loading.gif" alt="加载中" class="loading-gif"/>
 							</div>
 						</div>
 
 						<!-- 用户详情 -->
-						<div class="center-user-info">
-							<div class="center-user-name">{{ userStore.userInfo?.name || '学生' }}</div>
+						<div class="user-card-user-info">
+							<div class="user-card-user-name">{{ userStore.userInfo?.name || '学生' }}</div>
 
 							<!-- 用户等级 -->
 							<div
 								v-if="userStore.studentLevel"
-								class="center-user-level"
+								class="user-card-user-level"
 								:class="getLevelClass(userStore.studentLevel?.levelCode)"
 							>
 								<el-icon class="level-icon" size="14">
@@ -699,7 +699,7 @@ onMounted(() => {
 							</div>
 
 							<!-- 签到次数 -->
-							<div v-if="attendanceCount !== null" class="center-attendance">
+							<div v-if="attendanceCount !== null" class="user-card-attendance">
 								<el-icon class="attendance-icon" size="16">
 									<calendar/>
 								</el-icon>
@@ -714,47 +714,47 @@ onMounted(() => {
 							!pointsLoading &&
 								(totalPoints !== null || signInPoints !== null || activityPoints !== null)
 						"
-						class="center-points-section"
+						class="user-card-points-section"
 					>
-						<div class="center-points-grid">
+						<div class="user-card-points-grid">
 							<!-- 总积分卡片 -->
-							<div class="center-point-item total-points">
-								<div class="center-point-icon">
+							<div class="user-card-point-item total-points">
+								<div class="user-card-point-icon">
 									<el-icon size="20">
 										<coin/>
 									</el-icon>
 								</div>
-								<div class="center-point-info">
-									<div class="center-point-label">总积分</div>
-									<div class="center-point-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
+								<div class="user-card-point-info">
+									<div class="user-card-point-label">总积分</div>
+									<div class="user-card-point-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
 								</div>
 							</div>
 
 							<!-- 活动积分卡片 -->
-							<div class="center-point-item activity-points">
-								<div class="center-point-icon">
+							<div class="user-card-point-item activity-points">
+								<div class="user-card-point-icon">
 									<el-icon size="20">
 										<trophy/>
 									</el-icon>
 								</div>
-								<div class="center-point-info">
-									<div class="center-point-label">活动积分</div>
-									<div class="center-point-value">
+								<div class="user-card-point-info">
+									<div class="user-card-point-label">活动积分</div>
+									<div class="user-card-point-value">
 										{{ activityPoints !== null ? activityPoints : 0 }}
 									</div>
 								</div>
 							</div>
 
 							<!-- 签到积分卡片 -->
-							<div class="center-point-item signin-points">
-								<div class="center-point-icon">
+							<div class="user-card-point-item signin-points">
+								<div class="user-card-point-icon">
 									<el-icon size="20">
 										<calendar/>
 									</el-icon>
 								</div>
-								<div class="center-point-info">
-									<div class="center-point-label">签到积分</div>
-									<div class="center-point-value">{{ signInPoints !== null ? signInPoints : 0 }}</div>
+								<div class="user-card-point-info">
+									<div class="user-card-point-label">签到积分</div>
+									<div class="user-card-point-value">{{ signInPoints !== null ? signInPoints : 0 }}</div>
 								</div>
 							</div>
 						</div>
@@ -928,5 +928,5 @@ onMounted(() => {
 
 <style>
 @import '@/views/NavigationPage/css/desktop/header.css';
-@import '@/views/NavigationPage/css/desktop/center.css';
+@import '@/views/NavigationPage/css/desktop/user-card.css';
 </style>
