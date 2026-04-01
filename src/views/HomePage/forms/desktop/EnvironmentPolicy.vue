@@ -49,15 +49,15 @@ defineExpose({
 		:append-to-body="true"
 		:teleported="true"
 		modal-class="environment-policy-overlay"
-		class="environment-policy-dialog"
+		class="encironment-policy-dialog"
 	>
-		<div class="environment-policy-content">
-			<div class="policy-section">
-				<h3 class="section-title">
+		<div class="encironment-policy-content">
+			<div class="encironment-policy-section">
+				<h3 class="encironment-policy-section-title">
 					<el-icon><office-building /></el-icon>
 					第一章 总则
 				</h3>
-				<div class="policy-content">
+				<div class="encironment-policy-content">
 					<p>
 						<strong>第一条 目的：</strong>
 						为保障厦门工学院人工智能创作坊（以下简称"创作坊"）拥有整洁、舒适、安全、高效的工作与学习环境，
@@ -68,12 +68,12 @@ defineExpose({
 				</div>
 			</div>
 
-			<div class="policy-section">
-				<h3 class="section-title">
+			<div class="encironment-policy-section">
+				<h3 class="encironment-policy-section-title">
 					<el-icon><office-building /></el-icon>
 					第二章 日常行为规范
 				</h3>
-				<div class="policy-content">
+				<div class="encironment-policy-content">
 					<p><strong>第四条 个人工位区域（桌椅）管理：</strong></p>
 					<ol>
 						<li><strong>人走椅归：</strong>使用者离开工位时，必须将座椅完全推入桌下，保持整齐划一，不得阻碍通道。</li>
@@ -120,12 +120,12 @@ defineExpose({
 				</div>
 			</div>
 
-			<div class="policy-section">
-				<h3 class="section-title">
+			<div class="encironment-policy-section">
+				<h3 class="encironment-policy-section-title">
 					<el-icon><office-building /></el-icon>
 					第三章 责任分工与监督机制
 				</h3>
-				<div class="policy-content">
+				<div class="encironment-policy-content">
 					<p><strong>第七条 使用者责任：</strong>每位使用者是自身使用区域（工位及周边）和所使用公共设备的第一卫生责任人，必须严格遵守第二章各项规范。</p>
 					<p><strong>第八条 值日制度：</strong>由常驻团队按日排班，督促当日使用者遵守规范。检查并确保照明、空调关闭，门窗锁好，卫生情况整洁。</p>
 					<p><strong>第九条 定期深度清洁：</strong>每周定期进行地面拖洗、桌面深度擦拭、设备除尘等。</p>
@@ -139,12 +139,12 @@ defineExpose({
 				</div>
 			</div>
 
-			<div class="policy-section">
-				<h3 class="section-title">
+			<div class="encironment-policy-section">
+				<h3 class="encironment-policy-section-title">
 					<el-icon><office-building /></el-icon>
 					第四章 附则
 				</h3>
-				<div class="policy-content">
+				<div class="encironment-policy-content">
 					<p>
 						<strong>第十三条 温馨提醒：</strong>
 						请爱惜创作坊内所有设施设备。保持环境整洁不仅关乎形象，更能提升专注力、减少干扰、
@@ -160,21 +160,21 @@ defineExpose({
 </template>
 
 <style scoped>
-.environment-policy-dialog {
+.encironment-policy-dialog {
 	overflow-y: auto;
 	max-height: 90vh;
 }
 
-.environment-policy-content {
+.encironment-policy-content {
 	max-height: 80vh;
 	overflow-y: auto;
 }
 
-.policy-section {
+.encironment-policy-section {
 	margin-bottom: 24px;
 }
 
-.section-title {
+.encironment-policy-section-title {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -182,22 +182,22 @@ defineExpose({
 	color: #303133;
 }
 
-.policy-content {
+.encironment-policy-content {
 	line-height: 1.8;
 	color: #606266;
 }
 
-.policy-content p {
+.encironment-policy-content p {
 	margin-bottom: 12px;
 }
 
-.policy-content ol,
-.policy-content ul {
+.encironment-policy-content ol,
+.encironment-policy-content ul {
 	margin-bottom: 12px;
 	padding-left: 24px;
 }
 
-.policy-content li {
+.encironment-policy-content li {
 	margin-bottom: 8px;
 }
 </style>
