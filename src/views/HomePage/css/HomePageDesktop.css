@@ -790,7 +790,7 @@
 /* Element Plus图标在按钮中的样式 */
 .action-button .el-icon,
 .environment-policy-button .el-icon {
-	/* 图标样式 */
+	font-size: 18px;
 }
 
 /* 功能展示区域 */
