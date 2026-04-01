@@ -5,6 +5,7 @@ import { ElButton, ElIcon } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import AttendanceTrendChart from './ts/attendanceTrendChart'
+import { getDateRange, getAttendanceTrendData } from './ts/attendanceTrendChart'
 
 const router = useRouter()
 const themeStore = useThemeStore()
@@ -13,7 +14,7 @@ const { toggleTheme } = themeStore
 const chartRef = ref(null);
 let trendChart: AttendanceTrendChart | null = null;
 
-const timeRange = ref('最近七天');
+const timeRange = ref('全部');
 
 const timeRanges = [
 	{ label: '最近一天', value: '最近一天' },
@@ -25,9 +26,20 @@ const timeRanges = [
 	{ label: '全部', value: '全部' }
 ];
 
-const handleTimeRangeChange = (range: string) => {
+const handleTimeRangeChange = async (range: string) => {
 	timeRange.value = range;
+	await updateChartData(range);
 };
+
+const updateChartData = async (range: string) => {
+	const { startDate, endDate } = getDateRange(range)
+	const data = await getAttendanceTrendData(startDate, endDate)
+	const dates = data.map(item => item.date)
+	const values = data.map(item => item.count)
+	if (trendChart) {
+		trendChart.setOption(dates, values)
+	}
+}
 
 const goBack = () => {
 	router.push('/navigation-desktop')
@@ -39,11 +51,16 @@ const handleResize = () => {
 	}
 }
 
-onMounted(() => {
+onMounted(async () => {
 	nextTick(() => {
 		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDark)
 		trendChart.init()
-		trendChart.setOption([], [])
+		const { startDate, endDate } = getDateRange('全部')
+		getAttendanceTrendData(startDate, endDate).then(data => {
+			const dates = data.map(item => item.date)
+			const values = data.map(item => item.count)
+			trendChart?.setOption(dates, values)
+		})
 		window.addEventListener('resize', handleResize)
 	})
 })
