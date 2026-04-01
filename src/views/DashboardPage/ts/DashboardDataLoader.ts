@@ -161,6 +161,7 @@ class DashboardDataLoader {
 	private monthlyAttendanceCountRef: any
 	private levelStatsRef: any
 	private selectedTimeRangeRef: any
+	private initAttendanceChart: (data: any[]) => void
 
 	constructor(
 		topStudentsRef: any,
@@ -170,7 +171,8 @@ class DashboardDataLoader {
 		attendanceRateRef: any,
 		monthlyAttendanceCountRef: any,
 		levelStatsRef: any,
-		selectedTimeRangeRef: any
+		selectedTimeRangeRef: any,
+		initAttendanceChart: (data: any[]) => void
 	) {
 		this.topStudentsRef = topStudentsRef
 		this.totalStudentsRef = totalStudentsRef
@@ -180,6 +182,7 @@ class DashboardDataLoader {
 		this.monthlyAttendanceCountRef = monthlyAttendanceCountRef
 		this.levelStatsRef = levelStatsRef
 		this.selectedTimeRangeRef = selectedTimeRangeRef
+		this.initAttendanceChart = initAttendanceChart
 	}
 
 	/**
@@ -242,6 +245,7 @@ class DashboardDataLoader {
 				}))
 
 				this.topStudentsRef.value = processedData
+				this.initAttendanceChart(processedData)
 			}
 		} catch (error) {
 			throw new Error(`获取排行榜数据失败：${error.message}`)

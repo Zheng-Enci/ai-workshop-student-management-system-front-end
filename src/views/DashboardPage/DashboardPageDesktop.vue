@@ -132,7 +132,8 @@ const dataLoader = new DashboardDataLoader(
 	attendanceRate,
 	monthlyAttendanceCount,
 	levelStats,
-	selectedTimeRange
+	selectedTimeRange,
+	initAttendanceChart
 )
 
 // ======================== 基础交互函数 ========================
