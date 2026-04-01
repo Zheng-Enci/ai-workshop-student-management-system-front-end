@@ -1,0 +1,156 @@
+/* ==================== 左侧排行榜区域 ==================== */
+
+.ranking-left-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.ranking-punch-card,
+.ranking-overview-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 0.08);
+}
+
+.dark .ranking-punch-card,
+.dark .ranking-overview-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.ranking-punch-card h2,
+.ranking-overview-card h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.dark .ranking-punch-card h2,
+.dark .ranking-overview-card h2 {
+  color: #fff;
+}
+
+.ranking-subtitle {
+  margin: 0 0 30px;
+  font-size: 16px;
+  color: #7f8c8d;
+}
+
+.dark .ranking-subtitle {
+  color: #e2e8f0;
+}
+
+.ranking-top-students {
+  flex: 1;
+  margin-bottom: 30px;
+}
+
+.ranking-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.ranking-chart-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.dark .ranking-chart-header h3 {
+  color: #fff;
+}
+
+.ranking-controls-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.ranking-time-range-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.ranking-attendance-chart {
+  width: 100%;
+  height: 550px;
+}
+
+.ranking-summary-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.ranking-stats-row {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.ranking-summary-stats .ranking-stats-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ranking-total-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ranking-total-count .ranking-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #606266;
+}
+
+.ranking-total-count .ranking-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.ranking-stat-icon {
+  font-size: 16px;
+  color: #667eea;
+}
+
+/* ==================== 响应式样式 ==================== */
+
+@media (width <= 1200px) {
+  .ranking-left-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width <= 768px) {
+  .ranking-punch-card {
+    padding: 20px;
+  }
+
+  .ranking-punch-card h2 {
+    font-size: 20px;
+  }
+}

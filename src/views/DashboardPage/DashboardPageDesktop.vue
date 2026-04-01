@@ -939,16 +939,16 @@ echarts.use([
 		<!-- 主内容区域：左侧排行榜 + 右侧学生总览 -->
 		<div class="main-content">
 			<!-- 左侧区域：签到排行榜 -->
-			<div class="left-section">
-				<div class="punch-card">
+			<div class="ranking-left-section">
+				<div class="ranking-punch-card">
 					<h2>排行榜</h2>
 
 					<!-- 排行榜图表区域 -->
-					<div class="top-students">
-						<div class="chart-header">
-							<div class="controls-section">
+					<div class="ranking-top-students">
+						<div class="ranking-chart-header">
+							<div class="ranking-controls-section">
 								<!-- 时间范围筛选器 -->
-								<div class="time-range-selector">
+								<div class="ranking-time-range-selector">
 									<el-radio-group
 										v-model="selectedTimeRange"
 										size="small"
@@ -967,25 +967,25 @@ echarts.use([
 							</div>
 						</div>
 						<!-- 签到排行榜图表容器 -->
-						<div ref="attendanceChart" class="attendance-chart"/>
+						<div ref="attendanceChart" class="ranking-attendance-chart"/>
 					</div>
 
 					<!-- 签到统计摘要 -->
-					<div class="summary-stats">
-						<div class="stats-row">
-							<div class="total-count">
-								<span class="label">
-									<el-icon class="stat-icon"><calendar/></el-icon>
+					<div class="ranking-summary-stats">
+						<div class="ranking-stats-row">
+							<div class="ranking-total-count">
+								<span class="ranking-label">
+									<el-icon class="ranking-stat-icon"><calendar/></el-icon>
 									本月签到总人数
 								</span>
-								<span class="value">{{ monthlyAttendanceCount }}人</span>
+								<span class="ranking-value">{{ monthlyAttendanceCount }}人</span>
 							</div>
-							<div class="total-count">
-								<span class="label">
-									<el-icon class="stat-icon"><clock/></el-icon>
+							<div class="ranking-total-count">
+								<span class="ranking-label">
+									<el-icon class="ranking-stat-icon"><clock/></el-icon>
 									今日签到总人次
 								</span>
-								<span class="value">{{ todayCount }}人</span>
+								<span class="ranking-value">{{ todayCount }}人</span>
 							</div>
 						</div>
 					</div>
@@ -1185,6 +1185,7 @@ echarts.use([
 <!-- 全局样式：头部区域 -->
 <style>
 @import './css/desktop/header.css';
+@import './css/desktop/ranking.css';
 @import './css/DashboardPageDesktop.css';
 </style>
 
