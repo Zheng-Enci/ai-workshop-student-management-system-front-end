@@ -96,6 +96,14 @@ export const useHomePageLogic = () => {
 	}
 
 	/**
+	 * 跳转到考勤分析页面
+	 * 导航到考勤分析页面，查看考勤趋势数据
+	 */
+	const goToAttendanceAnalysis = () => {
+		router.push('/attendance-analysis')
+	}
+
+	/**
 	 * 显示联系表单
 	 * 打开联系表单对话框
 	 */
@@ -153,6 +161,7 @@ export const useHomePageLogic = () => {
 		goToAdminSystem,
 		goToPointsDashboard,
 		goToAllMembers,
+		goToAttendanceAnalysis,
 		showContactForm,
 		handleAvatarError
 	}

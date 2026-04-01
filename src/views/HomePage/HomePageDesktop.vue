@@ -54,6 +54,7 @@ import 'element-plus/dist/index.css'
  * - goToAdminSystem: 跳转到超级管理员系统
  * - goToPointsDashboard: 跳转到积分看板
  * - goToAllMembers: 跳转到所有成员页面
+ * - goToAttendanceAnalysis: 跳转到考勤分析页面
  */
 const {
 	toggleTheme,
@@ -61,7 +62,8 @@ const {
 	goToDashboard,
 	goToAdminSystem,
 	goToPointsDashboard,
-	goToAllMembers
+	goToAllMembers,
+	goToAttendanceAnalysis
 } = useHomePageLogic()
 
 /**
@@ -268,6 +270,15 @@ defineExpose({
 							</div>
 							<h3>全部成员</h3>
 							<p>查看所有成员信息和积分排名</p>
+						</div>
+
+						<!-- 考勤分析功能卡片:点击跳转到考勤分析页面 -->
+						<div class="feature-card quinary" title = "点击查看考勤趋势" @click="goToAttendanceAnalysis">
+							<div class="feature-icon">
+								<el-icon><trend-charts /></el-icon>
+							</div>
+							<h3>考勤分析</h3>
+							<p>查看考勤趋势数据和统计信息</p>
 						</div>
 					</div>
 				</div>

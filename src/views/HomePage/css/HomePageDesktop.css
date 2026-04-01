@@ -970,6 +970,14 @@
 	background: linear-gradient(135deg, #43e97b, #38f9d7);
 }
 
+/* 第五功能卡片图标背景 */
+
+/* 使用橙色渐变 */
+.feature-card.quinary .feature-icon {
+	/* 渐变背景，从橙色到黄色 */
+	background: linear-gradient(135deg, #fa709a, #fee140);
+}
+
 
 /* 页脚内容第一段 */
 
