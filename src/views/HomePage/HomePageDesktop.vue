@@ -20,16 +20,17 @@ import './css/HomePageDesktop.css'
 // Element Plus 图标组件导入
 import { TrendCharts, Lock, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
 // Element Plus 核心组件导入
-import { ElIcon, ElDialog, ElButton } from 'element-plus'
+import { ElButton } from 'element-plus'
 // Vue3 响应式API导入
 import { ref } from 'vue'
 
 // 首页共用业务逻辑导入
 import { useHomePageLogic } from './js/HomePage.js'
+// 环境保障政策组件导入
+import EnvironmentPolicy from './forms/desktop/EnvironmentPolicy.vue'
 // Element Plus 基础样式导入(按需导入,减小打包体积)
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/dist/index.css'
 
 // ===================== 类型定义 =====================
@@ -70,85 +71,17 @@ const {
  * 导出组件供模板使用
  * @description 使用defineExpose暴露组件实例,供父组件或模板引用
  */
-defineExpose({
-	ElIcon
-})
+defineExpose({})
 
-// ===================== 桌面端特有逻辑 =====================
-		/**
-		 * 环境保障政策弹窗显示状态
-		 * @type {Ref<boolean>}
-		 * @description 控制环境保障政策说明弹窗的显示/隐藏
-		 */
-		const environmentPolicyVisible = ref(false)
-		/**
-		 * 环境保障政策弹窗关闭状态标记
-		 * @type {Ref<boolean>}
-		 * @description 防止弹窗关闭动画期间的重复关闭操作
-		 */
-		const isClosingEnvironmentPolicy = ref(false)
+const environmentPolicyRef = ref(null)
 
-		/**
-		 * 显示环境保障政策弹窗
-		 * @function showEnvironmentPolicy
-		 * @description 点击相关按钮时触发,显示环境保障政策说明弹窗
-		 */
-		const showEnvironmentPolicy = () => {
-			environmentPolicyVisible.value = true
-		}
+const showEnvironmentPolicy = () => {
+	environmentPolicyRef.value?.showEnvironmentPolicy()
+}
 
-		/**
-		 * 关闭环境保障政策弹窗
-		 * @function closeEnvironmentPolicy
-		 * @description 关闭弹窗并处理关闭动画,防止重复关闭和视觉闪烁
-		 * 流程:
-		 * 1. 检查是否正在关闭,防止重复操作
-		 * 2. 手动隐藏遮罩层,避免视觉闪烁
-		 * 3. 关闭弹窗
-		 * 4. 重置关闭状态标记
-		 */
-		const closeEnvironmentPolicy = () => {
-			// 防止重复关闭:如果正在关闭中,直接返回
-			if (isClosingEnvironmentPolicy.value) { return }
-			// 标记为正在关闭状态
-			isClosingEnvironmentPolicy.value = true
-
-			// 先手动隐藏遮罩层,避免视觉闪烁
-			// 通过DOM操作直接控制遮罩层的显示状态
-			const dialogWrapper = document.querySelector('.environment-policy-overlay')
-			if (dialogWrapper) {
-				dialogWrapper.style.display = 'none'
-				dialogWrapper.style.visibility = 'hidden'
-				dialogWrapper.style.opacity = '0'
-			}
-
-			// 关闭弹窗:更新响应式状态
-			environmentPolicyVisible.value = false
-
-			// 重置关闭状态:在下一个事件循环中重置标记
-			// 确保关闭动画完成后才能再次关闭
-			setTimeout(() => {
-				isClosingEnvironmentPolicy.value = false
-			}, 0)
-		}
-
-		// ===================== 组件导出 =====================
-		/**
-		 * 导出HomePageDesktop组件
-		 * @exports HomePageDesktop
-		 * @description 导出桌面端首页组件，包含系统介绍、功能入口和环境保障政策说明
-		 * @property {Object} setup - 组件的setup函数，包含所有响应式数据和方法
-		 * @property {Function} setup.toggleTheme - 切换主题模式的方法
-		 * @property {Function} setup.goToLogin - 跳转到登录页的方法
-		 * @property {Function} setup.goToDashboard - 跳转到数据看板的方法
-		 * @property {Function} setup.goToAdminSystem - 跳转到超级管理员系统的方法
-		 * @property {Function} setup.goToPointsDashboard - 跳转到积分看板的方法
-		 * @property {Function} setup.goToAllMembers - 跳转到所有成员页面的方法
-		 * @property {Ref<boolean>} setup.environmentPolicyVisible - 环境保障政策弹窗显示状态
-		 * @property {Ref<boolean>} setup.isClosingEnvironmentPolicy - 环境保障政策弹窗关闭状态标记
-		 * @property {Function} setup.showEnvironmentPolicy - 显示环境保障政策弹窗的方法
-		 * @property {Function} setup.closeEnvironmentPolicy - 关闭环境保障政策弹窗的方法
-		 */
+const closeEnvironmentPolicy = () => {
+	environmentPolicyRef.value?.closeEnvironmentPolicy()
+}
 	</script>
 
 <!-- 
@@ -303,126 +236,8 @@ defineExpose({
 			</div>
 		</div>
 
-		<!-- 环境保障机制弹窗:显示AI坊的日常环境保障政策 -->
-		<el-dialog
-			v-if="environmentPolicyVisible"
-			v-model="environmentPolicyVisible"
-			title="厦门工学院人工智能创作坊日常环境保障机制"
-			width="80%"
-			:before-close="closeEnvironmentPolicy"
-			:close-on-click-modal="false"
-			:destroy-on-close="true"
-			:append-to-body="true"
-			:teleported="true"
-			modal-class="environment-policy-overlay"
-			class="environment-policy-dialog"
-		>
-			<div class="environment-policy-content">
-				<div class="policy-section">
-					<h3 class="section-title">
-						<el-icon><office-building /></el-icon>
-						第一章 总则
-					</h3>
-					<div class="policy-content">
-						<p>
-							<strong>第一条 目的：</strong>
-							为保障厦门工学院人工智能创作坊（以下简称"创作坊"）拥有整洁、舒适、安全、高效的工作与学习环境，
-							维护设备安全，培养使用者良好习惯，提升空间利用效率，特制定本保障机制。
-						</p>
-						<p><strong>第二条 适用范围：</strong>本机制适用于所有进入并使用创作坊的师生。</p>
-						<p><strong>第三条 核心原则：</strong>“谁使用，谁负责；人走场清，物归原位；共同维护，持续改进”。</p>
-					</div>
-				</div>
+		<EnvironmentPolicy ref="environmentPolicyRef" />
 
-				<div class="policy-section">
-					<h3 class="section-title">
-						<el-icon><office-building /></el-icon>
-						第二章 日常行为规范
-					</h3>
-					<div class="policy-content">
-						<p><strong>第四条 个人工位区域（桌椅）管理：</strong></p>
-						<ol>
-							<li><strong>人走椅归：</strong>使用者离开工位时，必须将座椅完全推入桌下，保持整齐划一，不得阻碍通道。</li>
-							<li>
-								<strong>桌面整洁：</strong>
-								<ul>
-									<li>
-										<strong>物品精简：</strong>
-										桌面仅限放置与当前工作/学习直接相关的设备（如电脑、开发板）、资料、必要文具及饮用水杯。
-										严禁堆放食物、零食等无关杂物。
-									</li>
-									<li><strong>资料规整：</strong>文件、书籍、笔记本、科研设备等应整齐摆放或及时收纳，避免杂乱无章。</li>
-									<li><strong>桌面整洁：</strong>离开前需清理桌面灰尘、碎屑、水渍、污迹，保持桌面清洁。</li>
-								</ul>
-							</li>
-							<li>
-								<strong>垃圾自清：</strong>
-								个人产生的废纸、饮料瓶、零食包装等垃圾，必须自行投入指定垃圾桶内，
-								不得遗留在桌面或地面。垃圾桶内垃圾超过3/4时，应将垃圾打包带走，换上新的垃圾袋。
-							</li>
-						</ol>
-
-						<p><strong>第五条 公共区域及地面卫生：</strong></p>
-						<ol>
-							<li><strong>公共责任：</strong>所有使用者均有责任维护公共区域（如过道、讨论区、设备陈列区周边）的整洁。</li>
-							<li><strong>地面无杂物：</strong>不得随意丢弃任何物品（包括纸屑、线缆、工具、个人物品等）在地面。发现地面有垃圾或杂物，人人有责随手捡起投入垃圾桶。</li>
-							<li><strong>液体防护：</strong>小心取用液体（水、饮料），如有泼洒，需立即清理干净，防止滑倒及损坏设备或地面。</li>
-							<li><strong>设备线缆：</strong>使用公共设备（如显示器、打印机、排插）时，线缆应尽量整理，避免缠绕绊脚。使用完毕应恢复原状。</li>
-							<li><strong>使用后复原：</strong>使用公共设备（如机械臂、实验小车、VR设备等）后，必须将其关闭、线缆整理归位、相关配件放回原处，恢复设备区初始整洁状态。</li>
-						</ol>
-
-						<p><strong>第六条 节能与安全：</strong></p>
-						<ol>
-							<li><strong>人走灯灭：</strong>最后离开创作坊（或创作坊内独立区域/房间）的人员，有责任检查并关闭该区域所有照明灯具（包括主灯、氛围灯、台灯等）。</li>
-							<li><strong>空调/风扇管理：</strong>夏季空调温度设定建议不低于22℃。最后离开者需确认关闭空调或风扇。避免无人时长时间运行。</li>
-							<li><strong>门窗管理：</strong>最后离开创作坊者，需确认关闭所有门窗，做好防盗措施。</li>
-							<li>
-								<strong>断电检查：</strong>
-								对于非24小时运行的公共设备（如公用电脑、显示屏、饮水机、部分实验设备），
-								最后离开者或设备使用者有责任确认其已关闭或处于安全待机状态（符合设备要求）。
-							</li>
-							<li><strong>消防安全：</strong>保持所有消防通道、灭火器及电箱前畅通无阻，严禁遮挡。</li>
-						</ol>
-					</div>
-				</div>
-
-				<div class="policy-section">
-					<h3 class="section-title">
-						<el-icon><office-building /></el-icon>
-						第三章 责任分工与监督机制
-					</h3>
-					<div class="policy-content">
-						<p><strong>第七条 使用者责任：</strong>每位使用者是自身使用区域（工位及周边）和所使用公共设备的第一卫生责任人，必须严格遵守第二章各项规范。</p>
-						<p><strong>第八条 值日制度：</strong>由常驻团队按日排班，督促当日使用者遵守规范。检查并确保照明、空调关闭，门窗锁好，卫生情况整洁。</p>
-						<p><strong>第九条 定期深度清洁：</strong>每周定期进行地面拖洗、桌面深度擦拭、设备除尘等。</p>
-						<p><strong>第十条 管理员巡查：</strong>创作坊负责老师进行不定期巡查，检查卫生状况、设备归位以及安全情况。</p>
-						<p><strong>第十一条 相互监督与提醒：</strong>鼓励使用者之间相互友好提醒，共同维护良好环境。发现严重或反复违规行为，可向管理员反映。</p>
-						<p>
-							<strong>第十二条 处理措施：</strong>
-							对于屡教不改或造成设备损坏、安全隐患的严重违规行为：
-							暂停其使用创作坊权限一定期限。并且通报其所在院系或指导老师。需承担清洁或维修责任。
-						</p>
-					</div>
-				</div>
-
-				<div class="policy-section">
-					<h3 class="section-title">
-						<el-icon><office-building /></el-icon>
-						第四章 附则
-					</h3>
-					<div class="policy-content">
-						<p>
-							<strong>第十三条 温馨提醒：</strong>
-							请爱惜创作坊内所有设施设备。保持环境整洁不仅关乎形象，更能提升专注力、减少干扰、
-							预防事故、延长设备寿命，最终惠及每一位使用者。
-						</p>
-						<p><strong>第十四条 宣传与教育：</strong>本机制后续张贴于创作坊醒目位置。所有新进入者需在首次使用前阅读并知晓本规定。创作坊定期通过会议、通知等方式进行宣贯。</p>
-						<p><strong>第十五条 修订：</strong>本机制将根据实际运行情况和反馈进行定期评估和修订。</p>
-						<p><strong>第十六条 生效日期：</strong>本机制自发布之日起生效。</p>
-					</div>
-				</div>
-			</div>
-		</el-dialog>
 	</div>
 </template>
 
