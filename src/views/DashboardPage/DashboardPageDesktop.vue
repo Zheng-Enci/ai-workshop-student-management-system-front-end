@@ -796,12 +796,12 @@ const loadData = async () => {
 
 /**
  * 启动进度条动画
- * 动画逻辑：15秒内进度条从0到100%，完成后重新加载数据
+ * 动画逻辑：128秒内进度条从0到100%，完成后重新加载数据
  */
 const startProgress = () => {
 	progressWidth.value = 0
 	progressInterval.value = setInterval(() => {
-		progressWidth.value += 100 / 150 // 150次 * 100ms = 15秒
+		progressWidth.value += 100 / 1280 // 1280次 * 100ms = 128秒
 		if (progressWidth.value >= 100) {
 			progressWidth.value = 0
 			loadData() // 重新加载数据
