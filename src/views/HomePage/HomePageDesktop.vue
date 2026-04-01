@@ -65,12 +65,6 @@ const {
 	goToAttendanceAnalysis
 } = useHomePageLogic()
 
-/**
- * 导出组件供模板使用
- * @description 使用defineExpose暴露组件实例,供父组件或模板引用
- */
-defineExpose({})
-
 const environmentPolicyRef = ref(null)
 
 const showEnvironmentPolicy = () => {
