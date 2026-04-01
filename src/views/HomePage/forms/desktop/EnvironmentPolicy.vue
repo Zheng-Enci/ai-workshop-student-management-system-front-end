@@ -163,15 +163,26 @@ defineExpose({
 .encironment-policy-dialog {
 	overflow-y: auto;
 	max-height: 90vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 }
 
 .encironment-policy-content {
 	max-height: 80vh;
 	overflow-y: auto;
+	padding: 20px 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
 .encironment-policy-section {
 	margin-bottom: 24px;
+	background: #fff;
+	border-radius: 8px;
+	padding: 16px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .encironment-policy-section-title {
@@ -180,6 +191,8 @@ defineExpose({
 	gap: 8px;
 	margin-bottom: 12px;
 	color: #303133;
+	font-size: 18px;
+	font-weight: 600;
 }
 
 .encironment-policy-content {
@@ -189,6 +202,7 @@ defineExpose({
 
 .encironment-policy-content p {
 	margin-bottom: 12px;
+	text-align: justify;
 }
 
 .encironment-policy-content ol,
@@ -199,5 +213,20 @@ defineExpose({
 
 .encironment-policy-content li {
 	margin-bottom: 8px;
+	line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+	.encironment-policy-content {
+		padding: 16px 0;
+	}
+	
+	.encironment-policy-section {
+		padding: 12px;
+	}
+	
+	.encironment-policy-section-title {
+		font-size: 16px;
+	}
 }
 </style>
