@@ -1182,8 +1182,9 @@ echarts.use([
 	</div>
 </template>
 
-<style scoped>
-/* 导入桌面端样式文件 */
+<!-- 全局样式：头部区域 -->
+<style>
+@import './css/desktop/header.css';
 @import './css/DashboardPageDesktop.css';
 </style>
 
