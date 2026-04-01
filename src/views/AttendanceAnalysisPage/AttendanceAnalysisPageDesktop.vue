@@ -53,7 +53,7 @@ const handleResize = () => {
 
 onMounted(async () => {
 	nextTick(() => {
-		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDark)
+		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDarkMode)
 		trendChart.init()
 		const { startDate, endDate } = getDateRange('全部')
 		getAttendanceTrendData(startDate, endDate).then(data => {
