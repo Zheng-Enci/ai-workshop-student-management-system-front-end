@@ -207,7 +207,6 @@ async function getAttendanceCountByDate(date?: string): Promise<number> {
  */
 async function getAttendanceTrendData(startDate: string, endDate: string): Promise<{ date: string; count: number }[]> {
 	const dates: string[] = []
-	const values: number[] = []
 	const currentDate = new Date(startDate)
 
 	while (currentDate <= new Date(endDate)) {
@@ -216,14 +215,22 @@ async function getAttendanceTrendData(startDate: string, endDate: string): Promi
 		currentDate.setDate(currentDate.getDate() + 1)
 	}
 
-	const promises = dates.map(async (date) => {
-		try {
-			const count = await getAttendanceCountByDate(date)
-			return { date, count }
-		} catch (error) {
-			return { date, count: 0 }
-		}
-	})
+	const results: { date: string; count: number }[] = []
+	const batchSize = 5
+	for (let i = 0; i < dates.length; i += batchSize) {
+		const batch = dates.slice(i, i + batchSize)
+		const batchResults = await Promise.all(
+			batch.map(async (date) => {
+				try {
+					const count = await getAttendanceCountByDate(date)
+					return { date, count }
+				} catch (error) {
+					return { date, count: 0 }
+				}
+			})
+		)
+		results.push(...batchResults)
+	}
 
-	return Promise.all(promises)
+	return results
 }
