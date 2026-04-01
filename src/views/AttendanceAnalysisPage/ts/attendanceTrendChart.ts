@@ -4,6 +4,7 @@ import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/compone
 import { CanvasRenderer } from 'echarts/renderers'
 import type { EChartsOption } from 'echarts'
 import type { Ref } from 'vue'
+import AttendanceApi from '../../../api/ts/AttendanceApi'
 
 echarts.use([
 	TitleComponent,
@@ -183,3 +184,17 @@ class AttendanceTrendChart {
 
 export default AttendanceTrendChart
 export { getDateRange }
+
+/**
+ * 获取指定日期的签到人数
+ * @param date - 指定日期，格式为 'YYYY-MM-DD'，默认为今天
+ * @returns 签到人数
+ */
+async function getAttendanceCountByDate(date?: string): Promise<number> {
+	try {
+		const count = await AttendanceApi.getTodayAttendanceCount(date)
+		return count
+	} catch (error: any) {
+		throw error
+	}
+}
