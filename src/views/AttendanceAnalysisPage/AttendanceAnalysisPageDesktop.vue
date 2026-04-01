@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
 import { useLoadingMaskStore } from '@/stores/loading'
+import LoadingMask from '@/components/LoadingMask.vue'
 import { ElButton, ElIcon } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
@@ -81,6 +82,7 @@ onUnmounted(() => {
 
 <template>
 	<div class="attendance-analysis-page">
+		<LoadingMask/>
 		<div class="header-header">
 			<div class="header-header-left">
 				<el-button
