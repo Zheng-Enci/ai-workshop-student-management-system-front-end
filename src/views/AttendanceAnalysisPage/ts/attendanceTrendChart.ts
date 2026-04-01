@@ -93,14 +93,6 @@ class AttendanceTrendChart {
 
 		const option: EChartsOption = {
 			backgroundColor: 'transparent',
-			tooltip: {
-				trigger: 'axis',
-				backgroundColor: this.isDark.value ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.9)',
-				borderColor: this.isDark.value ? '#333' : '#ddd',
-				textStyle: {
-					color: this.isDark.value ? '#fff' : '#333'
-				}
-			},
 			grid: {
 				left: '3%',
 				right: '4%',
