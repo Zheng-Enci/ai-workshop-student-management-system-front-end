@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
 import { ElButton, ElIcon } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
@@ -9,6 +10,7 @@ import { getDateRange, getAttendanceTrendData } from './ts/attendanceTrendChart'
 
 const router = useRouter()
 const themeStore = useThemeStore()
+const loadingMaskStore = useLoadingMaskStore()
 const { toggleTheme } = themeStore
 
 const chartRef = ref(null);
@@ -27,9 +29,11 @@ const timeRanges = [
 ];
 
 const handleTimeRangeChange = async (range: string) => {
-	timeRange.value = range;
-	await updateChartData(range);
-};
+	timeRange.value = range
+	loadingMaskStore.showLoadingMask('正在加载签到数据...')
+	await updateChartData(range)
+	loadingMaskStore.hideLoadingMask()
+}
 
 const updateChartData = async (range: string) => {
 	const { startDate, endDate } = getDateRange(range)
@@ -55,11 +59,13 @@ onMounted(async () => {
 	nextTick(() => {
 		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDarkMode)
 		trendChart.init()
+		loadingMaskStore.showLoadingMask('正在加载签到数据...')
 		const { startDate, endDate } = getDateRange('全部')
 		getAttendanceTrendData(startDate, endDate).then(data => {
 			const dates = data.map(item => item.date)
 			const values = data.map(item => item.count)
 			trendChart?.setOption(dates, values)
+			loadingMaskStore.hideLoadingMask()
 		})
 		window.addEventListener('resize', handleResize)
 	})
