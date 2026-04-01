@@ -1711,6 +1711,11 @@ html:not(.dark) .author-link {
 	animation: fadeInUp 0.6s ease-out 0.7s both;
 }
 
+/* 应用动画到功能卡片 - 考勤分析 */
+.hero-right .feature-card.quinary {
+	animation: fadeInUp 0.6s ease-out 0.8s both;
+}
+
 /* 应用动画到页脚 */
 .footer {
 	animation: fadeInUp 0.8s ease-out 0.8s both;
