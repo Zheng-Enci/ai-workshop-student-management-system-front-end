@@ -43,6 +43,9 @@ import 'echarts-wordcloud'
 // ======================== 导入验证码管理类 ========================
 import VerificationCode from './ts/verificationCode'
 
+// ======================== 数据加载器 ========================
+import DashboardDataLoader from './ts/DashboardDataLoader'
+
 // ======================== API 接口导入区 ========================
 // 考勤相关接口
 import {
@@ -120,6 +123,18 @@ let gradeChartInstance = null
 let majorChartInstance = null
 let attendanceChartInstance = null
 
+// ======================== 数据加载器实例 ========================
+const dataLoader = new DashboardDataLoader(
+	topStudents,
+	totalStudents,
+	todayCount,
+	dailyAvgAttendance,
+	attendanceRate,
+	monthlyAttendanceCount,
+	levelStats,
+	selectedTimeRange
+)
+
 // ======================== 基础交互函数 ========================
 /**
  * 返回上一级页面（导航页）
@@ -133,10 +148,9 @@ const goBack = () => {
  * 存储内容：选中的时间范围
  */
 const saveUserPreferences = () => {
-	const preferences = {
+	dataLoader.saveUserPreferences({
 		timeRange: selectedTimeRange.value
-	}
-	localStorage.setItem('dashboardPreferences', JSON.stringify(preferences))
+	})
 }
 
 /**
@@ -144,16 +158,8 @@ const saveUserPreferences = () => {
  * 若无存储或解析失败，使用默认值'week'
  */
 const loadUserPreferences = () => {
-	const saved = localStorage.getItem('dashboardPreferences')
-	if (saved) {
-		try {
-			const preferences = JSON.parse(saved)
-			selectedTimeRange.value = preferences.timeRange || 'week'
-		} catch (error) {
-			// 解析失败时使用默认值
-			selectedTimeRange.value = 'week'
-		}
-	}
+	const preferences = dataLoader.loadUserPreferences()
+	selectedTimeRange.value = preferences.timeRange
 }
 
 /**
@@ -703,7 +709,7 @@ const loadRankingData = async () => {
  */
 const handleTimeRangeChange = async () => {
 	saveUserPreferences()
-	await loadRankingData()
+	await dataLoader.loadRankingData(selectedTopN)
 }
 
 /**
@@ -751,61 +757,36 @@ const loadLevelStats = async () => {
  */
 const loadData = async () => {
 	try {
-		// 并行请求核心数据（提升加载效率）
-		const [
-			gradeData, // 年级分布
-			majorData, // 专业分布
-			totalData, // 学生总数
-			monthlyData, // 月度签到
-			dailyData // 今日签到
-		] = await Promise.all([
-			getGradeStatistics(),
-			getMajorStatistics(),
-			getTotalStudentCount(),
-			getMonthlyAttendanceCount(),
-			AttendanceApi.getTodayAttendanceCount()
-		])
+		const { gradeData, majorData, totalData, monthlyData, dailyData } = await dataLoader.loadData()
 
-		// 初始化年级分布图表
 		if (gradeData.code === 200 && gradeData.data) {
 			initGradeChart(gradeData.data)
 		}
 
-		// 初始化专业分布图表
 		if (majorData.code === 200 && majorData.data) {
 			initMajorChart(majorData.data)
 		}
 
-		// 更新学生总数
-		if (totalData.code === 200 && totalData.data) {
-			totalStudents.value = totalData.data.count
-		}
-
-		// 更新月度签到数据并计算日均签到数
 		if (monthlyData.code === 200 && monthlyData.data) {
 			const dailyAvg = calculateDailyAvgAttendance(monthlyData.data.count)
 			dailyAvgAttendance.value = dailyAvg
-			// 保存月度数据（供后续计算签到率）
 			monthlyAttendanceCount.value = monthlyData.data.count
 		}
 
-		// 更新今日签到数
 		if (dailyData.code === 200 && dailyData.data != null) {
 			todayCount.value = dailyData.data
 		}
 
-		// 加载排行榜数据和等级统计
-		await loadRankingData()
-		await loadLevelStats()
+		await dataLoader.loadRankingData(selectedTopN)
+		await dataLoader.loadLevelStats()
 
-		// 重新计算社团成员数（确保数据最新）
-		calculateClubMembers()
+		dataLoader.updateClubMembers()
+		dataLoader.updateAttendanceRate()
 
-		// 监听时间范围变化（实时更新数据）
 		watch(selectedTimeRange, async (newValue, oldValue) => {
 			if (newValue !== oldValue) {
 				saveUserPreferences()
-				await loadRankingData()
+				await dataLoader.loadRankingData(selectedTopN)
 			}
 		})
 	} catch (error) {
