@@ -1,6 +1,6 @@
 /* ==================== 页面头部容器 ==================== */
 
-.header {
+.header-container {
 	position: relative;
 	z-index: 10;
 	background: rgb(255 255 255 / 0.05);
@@ -40,7 +40,7 @@
 
 /* ==================== 首页按钮 ==================== */
 
-.home-btn {
+.header-home-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -53,7 +53,7 @@
 
 /* ==================== Logo ==================== */
 
-.logo {
+.header-logo {
 	width: 56px;
 	height: 56px;
 	cursor: pointer;
@@ -62,14 +62,14 @@
 		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.logo:hover {
+.header-logo:hover {
 	filter: brightness(1.15);
 	transform: scale(1.05) rotate(3deg);
 }
 
 /* ==================== 标题区域 ==================== */
 
-.title-section h1 {
+.header-title-section h1 {
 	margin: 0;
 	font-size: 28px;
 	font-weight: 700;
@@ -79,7 +79,7 @@
 	-webkit-text-fill-color: transparent;
 }
 
-.title-section p {
+.header-title-section p {
 	margin: 4px 0 0;
 	font-size: 14px;
 	font-weight: 500;
@@ -88,7 +88,7 @@
 
 /* ==================== 页面标题 ==================== */
 
-.page-title-wrapper {
+.header-page-title-wrapper {
 	position: relative;
 	display: flex;
 	gap: 14px;
@@ -106,7 +106,7 @@
 	will-change: backdrop-filter;
 }
 
-.page-title-wrapper::before {
+.header-page-title-wrapper::before {
 	position: absolute;
 	top: 0;
 	left: -100%;
@@ -122,15 +122,15 @@
 	transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.page-title-wrapper:hover::before {
+.header-page-title-wrapper:hover::before {
 	left: 100%;
 }
 
-.page-title-wrapper:hover {
+.header-page-title-wrapper:hover {
 	backdrop-filter: blur(24px);
 }
 
-.page-title {
+.header-page-title {
 	position: relative;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
 		'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
@@ -144,11 +144,11 @@
 	background-clip: text;
 	background-size: 200% 100%;
 	filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.1));
-	animation: gradient-shift 5s ease-in-out infinite;
+	animation: header-gradient-shift 5s ease-in-out infinite;
 	-webkit-text-fill-color: transparent;
 }
 
-@keyframes gradient-shift {
+@keyframes header-gradient-shift {
 	0%, 100% {
 		background-position: 0% 50%;
 	}
@@ -159,7 +159,7 @@
 
 /* ==================== 退出登录按钮 ==================== */
 
-.logout-btn {
+.header-logout-btn {
 	padding: 10px 28px;
 	font-size: 14px;
 	font-weight: 600;
@@ -170,7 +170,7 @@
 	will-change: transform;
 }
 
-.logout-btn:hover {
+.header-logout-btn:hover {
 	color: white !important;
 	background-color: var(--danger-color) !important;
 	box-shadow: 0 6px 20px rgb(245 108 108 / 0.25);
@@ -179,13 +179,13 @@
 
 /* ==================== 暗色模式 ==================== */
 
-.dark .logout-btn.is-plain {
+.dark .header-logout-btn.is-plain {
 	color: #fff !important;
 	background-color: #000 !important;
 	border-color: #000 !important;
 }
 
-.dark .logout-btn.is-plain:hover {
+.dark .header-logout-btn.is-plain:hover {
 	color: white !important;
 	background-color: #000 !important;
 	border-color: #000 !important;
@@ -202,29 +202,29 @@
 		gap: 12px;
 	}
 
-	.logo {
+	.header-logo {
 		width: 40px;
 		height: 40px;
 	}
 
-	.title-section h1 {
+	.header-title-section h1 {
 		font-size: 18px;
 	}
 
-	.title-section p {
+	.header-title-section p {
 		display: none;
 	}
 
-	.page-title-wrapper {
+	.header-page-title-wrapper {
 		padding: 8px 16px;
 	}
 
-	.page-title {
+	.header-page-title {
 		font-size: 14px;
 		letter-spacing: 2px;
 	}
 
-	.logout-btn {
+	.header-logout-btn {
 		padding: 8px 16px;
 		font-size: 12px;
 	}

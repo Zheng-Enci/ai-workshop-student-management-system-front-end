@@ -604,12 +604,12 @@ onMounted(() => {
 		</div>
 
 		<!-- 页面头部 -->
-		<div class="header">
+		<div class="header-container">
 			<div class="header-top">
 				<!-- 头部左侧:首页按钮和Logo -->
 				<div class="header-left">
 					<el-button
-						class="home-btn"
+						class="header-home-btn"
 						type="primary"
 						:icon="House"
 						circle
@@ -619,12 +619,12 @@ onMounted(() => {
 					<img
 						src="@/assets/AiWorkShop_icon.png"
 						alt="Logo"
-						class="logo"
+						class="header-logo"
 						title="切换主题模式"
 						@click="toggleTheme"
 					/>
 
-					<div class="title-section">
+					<div class="header-title-section">
 						<h1>AI坊学生管理系统</h1>
 						<p>人工智能创作坊</p>
 					</div>
@@ -632,8 +632,8 @@ onMounted(() => {
 
 				<!-- 头部中央:页面标题 -->
 				<div class="header-center">
-					<div class="page-title-wrapper">
-						<div class="page-title">功能导航</div>
+					<div class="header-page-title-wrapper">
+						<div class="header-page-title">功能导航</div>
 					</div>
 				</div>
 
@@ -641,7 +641,7 @@ onMounted(() => {
 				<div class="header-right">
 					<el-button
 						type="danger"
-						class="logout-btn"
+						class="header-logout-btn"
 						plain
 						@click="handleLogout"
 					>
