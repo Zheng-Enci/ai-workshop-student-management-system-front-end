@@ -164,12 +164,6 @@ defineExpose({
 	max-height: 90vh;
 }
 
-:deep(.encironment-policy-dialog .el-dialog__body) {
-	max-height: 80vh;
-	overflow-y: auto;
-	padding: 20px;
-}
-
 .encironment-policy-content {
 	display: flex;
 	flex-direction: column;
@@ -216,14 +210,11 @@ defineExpose({
 }
 
 @media (max-width: 768px) {
-	:deep(.encironment-policy-dialog .el-dialog__body) {
-		padding: 16px;
-	}
-	
+
 	.encironment-policy-section {
 		padding: 12px;
 	}
-	
+
 	.encironment-policy-section-title {
 		font-size: 16px;
 	}
