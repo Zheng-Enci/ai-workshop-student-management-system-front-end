@@ -927,6 +927,5 @@ onMounted(() => {
 </style>
 
 <style>
-/* 暗色模式下退出按钮样式 */
-
+@import '@/views/NavigationPage/css/desktop/header.css';
 </style>
