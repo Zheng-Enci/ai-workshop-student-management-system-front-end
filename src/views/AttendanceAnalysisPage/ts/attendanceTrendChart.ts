@@ -221,7 +221,7 @@ async function getAttendanceTrendData(startDate: string, endDate: string): Promi
 	}
 
 	const results: { date: string; count: number }[] = []
-	const batchSize = 5
+	const batchSize = 64
 	for (let i = 0; i < dates.length; i += batchSize) {
 		const batch = dates.slice(i, i + batchSize)
 		const batchResults = await Promise.all(
