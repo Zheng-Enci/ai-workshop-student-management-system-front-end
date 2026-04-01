@@ -1,0 +1,105 @@
+/* ==================== 二维码区域 ==================== */
+
+.qr-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 180px;
+  padding: 15px;
+  background: rgb(255 255 255 / 0.95);
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+.website-qr-section,
+.wechat-qr-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 180px;
+  padding: 15px;
+  background: rgb(255 255 255 / 0.95);
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+.qr-code,
+.website-qr-code {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+}
+
+.qr-text,
+.website-qr-text {
+  max-width: 140px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #2c3e50;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.website-qr-text {
+  font-weight: 700;
+  color: #667eea;
+}
+
+.dark .qr-text,
+.dark .website-qr-text {
+  color: #fff !important;
+}
+
+.dark .website-qr-text {
+  color: #60a5fa !important;
+}
+
+.dark .wechat-qr-section .qr-text {
+  font-weight: 700 !important;
+  color: #fff !important;
+  text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important;
+}
+
+html.dark .wechat-qr-section .qr-text {
+  font-weight: 700 !important;
+  color: #fff !important;
+  text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important;
+}
+
+/* ==================== 手机图片 ==================== */
+
+.phone-image {
+  width: 200px;
+  height: auto;
+}
+
+/* ==================== 响应式样式 ==================== */
+
+@media (width <= 768px) {
+  .qr-section,
+  .website-qr-section,
+  .wechat-qr-section {
+    width: 100%;
+    height: auto;
+    min-height: 150px;
+  }
+
+  .qr-code,
+  .website-qr-code {
+    width: 100px;
+    height: 100px;
+  }
+
+  .phone-image {
+    width: 150px;
+  }
+}

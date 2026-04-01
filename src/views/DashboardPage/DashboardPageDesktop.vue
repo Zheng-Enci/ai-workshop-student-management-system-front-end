@@ -1188,6 +1188,7 @@ echarts.use([
 @import './css/desktop/ranking.css';
 @import './css/desktop/overview.css';
 @import './css/desktop/verification.css';
+@import './css/desktop/qrcode.css';
 @import './css/DashboardPageDesktop.css';
 </style>
 
