@@ -1098,9 +1098,9 @@ echarts.use([
 		</div>
 
 		<!-- 底部进度条 -->
-		<div class="footer">
-			<div class="progress-bar">
-				<div class="progress-fill" :style="{ width: progressWidth + '%' }"/>
+		<div class="footer-container">
+			<div class="footer-progress-bar">
+				<div class="footer-progress-fill" :style="{ width: progressWidth + '%' }"/>
 			</div>
 		</div>
 
@@ -1191,6 +1191,7 @@ echarts.use([
 @import './css/desktop/qrcode.css';
 @import './css/desktop/qrcode-switch.css';
 @import './css/desktop/phone-display.css';
+@import './css/desktop/footer.css';
 @import './css/DashboardPageDesktop.css';
 </style>
 
