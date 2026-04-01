@@ -183,7 +183,7 @@ class AttendanceTrendChart {
 }
 
 export default AttendanceTrendChart
-export { getDateRange }
+export { getDateRange, getAttendanceTrendData }
 
 /**
  * 获取指定日期的签到人数
@@ -197,4 +197,33 @@ async function getAttendanceCountByDate(date?: string): Promise<number> {
 	} catch (error: any) {
 		throw error
 	}
+}
+
+/**
+ * 获取指定时间范围内的签到趋势数据
+ * @param startDate - 开始日期，格式为 'YYYY-MM-DD'
+ * @param endDate - 结束日期，格式为 'YYYY-MM-DD'
+ * @returns 包含日期和签到人数的列表
+ */
+async function getAttendanceTrendData(startDate: string, endDate: string): Promise<{ date: string; count: number }[]> {
+	const dates: string[] = []
+	const values: number[] = []
+	const currentDate = new Date(startDate)
+
+	while (currentDate <= new Date(endDate)) {
+		const dateStr = formatDate(currentDate)
+		dates.push(dateStr)
+		currentDate.setDate(currentDate.getDate() + 1)
+	}
+
+	const promises = dates.map(async (date) => {
+		try {
+			const count = await getAttendanceCountByDate(date)
+			return { date, count }
+		} catch (error) {
+			return { date, count: 0 }
+		}
+	})
+
+	return Promise.all(promises)
 }
