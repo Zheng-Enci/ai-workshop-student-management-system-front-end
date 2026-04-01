@@ -175,7 +175,4 @@ const confirm = () => {
 	gap: 12px;
 }
 
-.date-range-selector-footer .el-button {
-	min-width: 80px;
-}
 </style>

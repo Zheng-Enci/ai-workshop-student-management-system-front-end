@@ -71,11 +71,11 @@ const handleResize = () => {
 }
 
 onMounted(async () => {
-	nextTick(() => {
+	await nextTick(() => {
 		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDarkMode)
 		trendChart.init()
 		loadingMaskStore.showLoadingMask('正在加载签到数据...')
-		const { startDate, endDate } = getDateRange('全部')
+		const {startDate, endDate} = getDateRange('全部')
 		getAttendanceTrendData(startDate, endDate).then(data => {
 			const dates = data.map(item => item.date)
 			const values = data.map(item => item.count)

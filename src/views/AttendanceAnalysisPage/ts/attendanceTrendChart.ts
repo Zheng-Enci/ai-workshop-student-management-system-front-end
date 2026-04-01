@@ -1,9 +1,9 @@
 import * as echarts from 'echarts/core'
-import { LineChart } from 'echarts/charts'
-import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components'
-import { CanvasRenderer } from 'echarts/renderers'
-import type { EChartsOption } from 'echarts'
-import type { Ref } from 'vue'
+import {LineChart} from 'echarts/charts'
+import {GridComponent, TitleComponent, TooltipComponent} from 'echarts/components'
+import {CanvasRenderer} from 'echarts/renderers'
+import type {EChartsOption} from 'echarts'
+import type {Ref} from 'vue'
 import AttendanceApi from '../../../api/ts/AttendanceApi'
 
 echarts.use([
@@ -189,8 +189,7 @@ export { getDateRange, getAttendanceTrendData }
  */
 async function getAttendanceCountByDate(date?: string): Promise<number> {
 	try {
-		const count = await AttendanceApi.getTodayAttendanceCount(date)
-		return count
+		return await AttendanceApi.getTodayAttendanceCount(date)
 	} catch (error: any) {
 		throw error
 	}
