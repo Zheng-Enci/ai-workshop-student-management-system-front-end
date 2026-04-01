@@ -1136,10 +1136,10 @@ echarts.use([
 			</div>
 
 			<!-- 网站二维码 -->
-			<div v-if="currentQRType === 'website'" class="website-qr-section">
-				<img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="website-qr-code"/>
+			<div v-if="currentQRType === 'website'" class="qrcode-website-section">
+				<img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="qrcode-website-code"/>
 				<div
-					class="website-qr-text"
+					class="qrcode-website-text"
 					:style="{
 						'font-weight': '800 !important',
 						'color': '#60a5fa !important',
@@ -1151,10 +1151,10 @@ echarts.use([
 			</div>
 
 			<!-- 微信二维码 -->
-			<div v-if="currentQRType === 'wechat'" class="wechat-qr-section">
-				<img src="@/assets/ErWeiMa.png" alt="公众号二维码" class="qr-code"/>
+			<div v-if="currentQRType === 'wechat'" class="qrcode-wechat-section">
+				<img src="@/assets/ErWeiMa.png" alt="公众号二维码" class="qrcode-code"/>
 				<div
-					class="qr-text"
+					class="qrcode-text"
 					:style="{
 						'font-weight': '800 !important',
 						'color': '#60a5fa !important',
@@ -1177,7 +1177,7 @@ echarts.use([
 			</div>
 
 			<!-- 手机背景图 -->
-			<img src="@/assets/Phone.png" alt="手机展示" class="phone-image"/>
+			<img src="@/assets/Phone.png" alt="手机展示" class="qrcode-phone-image"/>
 		</div>
 	</div>
 </template>
