@@ -1,4 +1,4 @@
-/* ==================== 中心枢纽布局 ==================== */
+/* ==================== 用户卡片枢纽布局 ==================== */
 
 .user-card-hub-layout {
 	position: relative;
@@ -11,9 +11,9 @@
 	margin: 0 auto;
 }
 
-/* ==================== 中心信息卡片 ==================== */
+/* ==================== 用户信息卡片 ==================== */
 
-.center-info-card {
+.user-card-info-card {
 	z-index: 10;
 	display: flex;
 	flex-direction: row;
@@ -29,18 +29,18 @@
 	will-change: backdrop-filter;
 }
 
-/* ==================== 中心左侧区域 ==================== */
+/* ==================== 用户卡片左侧区域 ==================== */
 
-.center-left-section {
+.user-card-left-section {
 	display: flex;
 	flex-shrink: 0;
 	gap: 20px;
 	align-items: center;
 }
 
-/* ==================== 中心头像 ==================== */
+/* ==================== 用户头像 ==================== */
 
-.center-avatar {
+.user-card-avatar {
 	position: relative;
 	display: flex;
 	flex-shrink: 0;
@@ -58,22 +58,22 @@
 	will-change: transform;
 }
 
-.center-avatar:hover {
+.user-card-avatar:hover {
 	box-shadow: 0 12px 32px rgb(102 126 234 / 0.5);
 	transform: scale(1.05);
 }
 
-.center-avatar.has-avatar {
+.user-card-avatar.has-avatar {
 	background: transparent;
 }
 
-.center-avatar.no-avatar {
+.user-card-avatar.no-avatar {
 	background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
 /* ==================== 头像图片 ==================== */
 
-.center-avatar-image {
+.user-card-avatar-image {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -82,13 +82,13 @@
 
 /* ==================== 头像图标 ==================== */
 
-.center-avatar-icon {
+.user-card-avatar-icon {
 	color: white;
 }
 
 /* ==================== 头像加载状态 ==================== */
 
-.center-avatar-loading {
+.user-card-avatar-loading {
 	position: absolute;
 	inset: 0;
 	display: flex;
@@ -98,25 +98,25 @@
 	border-radius: 12px;
 }
 
-/* ==================== 中心用户信息 ==================== */
+/* ==================== 用户信息 ==================== */
 
-.center-user-info {
+.user-card-user-info {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 	align-items: flex-start;
 }
 
-.center-user-name {
+.user-card-user-name {
 	font-size: 20px;
 	font-weight: 700;
 	color: var(--text-primary);
 	text-align: left;
 }
 
-/* ==================== 中心用户等级 ==================== */
+/* ==================== 用户等级 ==================== */
 
-.center-user-level {
+.user-card-user-level {
 	display: flex;
 	gap: 6px;
 	align-items: center;
@@ -127,25 +127,25 @@
 	border-radius: 12px;
 }
 
-.center-user-level.club-member {
+.user-card-user-level.club-member {
 	color: var(--info-color);
 }
 
-.center-user-level.normal-member {
+.user-card-user-level.normal-member {
 	color: var(--success-color);
 }
 
-.center-user-level.core-member {
+.user-card-user-level.core-member {
 	color: var(--warning-color);
 }
 
-.center-user-level.admin {
+.user-card-user-level.admin {
 	color: var(--danger-color);
 }
 
-/* ==================== 中心考勤信息 ==================== */
+/* ==================== 考勤信息 ==================== */
 
-.center-attendance {
+.user-card-attendance {
 	display: flex;
 	gap: 6px;
 	align-items: center;
@@ -153,9 +153,9 @@
 	color: var(--text-secondary);
 }
 
-/* ==================== 中心积分区域 ==================== */
+/* ==================== 积分区域 ==================== */
 
-.center-points-section {
+.user-card-points-section {
 	display: flex;
 	flex: 1;
 	align-items: center;
@@ -164,18 +164,18 @@
 	border-left: 1px solid rgb(255 255 255 / 0.1);
 }
 
-/* ==================== 中心积分网格 ==================== */
+/* ==================== 积分网格 ==================== */
 
-.center-points-grid {
+.user-card-points-grid {
 	display: flex;
 	flex-direction: row;
 	gap: 16px;
 	align-items: center;
 }
 
-/* ==================== 中心积分项 ==================== */
+/* ==================== 积分项 ==================== */
 
-.center-point-item {
+.user-card-point-item {
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
@@ -188,26 +188,26 @@
 	will-change: transform;
 }
 
-.center-point-item:hover {
+.user-card-point-item:hover {
 	background: rgb(255 255 255 / 0.1);
 	transform: translateY(-4px);
 }
 
-.center-point-item.total-points {
+.user-card-point-item.total-points {
 	border-top: 3px solid #667eea;
 }
 
-.center-point-item.activity-points {
+.user-card-point-item.activity-points {
 	border-top: 3px solid #ffc107;
 }
 
-.center-point-item.signin-points {
+.user-card-point-item.signin-points {
 	border-top: 3px solid #4caf50;
 }
 
-/* ==================== 中心积分图标 ==================== */
+/* ==================== 积分图标 ==================== */
 
-.center-point-icon {
+.user-card-point-icon {
 	display: flex;
 	flex-shrink: 0;
 	align-items: center;
@@ -218,37 +218,37 @@
 	border-radius: 8px;
 }
 
-.center-point-item.total-points .center-point-icon {
+.user-card-point-item.total-points .user-card-point-icon {
 	color: #667eea;
 	background: rgb(102 126 234 / 0.2);
 }
 
-.center-point-item.activity-points .center-point-icon {
+.user-card-point-item.activity-points .user-card-point-icon {
 	color: #ffc107;
 	background: rgb(255 193 7 / 0.2);
 }
 
-.center-point-item.signin-points .center-point-icon {
+.user-card-point-item.signin-points .user-card-point-icon {
 	color: #4caf50;
 	background: rgb(76 175 80 / 0.2);
 }
 
-/* ==================== 中心积分信息 ==================== */
+/* ==================== 积分信息 ==================== */
 
-.center-point-info {
+.user-card-point-info {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
 	align-items: center;
 }
 
-.center-point-label {
+.user-card-point-label {
 	font-size: 12px;
 	font-weight: 500;
 	color: var(--text-secondary);
 }
 
-.center-point-value {
+.user-card-point-value {
 	font-size: 18px;
 	font-weight: 700;
 	color: var(--text-primary);
@@ -257,43 +257,43 @@
 /* ==================== 响应式 ==================== */
 
 @media (width <= 768px) {
-	.center-info-card {
+	.user-card-info-card {
 		flex-direction: column;
 		gap: 24px;
 		padding: 24px;
 	}
 
-	.center-left-section {
+	.user-card-left-section {
 		flex-direction: column;
 		gap: 16px;
 	}
 
-	.center-avatar {
+	.user-card-avatar {
 		width: 60px;
 		height: 60px;
 	}
 
-	.center-user-info {
+	.user-card-user-info {
 		align-items: center;
 	}
 
-	.center-user-name {
+	.user-card-user-name {
 		text-align: center;
 	}
 
-	.center-points-section {
+	.user-card-points-section {
 		padding-left: 0;
 		border-left: none;
 		padding-top: 24px;
 		border-top: 1px solid rgb(255 255 255 / 0.1);
 	}
 
-	.center-points-grid {
+	.user-card-points-grid {
 		flex-wrap: wrap;
 		justify-content: center;
 	}
 
-	.center-point-item {
+	.user-card-point-item {
 		min-width: 80px;
 		padding: 10px 14px;
 	}
