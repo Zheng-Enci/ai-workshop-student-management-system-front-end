@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
 import { useLoadingMaskStore } from '@/stores/loading'
 import LoadingMask from '@/components/LoadingMask.vue'
+import DateRangeSelector from './forms/desktop/DateRangeSelector.vue'
 import { ElButton, ElIcon } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
@@ -19,6 +20,8 @@ let trendChart: AttendanceTrendChart | null = null;
 
 const timeRange = ref('全部');
 
+const showDateRangeSelector = ref(false);
+
 const timeRanges = [
 	{ label: '最近七天', value: '最近七天' },
 	{ label: '最近三十天', value: '最近三十天' },
@@ -32,6 +35,18 @@ const handleTimeRangeChange = async (range: string) => {
 	timeRange.value = range
 	loadingMaskStore.showLoadingMask('正在加载签到数据...')
 	await updateChartData(range)
+	loadingMaskStore.hideLoadingMask()
+}
+
+const handleCustomDateRange = async (startDate: string, endDate: string) => {
+	timeRange.value = '自定义'
+	loadingMaskStore.showLoadingMask('正在加载签到数据...')
+	const data = await getAttendanceTrendData(startDate, endDate)
+	const dates = data.map(item => item.date)
+	const values = data.map(item => item.count)
+	if (trendChart) {
+		trendChart.setOption(dates, values)
+	}
 	loadingMaskStore.hideLoadingMask()
 }
 
@@ -117,10 +132,14 @@ onUnmounted(() => {
 					>
 						{{ range.label }}
 					</el-button>
+					<el-button type="default" @click="showDateRangeSelector = true">
+						自定义日期
+					</el-button>
 				</div>
 				<div ref="chartRef" class="attendance-trend-content"></div>
 			</div>
 		</div>
+		<DateRangeSelector v-model="showDateRangeSelector" @confirm="handleCustomDateRange" />
 	</div>
 </template>
 
