@@ -1,0 +1,72 @@
+/* ==================== 验证码卡片区域 ==================== */
+
+.verification-code-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  min-height: 100px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+.verification-code-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.verification-code-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--primary-color);
+  text-align: center;
+  letter-spacing: 4px;
+  text-shadow: 0 2px 4px rgb(102 126 234 / 0.3);
+  transition: opacity 0.3s ease;
+}
+
+.verification-code-value span {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.verification-code-value .error-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+  letter-spacing: 0;
+  text-shadow: none;
+}
+
+.dark .verification-code-card {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.dark .verification-code-value {
+  color: #60a5fa;
+  text-shadow: 0 0 8px rgb(96 165 250 / 0.5);
+}
+
+/* ==================== 响应式样式 ==================== */
+
+@media (width <= 768px) {
+  .verification-code-card {
+    width: 100%;
+    min-height: 80px;
+  }
+
+  .verification-code-value {
+    font-size: 24px;
+  }
+}
