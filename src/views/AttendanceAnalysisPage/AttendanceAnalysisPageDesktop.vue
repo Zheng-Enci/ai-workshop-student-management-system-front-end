@@ -20,7 +20,7 @@ let trendChart: AttendanceTrendChart | null = null;
 
 const timeRange = ref('全部');
 
-const showDateRangeSelector = ref(false);
+const showDateRangeSelector = ref(true);
 
 const timeRanges = [
 	{ label: '最近七天', value: '最近七天' },
