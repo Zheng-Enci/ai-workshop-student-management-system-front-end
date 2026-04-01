@@ -1105,7 +1105,7 @@ echarts.use([
 		</div>
 
 		<!-- 手机展示区域：验证码 + 二维码 -->
-		<div class="phone-display">
+		<div class="phone-display-container">
 			<!-- 签到验证码卡片 -->
 			<div class="verification-code-card">
 				<div class="verification-code-label">签到验证码</div>
@@ -1190,6 +1190,7 @@ echarts.use([
 @import './css/desktop/verification.css';
 @import './css/desktop/qrcode.css';
 @import './css/desktop/qrcode-switch.css';
+@import './css/desktop/phone-display.css';
 @import './css/DashboardPageDesktop.css';
 </style>
 
