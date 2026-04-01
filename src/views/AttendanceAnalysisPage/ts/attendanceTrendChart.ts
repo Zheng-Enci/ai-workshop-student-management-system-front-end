@@ -49,7 +49,7 @@ function getDateRange(timeRange: string): DateRange {
 			startDate = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
 			break;
 		case '全部':
-			startDate = new Date(2020, 0, 1);
+			startDate = new Date(2025, 8, 1);
 			break;
 		default:
 			startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
