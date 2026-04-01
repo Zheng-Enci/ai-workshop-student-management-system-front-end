@@ -1,5 +1,5 @@
 <template>
-	<div class="date-range-selector-overlay" @click.self="close">
+	<div v-if="modelValue" class="date-range-selector-overlay" @click.self="close">
 		<div class="date-range-selector-container">
 			<div class="date-range-selector-header">
 				<h3>自定义日期范围</h3>
