@@ -132,8 +132,7 @@ const dataLoader = new DashboardDataLoader(
 	attendanceRate,
 	monthlyAttendanceCount,
 	levelStats,
-	selectedTimeRange,
-	initAttendanceChart
+	selectedTimeRange
 )
 
 // ======================== 基础交互函数 ========================
@@ -711,6 +710,7 @@ const loadRankingData = async () => {
 const handleTimeRangeChange = async () => {
 	saveUserPreferences()
 	await dataLoader.loadRankingData(selectedTopN)
+	initAttendanceChart(topStudents.value)
 }
 
 /**
@@ -779,6 +779,7 @@ const loadData = async () => {
 		}
 
 		await dataLoader.loadRankingData(selectedTopN)
+		initAttendanceChart(topStudents.value)
 		await dataLoader.loadLevelStats()
 
 		dataLoader.updateClubMembers()
@@ -788,6 +789,7 @@ const loadData = async () => {
 			if (newValue !== oldValue) {
 				saveUserPreferences()
 				await dataLoader.loadRankingData(selectedTopN)
+				initAttendanceChart(topStudents.value)
 			}
 		})
 	} catch (error) {
