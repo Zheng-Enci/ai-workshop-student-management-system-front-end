@@ -22,6 +22,7 @@ interface DateRange {
 function getDateRange(timeRange: string): DateRange {
 	const now = new Date()
 	const endDate = formatDate(now)
+	const minDate = new Date(2025, 8, 10)
 	let startDate: Date
 
 	switch (timeRange) {
@@ -53,6 +54,10 @@ function getDateRange(timeRange: string): DateRange {
 			break;
 		default:
 			startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+	}
+
+	if (startDate < minDate) {
+		startDate = minDate
 	}
 
 	return {
