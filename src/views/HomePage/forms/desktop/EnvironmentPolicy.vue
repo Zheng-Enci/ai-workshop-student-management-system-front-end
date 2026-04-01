@@ -160,18 +160,17 @@ defineExpose({
 </template>
 
 <style scoped>
-.encironment-policy-dialog {
-	overflow-y: auto;
+:deep(.encironment-policy-dialog) {
 	max-height: 90vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
+}
+
+:deep(.encironment-policy-dialog .el-dialog__body) {
+	max-height: 80vh;
+	overflow-y: auto;
+	padding: 20px;
 }
 
 .encironment-policy-content {
-	max-height: 80vh;
-	overflow-y: auto;
-	padding: 20px 0;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
@@ -217,8 +216,8 @@ defineExpose({
 }
 
 @media (max-width: 768px) {
-	.encironment-policy-content {
-		padding: 16px 0;
+	:deep(.encironment-policy-dialog .el-dialog__body) {
+		padding: 16px;
 	}
 	
 	.encironment-policy-section {
