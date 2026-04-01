@@ -44,6 +44,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { Close } from '@element-plus/icons-vue'
+import { ElButton, ElIcon, ElDatePicker } from 'element-plus'
 
 const props = defineProps<{
 	modelValue: boolean
