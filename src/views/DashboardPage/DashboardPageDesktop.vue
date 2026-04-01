@@ -993,30 +993,30 @@ echarts.use([
 			</div>
 
 			<!-- 右侧区域：学生总览 -->
-			<div class="right-section">
-				<div class="overview-card">
+			<div class="overview-right-section">
+				<div class="overview-overview-card">
 					<h2>学生总览</h2>
 
 					<!-- 图表容器：年级分布 + 专业分布 -->
-					<div class="charts-container">
-						<div class="chart-section">
+					<div class="overview-charts-container">
+						<div class="overview-chart-section">
 							<h3>年级分布</h3>
-							<div ref="gradeChart" class="chart"/>
+							<div ref="gradeChart" class="overview-chart"/>
 						</div>
 
-						<div class="chart-section">
+						<div class="overview-chart-section">
 							<h3>专业分布</h3>
-							<div ref="majorChart" class="chart"/>
+							<div ref="majorChart" class="overview-chart"/>
 						</div>
 					</div>
 
 					<!-- 文明公约区域 -->
-					<div class="environment-mechanism">
-						<div class="mechanism-card">
+					<div class="overview-environment-mechanism">
+						<div class="overview-mechanism-card">
 							<h2>AI 坊文明公约</h2>
 
-							<div class="mechanism-content">
-								<div class="mechanism-section">
+							<div class="overview-mechanism-content">
+								<div class="overview-mechanism-section">
 									<p>
 										厦门工学院人工智能创作坊环境保障机制适用于所有入坊师生，
 										遵循"谁使用，谁负责；人走场清，物归原位；共同维护"原则。
@@ -1030,66 +1030,66 @@ echarts.use([
 					</div>
 
 					<!-- 学生统计摘要 -->
-					<div class="summary-stats">
-						<div class="stats-row">
-							<div class="total-count">
-								<span class="label">
-									<el-icon class="stat-icon"><user/></el-icon>
+					<div class="overview-summary-stats">
+						<div class="overview-stats-row">
+							<div class="overview-total-count">
+								<span class="overview-label">
+									<el-icon class="overview-stat-icon"><user/></el-icon>
 									坊内成员人数
 								</span>
-								<span class="value">{{ workshopMembersCount }}人</span>
+								<span class="overview-value">{{ workshopMembersCount }}人</span>
 							</div>
 							<!-- 等级统计 -->
-							<div class="level-stats">
-								<div class="level-item admin-level">
-									<div class="level-icon">
+							<div class="overview-level-stats">
+								<div class="overview-level-item overview-admin-level">
+									<div class="overview-level-icon">
 										<el-icon>
 											<setting/>
 										</el-icon>
 									</div>
-									<div class="level-content">
-										<span class="level-label">管理员</span>
-										<span class="level-value">{{ levelStats.admin }}人</span>
+									<div class="overview-level-content">
+										<span class="overview-level-label">管理员</span>
+										<span class="overview-level-value">{{ levelStats.admin }}人</span>
 									</div>
 								</div>
-								<div class="level-item core-level">
-									<div class="level-icon">
+								<div class="overview-level-item overview-core-level">
+									<div class="overview-level-icon">
 										<el-icon>
 											<star/>
 										</el-icon>
 									</div>
-									<div class="level-content">
-										<span class="level-label">核心成员</span>
-										<span class="level-value">{{ levelStats.core }}人</span>
+									<div class="overview-level-content">
+										<span class="overview-level-label">核心成员</span>
+										<span class="overview-level-value">{{ levelStats.core }}人</span>
 									</div>
 								</div>
-								<div class="level-item normal-level">
-									<div class="level-icon">
+								<div class="overview-level-item overview-normal-level">
+									<div class="overview-level-icon">
 										<el-icon>
 											<avatar/>
 										</el-icon>
 									</div>
-									<div class="level-content">
-										<span class="level-label">普通成员</span>
-										<span class="level-value">{{ levelStats.normal }}人</span>
+									<div class="overview-level-content">
+										<span class="overview-level-label">普通成员</span>
+										<span class="overview-level-value">{{ levelStats.normal }}人</span>
 									</div>
 								</div>
-								<div class="level-item club-level">
-									<div class="level-icon">
+								<div class="overview-level-item overview-club-level">
+									<div class="overview-level-icon">
 										<el-icon>
 											<user/>
 										</el-icon>
 									</div>
-									<div class="level-content">
-										<span class="level-label">社团成员</span>
-										<span class="level-value">{{ clubMembers }}人</span>
+									<div class="overview-level-content">
+										<span class="overview-level-label">社团成员</span>
+										<span class="overview-level-value">{{ clubMembers }}人</span>
 									</div>
 								</div>
 							</div>
 							<!-- 系统信息 -->
-							<div class="system-info">
-								<div class="system-name">人工智能创作坊</div>
-								<div class="system-subtitle">智慧学生管理系统</div>
+							<div class="overview-system-info">
+								<div class="overview-system-name">人工智能创作坊</div>
+								<div class="overview-system-subtitle">智慧学生管理系统</div>
 							</div>
 						</div>
 					</div>
@@ -1186,6 +1186,7 @@ echarts.use([
 <style>
 @import './css/desktop/header.css';
 @import './css/desktop/ranking.css';
+@import './css/desktop/overview.css';
 @import './css/DashboardPageDesktop.css';
 </style>
 
