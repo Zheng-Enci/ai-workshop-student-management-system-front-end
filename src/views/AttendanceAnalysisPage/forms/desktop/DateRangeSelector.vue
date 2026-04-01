@@ -66,8 +66,12 @@ watch(
 			const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 			startDate.value = formatDate(sevenDaysAgo)
 			endDate.value = formatDate(now)
+		} else {
+			startDate.value = ''
+			endDate.value = ''
 		}
-	}
+	},
+	{ immediate: true }
 )
 
 const formatDate = (date: Date): string => {
