@@ -672,12 +672,12 @@ onMounted(() => {
 								v-if="hasAvatar && avatarUrl"
 								v-lazy="avatarUrl"
 								alt="用户头像"
-								class="avatar-image"
+								class="center-avatar-image"
 							/>
-							<el-icon v-else size="32" class="avatar-icon">
+							<el-icon v-else size="32" class="center-avatar-icon">
 								<user/>
 							</el-icon>
-							<div v-if="avatarLoading" class="avatar-loading">
+							<div v-if="avatarLoading" class="center-avatar-loading">
 								<img src="@/assets/loading.gif" alt="加载中" class="loading-gif"/>
 							</div>
 						</div>
@@ -928,4 +928,5 @@ onMounted(() => {
 
 <style>
 @import '@/views/NavigationPage/css/desktop/header.css';
+@import '@/views/NavigationPage/css/desktop/center.css';
 </style>

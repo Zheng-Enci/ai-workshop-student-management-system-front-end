@@ -1,0 +1,300 @@
+/* ==================== 中心枢纽布局 ==================== */
+
+.center-hub-layout {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 60px;
+	align-items: center;
+	width: 100%;
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+/* ==================== 中心信息卡片 ==================== */
+
+.center-info-card {
+	z-index: 10;
+	display: flex;
+	flex-direction: row;
+	gap: 32px;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 900px;
+	padding: 32px 40px;
+	background: transparent;
+	border-radius: 24px;
+	transition: backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	will-change: backdrop-filter;
+}
+
+/* ==================== 中心左侧区域 ==================== */
+
+.center-left-section {
+	display: flex;
+	flex-shrink: 0;
+	gap: 20px;
+	align-items: center;
+}
+
+/* ==================== 中心头像 ==================== */
+
+.center-avatar {
+	position: relative;
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 70px;
+	height: 70px;
+	overflow: hidden;
+	color: white;
+	cursor: pointer;
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgb(102 126 234 / 0.4);
+	transition: transform 0.3s ease;
+	will-change: transform;
+}
+
+.center-avatar:hover {
+	box-shadow: 0 12px 32px rgb(102 126 234 / 0.5);
+	transform: scale(1.05);
+}
+
+.center-avatar.has-avatar {
+	background: transparent;
+}
+
+.center-avatar.no-avatar {
+	background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* ==================== 头像图片 ==================== */
+
+.center-avatar-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 12px;
+}
+
+/* ==================== 头像图标 ==================== */
+
+.center-avatar-icon {
+	color: white;
+}
+
+/* ==================== 头像加载状态 ==================== */
+
+.center-avatar-loading {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgb(0 0 0 / 0.3);
+	border-radius: 12px;
+}
+
+/* ==================== 中心用户信息 ==================== */
+
+.center-user-info {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: flex-start;
+}
+
+.center-user-name {
+	font-size: 20px;
+	font-weight: 700;
+	color: var(--text-primary);
+	text-align: left;
+}
+
+/* ==================== 中心用户等级 ==================== */
+
+.center-user-level {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	padding: 6px 12px;
+	font-size: 14px;
+	font-weight: 600;
+	background: rgb(255 255 255 / 0.1);
+	border-radius: 12px;
+}
+
+.center-user-level.club-member {
+	color: var(--info-color);
+}
+
+.center-user-level.normal-member {
+	color: var(--success-color);
+}
+
+.center-user-level.core-member {
+	color: var(--warning-color);
+}
+
+.center-user-level.admin {
+	color: var(--danger-color);
+}
+
+/* ==================== 中心考勤信息 ==================== */
+
+.center-attendance {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	font-size: 13px;
+	color: var(--text-secondary);
+}
+
+/* ==================== 中心积分区域 ==================== */
+
+.center-points-section {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: flex-end;
+	padding-left: 32px;
+	border-left: 1px solid rgb(255 255 255 / 0.1);
+}
+
+/* ==================== 中心积分网格 ==================== */
+
+.center-points-grid {
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+	align-items: center;
+}
+
+/* ==================== 中心积分项 ==================== */
+
+.center-point-item {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	align-items: center;
+	min-width: 90px;
+	padding: 14px 18px;
+	background: rgb(255 255 255 / 0.06);
+	border-radius: 12px;
+	transition: transform 0.3s ease;
+	will-change: transform;
+}
+
+.center-point-item:hover {
+	background: rgb(255 255 255 / 0.1);
+	transform: translateY(-4px);
+}
+
+.center-point-item.total-points {
+	border-top: 3px solid #667eea;
+}
+
+.center-point-item.activity-points {
+	border-top: 3px solid #ffc107;
+}
+
+.center-point-item.signin-points {
+	border-top: 3px solid #4caf50;
+}
+
+/* ==================== 中心积分图标 ==================== */
+
+.center-point-icon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	background: rgb(255 255 255 / 0.1);
+	border-radius: 8px;
+}
+
+.center-point-item.total-points .center-point-icon {
+	color: #667eea;
+	background: rgb(102 126 234 / 0.2);
+}
+
+.center-point-item.activity-points .center-point-icon {
+	color: #ffc107;
+	background: rgb(255 193 7 / 0.2);
+}
+
+.center-point-item.signin-points .center-point-icon {
+	color: #4caf50;
+	background: rgb(76 175 80 / 0.2);
+}
+
+/* ==================== 中心积分信息 ==================== */
+
+.center-point-info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	align-items: center;
+}
+
+.center-point-label {
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--text-secondary);
+}
+
+.center-point-value {
+	font-size: 18px;
+	font-weight: 700;
+	color: var(--text-primary);
+}
+
+/* ==================== 响应式 ==================== */
+
+@media (width <= 768px) {
+	.center-info-card {
+		flex-direction: column;
+		gap: 24px;
+		padding: 24px;
+	}
+
+	.center-left-section {
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.center-avatar {
+		width: 60px;
+		height: 60px;
+	}
+
+	.center-user-info {
+		align-items: center;
+	}
+
+	.center-user-name {
+		text-align: center;
+	}
+
+	.center-points-section {
+		padding-left: 0;
+		border-left: none;
+		padding-top: 24px;
+		border-top: 1px solid rgb(255 255 255 / 0.1);
+	}
+
+	.center-points-grid {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.center-point-item {
+		min-width: 80px;
+		padding: 10px 14px;
+	}
+}
