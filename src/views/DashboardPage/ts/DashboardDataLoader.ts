@@ -161,6 +161,8 @@ class DashboardDataLoader {
 	private monthlyAttendanceCountRef: any
 	private levelStatsRef: any
 	private selectedTimeRangeRef: any
+	private clubMembersRef: any
+	private workshopMembersCountRef: any
 
 	constructor(
 		topStudentsRef: any,
@@ -170,7 +172,9 @@ class DashboardDataLoader {
 		attendanceRateRef: any,
 		monthlyAttendanceCountRef: any,
 		levelStatsRef: any,
-		selectedTimeRangeRef: any
+		selectedTimeRangeRef: any,
+		clubMembersRef: any,
+		workshopMembersCountRef: any
 	) {
 		this.topStudentsRef = topStudentsRef
 		this.totalStudentsRef = totalStudentsRef
@@ -180,6 +184,8 @@ class DashboardDataLoader {
 		this.monthlyAttendanceCountRef = monthlyAttendanceCountRef
 		this.levelStatsRef = levelStatsRef
 		this.selectedTimeRangeRef = selectedTimeRangeRef
+		this.clubMembersRef = clubMembersRef
+		this.workshopMembersCountRef = workshopMembersCountRef
 	}
 
 	/**
@@ -346,7 +352,8 @@ class DashboardDataLoader {
 			this.totalStudentsRef.value,
 			this.levelStatsRef.value
 		)
-		return { workshopMembersCount, clubMembers }
+		this.workshopMembersCountRef.value = workshopMembersCount
+		this.clubMembersRef.value = clubMembers
 	}
 
 	/**

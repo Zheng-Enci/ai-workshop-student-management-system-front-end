@@ -132,7 +132,9 @@ const dataLoader = new DashboardDataLoader(
 	attendanceRate,
 	monthlyAttendanceCount,
 	levelStats,
-	selectedTimeRange
+	selectedTimeRange,
+	clubMembers,
+	workshopMembersCount
 )
 
 // ======================== 基础交互函数 ========================
@@ -277,11 +279,6 @@ const getLevelName = levelCode => {
  * - 坊内成员 = 管理员 + 核心成员 + 普通成员
  * - 社团成员 = 学生总数 - 坊内成员
  */
-const calculateClubMembers = () => {
-	clubMembers.value = totalStudents.value - levelStats.value.admin - levelStats.value.core - levelStats.value.normal
-	workshopMembersCount.value = levelStats.value.admin + levelStats.value.core + levelStats.value.normal
-}
-
 /**
  * 计算月度签到率
  * @param monthlyCount - 月度签到总人数
