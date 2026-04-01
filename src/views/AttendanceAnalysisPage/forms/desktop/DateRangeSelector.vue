@@ -1,16 +1,16 @@
 <template>
-	<div class="aaps-date-range-selector-overlay" @click.self="close">
-		<div class="aaps-date-range-selector-container">
-			<div class="aaps-date-range-selector-header">
+	<div class="date-range-selector-overlay" @click.self="close">
+		<div class="date-range-selector-container">
+			<div class="date-range-selector-header">
 				<h3>自定义日期范围</h3>
-				<el-icon class="aaps-close-icon" @click="close">
+				<el-icon class="date-range-selector-close-icon" @click="close">
 					<Close />
 				</el-icon>
 			</div>
-			<div class="aaps-date-range-selector-content">
-				<div class="aaps-date-range-form">
-					<div class="aaps-date-input-group">
-						<div class="aaps-date-input-label">开始日期</div>
+			<div class="date-range-selector-content">
+				<div class="date-range-selector-form">
+					<div class="date-range-selector-input-group">
+						<div class="date-range-selector-input-label">开始日期</div>
 						<el-date-picker
 							v-model="startDate"
 							type="date"
@@ -20,8 +20,8 @@
 							style="width: 100%"
 						/>
 					</div>
-					<div class="aaps-date-input-group">
-						<div class="aaps-date-input-label">结束日期</div>
+					<div class="date-range-selector-input-group">
+						<div class="date-range-selector-input-label">结束日期</div>
 						<el-date-picker
 							v-model="endDate"
 							type="date"
@@ -33,7 +33,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="aaps-date-range-selector-footer">
+			<div class="date-range-selector-footer">
 				<el-button @click="close">取消</el-button>
 				<el-button type="primary" @click="confirm">确定</el-button>
 			</div>
@@ -89,7 +89,7 @@ const confirm = () => {
 </script>
 
 <style scoped>
-.aaps-date-range-selector-overlay {
+.date-range-selector-overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -102,7 +102,7 @@ const confirm = () => {
 	align-items: center;
 }
 
-.aaps-date-range-selector-container {
+.date-range-selector-container {
 	background-color: var(--bg-primary);
 	border: 1px solid var(--border-color);
 	border-radius: 12px;
@@ -112,59 +112,59 @@ const confirm = () => {
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-.aaps-date-range-selector-header {
+.date-range-selector-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 20px;
 }
 
-.aaps-date-range-selector-header h3 {
+.date-range-selector-header h3 {
 	font-size: 18px;
 	font-weight: 600;
 	color: var(--text-primary);
 }
 
-.aaps-close-icon {
+.date-range-selector-close-icon {
 	font-size: 20px;
 	cursor: pointer;
 	color: var(--text-secondary);
 	transition: color 0.3s;
 }
 
-.aaps-close-icon:hover {
+.date-range-selector-close-icon:hover {
 	color: var(--text-primary);
 }
 
-.aaps-date-range-selector-content {
+.date-range-selector-content {
 	margin-bottom: 24px;
 }
 
-.aaps-date-range-form {
+.date-range-selector-form {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
 }
 
-.aaps-date-input-group {
+.date-range-selector-input-group {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 }
 
-.aaps-date-input-label {
+.date-range-selector-input-label {
 	font-size: 14px;
 	font-weight: 500;
 	color: var(--text-secondary);
 }
 
-.aaps-date-range-selector-footer {
+.date-range-selector-footer {
 	display: flex;
 	justify-content: flex-end;
 	gap: 12px;
 }
 
-.aaps-date-range-selector-footer .el-button {
+.date-range-selector-footer .el-button {
 	min-width: 80px;
 }
 </style>
