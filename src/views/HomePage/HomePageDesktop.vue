@@ -15,8 +15,6 @@
  */
 
 // ===================== 样式和依赖导入区 =====================
-// 导入桌面端首页样式文件
-import './css/HomePageDesktop.css'
 // Element Plus 图标组件导入
 import { TrendCharts, Lock, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
 // Element Plus 核心组件导入
@@ -242,8 +240,6 @@ const closeEnvironmentPolicy = () => {
 </template>
 
 <style scoped>
-/* 这里应该导入外部CSS文件中的样式 */
-
-/* 但由于我们已经在script中导入了CSS文件，这里可以保持为空或者添加一些组件特有的样式 */
+@import './css/HomePageDesktop.css';
 </style>
 
