@@ -50,6 +50,7 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-dialog.css'
+import 'element-plus/theme-chalk/el-popper.css'
 
 const props = defineProps<{
 	modelValue: boolean
