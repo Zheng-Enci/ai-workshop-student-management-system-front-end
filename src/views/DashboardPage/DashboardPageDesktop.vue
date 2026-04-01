@@ -1166,9 +1166,9 @@ echarts.use([
 			</div>
 
 			<!-- 二维码切换按钮 -->
-			<div class="qr-switch-buttons">
+			<div class="qrcode-switch-buttons">
 				<el-button
-					class="qr-switch-btn"
+					class="qrcode-switch-btn"
 					type="primary"
 					@click="switchQRType"
 				>
@@ -1189,6 +1189,7 @@ echarts.use([
 @import './css/desktop/overview.css';
 @import './css/desktop/verification.css';
 @import './css/desktop/qrcode.css';
+@import './css/desktop/qrcode-switch.css';
 @import './css/DashboardPageDesktop.css';
 </style>
 
