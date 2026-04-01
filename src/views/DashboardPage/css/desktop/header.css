@@ -60,6 +60,7 @@
   display: flex;
   gap: 20px;
   align-items: center;
+  height: 76px;
 }
 
 .header-slogan {
