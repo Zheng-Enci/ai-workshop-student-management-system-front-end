@@ -1099,9 +1099,12 @@ echarts.use([
 
 		<!-- 底部进度条 -->
 		<div class="footer-container">
-			<div class="footer-progress-bar">
-				<div class="footer-progress-fill" :style="{ width: progressWidth + '%' }"/>
-			</div>
+			<el-progress
+				:percentage="progressWidth"
+				:show-text="false"
+				:stroke-width="4"
+				color="#fff"
+			/>
 		</div>
 
 		<!-- 手机展示区域：验证码 + 二维码 -->
