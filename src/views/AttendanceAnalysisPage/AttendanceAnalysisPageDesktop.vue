@@ -20,7 +20,6 @@ let trendChart: AttendanceTrendChart | null = null;
 const timeRange = ref('全部');
 
 const timeRanges = [
-	{ label: '最近一天', value: '最近一天' },
 	{ label: '最近七天', value: '最近七天' },
 	{ label: '最近三十天', value: '最近三十天' },
 	{ label: '最近三个月', value: '最近三个月' },
