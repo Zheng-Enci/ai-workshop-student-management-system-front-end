@@ -3,17 +3,18 @@
 ## 重构
 
 - 将二维码区域样式提取到独立文件 `src/views/DashboardPage/css/desktop/qrcode.css`
-- 更新 `DashboardPageDesktop.vue` 导入新的 CSS 文件
+- 为所有样式类名添加 `qrcode-` 前缀，统一命名规范
+- 更新 `DashboardPageDesktop.vue` 模板中的类名引用
 
-### 变更的样式
+### 变更的样式类名
 
-- `.qr-section` - 二维码区域容器
-- `.website-qr-section` - 网站二维码区域
-- `.wechat-qr-section` - 微信二维码区域
-- `.qr-code` - 二维码图片
-- `.website-qr-code` - 网站二维码图片
-- `.qr-text` - 二维码文本
-- `.website-qr-text` - 网站二维码文本
-- `.phone-image` - 手机图片
+- `.qr-section` → `.qrcode-section`
+- `.website-qr-section` → `.qrcode-website-section`
+- `.wechat-qr-section` → `.qrcode-wechat-section`
+- `.qr-code` → `.qrcode-code`
+- `.website-qr-code` → `.qrcode-website-code`
+- `.qr-text` → `.qrcode-text`
+- `.website-qr-text` → `.qrcode-website-text`
+- `.phone-image` → `.qrcode-phone-image`
 - 暗色模式样式
 - 响应式样式 - 768px 以下
