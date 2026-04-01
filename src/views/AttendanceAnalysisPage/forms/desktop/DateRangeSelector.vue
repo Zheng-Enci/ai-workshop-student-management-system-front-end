@@ -45,6 +45,10 @@
 import { ref, watch } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 import { ElButton, ElIcon, ElDatePicker } from 'element-plus'
+import 'element-plus/theme-chalk/el-date-picker.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-input.css'
 
 const props = defineProps<{
 	modelValue: boolean
