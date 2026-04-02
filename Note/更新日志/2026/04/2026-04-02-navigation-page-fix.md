@@ -15,6 +15,12 @@
 - 将 `.navigation-sections` 样式提取为 `.navSections`
 - 从 `NavigationPageDesktop.css` 中移除相关样式
 
+### 导航卡片样式提取
+- 新增 `navSectionCard.css` 文件
+- 包含导航网格、卡片、图标、内容、标签、描述的样式
+- 响应式布局样式也包含在内
+
 ## 文件变更
 - `src/views/NavigationPage/NavigationPageDesktop.vue` - 修复 HTML 结构
 - `src/views/NavigationPage/css/desktop/navSections.css` - 新增文件
+- `src/views/NavigationPage/css/desktop/navSectionCard.css` - 新增文件

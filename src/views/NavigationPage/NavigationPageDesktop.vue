@@ -763,15 +763,15 @@ onMounted(() => {
 
 				<div class="navSections">
 					<!-- 个人中心分组 -->
-					<div class="navSection">
-						<div class="navSection-header">
-							<div class="navSection-title">
-								<el-icon class="navSection-icon">
+					<div class="navSectionPersonal">
+						<div class="navSectionPersonal-header">
+							<div class="navSectionPersonal-title">
+								<el-icon class="navSectionPersonal-icon">
 									<user/>
 								</el-icon>
 								<span>个人中心</span>
 							</div>
-							<div class="navSection-divider"/>
+							<div class="navSectionPersonal-divider"/>
 						</div>
 
 						<div class="navSection-grid">
@@ -826,15 +826,15 @@ onMounted(() => {
 					</div>
 
 					<!-- 数据查看分组 -->
-					<div class="navSection">
-						<div class="navSection-header">
-							<div class="navSection-title">
-								<el-icon class="navSection-icon">
+					<div class="navSectionData">
+						<div class="navSectionData-header">
+							<div class="navSectionData-title">
+								<el-icon class="navSectionData-icon">
 									<data-analysis/>
 								</el-icon>
 								<span>数据查看</span>
 							</div>
-							<div class="navSection-divider"/>
+							<div class="navSectionData-divider"/>
 						</div>
 
 						<div class="navSection-grid">
@@ -889,15 +889,15 @@ onMounted(() => {
 					</div>
 
 					<!-- 管理功能分组（管理员可见）-->
-					<div v-if="isAdmin" class="navSection">
-						<div class="navSection-header">
-							<div class="navSection-title">
-								<el-icon class="navSection-icon">
+					<div v-if="isAdmin" class="navSectionAdmin">
+						<div class="navSectionAdmin-header">
+							<div class="navSectionAdmin-title">
+								<el-icon class="navSectionAdmin-icon">
 									<user-filled/>
 								</el-icon>
 								<span>管理功能</span>
 							</div>
-							<div class="navSection-divider"/>
+							<div class="navSectionAdmin-divider"/>
 						</div>
 
 						<div class="navSection-grid">
@@ -929,6 +929,8 @@ onMounted(() => {
 @import '@/views/NavigationPage/css/desktop/header.css';
 @import '@/views/NavigationPage/css/desktop/user-card.css';
 @import '@/views/NavigationPage/css/desktop/navSections.css';
-@import '@/views/NavigationPage/css/desktop/navSection.css';
+@import '@/views/NavigationPage/css/desktop/navSectionPersonal.css';
+@import '@/views/NavigationPage/css/desktop/navSectionData.css';
+@import '@/views/NavigationPage/css/desktop/navSectionAdmin.css';
 @import '@/views/NavigationPage/css/desktop/navSectionCard.css';
 </style>

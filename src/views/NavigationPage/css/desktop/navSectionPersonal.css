@@ -1,0 +1,54 @@
+/* ==================== 个人中心区块 ==================== */
+
+.navSectionPersonal {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 100%;
+}
+
+.navSectionPersonal-header {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	margin-bottom: 8px;
+}
+
+.navSectionPersonal-title {
+	display: flex;
+	flex-shrink: 0;
+	gap: 10px;
+	align-items: center;
+	font-size: 18px;
+	font-weight: 700;
+	white-space: nowrap;
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.navSectionPersonal-icon {
+	flex-shrink: 0;
+	font-size: 20px;
+	color: #667eea;
+}
+
+.navSectionPersonal-divider {
+	position: relative;
+	flex: 1;
+	height: 1px;
+	background: linear-gradient(90deg, rgb(102 126 234 / 0.3) 0%, rgb(102 126 234 / 0.1) 50%, transparent 100%);
+}
+
+.navSectionPersonal-divider::after {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	width: 8px;
+	height: 8px;
+	content: '';
+	background: rgb(102 126 234 / 0.4);
+	border-radius: 50%;
+	box-shadow: 0 0 12px rgb(102 126 234 / 0.6);
+	transform: translateY(-50%);
+}
