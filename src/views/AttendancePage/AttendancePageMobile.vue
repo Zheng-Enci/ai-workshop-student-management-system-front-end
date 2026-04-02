@@ -642,32 +642,32 @@ onUnmounted(() => {
 			</el-button>
 
 			<!-- 页面头部：logo、头像、标题 -->
-			<div class="attendance-header-mobile">
+			<div class="attendance-mobile-header-header-mobile">
 				<!-- 系统logo：点击切换明暗主题 -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
-					class="logo-mobile"
+					class="attendance-mobile-header-logo-mobile"
 					title="切换主题模式"
 					@click="toggleTheme"/>
 				<!-- 用户头像容器：点击跳转到个人资料页 -->
-				<div class="user-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
+				<div class="attendance-mobile-header-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
 					 @click="handleAvatarClick">
 					<!-- 自定义头像：懒加载 -->
 					<img
 						v-if="hasAvatar && avatarUrl"
 						v-lazy="avatarUrl"
 						alt="用户头像"
-						class="avatar-image-mobile"/>
+						class="attendance-mobile-header-avatar-image-mobile"/>
 					<!-- 默认头像图标：无自定义头像时显示 -->
-					<el-icon v-else size="24" class="avatar-icon-mobile">
+					<el-icon v-else size="24" class="attendance-mobile-header-avatar-icon-mobile">
 						<User/>
 					</el-icon>
 				</div>
 				<!-- 页面主标题 -->
-				<h1>AI坊学生签到</h1>
+				<h1 class="attendance-mobile-header-title-mobile">AI坊学生签到</h1>
 				<!-- 页面副标题 -->
-				<p class="subtitle">智能签到系统</p>
+				<p class="attendance-mobile-header-subtitle-mobile">智能签到系统</p>
 			</div>
 
 			<!-- 主内容区：时间展示、签到按钮、状态卡片 -->
@@ -846,6 +846,7 @@ onUnmounted(() => {
 @import './css/mobile/attendance-mobile-background.css';
 @import './css/mobile/attendance-mobile-sign-button.css';
 @import './css/mobile/attendance-mobile-time-card.css';
+@import './css/mobile/attendance-mobile-header.css';
 @import './css/mobile/attendance-mobile-status-cards.css';
 @import './css/mobile/attendance-mobile-desktop-tip-card.css';
 
@@ -859,62 +860,6 @@ onUnmounted(() => {
 	max-width: 100%; /* 适配移动端宽度 */
 	position: relative; /* 作为子元素定位容器 */
 	z-index: 1; /* 层级高于背景装饰 */
-}
-
-/** 页面头部：玻璃态样式，居中布局，阴影效果 */
-.attendance-header-mobile {
-	text-align: center;
-	margin-bottom: 24px;
-	padding: 16px;
-	background: var(--glass-bg); /* 玻璃态背景（全局变量） */
-	backdrop-filter: blur(20px); /* 毛玻璃效果 */
-	border-radius: 20px; /* 圆角 */
-	border: 1px solid var(--glass-border); /* 玻璃态边框 */
-	box-shadow: 0 6px 24px var(--shadow-color); /* 阴影增强层次感 */
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 12px; /* 子元素间距 */
-}
-
-/** 用户头像容器：固定尺寸，圆角，点击指针 */
-.user-avatar-mobile {
-	width: 48px;
-	height: 48px;
-	border-radius: 8px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-	overflow: hidden;
-	flex-shrink: 0; /* 不收缩 */
-	background: transparent;
-	box-shadow: none;
-	cursor: pointer; /* 点击指针 */
-	touch-action: manipulation; /* 优化移动端触摸体验 */
-}
-
-/** 有头像时的样式：透明背景 */
-.user-avatar-mobile.has-avatar {
-	background: transparent;
-}
-
-/** 无头像时的样式：透明背景 */
-.user-avatar-mobile.no-avatar {
-	background: transparent;
-}
-
-/** 头像图片：覆盖容器，自适应裁剪 */
-.user-avatar-mobile .avatar-image-mobile {
-	width: 100%;
-	height: 100%;
-	object-fit: cover; /* 覆盖裁剪，保持比例 */
-	border-radius: 8px;
-}
-
-/** 默认头像图标：继承文本颜色 */
-.user-avatar-mobile .avatar-icon-mobile {
-	color: var(--text-primary); /* 主文本色（全局变量） */
 }
 
 /** 返回按钮：固定定位，玻璃态，hover效果 */
