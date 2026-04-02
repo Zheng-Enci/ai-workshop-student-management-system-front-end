@@ -27,3 +27,9 @@
 - `header` → `header-container`
 - `user-profile` → `user-card-profile`
 - `points-display` → `points-card-display`
+
+## 修复记录
+
+### 2026-04-02 修复遗漏
+- 补全 `navSection-card-content` 开标签
+- 修复 `feature-grid` → `navSection-grid` 类名遗漏
