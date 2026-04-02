@@ -30,6 +30,32 @@
 	transition: backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
 		transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	will-change: transform, backdrop-filter;
+	opacity: 0;
+	animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.navSection-card:nth-child(1) {
+	animation-delay: 0.2s;
+}
+
+.navSection-card:nth-child(2) {
+	animation-delay: 0.3s;
+}
+
+.navSection-card:nth-child(3) {
+	animation-delay: 0.4s;
+}
+
+.navSection-card:nth-child(4) {
+	animation-delay: 0.5s;
+}
+
+.navSection-card:nth-child(5) {
+	animation-delay: 0.6s;
+}
+
+.navSection-card:nth-child(6) {
+	animation-delay: 0.7s;
 }
 
 .navSection-card::before {

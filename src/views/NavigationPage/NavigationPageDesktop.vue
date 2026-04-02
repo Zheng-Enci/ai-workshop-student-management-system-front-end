@@ -933,5 +933,4 @@ onMounted(() => {
 @import '@/views/NavigationPage/css/desktop/navSectionData.css';
 @import '@/views/NavigationPage/css/desktop/navSectionAdmin.css';
 @import '@/views/NavigationPage/css/desktop/navSectionCard.css';
-@import '@/views/NavigationPage/css/desktop/navPageAnimation.css';
 </style>

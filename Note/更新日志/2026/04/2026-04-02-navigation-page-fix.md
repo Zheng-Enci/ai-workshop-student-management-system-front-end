@@ -25,6 +25,12 @@
 - `navSectionData.css` - 数据查看区块
 - `navSectionAdmin.css` - 管理功能区块
 
+### 页面进入动画效果
+- 新增 `navPageAnimation.css` 文件
+- 页面整体淡入效果
+- 三个分组依次出现（带延迟）
+- 分组内的卡片依次交错出现
+
 ## 文件变更
 - `src/views/NavigationPage/NavigationPageDesktop.vue` - 更新类名
 - `src/views/NavigationPage/css/desktop/navSections.css` - 新增
@@ -32,3 +38,4 @@
 - `src/views/NavigationPage/css/desktop/navSectionPersonal.css` - 新增
 - `src/views/NavigationPage/css/desktop/navSectionData.css` - 新增
 - `src/views/NavigationPage/css/desktop/navSectionAdmin.css` - 新增
+- `src/views/NavigationPage/css/desktop/navPageAnimation.css` - 新增
