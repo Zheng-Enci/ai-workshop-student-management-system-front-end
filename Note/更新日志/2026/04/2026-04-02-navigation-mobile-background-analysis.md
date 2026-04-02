@@ -291,3 +291,18 @@
 - 优化所有卡片图标背景渐变色和阴影效果
 
 **提交**: `8524a54` - 优化移动端卡片图标背景色配色方案 - 使用方案五动态配色
+
+---
+
+#### 2026-04-02 补充缺失的卡片类名
+修复部分卡片缺少类名导致图标背景色未应用的问题：
+
+**修改文件**: 
+- `src/views/NavigationPage/NavigationPageMobile.vue`
+
+**变更内容**:
+- 添加 `data-card` 类名到数据看板卡片
+- 添加 `points-card-nav` 类名到积分看板卡片
+- 添加 `invite-card` 类名到个人信息卡片
+
+**提交**: `a40e125` - 补充缺失的卡片类名 - data-card、points-card-nav、invite-card
