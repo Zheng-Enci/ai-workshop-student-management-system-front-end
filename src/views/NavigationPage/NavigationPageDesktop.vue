@@ -761,7 +761,7 @@ onMounted(() => {
 					</div>
 				</div>
 
-				<div class="navigation-sections">
+				<div class="navSections">
 					<!-- 个人中心分组 -->
 					<div class="navSection">
 						<div class="navSection-header">
@@ -923,11 +923,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import '@/views/NavigationPage/css/NavigationPageDesktop.css';
 </style>
 
 <style>
 @import '@/views/NavigationPage/css/desktop/header.css';
 @import '@/views/NavigationPage/css/desktop/user-card.css';
+@import '@/views/NavigationPage/css/desktop/navSections.css';
 @import '@/views/NavigationPage/css/desktop/navSection.css';
 </style>
