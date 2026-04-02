@@ -820,7 +820,7 @@ onMounted(() => {
 								</div>
 								<div class="navSection-card-text">
 									<h3>考勤分析</h3>
-									<p>查看个人考勤记录</p>
+									<p>查看考勤数据统计</p>
 								</div>
 								<div class="navSection-card-arrow">
 									<el-icon><arrow-right /></el-icon>
