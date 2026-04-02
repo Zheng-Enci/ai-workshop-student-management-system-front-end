@@ -759,17 +759,17 @@ onMounted(() => {
 				</div>
 
 				<!-- 数据查看分组 -->
-				<div class="nav-section">
-					<div class="section-header">
-						<div class="section-title">
-							<el-icon class="section-icon"><data-analysis /></el-icon>
+				<div class="navSection-item">
+					<div class="navSection-header">
+						<div class="navSection-title">
+							<el-icon class="navSection-icon"><data-analysis /></el-icon>
 							<span>数据查看</span>
 						</div>
-						<div class="section-divider"/>
+						<div class="navSection-divider"/>
 					</div>
-					<div class="feature-grid">
+					<div class="navSection-grid">
 						<div class="navSection-card" @click="goToDashboard">
-							<div class="card-background"/>
+							<div class="navSection-card-bg"/>
 							<div class="navSection-card-content">
 								<div class="navSection-card-icon">
 									<el-icon size="28"><data-analysis /></el-icon>
@@ -785,7 +785,7 @@ onMounted(() => {
 						</div>
 
 						<div class="navSection-card" @click="goToPointsDashboard">
-							<div class="card-background"/>
+							<div class="navSection-card-bg"/>
 							<div class="navSection-card-content">
 								<div class="navSection-card-icon">
 									<el-icon size="28"><trophy /></el-icon>
@@ -801,7 +801,7 @@ onMounted(() => {
 						</div>
 
 						<div class="navSection-card" @click="goToAllMembers">
-							<div class="card-background"/>
+							<div class="navSection-card-bg"/>
 							<div class="navSection-card-content">
 								<div class="navSection-card-icon">
 									<el-icon size="28"><user /></el-icon>
