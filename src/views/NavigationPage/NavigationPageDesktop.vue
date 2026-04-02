@@ -930,4 +930,5 @@ onMounted(() => {
 @import '@/views/NavigationPage/css/desktop/user-card.css';
 @import '@/views/NavigationPage/css/desktop/navSections.css';
 @import '@/views/NavigationPage/css/desktop/navSection.css';
+@import '@/views/NavigationPage/css/desktop/navSectionCard.css';
 </style>

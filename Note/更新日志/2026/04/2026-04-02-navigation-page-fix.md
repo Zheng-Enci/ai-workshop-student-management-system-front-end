@@ -10,5 +10,11 @@
 - 正确结构: `navSection > navSection-header > navSection-title`
 - 之前错误地将 `navSection-header` 作为父元素，导致布局错乱
 
+### 导航区块容器样式提取
+- 新增 `navSections.css` 文件
+- 将 `.navigation-sections` 样式提取为 `.navSections`
+- 从 `NavigationPageDesktop.css` 中移除相关样式
+
 ## 文件变更
 - `src/views/NavigationPage/NavigationPageDesktop.vue` - 修复 HTML 结构
+- `src/views/NavigationPage/css/desktop/navSections.css` - 新增文件
