@@ -834,7 +834,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-@import './css/DashboardPageMobile.css';
 </style>
 
 <style scoped>
