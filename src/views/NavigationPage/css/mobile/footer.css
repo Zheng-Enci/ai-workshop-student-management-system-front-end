@@ -1,51 +1,20 @@
 /**
  * 页脚样式
  * @file footer.css
- * @description 导航页面移动端的页脚样式，包括页脚容器和登出按钮
+ * @description 导航页面移动端的页脚样式，包括登出按钮等
  */
 
-/* ==================== 页脚 ==================== */
+/* ==================== 页脚容器 ==================== */
 
-/**
- * 页脚容器
- * 相对定位，z-index 为 10，设置内边距、文本居中、背景、顶部边框和背景模糊
- */
 .footer {
   position: relative;
   z-index: 10;
-  padding: 24px 20px;
+  padding: 20px;
   text-align: center;
   background: rgb(255 255 255 / 0.05);
   border-top: 1px solid rgb(255 255 255 / 0.1);
   backdrop-filter: blur(20px);
   animation: fadeInUp 0.6s ease-out 0.6s both;
-}
-
-/**
- * 登出按钮
- * 设置宽度、最大宽度、内边距、字重、文本颜色、触摸操作优化、边框颜色、圆角和过渡效果
- */
-.logout-btn {
-  width: 100%;
-  max-width: 200px;
-  padding: 12px 32px;
-  font-weight: 600;
-  color: var(--danger-color) !important;
-  touch-action: manipulation;
-  border-color: var(--danger-color) !important;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
-}
-
-/**
- * 登出按钮的激活状态
- * 点击时改变文本颜色、背景颜色、增强阴影并缩小
- */
-.logout-btn:active {
-  color: white !important;
-  background-color: var(--danger-color) !important;
-  box-shadow: 0 4px 12px rgb(245 108 108 / 0.3);
-  transform: scale(0.98);
 }
 
 @keyframes fadeInUp {
@@ -57,4 +26,35 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ==================== 登出按钮 ==================== */
+
+.logout-btn {
+  width: 100%;
+  max-width: 180px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.85);
+  background: rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(255 255 255 / 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+}
+
+.logout-btn:hover {
+  color: white;
+  background: rgb(245 108 108 / 0.2);
+  border-color: rgb(245 108 108 / 0.3);
+  box-shadow: 0 4px 16px rgb(245 108 108 / 0.2);
+}
+
+.logout-btn:active {
+  color: white !important;
+  background-color: var(--danger-color) !important;
+  box-shadow: 0 4px 12px rgb(245 108 108 / 0.3);
+  transform: scale(0.98);
 }

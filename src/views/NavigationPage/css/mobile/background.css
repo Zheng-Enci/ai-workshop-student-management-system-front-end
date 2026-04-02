@@ -6,10 +6,6 @@
 
 /* ==================== 背景效果 ==================== */
 
-/**
- * 背景效果容器
- * 固定定位，覆盖整个视口，z-index 为 0，不响应鼠标事件
- */
 .background-effects {
   position: fixed;
   top: 0;
@@ -37,56 +33,49 @@
 .gradient-orb {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.3;
-  filter: blur(100px);
+  opacity: 0.6;
+  filter: blur(80px);
   animation: float 20s ease-in-out infinite;
 }
 
-/**
- * 第一个渐变球体
- * 设置位置、大小和背景渐变
- */
 .orb-1 {
-  top: 10%;
-  left: 10%;
-  width: 200px;
-  height: 200px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  top: -10%;
+  left: -10%;
+  width: 50vh;
+  height: 50vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   animation-delay: 0s;
 }
 
-/**
- * 第二个渐变球体
- * 设置位置、大小和背景渐变
- */
 .orb-2 {
-  top: 60%;
-  right: 10%;
-  width: 150px;
-  height: 150px;
-  background: linear-gradient(135deg, #f093fb, #f5576c);
+  top: 30%;
+  right: -15%;
+  width: 40vh;
+  height: 40vh;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   animation-delay: -7s;
 }
 
-/**
- * 第三个渐变球体
- * 设置位置、大小和背景渐变
- */
 .orb-3 {
-  bottom: 20%;
-  left: 50%;
-  width: 180px;
-  height: 180px;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  bottom: -10%;
+  left: 20%;
+  width: 45vh;
+  height: 45vh;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   animation-delay: -14s;
 }
 
-/**
- * 浮动动画关键帧
- * 定义球体的垂直移动和旋转动画
- */
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-30px) rotate(120deg); }
-  66% { transform: translateY(30px) rotate(240deg); }
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(10px, -15px);
+  }
+  50% {
+    transform: translate(-5px, 10px);
+  }
+  75% {
+    transform: translate(-15px, -5px);
+  }
 }
