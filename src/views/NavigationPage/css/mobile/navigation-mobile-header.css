@@ -39,16 +39,15 @@
   gap: 12px;
   align-items: center;
   margin-top: 8px;
-  padding-left: 50px;
 }
 
 /* ==================== 首页按钮 ==================== */
 
 .navigation-mobile-header-home-btn {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
   width: 40px !important;
   height: 40px !important;
   padding: 0 !important;
