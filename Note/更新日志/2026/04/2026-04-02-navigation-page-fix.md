@@ -40,4 +40,5 @@
 - `src/views/NavigationPage/css/desktop/navSectionPersonal.css` - 新增
 - `src/views/NavigationPage/css/desktop/navSectionData.css` - 新增
 - `src/views/NavigationPage/css/desktop/navSectionAdmin.css` - 新增
-- `src/views/NavigationPage/css/desktop/navPageAnimation.css` - 新增
+- `src/views/NavigationPage/css/desktop/header.css` - 新增头部入场动画
+- `src/views/NavigationPage/css/desktop/user-card.css` - 新增用户卡片入场动画

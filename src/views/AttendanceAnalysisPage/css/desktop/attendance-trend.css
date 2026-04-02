@@ -1,6 +1,7 @@
 .attendance-trend-container {
 	width: 100%;
 	padding: 40px 60px;
+	animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
 .attendance-trend-card {
@@ -9,6 +10,7 @@
 	border-radius: 16px;
 	padding: 30px;
 	backdrop-filter: blur(20px);
+	animation: fadeInUp 0.6s ease-out 0.3s both;
 }
 
 .attendance-trend-title {
