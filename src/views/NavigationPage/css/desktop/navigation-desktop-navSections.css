@@ -1,16 +1,16 @@
 /* ==================== 导航区块容器 ==================== */
 
-.navSections {
+.navigation-desktop-navSections {
 	display: flex;
 	flex-direction: column;
 	gap: 40px;
 	width: 100%;
 	max-width: 1200px;
 	padding: 0 20px;
-	animation: fadeInUp 0.6s ease-out;
+	animation: navigation-desktop-navSections-fadeInUp 0.6s ease-out;
 }
 
-@keyframes fadeInUp {
+@keyframes navigation-desktop-navSections-fadeInUp {
 	from {
 		opacity: 0;
 		transform: translateY(30px);
@@ -21,7 +21,7 @@
 	}
 }
 
-@keyframes fadeInLeft {
+@keyframes navigation-desktop-navSections-fadeInLeft {
 	from {
 		opacity: 0;
 		transform: translateX(-30px);
@@ -32,7 +32,7 @@
 	}
 }
 
-@keyframes fadeInRight {
+@keyframes navigation-desktop-navSections-fadeInRight {
 	from {
 		opacity: 0;
 		transform: translateX(30px);
@@ -46,7 +46,7 @@
 /* ==================== 响应式 ==================== */
 
 @media (width <= 768px) {
-	.navSections {
+	.navigation-desktop-navSections {
 		gap: 24px;
 		padding: 0 16px;
 	}

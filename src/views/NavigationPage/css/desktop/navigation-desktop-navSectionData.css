@@ -1,22 +1,22 @@
 /* ==================== 数据查看区块 ==================== */
 
-.navSectionData {
+.navigation-desktop-navSectionData {
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
 	width: 100%;
-	animation: fadeInUp 0.6s ease-out 0.3s both;
+	animation: navigation-desktop-navSections-fadeInUp 0.6s ease-out 0.3s both;
 }
 
-.navSectionData-header {
+.navigation-desktop-navSectionData-header {
 	display: flex;
 	gap: 16px;
 	align-items: center;
 	margin-bottom: 8px;
-	animation: fadeInLeft 0.6s ease-out 0.4s both;
+	animation: navigation-desktop-navSections-fadeInLeft 0.6s ease-out 0.4s both;
 }
 
-.navSectionData-title {
+.navigation-desktop-navSectionData-title {
 	display: flex;
 	flex-shrink: 0;
 	gap: 10px;
@@ -29,20 +29,20 @@
 	-webkit-text-fill-color: transparent;
 }
 
-.navSectionData-icon {
+.navigation-desktop-navSectionData-icon {
 	flex-shrink: 0;
 	font-size: 20px;
 	color: #667eea;
 }
 
-.navSectionData-divider {
+.navigation-desktop-navSectionData-divider {
 	position: relative;
 	flex: 1;
 	height: 1px;
 	background: linear-gradient(90deg, rgb(102 126 234 / 0.3) 0%, rgb(102 126 234 / 0.1) 50%, transparent 100%);
 }
 
-.navSectionData-divider::after {
+.navigation-desktop-navSectionData-divider::after {
 	position: absolute;
 	top: 50%;
 	right: 0;

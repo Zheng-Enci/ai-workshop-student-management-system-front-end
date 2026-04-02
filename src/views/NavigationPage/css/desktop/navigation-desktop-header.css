@@ -1,15 +1,15 @@
 /* ==================== 页面头部容器 ==================== */
 
-.header-container {
+.navigation-desktop-header-container {
 	position: relative;
 	z-index: 10;
 	background: rgb(255 255 255 / 0.05);
 	border-bottom: 1px solid rgb(255 255 255 / 0.1);
 	backdrop-filter: blur(20px);
-	animation: fadeInDown 0.6s ease-out;
+	animation: navigation-desktop-header-fadeInDown 0.6s ease-out;
 }
 
-@keyframes fadeInDown {
+@keyframes navigation-desktop-header-fadeInDown {
 	from {
 		opacity: 0;
 		transform: translateY(-30px);
@@ -20,7 +20,7 @@
 	}
 }
 
-.header-top {
+.navigation-desktop-header-top {
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -28,14 +28,14 @@
 	padding: 24px 60px;
 }
 
-.header-left {
+.navigation-desktop-header-left {
 	display: flex;
 	flex-shrink: 0;
 	gap: 20px;
 	align-items: center;
 }
 
-.header-center {
+.navigation-desktop-header-center {
 	position: absolute;
 	left: 50%;
 	display: flex;
@@ -44,7 +44,7 @@
 	transform: translateX(-50%);
 }
 
-.header-right {
+.navigation-desktop-header-right {
 	display: flex;
 	flex-shrink: 0;
 	align-items: center;
@@ -52,7 +52,7 @@
 
 /* ==================== 首页按钮 ==================== */
 
-.header-home-btn {
+.navigation-desktop-header-home-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -65,7 +65,7 @@
 
 /* ==================== Logo ==================== */
 
-.header-logo {
+.navigation-desktop-header-logo {
 	width: 56px;
 	height: 56px;
 	cursor: pointer;
@@ -74,14 +74,14 @@
 		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.header-logo:hover {
+.navigation-desktop-header-logo:hover {
 	filter: brightness(1.15);
 	transform: scale(1.05) rotate(3deg);
 }
 
 /* ==================== 标题区域 ==================== */
 
-.header-title-section h1 {
+.navigation-desktop-header-title-section h1 {
 	margin: 0;
 	font-size: 28px;
 	font-weight: 700;
@@ -91,153 +91,9 @@
 	-webkit-text-fill-color: transparent;
 }
 
-.header-title-section p {
+.navigation-desktop-header-title-section p {
 	margin: 4px 0 0;
 	font-size: 14px;
 	font-weight: 500;
 	color: var(--text-secondary);
-}
-
-/* ==================== 页面标题 ==================== */
-
-.header-page-title-wrapper {
-	position: relative;
-	display: flex;
-	gap: 14px;
-	align-items: center;
-	padding: 12px 32px;
-	overflow: hidden;
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.08), rgb(118 75 162 / 0.08));
-	border: 1px solid rgb(255 255 255 / 0.15);
-	border-radius: 24px;
-	box-shadow: 0 8px 32px rgb(0 0 0 / 0.12),
-		inset 0 1px 0 rgb(255 255 255 / 0.2),
-		0 0 0 1px rgb(102 126 234 / 0.1);
-	backdrop-filter: blur(16px);
-	transition: backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: backdrop-filter;
-}
-
-.header-page-title-wrapper::before {
-	position: absolute;
-	top: 0;
-	left: -100%;
-	width: 100%;
-	height: 100%;
-	content: '';
-	background: linear-gradient(
-		90deg,
-		transparent,
-		rgb(255 255 255 / 0.1),
-		transparent
-	);
-	transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.header-page-title-wrapper:hover::before {
-	left: 100%;
-}
-
-.header-page-title-wrapper:hover {
-	backdrop-filter: blur(24px);
-}
-
-.header-page-title {
-	position: relative;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
-		'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-	font-size: 22px;
-	font-weight: 800;
-	text-transform: uppercase;
-	letter-spacing: 4px;
-	white-space: nowrap;
-	text-shadow: 0 0 30px rgb(102 126 234 / 0.3);
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
-	background-clip: text;
-	background-size: 200% 100%;
-	filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.1));
-	animation: header-gradient-shift 5s ease-in-out infinite;
-	-webkit-text-fill-color: transparent;
-}
-
-@keyframes header-gradient-shift {
-	0%, 100% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-}
-
-/* ==================== 退出登录按钮 ==================== */
-
-.header-logout-btn {
-	padding: 10px 28px;
-	font-size: 14px;
-	font-weight: 600;
-	color: var(--danger-color) !important;
-	border-color: var(--danger-color) !important;
-	border-radius: 10px;
-	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: transform;
-}
-
-.header-logout-btn:hover {
-	color: white !important;
-	background-color: var(--danger-color) !important;
-	box-shadow: 0 6px 20px rgb(245 108 108 / 0.25);
-	transform: translateY(-2px);
-}
-
-/* ==================== 暗色模式 ==================== */
-
-.dark .header-logout-btn.is-plain {
-	color: #fff !important;
-	background-color: #000 !important;
-	border-color: #000 !important;
-}
-
-.dark .header-logout-btn.is-plain:hover {
-	color: white !important;
-	background-color: #000 !important;
-	border-color: #000 !important;
-}
-
-/* ==================== 响应式 ==================== */
-
-@media (width <= 768px) {
-	.header-top {
-		padding: 16px 20px;
-	}
-
-	.header-left {
-		gap: 12px;
-	}
-
-	.header-logo {
-		width: 40px;
-		height: 40px;
-	}
-
-	.header-title-section h1 {
-		font-size: 18px;
-	}
-
-	.header-title-section p {
-		display: none;
-	}
-
-	.header-page-title-wrapper {
-		padding: 8px 16px;
-	}
-
-	.header-page-title {
-		font-size: 14px;
-		letter-spacing: 2px;
-	}
-
-	.header-logout-btn {
-		padding: 8px 16px;
-		font-size: 12px;
-	}
 }

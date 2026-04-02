@@ -604,12 +604,12 @@ onMounted(() => {
 		</div>
 
 		<!-- 页面头部 -->
-		<div class="header-container">
-			<div class="header-top">
+		<div class="navigation-desktop-header-container">
+			<div class="navigation-desktop-header-top">
 				<!-- 头部左侧:首页按钮和Logo -->
-				<div class="header-left">
+				<div class="navigation-desktop-header-left">
 					<el-button
-						class="header-home-btn"
+						class="navigation-desktop-header-home-btn"
 						type="primary"
 						:icon="House"
 						circle
@@ -619,29 +619,29 @@ onMounted(() => {
 					<img
 						src="@/assets/AiWorkShop_icon.png"
 						alt="Logo"
-						class="header-logo"
+						class="navigation-desktop-header-logo"
 						title="切换主题模式"
 						@click="toggleTheme"
 					/>
 
-					<div class="header-title-section">
+					<div class="navigation-desktop-header-title-section">
 						<h1>AI坊学生管理系统</h1>
 						<p>人工智能创作坊</p>
 					</div>
 				</div>
 
 				<!-- 头部中央:页面标题 -->
-				<div class="header-center">
-					<div class="header-page-title-wrapper">
-						<div class="header-page-title">功能导航</div>
+				<div class="navigation-desktop-header-center">
+					<div class="navigation-desktop-header-page-title-wrapper">
+						<div class="navigation-desktop-header-page-title">功能导航</div>
 					</div>
 				</div>
 
 				<!-- 头部右侧:退出登录按钮 -->
-				<div class="header-right">
+				<div class="navigation-desktop-header-right">
 					<el-button
 						type="danger"
-						class="header-logout-btn"
+						class="navigation-desktop-header-logout-btn"
 						plain
 						@click="handleLogout"
 					>
@@ -657,14 +657,13 @@ onMounted(() => {
 		<!-- 主内容区域 -->
 		<div class="main-content">
 			<!-- 中心卡片布局 -->
-			<div class="user-card-hub-layout">
+			<div class="navigation-desktop-user-card-hub-layout">
 				<!-- 中心信息卡片 -->
-				<div class="user-card-info-card">
+				<div class="navigation-desktop-user-card-info-card">
 					<!-- 左侧用户信息区域 -->
-					<div class="user-card-left-section">
-						<!-- 用户头像 -->
+					<div class="navigation-desktop-user-card-left-section">
 						<div
-							class="user-card-avatar"
+							class="navigation-desktop-user-card-avatar"
 							:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
 							@click="handleAvatarClick"
 						>
@@ -672,35 +671,35 @@ onMounted(() => {
 								v-if="hasAvatar && avatarUrl"
 								v-lazy="avatarUrl"
 								alt="用户头像"
-								class="user-card-avatar-image"
+								class="navigation-desktop-user-card-avatar-image"
 							/>
-							<el-icon v-else size="32" class="user-card-avatar-icon">
+							<el-icon v-else size="32" class="navigation-desktop-user-card-avatar-icon">
 								<user/>
 							</el-icon>
-							<div v-if="avatarLoading" class="user-card-avatar-loading">
-								<img src="@/assets/loading.gif" alt="加载中" class="loading-gif"/>
+							<div v-if="avatarLoading" class="navigation-desktop-user-card-avatar-loading">
+								<img src="@/assets/loading.gif" alt="加载中" class="navigation-desktop-user-card-loading-gif"/>
 							</div>
 						</div>
 
 						<!-- 用户详情 -->
-						<div class="user-card-user-info">
-							<div class="user-card-user-name">{{ userStore.userInfo?.name || '学生' }}</div>
+						<div class="navigation-desktop-user-card-user-info">
+							<div class="navigation-desktop-user-card-user-name">{{ userStore.userInfo?.name || '学生' }}</div>
 
 							<!-- 用户等级 -->
 							<div
 								v-if="userStore.studentLevel"
-								class="user-card-user-level"
+								class="navigation-desktop-user-card-user-level"
 								:class="getLevelClass(userStore.studentLevel?.levelCode)"
 							>
-								<el-icon class="level-icon" size="14">
+								<el-icon class="navigation-desktop-user-card-level-icon" size="14">
 									<star/>
 								</el-icon>
 								<span>{{ getLevelName(userStore.studentLevel.levelCode) }}</span>
 							</div>
 
 							<!-- 签到次数 -->
-							<div v-if="attendanceCount !== null" class="user-card-attendance">
-								<el-icon class="attendance-icon" size="16">
+							<div v-if="attendanceCount !== null" class="navigation-desktop-user-card-attendance">
+								<el-icon class="navigation-desktop-user-card-attendance-icon" size="16">
 									<calendar/>
 								</el-icon>
 								<span>已签到{{ attendanceCount }} 次</span>
@@ -714,19 +713,19 @@ onMounted(() => {
 							!pointsLoading &&
 								(totalPoints !== null || signInPoints !== null || activityPoints !== null)
 						"
-						class="user-card-points-section"
+						class="navigation-desktop-user-card-points-section"
 					>
-						<div class="user-card-points-grid">
+						<div class="navigation-desktop-user-card-points-grid">
 							<!-- 总积分卡片 -->
 							<div class="user-card-point-item total-points">
-								<div class="user-card-point-icon">
+								<div class="navigation-desktop-user-card-point-icon">
 									<el-icon size="20">
 										<coin/>
 									</el-icon>
 								</div>
-								<div class="user-card-point-info">
-									<div class="user-card-point-label">总积分</div>
-									<div class="user-card-point-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
+								<div class="navigation-desktop-user-card-point-info">
+									<div class="navigation-desktop-user-card-point-label">总积分</div>
+									<div class="navigation-desktop-user-card-point-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
 								</div>
 							</div>
 
@@ -761,155 +760,155 @@ onMounted(() => {
 					</div>
 				</div>
 
-				<div class="navSections">
+				<div class="navigation-desktop-navSections">
 					<!-- 个人中心分组 -->
-					<div class="navSectionPersonal">
-						<div class="navSectionPersonal-header">
-							<div class="navSectionPersonal-title">
-								<el-icon class="navSectionPersonal-icon">
+					<div class="navigation-desktop-navSectionPersonal">
+						<div class="navigation-desktop-navSectionPersonal-header">
+							<div class="navigation-desktop-navSectionPersonal-title">
+								<el-icon class="navigation-desktop-navSectionPersonal-icon">
 									<user/>
 								</el-icon>
 								<span>个人中心</span>
 							</div>
-							<div class="navSectionPersonal-divider"/>
+							<div class="navigation-desktop-navSectionPersonal-divider"/>
 						</div>
 
-						<div class="navSection-grid">
-							<div class="navSection-card" @click="goToAttendance">
-								<div class="navSection-card-icon">
+						<div class="navigation-desktop-navSectionCard-grid">
+							<div class="navigation-desktop-navSectionCard-card" @click="goToAttendance">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<check/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">签到记录</div>
-									<div class="navSection-description">查看签到历史记录</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">签到记录</div>
+									<div class="navigation-desktop-navSectionCard-description">查看签到历史记录</div>
 								</div>
 							</div>
 
-							<div class="navSection-card" @click="showProfile">
-								<div class="navSection-card-icon">
+							<div class="navigation-desktop-navSectionCard-card" @click="showProfile">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<user/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">个人信息</div>
-									<div class="navSection-description">编辑个人资料信息</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">个人信息</div>
+									<div class="navigation-desktop-navSectionCard-description">编辑个人资料信息</div>
 								</div>
 							</div>
 
-							<div class="navSection-card" @click="goToScoreChangeRecords">
-								<div class="navSection-card-icon">
+							<div class="navigation-desktop-navSectionCard-card" @click="goToScoreChangeRecords">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<document/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">改分记录</div>
-									<div class="navSection-description">查看所有积分调整记录</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">改分记录</div>
+									<div class="navigation-desktop-navSectionCard-description">查看所有积分调整记录</div>
 								</div>
 							</div>
 
-							<div class="navSection-card" @click="handleInvitationCode">
-								<div class="navSection-card-icon">
+							<div class="navigation-desktop-navSectionCard-card" @click="handleInvitationCode">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<star/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">邀请码</div>
-									<div class="navSection-description">查看我的邀请码</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">邀请码</div>
+									<div class="navigation-desktop-navSectionCard-description">查看我的邀请码</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
 					<!-- 数据查看分组 -->
-					<div class="navSectionData">
-						<div class="navSectionData-header">
-							<div class="navSectionData-title">
-								<el-icon class="navSectionData-icon">
+					<div class="navigation-desktop-navSectionData">
+						<div class="navigation-desktop-navSectionData-header">
+							<div class="navigation-desktop-navSectionData-title">
+								<el-icon class="navigation-desktop-navSectionData-icon">
 									<data-analysis/>
 								</el-icon>
 								<span>数据查看</span>
 							</div>
-							<div class="navSectionData-divider"/>
+							<div class="navigation-desktop-navSectionData-divider"/>
 						</div>
 
-						<div class="navSection-grid">
-							<div class="navSection-card" @click="goToAttendanceAnalysis">
-								<div class="navSection-card-icon">
+						<div class="navigation-desktop-navSectionCard-grid">
+							<div class="navigation-desktop-navSectionCard-card" @click="goToAttendanceAnalysis">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<data-analysis/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">考勤分析</div>
-									<div class="navSection-description">查看考勤数据分析</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">考勤分析</div>
+									<div class="navigation-desktop-navSectionCard-description">查看考勤数据分析</div>
 								</div>
 							</div>
 
-							<div class="navSection-card" @click="goToDashboard">
-								<div class="navSection-card-icon">
+							<div class="navigation-desktop-navSectionCard-card" @click="goToDashboard">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<data-analysis/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">数据看板</div>
-									<div class="navSection-description">查看数据统计图表</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">数据看板</div>
+									<div class="navigation-desktop-navSectionCard-description">查看数据统计图表</div>
 								</div>
 							</div>
 
-							<div class="navSection-card" @click="goToPointsDashboard">
-								<div class="navSection-card-icon">
+							<div class="navigation-desktop-navSectionCard-card" @click="goToPointsDashboard">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<trophy/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">积分看板</div>
-									<div class="navSection-description">查看积分排行榜</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">积分看板</div>
+									<div class="navigation-desktop-navSectionCard-description">查看积分排行榜</div>
 								</div>
 							</div>
 
-							<div class="navSection-card" @click="goToAllMembers">
-								<div class="navSection-card-icon">
+							<div class="navigation-desktop-navSectionCard-card" @click="goToAllMembers">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<user-filled/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">查看全部成员</div>
-									<div class="navSection-description">查看所有成员信息</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">查看全部成员</div>
+									<div class="navigation-desktop-navSectionCard-description">查看所有成员信息</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
 					<!-- 管理功能分组（管理员可见）-->
-					<div v-if="isAdmin" class="navSectionAdmin">
-						<div class="navSectionAdmin-header">
-							<div class="navSectionAdmin-title">
-								<el-icon class="navSectionAdmin-icon">
+					<div v-if="isAdmin" class="navigation-desktop-navSectionAdmin">
+						<div class="navigation-desktop-navSectionAdmin-header">
+							<div class="navigation-desktop-navSectionAdmin-title">
+								<el-icon class="navigation-desktop-navSectionAdmin-icon">
 									<user-filled/>
 								</el-icon>
 								<span>管理功能</span>
 							</div>
-							<div class="navSectionAdmin-divider"/>
+							<div class="navigation-desktop-navSectionAdmin-divider"/>
 						</div>
 
-						<div class="navSection-grid">
-							<div class="navSection-card" @click="goToAdmin">
-								<div class="navSection-card-icon">
+						<div class="navigation-desktop-navSectionCard-grid">
+							<div class="navigation-desktop-navSectionCard-card" @click="goToAdmin">
+								<div class="navigation-desktop-navSectionCard-card-icon">
 									<el-icon size="28">
 										<user-filled/>
 									</el-icon>
 								</div>
-								<div class="navSection-content">
-									<div class="navSection-label">学生管理</div>
-									<div class="navSection-description">管理学生信息</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">学生管理</div>
+									<div class="navigation-desktop-navSectionCard-description">管理学生信息</div>
 								</div>
 							</div>
 						</div>

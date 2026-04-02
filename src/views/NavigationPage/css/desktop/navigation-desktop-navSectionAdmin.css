@@ -1,22 +1,22 @@
 /* ==================== 管理功能区块 ==================== */
 
-.navSectionAdmin {
+.navigation-desktop-navSectionAdmin {
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
 	width: 100%;
-	animation: fadeInUp 0.6s ease-out 0.5s both;
+	animation: navigation-desktop-navSections-fadeInUp 0.6s ease-out 0.5s both;
 }
 
-.navSectionAdmin-header {
+.navigation-desktop-navSectionAdmin-header {
 	display: flex;
 	gap: 16px;
 	align-items: center;
 	margin-bottom: 8px;
-	animation: fadeInLeft 0.6s ease-out 0.6s both;
+	animation: navigation-desktop-navSections-fadeInLeft 0.6s ease-out 0.6s both;
 }
 
-.navSectionAdmin-title {
+.navigation-desktop-navSectionAdmin-title {
 	display: flex;
 	flex-shrink: 0;
 	gap: 10px;
@@ -29,20 +29,20 @@
 	-webkit-text-fill-color: transparent;
 }
 
-.navSectionAdmin-icon {
+.navigation-desktop-navSectionAdmin-icon {
 	flex-shrink: 0;
 	font-size: 20px;
 	color: #667eea;
 }
 
-.navSectionAdmin-divider {
+.navigation-desktop-navSectionAdmin-divider {
 	position: relative;
 	flex: 1;
 	height: 1px;
 	background: linear-gradient(90deg, rgb(102 126 234 / 0.3) 0%, rgb(102 126 234 / 0.1) 50%, transparent 100%);
 }
 
-.navSectionAdmin-divider::after {
+.navigation-desktop-navSectionAdmin-divider::after {
 	position: absolute;
 	top: 50%;
 	right: 0;

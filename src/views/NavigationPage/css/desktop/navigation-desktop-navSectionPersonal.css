@@ -1,22 +1,22 @@
 /* ==================== 个人中心区块 ==================== */
 
-.navSectionPersonal {
+.navigation-desktop-navSectionPersonal {
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
 	width: 100%;
-	animation: fadeInUp 0.6s ease-out 0.1s both;
+	animation: navigation-desktop-navSections-fadeInUp 0.6s ease-out 0.1s both;
 }
 
-.navSectionPersonal-header {
+.navigation-desktop-navSectionPersonal-header {
 	display: flex;
 	gap: 16px;
 	align-items: center;
 	margin-bottom: 8px;
-	animation: fadeInLeft 0.6s ease-out 0.2s both;
+	animation: navigation-desktop-navSections-fadeInLeft 0.6s ease-out 0.2s both;
 }
 
-.navSectionPersonal-title {
+.navigation-desktop-navSectionPersonal-title {
 	display: flex;
 	flex-shrink: 0;
 	gap: 10px;
@@ -29,20 +29,20 @@
 	-webkit-text-fill-color: transparent;
 }
 
-.navSectionPersonal-icon {
+.navigation-desktop-navSectionPersonal-icon {
 	flex-shrink: 0;
 	font-size: 20px;
 	color: #667eea;
 }
 
-.navSectionPersonal-divider {
+.navigation-desktop-navSectionPersonal-divider {
 	position: relative;
 	flex: 1;
 	height: 1px;
 	background: linear-gradient(90deg, rgb(102 126 234 / 0.3) 0%, rgb(102 126 234 / 0.1) 50%, transparent 100%);
 }
 
-.navSectionPersonal-divider::after {
+.navigation-desktop-navSectionPersonal-divider::after {
 	position: absolute;
 	top: 50%;
 	right: 0;
