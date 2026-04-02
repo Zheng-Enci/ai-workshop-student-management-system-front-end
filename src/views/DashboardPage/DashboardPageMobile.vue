@@ -837,7 +837,7 @@ onUnmounted(() => {
 @import './css/DashboardPageMobile.css';
 </style>
 
-<style>
+<style scoped>
 .time-radio-group {
   display: flex;
   flex-wrap: wrap;
@@ -856,25 +856,11 @@ onUnmounted(() => {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-html.dark .time-radio-group .el-radio-button__inner {
-  color: #e2e8f0;
-  background-color: #1e293b;
-  border-color: #334155;
-}
-
 .time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
   color: #fff;
   background-color: #409eff;
   border-color: #409eff;
   box-shadow: 0 2px 8px rgb(64 158 255 / 0.3);
 }
-
-:where(.dark) .time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
-  color: #fff;
-  background-color: #667eea;
-  border-color: #667eea;
-  box-shadow: 0 2px 8px rgb(102 126 234 / 0.4);
-}
-
 </style>
 
