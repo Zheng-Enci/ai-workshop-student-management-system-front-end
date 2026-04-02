@@ -265,3 +265,29 @@
 - `@keyframes footer-fadeInUp` → `@keyframes navigation-footer-fadeInUp`
 
 **提交**: `9fb9b4a` - 页脚样式命名空间优化 - 解决样式污染问题
+
+---
+
+#### 2026-04-02 移动端卡片图标背景色配色优化
+采用方案五动态配色方案，为不同功能类型分配不同配色：
+
+**修改文件**: 
+- `src/views/NavigationPage/NavigationPageMobile.vue`
+- `src/views/NavigationPage/css/mobile/navSectionCard.css`
+
+**配色方案**:
+- **签到卡片**（紫蓝色渐变）: `#667eea` → `#764ba2`
+- **数据看板卡片**（蓝色渐变）: `#4facfe` → `#00f2fe`
+- **积分看板卡片**（粉红色渐变）: `#f093fb` → `#f5576c`
+- **成员管理卡片**（绿色渐变）: `#43e97b` → `#38f9d7`
+- **积分记录卡片**（橙黄色渐变）: `#fa709a` → `#fee140`
+- **邀请码卡片**（淡蓝粉渐变）: `#a18cd1` → `#fbc2eb`
+- **管理员卡片**（粉红色渐变）: `#f093fb` → `#f5576c`
+
+**变更内容**:
+- 添加 `members-card` 类名到全部成员卡片
+- 添加 `records-card` 类名到改分记录卡片
+- 添加 `invite-card` 类名到邀请码卡片
+- 优化所有卡片图标背景渐变色和阴影效果
+
+**提交**: `8524a54` - 优化移动端卡片图标背景色配色方案 - 使用方案五动态配色
