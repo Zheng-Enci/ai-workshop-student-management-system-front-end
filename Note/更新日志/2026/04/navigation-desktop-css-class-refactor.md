@@ -70,7 +70,13 @@
 - `.navSection-label` → `.navigation-desktop-navSectionCard-label`
 - `.navSection-description` → `.navigation-desktop-navSectionCard-description`
 
+### 修复：缺失的样式
+在 `navigation-desktop-header.css` 中补充以下缺失样式：
+- `.navigation-desktop-main-content` - 主内容区域样式
+- `.navigation-desktop-header-page-title-wrapper` - 页面标题包裹器样式
+- `.navigation-desktop-header-page-title` - 页面标题样式
+- `.navigation-desktop-header-logout-btn` - 退出按钮样式
+
 ## 提交信息
-```
-refactor: NavigationPage desktop CSS class naming with navigation-desktop prefix
-```
+1. `refactor: NavigationPage desktop CSS class naming with navigation-desktop prefix`
+2. `fix: add missing CSS styles for main-content, page-title and logout-btn`
