@@ -74,8 +74,45 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
 	border-radius: 50%;
+	background: linear-gradient(
+		45deg,
+		rgba(255, 255, 255, 0.2) 0%,
+		rgba(255, 255, 255, 0.1) 25%,
+		rgba(255, 255, 255, 0.2) 50%,
+		rgba(255, 255, 255, 0.1) 75%,
+		rgba(255, 255, 255, 0.2) 100%
+	);
+	background-size: 200% 200%;
+	animation: attendance-mobile-sign-button-gradient-flow 3s ease infinite;
+}
+
+.attendance-mobile-sign-button-button-mobile.success .attendance-mobile-sign-button-background-mobile {
+	background: linear-gradient(45deg, rgba(76, 175, 80, 0.3) 0%, rgba(76, 175, 80, 0.1) 100%);
+	animation: none;
+}
+
+.attendance-mobile-sign-button-button-mobile.disabled .attendance-mobile-sign-button-background-mobile,
+.attendance-mobile-sign-button-button-mobile:not(.success):not(.loading) .attendance-mobile-sign-button-background-mobile {
+	animation: attendance-mobile-sign-button-gradient-flow 3s ease infinite;
+}
+
+.attendance-mobile-sign-button-button-mobile.loading .attendance-mobile-sign-button-background-mobile {
+	animation: attendance-mobile-sign-button-gradient-flow 3s ease infinite;
+}
+
+/* ==================== 渐变流动动画 ==================== */
+
+@keyframes attendance-mobile-sign-button-gradient-flow {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 /* ==================== 按钮内容层 ==================== */
