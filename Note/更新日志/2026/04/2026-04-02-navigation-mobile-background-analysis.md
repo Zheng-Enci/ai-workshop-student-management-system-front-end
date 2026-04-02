@@ -321,3 +321,16 @@
 - `.points-card-display`: `gap: 10px` → `gap: 16px`
 
 **提交**: `c23ac72` - 调整移动端导航页边距 - user-card 和 points-card
+
+---
+
+#### 2026-04-02 调整头像与积分块间距
+优化头像与活动积分块之间的间距：
+
+**修改文件**: 
+- `src/views/NavigationPage/css/mobile/user-card.css`
+
+**变更内容**:
+- `.user-card-profile`: `gap: 14px` → `gap: 10px`
+
+**提交**: `8395061` - user-card-profile gap 调整为 10px
