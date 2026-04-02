@@ -57,6 +57,24 @@
   font-size: 16px;
 }
 
+/* 上午签到图标 - 暖橙色渐变（朝阳） */
+.attendance-mobile-status-cards-card-mobile.morning .attendance-mobile-status-cards-card-icon-mobile {
+  background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+/* 下午签到图标 - 天蓝色渐变（晴空） */
+.attendance-mobile-status-cards-card-mobile.afternoon .attendance-mobile-status-cards-card-icon-mobile {
+  background: linear-gradient(135deg, #2196F3 0%, #00BCD4 100%);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+/* 晚上签到图标 - 蓝紫色渐变（夜空） */
+.attendance-mobile-status-cards-card-mobile.evening .attendance-mobile-status-cards-card-icon-mobile {
+  background: linear-gradient(135deg, #673AB7 0%, #3F51B5 100%);
+  box-shadow: 0 4px 12px rgba(103, 58, 183, 0.3);
+}
+
 .attendance-mobile-status-cards-card-mobile.signed .attendance-mobile-status-cards-card-icon-mobile {
   background: #4CAF50;
 }

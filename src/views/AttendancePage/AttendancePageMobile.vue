@@ -747,7 +747,7 @@ onUnmounted(() => {
 				<!-- 签到状态卡片组：展示早中晚三个时段的签到状态 -->
 				<div class="attendance-mobile-status-cards-cards-mobile">
 					<!-- 上午签到状态卡片 -->
-					<div class="attendance-mobile-status-cards-card-mobile"
+					<div class="attendance-mobile-status-cards-card-mobile morning"
 						 :class="{ 'active': getCurrentTimeSlot() === 'morning', 'signed': isSlotSigned('morning') }">
 						<div class="attendance-mobile-status-cards-card-icon-mobile">
 							<el-icon>
@@ -764,7 +764,7 @@ onUnmounted(() => {
 					</div>
 
 					<!-- 下午签到状态卡片 -->
-					<div class="attendance-mobile-status-cards-card-mobile"
+					<div class="attendance-mobile-status-cards-card-mobile afternoon"
 						 :class="{ 'active': getCurrentTimeSlot() === 'afternoon', 'signed': isSlotSigned('afternoon') }">
 						<div class="attendance-mobile-status-cards-card-icon-mobile">
 							<el-icon>
@@ -781,7 +781,7 @@ onUnmounted(() => {
 					</div>
 
 					<!-- 晚上签到状态卡片 -->
-					<div class="attendance-mobile-status-cards-card-mobile"
+					<div class="attendance-mobile-status-cards-card-mobile evening"
 						 :class="{ 'active': getCurrentTimeSlot() === 'evening', 'signed': isSlotSigned('evening') }">
 						<div class="attendance-mobile-status-cards-card-icon-mobile">
 							<el-icon>
