@@ -842,6 +842,8 @@ onUnmounted(() => {
 	</div>
 </template>
 
+@import './css/mobile/attendance-mobile-status-cards.css';
+
 <style scoped>
 /** 根容器样式：移动端全屏布局，渐变背景，相对定位 */
 .attendance-container-mobile {
@@ -1290,8 +1292,6 @@ h1 {
 	width: 200px;
 	height: 200px;
 }
-
-@import './css/mobile/attendance-mobile-status-cards.css';
 
 /** 桌面端提示卡片：玻璃态，水平布局，图标+文本 */
 .desktop-tip-card-mobile {
