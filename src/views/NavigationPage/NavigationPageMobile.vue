@@ -850,10 +850,10 @@ onMounted(() => {
 
 		<invitation-code-form v-model="invitationFormVisible"/>
 
-		<div class="footer">
+		<div class="footer-container">
 			<el-button
 				type="danger"
-				class="logout-btn"
+				class="footer-logout-btn"
 				plain
 				@click="handleLogout">
 				<el-icon><switch-button /></el-icon>
@@ -861,6 +861,7 @@ onMounted(() => {
 			</el-button>
 		</div>
 	</div>
+		</div>
 </template>
 
 <style scoped>
