@@ -6,7 +6,7 @@
  * @component HomePageMobile
  */
 import { User, Lock, TrendCharts, ArrowRight, Star, Trophy, OfficeBuilding } from '@element-plus/icons-vue'
-import { ElButton, ElIcon, ElDialog } from 'element-plus'
+import { ElButton, ElIcon, ElDialog, ElMessage } from 'element-plus'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 

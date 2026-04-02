@@ -52,3 +52,10 @@
 - `src/views/AttendanceAnalysisPage/css/desktop/page.css` - 新增入场动画
 - `src/views/AttendanceAnalysisPage/css/desktop/header.css` - 新增入场动画
 - `src/views/AttendanceAnalysisPage/css/desktop/attendance-trend.css` - 新增入场动画
+
+### AttendancePage 入场动画
+- 页面容器 fadeInUp
+- 顶部导航栏 fadeInDown
+- 右侧座右铭 fadeInRight (0.2s)
+- 日历容器 fadeInUp (0.3s)
+- 图表卡片 fadeInUp (0.4s)
