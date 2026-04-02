@@ -740,53 +740,53 @@ onUnmounted(() => {
 				</div>
 
 				<!-- 签到状态卡片组：展示早中晚三个时段的签到状态 -->
-				<div class="status-cards-mobile">
+				<div class="attendance-mobile-status-cards-cards-mobile">
 					<!-- 上午签到状态卡片 -->
-					<div class="status-card-mobile"
+					<div class="attendance-mobile-status-cards-card-mobile"
 						 :class="{ 'active': getCurrentTimeSlot() === 'morning', 'signed': isSlotSigned('morning') }">
-						<div class="card-icon-mobile">
+						<div class="attendance-mobile-status-cards-card-icon-mobile">
 							<el-icon>
 								<Sunrise/>
 							</el-icon>
 						</div>
-						<div class="card-content-mobile">
-							<div class="card-title-mobile">上午签到</div>
-							<div class="card-time-mobile">08:00 - 11:00</div>
-							<div class="card-status-mobile" :class="{ 'signed': isSlotSigned('morning') }">
+						<div class="attendance-mobile-status-cards-card-content-mobile">
+							<div class="attendance-mobile-status-cards-card-title-mobile">上午签到</div>
+							<div class="attendance-mobile-status-cards-card-time-mobile">08:00 - 11:00</div>
+							<div class="attendance-mobile-status-cards-card-status-mobile" :class="{ 'signed': isSlotSigned('morning') }">
 								{{ isSlotSigned('morning') ? '已签到' : '未签到' }}
 							</div>
 						</div>
 					</div>
 
 					<!-- 下午签到状态卡片 -->
-					<div class="status-card-mobile"
+					<div class="attendance-mobile-status-cards-card-mobile"
 						 :class="{ 'active': getCurrentTimeSlot() === 'afternoon', 'signed': isSlotSigned('afternoon') }">
-						<div class="card-icon-mobile">
+						<div class="attendance-mobile-status-cards-card-icon-mobile">
 							<el-icon>
 								<Sunny/>
 							</el-icon>
 						</div>
-						<div class="card-content-mobile">
-							<div class="card-title-mobile">下午签到</div>
-							<div class="card-time-mobile">14:00 - 17:00</div>
-							<div class="card-status-mobile" :class="{ 'signed': isSlotSigned('afternoon') }">
+						<div class="attendance-mobile-status-cards-card-content-mobile">
+							<div class="attendance-mobile-status-cards-card-title-mobile">下午签到</div>
+							<div class="attendance-mobile-status-cards-card-time-mobile">14:00 - 17:00</div>
+							<div class="attendance-mobile-status-cards-card-status-mobile" :class="{ 'signed': isSlotSigned('afternoon') }">
 								{{ isSlotSigned('afternoon') ? '已签到' : '未签到' }}
 							</div>
 						</div>
 					</div>
 
 					<!-- 晚上签到状态卡片 -->
-					<div class="status-card-mobile"
+					<div class="attendance-mobile-status-cards-card-mobile"
 						 :class="{ 'active': getCurrentTimeSlot() === 'evening', 'signed': isSlotSigned('evening') }">
-						<div class="card-icon-mobile">
+						<div class="attendance-mobile-status-cards-card-icon-mobile">
 							<el-icon>
 								<Moon/>
 							</el-icon>
 						</div>
-						<div class="card-content-mobile">
-							<div class="card-title-mobile">晚上签到</div>
-							<div class="card-time-mobile">19:00 - 22:00</div>
-							<div class="card-status-mobile" :class="{ 'signed': isSlotSigned('evening') }">
+						<div class="attendance-mobile-status-cards-card-content-mobile">
+							<div class="attendance-mobile-status-cards-card-title-mobile">晚上签到</div>
+							<div class="attendance-mobile-status-cards-card-time-mobile">19:00 - 22:00</div>
+							<div class="attendance-mobile-status-cards-card-status-mobile" :class="{ 'signed': isSlotSigned('evening') }">
 								{{ isSlotSigned('evening') ? '已签到' : '未签到' }}
 							</div>
 						</div>

@@ -1,12 +1,12 @@
 /**
  * 签到状态卡片样式
- * @file status-cards.css
+ * @file attendance-mobile-status-cards.css
  * @description 签到页面移动端的状态卡片样式，包括早中晚三个时段的签到状态展示
  */
 
 /* ==================== 状态卡片组 ==================== */
 
-.status-cards-mobile {
+.attendance-mobile-status-cards-cards-mobile {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
@@ -15,7 +15,7 @@
 
 /* ==================== 状态卡片 ==================== */
 
-.status-card-mobile {
+.attendance-mobile-status-cards-card-mobile {
   background: var(--glass-bg);
   backdrop-filter: blur(20px);
   border-radius: 12px;
@@ -27,24 +27,24 @@
   overflow: hidden;
 }
 
-.status-card-mobile:hover {
+.attendance-mobile-status-cards-card-mobile:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 18px var(--shadow-color);
 }
 
-.status-card-mobile.active {
+.attendance-mobile-status-cards-card-mobile.active {
   border-color: var(--primary-color);
   box-shadow: 0 6px 18px rgba(102, 126, 234, 0.2);
 }
 
-.status-card-mobile.signed {
+.attendance-mobile-status-cards-card-mobile.signed {
   border-color: #4CAF50;
   background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
 }
 
 /* ==================== 卡片图标 ==================== */
 
-.card-icon-mobile {
+.attendance-mobile-status-cards-card-icon-mobile {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,30 +57,30 @@
   font-size: 16px;
 }
 
-.status-card-mobile.signed .card-icon-mobile {
+.attendance-mobile-status-cards-card-mobile.signed .attendance-mobile-status-cards-card-icon-mobile {
   background: #4CAF50;
 }
 
 /* ==================== 卡片内容 ==================== */
 
-.card-content-mobile {
+.attendance-mobile-status-cards-card-content-mobile {
   text-align: center;
 }
 
-.card-title-mobile {
+.attendance-mobile-status-cards-card-title-mobile {
   font-size: 11px;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 4px;
 }
 
-.card-time-mobile {
+.attendance-mobile-status-cards-card-time-mobile {
   font-size: 9px;
   color: var(--text-secondary);
   margin-bottom: 6px;
 }
 
-.card-status-mobile {
+.attendance-mobile-status-cards-card-status-mobile {
   font-size: 9px;
   font-weight: 500;
   padding: 3px 6px;
@@ -90,7 +90,7 @@
   transition: all 0.3s ease;
 }
 
-.card-status-mobile.signed {
+.attendance-mobile-status-cards-card-status-mobile.signed {
   background: rgba(76, 175, 80, 0.1);
   color: #4CAF50;
 }
