@@ -926,11 +926,11 @@ onMounted(() => {
 </style>
 
 <style>
-@import '@/views/NavigationPage/css/desktop/header.css';
-@import '@/views/NavigationPage/css/desktop/user-card.css';
-@import '@/views/NavigationPage/css/desktop/navSections.css';
-@import '@/views/NavigationPage/css/desktop/navSectionPersonal.css';
-@import '@/views/NavigationPage/css/desktop/navSectionData.css';
-@import '@/views/NavigationPage/css/desktop/navSectionAdmin.css';
-@import '@/views/NavigationPage/css/desktop/navSectionCard.css';
+@import '@/views/NavigationPage/css/desktop/navigation-desktop-header.css';
+@import '@/views/NavigationPage/css/desktop/navigation-desktop-user-card.css';
+@import '@/views/NavigationPage/css/desktop/navigation-desktop-navSections.css';
+@import '@/views/NavigationPage/css/desktop/navigation-desktop-navSectionPersonal.css';
+@import '@/views/NavigationPage/css/desktop/navigation-desktop-navSectionData.css';
+@import '@/views/NavigationPage/css/desktop/navigation-desktop-navSectionAdmin.css';
+@import '@/views/NavigationPage/css/desktop/navigation-desktop-navSectionCard.css';
 </style>
