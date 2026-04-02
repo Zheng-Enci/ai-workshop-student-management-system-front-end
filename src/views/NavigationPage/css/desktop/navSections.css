@@ -32,6 +32,17 @@
 	}
 }
 
+@keyframes fadeInRight {
+	from {
+		opacity: 0;
+		transform: translateX(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
 /* ==================== 响应式 ==================== */
 
 @media (width <= 768px) {

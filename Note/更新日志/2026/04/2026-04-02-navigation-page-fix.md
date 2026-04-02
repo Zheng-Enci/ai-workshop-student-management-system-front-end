@@ -26,10 +26,12 @@
 - `navSectionAdmin.css` - 管理功能区块
 
 ### 页面进入动画效果
-- 新增 `navPageAnimation.css` 文件
-- 页面整体淡入效果
-- 三个分组依次出现（带延迟）
-- 分组内的卡片依次交错出现
+- 将动画样式分别写入对应 CSS 文件
+- `navSections.css` - fadeInUp/fadeInLeft 关键帧 + 容器动画
+- `navSectionPersonal.css` - 个人中心区块动画
+- `navSectionData.css` - 数据查看区块动画
+- `navSectionAdmin.css` - 管理功能区块动画
+- `navSectionCard.css` - 导航卡片交错动画
 
 ## 文件变更
 - `src/views/NavigationPage/NavigationPageDesktop.vue` - 更新类名
