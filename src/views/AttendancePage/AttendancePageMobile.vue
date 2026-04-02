@@ -705,7 +705,10 @@ onUnmounted(() => {
 						:class="{
 							'loading': loading,
 							'disabled': !isInSignTime || isCurrentSlotSigned(),
-							'success': isInSignTime && isCurrentSlotSigned()
+							'success': isInSignTime && isCurrentSlotSigned(),
+							'morning': getCurrentTimeSlot() === 'morning',
+							'afternoon': getCurrentTimeSlot() === 'afternoon',
+							'evening': getCurrentTimeSlot() === 'evening'
 						}"
 						@click="submitAttendance"
 					>
