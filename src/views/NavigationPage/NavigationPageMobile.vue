@@ -646,39 +646,38 @@ onMounted(() => {
 						<span>已签到 {{ attendanceCount }} 次</span>
 					</div>
 				</div>
+				<div
+					v-if="!pointsLoading && (totalPoints !== null || signInPoints !== null || activityPoints !== null)"
+					class="points-card-display">
+					<div class="points-card-item points-card-total">
+						<div class="points-card-icon">
+							<el-icon size="16"><coin /></el-icon>
+						</div>
+						<div class="points-card-content">
+							<div class="points-card-label">总积分</div>
+							<div class="points-card-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
+						</div>
+					</div>
+					<div class="points-card-item points-card-activity">
+						<div class="points-card-icon">
+							<el-icon size="16"><trophy /></el-icon>
+						</div>
+						<div class="points-card-content">
+							<div class="points-card-label">活动积分</div>
+							<div class="points-card-value">{{ activityPoints !== null ? activityPoints : 0 }}</div>
+						</div>
+					</div>
+					<div class="points-card-item points-card-signin">
+						<div class="points-card-icon">
+							<el-icon size="16"><calendar /></el-icon>
+						</div>
+						<div class="points-card-content">
+							<div class="points-card-label">签到积分</div>
+							<div class="points-card-value">{{ signInPoints !== null ? signInPoints : 0 }}</div>
+						</div>
+					</div>
+				</div>
 			</div>
-
-			<div
-				v-if="!pointsLoading && (totalPoints !== null || signInPoints !== null || activityPoints !== null)"
-				class="points-card-display">
-				<div class="points-card-item points-card-total">
-					<div class="points-card-icon">
-						<el-icon size="16"><coin /></el-icon>
-					</div>
-					<div class="points-card-content">
-						<div class="points-card-label">总积分</div>
-						<div class="points-card-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
-					</div>
-				</div>
-				<div class="points-card-item points-card-activity">
-				<div class="points-card-icon">
-					<el-icon size="16"><trophy /></el-icon>
-				</div>
-				<div class="points-card-content">
-					<div class="points-card-label">活动积分</div>
-					<div class="points-card-value">{{ activityPoints !== null ? activityPoints : 0 }}</div>
-				</div>
-			</div>
-			<div class="points-card-item points-card-signin">
-					<div class="points-card-icon">
-						<el-icon size="16"><calendar /></el-icon>
-					</div>
-					<div class="points-card-content">
-						<div class="points-card-label">签到积分</div>
-						<div class="points-card-value">{{ signInPoints !== null ? signInPoints : 0 }}</div>
-					</div>
-				</div>
-		</div>
 
 		<div class="navSections-main">
 			<div class="navSections-container">
