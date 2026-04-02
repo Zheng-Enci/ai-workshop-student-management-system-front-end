@@ -763,153 +763,153 @@ onMounted(() => {
 
 				<div class="navigation-sections">
 					<!-- 个人中心分组 -->
-					<div class="nav-section">
-						<div class="section-header">
-							<div class="section-title">
-								<el-icon class="section-icon">
+					<div class="navSection">
+						<div class="navSection-header">
+							<div class="navSection-title">
+								<el-icon class="navSection-icon">
 									<user/>
 								</el-icon>
 								<span>个人中心</span>
 							</div>
-							<div class="section-divider"/>
+							<div class="navSection-divider"/>
 						</div>
 
-						<div class="navigation-grid">
-							<div class="nav-card" @click="goToAttendance">
-								<div class="nav-icon">
+						<div class="navSection-grid">
+							<div class="navSection-card" @click="goToAttendance">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<check/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">签到记录</div>
-									<div class="nav-description">查看签到历史记录</div>
+								<div class="navSection-content">
+									<div class="navSection-label">签到记录</div>
+									<div class="navSection-description">查看签到历史记录</div>
 								</div>
 							</div>
 
-							<div class="nav-card" @click="showProfile">
-								<div class="nav-icon">
+							<div class="navSection-card" @click="showProfile">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<user/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">个人信息</div>
-									<div class="nav-description">编辑个人资料信息</div>
+								<div class="navSection-content">
+									<div class="navSection-label">个人信息</div>
+									<div class="navSection-description">编辑个人资料信息</div>
 								</div>
 							</div>
 
-							<div class="nav-card" @click="goToScoreChangeRecords">
-								<div class="nav-icon">
+							<div class="navSection-card" @click="goToScoreChangeRecords">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<document/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">改分记录</div>
-									<div class="nav-description">查看所有积分调整记录</div>
+								<div class="navSection-content">
+									<div class="navSection-label">改分记录</div>
+									<div class="navSection-description">查看所有积分调整记录</div>
 								</div>
 							</div>
 
-							<div class="nav-card" @click="handleInvitationCode">
-								<div class="nav-icon">
+							<div class="navSection-card" @click="handleInvitationCode">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<star/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">邀请码</div>
-									<div class="nav-description">查看我的邀请码</div>
+								<div class="navSection-content">
+									<div class="navSection-label">邀请码</div>
+									<div class="navSection-description">查看我的邀请码</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
 					<!-- 数据查看分组 -->
-					<div class="nav-section">
-						<div class="section-header">
-							<div class="section-title">
-								<el-icon class="section-icon">
+					<div class="navSection">
+						<div class="navSection-header">
+							<div class="navSection-title">
+								<el-icon class="navSection-icon">
 									<data-analysis/>
 								</el-icon>
 								<span>数据查看</span>
 							</div>
-							<div class="section-divider"/>
+							<div class="navSection-divider"/>
 						</div>
 
-						<div class="navigation-grid">
-							<div class="nav-card" @click="goToAttendanceAnalysis">
-								<div class="nav-icon">
+						<div class="navSection-grid">
+							<div class="navSection-card" @click="goToAttendanceAnalysis">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<data-analysis/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">考勤分析</div>
-									<div class="nav-description">查看考勤数据分析</div>
+								<div class="navSection-content">
+									<div class="navSection-label">考勤分析</div>
+									<div class="navSection-description">查看考勤数据分析</div>
 								</div>
 							</div>
 
-							<div class="nav-card" @click="goToDashboard">
-								<div class="nav-icon">
+							<div class="navSection-card" @click="goToDashboard">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<data-analysis/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">数据看板</div>
-									<div class="nav-description">查看数据统计图表</div>
+								<div class="navSection-content">
+									<div class="navSection-label">数据看板</div>
+									<div class="navSection-description">查看数据统计图表</div>
 								</div>
 							</div>
 
-							<div class="nav-card" @click="goToPointsDashboard">
-								<div class="nav-icon">
+							<div class="navSection-card" @click="goToPointsDashboard">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<trophy/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">积分看板</div>
-									<div class="nav-description">查看积分排行榜</div>
+								<div class="navSection-content">
+									<div class="navSection-label">积分看板</div>
+									<div class="navSection-description">查看积分排行榜</div>
 								</div>
 							</div>
 
-							<div class="nav-card" @click="goToAllMembers">
-								<div class="nav-icon">
+							<div class="navSection-card" @click="goToAllMembers">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<user-filled/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">查看全部成员</div>
-									<div class="nav-description">查看所有成员信息</div>
+								<div class="navSection-content">
+									<div class="navSection-label">查看全部成员</div>
+									<div class="navSection-description">查看所有成员信息</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
 					<!-- 管理功能分组（管理员可见）-->
-					<div v-if="isAdmin" class="nav-section">
-						<div class="section-header">
-							<div class="section-title">
-								<el-icon class="section-icon">
+					<div v-if="isAdmin" class="navSection">
+						<div class="navSection-header">
+							<div class="navSection-title">
+								<el-icon class="navSection-icon">
 									<user-filled/>
 								</el-icon>
 								<span>管理功能</span>
 							</div>
-							<div class="section-divider"/>
+							<div class="navSection-divider"/>
 						</div>
 
-						<div class="navigation-grid">
-							<div class="nav-card" @click="goToAdmin">
-								<div class="nav-icon">
+						<div class="navSection-grid">
+							<div class="navSection-card" @click="goToAdmin">
+								<div class="navSection-card-icon">
 									<el-icon size="28">
 										<user-filled/>
 									</el-icon>
 								</div>
-								<div class="nav-content">
-									<div class="nav-label">学生管理</div>
-									<div class="nav-description">管理学生信息</div>
+								<div class="navSection-content">
+									<div class="navSection-label">学生管理</div>
+									<div class="navSection-description">管理学生信息</div>
 								</div>
 							</div>
 						</div>
@@ -929,4 +929,5 @@ onMounted(() => {
 <style>
 @import '@/views/NavigationPage/css/desktop/header.css';
 @import '@/views/NavigationPage/css/desktop/user-card.css';
+@import '@/views/NavigationPage/css/desktop/navSection.css';
 </style>
