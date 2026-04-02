@@ -73,13 +73,12 @@
   height: 50px;
   cursor: pointer;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: transparent;
+  transition: transform 0.3s ease;
 }
 
 .navigation-mobile-header-logo:hover {
   transform: scale(1.08);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 0.25);
 }
 
 /* ==================== 标题区域 ==================== */
