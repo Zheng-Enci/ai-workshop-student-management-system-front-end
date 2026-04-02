@@ -351,3 +351,19 @@
 - `.user-card-attendance .attendance-icon`: `font-size: 13px` → `font-size: 12px`
 
 **提交**: `f17171c` - user-card 字体和间距优化 - 减小字号和间距
+
+---
+
+#### 2026-04-02 user-card-profile 优化布局
+调整用户信息和总积分卡片的布局，使它们分居两边：
+
+**修改文件**: 
+- `src/views/NavigationPage/NavigationPageMobile.vue`
+- `src/views/NavigationPage/css/mobile/user-card.css`
+
+**变更内容**:
+- `.user-card-profile`: `gap: 10px` → `gap: 12px`, 添加 `justify-content: space-between`
+- 新增 `.user-card-info` 类，用于包裹用户头像和详情
+- 清理 HTML 结构，移除多余包裹层
+
+**提交**: `0db475b` - user-card-profile 优化布局 - 用户信息和总积分分居两边
