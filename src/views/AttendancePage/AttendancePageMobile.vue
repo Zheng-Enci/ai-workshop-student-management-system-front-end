@@ -1291,7 +1291,7 @@ h1 {
 	height: 200px;
 }
 
-@import './css/mobile/status-cards.css';
+@import './css/mobile/attendance-mobile-status-cards.css';
 
 /** 桌面端提示卡片：玻璃态，水平布局，图标+文本 */
 .desktop-tip-card-mobile {

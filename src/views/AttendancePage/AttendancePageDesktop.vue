@@ -996,7 +996,7 @@ onUnmounted(() => {
 
 <style scoped>
 /* 导入桌面端专属样式文件（包含布局、颜色、交互等样式） */
-@import './css/AttendancePageDesktop.css';
+@import './css/attendance-desktop.css';
 
 /**
  * 样式说明：
