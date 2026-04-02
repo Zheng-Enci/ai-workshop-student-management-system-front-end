@@ -12,8 +12,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
-  padding: 0 12px;
+  gap: 32px;
+  padding: 0 16px;
   margin: 0 auto;
   animation: user-card-fadeInUp 0.6s ease-out 0.2s both;
 }
@@ -37,8 +37,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   overflow: hidden;
   color: white;
   cursor: pointer;
@@ -67,7 +67,7 @@
 .user-card-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 /* ==================== 头像图片 ==================== */
@@ -81,7 +81,7 @@
 /* ==================== 头像图标 ==================== */
 
 .user-card-avatar-icon {
-  font-size: 26px;
+  font-size: 30px;
 }
 
 /* ==================== 头像加载状态 ==================== */
@@ -108,7 +108,7 @@
 .user-card-details {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   flex: 1;
   min-width: 0;
 }
@@ -116,7 +116,7 @@
 /* ==================== 用户名 ==================== */
 
 .user-card-name {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 600;
   color: white;
   text-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
@@ -130,10 +130,10 @@
 .user-card-level {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   align-self: flex-start;
-  padding: 2px 8px;
-  font-size: 11px;
+  padding: 3px 10px;
+  font-size: 12px;
   font-weight: 500;
   color: white;
   border-radius: 6px;
@@ -142,7 +142,7 @@
 }
 
 .user-card-level .level-icon {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .user-card-level.club-member {
@@ -170,12 +170,12 @@
 .user-card-attendance {
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 11px;
+  gap: 5px;
+  font-size: 12px;
   color: rgb(255 255 255 / 0.75);
 }
 
 .user-card-attendance .attendance-icon {
-  font-size: 12px;
+  font-size: 13px;
   color: rgb(255 255 255 / 0.85);
 }
