@@ -27,11 +27,18 @@
 
 ### 页面进入动画效果
 - 将动画样式分别写入对应 CSS 文件
-- `navSections.css` - fadeInUp/fadeInLeft 关键帧 + 容器动画
+- `navSections.css` - fadeInUp/fadeInLeft/fadeInRight 关键帧 + 容器动画
 - `navSectionPersonal.css` - 个人中心区块动画
 - `navSectionData.css` - 数据查看区块动画
 - `navSectionAdmin.css` - 管理功能区块动画
 - `navSectionCard.css` - 导航卡片交错动画
+- `header.css` - 头部入场动画 (fadeInDown)
+- `user-card.css` - 用户卡片入场动画
+
+### AttendanceAnalysisPage 入场动画
+- `page.css` - 页面 fadeInUp
+- `header.css` - 头部 fadeInDown
+- `attendance-trend.css` - 趋势卡片延迟出现
 
 ## 文件变更
 - `src/views/NavigationPage/NavigationPageDesktop.vue` - 更新类名
@@ -42,3 +49,6 @@
 - `src/views/NavigationPage/css/desktop/navSectionAdmin.css` - 新增
 - `src/views/NavigationPage/css/desktop/header.css` - 新增头部入场动画
 - `src/views/NavigationPage/css/desktop/user-card.css` - 新增用户卡片入场动画
+- `src/views/AttendanceAnalysisPage/css/desktop/page.css` - 新增入场动画
+- `src/views/AttendanceAnalysisPage/css/desktop/header.css` - 新增入场动画
+- `src/views/AttendanceAnalysisPage/css/desktop/attendance-trend.css` - 新增入场动画
