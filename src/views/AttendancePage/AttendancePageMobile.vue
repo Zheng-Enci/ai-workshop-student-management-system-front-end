@@ -643,13 +643,22 @@ onUnmounted(() => {
 
 			<!-- 页面头部：logo、头像、标题 -->
 			<div class="attendance-mobile-header-header-mobile">
-				<!-- 系统logo：点击切换明暗主题 -->
-				<img
-					src="@/assets/AiWorkShop_icon.png"
-					alt="AI坊学生管理系统"
-					class="attendance-mobile-header-logo-mobile"
-					title="切换主题模式"
-					@click="toggleTheme"/>
+				<!-- 左侧：Logo和标题 -->
+				<div class="attendance-mobile-header-left-mobile">
+					<!-- 系统logo：点击切换明暗主题 -->
+					<img
+						src="@/assets/AiWorkShop_icon.png"
+						alt="AI坊学生管理系统"
+						class="attendance-mobile-header-logo-mobile"
+						title="切换主题模式"
+						@click="toggleTheme"/>
+					<!-- 页面标题区域 -->
+					<div class="attendance-mobile-header-titles-mobile">
+						<h1 class="attendance-mobile-header-title-mobile">AI坊学生签到</h1>
+						<p class="attendance-mobile-header-subtitle-mobile">智能签到系统</p>
+					</div>
+				</div>
+				<!-- 右侧：用户头像 -->
 				<!-- 用户头像容器：点击跳转到个人资料页 -->
 				<div class="attendance-mobile-header-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
 					 @click="handleAvatarClick">
@@ -664,10 +673,6 @@ onUnmounted(() => {
 						<User/>
 					</el-icon>
 				</div>
-				<!-- 页面主标题 -->
-				<h1 class="attendance-mobile-header-title-mobile">AI坊学生签到</h1>
-				<!-- 页面副标题 -->
-				<p class="attendance-mobile-header-subtitle-mobile">智能签到系统</p>
 			</div>
 
 			<!-- 主内容区：时间展示、签到按钮、状态卡片 -->
