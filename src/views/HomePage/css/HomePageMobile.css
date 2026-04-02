@@ -937,12 +937,23 @@
 .author-links {
 	/* 弹性布局 */
 	display: flex;
-	/* 元素间距15px */
-	gap: 15px;
+	/* 允许换行 */
+	flex-wrap: wrap;
+	/* 元素间距10px */
+	gap: 10px;
 	/* 水平居中对齐 */
 	justify-content: center;
 	/* 顶部外边距10px */
 	margin-top: 10px;
+}
+
+/* 第一行链接 */
+.author-links a:nth-child(1),
+.author-links a:nth-child(2),
+.author-links a:nth-child(3) {
+	/* 第一行底部分割线 */
+	padding-bottom: 8px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* 作者链接 */
