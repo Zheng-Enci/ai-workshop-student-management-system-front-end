@@ -6,14 +6,14 @@
 
 /* ==================== 主内容容器 ==================== */
 
-.main-content {
+.navSections-main {
   position: relative;
   z-index: 10;
   padding: 28px 16px;
-  animation: fadeInUp 0.6s ease-out 0.4s both;
+  animation: navSections-fadeInUp 0.6s ease-out 0.4s both;
 }
 
-@keyframes fadeInUp {
+@keyframes navSections-fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -26,7 +26,7 @@
 
 /* ==================== 导航区域容器 ==================== */
 
-.navigation-sections {
+.navSections-container {
   display: flex;
   flex-direction: column;
   gap: 28px;

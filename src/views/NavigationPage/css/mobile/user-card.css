@@ -10,7 +10,6 @@
   position: relative;
   z-index: 10;
   display: flex;
-  flex-direction: row;
   align-items: center;
   gap: 14px;
   padding: 0 4px;
@@ -103,4 +102,71 @@
   gap: 6px;
   flex: 1;
   min-width: 0;
+}
+
+/* ==================== 用户名 ==================== */
+
+.user-card-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==================== 用户等级 ==================== */
+
+.user-card-level {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 8px rgb(102 126 234 / 0.3);
+}
+
+.user-card-level .level-icon {
+  font-size: 12px;
+}
+
+.user-card-level.club-member {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 8px rgb(102 126 234 / 0.3);
+}
+
+.user-card-level.normal-member {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  box-shadow: 0 2px 8px rgb(17 153 142 / 0.3);
+}
+
+.user-card-level.core-member {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 2px 8px rgb(240 147 251 / 0.3);
+}
+
+.user-card-level.admin {
+  background: linear-gradient(135deg, #e6c200 0%, #e67e00 100%);
+  box-shadow: 0 2px 8px rgb(230 194 0 / 0.3);
+}
+
+/* ==================== 考勤次数 ==================== */
+
+.user-card-attendance {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: rgb(255 255 255 / 0.75);
+}
+
+.user-card-attendance .attendance-icon {
+  font-size: 13px;
+  color: rgb(255 255 255 / 0.85);
 }
