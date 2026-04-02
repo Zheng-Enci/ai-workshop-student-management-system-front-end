@@ -33,3 +33,11 @@
 ### 2026-04-02 修复遗漏
 - 补全 `navSection-card-content` 开标签
 - 修复 `feature-grid` → `navSection-grid` 类名遗漏
+
+### 2026-04-02 二次修复
+- 修复 `nav-section` → `navSection-item` 类名遗漏（2处）
+- 修复 `section-header` → `navSection-header` 类名遗漏（2处）
+- 修复 `section-title` → `navSection-title` 类名遗漏（2处）
+- 修复 `section-divider` → `navSection-divider` 类名遗漏（2处）
+- 修复 `section-icon` → `navSection-icon` 类名遗漏（2处）
+- 修复 `card-background` → `navSection-card-bg` 类名遗漏（3处）
