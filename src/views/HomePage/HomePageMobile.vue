@@ -74,7 +74,7 @@ const goToLogin = () => {
  * @description 点击数据看板功能卡片时触发,跳转到数据看板页面
  */
 const goToDashboard = () => {
-	router.push('/dashboard')
+	window.location.href = '/dashboard'
 }
 
 /**
