@@ -647,7 +647,8 @@ onMounted(() => {
 							<span>已签到 {{ attendanceCount }} 次</span>
 						</div>
 					</div>
-					<div class="points-card-item points-card-total">
+				</div>
+				<div class="points-card-item points-card-total">
 						<div class="points-card-icon">
 							<el-icon size="16"><coin /></el-icon>
 						</div>
@@ -656,7 +657,6 @@ onMounted(() => {
 							<div class="points-card-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
 						</div>
 					</div>
-				</div>
 			</div>
 
 			<div
