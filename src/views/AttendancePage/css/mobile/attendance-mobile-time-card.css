@@ -51,6 +51,26 @@
 	font-size: 20px;
 }
 
+/* ==================== 当前日期展示 ==================== */
+
+.attendance-mobile-time-card-date-mobile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	font-size: 13px;
+	color: var(--text-secondary);
+	font-weight: 500;
+	margin-bottom: 4px;
+}
+
+/* ==================== 日期图标 ==================== */
+
+.attendance-mobile-time-card-date-icon-mobile {
+	color: var(--text-tertiary);
+	font-size: 16px;
+}
+
 /* ==================== 下次签到时间 ==================== */
 
 .attendance-mobile-time-card-next-mobile {

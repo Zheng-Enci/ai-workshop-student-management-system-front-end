@@ -53,6 +53,8 @@ const studentLevel = ref(0)
 const isInSignTime = ref(false)
 /** 当前时间字符串 - 格式：HH:MM:SS，实时更新 */
 const currentTime = ref('')
+/** 当前日期字符串 - 格式：YYYY年MM月DD日，实时更新 */
+const currentDate = ref('')
 /** 下次签到时间提示文本 - 非签到时段展示 */
 const nextSignTime = ref('')
 /** 定时器实例 - 用于实时更新时间，组件卸载时清除 */
@@ -374,6 +376,13 @@ const checkSignTime = () => {
 	const timeStr = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
 	currentTime.value = timeStr // 更新当前时间显示
 
+	// 格式化当前日期为 YYYY年MM月DD日
+	const year = now.getFullYear()
+	const month = (now.getMonth() + 1).toString().padStart(2, '0')
+	const day = now.getDate().toString().padStart(2, '0')
+	const dateStr = `${year}年${month}月${day}日`
+	currentDate.value = dateStr // 更新当前日期显示
+
 	// 定义三个签到时段的配置
 	const signTimeRanges = [
 		{start: 8, end: 11, name: '上午'}, // 上午8点-11点
@@ -680,6 +689,13 @@ onUnmounted(() => {
 				<!-- 时间卡片：显示当前时间和下次签到时间 -->
 				<div class="attendance-mobile-time-card-card-mobile">
 					<div class="attendance-mobile-time-card-info-mobile">
+						<!-- 当前日期展示 -->
+						<div class="attendance-mobile-time-card-date-mobile">
+							<el-icon class="attendance-mobile-time-card-date-icon-mobile">
+								<Calendar/>
+							</el-icon>
+							<span>{{ currentDate }}</span>
+						</div>
 						<!-- 当前时间展示 -->
 						<div class="attendance-mobile-time-card-current-mobile">
 							<el-icon class="attendance-mobile-time-card-time-icon-mobile">
@@ -690,7 +706,7 @@ onUnmounted(() => {
 						<!-- 下次签到时间：仅非签到时段显示 -->
 						<div v-if="!isInSignTime" class="attendance-mobile-time-card-next-mobile">
 							<el-icon class="attendance-mobile-time-card-next-icon-mobile">
-								<Calendar/>
+								<Sunrise/>
 							</el-icon>
 							<span>下次签到：{{ nextSignTime }}</span>
 						</div>
