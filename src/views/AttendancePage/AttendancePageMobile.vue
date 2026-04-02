@@ -693,9 +693,9 @@ onUnmounted(() => {
 				</div>
 
 				<!-- 签到按钮容器 -->
-				<div class="sign-button-container-mobile">
+				<div class="attendance-mobile-sign-button-container-mobile">
 					<button
-						class="modern-sign-button-mobile"
+						class="attendance-mobile-sign-button-button-mobile"
 						:disabled="loading || !isInSignTime || isCurrentSlotSigned()"
 						:class="{
 							'loading': loading,
@@ -704,38 +704,38 @@ onUnmounted(() => {
 						}"
 						@click="submitAttendance"
 					>
-						<div class="button-background-mobile"/>
-						<div class="button-content-mobile">
-							<div class="icon-container-mobile">
+						<div class="attendance-mobile-sign-button-background-mobile"/>
+						<div class="attendance-mobile-sign-button-content-mobile">
+							<div class="attendance-mobile-sign-button-icon-container-mobile">
 								<!-- 可签到状态：显示勾选图标 -->
 								<el-icon v-if="!loading && isInSignTime && !isCurrentSlotSigned()" size="40"
-										 class="main-icon-mobile">
+										 class="attendance-mobile-sign-button-main-icon-mobile">
 									<Check/>
 								</el-icon>
 								<!-- 已签到状态：显示绿色勾选图标 -->
 								<el-icon v-else-if="!loading && isInSignTime && isCurrentSlotSigned()" size="40"
-										 class="main-icon-mobile success-icon-mobile">
+										 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-success-icon-mobile">
 									<Check/>
 								</el-icon>
 								<!-- 非签到时段：显示时钟图标 -->
 								<el-icon v-else-if="!loading && !isInSignTime" size="40"
-										 class="main-icon-mobile disabled-icon-mobile">
+										 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-disabled-icon-mobile">
 									<Clock/>
 								</el-icon>
 								<!-- 加载中：显示旋转加载图标 -->
-								<el-icon v-else size="28" class="loading-icon-mobile">
+								<el-icon v-else size="28" class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-loading-icon-mobile">
 									<Loading/>
 								</el-icon>
 							</div>
 							<!-- 按钮文本：根据状态动态显示 -->
-							<span v-if="!loading" class="button-text-mobile">
+							<span v-if="!loading" class="attendance-mobile-sign-button-text-mobile">
 								{{ !isInSignTime ? '非签到时间' : (isCurrentSlotSigned() ? '已签到' : '点击签到') }}
 							</span>
 							<!-- 加载中文本 -->
-							<span v-else class="loading-text-mobile">签到中...</span>
+							<span v-else class="attendance-mobile-sign-button-text-mobile attendance-mobile-sign-button-text-mobile-loading-text-mobile">签到中...</span>
 						</div>
 						<!-- 按钮点击波纹效果 -->
-						<div class="ripple-effect-mobile"/>
+						<div class="attendance-mobile-sign-button-ripple-mobile"/>
 					</button>
 				</div>
 
@@ -844,6 +844,7 @@ onUnmounted(() => {
 
 <style scoped>
 @import './css/mobile/attendance-mobile-background.css';
+@import './css/mobile/attendance-mobile-sign-button.css';
 @import './css/mobile/attendance-mobile-status-cards.css';
 @import './css/mobile/attendance-mobile-desktop-tip-card.css';
 
@@ -1048,164 +1049,6 @@ h1 {
 .next-icon-mobile {
 	color: var(--text-tertiary);
 	font-size: 14px;
-}
-
-/** 签到按钮容器：居中布局 */
-.sign-button-container-mobile {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-/** 签到按钮：圆形，渐变背景，阴影，交互效果 */
-.modern-sign-button-mobile {
-	width: 160px;
-	height: 160px;
-	border-radius: 50%; /* 圆形按钮 */
-	border: none; /* 无边框 */
-	/* 渐变背景：主色调到次色调 */
-	background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-	color: white; /* 白色文本 */
-	cursor: pointer; /* 点击指针 */
-	position: relative; /* 作为子元素定位容器 */
-	overflow: hidden; /* 隐藏溢出的波纹效果 */
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡 */
-	/* 多层阴影：增强立体感 */
-	box-shadow: 0 8px 28px rgba(102, 126, 234, 0.3),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-/** 签到按钮hover效果（非禁用）：缩放，阴影放大 */
-.modern-sign-button-mobile:hover:not(:disabled) {
-	transform: translateY(-2px) scale(1.02); /* 上移+轻微放大 */
-	box-shadow: 0 12px 36px rgba(102, 126, 234, 0.4),
-	0 0 0 1px rgba(255, 255, 255, 0.2),
-	inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-/** 签到按钮点击效果（非禁用）：轻微缩小 */
-.modern-sign-button-mobile:active:not(:disabled) {
-	transform: translateY(-1px) scale(0.98);
-}
-
-/** 禁用状态：低透明度，禁止指针，缩小 */
-.modern-sign-button-mobile:disabled {
-	opacity: 0.6;
-	cursor: not-allowed;
-	transform: scale(0.95);
-}
-
-/** 非签到时段/已签到状态：灰色渐变背景 */
-.modern-sign-button-mobile.disabled {
-	background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
-	box-shadow: 0 6px 20px rgba(158, 158, 158, 0.3),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-/** 已签到状态：绿色渐变背景 */
-.modern-sign-button-mobile.success {
-	background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-	box-shadow: 0 8px 28px rgba(76, 175, 80, 0.3),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-/** 加载中状态：脉冲动画 */
-.modern-sign-button-mobile.loading {
-	animation: pulse-mobile 2s ease-in-out infinite;
-}
-
-/** 按钮背景层：轻微渐变，增强层次感 */
-.button-background-mobile {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-	border-radius: 50%;
-}
-
-/** 按钮内容层：相对定位，垂直居中 */
-.button-content-mobile {
-	position: relative;
-	z-index: 2; /* 层级高于背景层 */
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	gap: 8px; /* 图标与文本间距 */
-}
-
-/** 图标容器：居中布局 */
-.icon-container-mobile {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-/** 主图标：阴影效果，平滑过渡 */
-.main-icon-mobile {
-	filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
-	transition: all 0.3s ease;
-}
-
-/** 已签到图标：绿色阴影 */
-.success-icon-mobile {
-	filter: drop-shadow(0 3px 6px rgba(76, 175, 80, 0.4));
-}
-
-/** 禁用状态图标：灰度，低透明度 */
-.disabled-icon-mobile {
-	opacity: 0.6;
-	filter: grayscale(100%) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
-}
-
-/** 加载中图标：旋转动画 */
-.loading-icon-mobile {
-	animation: spin-mobile 1s linear infinite;
-	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-/** 按钮文本：白色，阴影，字间距 */
-.button-text-mobile {
-	font-size: 14px;
-	font-weight: 700;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-	letter-spacing: 0.5px;
-	color: white;
-	transition: all 0.3s ease;
-}
-
-/** 加载中文本：更小字号 */
-.loading-text-mobile {
-	font-size: 12px;
-	font-weight: 600;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-	color: white;
-}
-
-/** 按钮波纹效果：点击时扩散的圆形 */
-.ripple-effect-mobile {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 0;
-	height: 0;
-	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.3); /* 半透明白色 */
-	transform: translate(-50%, -50%); /* 居中 */
-	transition: all 0.6s ease; /* 缓慢扩散 */
-}
-
-/** 按钮点击时波纹扩散 */
-.modern-sign-button-mobile:active:not(:disabled) .ripple-effect-mobile {
-	width: 200px;
-	height: 200px;
 }
 
 /** 旋转动画：用于加载中图标 */
