@@ -20,7 +20,15 @@
 - 包含导航网格、卡片、图标、内容、标签、描述的样式
 - 响应式布局样式也包含在内
 
+### 三个分组独立样式文件
+- `navSectionPersonal.css` - 个人中心区块
+- `navSectionData.css` - 数据查看区块
+- `navSectionAdmin.css` - 管理功能区块
+
 ## 文件变更
-- `src/views/NavigationPage/NavigationPageDesktop.vue` - 修复 HTML 结构
-- `src/views/NavigationPage/css/desktop/navSections.css` - 新增文件
-- `src/views/NavigationPage/css/desktop/navSectionCard.css` - 新增文件
+- `src/views/NavigationPage/NavigationPageDesktop.vue` - 更新类名
+- `src/views/NavigationPage/css/desktop/navSections.css` - 新增
+- `src/views/NavigationPage/css/desktop/navSectionCard.css` - 新增
+- `src/views/NavigationPage/css/desktop/navSectionPersonal.css` - 新增
+- `src/views/NavigationPage/css/desktop/navSectionData.css` - 新增
+- `src/views/NavigationPage/css/desktop/navSectionAdmin.css` - 新增
