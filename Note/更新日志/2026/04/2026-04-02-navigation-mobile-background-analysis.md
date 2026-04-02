@@ -367,3 +367,16 @@
 - 清理 HTML 结构，移除多余包裹层
 
 **提交**: `0db475b` - user-card-profile 优化布局 - 用户信息和总积分分居两边
+
+---
+
+#### 2026-04-02 user-card-profile gap 调整
+增加用户信息和总积分卡片之间的距离：
+
+**修改文件**: 
+- `src/views/NavigationPage/css/mobile/user-card.css`
+
+**变更内容**:
+- `.user-card-profile`: `gap: 12px` → `gap: 16px`
+
+**提交**: `36e6495` - user-card-profile gap 调整为 16px
