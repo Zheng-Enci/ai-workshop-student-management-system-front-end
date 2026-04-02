@@ -1,6 +1,6 @@
 /* ==================== 二维码区域 ==================== */
 
-.qrcode-section {
+.dashboard-desktop-qrcode-section {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -15,8 +15,8 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 }
 
-.qrcode-website-section,
-.qrcode-wechat-section {
+.dashboard-desktop-qrcode-website-section,
+.dashboard-desktop-qrcode-wechat-section {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -31,15 +31,15 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 }
 
-.qrcode-code,
-.qrcode-website-code {
+.dashboard-desktop-qrcode-code,
+.dashboard-desktop-qrcode-website-code {
   width: 120px;
   height: 120px;
   border-radius: 8px;
 }
 
-.qrcode-text,
-.qrcode-website-text {
+.dashboard-desktop-qrcode-text,
+.dashboard-desktop-qrcode-website-text {
   max-width: 140px;
   font-size: 14px;
   font-weight: 600;
@@ -49,27 +49,27 @@
   white-space: nowrap;
 }
 
-.qrcode-website-text {
+.dashboard-desktop-qrcode-website-text {
   font-weight: 700;
   color: #667eea;
 }
 
-.dark .qrcode-text,
-.dark .qrcode-website-text {
+.dark .dashboard-desktop-qrcode-text,
+.dark .dashboard-desktop-qrcode-website-text {
   color: #fff !important;
 }
 
-.dark .qrcode-website-text {
+.dark .dashboard-desktop-qrcode-website-text {
   color: #60a5fa !important;
 }
 
-.dark .qrcode-wechat-section .qrcode-text {
+.dark .dashboard-desktop-qrcode-wechat-section .dashboard-desktop-qrcode-text {
   font-weight: 700 !important;
   color: #fff !important;
   text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important;
 }
 
-html.dark .qrcode-wechat-section .qrcode-text {
+html.dark .dashboard-desktop-qrcode-wechat-section .dashboard-desktop-qrcode-text {
   font-weight: 700 !important;
   color: #fff !important;
   text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important;
@@ -77,7 +77,7 @@ html.dark .qrcode-wechat-section .qrcode-text {
 
 /* ==================== 手机图片 ==================== */
 
-.qrcode-phone-image {
+.dashboard-desktop-qrcode-phone-image {
   width: 200px;
   height: auto;
 }
@@ -85,21 +85,21 @@ html.dark .qrcode-wechat-section .qrcode-text {
 /* ==================== 响应式样式 ==================== */
 
 @media (width <= 768px) {
-  .qrcode-section,
-  .qrcode-website-section,
-  .qrcode-wechat-section {
+  .dashboard-desktop-qrcode-section,
+  .dashboard-desktop-qrcode-website-section,
+  .dashboard-desktop-qrcode-wechat-section {
     width: 100%;
     height: auto;
     min-height: 150px;
   }
 
-  .qrcode-code,
-  .qrcode-website-code {
+  .dashboard-desktop-qrcode-code,
+  .dashboard-desktop-qrcode-website-code {
     width: 100px;
     height: 100px;
   }
 
-  .qrcode-phone-image {
+  .dashboard-desktop-qrcode-phone-image {
     width: 150px;
   }
 }

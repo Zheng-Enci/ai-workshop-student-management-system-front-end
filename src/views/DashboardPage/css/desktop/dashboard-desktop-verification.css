@@ -1,6 +1,6 @@
 /* ==================== 验证码卡片区域 ==================== */
 
-.verification-code-card {
+.dashboard-desktop-verification-code-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -14,14 +14,14 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 }
 
-.verification-code-label {
+.dashboard-desktop-verification-code-label {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-secondary);
   text-align: center;
 }
 
-.verification-code-value {
+.dashboard-desktop-verification-code-value {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,25 +35,25 @@
   transition: opacity 0.3s ease;
 }
 
-.verification-code-value span {
+.dashboard-desktop-verification-code-value span {
   display: inline-block;
   transition: opacity 0.3s ease;
 }
 
-.verification-code-value .error-text {
+.dashboard-desktop-verification-code-value .error-text {
   font-size: 16px;
   color: var(--text-secondary);
   letter-spacing: 0;
   text-shadow: none;
 }
 
-.dark .verification-code-card {
+.dark .dashboard-desktop-verification-code-card {
   background: var(--bg-secondary);
   border-color: var(--border-color);
   box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-.dark .verification-code-value {
+.dark .dashboard-desktop-verification-code-value {
   color: #60a5fa;
   text-shadow: 0 0 8px rgb(96 165 250 / 0.5);
 }
@@ -61,12 +61,12 @@
 /* ==================== 响应式样式 ==================== */
 
 @media (width <= 768px) {
-  .verification-code-card {
+  .dashboard-desktop-verification-code-card {
     width: 100%;
     min-height: 80px;
   }
 
-  .verification-code-value {
+  .dashboard-desktop-verification-code-value {
     font-size: 24px;
   }
 }

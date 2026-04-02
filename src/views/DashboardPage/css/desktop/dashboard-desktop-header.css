@@ -1,6 +1,6 @@
 /* ==================== 头部区域 ==================== */
 
-.header {
+.dashboard-desktop-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -9,13 +9,13 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.header-left {
+.dashboard-desktop-header-left {
   display: flex;
   gap: 20px;
   align-items: center;
 }
 
-.header-back-btn {
+.dashboard-desktop-header-back-btn {
   width: 40px;
   height: 40px;
   background: var(--primary-color);
@@ -23,66 +23,66 @@
   box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
 }
 
-.header-logo {
+.dashboard-desktop-header-logo {
   width: 60px;
   height: 60px;
   cursor: pointer;
   transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.header-logo:hover {
+.dashboard-desktop-header-logo:hover {
   filter: brightness(1.2);
   transform: scale(1.1);
 }
 
-.header-title-section h1 {
+.dashboard-desktop-header-title-section h1 {
   margin: 0 0 5px;
   font-size: 28px;
   font-weight: 700;
   color: #2c3e50;
 }
 
-.dark .header-title-section h1 {
+.dark .dashboard-desktop-header-title-section h1 {
   color: #fff;
 }
 
-.header-title-section p {
+.dashboard-desktop-header-title-section p {
   margin: 0;
   font-size: 16px;
   color: #7f8c8d;
 }
 
-.dark .header-title-section p {
+.dark .dashboard-desktop-header-title-section p {
   color: #e2e8f0;
 }
 
-.header-right {
+.dashboard-desktop-header-right {
   display: flex;
   gap: 20px;
   align-items: center;
   height: 76px;
 }
 
-.header-slogan {
+.dashboard-desktop-header-slogan {
   display: flex;
   align-items: center;
   padding: 8px 16px;
   margin-right: 8px;
 }
 
-.header-slogan-img {
+.dashboard-desktop-header-slogan-img {
   height: 80px;
   transition: filter 0.3s ease;
 }
 
-.dark .header-slogan-img {
+.dark .dashboard-desktop-header-slogan-img {
   filter: invert(1);
 }
 
 /* ==================== 响应式样式 ==================== */
 
 @media (width <= 768px) {
-  .header {
+  .dashboard-desktop-header {
     flex-direction: column;
     gap: 20px;
     padding: 20px;

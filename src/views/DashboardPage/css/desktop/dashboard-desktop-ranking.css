@@ -1,12 +1,12 @@
 /* ==================== 左侧排行榜区域 ==================== */
 
-.ranking-left-section {
+.dashboard-desktop-ranking-left-section {
   display: flex;
   flex-direction: column;
 }
 
-.ranking-punch-card,
-.ranking-overview-card {
+.dashboard-desktop-ranking-punch-card,
+.dashboard-desktop-ranking-overview-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -18,79 +18,79 @@
   box-shadow: 0 4px 20px rgb(0 0 0 / 0.08);
 }
 
-.dark .ranking-punch-card,
-.dark .ranking-overview-card {
+.dark .dashboard-desktop-ranking-punch-card,
+.dark .dashboard-desktop-ranking-overview-card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 20px var(--shadow-color);
 }
 
-.ranking-punch-card h2,
-.ranking-overview-card h2 {
+.dashboard-desktop-ranking-punch-card h2,
+.dashboard-desktop-ranking-overview-card h2 {
   margin: 0 0 10px;
   font-size: 24px;
   font-weight: 700;
   color: #2c3e50;
 }
 
-.dark .ranking-punch-card h2,
-.dark .ranking-overview-card h2 {
+.dark .dashboard-desktop-ranking-punch-card h2,
+.dark .dashboard-desktop-ranking-overview-card h2 {
   color: #fff;
 }
 
-.ranking-subtitle {
+.dashboard-desktop-ranking-subtitle {
   margin: 0 0 30px;
   font-size: 16px;
   color: #7f8c8d;
 }
 
-.dark .ranking-subtitle {
+.dark .dashboard-desktop-ranking-subtitle {
   color: #e2e8f0;
 }
 
-.ranking-top-students {
+.dashboard-desktop-ranking-top-students {
   flex: 1;
   margin-bottom: 30px;
 }
 
-.ranking-chart-header {
+.dashboard-desktop-ranking-chart-header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 20px;
 }
 
-.ranking-chart-header h3 {
+.dashboard-desktop-ranking-chart-header h3 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
   color: #2c3e50;
 }
 
-.dark .ranking-chart-header h3 {
+.dark .dashboard-desktop-ranking-chart-header h3 {
   color: #fff;
 }
 
-.ranking-controls-section {
+.dashboard-desktop-ranking-controls-section {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   align-items: center;
 }
 
-.ranking-time-range-selector {
+.dashboard-desktop-ranking-time-range-selector {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
 }
 
-.ranking-attendance-chart {
+.dashboard-desktop-ranking-attendance-chart {
   width: 100%;
   height: 550px;
 }
 
-.ranking-summary-stats {
+.dashboard-desktop-ranking-summary-stats {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -98,26 +98,26 @@
   border-top: 1px solid #e8e8e8;
 }
 
-.ranking-stats-row {
+.dashboard-desktop-ranking-stats-row {
   display: flex;
   gap: 20px;
   justify-content: space-between;
 }
 
-.ranking-summary-stats .ranking-stats-row {
+.dashboard-desktop-ranking-summary-stats .dashboard-desktop-ranking-stats-row {
   display: flex;
   gap: 20px;
   align-items: center;
   justify-content: space-between;
 }
 
-.ranking-total-count {
+.dashboard-desktop-ranking-total-count {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.ranking-total-count .ranking-label {
+.dashboard-desktop-ranking-total-count .dashboard-desktop-ranking-label {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -126,13 +126,13 @@
   color: #606266;
 }
 
-.ranking-total-count .ranking-value {
+.dashboard-desktop-ranking-total-count .dashboard-desktop-ranking-value {
   font-size: 28px;
   font-weight: 700;
   color: #667eea;
 }
 
-.ranking-stat-icon {
+.dashboard-desktop-ranking-stat-icon {
   font-size: 16px;
   color: #667eea;
 }
@@ -140,17 +140,17 @@
 /* ==================== 响应式样式 ==================== */
 
 @media (width <= 1200px) {
-  .ranking-left-section {
+  .dashboard-desktop-ranking-left-section {
     grid-template-columns: 1fr;
   }
 }
 
 @media (width <= 768px) {
-  .ranking-punch-card {
+  .dashboard-desktop-ranking-punch-card {
     padding: 20px;
   }
 
-  .ranking-punch-card h2 {
+  .dashboard-desktop-ranking-punch-card h2 {
     font-size: 20px;
   }
 }

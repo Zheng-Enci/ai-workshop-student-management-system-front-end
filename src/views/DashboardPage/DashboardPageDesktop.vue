@@ -906,11 +906,11 @@ echarts.use([
 	<!-- 仪表盘主容器 -->
 	<div class="dashboard-container">
 		<!-- 头部区域：返回按钮 + 标题 + 标语 -->
-		<div class="header">
-			<div class="header-left">
+		<div class="dashboard-desktop-header">
+			<div class="dashboard-desktop-header-left">
 				<!-- 返回按钮 -->
 				<el-button
-					class="header-back-btn"
+					class="dashboard-desktop-header-back-btn"
 					type="primary"
 					:icon="ArrowLeft"
 					circle
@@ -919,19 +919,19 @@ echarts.use([
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
-					class="header-logo"
+					class="dashboard-desktop-header-logo"
 					title="切换主题模式"
 					@click="toggleTheme"/>
 				<!-- 标题区域 -->
-				<div class="header-title-section">
+				<div class="dashboard-desktop-header-title-section">
 					<h1>人工智能创作坊</h1>
 					<p>Artificial Intelligence Workshop</p>
 				</div>
 			</div>
-			<div class="header-right">
+			<div class="dashboard-desktop-header-right">
 				<!-- 标语 -->
-				<div class="header-slogan">
-					<img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="header-slogan-img"/>
+				<div class="dashboard-desktop-header-slogan">
+					<img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="dashboard-desktop-header-slogan-img"/>
 				</div>
 			</div>
 		</div>
@@ -939,16 +939,16 @@ echarts.use([
 		<!-- 主内容区域：左侧排行榜 + 右侧学生总览 -->
 		<div class="main-content">
 			<!-- 左侧区域：签到排行榜 -->
-			<div class="ranking-left-section">
-				<div class="ranking-punch-card">
+			<div class="dashboard-desktop-ranking-left-section">
+				<div class="dashboard-desktop-ranking-punch-card">
 					<h2>排行榜</h2>
 
 					<!-- 排行榜图表区域 -->
-					<div class="ranking-top-students">
-						<div class="ranking-chart-header">
-							<div class="ranking-controls-section">
+					<div class="dashboard-desktop-ranking-top-students">
+						<div class="dashboard-desktop-ranking-chart-header">
+							<div class="dashboard-desktop-ranking-controls-section">
 								<!-- 时间范围筛选器 -->
-								<div class="ranking-time-range-selector">
+								<div class="dashboard-desktop-ranking-time-range-selector">
 									<el-radio-group
 										v-model="selectedTimeRange"
 										size="small"
@@ -967,25 +967,25 @@ echarts.use([
 							</div>
 						</div>
 						<!-- 签到排行榜图表容器 -->
-						<div ref="attendanceChart" class="ranking-attendance-chart"/>
+						<div ref="attendanceChart" class="dashboard-desktop-ranking-attendance-chart"/>
 					</div>
 
 					<!-- 签到统计摘要 -->
-					<div class="ranking-summary-stats">
-						<div class="ranking-stats-row">
-							<div class="ranking-total-count">
-								<span class="ranking-label">
-									<el-icon class="ranking-stat-icon"><calendar/></el-icon>
+					<div class="dashboard-desktop-ranking-summary-stats">
+						<div class="dashboard-desktop-ranking-stats-row">
+							<div class="dashboard-desktop-ranking-total-count">
+								<span class="dashboard-desktop-ranking-label">
+									<el-icon class="dashboard-desktop-ranking-stat-icon"><calendar/></el-icon>
 									本月签到总人数
 								</span>
-								<span class="ranking-value">{{ monthlyAttendanceCount }}人</span>
+								<span class="dashboard-desktop-ranking-value">{{ monthlyAttendanceCount }}人</span>
 							</div>
-							<div class="ranking-total-count">
-								<span class="ranking-label">
-									<el-icon class="ranking-stat-icon"><clock/></el-icon>
+							<div class="dashboard-desktop-ranking-total-count">
+								<span class="dashboard-desktop-ranking-label">
+									<el-icon class="dashboard-desktop-ranking-stat-icon"><clock/></el-icon>
 									今日签到总人次
 								</span>
-								<span class="ranking-value">{{ todayCount }}人</span>
+								<span class="dashboard-desktop-ranking-value">{{ todayCount }}人</span>
 							</div>
 						</div>
 					</div>
@@ -993,30 +993,30 @@ echarts.use([
 			</div>
 
 			<!-- 右侧区域：学生总览 -->
-			<div class="overview-right-section">
-				<div class="overview-overview-card">
+			<div class="dashboard-desktop-overview-right-section">
+				<div class="dashboard-desktop-overview-overview-card">
 					<h2>学生总览</h2>
 
 					<!-- 图表容器：年级分布 + 专业分布 -->
-					<div class="overview-charts-container">
-						<div class="overview-chart-section">
+					<div class="dashboard-desktop-overview-charts-container">
+						<div class="dashboard-desktop-overview-chart-section">
 							<h3>年级分布</h3>
-							<div ref="gradeChart" class="overview-chart"/>
+							<div ref="gradeChart" class="dashboard-desktop-overview-chart"/>
 						</div>
 
-						<div class="overview-chart-section">
+						<div class="dashboard-desktop-overview-chart-section">
 							<h3>专业分布</h3>
-							<div ref="majorChart" class="overview-chart"/>
+							<div ref="majorChart" class="dashboard-desktop-overview-chart"/>
 						</div>
 					</div>
 
 					<!-- 文明公约区域 -->
-					<div class="overview-environment-mechanism">
-						<div class="overview-mechanism-card">
+					<div class="dashboard-desktop-overview-environment-mechanism">
+						<div class="dashboard-desktop-overview-mechanism-card">
 							<h2>AI 坊文明公约</h2>
 
-							<div class="overview-mechanism-content">
-								<div class="overview-mechanism-section">
+							<div class="dashboard-desktop-overview-mechanism-content">
+								<div class="dashboard-desktop-overview-mechanism-section">
 									<p>
 										厦门工学院人工智能创作坊环境保障机制适用于所有入坊师生，
 										遵循"谁使用，谁负责；人走场清，物归原位；共同维护"原则。
@@ -1030,66 +1030,66 @@ echarts.use([
 					</div>
 
 					<!-- 学生统计摘要 -->
-					<div class="overview-summary-stats">
-						<div class="overview-stats-row">
-							<div class="overview-total-count">
-								<span class="overview-label">
-									<el-icon class="overview-stat-icon"><user/></el-icon>
+					<div class="dashboard-desktop-overview-summary-stats">
+						<div class="dashboard-desktop-overview-stats-row">
+							<div class="dashboard-desktop-overview-total-count">
+								<span class="dashboard-desktop-overview-label">
+									<el-icon class="dashboard-desktop-overview-stat-icon"><user/></el-icon>
 									坊内成员人数
 								</span>
-								<span class="overview-value">{{ workshopMembersCount }}人</span>
+								<span class="dashboard-desktop-overview-value">{{ workshopMembersCount }}人</span>
 							</div>
 							<!-- 等级统计 -->
-							<div class="overview-level-stats">
-								<div class="overview-level-item overview-admin-level">
-									<div class="overview-level-icon">
+							<div class="dashboard-desktop-overview-level-stats">
+								<div class="dashboard-desktop-overview-level-item dashboard-desktop-overview-admin-level">
+									<div class="dashboard-desktop-overview-level-icon">
 										<el-icon>
 											<setting/>
 										</el-icon>
 									</div>
-									<div class="overview-level-content">
-										<span class="overview-level-label">管理员</span>
-										<span class="overview-level-value">{{ levelStats.admin }}人</span>
+									<div class="dashboard-desktop-overview-level-content">
+										<span class="dashboard-desktop-overview-level-label">管理员</span>
+										<span class="dashboard-desktop-overview-level-value">{{ levelStats.admin }}人</span>
 									</div>
 								</div>
-								<div class="overview-level-item overview-core-level">
-									<div class="overview-level-icon">
+								<div class="dashboard-desktop-overview-level-item dashboard-desktop-overview-core-level">
+									<div class="dashboard-desktop-overview-level-icon">
 										<el-icon>
 											<star/>
 										</el-icon>
 									</div>
-									<div class="overview-level-content">
-										<span class="overview-level-label">核心成员</span>
-										<span class="overview-level-value">{{ levelStats.core }}人</span>
+									<div class="dashboard-desktop-overview-level-content">
+										<span class="dashboard-desktop-overview-level-label">核心成员</span>
+										<span class="dashboard-desktop-overview-level-value">{{ levelStats.core }}人</span>
 									</div>
 								</div>
-								<div class="overview-level-item overview-normal-level">
-									<div class="overview-level-icon">
+								<div class="dashboard-desktop-overview-level-item dashboard-desktop-overview-normal-level">
+									<div class="dashboard-desktop-overview-level-icon">
 										<el-icon>
 											<avatar/>
 										</el-icon>
 									</div>
-									<div class="overview-level-content">
-										<span class="overview-level-label">普通成员</span>
-										<span class="overview-level-value">{{ levelStats.normal }}人</span>
+									<div class="dashboard-desktop-overview-level-content">
+										<span class="dashboard-desktop-overview-level-label">普通成员</span>
+										<span class="dashboard-desktop-overview-level-value">{{ levelStats.normal }}人</span>
 									</div>
 								</div>
-								<div class="overview-level-item overview-club-level">
-									<div class="overview-level-icon">
+								<div class="dashboard-desktop-overview-level-item dashboard-desktop-overview-club-level">
+									<div class="dashboard-desktop-overview-level-icon">
 										<el-icon>
 											<user/>
 										</el-icon>
 									</div>
-									<div class="overview-level-content">
-										<span class="overview-level-label">社团成员</span>
-										<span class="overview-level-value">{{ clubMembers }}人</span>
+									<div class="dashboard-desktop-overview-level-content">
+										<span class="dashboard-desktop-overview-level-label">社团成员</span>
+										<span class="dashboard-desktop-overview-level-value">{{ clubMembers }}人</span>
 									</div>
 								</div>
 							</div>
 							<!-- 系统信息 -->
-							<div class="overview-system-info">
-								<div class="overview-system-name">人工智能创作坊</div>
-								<div class="overview-system-subtitle">智慧学生管理系统</div>
+							<div class="dashboard-desktop-overview-system-info">
+								<div class="dashboard-desktop-overview-system-name">人工智能创作坊</div>
+								<div class="dashboard-desktop-overview-system-subtitle">智慧学生管理系统</div>
 							</div>
 						</div>
 					</div>
@@ -1098,7 +1098,7 @@ echarts.use([
 		</div>
 
 		<!-- 底部进度条 -->
-		<div class="footer-container">
+		<div class="dashboard-desktop-footer-container">
 			<el-progress
 				:percentage="progressWidth"
 				:show-text="false"
@@ -1108,11 +1108,11 @@ echarts.use([
 		</div>
 
 		<!-- 手机展示区域：验证码 + 二维码 -->
-		<div class="phone-display-container">
+		<div class="dashboard-desktop-phone-display-container">
 			<!-- 签到验证码卡片 -->
-			<div class="verification-code-card">
-				<div class="verification-code-label">签到验证码</div>
-				<div class="verification-code-value">
+			<div class="dashboard-desktop-verification-code-card">
+				<div class="dashboard-desktop-verification-code-label">签到验证码</div>
+				<div class="dashboard-desktop-verification-code-value">
 					<!-- 根据验证码状态显示不同内容 -->
 					<span v-if="VerificationCode.getVerificationCodeStatus() === '本机无权获取验证码'"
 						  style="font-size: 19px;padding: 10px 10px;">本机无权获取验证码</span>
@@ -1139,10 +1139,10 @@ echarts.use([
 			</div>
 
 			<!-- 网站二维码 -->
-			<div v-if="currentQRType === 'website'" class="qrcode-website-section">
-				<img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="qrcode-website-code"/>
+			<div v-if="currentQRType === 'website'" class="dashboard-desktop-qrcode-website-section">
+				<img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="dashboard-desktop-qrcode-website-code"/>
 				<div
-					class="qrcode-website-text"
+					class="dashboard-desktop-qrcode-website-text"
 					:style="{
 						'font-weight': '800 !important',
 						'color': '#60a5fa !important',
@@ -1154,10 +1154,10 @@ echarts.use([
 			</div>
 
 			<!-- 微信二维码 -->
-			<div v-if="currentQRType === 'wechat'" class="qrcode-wechat-section">
-				<img src="@/assets/ErWeiMa.png" alt="公众号二维码" class="qrcode-code"/>
+			<div v-if="currentQRType === 'wechat'" class="dashboard-desktop-qrcode-wechat-section">
+				<img src="@/assets/ErWeiMa.png" alt="公众号二维码" class="dashboard-desktop-qrcode-code"/>
 				<div
-					class="qrcode-text"
+					class="dashboard-desktop-qrcode-text"
 					:style="{
 						'font-weight': '800 !important',
 						'color': '#60a5fa !important',
@@ -1169,9 +1169,9 @@ echarts.use([
 			</div>
 
 			<!-- 二维码切换按钮 -->
-			<div class="qrcode-switch-buttons">
+			<div class="dashboard-desktop-qrcode-switch-buttons">
 				<el-button
-					class="qrcode-switch-btn"
+					class="dashboard-desktop-qrcode-switch-btn"
 					type="primary"
 					@click="switchQRType"
 				>
@@ -1180,7 +1180,7 @@ echarts.use([
 			</div>
 
 			<!-- 手机背景图 -->
-			<img src="@/assets/Phone.png" alt="手机展示" class="qrcode-phone-image"/>
+			<img src="@/assets/Phone.png" alt="手机展示" class="dashboard-desktop-qrcode-phone-image"/>
 		</div>
 	</div>
 </template>

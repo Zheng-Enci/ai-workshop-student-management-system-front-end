@@ -1,6 +1,6 @@
 /* ==================== 手机展示区域 ==================== */
 
-.phone-display-container {
+.dashboard-desktop-phone-display-container {
   position: fixed;
   right: 40px;
   bottom: 80px;
@@ -11,7 +11,7 @@
   align-items: center;
 }
 
-.phone-display {
+.dashboard-desktop-phone-display {
   position: fixed;
   right: 40px;
   bottom: 80px;
@@ -25,15 +25,15 @@
 /* ==================== 响应式样式 ==================== */
 
 @media (width <= 1200px) {
-  .phone-display-container,
-  .phone-display {
+  .dashboard-desktop-phone-display-container,
+  .dashboard-desktop-phone-display {
     display: none;
   }
 }
 
 @media (width <= 768px) {
-  .phone-display-container,
-  .phone-display {
+  .dashboard-desktop-phone-display-container,
+  .dashboard-desktop-phone-display {
     right: 20px;
     bottom: 60px;
     gap: 15px;
