@@ -6,16 +6,17 @@
 
 /* ==================== 积分显示区域 ==================== */
 
-.points-display {
+.points-card-display {
   position: relative;
   z-index: 10;
   display: flex;
+  flex-direction: row;
   gap: 10px;
-  width: 100%;
-  animation: fadeInUp 0.6s ease-out 0.3s both;
+  align-items: center;
+  animation: points-card-fadeInUp 0.6s ease-out 0.3s both;
 }
 
-@keyframes fadeInUp {
+@keyframes points-card-fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -28,7 +29,7 @@
 
 /* ==================== 积分卡片 ==================== */
 
-.points-card {
+.points-card-item {
   position: relative;
   display: flex;
   align-items: center;
@@ -42,14 +43,14 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.points-card:hover {
+.points-card-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
 }
 
 /* ==================== 积分图标 ==================== */
 
-.points-icon {
+.points-card-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,29 +62,29 @@
   box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
 }
 
-.points-icon .el-icon {
+.points-card-icon .el-icon {
   font-size: 16px;
   color: white;
 }
 
-.total-points .points-icon {
+.points-card-total .points-card-icon {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
 }
 
-.activity-points .points-icon {
+.points-card-activity .points-card-icon {
   background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
   box-shadow: 0 4px 12px rgb(17 153 142 / 0.3);
 }
 
-.signin-points .points-icon {
+.points-card-signin .points-card-icon {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   box-shadow: 0 4px 12px rgb(240 147 251 / 0.3);
 }
 
 /* ==================== 积分内容 ==================== */
 
-.points-content {
+.points-card-content {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -93,7 +94,7 @@
 
 /* ==================== 积分标签 ==================== */
 
-.points-label {
+.points-card-label {
   font-size: 11px;
   font-weight: 500;
   color: rgb(255 255 255 / 0.7);
@@ -103,7 +104,7 @@
 
 /* ==================== 积分数值 ==================== */
 
-.points-value {
+.points-card-value {
   font-size: 20px;
   font-weight: 700;
   color: white;

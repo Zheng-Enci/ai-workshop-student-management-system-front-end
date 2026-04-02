@@ -645,21 +645,19 @@ onMounted(() => {
 						<el-icon class="attendance-icon"><calendar /></el-icon>
 						<span>已签到 {{ attendanceCount }} 次</span>
 					</div>
-					<div
-						v-if="totalPoints !== null"
-						class="points-card-item points-card-total">
+				</div>
+				<div
+					v-if="!pointsLoading && (totalPoints !== null || signInPoints !== null || activityPoints !== null)"
+					class="points-card-display">
+					<div class="points-card-item points-card-total">
 						<div class="points-card-icon">
 							<el-icon size="16"><coin /></el-icon>
 						</div>
 						<div class="points-card-content">
 							<div class="points-card-label">总积分</div>
-							<div class="points-card-value">{{ totalPoints }}</div>
+							<div class="points-card-value">{{ totalPoints !== null ? totalPoints : 0 }}</div>
 						</div>
 					</div>
-				</div>
-				<div
-					v-if="!pointsLoading && (activityPoints !== null || signInPoints !== null)"
-					class="points-card-display">
 					<div class="points-card-item points-card-activity">
 						<div class="points-card-icon">
 							<el-icon size="16"><trophy /></el-icon>
