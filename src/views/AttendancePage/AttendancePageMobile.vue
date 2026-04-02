@@ -794,14 +794,14 @@ onUnmounted(() => {
 				</div>
 
 				<!-- 桌面端提示卡片：引导用户在电脑端查看详细记录 -->
-				<div class="desktop-tip-card-mobile">
-					<div class="tip-icon-mobile">
+				<div class="attendance-mobile-desktop-tip-card-card-mobile">
+					<div class="attendance-mobile-desktop-tip-card-icon-mobile">
 						<el-icon>
 							<Monitor/>
 						</el-icon>
 					</div>
-					<div class="tip-content-mobile">
-						<p class="tip-text-mobile">💡 提示：如需查看详细签到记录和历史数据，请在电脑端访问</p>
+					<div class="attendance-mobile-desktop-tip-card-content-mobile">
+						<p class="attendance-mobile-desktop-tip-card-text-mobile">💡 提示：如需查看详细签到记录和历史数据，请在电脑端访问</p>
 					</div>
 				</div>
 			</div>
@@ -845,6 +845,7 @@ onUnmounted(() => {
 <style scoped>
 @import './css/mobile/attendance-mobile-background.css';
 @import './css/mobile/attendance-mobile-status-cards.css';
+@import './css/mobile/attendance-mobile-desktop-tip-card.css';
 
 /** 内容包裹层：相对定位，层级高于背景，垂直布局 */
 .content-wrapper-mobile {
@@ -1205,50 +1206,6 @@ h1 {
 .modern-sign-button-mobile:active:not(:disabled) .ripple-effect-mobile {
 	width: 200px;
 	height: 200px;
-}
-
-/** 桌面端提示卡片：玻璃态，水平布局，图标+文本 */
-.desktop-tip-card-mobile {
-	background: var(--glass-bg);
-	backdrop-filter: blur(20px);
-	border-radius: 12px;
-	border: 1px solid var(--glass-border);
-	box-shadow: 0 3px 12px var(--shadow-color);
-	padding: 12px 16px;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	gap: 12px; /* 图标与文本间距 */
-	margin-top: 8px;
-}
-
-/** 提示图标容器：固定尺寸，浅主色调背景 */
-.tip-icon-mobile {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 32px;
-	height: 32px;
-	border-radius: 8px;
-	background: rgba(102, 126, 234, 0.1);
-	color: var(--primary-color);
-	flex-shrink: 0; /* 不收缩 */
-	font-size: 18px;
-}
-
-/** 提示内容区：弹性布局，占满剩余空间 */
-.tip-content-mobile {
-	flex: 1;
-	min-width: 0; /* 避免文本溢出 */
-}
-
-/** 提示文本：次文本色，小字号，行高优化 */
-.tip-text-mobile {
-	font-size: 12px;
-	color: var(--text-secondary);
-	margin: 0;
-	line-height: 1.5; /* 行高优化可读性 */
-	word-break: break-word; /* 自动换行 */
 }
 
 /** 旋转动画：用于加载中图标 */
