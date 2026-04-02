@@ -334,3 +334,20 @@
 - `.user-card-profile`: `gap: 14px` → `gap: 10px`
 
 **提交**: `8395061` - user-card-profile gap 调整为 10px
+
+---
+
+#### 2026-04-02 user-card 字体和间距优化
+优化用户卡片的字体大小和间距，防止换行：
+
+**修改文件**: 
+- `src/views/NavigationPage/css/mobile/user-card.css`
+
+**变更内容**:
+- `.user-card-details`: `gap: 6px` → `gap: 4px`
+- `.user-card-level`: `gap: 5px` → `gap: 4px`, `padding: 3px 10px` → `padding: 2px 8px`, `font-size: 12px` → `font-size: 11px`
+- `.user-card-level .level-icon`: `font-size: 12px` → `font-size: 11px`
+- `.user-card-attendance`: `gap: 5px` → `gap: 4px`, `font-size: 12px` → `font-size: 11px`
+- `.user-card-attendance .attendance-icon`: `font-size: 13px` → `font-size: 12px`
+
+**提交**: `f17171c` - user-card 字体和间距优化 - 减小字号和间距
