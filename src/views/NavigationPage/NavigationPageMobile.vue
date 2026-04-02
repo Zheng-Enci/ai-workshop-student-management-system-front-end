@@ -597,10 +597,10 @@ onMounted(() => {
 			<div class="background-orb-3"/>
 		</div>
 
-		<div class="header-container">
-			<div class="header-content">
+		<div class="navigation-mobile-header-container">
+			<div class="navigation-mobile-header-content">
 				<el-button
-					class="header-home-btn"
+					class="navigation-mobile-header-home-btn"
 					type="primary"
 					:icon="House"
 					circle
@@ -608,10 +608,10 @@ onMounted(() => {
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
-					class="header-logo"
+					class="navigation-mobile-header-logo"
 					title="切换主题模式"
 					@click="toggleTheme"/>
-				<div class="header-title-section">
+				<div class="navigation-mobile-header-title-section">
 					<h1>AI坊学生管理系统</h1>
 					<p>人工智能创作坊</p>
 				</div>
