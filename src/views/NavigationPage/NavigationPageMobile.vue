@@ -865,7 +865,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* @import './css/NavigationPageMobile.css'; */
 </style>
 
 <style>
