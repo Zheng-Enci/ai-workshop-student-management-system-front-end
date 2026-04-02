@@ -655,7 +655,7 @@ onMounted(() => {
 		</div>
 
 		<!-- 主内容区域 -->
-		<div class="main-content">
+		<div class="navigation-desktop-main-content">
 			<!-- 中心卡片布局 -->
 			<div class="navigation-desktop-user-card-hub-layout">
 				<!-- 中心信息卡片 -->
