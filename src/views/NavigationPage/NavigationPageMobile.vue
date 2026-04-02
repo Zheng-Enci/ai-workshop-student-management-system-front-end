@@ -870,7 +870,7 @@ onMounted(() => {
 <style>
 /* ==================== 移动端 CSS 模块化 ==================== */
 @import '@/views/NavigationPage/css/mobile/background.css';
-@import '@/views/NavigationPage/css/mobile/header.css';
+@import '@/views/NavigationPage/css/mobile/navigation-mobile-header.css';
 @import '@/views/NavigationPage/css/mobile/user-card.css';
 @import '@/views/NavigationPage/css/mobile/points-card.css';
 @import '@/views/NavigationPage/css/mobile/navSections.css';
