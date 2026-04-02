@@ -834,9 +834,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-</style>
-
-<style scoped>
 .time-radio-group {
   display: flex;
   flex-wrap: wrap;
