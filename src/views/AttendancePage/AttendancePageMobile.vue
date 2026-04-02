@@ -621,12 +621,12 @@ onUnmounted(() => {
 
 <template>
 	<!-- 移动端签到页面根容器 -->
-	<div class="attendance-container-mobile">
+	<div class="attendance-mobile-background-container-mobile">
 		<!-- 背景装饰效果：渐变浮动圆球 -->
-		<div class="background-effects-mobile">
-			<div class="gradient-orb-mobile orb-1"/>
-			<div class="gradient-orb-mobile orb-2"/>
-			<div class="gradient-orb-mobile orb-3"/>
+		<div class="attendance-mobile-background-effects-mobile">
+			<div class="attendance-mobile-background-orb-mobile attendance-mobile-background-orb-1"/>
+			<div class="attendance-mobile-background-orb-mobile attendance-mobile-background-orb-2"/>
+			<div class="attendance-mobile-background-orb-mobile attendance-mobile-background-orb-3"/>
 		</div>
 
 		<!-- 内容包裹层：所有业务内容容器 -->
@@ -843,94 +843,8 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+@import './css/mobile/attendance-mobile-background.css';
 @import './css/mobile/attendance-mobile-status-cards.css';
-
-/** 根容器样式：移动端全屏布局，渐变背景，相对定位 */
-.attendance-container-mobile {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 100vh; /* 最小高度占满视口 */
-	padding: 12px; /* 内边距适配移动端 */
-	/* 渐变色背景：多色渐变，低透明度营造层次感 */
-	background: linear-gradient(135deg,
-	rgba(99, 102, 241, 0.1) 0%,
-	rgba(168, 85, 247, 0.08) 25%,
-	rgba(236, 72, 153, 0.06) 50%,
-	rgba(251, 146, 60, 0.08) 75%,
-	rgba(34, 197, 94, 0.1) 100%);
-	position: relative; /* 作为绝对定位子元素的容器 */
-	overflow: hidden; /* 隐藏溢出的背景装饰 */
-}
-
-/** 背景装饰容器：绝对定位，不响应点击事件 */
-.background-effects-mobile {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	pointer-events: none; /* 穿透点击，不影响下层元素 */
-	z-index: 0; /* 层级最低，作为背景 */
-}
-
-/** 渐变圆球基础样式：圆形、模糊、浮动动画 */
-.gradient-orb-mobile {
-	position: absolute;
-	border-radius: 50%; /* 圆形 */
-	filter: blur(60px); /* 高斯模糊，营造渐变效果 */
-	animation: float-mobile 20s ease-in-out infinite; /* 浮动动画 */
-}
-
-/** 第一个渐变圆球：左上位置，紫色调 */
-.orb-1 {
-	width: 200px;
-	height: 200px;
-	background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0.05) 70%, transparent 100%);
-	top: 5%;
-	left: 5%;
-	animation-delay: 0s; /* 无延迟 */
-}
-
-/** 第二个渐变圆球：右下位置，品红色调 */
-.orb-2 {
-	width: 180px;
-	height: 180px;
-	background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0.04) 70%, transparent 100%);
-	top: 50%;
-	right: 5%;
-	animation-delay: 6s; /* 延迟6秒开始动画 */
-}
-
-/** 第三个渐变圆球：左下位置，绿色调 */
-.orb-3 {
-	width: 160px;
-	height: 160px;
-	background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.03) 70%, transparent 100%);
-	bottom: 10%;
-	left: 15%;
-	animation-delay: 12s; /* 延迟12秒开始动画 */
-}
-
-/** 浮动动画：上下左右轻微移动，透明度变化 */
-@keyframes float-mobile {
-	0%, 100% {
-		transform: translateY(0px) translateX(0px) rotate(0deg);
-		opacity: 0.6;
-	}
-	25% {
-		transform: translateY(-15px) translateX(8px) rotate(90deg);
-		opacity: 0.8;
-	}
-	50% {
-		transform: translateY(-8px) translateX(-12px) rotate(180deg);
-		opacity: 1;
-	}
-	75% {
-		transform: translateY(12px) translateX(4px) rotate(270deg);
-		opacity: 0.7;
-	}
-}
 
 /** 内容包裹层：相对定位，层级高于背景，垂直布局 */
 .content-wrapper-mobile {
