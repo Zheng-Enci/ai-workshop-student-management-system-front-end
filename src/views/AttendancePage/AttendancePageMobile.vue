@@ -673,18 +673,18 @@ onUnmounted(() => {
 			<!-- 主内容区：时间展示、签到按钮、状态卡片 -->
 			<div class="main-content-mobile">
 				<!-- 时间卡片：显示当前时间和下次签到时间 -->
-				<div class="time-card-mobile">
-					<div class="time-info-mobile">
+				<div class="attendance-mobile-time-card-card-mobile">
+					<div class="attendance-mobile-time-card-info-mobile">
 						<!-- 当前时间展示 -->
-						<div class="current-time-mobile">
-							<el-icon class="time-icon-mobile">
+						<div class="attendance-mobile-time-card-current-mobile">
+							<el-icon class="attendance-mobile-time-card-time-icon-mobile">
 								<Clock/>
 							</el-icon>
 							<span>{{ currentTime }}</span>
 						</div>
 						<!-- 下次签到时间：仅非签到时段显示 -->
-						<div v-if="!isInSignTime" class="next-time-mobile">
-							<el-icon class="next-icon-mobile">
+						<div v-if="!isInSignTime" class="attendance-mobile-time-card-next-mobile">
+							<el-icon class="attendance-mobile-time-card-next-icon-mobile">
 								<Calendar/>
 							</el-icon>
 							<span>下次签到：{{ nextSignTime }}</span>
@@ -845,6 +845,7 @@ onUnmounted(() => {
 <style scoped>
 @import './css/mobile/attendance-mobile-background.css';
 @import './css/mobile/attendance-mobile-sign-button.css';
+@import './css/mobile/attendance-mobile-time-card.css';
 @import './css/mobile/attendance-mobile-status-cards.css';
 @import './css/mobile/attendance-mobile-desktop-tip-card.css';
 
@@ -988,67 +989,6 @@ h1 {
 	align-items: center;
 	gap: 20px; /* 子元素间距 */
 	width: 100%;
-}
-
-/** 时间卡片：玻璃态，圆角，阴影，hover效果 */
-.time-card-mobile {
-	background: var(--glass-bg);
-	backdrop-filter: blur(20px);
-	border-radius: 16px;
-	border: 1px solid var(--glass-border);
-	box-shadow: 0 6px 24px var(--shadow-color);
-	padding: 16px 20px;
-	text-align: center;
-	transition: all 0.3s ease; /* 平滑过渡 */
-	width: 100%;
-}
-
-/** 时间卡片hover效果：上移，阴影放大 */
-.time-card-mobile:hover {
-	transform: translateY(-1px);
-	box-shadow: 0 8px 28px var(--shadow-color);
-}
-
-/** 时间信息容器：垂直布局，子元素间距 */
-.time-info-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-}
-
-/** 当前时间展示：水平布局，图标+文本 */
-.current-time-mobile {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 8px; /* 图标与文本间距 */
-	font-size: 16px;
-	color: var(--text-primary);
-	font-weight: 600;
-	font-family: 'Courier New', monospace; /* 等宽字体，时间显示更美观 */
-}
-
-/** 时间图标：主色调，固定尺寸 */
-.time-icon-mobile {
-	color: var(--primary-color);
-	font-size: 20px;
-}
-
-/** 下次签到时间：水平布局，次文本色 */
-.next-time-mobile {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 6px;
-	font-size: 12px;
-	color: var(--text-secondary);
-	font-weight: 500;
-}
-
-/** 下次签到图标：三级文本色，小尺寸 */
-.next-icon-mobile {
-	color: var(--text-tertiary);
-	font-size: 14px;
 }
 
 /** 旋转动画：用于加载中图标 */
