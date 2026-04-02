@@ -827,10 +827,10 @@ onMounted(() => {
 						</div>
 						<div class="section-divider"/>
 					</div>
-					<div class="feature-grid">
+					<div class="navSection-grid">
 						<div class="navSection-card admin-card" @click="goToAdmin">
-							<div class="card-background"/>
-							navSection-card-content
+							<div class="navSection-card-bg"/>
+							<div class="navSection-card-content">
 								<div class="navSection-card-icon">
 									<el-icon size="28"><user-filled /></el-icon>
 								</div>
