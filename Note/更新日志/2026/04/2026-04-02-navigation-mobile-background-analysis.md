@@ -249,3 +249,19 @@
 - `.logout-btn` → `.footer-logout-btn`
 
 **提交**: `5ef282f` - 优化移动端页脚样式类名
+
+---
+
+#### 2026-04-02 页脚样式命名空间优化
+解决页面跳转时的样式污染问题，添加更具体的命名空间：
+
+**修改文件**: 
+- `src/views/NavigationPage/NavigationPageMobile.vue`
+- `src/views/NavigationPage/css/mobile/footer.css`
+
+**变更内容**:
+- `.footer-container` → `.navigation-footer-container`
+- `.footer-logout-btn` → `.navigation-footer-logout-btn`
+- `@keyframes footer-fadeInUp` → `@keyframes navigation-footer-fadeInUp`
+
+**提交**: `9fb9b4a` - 页脚样式命名空间优化 - 解决样式污染问题
