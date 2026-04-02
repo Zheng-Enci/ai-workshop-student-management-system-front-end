@@ -104,6 +104,15 @@ const goToAllMembers = () => {
 	router.push('/all-members')
 }
 
+/**
+ * 跳转到考勤分析页
+ * @function goToAttendanceAnalysis
+ * @description 点击考勤分析功能卡片时触发,跳转到考勤分析页面
+ */
+const goToAttendanceAnalysis = () => {
+	router.push('/attendance-analysis')
+}
+
 // ===================== 业务逻辑方法区 =====================
 /**
  * 加载开发者头像
@@ -274,6 +283,15 @@ onMounted(() => {
 							</div>
 							<h3>全部成员</h3>
 							<p>查看所有成员信息和积分排名</p>
+						</div>
+
+						<!-- 考勤分析入口 -->
+						<div class="feature-card quinary" @click="goToAttendanceAnalysis">
+							<div class="feature-icon">
+								<el-icon><trend-charts /></el-icon>
+							</div>
+							<h3>考勤分析</h3>
+							<p>查看考勤数据统计和分析报告</p>
 						</div>
 					</div>
 				</div>
