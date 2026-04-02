@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0;
+  gap: 16px;
   padding: 0 16px;
   animation: user-card-fadeInUp 0.6s ease-out 0.2s both;
 }
