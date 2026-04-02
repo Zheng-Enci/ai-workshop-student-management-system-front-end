@@ -1,0 +1,198 @@
+/**
+ * 用户卡片样式
+ * @file user-card.css
+ * @description 导航页面移动端的用户信息卡片样式，包括头像、名称、等级和考勤次数
+ */
+
+/* ==================== 用户信息卡片 ==================== */
+
+/**
+ * 用户信息卡片容器
+ * 相对定位，z-index 为 10，采用 flex 布局，垂直居中，设置内边距和左右外边距
+ */
+.user-profile {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 4px;
+  margin: 0 auto;
+}
+
+/**
+ * 用户头像容器
+ * 相对定位，设置宽度、高度、圆角、背景、边框和阴影
+ */
+.user-avatar {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.1);
+  border: 2px solid rgb(255 255 255 / 0.2);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/**
+ * 用户头像的激活状态
+ * 点击时缩小
+ */
+.user-avatar:active {
+  transform: scale(0.95);
+}
+
+/**
+ * 有头像时的样式
+ */
+.user-avatar.has-avatar {
+  background: transparent;
+}
+
+/**
+ * 无头像时的样式
+ */
+.user-avatar.no-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/**
+ * 头像图片
+ * 设置宽度、高度和对象适配
+ */
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/**
+ * 头像图标
+ * 设置文本颜色
+ */
+.avatar-icon {
+  color: var(--text-secondary);
+}
+
+/**
+ * 头像加载中
+ * 绝对定位，水平垂直居中
+ */
+.avatar-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/**
+ * 加载图标
+ * 设置宽度和高度
+ */
+.loading-gif {
+  width: 24px;
+  height: 24px;
+}
+
+/**
+ * 用户详情
+ * 采用 flex 布局，垂直排列，设置顶部外边距
+ */
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+/**
+ * 用户名称
+ * 设置字体大小、字重和颜色
+ */
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/**
+ * 用户等级
+ * 采用 flex 布局，水平排列，子元素间距为 4px，设置字体大小、背景、圆角和内边距
+ */
+.user-level {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  background: rgb(255 255 255 / 0.1);
+  border-radius: 6px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+
+/**
+ * 等级图标
+ * 设置图标大小
+ */
+.level-icon {
+  font-size: 12px;
+}
+
+/**
+ * 成员等级 - 社团成员
+ */
+.user-level.club-member {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+/**
+ * 成员等级 - 普通成员
+ */
+.user-level.normal-member {
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+  color: white;
+}
+
+/**
+ * 成员等级 - 核心成员
+ */
+.user-level.core-member {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  color: white;
+}
+
+/**
+ * 成员等级 - 管理员
+ */
+.user-level.admin {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: white;
+}
+
+/**
+ * 考勤次数
+ * 采用 flex 布局，水平排列，子元素间距为 4px，设置字体大小、背景、圆角和内边距
+ */
+.attendance-count {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  background: rgb(255 255 255 / 0.1);
+  border-radius: 6px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+
+/**
+ * 考勤图标
+ * 设置图标大小
+ */
+.attendance-icon {
+  font-size: 12px;
+}

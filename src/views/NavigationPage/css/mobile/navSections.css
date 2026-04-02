@@ -1,0 +1,28 @@
+/**
+ * 导航区块容器样式
+ * @file navSections.css
+ * @description 导航页面移动端的导航区块容器样式，包括主内容和导航区域
+ */
+
+/* ==================== 主内容区域 ==================== */
+
+/**
+ * 主内容容器
+ * 相对定位，z-index 为 10，设置内边距
+ */
+.main-content {
+  position: relative;
+  z-index: 10;
+  padding: 40px 20px;
+}
+
+/**
+ * 导航区域容器
+ * 采用 flex 布局，垂直排列，子元素间距为 32px，设置宽度为 100%
+ */
+.navigation-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+}

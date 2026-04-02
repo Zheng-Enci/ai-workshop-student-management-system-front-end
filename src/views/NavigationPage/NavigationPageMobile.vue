@@ -865,10 +865,17 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import './css/NavigationPageMobile.css';
+/* @import './css/NavigationPageMobile.css'; */
 </style>
 
 <style>
-
+/* ==================== 移动端 CSS 模块化 ==================== */
+@import './css/mobile/background.css';
+@import './css/mobile/header.css';
+@import './css/mobile/user-card.css';
+@import './css/mobile/points-card.css';
+@import './css/mobile/navSections.css';
+@import './css/mobile/navSectionCard.css';
+@import './css/mobile/footer.css';
 </style>
 

@@ -1,0 +1,148 @@
+/**
+ * 积分卡片样式
+ * @file points-card.css
+ * @description 导航页面移动端的积分卡片样式，包括总积分、活动积分和签到积分
+ */
+
+/* ==================== 积分显示区域 ==================== */
+
+/**
+ * 积分显示容器
+ * 相对定位，z-index 为 10，采用 flex 布局，水平排列，子元素间距为 12px，设置宽度为 100%
+ */
+.points-display {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+/**
+ * 积分卡片
+ * 相对定位，设置内边距、圆角、背景、边框、阴影和过渡效果
+ */
+.points-card {
+  position: relative;
+  flex: 1;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 0.05);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  transition: transform 0.3s ease;
+}
+
+/**
+ * 积分卡片的激活状态
+ * 点击时缩小
+ */
+.points-card:active {
+  transform: scale(0.95);
+}
+
+/**
+ * 总积分卡片
+ */
+.points-card.total-points {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/**
+ * 总积分卡片的激活状态
+ */
+.points-card.total-points:active {
+  background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+}
+
+/**
+ * 活动积分卡片
+ */
+.points-card.activity-points {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/**
+ * 活动积分卡片的激活状态
+ */
+.points-card.activity-points:active {
+  background: linear-gradient(135deg, #d87ee8 0%, #e04d60 100%);
+}
+
+/**
+ * 签到积分卡片
+ */
+.points-card.signin-points {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/**
+ * 签到积分卡片的激活状态
+ */
+.points-card.signin-points:active {
+  background: linear-gradient(135deg, #3d8fe8 0%, #00dde6 100%);
+}
+
+/**
+ * 积分图标
+ * 绝对定位，右侧对齐，垂直居中，设置图标大小和颜色
+ */
+.points-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32px;
+  color: rgb(255 255 255 / 0.3);
+}
+
+/**
+ * 总积分图标
+ */
+.points-card.total-points .points-icon {
+  color: rgb(255 255 255 / 0.3);
+}
+
+/**
+ * 活动积分图标
+ */
+.points-card.activity-points .points-icon {
+  color: rgb(255 255 255 / 0.3);
+}
+
+/**
+ * 签到积分图标
+ */
+.points-card.signin-points .points-icon {
+  color: rgb(255 255 255 / 0.3);
+}
+
+/**
+ * 积分内容
+ * 采用 flex 布局，垂直排列，设置内边距
+ */
+.points-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 32px;
+}
+
+/**
+ * 积分标签
+ * 设置字体大小和颜色
+ */
+.points-label {
+  font-size: 12px;
+  color: rgb(255 255 255 / 0.8);
+}
+
+/**
+ * 积分数值
+ * 设置字体大小、字重和颜色
+ */
+.points-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
