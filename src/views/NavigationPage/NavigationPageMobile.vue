@@ -618,35 +618,33 @@ onMounted(() => {
 			</div>
 
 			<div class="user-card-profile">
-				<div class="user-card-info">
-					<div
-						class="user-card-avatar"
-						:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
-						@click="handleAvatarClick">
-						<img
-							v-if="hasAvatar && avatarUrl"
-							v-lazy="avatarUrl"
-							alt="用户头像"
-							class="user-card-avatar-image" />
-						<el-icon v-else size="28" class="user-card-avatar-icon"><user /></el-icon>
-						<div v-if="avatarLoading" class="user-card-avatar-loading">
-							<img src="@/assets/loading.gif" alt="加载中" class="user-card-loading-gif" />
-						</div>
+				<div
+					class="user-card-avatar"
+					:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
+					@click="handleAvatarClick">
+					<img
+						v-if="hasAvatar && avatarUrl"
+						v-lazy="avatarUrl"
+						alt="用户头像"
+						class="user-card-avatar-image" />
+					<el-icon v-else size="28" class="user-card-avatar-icon"><user /></el-icon>
+					<div v-if="avatarLoading" class="user-card-avatar-loading">
+						<img src="@/assets/loading.gif" alt="加载中" class="user-card-loading-gif" />
 					</div>
-					<div class="user-card-details">
-						<div>
-							<div class="user-card-name">{{ userStore.userInfo?.name || '学生' }}</div>
-							<div
-								v-if="userStore.studentLevel"
-								class="user-card-level"
-								:class="getLevelClass(userStore.studentLevel?.levelCode)">
-								<el-icon class="level-icon"><star /></el-icon>
-								<span>{{ getLevelName(userStore.studentLevel.levelCode) }}</span>
-							</div>
-							<div v-if="attendanceCount !== null" class="user-card-attendance">
-								<el-icon class="attendance-icon"><calendar /></el-icon>
-								<span>已签到 {{ attendanceCount }} 次</span>
-							</div>
+				</div>
+				<div class="user-card-details">
+					<div>
+						<div class="user-card-name">{{ userStore.userInfo?.name || '学生' }}</div>
+						<div
+							v-if="userStore.studentLevel"
+							class="user-card-level"
+							:class="getLevelClass(userStore.studentLevel?.levelCode)">
+							<el-icon class="level-icon"><star /></el-icon>
+							<span>{{ getLevelName(userStore.studentLevel.levelCode) }}</span>
+						</div>
+						<div v-if="attendanceCount !== null" class="user-card-attendance">
+							<el-icon class="attendance-icon"><calendar /></el-icon>
+							<span>已签到 {{ attendanceCount }} 次</span>
 						</div>
 					</div>
 				</div>

@@ -62,14 +62,6 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* ==================== 用户信息区域 ==================== */
-
-.user-card-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 /* ==================== 头像图片 ==================== */
 
 .user-card-avatar-image {
