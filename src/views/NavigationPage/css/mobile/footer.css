@@ -6,7 +6,7 @@
 
 /* ==================== 页脚容器 ==================== */
 
-.footer {
+.navigation-footer-container {
   position: relative;
   z-index: 10;
   padding: 20px;
@@ -14,10 +14,10 @@
   background: rgb(255 255 255 / 0.05);
   border-top: 1px solid rgb(255 255 255 / 0.1);
   backdrop-filter: blur(20px);
-  animation: fadeInUp 0.6s ease-out 0.6s both;
+  animation: navigation-footer-fadeInUp 0.6s ease-out 0.6s both;
 }
 
-@keyframes fadeInUp {
+@keyframes navigation-footer-fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -30,7 +30,7 @@
 
 /* ==================== 登出按钮 ==================== */
 
-.logout-btn {
+.navigation-footer-logout-btn {
   width: 100%;
   max-width: 180px;
   padding: 12px 24px;
@@ -45,14 +45,14 @@
   touch-action: manipulation;
 }
 
-.logout-btn:hover {
+.navigation-footer-logout-btn:hover {
   color: white;
   background: rgb(245 108 108 / 0.2);
   border-color: rgb(245 108 108 / 0.3);
   box-shadow: 0 4px 16px rgb(245 108 108 / 0.2);
 }
 
-.logout-btn:active {
+.navigation-footer-logout-btn:active {
   color: white !important;
   background-color: var(--danger-color) !important;
   box-shadow: 0 4px 12px rgb(245 108 108 / 0.3);
