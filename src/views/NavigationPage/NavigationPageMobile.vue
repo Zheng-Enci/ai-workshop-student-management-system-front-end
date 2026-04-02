@@ -16,7 +16,7 @@
 
 // ===================== 依赖导入区 =====================
 // Element Plus 图标组件导入
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, ArrowRight, Trophy, Coin, Document } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, ArrowRight, Trophy, Coin, Document, TrendCharts } from '@element-plus/icons-vue'
 // Element Plus 核心组件导入
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
 // Vue3 核心API导入
@@ -234,6 +234,15 @@ const goToDashboard = () => {
  */
 const goToPointsDashboard = () => {
 	router.push('/points-dashboard')
+}
+
+/**
+ * 跳转到考勤分析页面
+ * @function goToAttendanceAnalysis
+ * @description 点击考勤分析入口时触发,跳转到考勤分析页面
+ */
+const goToAttendanceAnalysis = () => {
+	router.push('/attendance-analysis')
 }
 
 /**
@@ -796,6 +805,22 @@ onMounted(() => {
 								<div class="navSection-card-text">
 									<h3>积分看板</h3>
 									<p>查看积分排行榜</p>
+								</div>
+								<div class="navSection-card-arrow">
+									<el-icon><arrow-right /></el-icon>
+								</div>
+							</div>
+						</div>
+
+						<div class="navSection-card analysis-card" @click="goToAttendanceAnalysis">
+							<div class="navSection-card-bg"/>
+							<div class="navSection-card-content">
+								<div class="navSection-card-icon">
+									<el-icon size="28"><trend-charts /></el-icon>
+								</div>
+								<div class="navSection-card-text">
+									<h3>考勤分析</h3>
+									<p>查看个人考勤记录</p>
 								</div>
 								<div class="navSection-card-arrow">
 									<el-icon><arrow-right /></el-icon>

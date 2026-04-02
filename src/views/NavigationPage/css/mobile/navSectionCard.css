@@ -290,6 +290,23 @@
   box-shadow: 0 8px 24px rgb(67 233 123 / 0.45);
 }
 
+/* ==================== 考勤分析卡片（青色渐变） ==================== */
+
+.navSection-card.analysis-card .navSection-card-icon {
+  background: linear-gradient(135deg, #00d4ff 0%, #5b86e5 100%);
+  box-shadow: 0 6px 16px rgb(0 212 255 / 0.35);
+}
+
+.navSection-card.analysis-card:hover .navSection-card-icon {
+  box-shadow: 0 8px 24px rgb(0 212 255 / 0.45);
+}
+
+/* ==================== 考勤分析卡片背景 ==================== */
+
+.navSection-card.analysis-card .navSection-card-bg {
+  background: radial-gradient(circle, rgb(0 212 255 / 0.15), transparent 70%);
+}
+
 /* ==================== 积分记录卡片（橙黄色渐变） ==================== */
 
 .navSection-card.records-card .navSection-card-icon {
