@@ -1187,14 +1187,14 @@ echarts.use([
 
 <!-- 全局样式：头部区域 -->
 <style>
-@import './css/desktop/header.css';
-@import './css/desktop/ranking.css';
-@import './css/desktop/overview.css';
-@import './css/desktop/verification.css';
-@import './css/desktop/qrcode.css';
-@import './css/desktop/qrcode-switch.css';
-@import './css/desktop/phone-display.css';
-@import './css/desktop/footer.css';
+@import './css/desktop/dashboard-desktop-header.css';
+@import './css/desktop/dashboard-desktop-ranking.css';
+@import './css/desktop/dashboard-desktop-overview.css';
+@import './css/desktop/dashboard-desktop-verification.css';
+@import './css/desktop/dashboard-desktop-qrcode.css';
+@import './css/desktop/dashboard-desktop-qrcode-switch.css';
+@import './css/desktop/dashboard-desktop-phone-display.css';
+@import './css/desktop/dashboard-desktop-footer.css';
 @import './css/DashboardPageDesktop.css';
 </style>
 
