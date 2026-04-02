@@ -376,6 +376,9 @@
 	backdrop-filter: blur(20px);
 	/* 变换动画，使用缓动函数 */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	/* 触摸设备点击效果 */
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
 }
 
 /* 功能卡片顶部装饰条 */
