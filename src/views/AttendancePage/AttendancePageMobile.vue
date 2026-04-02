@@ -842,9 +842,9 @@ onUnmounted(() => {
 	</div>
 </template>
 
+<style scoped>
 @import './css/mobile/attendance-mobile-status-cards.css';
 
-<style scoped>
 /** 根容器样式：移动端全屏布局，渐变背景，相对定位 */
 .attendance-container-mobile {
 	display: flex;
