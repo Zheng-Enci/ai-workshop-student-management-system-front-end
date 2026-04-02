@@ -724,7 +724,7 @@ onMounted(() => {
 							</div>
 						</div>
 
-						<div class="navSection-card" @click="goToScoreChangeRecords">
+						<div class="navSection-card records-card" @click="goToScoreChangeRecords">
 							<div class="navSection-card-bg"/>
 							<div class="navSection-card-content">
 								<div class="navSection-card-icon">
@@ -740,7 +740,7 @@ onMounted(() => {
 							</div>
 						</div>
 
-						<div class="navSection-card" @click="goToInvitationCode">
+						<div class="navSection-card invite-card" @click="goToInvitationCode">
 							<div class="navSection-card-bg"/>
 							<div class="navSection-card-content">
 								<div class="navSection-card-icon">
@@ -800,7 +800,7 @@ onMounted(() => {
 							</div>
 						</div>
 
-						<div class="navSection-card" @click="goToAllMembers">
+						<div class="navSection-card members-card" @click="goToAllMembers">
 							<div class="navSection-card-bg"/>
 							<div class="navSection-card-content">
 								<div class="navSection-card-icon">
