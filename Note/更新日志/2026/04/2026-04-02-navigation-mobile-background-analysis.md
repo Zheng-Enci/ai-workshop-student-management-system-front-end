@@ -306,3 +306,18 @@
 - 添加 `invite-card` 类名到个人信息卡片
 
 **提交**: `a40e125` - 补充缺失的卡片类名 - data-card、points-card-nav、invite-card
+
+---
+
+#### 2026-04-02 调整移动端导航页边距
+优化移动端导航页的间距和边距：
+
+**修改文件**: 
+- `src/views/NavigationPage/css/mobile/user-card.css`
+- `src/views/NavigationPage/css/mobile/points-card.css`
+
+**变更内容**:
+- `.user-card-profile`: `padding: 0 4px` → `padding: 0 12px`
+- `.points-card-display`: `gap: 10px` → `gap: 16px`
+
+**提交**: `c23ac72` - 调整移动端导航页边距 - user-card 和 points-card
