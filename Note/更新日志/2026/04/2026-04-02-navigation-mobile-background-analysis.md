@@ -380,3 +380,16 @@
 - `.user-card-profile`: `gap: 12px` → `gap: 16px`
 
 **提交**: `36e6495` - user-card-profile gap 调整为 16px
+
+---
+
+#### 2026-04-02 points-card-item max-width 调整
+限制活动积分和签到积分卡片的宽度：
+
+**修改文件**: 
+- `src/views/NavigationPage/css/mobile/points-card.css`
+
+**变更内容**:
+- `.points-card-item`: 添加 `max-width: 48%`
+
+**提交**: `c04877b` - points-card-item 添加 max-width: 48%
