@@ -463,7 +463,7 @@ const routes = [
 		name: 'AttendanceAnalysis',
 		component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPage.vue'),
 		meta: {
-			requiresAuth: true,
+			requiresAuth: false,
 			title: '考勤分析 - 厦工AI坊学生管理系统',
 			description: '厦工AI坊学生管理系统考勤分析页面，查看考勤数据统计、签到趋势分析、成员考勤情况'
 		}
@@ -477,7 +477,7 @@ const routes = [
 		name: 'AttendanceAnalysisMobile',
 		component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageMobile.vue'),
 		meta: {
-			requiresAuth: true,
+			requiresAuth: false,
 			title: '考勤分析 - 厦工AI坊学生管理系统',
 			description: '厦工AI坊学生管理系统考勤分析页面，查看考勤数据统计、签到趋势分析、成员考勤情况'
 		}
@@ -491,7 +491,7 @@ const routes = [
 		name: 'AttendanceAnalysisDesktop',
 		component: () => import('../views/AttendanceAnalysisPage/AttendanceAnalysisPageDesktop.vue'),
 		meta: {
-			requiresAuth: true,
+			requiresAuth: false,
 			title: '考勤分析 - 厦工AI坊学生管理系统',
 			description: '厦工AI坊学生管理系统考勤分析页面，查看考勤数据统计、签到趋势分析、成员考勤情况'
 		}
