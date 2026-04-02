@@ -35,8 +35,8 @@
 .navigation-mobile-header-content {
   position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-direction: row;
+  gap: 12px;
   align-items: center;
   margin-top: 8px;
 }
@@ -76,16 +76,11 @@
   transition: transform 0.3s ease;
 }
 
-.navigation-mobile-header-logo:hover {
-  transform: scale(1.08);
-}
-
 /* ==================== 标题区域 ==================== */
 
 .navigation-mobile-header-title-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 4px;
 }
 
