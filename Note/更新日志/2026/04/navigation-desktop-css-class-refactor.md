@@ -77,6 +77,15 @@
 - `.navigation-desktop-header-page-title` - 页面标题样式
 - `.navigation-desktop-header-logout-btn` - 退出按钮样式
 
+### 修复：页面容器和背景样式
+在 `navigation-desktop-header.css` 中补充以下缺失样式：
+- `.navigation-container` - 页面主容器样式
+- `.background-effects` - 背景效果容器样式
+- `.gradient-orb` - 渐变球体基础样式
+- `.orb-1`, `.orb-2`, `.orb-3` - 三个渐变球体样式
+- `@keyframes float` - 浮动动画关键帧
+
 ## 提交信息
 1. `refactor: NavigationPage desktop CSS class naming with navigation-desktop prefix`
 2. `fix: add missing CSS styles for main-content, page-title and logout-btn`
+3. `fix: add missing container and background styles for navigation page`

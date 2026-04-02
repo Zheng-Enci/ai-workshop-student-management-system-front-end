@@ -717,7 +717,7 @@ onMounted(() => {
 					>
 						<div class="navigation-desktop-user-card-points-grid">
 							<!-- 总积分卡片 -->
-							<div class="user-card-point-item total-points">
+							<div class="navigation-desktop-user-card-point-item total-points">
 								<div class="navigation-desktop-user-card-point-icon">
 									<el-icon size="20">
 										<coin/>
@@ -730,30 +730,30 @@ onMounted(() => {
 							</div>
 
 							<!-- 活动积分卡片 -->
-							<div class="user-card-point-item activity-points">
-								<div class="user-card-point-icon">
+							<div class="navigation-desktop-user-card-point-item activity-points">
+								<div class="navigation-desktop-user-card-point-icon">
 									<el-icon size="20">
 										<trophy/>
 									</el-icon>
 								</div>
-								<div class="user-card-point-info">
-									<div class="user-card-point-label">活动积分</div>
-									<div class="user-card-point-value">
+								<div class="navigation-desktop-user-card-point-info">
+									<div class="navigation-desktop-user-card-point-label">活动积分</div>
+									<div class="navigation-desktop-user-card-point-value">
 										{{ activityPoints !== null ? activityPoints : 0 }}
 									</div>
 								</div>
 							</div>
 
 							<!-- 签到积分卡片 -->
-							<div class="user-card-point-item signin-points">
-								<div class="user-card-point-icon">
+							<div class="navigation-desktop-user-card-point-item signin-points">
+								<div class="navigation-desktop-user-card-point-icon">
 									<el-icon size="20">
 										<calendar/>
 									</el-icon>
 								</div>
-								<div class="user-card-point-info">
-									<div class="user-card-point-label">签到积分</div>
-									<div class="user-card-point-value">{{ signInPoints !== null ? signInPoints : 0 }}</div>
+								<div class="navigation-desktop-user-card-point-info">
+									<div class="navigation-desktop-user-card-point-label">签到积分</div>
+									<div class="navigation-desktop-user-card-point-value">{{ signInPoints !== null ? signInPoints : 0 }}</div>
 								</div>
 							</div>
 						</div>
