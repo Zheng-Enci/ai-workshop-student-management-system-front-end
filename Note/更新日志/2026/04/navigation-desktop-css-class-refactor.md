@@ -89,3 +89,4 @@
 1. `refactor: NavigationPage desktop CSS class naming with navigation-desktop prefix`
 2. `fix: add missing CSS styles for main-content, page-title and logout-btn`
 3. `fix: add missing container and background styles for navigation page`
+4. `fix: update point-item class names and add missing animations`
