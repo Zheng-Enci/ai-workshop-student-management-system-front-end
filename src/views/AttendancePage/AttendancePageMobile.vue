@@ -510,6 +510,11 @@ const confirmVerificationCode = async () => {
 					[currentSlot]: new Date().toISOString()
 				}
 				saveAttendanceStatus() // 保存到本地存储
+				// 更新今日签到状态卡片数据
+				todayAttendanceSlots.value = {
+					...todayAttendanceSlots.value,
+					[currentSlot]: true
+				}
 			}
 			// 刷新本周签到概览数据
 			loadWeeklyAttendance()
@@ -526,6 +531,11 @@ const confirmVerificationCode = async () => {
 					[currentSlot]: new Date().toISOString()
 				}
 				saveAttendanceStatus()
+				// 更新今日签到状态卡片数据
+				todayAttendanceSlots.value = {
+					...todayAttendanceSlots.value,
+					[currentSlot]: true
+				}
 			}
 			// 刷新本周签到概览数据
 			loadWeeklyAttendance()
