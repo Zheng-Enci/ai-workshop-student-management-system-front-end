@@ -74,13 +74,16 @@ function formatDate(date: Date): string {
 }
 
 function calculateMovingAverage(values: number[], windowSize: number = 7): number[] {
-	return values.map((_, index, arr) => {
-		if (index < windowSize - 1) {
-			return NaN
+	const result: number[] = []
+	for (let i = 0; i < values.length; i++) {
+		if (i < windowSize - 1) {
+			result.push(values[i])
+		} else {
+			const sum = values.slice(i - windowSize + 1, i + 1).reduce((a, b) => a + b, 0)
+			result.push(sum / windowSize)
 		}
-		const sum = arr.slice(index - windowSize + 1, index + 1).reduce((a, b) => a + b, 0)
-		return sum / windowSize
-	})
+	}
+	return result
 }
 
 function calculateLinearTrend(values: number[]): number[] {
