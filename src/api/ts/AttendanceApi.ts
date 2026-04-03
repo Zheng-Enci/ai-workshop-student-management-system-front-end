@@ -190,6 +190,26 @@ class AttendanceApi {
 			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 		}
 	}
+
+	/**
+	 * 查询指定学生指定时间段内签到记录
+	 * @param studentInfoId - 学生数据库表主键ID
+	 * @param startTime - 开始时间，格式：yyyy-MM-dd HH:mm:ss
+	 * @param endTime - 结束时间，格式：yyyy-MM-dd HH:mm:ss
+	 * @returns 签到时间列表
+	 */
+	static async getStudentRecordsByTimeRange(studentInfoId: number, startTime: string, endTime: string): Promise<string[]> {
+		try {
+			const response = await this.api.get<{ data: string[] }>('/api/v1/attendance/student-records-by-time-range', {
+				params: { studentInfoId, startTime, endTime }
+			})
+			return response.data.data
+		} catch (error) {
+			const axiosError = error as AxiosError<{ message: string }>
+			const msg = axiosError.response?.data?.message
+			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		}
+	}
 }
 
 export default AttendanceApi
