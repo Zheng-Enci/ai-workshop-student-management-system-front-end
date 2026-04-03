@@ -6,7 +6,7 @@ import LoadingMask from '@/components/LoadingMask.vue'
 import DateRangeSelector from './forms/desktop/DateRangeSelector.vue'
 import { ElButton, ElIcon } from 'element-plus'
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import AttendanceTrendChart from './ts/attendanceTrendChart'
 import { getDateRange, getAttendanceTrendData } from './ts/attendanceTrendChart'
 
