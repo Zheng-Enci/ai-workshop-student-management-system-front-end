@@ -808,35 +808,8 @@ onUnmounted(() => {
 				</div>
 			</div>
 
-			<!-- 主内容区：时间展示、签到按钮、状态卡片 -->
+			<!-- 主内容区：签到按钮和状态卡片 -->
 			<div class="main-content-mobile">
-				<!-- 时间卡片：显示当前时间和下次签到时间 -->
-				<div class="attendance-mobile-time-card-card-mobile">
-					<div class="attendance-mobile-time-card-info-mobile">
-						<!-- 当前日期展示 -->
-						<div class="attendance-mobile-time-card-date-mobile">
-							<el-icon class="attendance-mobile-time-card-date-icon-mobile">
-								<Calendar/>
-							</el-icon>
-							<span>{{ currentDate }}</span>
-						</div>
-						<!-- 当前时间展示 -->
-						<div class="attendance-mobile-time-card-current-mobile">
-							<el-icon class="attendance-mobile-time-card-time-icon-mobile">
-								<Clock/>
-							</el-icon>
-							<span>{{ currentTime }}</span>
-						</div>
-						<!-- 下次签到时间：仅非签到时段显示 -->
-						<div v-if="!isInSignTime" class="attendance-mobile-time-card-next-mobile">
-							<el-icon class="attendance-mobile-time-card-next-icon-mobile">
-								<Sunrise/>
-							</el-icon>
-							<span>下次签到：{{ nextSignTime }}</span>
-						</div>
-					</div>
-				</div>
-
 				<!-- 签到按钮容器 -->
 				<div class="attendance-mobile-sign-button-container-mobile">
 					<button
