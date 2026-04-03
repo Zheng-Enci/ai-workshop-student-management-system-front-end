@@ -1,6 +1,6 @@
 import * as echarts from 'echarts/core'
 import {LineChart} from 'echarts/charts'
-import {GridComponent, TitleComponent, TooltipComponent} from 'echarts/components'
+import {GridComponent, TitleComponent, TooltipComponent, LegendComponent} from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
 import type {EChartsOption} from 'echarts'
 import type {Ref} from 'vue'
@@ -10,6 +10,7 @@ echarts.use([
 	TitleComponent,
 	TooltipComponent,
 	GridComponent,
+	LegendComponent,
 	LineChart,
 	CanvasRenderer
 ])
