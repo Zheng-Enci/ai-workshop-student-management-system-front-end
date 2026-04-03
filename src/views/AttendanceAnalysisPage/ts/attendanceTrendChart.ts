@@ -304,6 +304,7 @@ class AttendanceTrendChart {
 	}
 
 	updateTheme(newIsDark: boolean) {
+		this.isDark.value = newIsDark
 		if (this.currentDates.length > 0 && this.currentValues.length > 0) {
 			this.setOption(this.currentDates, this.currentValues)
 		}
