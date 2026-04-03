@@ -125,7 +125,9 @@ class AttendanceTrendChart {
 	}
 
 	private getDarkMode(): boolean {
-		return document.documentElement.classList.contains('dark')
+		const isDark = document.documentElement.classList.contains('dark')
+		console.log('Dark mode:', isDark) // 调试用
+		return isDark
 	}
 
 	setOption(dates: string[], values: number[]) {
