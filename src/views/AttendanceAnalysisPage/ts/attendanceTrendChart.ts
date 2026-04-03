@@ -154,15 +154,15 @@ class AttendanceTrendChart {
 			},
 			tooltip: {
 				trigger: 'axis',
-				backgroundColor: this.isDark.value ? 'rgba(30, 30, 30, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-				borderColor: this.isDark.value ? '#555' : '#ddd',
+				backgroundColor: this.isDark.value ? '#000' : 'rgba(255, 255, 255, 0.95)',
+				borderColor: this.isDark.value ? '#333' : '#ddd',
 				textStyle: {
 					color: this.isDark.value ? '#fff' : '#333'
 				},
 				axisPointer: {
 					type: 'line',
 					lineStyle: {
-						color: this.isDark.value ? '#888' : '#666'
+						color: this.isDark.value ? '#666' : '#666'
 					}
 				}
 			},
