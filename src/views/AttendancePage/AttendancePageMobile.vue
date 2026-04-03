@@ -810,6 +810,22 @@ onUnmounted(() => {
 
 			<!-- 主内容区：签到按钮和状态卡片 -->
 			<div class="main-content-mobile">
+				<!-- 本周签到概览：展示本周每天的签到状态 -->
+				<div class="attendance-mobile-weekly-overview-mobile">
+					<div class="attendance-mobile-weekly-overview-title-mobile">本周签到概览</div>
+					<div class="attendance-mobile-weekly-overview-grid-mobile">
+						<div v-for="day in weeklyAttendanceData" :key="day.date"
+								 class="attendance-mobile-weekly-overview-day-mobile"
+								 :class="{ 'today': day.isToday, 'future': day.isFuture }">
+								<div class="attendance-mobile-weekly-overview-circle-mobile"
+									:class="getSlotClass(day.slots)">
+									<span class="slot-count">{{ getSignedCount(day.slots) }}</span>
+								</div>
+								<div class="attendance-mobile-weekly-overview-day-name-mobile">{{ day.dayName }}</div>
+							</div>
+					</div>
+				</div>
+
 				<!-- 签到按钮容器 -->
 				<div class="attendance-mobile-sign-button-container-mobile">
 					<button
@@ -823,40 +839,13 @@ onUnmounted(() => {
 							'afternoon': getCurrentTimeSlot() === 'afternoon',
 							'evening': getCurrentTimeSlot() === 'evening'
 						}"
-						@click="submitAttendance"
-					>
-						<div class="attendance-mobile-sign-button-background-mobile"/>
-						<div class="attendance-mobile-sign-button-content-mobile">
-							<div class="attendance-mobile-sign-button-icon-container-mobile">
-								<!-- 可签到状态：显示勾选图标 -->
-								<el-icon v-if="!loading && isInSignTime && !isCurrentSlotSigned()" size="40"
-										 class="attendance-mobile-sign-button-main-icon-mobile">
-									<Check/>
-								</el-icon>
-								<!-- 已签到状态：显示绿色勾选图标 -->
-								<el-icon v-else-if="!loading && isInSignTime && isCurrentSlotSigned()" size="40"
-										 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-success-icon-mobile">
-									<Check/>
-								</el-icon>
-								<!-- 非签到时段：显示时钟图标 -->
-								<el-icon v-else-if="!loading && !isInSignTime" size="40"
-										 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-disabled-icon-mobile">
-									<Clock/>
-								</el-icon>
-								<!-- 加载中：显示旋转加载图标 -->
-								<el-icon v-else size="28" class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-loading-icon-mobile">
-									<Loading/>
-								</el-icon>
-							</div>
-							<!-- 按钮文本：根据状态动态显示 -->
-							<span v-if="!loading" class="attendance-mobile-sign-button-text-mobile">
-								{{ !isInSignTime ? '非签到时间' : (isCurrentSlotSigned() ? '已签到' : '点击签到') }}
-							</span>
-							<!-- 加载中文本 -->
-							<span v-else class="attendance-mobile-sign-button-text-mobile attendance-mobile-sign-button-text-mobile-loading-text-mobile">签到中...</span>
-						</div>
-						<!-- 按钮点击波纹效果 -->
-						<div class="attendance-mobile-sign-button-ripple-mobile"/>
+						@click="handleSign">
+						<el-icon v-if="loading" class="is-loading">
+							<Loading/>
+						</el-icon>
+						<span v-else-if="!isInSignTime">非签到时间</span>
+						<span v-else-if="isCurrentSlotSigned()">已签到</span>
+						<span v-else>立即签到</span>
 					</button>
 				</div>
 
@@ -910,22 +899,6 @@ onUnmounted(() => {
 							<div class="attendance-mobile-status-cards-card-status-mobile" :class="{ 'signed': isSlotSigned('evening') }">
 								{{ isSlotSigned('evening') ? '已签到' : '未签到' }}
 							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- 本周签到概览：展示本周每天的签到状态 -->
-				<div class="attendance-mobile-weekly-overview-mobile">
-					<div class="attendance-mobile-weekly-overview-title-mobile">本周签到概览</div>
-					<div class="attendance-mobile-weekly-overview-grid-mobile">
-						<div v-for="day in weeklyAttendanceData" :key="day.date"
-							 class="attendance-mobile-weekly-overview-day-mobile"
-							 :class="{ 'today': day.isToday, 'future': day.isFuture }">
-							<div class="attendance-mobile-weekly-overview-circle-mobile"
-								:class="getSlotClass(day.slots)">
-								<span class="slot-count">{{ getSignedCount(day.slots) }}</span>
-							</div>
-							<div class="attendance-mobile-weekly-overview-day-name-mobile">{{ day.dayName }}</div>
 						</div>
 					</div>
 				</div>
