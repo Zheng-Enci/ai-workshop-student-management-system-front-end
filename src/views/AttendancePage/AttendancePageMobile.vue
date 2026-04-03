@@ -22,6 +22,8 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-overlay.css'
+// 本周签到概览样式
+import './css/mobile/attendance-mobile-weekly-overview.css'
 // Element Plus 图标组件
 import {Check, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor, User, Loading} from '@element-plus/icons-vue'
 // Vue Router 路由跳转
@@ -30,6 +32,7 @@ import {useRouter} from 'vue-router'
 // 业务接口导入
 import {signIn} from '@/api/attendance' // 签到提交接口
 import {getStudentDatabaseTableId, getAvatarUrl} from '@/api/student' // 学生信息及头像接口
+import AttendanceApi from '@/api/ts/AttendanceApi' // 签到相关API接口
 // Pinia 状态管理
 import {useThemeStore} from '@/stores/theme' // 主题切换状态
 import {useUserStore} from '@/stores/user' // 用户信息状态
@@ -77,6 +80,22 @@ const hasAvatar = ref(false)
 const avatarUrl = ref(null)
 /** 头像提示是否已显示 - 控制"上传头像"提示只显示一次 */
 const avatarTipShown = ref(false)
+
+// 本周签到概览相关响应式变量
+/** 本周每天的签到数据 */
+const weeklyAttendanceData = ref([
+	{ date: '', dayName: '周一', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '周二', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '周三', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '周四', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '周五', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '周六', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '周日', slots: { morning: false, afternoon: false, evening: false } }
+])
+/** 本周签到数据加载状态 */
+const weeklyAttendanceLoading = ref(false)
+/** 学生数据库表主键ID */
+const studentInfoId = ref(null)
 
 // ======================== 业务逻辑方法区 ========================
 /**
@@ -582,6 +601,89 @@ const loadStudentLevel = () => {
 	}
 }
 
+/**
+ * 获取本周日期范围
+ * @description 计算本周周一和周日的日期
+ * @returns {{ startTime: string, endTime: string }} 本周开始和结束时间
+ */
+const getWeekDateRange = () => {
+	const now = new Date()
+	const dayOfWeek = now.getDay() || 7
+	const monday = new Date(now)
+	monday.setDate(now.getDate() - dayOfWeek + 1)
+	const sunday = new Date(monday)
+	sunday.setDate(monday.getDate() + 6)
+	const formatDate = (d) => {
+		const year = d.getFullYear()
+		const month = (d.getMonth() + 1).toString().padStart(2, '0')
+		const day = d.getDate().toString().padStart(2, '0')
+		return `${year}-${month}-${day}`
+	}
+	return {
+		startTime: `${formatDate(monday)} 00:00:00`,
+		endTime: `${formatDate(sunday)} 23:59:59`
+	}
+}
+
+/**
+ * 判断签到时间属于哪个时段
+ * @param {string} timeStr - ISO格式的签到时间
+ * @returns {'morning'|'afternoon'|'evening'|null}
+ */
+const getSlotFromTime = (timeStr) => {
+	if (!timeStr) return null
+	const date = new Date(timeStr)
+	const hour = date.getHours()
+	if (hour >= 8 && hour < 11) return 'morning'
+	if (hour >= 14 && hour < 17) return 'afternoon'
+	if (hour >= 19 && hour < 22) return 'evening'
+	return null
+}
+
+/**
+ * 加载本周签到数据
+ * @description 调用接口获取本周每天的签到记录，更新weeklyAttendanceData
+ * @async
+ * @returns {Promise<void>}
+ */
+const loadWeeklyAttendance = async () => {
+	try {
+		weeklyAttendanceLoading.value = true
+		const token = userStore.token || localStorage.getItem('token')
+		if (!token) return
+		const idResponse = await getStudentDatabaseTableId(token)
+		if (idResponse.code !== 200 || !idResponse.data) return
+		studentInfoId.value = idResponse.data
+		const { startTime, endTime } = getWeekDateRange()
+		const records = await AttendanceApi.getStudentRecordsByTimeRange(studentInfoId.value, startTime, endTime)
+		const daySlots = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+		const today = new Date().toDateString()
+		weeklyAttendanceData.value = weeklyAttendanceData.value.map((day, index) => {
+			const currentDate = new Date()
+			currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1 + index)
+			const dateStr = currentDate.toISOString().split('T')[0]
+			const dayName = daySlots[currentDate.getDay()]
+			const isToday = currentDate.toDateString() === today
+			const isFuture = currentDate > new Date()
+			const slots = { morning: false, afternoon: false, evening: false }
+			if (!isFuture) {
+				records.forEach(record => {
+					const recordDate = new Date(record)
+					if (recordDate.toISOString().split('T')[0] === dateStr) {
+						const slot = getSlotFromTime(record)
+						if (slot) slots[slot] = true
+					}
+				})
+			}
+			return { date: dateStr, dayName, slots, isToday, isFuture }
+		})
+	} catch (error) {
+		console.error('加载本周签到数据失败:', error)
+	} finally {
+		weeklyAttendanceLoading.value = false
+	}
+}
+
 // ======================== 生命周期钩子 ========================
 /**
  * 组件挂载完成钩子
@@ -604,6 +706,7 @@ onMounted(async () => {
 		timeInterval.value = setInterval(checkSignTime, 1000)
 		loadStudentLevel() // 加载学生等级
 		loadUserAvatar() // 加载用户头像
+		loadWeeklyAttendance() // 加载本周签到数据
 		// 延迟500ms同步签到状态，避免页面初始化时接口请求冲突
 		setTimeout(async () => {
 			await syncAllAttendanceStatus()
@@ -812,6 +915,26 @@ onUnmounted(() => {
 							<div class="attendance-mobile-status-cards-card-time-mobile">19:00 - 22:00</div>
 							<div class="attendance-mobile-status-cards-card-status-mobile" :class="{ 'signed': isSlotSigned('evening') }">
 								{{ isSlotSigned('evening') ? '已签到' : '未签到' }}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 本周签到概览：展示本周每天的签到状态 -->
+				<div class="attendance-mobile-weekly-overview-mobile">
+					<div class="attendance-mobile-weekly-overview-title-mobile">本周签到概览</div>
+					<div class="attendance-mobile-weekly-overview-grid-mobile">
+						<div v-for="day in weeklyAttendanceData" :key="day.date"
+							 class="attendance-mobile-weekly-overview-day-mobile"
+							 :class="{ 'today': day.isToday, 'future': day.isFuture }">
+							<div class="attendance-mobile-weekly-overview-day-name-mobile">{{ day.dayName }}</div>
+							<div class="attendance-mobile-weekly-overview-slots-mobile">
+								<div class="attendance-mobile-weekly-overview-slot-mobile morning"
+									 :class="{ 'signed': day.slots.morning, 'not-signed': !day.slots.morning && !day.isFuture }"></div>
+								<div class="attendance-mobile-weekly-overview-slot-mobile afternoon"
+									 :class="{ 'signed': day.slots.afternoon, 'not-signed': !day.slots.afternoon && !day.isFuture }"></div>
+								<div class="attendance-mobile-weekly-overview-slot-mobile evening"
+									 :class="{ 'signed': day.slots.evening, 'not-signed': !day.slots.evening && !day.isFuture }"></div>
 							</div>
 						</div>
 					</div>
