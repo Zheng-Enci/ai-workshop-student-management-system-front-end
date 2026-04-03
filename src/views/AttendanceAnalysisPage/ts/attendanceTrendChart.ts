@@ -129,6 +129,10 @@ class AttendanceTrendChart {
 		const smoothValues = calculateMovingAverage(values, 7)
 		const trendLineValues = calculateLinearTrend(values)
 
+		const maxValue = Math.max(...values)
+		const maxIndex = values.indexOf(maxValue)
+		const maxDate = dates[maxIndex]
+
 		const option: EChartsOption = {
 			backgroundColor: 'transparent',
 			legend: {
@@ -201,7 +205,27 @@ class AttendanceTrendChart {
 							]
 						}
 					},
-					itemStyle: { color: '#667eea' }
+					itemStyle: { color: '#667eea' },
+					markLine: {
+						silent: true,
+						symbol: 'none',
+						data: [
+							{
+								type: 'max',
+								name: '最高签到',
+								lineStyle: {
+									color: this.isDark.value ? '#f50' : '#ff4400',
+									type: 'dashed',
+									width: 2
+								},
+								label: {
+									formatter: `最高 ${maxValue} 人\n(${maxDate})`,
+									position: 'end',
+									color: this.isDark.value ? '#f50' : '#ff4400'
+								}
+							}
+						]
+					}
 				},
 				{
 					name: '7天滚动平均',
