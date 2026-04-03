@@ -152,6 +152,20 @@ class AttendanceTrendChart {
 				bottom: '3%',
 				containLabel: true
 			},
+			tooltip: {
+				trigger: 'axis',
+				backgroundColor: this.isDark.value ? 'rgba(50, 50, 50, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+				borderColor: this.isDark.value ? '#444' : '#ddd',
+				textStyle: {
+					color: this.isDark.value ? '#ccc' : '#666'
+				},
+				axisPointer: {
+					type: 'line',
+					lineStyle: {
+						color: this.isDark.value ? '#666' : '#999'
+					}
+				}
+			},
 			xAxis: {
 				type: 'category',
 				boundaryGap: false,
@@ -220,7 +234,7 @@ class AttendanceTrendChart {
 									width: 2
 								},
 								label: {
-									formatter: `最高 ${maxValue} 人\n(${maxDate})`,
+									formatter: `${maxValue} 人次`,
 									position: 'end',
 									color: this.isDark.value ? '#f50' : '#ff4400'
 								}
