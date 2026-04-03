@@ -124,6 +124,10 @@ class AttendanceTrendChart {
 		this.instance = echarts.init(this.containerRef.value)
 	}
 
+	private getDarkMode(): boolean {
+		return document.documentElement.classList.contains('dark')
+	}
+
 	setOption(dates: string[], values: number[]) {
 		if (!this.instance) return
 
@@ -154,31 +158,30 @@ class AttendanceTrendChart {
 			},
 			tooltip: {
 				trigger: 'axis',
-				backgroundColor: this.isDark.value ? '#000' : 'rgba(255, 255, 255, 0.95)',
-				borderColor: this.isDark.value ? '#333' : '#ddd',
+				backgroundColor: this.getDarkMode() ? '#000' : 'rgba(255, 255, 255, 0.95)',
+				borderColor: this.getDarkMode() ? '#333' : '#ddd',
 				textStyle: {
-					color: this.isDark.value ? '#fff' : '#333'
+					color: this.getDarkMode() ? '#fff' : '#333'
 				},
 				axisPointer: {
 					type: 'line',
 					lineStyle: {
-						color: this.isDark.value ? '#666' : '#666'
+						color: this.getDarkMode() ? '#666' : '#666'
 					}
 				},
+				extraCssText: this.getDarkMode() ? 'box-shadow: rgba(0, 0, 0, 0.5) 1px 2px 10px;' : '',
 				formatter: (params: any) => {
 					if (!params || params.length === 0) return ''
 					const date = params[0].axisValue
-					const isDark = this.isDark.value
+					const isDark = this.getDarkMode()
 					const textColor = isDark ? '#fff' : '#333'
-					const bgColor = isDark ? '#000' : 'rgba(255, 255, 255, 0.95)'
-					let html = `<div style="background-color:${bgColor};padding:10px;border-radius:4px;margin:-10px;"><div style="margin:0;font-size:14px;color:${textColor};line-height:1;">${date}</div>`
+					let html = `<div style="margin:0;font-size:14px;color:${textColor};line-height:1;">${date}</div>`
 					params.forEach((item: any) => {
 						if (item.value !== null && !isNaN(item.value)) {
 							const value = Number(item.value).toFixed(1)
-							html += `<div style="margin:8px 0 0;line-height:1;"><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${item.color};"></span><span style="font-size:14px;color:${textColor};margin-left:2px">${item.seriesName}</span><span style="float:right;margin-left:20px;font-size:14px;color:${textColor};font-weight:900">${value}</span><div style="clear:both"></div></div>`
+							html += `<div style="margin:8px 0 0;line-height:1;color:${textColor};"><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${item.color};"></span>${item.seriesName}<span style="float:right;margin-left:20px;font-weight:900">${value}</span><div style="clear:both"></div></div>`
 						}
 					})
-					html += '</div>'
 					return html
 				}
 			},
