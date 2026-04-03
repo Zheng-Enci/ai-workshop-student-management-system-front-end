@@ -197,8 +197,8 @@ class AttendanceTrendChart {
 					type: 'line',
 					data: smoothValues,
 					smooth: true,
-					lineStyle: { color: '#fa8c16', width: 2, type: 'dashed' },
-					itemStyle: { color: '#fa8c16' },
+					lineStyle: { color: this.isDark.value ? '#ff9500' : '#fa8c16', width: 2, type: 'dashed' },
+					itemStyle: { color: this.isDark.value ? '#ff9500' : '#fa8c16' },
 					symbol: 'none'
 				},
 				{
@@ -206,8 +206,8 @@ class AttendanceTrendChart {
 					type: 'line',
 					data: trendLineValues,
 					smooth: false,
-					lineStyle: { color: '#165dff', width: 2 },
-					itemStyle: { color: '#165dff' },
+					lineStyle: { color: this.isDark.value ? '#4080ff' : '#165dff', width: 2 },
+					itemStyle: { color: this.isDark.value ? '#4080ff' : '#165dff' },
 					symbol: 'none'
 				}
 			]
