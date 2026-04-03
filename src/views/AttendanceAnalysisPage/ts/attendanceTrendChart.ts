@@ -161,33 +161,6 @@ class AttendanceTrendChart {
 				bottom: '3%',
 				containLabel: true
 			},
-			tooltip: {
-				trigger: 'axis',
-				backgroundColor: 'rgba(255, 255, 255, 0.95)',
-				borderColor: '#ddd',
-				textStyle: {
-					color: this.getDarkMode() ? '#000' : '#333'
-				},
-				axisPointer: {
-					type: 'line',
-					lineStyle: {
-						color: this.getDarkMode() ? '#666' : '#666'
-					}
-				},
-				formatter: (params: any) => {
-					if (!params || params.length === 0) return ''
-					const date = params[0].axisValue
-					const textColor = this.getDarkMode() ? '#000' : '#333'
-					let html = `<div style="margin:0;font-size:14px;color:${textColor};line-height:1;">${date}</div>`
-					params.forEach((item: any) => {
-						if (item.value !== null && !isNaN(item.value)) {
-							const value = Number(item.value).toFixed(1)
-							html += `<div style="margin:8px 0 0;line-height:1;color:${textColor};"><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${item.color};"></span>${item.seriesName}<span style="float:right;margin-left:20px;font-weight:900">${value}</span><div style="clear:both"></div></div>`
-						}
-					})
-					return html
-				}
-			},
 			xAxis: {
 				type: 'category',
 				boundaryGap: false,
