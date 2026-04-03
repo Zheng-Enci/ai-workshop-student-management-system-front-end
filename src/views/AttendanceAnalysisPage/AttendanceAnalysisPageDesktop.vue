@@ -70,10 +70,21 @@ const handleResize = () => {
 	}
 }
 
+let unwatchTheme: (() => void) | undefined;
+
 onMounted(async () => {
 	await nextTick(() => {
 		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDarkMode)
 		trendChart.init()
+		// 监听主题切换并更新图表
+		unwatchTheme = watch(
+			() => themeStore.isDarkMode,
+			(newIsDarkMode) => {
+				if (trendChart) {
+					trendChart.updateTheme(newIsDarkMode);
+				}
+			}
+		)
 		loadingMaskStore.showLoadingMask('正在加载签到数据...')
 		const {startDate, endDate} = getDateRange('全部')
 		getAttendanceTrendData(startDate, endDate).then(data => {
@@ -90,6 +101,7 @@ onUnmounted(() => {
 	if (trendChart) {
 		trendChart.dispose()
 	}
+	unwatchTheme?.();
 	window.removeEventListener('resize', handleResize)
 })
 </script>

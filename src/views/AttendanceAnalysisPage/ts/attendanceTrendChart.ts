@@ -111,6 +111,8 @@ function calculateLinearTrend(values: number[]): number[] {
 
 class AttendanceTrendChart {
 	private instance: echarts.ECharts | null = null
+	private currentDates: string[] = []
+	private currentValues: number[] = []
 
 	constructor(private containerRef: Ref<HTMLElement | null>, private isDark: Ref<boolean>) {}
 
@@ -125,13 +127,14 @@ class AttendanceTrendChart {
 	}
 
 	private getDarkMode(): boolean {
-		const isDark = document.documentElement.classList.contains('dark')
-		console.log('Dark mode:', isDark) // 调试用
-		return isDark
+		return document.documentElement.classList.contains('dark')
 	}
 
 	setOption(dates: string[], values: number[]) {
 		if (!this.instance) return
+
+		this.currentDates = dates
+		this.currentValues = values
 
 		const smoothValues = calculateMovingAverage(values, 7)
 		const trendLineValues = calculateLinearTrend(values)
@@ -297,6 +300,12 @@ class AttendanceTrendChart {
 		if (this.instance) {
 			this.instance.dispose()
 			this.instance = null
+		}
+	}
+
+	updateTheme(newIsDark: boolean) {
+		if (this.currentDates.length > 0 && this.currentValues.length > 0) {
+			this.setOption(this.currentDates, this.currentValues)
 		}
 	}
 }
