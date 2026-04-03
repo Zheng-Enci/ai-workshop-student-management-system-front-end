@@ -136,7 +136,7 @@ class AttendanceTrendChart {
 					{ name: '7天滚动平均', icon: 'rect' },
 					{ name: '趋势线', icon: 'path://M0,0 L10,0' }
 				],
-				bottom: 0,
+				top: 10,
 				itemWidth: 20,
 				itemHeight: 3,
 				textStyle: {
