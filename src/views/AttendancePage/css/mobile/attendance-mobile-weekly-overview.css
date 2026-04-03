@@ -1,6 +1,8 @@
 .attendance-mobile-weekly-overview-mobile {
-	margin-top: 20px;
+	margin-top: 4px;
 	padding: 16px;
+	width: 100%;
+	box-sizing: border-box;
 	background: var(--card-background, #ffffff);
 	border-radius: 12px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -16,8 +18,8 @@
 
 .attendance-mobile-weekly-overview-grid-mobile {
 	display: flex;
-	justify-content: space-between;
-	gap: 4px;
+	justify-content: space-evenly;
+	width: 100%;
 }
 
 .attendance-mobile-weekly-overview-day-mobile {
@@ -34,13 +36,18 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: 600;
 	color: #ffffff;
 	transition: all 0.2s ease;
+	position: relative;
 }
 
-.attendance-mobile-weekly-overview-circle-mobile.today {
+.attendance-mobile-weekly-overview-circle-mobile.today::after {
+	content: '';
+	position: absolute;
+	inset: -3px;
+	border-radius: 50%;
 	border: 2px solid #667eea;
 }
 
@@ -48,21 +55,45 @@
 	opacity: 0.4;
 }
 
-.attendance-mobile-weekly-overview-circle-mobile.zero {
-	background: var(--slot-empty, #e5e7eb);
-	color: var(--text-placeholder, #9ca3af);
+.attendance-mobile-weekly-overview-circle-mobile.slot-morning {
+	background: conic-gradient(#f59e0b 0deg 120deg, #e5e7eb 120deg 360deg);
 }
 
-.attendance-mobile-weekly-overview-circle-mobile.one {
-	background: #f59e0b;
+.attendance-mobile-weekly-overview-circle-mobile.slot-afternoon {
+	background: conic-gradient(#e5e7eb 0deg 120deg, #3b82f6 120deg 240deg, #e5e7eb 240deg 360deg);
 }
 
-.attendance-mobile-weekly-overview-circle-mobile.two {
-	background: #3b82f6;
+.attendance-mobile-weekly-overview-circle-mobile.slot-evening {
+	background: conic-gradient(#e5e7eb 0deg 240deg, #8b5cf6 240deg 360deg);
 }
 
-.attendance-mobile-weekly-overview-circle-mobile.three {
-	background: #8b5cf6;
+.attendance-mobile-weekly-overview-circle-mobile.slot-morning-afternoon {
+	background: conic-gradient(#f59e0b 0deg 120deg, #3b82f6 120deg 240deg, #e5e7eb 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-morning-evening {
+	background: conic-gradient(#f59e0b 0deg 120deg, #e5e7eb 120deg 240deg, #8b5cf6 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evening {
+	background: conic-gradient(#e5e7eb 0deg 120deg, #3b82f6 120deg 240deg, #8b5cf6 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-all {
+	background: conic-gradient(#f59e0b 0deg 120deg, #3b82f6 120deg 240deg, #8b5cf6 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-none {
+	background: #e5e7eb;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile .slot-indicator {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .attendance-mobile-weekly-overview-day-name-mobile {
@@ -88,7 +119,30 @@ html.dark .attendance-mobile-weekly-overview-day-name-mobile {
 	color: var(--text-secondary, #9ca3af);
 }
 
-html.dark .attendance-mobile-weekly-overview-circle-mobile.zero {
-	background: var(--slot-empty, #4b5563);
-	color: #9ca3af;
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-none {
+	background: #4b5563;
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning {
+	background: conic-gradient(#f59e0b 0deg 120deg, #4b5563 120deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon {
+	background: conic-gradient(#4b5563 0deg 120deg, #3b82f6 120deg 240deg, #4b5563 240deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-evening {
+	background: conic-gradient(#4b5563 0deg 240deg, #8b5cf6 240deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning-afternoon {
+	background: conic-gradient(#f59e0b 0deg 120deg, #3b82f6 120deg 240deg, #4b5563 240deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning-evening {
+	background: conic-gradient(#f59e0b 0deg 120deg, #4b5563 120deg 240deg, #8b5cf6 240deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evening {
+	background: conic-gradient(#4b5563 0deg 120deg, #3b82f6 120deg 240deg, #8b5cf6 240deg 360deg);
 }
