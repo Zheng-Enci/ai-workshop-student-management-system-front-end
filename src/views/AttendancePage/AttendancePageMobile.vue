@@ -84,13 +84,13 @@ const avatarTipShown = ref(false)
 // 本周签到概览相关响应式变量
 /** 本周每天的签到数据 */
 const weeklyAttendanceData = ref([
-	{ date: '', dayName: '周一', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周二', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周三', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周四', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周五', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周六', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周日', slots: { morning: false, afternoon: false, evening: false } }
+	{ date: '', dayName: '周一', count: 0 },
+	{ date: '', dayName: '周二', count: 0 },
+	{ date: '', dayName: '周三', count: 0 },
+	{ date: '', dayName: '周四', count: 0 },
+	{ date: '', dayName: '周五', count: 0 },
+	{ date: '', dayName: '周六', count: 0 },
+	{ date: '', dayName: '周日', count: 0 }
 ])
 /** 本周签到数据加载状态 */
 const weeklyAttendanceLoading = ref(false)
@@ -626,21 +626,6 @@ const getWeekDateRange = () => {
 }
 
 /**
- * 判断签到时间属于哪个时段
- * @param {string} timeStr - ISO格式的签到时间
- * @returns {'morning'|'afternoon'|'evening'|null}
- */
-const getSlotFromTime = (timeStr) => {
-	if (!timeStr) return null
-	const date = new Date(timeStr)
-	const hour = date.getHours()
-	if (hour >= 8 && hour < 11) return 'morning'
-	if (hour >= 14 && hour < 17) return 'afternoon'
-	if (hour >= 19 && hour < 22) return 'evening'
-	return null
-}
-
-/**
  * 加载本周签到数据
  * @description 调用接口获取本周每天的签到记录，更新weeklyAttendanceData
  * @async
@@ -665,17 +650,16 @@ const loadWeeklyAttendance = async () => {
 			const dayName = daySlots[currentDate.getDay()]
 			const isToday = currentDate.toDateString() === today
 			const isFuture = currentDate > new Date()
-			const slots = { morning: false, afternoon: false, evening: false }
+			let count = 0
 			if (!isFuture) {
 				records.forEach(record => {
 					const recordDate = new Date(record)
 					if (recordDate.toISOString().split('T')[0] === dateStr) {
-						const slot = getSlotFromTime(record)
-						if (slot) slots[slot] = true
+						count++
 					}
 				})
 			}
-			return { date: dateStr, dayName, slots, isToday, isFuture }
+			return { date: dateStr, dayName, count, isToday, isFuture }
 		})
 	} catch (error) {
 		console.error('加载本周签到数据失败:', error)
@@ -920,22 +904,23 @@ onUnmounted(() => {
 					</div>
 				</div>
 
-				<!-- 本周签到概览：展示本周每天的签到状态 -->
+				<!-- 本周签到概览：展示本周每天的签到次数 -->
 				<div class="attendance-mobile-weekly-overview-mobile">
 					<div class="attendance-mobile-weekly-overview-title-mobile">本周签到概览</div>
 					<div class="attendance-mobile-weekly-overview-grid-mobile">
 						<div v-for="day in weeklyAttendanceData" :key="day.date"
 							 class="attendance-mobile-weekly-overview-day-mobile"
 							 :class="{ 'today': day.isToday, 'future': day.isFuture }">
-							<div class="attendance-mobile-weekly-overview-day-name-mobile">{{ day.dayName }}</div>
-							<div class="attendance-mobile-weekly-overview-slots-mobile">
-								<div class="attendance-mobile-weekly-overview-slot-mobile morning"
-									 :class="{ 'signed': day.slots.morning, 'not-signed': !day.slots.morning && !day.isFuture }"></div>
-								<div class="attendance-mobile-weekly-overview-slot-mobile afternoon"
-									 :class="{ 'signed': day.slots.afternoon, 'not-signed': !day.slots.afternoon && !day.isFuture }"></div>
-								<div class="attendance-mobile-weekly-overview-slot-mobile evening"
-									 :class="{ 'signed': day.slots.evening, 'not-signed': !day.slots.evening && !day.isFuture }"></div>
+							<div class="attendance-mobile-weekly-overview-circle-mobile"
+								:class="[
+									day.count === 0 ? 'zero' : '',
+									day.count === 1 ? 'one' : '',
+									day.count === 2 ? 'two' : '',
+									day.count >= 3 ? 'three' : ''
+								]">
+								{{ day.count }}
 							</div>
+							<div class="attendance-mobile-weekly-overview-day-name-mobile">{{ day.dayName }}</div>
 						</div>
 					</div>
 				</div>

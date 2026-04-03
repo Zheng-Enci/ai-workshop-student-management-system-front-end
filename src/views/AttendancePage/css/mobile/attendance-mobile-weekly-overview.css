@@ -15,83 +15,65 @@
 }
 
 .attendance-mobile-weekly-overview-grid-mobile {
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
-	gap: 6px;
+	display: flex;
+	justify-content: space-between;
+	gap: 4px;
 }
 
 .attendance-mobile-weekly-overview-day-mobile {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 8px 4px;
-	border-radius: 8px;
-	background: var(--day-background, #f3f4f6);
+	gap: 6px;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	font-weight: 600;
+	color: #ffffff;
 	transition: all 0.2s ease;
 }
 
-.attendance-mobile-weekly-overview-day-mobile.today {
+.attendance-mobile-weekly-overview-circle-mobile.today {
 	border: 2px solid #667eea;
 }
 
-.attendance-mobile-weekly-overview-day-mobile.future {
-	opacity: 0.5;
+.attendance-mobile-weekly-overview-circle-mobile.future {
+	opacity: 0.4;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.zero {
+	background: var(--slot-empty, #e5e7eb);
+	color: var(--text-placeholder, #9ca3af);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.one {
+	background: #f59e0b;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.two {
+	background: #3b82f6;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.three {
+	background: #8b5cf6;
 }
 
 .attendance-mobile-weekly-overview-day-name-mobile {
-	font-size: 12px;
+	font-size: 11px;
 	color: var(--text-secondary, #6b7280);
-	margin-bottom: 6px;
 	font-weight: 500;
 }
 
 .attendance-mobile-weekly-overview-day-mobile.today .attendance-mobile-weekly-overview-day-name-mobile {
 	color: #667eea;
 	font-weight: 600;
-}
-
-.attendance-mobile-weekly-overview-slots-mobile {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	width: 100%;
-}
-
-.attendance-mobile-weekly-overview-slot-mobile {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 20px;
-	border-radius: 4px;
-	font-size: 10px;
-	font-weight: 500;
-	color: #ffffff;
-	transition: all 0.2s ease;
-}
-
-.attendance-mobile-weekly-overview-slot-mobile.morning {
-	background: #f59e0b;
-}
-
-.attendance-mobile-weekly-overview-slot-mobile.afternoon {
-	background: #3b82f6;
-}
-
-.attendance-mobile-weekly-overview-slot-mobile.evening {
-	background: #8b5cf6;
-}
-
-.attendance-mobile-weekly-overview-slot-mobile.signed {
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.attendance-mobile-weekly-overview-slot-mobile.not-signed {
-	background: var(--slot-empty, #e5e7eb);
-	color: var(--text-placeholder, #9ca3af);
-}
-
-.attendance-mobile-weekly-overview-slot-mobile.not-signed::after {
-	content: '×';
 }
 
 html.dark .attendance-mobile-weekly-overview-mobile {
@@ -102,14 +84,11 @@ html.dark .attendance-mobile-weekly-overview-title-mobile {
 	color: var(--text-primary, #f3f4f6);
 }
 
-html.dark .attendance-mobile-weekly-overview-day-mobile {
-	background: var(--day-background, #374151);
-}
-
 html.dark .attendance-mobile-weekly-overview-day-name-mobile {
 	color: var(--text-secondary, #9ca3af);
 }
 
-html.dark .attendance-mobile-weekly-overview-slot-mobile.not-signed {
+html.dark .attendance-mobile-weekly-overview-circle-mobile.zero {
 	background: var(--slot-empty, #4b5563);
+	color: #9ca3af;
 }
