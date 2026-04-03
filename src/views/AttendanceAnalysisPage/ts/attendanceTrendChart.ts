@@ -167,10 +167,10 @@ class AttendanceTrendChart {
 					}
 				}
 			},
-			series: [{
+			series: [
+				{
 					name: '签到人次',
 					type: 'line',
-					stack: 'Total',
 					data: values,
 					smooth: true,
 					lineStyle: {
@@ -184,46 +184,33 @@ class AttendanceTrendChart {
 							y: 0,
 							x2: 0,
 							y2: 1,
-							colorStops: [{
-								offset: 0,
-								color: 'rgba(102, 126, 234, 0.3)'
-							}, {
-								offset: 1,
-								color: 'rgba(102, 126, 234, 0.1)'
-							}]
+							colorStops: [
+								{ offset: 0, color: 'rgba(102, 126, 234, 0.3)' },
+								{ offset: 1, color: 'rgba(102, 126, 234, 0.1)' }
+							]
 						}
 					},
-					itemStyle: {
-						color: '#667eea'
-					}
-				}, {
+					itemStyle: { color: '#667eea' }
+				},
+				{
 					name: '7天滚动平均',
 					type: 'line',
 					data: smoothValues,
 					smooth: true,
-					lineStyle: {
-						color: '#fa8c16',
-						width: 2,
-						type: 'dashed'
-					},
-					itemStyle: {
-						color: '#fa8c16'
-					},
+					lineStyle: { color: '#fa8c16', width: 2, type: 'dashed' },
+					itemStyle: { color: '#fa8c16' },
 					symbol: 'none'
-				}, {
+				},
+				{
 					name: '趋势线',
 					type: 'line',
 					data: trendLineValues,
 					smooth: false,
-					lineStyle: {
-						color: '#165dff',
-						width: 2
-					},
-					itemStyle: {
-						color: '#165dff'
-					},
+					lineStyle: { color: '#165dff', width: 2 },
+					itemStyle: { color: '#165dff' },
 					symbol: 'none'
-				}]
+				}
+			]
 		}
 
 		this.instance.setOption(option)
