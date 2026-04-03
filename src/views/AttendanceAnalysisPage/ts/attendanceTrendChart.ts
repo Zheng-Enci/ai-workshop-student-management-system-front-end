@@ -109,46 +109,6 @@ function calculateLinearTrend(values: number[]): number[] {
 	return values.map((_, i) => slope * i + intercept)
 }
 
-function filterConsecutiveZeros(dates: string[], values: number[], threshold: number = 7): { dates: string[], values: number[] } {
-	if (dates.length === 0 || values.length === 0) {
-		return { dates, values }
-	}
-
-	const resultDates: string[] = []
-	const resultValues: number[] = []
-
-	let consecutiveZeros = 0
-	let zeroSequenceStart = 0
-
-	for (let i = 0; i < values.length; i++) {
-		if (values[i] === 0) {
-			if (consecutiveZeros === 0) {
-				zeroSequenceStart = i
-			}
-			consecutiveZeros++
-		} else {
-			if (consecutiveZeros > 0 && consecutiveZeros < threshold) {
-				for (let j = zeroSequenceStart; j < i; j++) {
-					resultDates.push(dates[j])
-					resultValues.push(values[j])
-				}
-			}
-			resultDates.push(dates[i])
-			resultValues.push(values[i])
-			consecutiveZeros = 0
-		}
-	}
-
-	if (consecutiveZeros > 0 && consecutiveZeros < threshold) {
-		for (let j = zeroSequenceStart; j < dates.length; j++) {
-			resultDates.push(dates[j])
-			resultValues.push(values[j])
-		}
-	}
-
-	return { dates: resultDates, values: resultValues }
-}
-
 class AttendanceTrendChart {
 	private instance: echarts.ECharts | null = null
 	private currentDates: string[] = []
@@ -173,16 +133,15 @@ class AttendanceTrendChart {
 	setOption(dates: string[], values: number[]) {
 		if (!this.instance) return
 
-		const filtered = filterConsecutiveZeros(dates, values, 7)
-		this.currentDates = filtered.dates
-		this.currentValues = filtered.values
+		this.currentDates = dates
+		this.currentValues = values
 
-		const smoothValues = calculateMovingAverage(filtered.values, 7)
-		const trendLineValues = calculateLinearTrend(filtered.values)
+		const smoothValues = calculateMovingAverage(values, 7)
+		const trendLineValues = calculateLinearTrend(values)
 
-		const maxValue = Math.max(...filtered.values)
-		const maxIndex = filtered.values.indexOf(maxValue)
-		const maxDate = filtered.dates[maxIndex]
+		const maxValue = Math.max(...values)
+		const maxIndex = values.indexOf(maxValue)
+		const maxDate = dates[maxIndex]
 
 		const option: EChartsOption = {
 			backgroundColor: 'transparent',
@@ -205,7 +164,7 @@ class AttendanceTrendChart {
 			xAxis: {
 				type: 'category',
 				boundaryGap: false,
-				data: filtered.dates,
+				data: dates,
 				axisLabel: {
 					color: this.getDarkMode() ? '#ccc' : '#666',
 					fontSize: 12
@@ -237,7 +196,7 @@ class AttendanceTrendChart {
 				{
 					name: '签到人次',
 					type: 'line',
-					data: filtered.values,
+					data: values,
 					smooth: true,
 					lineStyle: {
 						color: '#667eea',
