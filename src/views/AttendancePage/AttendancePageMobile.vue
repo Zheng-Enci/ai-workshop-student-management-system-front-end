@@ -511,6 +511,8 @@ const confirmVerificationCode = async () => {
 				}
 				saveAttendanceStatus() // 保存到本地存储
 			}
+			// 刷新本周签到概览数据
+			loadWeeklyAttendance()
 			// 关闭弹窗、清空验证码、提示成功
 			showVerificationCodeDialog.value = false
 			inputVerificationCode.value = ''
@@ -525,6 +527,8 @@ const confirmVerificationCode = async () => {
 				}
 				saveAttendanceStatus()
 			}
+			// 刷新本周签到概览数据
+			loadWeeklyAttendance()
 			showVerificationCodeDialog.value = false
 			inputVerificationCode.value = ''
 			ElMessage.success('您已签到，无需重复签到')
