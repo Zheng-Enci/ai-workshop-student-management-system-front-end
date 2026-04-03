@@ -96,6 +96,8 @@ const weeklyAttendanceData = ref([
 const weeklyAttendanceLoading = ref(false)
 /** 学生数据库表主键ID */
 const studentInfoId = ref(null)
+/** 今日签到状态（从服务器获取） */
+const todayAttendanceSlots = ref({ morning: false, afternoon: false, evening: false })
 
 // ======================== 业务逻辑方法区 ========================
 /**
@@ -250,23 +252,8 @@ const isCurrentSlotSigned = () => {
  */
 const isSlotSigned = slot => {
 	try {
-		// 签到状态对象异常时返回未签到
-		if (!attendanceStatus.value || typeof attendanceStatus.value !== 'object') {
-			return false
-		}
-
-		// 获取该时段的签到时间
-		const signTime = attendanceStatus.value[slot]
-		if (!signTime) {
-			return false
-		} // 无签到时间则未签到
-
-		// 对比日期（忽略时间部分）
-		const today = new Date().toDateString()
-		const signDate = new Date(signTime).toDateString()
-
-		return signDate === today // 日期相同则为今日已签到
-	} catch (error) { // 异常时返回未签到
+		return todayAttendanceSlots.value[slot] || false
+	} catch (error) {
 		console.error(`检查${slot}时段签到状态失败:`, error)
 		return false
 	}
@@ -687,6 +674,7 @@ const loadWeeklyAttendance = async () => {
 		const records = await AttendanceApi.getStudentRecordsByTimeRange(studentInfoId.value, startTime, endTime)
 		const daySlots = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 		const today = new Date().toDateString()
+		let todaySlots = { morning: false, afternoon: false, evening: false }
 		weeklyAttendanceData.value = weeklyAttendanceData.value.map((day, index) => {
 			const currentDate = new Date()
 			currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1 + index)
@@ -704,8 +692,12 @@ const loadWeeklyAttendance = async () => {
 					}
 				})
 			}
+			if (isToday) {
+				todaySlots = slots
+			}
 			return { date: dateStr, dayName, slots, isToday, isFuture }
 		})
+		todayAttendanceSlots.value = todaySlots
 	} catch (error) {
 		console.error('加载本周签到数据失败:', error)
 	} finally {
