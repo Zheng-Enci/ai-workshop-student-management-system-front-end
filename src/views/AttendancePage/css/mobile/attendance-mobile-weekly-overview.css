@@ -1,11 +1,10 @@
 .attendance-mobile-weekly-overview-mobile {
-	margin-top: 4px;
-	padding: 16px;
+	margin-top: 2px;
+	padding: 8px;
 	width: 100%;
 	box-sizing: border-box;
-	background: var(--card-background, #ffffff);
+	background: transparent;
 	border-radius: 12px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .attendance-mobile-weekly-overview-title-mobile {
@@ -48,7 +47,7 @@
 	width: 28px;
 	height: 28px;
 	border-radius: 50%;
-	background: transparent;
+	background: var(--card-background, #ffffff);
 	z-index: 1;
 }
 
@@ -124,10 +123,6 @@
 	font-weight: 600;
 }
 
-html.dark .attendance-mobile-weekly-overview-mobile {
-	background: var(--card-background, #1f2937);
-}
-
 html.dark .attendance-mobile-weekly-overview-title-mobile {
 	color: var(--text-primary, #f3f4f6);
 }
@@ -141,7 +136,7 @@ html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-none {
 }
 
 html.dark .attendance-mobile-weekly-overview-circle-mobile::before {
-	background: transparent;
+	background: var(--card-background, #1f2937);
 }
 
 html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning {

@@ -839,13 +839,32 @@ onUnmounted(() => {
 							'afternoon': getCurrentTimeSlot() === 'afternoon',
 							'evening': getCurrentTimeSlot() === 'evening'
 						}"
-						@click="handleSign">
-						<el-icon v-if="loading" class="is-loading">
-							<Loading/>
-						</el-icon>
-						<span v-else-if="!isInSignTime">非签到时间</span>
-						<span v-else-if="isCurrentSlotSigned()">已签到</span>
-						<span v-else>立即签到</span>
+						@click="submitAttendance">
+						<div class="attendance-mobile-sign-button-background-mobile"/>
+						<div class="attendance-mobile-sign-button-content-mobile">
+							<div class="attendance-mobile-sign-button-icon-container-mobile">
+								<el-icon v-if="!loading && isInSignTime && !isCurrentSlotSigned()" size="40"
+										 class="attendance-mobile-sign-button-main-icon-mobile">
+									<Check/>
+								</el-icon>
+								<el-icon v-else-if="!loading && isInSignTime && isCurrentSlotSigned()" size="40"
+										 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-success-icon-mobile">
+									<Check/>
+								</el-icon>
+								<el-icon v-else-if="!loading && !isInSignTime" size="40"
+										 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-disabled-icon-mobile">
+									<Clock/>
+								</el-icon>
+								<el-icon v-else size="28" class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-loading-icon-mobile">
+									<Loading/>
+								</el-icon>
+							</div>
+							<span v-if="!loading" class="attendance-mobile-sign-button-text-mobile">
+								{{ !isInSignTime ? '非签到时间' : (isCurrentSlotSigned() ? '已签到' : '点击签到') }}
+							</span>
+							<span v-else class="attendance-mobile-sign-button-text-mobile attendance-mobile-sign-button-text-mobile-loading-text-mobile">签到中...</span>
+						</div>
+						<div class="attendance-mobile-sign-button-ripple-mobile"/>
 					</button>
 				</div>
 
