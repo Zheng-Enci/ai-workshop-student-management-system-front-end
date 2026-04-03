@@ -131,14 +131,10 @@ class AttendanceTrendChart {
 		const option: EChartsOption = {
 			backgroundColor: 'transparent',
 			legend: {
-				data: [
-					{ name: '签到人次', icon: 'circle' },
-					{ name: '7天滚动平均', icon: 'rect' },
-					{ name: '趋势线', icon: 'path://M0,0 L10,0' }
-				],
+				data: ['签到人次', '7天滚动平均', '趋势线'],
 				top: 10,
 				itemWidth: 20,
-				itemHeight: 3,
+				itemHeight: 10,
 				textStyle: {
 					color: this.isDark.value ? '#ccc' : '#666'
 				}
@@ -146,6 +142,7 @@ class AttendanceTrendChart {
 			grid: {
 				left: '3%',
 				right: '4%',
+				top: '15%',
 				bottom: '3%',
 				containLabel: true
 			},
