@@ -73,6 +73,37 @@ function formatDate(date: Date): string {
 	return `${year}-${month}-${day}`
 }
 
+function calculateMovingAverage(values: number[], windowSize: number = 7): number[] {
+	return values.map((_, index, arr) => {
+		if (index < windowSize - 1) {
+			return NaN
+		}
+		const sum = arr.slice(index - windowSize + 1, index + 1).reduce((a, b) => a + b, 0)
+		return sum / windowSize
+	})
+}
+
+function calculateLinearTrend(values: number[]): number[] {
+	const n = values.length
+	if (n < 2) return values
+
+	const xMean = (n - 1) / 2
+	const yMean = values.reduce((a, b) => a + b, 0) / n
+
+	let numerator = 0
+	let denominator = 0
+
+	for (let i = 0; i < n; i++) {
+		numerator += (i - xMean) * (values[i] - yMean)
+		denominator += (i - xMean) * (i - xMean)
+	}
+
+	const slope = denominator === 0 ? 0 : numerator / denominator
+	const intercept = yMean - slope * xMean
+
+	return values.map((_, i) => slope * i + intercept)
+}
+
 class AttendanceTrendChart {
 	private instance: echarts.ECharts | null = null
 
@@ -90,6 +121,9 @@ class AttendanceTrendChart {
 
 	setOption(dates: string[], values: number[]) {
 		if (!this.instance) return
+
+		const smoothValues = calculateMovingAverage(values, 7)
+		const trendLineValues = calculateLinearTrend(values)
 
 		const option: EChartsOption = {
 			backgroundColor: 'transparent',
@@ -131,35 +165,62 @@ class AttendanceTrendChart {
 				}
 			},
 			series: [{
-				name: '签到人次',
-				type: 'line',
-				stack: 'Total',
-				data: values,
-				smooth: true,
-				lineStyle: {
-					color: '#667eea',
-					width: 3
-				},
-				areaStyle: {
-					color: {
-						type: 'linear',
-						x: 0,
-						y: 0,
-						x2: 0,
-						y2: 1,
-						colorStops: [{
-							offset: 0,
-							color: 'rgba(102, 126, 234, 0.3)'
-						}, {
-							offset: 1,
-							color: 'rgba(102, 126, 234, 0.1)'
-						}]
+					name: '签到人次',
+					type: 'line',
+					stack: 'Total',
+					data: values,
+					smooth: true,
+					lineStyle: {
+						color: '#667eea',
+						width: 3
+					},
+					areaStyle: {
+						color: {
+							type: 'linear',
+							x: 0,
+							y: 0,
+							x2: 0,
+							y2: 1,
+							colorStops: [{
+								offset: 0,
+								color: 'rgba(102, 126, 234, 0.3)'
+							}, {
+								offset: 1,
+								color: 'rgba(102, 126, 234, 0.1)'
+							}]
+						}
+					},
+					itemStyle: {
+						color: '#667eea'
 					}
-				},
-				itemStyle: {
-					color: '#667eea'
-				}
-			}]
+				}, {
+					name: '7天滚动平均',
+					type: 'line',
+					data: smoothValues,
+					smooth: true,
+					lineStyle: {
+						color: '#fa8c16',
+						width: 2,
+						type: 'dashed'
+					},
+					itemStyle: {
+						color: '#fa8c16'
+					},
+					symbol: 'none'
+				}, {
+					name: '趋势线',
+					type: 'line',
+					data: trendLineValues,
+					smooth: false,
+					lineStyle: {
+						color: '#165dff',
+						width: 2
+					},
+					itemStyle: {
+						color: '#165dff'
+					},
+					symbol: 'none'
+				}]
 		}
 
 		this.instance.setOption(option)
