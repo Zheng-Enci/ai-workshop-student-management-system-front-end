@@ -205,7 +205,7 @@ class AttendanceTrendChart {
 			xAxis: {
 				type: 'category',
 				boundaryGap: false,
-				data: dates,
+				data: filtered.dates,
 				axisLabel: {
 					color: this.getDarkMode() ? '#ccc' : '#666',
 					fontSize: 12
