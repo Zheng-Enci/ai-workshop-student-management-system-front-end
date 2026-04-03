@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 签到页面组件(移动端)
  *
@@ -628,9 +628,9 @@ const getWeekDateRange = () => {
 /**
  * 判断签到时间属于哪个时段
  * @param {string} timeStr - ISO格式的签到时间
- * @returns {'morning'|'afternoon'|'evening'|null}
+ * @returns {string|null}
  */
-const getSlotFromTime = (timeStr: string): 'morning' | 'afternoon' | 'evening' | null => {
+const getSlotFromTime = (timeStr: string): string | null => {
 	if (!timeStr) return null
 	const date = new Date(timeStr)
 	const hour = date.getHours()
@@ -958,7 +958,7 @@ onUnmounted(() => {
 							 :class="{ 'today': day.isToday, 'future': day.isFuture }">
 							<div class="attendance-mobile-weekly-overview-circle-mobile"
 								:class="getSlotClass(day.slots)">
-								{{ getSignedCount(day.slots) }}
+								<span class="slot-count">{{ getSignedCount(day.slots) }}</span>
 							</div>
 							<div class="attendance-mobile-weekly-overview-day-name-mobile">{{ day.dayName }}</div>
 						</div>

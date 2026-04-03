@@ -38,9 +38,25 @@
 	justify-content: center;
 	font-size: 12px;
 	font-weight: 600;
-	color: #ffffff;
 	transition: all 0.2s ease;
 	position: relative;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile::before {
+	content: '';
+	position: absolute;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: var(--card-background, #ffffff);
+	z-index: 1;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile span,
+.attendance-mobile-weekly-overview-circle-mobile .slot-count {
+	position: relative;
+	z-index: 2;
+	color: var(--text-primary, #1f2937);
 }
 
 .attendance-mobile-weekly-overview-circle-mobile.today::after {
@@ -49,6 +65,7 @@
 	inset: -3px;
 	border-radius: 50%;
 	border: 2px solid #667eea;
+	z-index: 3;
 }
 
 .attendance-mobile-weekly-overview-circle-mobile.future {
@@ -121,6 +138,10 @@ html.dark .attendance-mobile-weekly-overview-day-name-mobile {
 
 html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-none {
 	background: #4b5563;
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile::before {
+	background: var(--card-background, #1f2937);
 }
 
 html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning {
