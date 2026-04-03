@@ -237,7 +237,7 @@ class AttendanceTrendChart {
 				{
 					name: '签到人次',
 					type: 'line',
-					data: values,
+					data: filtered.values,
 					smooth: true,
 					lineStyle: {
 						color: '#667eea',
