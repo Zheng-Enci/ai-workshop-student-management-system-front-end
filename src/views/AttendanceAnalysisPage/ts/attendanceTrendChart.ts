@@ -164,6 +164,18 @@ class AttendanceTrendChart {
 					lineStyle: {
 						color: this.isDark.value ? '#666' : '#666'
 					}
+				},
+				formatter: (params: any) => {
+					if (!params || params.length === 0) return ''
+					const date = params[0].axisValue
+					let html = `<div style="margin:0;font-size:14px;line-height:1;">${date}</div>`
+					params.forEach((item: any) => {
+						if (item.value !== null && !isNaN(item.value)) {
+							const value = Number(item.value).toFixed(1)
+							html += `<div style="margin:8px 0 0;line-height:1;"><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${item.color};"></span><span style="font-size:14px;color:${this.isDark.value ? '#fff' : '#333'};margin-left:2px">${item.seriesName}</span><span style="float:right;margin-left:20px;font-size:14px;color:${this.isDark.value ? '#fff' : '#333'};font-weight:900">${value}</span><div style="clear:both"></div></div>`
+						}
+					})
+					return html
 				}
 			},
 			xAxis: {
