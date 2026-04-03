@@ -48,7 +48,7 @@
 	width: 28px;
 	height: 28px;
 	border-radius: 50%;
-	background: var(--card-background, #ffffff);
+	background: transparent;
 	z-index: 1;
 }
 
@@ -141,7 +141,7 @@ html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-none {
 }
 
 html.dark .attendance-mobile-weekly-overview-circle-mobile::before {
-	background: var(--card-background, #1f2937);
+	background: transparent;
 }
 
 html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning {
