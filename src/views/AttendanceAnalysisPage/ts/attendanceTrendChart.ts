@@ -163,10 +163,10 @@ class AttendanceTrendChart {
 			},
 			tooltip: {
 				trigger: 'axis',
-				backgroundColor: this.getDarkMode() ? '#000' : 'rgba(255, 255, 255, 0.95)',
-				borderColor: this.getDarkMode() ? '#333' : '#ddd',
+				backgroundColor: 'rgba(255, 255, 255, 0.95)',
+				borderColor: '#ddd',
 				textStyle: {
-					color: this.getDarkMode() ? '#fff' : '#333'
+					color: this.getDarkMode() ? '#000' : '#333'
 				},
 				axisPointer: {
 					type: 'line',
@@ -174,12 +174,10 @@ class AttendanceTrendChart {
 						color: this.getDarkMode() ? '#666' : '#666'
 					}
 				},
-				extraCssText: this.getDarkMode() ? 'box-shadow: rgba(0, 0, 0, 0.5) 1px 2px 10px;' : '',
 				formatter: (params: any) => {
 					if (!params || params.length === 0) return ''
 					const date = params[0].axisValue
-					const isDark = this.getDarkMode()
-					const textColor = isDark ? '#fff' : '#333'
+					const textColor = this.getDarkMode() ? '#000' : '#333'
 					let html = `<div style="margin:0;font-size:14px;color:${textColor};line-height:1;">${date}</div>`
 					params.forEach((item: any) => {
 						if (item.value !== null && !isNaN(item.value)) {
