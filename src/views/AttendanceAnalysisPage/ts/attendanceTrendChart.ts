@@ -151,7 +151,7 @@ class AttendanceTrendChart {
 				itemWidth: 20,
 				itemHeight: 10,
 				textStyle: {
-					color: this.isDark.value ? '#ccc' : '#666'
+					color: this.getDarkMode() ? '#ccc' : '#666'
 				}
 			},
 			grid: {
@@ -195,29 +195,29 @@ class AttendanceTrendChart {
 				boundaryGap: false,
 				data: dates,
 				axisLabel: {
-					color: this.isDark.value ? '#ccc' : '#666',
+					color: this.getDarkMode() ? '#ccc' : '#666',
 					fontSize: 12
 				},
 				axisLine: {
 					lineStyle: {
-						color: this.isDark.value ? '#444' : '#ddd'
+						color: this.getDarkMode() ? '#444' : '#ddd'
 					}
 				}
 			},
 			yAxis: {
 				type: 'value',
 				axisLabel: {
-					color: this.isDark.value ? '#ccc' : '#666',
+					color: this.getDarkMode() ? '#ccc' : '#666',
 					fontSize: 12
 				},
 				axisLine: {
 					lineStyle: {
-						color: this.isDark.value ? '#444' : '#ddd'
+						color: this.getDarkMode() ? '#444' : '#ddd'
 					}
 				},
 				splitLine: {
 					lineStyle: {
-						color: this.isDark.value ? '#333' : '#eee'
+						color: this.getDarkMode() ? '#333' : '#eee'
 					}
 				}
 			},
@@ -246,33 +246,33 @@ class AttendanceTrendChart {
 					},
 					itemStyle: { color: '#667eea' },
 					markLine: {
-						silent: true,
-						symbol: 'none',
-						data: [
-							{
-								type: 'max',
-								name: '最高签到',
-								lineStyle: {
-									color: this.isDark.value ? '#f50' : '#ff4400',
-									type: 'dashed',
-									width: 2
-								},
-								label: {
-									formatter: `${maxValue} 人次`,
-									position: 'end',
-									color: this.isDark.value ? '#f50' : '#ff4400'
-								}
+								silent: true,
+								symbol: 'none',
+								data: [
+									{
+										type: 'max',
+										name: '最高签到',
+										lineStyle: {
+											color: this.getDarkMode() ? '#f50' : '#ff4400',
+											type: 'dashed',
+											width: 2
+										},
+										label: {
+											formatter: `${maxValue} 人次`,
+											position: 'end',
+											color: this.getDarkMode() ? '#f50' : '#ff4400'
+										}
+									}
+								]
 							}
-						]
-					}
 				},
 				{
 					name: '7天滚动平均',
 					type: 'line',
 					data: smoothValues,
 					smooth: true,
-					lineStyle: { color: this.isDark.value ? '#ff7875' : '#ff4d4f', width: 3, type: 'dashed' },
-					itemStyle: { color: this.isDark.value ? '#ff7875' : '#ff4d4f' },
+					lineStyle: { color: this.getDarkMode() ? '#ff7875' : '#ff4d4f', width: 3, type: 'dashed' },
+							itemStyle: { color: this.getDarkMode() ? '#ff7875' : '#ff4d4f' },
 					symbol: 'none'
 				},
 				{
@@ -280,8 +280,8 @@ class AttendanceTrendChart {
 					type: 'line',
 					data: trendLineValues,
 					smooth: false,
-					lineStyle: { color: this.isDark.value ? '#52c41a' : '#389e0d', width: 2 },
-					itemStyle: { color: this.isDark.value ? '#52c41a' : '#389e0d' },
+					lineStyle: { color: this.getDarkMode() ? '#52c41a' : '#389e0d', width: 2 },
+					itemStyle: { color: this.getDarkMode() ? '#52c41a' : '#389e0d' },
 					symbol: 'none'
 				}
 			]
