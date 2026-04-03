@@ -125,7 +125,7 @@ class AttendanceTrendChart {
 	setOption(dates: string[], values: number[]) {
 		if (!this.instance) return
 
-		const smoothValues = calculateMovingAverage(values, 7)
+		const smoothValues = calculateMovingAverage(values, 10)
 		const trendLineValues = calculateLinearTrend(values)
 
 		const option: EChartsOption = {
