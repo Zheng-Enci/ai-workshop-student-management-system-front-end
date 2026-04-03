@@ -39,7 +39,8 @@
 
 .attendance-mobile-status-cards-card-mobile.signed {
   border-color: #4CAF50;
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.25) 0%, rgba(76, 175, 80, 0.15) 100%);
+  box-shadow: 0 0 12px rgba(76, 175, 80, 0.3);
 }
 
 /* ==================== 卡片图标 ==================== */
@@ -73,10 +74,6 @@
 .attendance-mobile-status-cards-card-mobile.evening .attendance-mobile-status-cards-card-icon-mobile {
   background: linear-gradient(135deg, #673AB7 0%, #3F51B5 100%);
   box-shadow: 0 4px 12px rgba(103, 58, 183, 0.3);
-}
-
-.attendance-mobile-status-cards-card-mobile.signed .attendance-mobile-status-cards-card-icon-mobile {
-  background: #4CAF50;
 }
 
 /* ==================== 卡片内容 ==================== */
