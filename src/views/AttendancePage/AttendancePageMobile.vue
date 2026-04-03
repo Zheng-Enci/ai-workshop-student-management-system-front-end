@@ -1061,7 +1061,7 @@ h1 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 20px; /* 子元素间距 */
+	gap: 50px; /* 子元素间距 */
 	width: 100%;
 }
 
