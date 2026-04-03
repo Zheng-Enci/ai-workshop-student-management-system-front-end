@@ -286,50 +286,16 @@ export default AttendanceTrendChart
 export { getDateRange, getAttendanceTrendData }
 
 /**
- * 获取指定日期的签到人数
- * @param date - 指定日期，格式为 'YYYY-MM-DD'，默认为今天
- * @returns 签到人数
- */
-async function getAttendanceCountByDate(date?: string): Promise<number> {
-	try {
-		return await AttendanceApi.getTodayAttendanceCount(date)
-	} catch (error: any) {
-		throw error
-	}
-}
-
-/**
  * 获取指定时间范围内的签到趋势数据
  * @param startDate - 开始日期，格式为 'YYYY-MM-DD'
  * @param endDate - 结束日期，格式为 'YYYY-MM-DD'
  * @returns 包含日期和签到人数的列表
  */
 async function getAttendanceTrendData(startDate: string, endDate: string): Promise<{ date: string; count: number }[]> {
-	const dates: string[] = []
-	const currentDate = new Date(startDate)
-
-	while (currentDate <= new Date(endDate)) {
-		const dateStr = formatDate(currentDate)
-		dates.push(dateStr)
-		currentDate.setDate(currentDate.getDate() + 1)
+	try {
+		return await AttendanceApi.getDailySignInCount(startDate, endDate)
+	} catch (error) {
+		console.error('获取签到趋势数据失败:', error)
+		return []
 	}
-
-	const results: { date: string; count: number }[] = []
-	const batchSize = 64
-	for (let i = 0; i < dates.length; i += batchSize) {
-		const batch = dates.slice(i, i + batchSize)
-		const batchResults = await Promise.all(
-			batch.map(async (date) => {
-				try {
-					const count = await getAttendanceCountByDate(date)
-					return { date, count }
-				} catch (error) {
-					return { date, count: 0 }
-				}
-			})
-		)
-		results.push(...batchResults)
-	}
-
-	return results
 }

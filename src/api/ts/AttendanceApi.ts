@@ -38,6 +38,13 @@ interface AttendanceRecordsResponse {
 	data: AttendanceRecord[]
 }
 
+interface DailySignInCountResponse {
+	data: Array<{
+		date: string
+		signCount: number
+	}>
+}
+
 class AttendanceApi {
 	static api: AxiosInstance = ApiInterceptor.createInstance()
 
@@ -107,6 +114,28 @@ class AttendanceApi {
 				params
 			})
 			return response.data.data
+		} catch (error) {
+			const axiosError = error as AxiosError<{ message: string }>
+			const msg = axiosError.response?.data?.message
+			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		}
+	}
+
+	/**
+	 * 获取指定日期范围内每日签到人次统计
+	 * @param startDate - 开始日期，格式：yyyy-MM-dd
+	 * @param endDate - 结束日期，格式：yyyy-MM-dd
+	 * @returns 响应数据，包含日期和签到人次列表
+	 */
+	static async getDailySignInCount(startDate: string, endDate: string): Promise<Array<{ date: string; count: number }>> {
+		try {
+			const response = await this.api.get<DailySignInCountResponse>('/api/v1/attendance/daily-sign-in-count', {
+				params: { startDate, endDate }
+			})
+			return response.data.data.map(item => ({
+				date: item.date,
+				count: item.signCount
+			}))
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
