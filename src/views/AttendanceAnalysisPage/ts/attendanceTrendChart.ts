@@ -173,9 +173,7 @@ class AttendanceTrendChart {
 	setOption(dates: string[], values: number[]) {
 		if (!this.instance) return
 
-		console.log('过滤前数据:', values.slice(0, 20), '长度:', values.length)
 		const filtered = filterConsecutiveZeros(dates, values, 7)
-		console.log('过滤后数据:', filtered.values.slice(0, 20), '长度:', filtered.values.length)
 		this.currentDates = filtered.dates
 		this.currentValues = filtered.values
 
