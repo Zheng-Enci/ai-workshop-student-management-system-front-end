@@ -168,13 +168,17 @@ class AttendanceTrendChart {
 				formatter: (params: any) => {
 					if (!params || params.length === 0) return ''
 					const date = params[0].axisValue
-					let html = `<div style="margin:0;font-size:14px;line-height:1;">${date}</div>`
+					const isDark = this.isDark.value
+					const textColor = isDark ? '#fff' : '#333'
+					const bgColor = isDark ? '#000' : 'rgba(255, 255, 255, 0.95)'
+					let html = `<div style="background-color:${bgColor};padding:10px;border-radius:4px;margin:-10px;"><div style="margin:0;font-size:14px;color:${textColor};line-height:1;">${date}</div>`
 					params.forEach((item: any) => {
 						if (item.value !== null && !isNaN(item.value)) {
 							const value = Number(item.value).toFixed(1)
-							html += `<div style="margin:8px 0 0;line-height:1;"><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${item.color};"></span><span style="font-size:14px;color:${this.isDark.value ? '#fff' : '#333'};margin-left:2px">${item.seriesName}</span><span style="float:right;margin-left:20px;font-size:14px;color:${this.isDark.value ? '#fff' : '#333'};font-weight:900">${value}</span><div style="clear:both"></div></div>`
+							html += `<div style="margin:8px 0 0;line-height:1;"><span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:${item.color};"></span><span style="font-size:14px;color:${textColor};margin-left:2px">${item.seriesName}</span><span style="float:right;margin-left:20px;font-size:14px;color:${textColor};font-weight:900">${value}</span><div style="clear:both"></div></div>`
 						}
 					})
+					html += '</div>'
 					return html
 				}
 			},
