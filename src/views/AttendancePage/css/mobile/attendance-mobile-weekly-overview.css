@@ -19,6 +19,7 @@
 	display: flex;
 	justify-content: space-evenly;
 	width: 100%;
+	position: relative;
 }
 
 .attendance-mobile-weekly-overview-day-mobile {
@@ -29,11 +30,24 @@
 	padding: 8px 4px;
 	border-radius: 8px;
 	transition: all 0.3s ease;
+	position: relative;
 }
 
 .attendance-mobile-weekly-overview-day-mobile.today {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(102, 126, 234, 0.05));
-	border: 1px solid rgba(102, 126, 234, 0.3);
+	background: none;
+	border: none;
+}
+
+.attendance-mobile-weekly-overview-day-mobile.today::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 24px;
+	height: 4px;
+	background: #667eea;
+	border-radius: 2px;
 }
 
 .attendance-mobile-weekly-overview-circle-mobile {
