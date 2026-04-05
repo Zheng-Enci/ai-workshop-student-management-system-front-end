@@ -63,7 +63,7 @@
 	transition: all 0.2s ease;
 	position: relative;
 	background-image: url('@/assets/fire-sparkle.gif');
-	background-size: 150%;
+	background-size: 00%;
 	background-position: center;
 }
 
