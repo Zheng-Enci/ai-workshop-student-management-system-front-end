@@ -84,13 +84,13 @@ const avatarTipShown = ref(false)
 // 本周签到概览相关响应式变量
 /** 本周每天的签到数据 */
 const weeklyAttendanceData = ref([
-	{ date: '', dayName: '周一', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周二', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周三', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周四', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周五', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周六', slots: { morning: false, afternoon: false, evening: false } },
-	{ date: '', dayName: '周日', slots: { morning: false, afternoon: false, evening: false } }
+	{ date: '', dayName: '—', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '—', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '—', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '—', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '—', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '—', slots: { morning: false, afternoon: false, evening: false } },
+	{ date: '', dayName: '—', slots: { morning: false, afternoon: false, evening: false } }
 ])
 /** 本周签到数据加载状态 */
 const weeklyAttendanceLoading = ref(false)
