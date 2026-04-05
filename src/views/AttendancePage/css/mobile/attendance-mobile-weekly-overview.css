@@ -52,8 +52,8 @@
 }
 
 .attendance-mobile-weekly-overview-circle-mobile {
-	width: 48px;
-	height: 48px;
+	width: 40px;
+	height: 40px;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
@@ -63,15 +63,15 @@
 	transition: all 0.2s ease;
 	position: relative;
 	background-image: url('@/assets/fire-sparkle.gif');
-	background-size: cover;
+	background-size: 150%;
 	background-position: center;
 }
 
 .attendance-mobile-weekly-overview-circle-mobile::before {
 	content: '';
 	position: absolute;
-	width: 34px;
-	height: 34px;
+	width: 28px;
+	height: 28px;
 	border-radius: 50%;
 	background: var(--card-background, #ffffff);
 	z-index: 1;
