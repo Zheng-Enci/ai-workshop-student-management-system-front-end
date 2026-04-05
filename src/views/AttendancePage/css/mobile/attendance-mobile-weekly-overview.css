@@ -45,9 +45,11 @@
 	left: 50%;
 	transform: translateX(-50%);
 	width: 24px;
-	height: 4px;
-	background: #667eea;
-	border-radius: 2px;
+	height: 12px;
+	background-image: url('@/assets/df6a5eafe86e223042615f114a1bf469.gif');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .attendance-mobile-weekly-overview-circle-mobile {
