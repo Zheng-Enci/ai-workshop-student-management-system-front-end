@@ -81,6 +81,8 @@ function withCheckLogging(plugin, checkName) {
 }
 
 // https://vitejs.dev/config/
+const skipChecks = process.env.SKIP_CHECKS === 'true'
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -89,6 +91,7 @@ export default defineConfig({
       name: 'code-quality-logger',
       apply: 'serve',
       buildStart(pluginContext) {
+        if (skipChecks) return
         const logger = pluginContext?.logger || console
         if (logger.info) {
           logger.info('\n📋 开始代码质量检查...', { timestamp: true })
@@ -98,7 +101,7 @@ export default defineConfig({
       }
     },
     // ESLint 检查
-    (() => {
+    skipChecks ? null : (() => {
       const eslintPlugin = eslint({
         overrideConfigFile: 'code-quality/code-quality-config/.eslintrc.js',
         ignorePath: 'code-quality/code-quality-config/.eslintignore',
@@ -112,7 +115,7 @@ export default defineConfig({
       return withCheckLogging(eslintPlugin, 'ESLint 代码规范')
     })(),
     // Stylelint 检查
-    (() => {
+    skipChecks ? null : (() => {
       const stylelintPlugin = stylelint({
         configFile: 'code-quality/code-quality-config/.stylelintrc.js',
         include: ['src/**/*.{css,scss,sass,less,styl,vue}'],
@@ -123,7 +126,7 @@ export default defineConfig({
       return withCheckLogging(stylelintPlugin, 'Stylelint 样式规范')
     })(),
     // CSS 分析
-    (() => {
+    skipChecks ? null : (() => {
       const cssAnalyzer = cssAnalyzerPlugin({
         enabled: true,
         threshold: 0,
@@ -134,7 +137,7 @@ export default defineConfig({
       return withCheckLogging(cssAnalyzer, 'CSS 使用情况分析')
     })(),
     // 依赖检查
-    (() => {
+    skipChecks ? null : (() => {
       const depcheck = depcheckPlugin({
         enabled: true,
         configPath: 'code-quality/code-quality-config/.depcheckrc.json',
@@ -143,7 +146,7 @@ export default defineConfig({
       return withCheckLogging(depcheck, '依赖完整性检查')
     })(),
     // 安全审计
-    (() => {
+    skipChecks ? null : (() => {
       const audit = auditPlugin({
         enabled: true,
         auditLevel: 'moderate',
@@ -152,17 +155,17 @@ export default defineConfig({
       return withCheckLogging(audit, '安全漏洞审计')
     })(),
     // 注释覆盖率检查
-    (() => {
+    skipChecks ? null : (() => {
       const commentCoverage = commentCoveragePlugin({
         enabled: true,
         srcDir: 'src',
         extensions: ['.js', '.vue', '.css', '.scss'],
-        minCoverage: 32, // 默认最低要求（用于未配置的文件类型）
+        minCoverage: 32,
         minCoverageByExtension: {
-          '.js': 32,    // JavaScript 文件最低要求 32%
-          '.vue': 32,   // Vue 文件最低要求 32%
-          '.css': 16,   // CSS 文件最低要求 16%
-          '.scss': 16   // SCSS 文件最低要求 16%
+          '.js': 32,
+          '.vue': 32,
+          '.css': 16,
+          '.scss': 16
         },
         warnThreshold: 10,
         showDetails: false,
