@@ -41,13 +41,30 @@
 .attendance-mobile-weekly-overview-day-mobile.today::after {
 	content: '';
 	position: absolute;
-	bottom: -2px;
+	bottom: -4px;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 16px;
-	height: 12px;
-	background: linear-gradient(to top, #f59e0b, #ef4444);
-	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+	width: 18px;
+	height: 14px;
+	background: linear-gradient(to top, rgba(245, 158, 11, 0.9), rgba(239, 68, 68, 0.7));
+	clip-path: polygon(50% 0%, 20% 60%, 0% 100%, 100% 100%, 80% 60%);
+	animation: flame-flicker 0.8s ease-in-out infinite alternate;
+	filter: blur(0.5px);
+}
+
+@keyframes flame-flicker {
+	0% {
+		transform: translateX(-50%) scale(1) rotate(-2deg);
+		opacity: 0.9;
+	}
+	50% {
+		transform: translateX(-50%) scale(1.1, 1.2) rotate(1deg);
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(-50%) scale(0.95, 1.1) rotate(-1deg);
+		opacity: 0.85;
+	}
 }
 
 .attendance-mobile-weekly-overview-circle-mobile {
