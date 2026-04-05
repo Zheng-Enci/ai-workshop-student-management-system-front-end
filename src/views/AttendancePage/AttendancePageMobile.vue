@@ -36,6 +36,9 @@ import AttendanceApi from '@/api/ts/AttendanceApi' // 签到相关API接口
 // Pinia 状态管理
 import {useThemeStore} from '@/stores/theme' // 主题切换状态
 import {useUserStore} from '@/stores/user' // 用户信息状态
+import {useLoadingMaskStore} from '@/stores/loading' // 加载蒙版状态
+// 页面组件
+import LoadingMask from '@/components/LoadingMask.vue'
 // 页面配置常量
 import AttendancePageConfig from '@/views/AttendancePage/js/AttendancePageConfig'
 import {flameController} from '@/views/AttendancePage/ts/FlameDisplayController'
@@ -47,6 +50,7 @@ import flameGrayStaticGif from '@/assets/flame-gray-static.gif'
 const loading = ref(false)
 /** 用户状态仓库实例 - 获取登录态、用户信息 */
 const userStore = useUserStore()
+const loadingMaskStore = useLoadingMaskStore()
 /** 主题状态仓库实例 - 用于切换明暗主题 */
 const themeStore = useThemeStore()
 /** 解构主题切换方法 */
@@ -747,13 +751,14 @@ const loadWeeklyAttendance = async () => {
  */
 onMounted(async () => {
 	try {
+		loadingMaskStore.showLoadingMask('正在加载数据...')
 		loadAttendanceStatus() // 加载本地签到状态
 		checkSignTime() // 首次检查签到时间
 		// 启动定时器，每秒更新一次时间和签到状态
 		timeInterval.value = setInterval(checkSignTime, 1000)
 		loadStudentLevel() // 加载学生等级
-		loadUserAvatar() // 加载用户头像
-		loadWeeklyAttendance() // 加载本周签到数据
+		await loadUserAvatar() // 加载用户头像
+		await loadWeeklyAttendance() // 加载本周签到数据
 		// 延迟500ms同步签到状态，避免页面初始化时接口请求冲突
 		setTimeout(async () => {
 			await syncAllAttendanceStatus()
@@ -761,6 +766,8 @@ onMounted(async () => {
 	} catch (error) { // 初始化异常，重置签到状态
 		console.error('组件初始化失败:', error)
 		attendanceStatus.value = {morning: null, afternoon: null, evening: null}
+	} finally {
+		loadingMaskStore.hideLoadingMask()
 	}
 })
 
@@ -779,6 +786,9 @@ onUnmounted(() => {
 </script>
 
 <template>
+	<!-- 加载蒙版 -->
+	<LoadingMask/>
+
 	<!-- 移动端签到页面根容器 -->
 	<div class="attendance-mobile-background-container-mobile">
 		<!-- 背景装饰效果：渐变浮动圆球 -->
