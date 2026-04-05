@@ -50,6 +50,7 @@
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
+	z-index: -1;
 }
 
 .attendance-mobile-weekly-overview-circle-mobile {
