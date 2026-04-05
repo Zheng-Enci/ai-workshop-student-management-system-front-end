@@ -691,7 +691,8 @@ const loadWeeklyAttendance = async () => {
 		let todaySlots = { morning: false, afternoon: false, evening: false }
 		weeklyAttendanceData.value = weeklyAttendanceData.value.map((day, index) => {
 			const currentDate = new Date()
-			currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1 + index)
+			const dayOfWeek = currentDate.getDay() || 7
+			currentDate.setDate(currentDate.getDate() - dayOfWeek + 1 + index)
 			const dateStr = currentDate.toISOString().split('T')[0]
 			const dayName = daySlots[currentDate.getDay()]
 			const isToday = currentDate.toDateString() === today
