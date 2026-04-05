@@ -41,7 +41,7 @@
 .attendance-mobile-weekly-overview-day-mobile.today::after {
 	content: '';
 	position: absolute;
-	bottom: 4px;
+	bottom: 0px;
 	left: 50%;
 	transform: translateX(-50%);
 	width: 50px;
