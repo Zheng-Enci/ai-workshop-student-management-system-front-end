@@ -865,7 +865,7 @@ onUnmounted(() => {
 									 'future': day.isFuture,
 									 'circle-animate': showCircleAnimation 
 								 }"
-								 :style="{ animationDelay: `${index * 0.12}s` }">
+								 :style="{ animationDelay: `${index * 0.15}s` }">
 								<div class="attendance-mobile-weekly-overview-circle-mobile"
 									:class="getSlotClass(day.slots)">
 									<span class="slot-count">{{ getSignedCount(day.slots) }}</span>
