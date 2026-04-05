@@ -116,3 +116,24 @@
 .attendance-mobile-header-avatar-mobile .attendance-mobile-header-avatar-icon-mobile {
 	color: var(--text-primary);
 }
+
+.attendance-mobile-flame-mobile {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: 4px;
+}
+
+.attendance-mobile-flame-image-mobile {
+	width: 28px;
+	height: 28px;
+}
+
+.attendance-mobile-flame-count-mobile {
+	position: absolute;
+	font-size: 10px;
+	font-weight: bold;
+	color: #fff;
+	text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+}

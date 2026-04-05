@@ -38,6 +38,8 @@ import {useThemeStore} from '@/stores/theme' // 主题切换状态
 import {useUserStore} from '@/stores/user' // 用户信息状态
 // 页面配置常量
 import AttendancePageConfig from '@/views/AttendancePage/js/AttendancePageConfig'
+import {flameController} from '@/views/AttendancePage/ts/FlameDisplayController'
+import flameGif from '@/assets/flame.gif'
 
 // ======================== 响应式变量定义区 ========================
 /** 通用加载状态 - 用于按钮/接口请求加载中展示 */
@@ -713,6 +715,14 @@ const loadWeeklyAttendance = async () => {
 			return { date: dateStr, dayName, slots, isToday, isFuture }
 		})
 		todayAttendanceSlots.value = todaySlots
+		const totalCount = weeklyAttendanceData.value.reduce((sum, day) => {
+			if (day.isFuture) return sum
+			if (day.slots.morning) sum++
+			if (day.slots.afternoon) sum++
+			if (day.slots.evening) sum++
+			return sum
+		}, 0)
+		flameController.updateCount(totalCount)
 	} catch (error) {
 		console.error('加载本周签到数据失败:', error)
 	} finally {
@@ -820,6 +830,11 @@ onUnmounted(() => {
 					<el-icon v-else size="24" class="attendance-mobile-header-avatar-icon-mobile">
 						<User/>
 					</el-icon>
+				</div>
+				<!-- 火焰图标：本周签到≥3次时显示 -->
+				<div v-if="flameController.isVisible.value" class="attendance-mobile-flame-mobile">
+					<img :src="flameGif" alt="火焰" class="attendance-mobile-flame-image-mobile"/>
+					<span class="attendance-mobile-flame-count-mobile">{{ flameController.displayCount.value }}</span>
 				</div>
 			</div>
 
