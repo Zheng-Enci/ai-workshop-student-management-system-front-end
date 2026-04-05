@@ -1,0 +1,572 @@
+.attendance-analysis-container {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--glass-bg);
+  padding: 20px 30px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 32px var(--shadow-color);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+.title-section h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title-section p {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.refresh-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.last-update {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.chart-card {
+  background: var(--glass-bg);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 32px var(--shadow-color);
+  backdrop-filter: blur(10px);
+  margin-bottom: 20px;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.chart-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px var(--shadow-hover);
+  border-color: var(--primary-color);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.header-icon {
+  font-size: 20px;
+  color: var(--primary-color);
+}
+
+.chart {
+  width: 100%;
+  height: 400px;
+}
+
+.timeline-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.time-range-selector {
+  flex: 1;
+}
+
+.time-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.custom-date-range {
+  flex: 1;
+}
+
+.custom-date-picker {
+  width: 100%;
+}
+
+.timeline-chart {
+  width: 100%;
+  height: 400px;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.student-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.student-id {
+  color: var(--text-tertiary);
+  font-size: 14px;
+}
+
+.attendance-time {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ranking-list {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 212, 255, 0.6) rgba(0, 0, 0, 0.2);
+}
+
+.ranking-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ranking-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.ranking-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00d4ff, #5b21b6);
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.ranking-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #00d4ff, #ec4899);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+}
+
+.ranking-list::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px var(--shadow-color);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.ranking-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.ranking-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 16px 48px var(--shadow-hover);
+}
+
+.ranking-item:hover::before {
+  opacity: 1;
+}
+
+.ranking-item > * {
+  position: relative;
+  z-index: 1;
+}
+
+.rank-first {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 237, 78, 0.2));
+  color: var(--text-primary);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.rank-second {
+  background: linear-gradient(135deg, rgba(192, 192, 192, 0.3), rgba(232, 232, 232, 0.2));
+  color: var(--text-primary);
+  box-shadow: 0 0 15px rgba(192, 192, 192, 0.3);
+  border: 2px solid rgba(192, 192, 192, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.rank-third {
+  background: linear-gradient(135deg, rgba(205, 127, 50, 0.3), rgba(218, 165, 32, 0.2));
+  color: var(--text-primary);
+  box-shadow: 0 0 15px rgba(205, 127, 50, 0.3);
+  border: 2px solid rgba(205, 127, 50, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.rank-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 20px;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.rank-number::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ranking-item:hover .rank-number::before {
+  opacity: 1;
+}
+
+.rank-first .rank-number {
+  background: #ffd700;
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  border: 1px solid #ffd700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.rank-second .rank-number {
+  background: #c0c0c0;
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(192, 192, 192, 0.3);
+  border: 1px solid #c0c0c0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.rank-third .rank-number {
+  background: #cd7f32;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(205, 127, 50, 0.3);
+  border: 1px solid #cd7f32;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.ranking-item .student-info {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.ranking-item .student-name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.student-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.student-level {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.level-admin {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: white;
+}
+
+.level-core {
+  background: linear-gradient(135deg, #4ecdc4, #7fdbda);
+  color: white;
+}
+
+.level-normal {
+  background: linear-gradient(135deg, #45b7d1, #74c0fc);
+  color: white;
+}
+
+.level-club {
+  background: linear-gradient(135deg, #96ceb4, #b8e6b8);
+  color: var(--text-primary);
+}
+
+.student-grade {
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ranking-item .attendance-time {
+  margin-right: 60px;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 16px;
+  background: var(--bg-tertiary);
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.rank-badge {
+  position: absolute;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.rank-badge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.trophy-icon {
+  color: #ffd700;
+  filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3));
+}
+
+.medal-icon {
+  color: #c0c0c0;
+  filter: drop-shadow(0 2px 4px rgba(192, 192, 192, 0.3));
+}
+
+.star-icon {
+  color: #cd7f32;
+  filter: drop-shadow(0 2px 4px rgba(205, 127, 50, 0.3));
+}
+
+
+.realtime-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.realtime-item {
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  border-left: 4px solid var(--primary-color);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.realtime-item:hover {
+  background: var(--bg-tertiary);
+  border-left-color: var(--secondary-color);
+  box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.realtime-label {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.realtime-value {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--glass-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 1200px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dark .student-grade {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  font-weight: 600 !important;
+}
+
+.dark .ranking-item .student-name {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.dark .ranking-item .attendance-time {
+  color: #00d4ff !important;
+  background: rgba(0, 212, 255, 0.3) !important;
+  border: 1px solid rgba(0, 212, 255, 0.5) !important;
+  font-weight: 600 !important;
+}
+
+.dark .student-level {
+  font-weight: 600 !important;
+}
+
+@media (max-width: 768px) {
+  .attendance-analysis-container {
+    padding: 10px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+}
