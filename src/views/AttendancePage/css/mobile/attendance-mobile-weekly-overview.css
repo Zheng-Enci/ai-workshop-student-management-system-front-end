@@ -52,8 +52,8 @@
 }
 
 .attendance-mobile-weekly-overview-circle-mobile {
-	width: 40px;
-	height: 40px;
+	width: 48px;
+	height: 48px;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
@@ -70,8 +70,8 @@
 .attendance-mobile-weekly-overview-circle-mobile::before {
 	content: '';
 	position: absolute;
-	width: 28px;
-	height: 28px;
+	width: 34px;
+	height: 34px;
 	border-radius: 50%;
 	background: var(--card-background, #ffffff);
 	z-index: 1;
