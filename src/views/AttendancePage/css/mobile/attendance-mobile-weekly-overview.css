@@ -48,17 +48,6 @@
 	height: 4px;
 	background: #667eea;
 	border-radius: 2px;
-	box-shadow: 0 -4px 12px 2px rgba(102, 126, 234, 0.6);
-	animation: glow-pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes glow-pulse {
-	0%, 100% {
-		box-shadow: 0 -4px 12px 2px rgba(102, 126, 234, 0.5);
-	}
-	50% {
-		box-shadow: 0 -5px 14px 3px rgba(102, 126, 234, 0.7);
-	}
 }
 
 .attendance-mobile-weekly-overview-circle-mobile {
