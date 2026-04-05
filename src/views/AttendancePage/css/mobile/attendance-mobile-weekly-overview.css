@@ -44,8 +44,8 @@
 	bottom: 4px;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 30px;
-	height: 16px;
+	width: 36px;
+	height: 20px;
 	background-image: url('@/assets/df6a5eafe86e223042615f114a1bf469.gif');
 	background-size: contain;
 	background-repeat: no-repeat;
