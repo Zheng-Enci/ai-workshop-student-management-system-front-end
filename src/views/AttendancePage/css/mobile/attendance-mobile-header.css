@@ -44,11 +44,6 @@
 	flex-shrink: 0;
 }
 
-.attendance-mobile-header-logo-mobile:hover {
-	transform: scale(1.1) rotate(5deg);
-	filter: brightness(1.2);
-}
-
 /* ==================== 标题区域 ==================== */
 
 .attendance-mobile-header-titles-mobile {
