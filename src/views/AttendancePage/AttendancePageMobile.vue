@@ -832,10 +832,10 @@ onUnmounted(() => {
 					</el-icon>
 				</div>
 				<!-- 火焰图标：本周签到≥3次时显示 -->
-				<div v-if="flameController.isVisible.value" class="attendance-mobile-flame-mobile">
-					<img :src="flameGif" alt="火焰" class="attendance-mobile-flame-image-mobile"/>
-					<span class="attendance-mobile-flame-count-mobile">{{ flameController.displayCount.value }}</span>
-				</div>
+			<div v-if="flameController.isVisible" class="attendance-mobile-flame-mobile">
+				<img :src="flameGif" alt="火焰" class="attendance-mobile-flame-image-mobile"/>
+				<span class="attendance-mobile-flame-count-mobile">{{ flameController.displayCount }}</span>
+			</div>
 			</div>
 
 			<!-- 主内容区：签到按钮和状态卡片 -->
