@@ -1,0 +1,148 @@
+/**
+ * 超级管理员页面主头部区域样式
+ * 包含logo、标题和退出按钮
+ */
+.main-page-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 16px;
+	animation: fadeInDown 0.8s ease-out;
+	background: var(--admin-bg-primary, #ffffff);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/**
+ * 头部左侧区域样式
+ * 包含logo和标题文字
+ */
+.main-page-header-left {
+	display: flex;
+	align-items: center;
+	gap: 12px; /* logo和标题之间的间距 */
+}
+
+/**
+ * Logo图片样式
+ */
+.main-page-header-left img {
+	height: 40px;
+}
+
+/**
+ * Logo图片悬停效果
+ */
+.main-page-header-left img:hover {
+	transform: scale(1.2); /* 悬停时放大1.2倍 */
+}
+
+/**
+ * 标题文字容器样式
+ * 包含中文标题和英文副标题
+ */
+.main-page-header-left-title {
+	display: flex;
+	flex-direction: column; /* 垂直排列两个标题 */
+	gap: 2px; /* 标题之间的间距 */
+}
+
+/**
+ * 中文主标题样式
+ */
+.main-page-header-left-title h1 {
+	margin: 0; /* 移除默认外边距 */
+	padding: 0; /* 移除默认内边距 */
+	font-size: 18px; /* 手机端字体大小 */
+}
+
+/**
+ * 英文副标题样式
+ */
+.main-page-header-left-title p {
+	margin: 0; /* 移除默认外边距 */
+	padding: 0; /* 移除默认内边距 */
+	font-size: 12px; /* 手机端字体大小 */
+}
+
+/**
+ * 头部右侧区域样式
+ * 包含导出数据和退出登录按钮
+ */
+.main-page-header-right {
+	display: flex;
+	align-items: center;
+	gap: 8px; /* 按钮之间的间距 */
+}
+
+/**
+ * 箭头按钮样式
+ */
+.arrow-button {
+	padding: 4px !important;
+	min-width: 20px !important;
+}
+
+.arrow-button :deep(.el-icon) {
+	margin: 0 !important;
+}
+
+/**
+ * 从上方淡入的入场动画
+ * 用于页面加载时的头部区域动画效果
+ */
+@keyframes fadeInDown {
+	from {
+		opacity: 0; /* 初始透明 */
+		transform: translateY(-30px); /* 初始位置向上偏移30px */
+	}
+	to {
+		opacity: 1; /* 最终不透明 */
+		transform: translateY(0); /* 最终回到正常位置 */
+	}
+}
+
+/* ==================== 小屏幕适配 ==================== */
+@media screen and (max-width: 375px) {
+	/* 头部区域内边距调整 */
+	.main-page-header {
+		padding: 10px 12px;
+	}
+
+	/* Logo高度调整 */
+	.main-page-header-left img {
+		height: 35px;
+	}
+
+	/* 主标题字体调整 */
+	.main-page-header-left-title h1 {
+		font-size: 16px;
+	}
+
+	/* 副标题字体调整 */
+	.main-page-header-left-title p {
+		font-size: 11px;
+	}
+}
+
+/* ==================== 超小屏幕适配 ==================== */
+@media screen and (max-width: 320px) {
+	/* Logo高度进一步调整 */
+	.main-page-header-left img {
+		height: 30px;
+	}
+
+	/* 主标题字体进一步调整 */
+	.main-page-header-left-title h1 {
+		font-size: 14px;
+	}
+
+	/* 副标题字体进一步调整 */
+	.main-page-header-left-title p {
+		font-size: 10px;
+	}
+}

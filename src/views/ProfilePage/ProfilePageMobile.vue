@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 个人信息页面组件(移动端)
+ * 
+ * @description 提供用户个人信息的查看、编辑、密码修改和头像上传功能(移动端适配)
+ * @component ProfilePageMobile
+ */
 import {
 	ElMessage,
 	ElButton,
@@ -38,54 +44,301 @@ import {
 	getStudentDatabaseTableId
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
 import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
 import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
+import LoadingMask from '@/components/LoadingMask.vue'
 
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 全局加载蒙版 Store
+ * @type {Store}
+ * @description 管理全局加载蒙版的显示和隐藏
+ */
+const loadingMaskStore = useLoadingMaskStore()
+
+// ===================== 表单引用区 =====================
+/**
+ * 个人信息表单引用
+ * @type {Ref<ElForm|null>}
+ * @description Element Plus表单组件引用,用于表单验证和提交
+ */
 const formRef = ref()
+/**
+ * 密码修改表单引用
+ * @type {Ref<ElForm|null>}
+ * @description 密码修改表单组件引用,用于密码表单验证
+ */
 const passwordFormRef = ref()
+
+// ===================== 加载状态变量 =====================
+/**
+ * 数据加载状态
+ * @type {Ref<boolean>}
+ * @description 控制个人信息数据加载中的状态显示
+ */
 const isLoading = ref(false)
+/**
+ * 编辑模式状态
+ * @type {Ref<boolean>}
+ * @description 控制是否处于编辑模式,编辑模式下表单可编辑
+ */
 const isEditing = ref(false)
+/**
+ * 密码修改区域显示状态
+ * @type {Ref<boolean>}
+ * @description 控制密码修改区域的显示/隐藏
+ */
 const showPasswordSection = ref(false)
+/**
+ * 密码修改加载状态
+ * @type {Ref<boolean>}
+ * @description 控制密码修改操作加载中的状态显示
+ */
 const isPasswordLoading = ref(false)
+/**
+ * 考勤次数
+ * @type {Ref<number|null>}
+ * @description 用户累计签到次数
+ */
 const attendanceCount = ref(null)
+/**
+ * 学生数据库ID
+ * @type {Ref<number|null>}
+ * @description 学生数据库表主键ID,用于头像上传等操作
+ */
 const studentInfoId = ref(null)
+/**
+ * 头像URL
+ * @type {Ref<string|null>}
+ * @description 用户头像的URL地址
+ */
 const avatarUrl = ref(null)
+/**
+ * 头像加载状态
+ * @type {Ref<boolean>}
+ * @description 控制头像加载中的状态显示
+ */
 const avatarLoading = ref(false)
+/**
+ * 头像上传状态
+ * @type {Ref<boolean>}
+ * @description 控制头像上传操作加载中的状态显示
+ */
 const isUploading = ref(false)
+
+// ===================== 文件输入引用 =====================
+/**
+ * 文件输入框引用
+ * @type {Ref<HTMLInputElement|null>}
+ * @description 隐藏的文件输入框引用,用于触发文件选择
+ */
 const fileInputRef = ref(null)
+
+// ===================== 头像裁剪相关引用 =====================
+/**
+ * 裁剪弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制头像裁剪弹窗的显示/隐藏
+ */
 const cropDialogVisible = ref(false)
+/**
+ * 裁剪画布引用
+ * @type {Ref<HTMLCanvasElement|null>}
+ * @description Canvas元素引用,用于绘制裁剪后的头像
+ */
 const cropCanvasRef = ref(null)
+/**
+ * 裁剪容器引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 裁剪区域的容器元素引用
+ */
 const cropWrapperRef = ref(null)
+/**
+ * 裁剪框引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 裁剪框元素引用,用于定义裁剪区域
+ */
 const cropBoxRef = ref(null)
+
+// ===================== 头像裁剪状态变量 =====================
+/**
+ * 原始图片文件
+ * @type {Ref<File|null>}
+ * @description 用户选择的原始图片文件对象
+ */
 const originalImageFile = ref(null)
+/**
+ * 裁剪图片对象
+ * @type {Ref<HTMLImageElement|null>}
+ * @description 用于裁剪的图片对象引用
+ */
 const cropImage = ref(null)
+/**
+ * 图片缩放比例
+ * @type {Ref<number>}
+ * @description 图片的当前缩放比例,初始值为1(100%)
+ */
 const scale = ref(1)
-const minScale = ref(0.1) // 动态最小缩放比例，根据图片和裁剪框尺寸计算
+/**
+ * 最小缩放比例
+ * @type {Ref<number>}
+ * @description 动态最小缩放比例,根据图片和裁剪框尺寸计算
+ * 防止图片过度缩小,确保裁剪框始终被图片覆盖
+ */
+const minScale = ref(0.1)
+/**
+ * 图片X轴偏移量
+ * @type {Ref<number>}
+ * @description 图片在裁剪区域中的X轴位置偏移
+ */
 const imageX = ref(0)
+/**
+ * 图片Y轴偏移量
+ * @type {Ref<number>}
+ * @description 图片在裁剪区域中的Y轴位置偏移
+ */
 const imageY = ref(0)
+/**
+ * 头像裁剪状态
+ * @type {Ref<boolean>}
+ * @description 控制头像裁剪操作进行中的状态显示
+ */
 const isCropping = ref(false)
+/**
+ * 是否正在拖拽
+ * @type {Ref<boolean>}
+ * @description 标记用户是否正在拖拽图片
+ */
 const isDragging = ref(false)
+/**
+ * 拖拽起始X坐标
+ * @type {Ref<number>}
+ * @description 记录鼠标/触摸按下时的X坐标
+ */
 const dragStartX = ref(0)
+/**
+ * 拖拽起始Y坐标
+ * @type {Ref<number>}
+ * @description 记录鼠标/触摸按下时的Y坐标
+ */
 const dragStartY = ref(0)
+/**
+ * 拖拽起始图片X偏移
+ * @type {Ref<number>}
+ * @description 记录拖拽开始时的图片X轴偏移量
+ */
 const dragStartImageX = ref(0)
+/**
+ * 拖拽起始图片Y偏移
+ * @type {Ref<number>}
+ * @description 记录拖拽开始时的图片Y轴偏移量
+ */
 const dragStartImageY = ref(0)
-// 触摸捏合缩放相关
+
+// ===================== 触摸捏合缩放相关变量 =====================
+/**
+ * 是否正在捏合缩放
+ * @type {Ref<boolean>}
+ * @description 标记用户是否正在使用双指捏合缩放图片(移动端)
+ */
 const isPinching = ref(false)
+/**
+ * 初始捏合距离
+ * @type {Ref<number>}
+ * @description 记录捏合开始时的两指间距离
+ */
 const initialPinchDistance = ref(0)
+/**
+ * 初始捏合缩放比例
+ * @type {Ref<number>}
+ * @description 记录捏合开始时的图片缩放比例
+ */
 const initialPinchScale = ref(1)
+/**
+ * 初始捏合中心X坐标
+ * @type {Ref<number>}
+ * @description 记录捏合开始时的中心点X坐标
+ */
 const initialPinchCenterX = ref(0)
+/**
+ * 初始捏合中心Y坐标
+ * @type {Ref<number>}
+ * @description 记录捏合开始时的中心点Y坐标
+ */
 const initialPinchCenterY = ref(0)
-// 保存事件监听器引用，用于移除
+
+// ===================== 事件处理器引用 =====================
+/**
+ * 鼠标按下事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseDownHandler = null
+/**
+ * 鼠标移动事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseMoveHandler = null
+/**
+ * 鼠标抬起事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseUpHandler = null
+/**
+ * 鼠标滚轮事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let wheelHandler = null
+/**
+ * 触摸开始事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器(移动端)
+ */
 let touchStartHandler = null
+/**
+ * 触摸移动事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器(移动端)
+ */
 let touchMoveHandler = null
+/**
+ * 触摸结束事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器(移动端)
+ */
 let touchEndHandler = null
 
+// ===================== 表单数据定义区 =====================
+/**
+ * 个人信息表单数据
+ * @type {Reactive<Object>}
+ * @description 存储用户的个人信息,包含所有可编辑字段
+ * @property {string} name - 姓名
+ * @property {string} studentId - 学号
+ * @property {string} gender - 性别
+ * @property {string} phoneNumber - 手机号
+ * @property {string} college - 学院
+ * @property {string} major - 专业
+ * @property {number|null} grade - 年级
+ * @property {number|null} classNum - 班级
+ * @property {string} password - 密码(编辑时使用)
+ */
 const formData = reactive({
 	name: '',
 	studentId: '',
@@ -98,6 +351,14 @@ const formData = reactive({
 	password: ''
 })
 
+/**
+ * 密码修改表单数据
+ * @type {Reactive<Object>}
+ * @description 存储密码修改相关的表单数据
+ * @property {string} oldPassword - 旧密码
+ * @property {string} newPassword - 新密码
+ * @property {string} confirmPassword - 确认新密码
+ */
 const passwordForm = reactive({
 	oldPassword: '',
 	newPassword: '',
@@ -164,57 +425,101 @@ const passwordRules = {
 
 const originalData = ref({})
 
+/**
+ * 返回导航页面
+ * @function goBack
+ * @description 返回到导航页面
+ * @returns {void}
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 切换主题
+ * @function toggleTheme
+ * @description 切换应用的主题（亮色/暗色模式）
+ * @returns {void}
+ */
 const toggleTheme = () => {
 	themeStore.toggleTheme()
 }
 
+/**
+ * 加载用户个人资料
+ * @function loadProfile
+ * @description 从服务器加载用户个人资料、考勤次数和学生ID
+ * 1. 设置加载状态为true
+ * 2. 验证用户登录状态
+ * 3. 并行获取个人资料、考勤次数和学生ID
+ * 4. 更新表单数据和相关状态
+ * 5. 处理成功或失败的响应
+ * 6. 重置加载状态
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const loadProfile = async () => {
-	isLoading.value = true
 	try {
-		const token = localStorage.getItem('token')
-		if (!token) {
-			ElMessage.error('请先登录')
-			router.push('/login')
-			return
-		}
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在加载个人信息...')
+		isLoading.value = true
+		try {
+			const token = localStorage.getItem('token')
+			if (!token) {
+				ElMessage.error('请先登录')
+				router.push('/login')
+				return
+			}
 
-		const [profileResponse, attendanceResponse, studentIdResponse] = await Promise.all([
-			getStudentProfile(token),
-			getMyAttendanceCount(token),
-			getStudentDatabaseTableId(token)
-		])
+			const [profileResponse, attendanceResponse, studentIdResponse] = await Promise.all([
+				getStudentProfile(token),
+				getMyAttendanceCount(token),
+				getStudentDatabaseTableId(token)
+			])
 
-		if (profileResponse.code === 200) {
-			Object.assign(formData, profileResponse.data)
-			originalData.value = { ...profileResponse.data }
-		} else {
-			ElMessage.error(profileResponse.message || '获取个人信息失败')
-		}
+			if (profileResponse.code === 200) {
+				Object.assign(formData, profileResponse.data)
+				originalData.value = { ...profileResponse.data }
+			} else {
+				ElMessage.error(profileResponse.message || '获取个人信息失败')
+			}
 
-		if (attendanceResponse.code === 200) {
-			attendanceCount.value = attendanceResponse.data.count
-		}
+			if (attendanceResponse.code === 200) {
+				attendanceCount.value = attendanceResponse.data.count
+			}
 
-		if (studentIdResponse.code === 200) {
-			studentInfoId.value = studentIdResponse.data
-			await loadAvatar()
+			if (studentIdResponse.code === 200) {
+				studentInfoId.value = studentIdResponse.data
+				await loadAvatar()
+			}
+		} catch (error) {
+			ElMessage.error(`获取个人信息失败：${error.message}`)
+			if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+				localStorage.removeItem('token')
+				localStorage.removeItem('userInfo')
+				router.push('/login')
+			}
+		} finally {
+			isLoading.value = false
 		}
 	} catch (error) {
-		ElMessage.error(`获取个人信息失败：${error.message}`)
-		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
-			localStorage.removeItem('token')
-			localStorage.removeItem('userInfo')
-			router.push('/login')
-		}
+		console.error('加载个人信息失败：', error)
 	} finally {
-		isLoading.value = false
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
 	}
 }
 
+/**
+ * 加载用户头像
+ * @function loadAvatar
+ * @description 根据学生ID获取并验证头像URL，确保头像存在后再显示
+ * 1. 验证学生ID是否存在
+ * 2. 使用getAvatarUrl函数获取头像URL
+ * 3. 创建Image对象验证头像是否存在
+ * 4. 设置超时机制避免长时间等待
+ * 5. 根据验证结果更新头像URL状态
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const loadAvatar = async () => {
 	if (!studentInfoId.value) { return }
 
@@ -256,14 +561,37 @@ const loadAvatar = async () => {
 	}
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当头像图片加载失败时，将头像URL设置为null
+ * @returns {void}
+ */
 const handleAvatarError = () => {
 	avatarUrl.value = null
 }
 
+/**
+ * 处理头像点击事件
+ * @function handleAvatarClick
+ * @description 触发文件输入框的点击事件，打开文件选择对话框
+ * @returns {void}
+ */
 const handleAvatarClick = () => {
 	fileInputRef.value?.click()
 }
 
+/**
+ * 处理文件选择
+ * @function handleFileSelect
+ * @description 处理用户选择的头像文件
+ * 1. 验证文件是否存在
+ * 2. 验证文件类型是否为图片
+ * 3. 保存原始文件并显示裁剪对话框
+ * 4. 清空文件选择以允许重复选择同一文件
+ * @param {Event} event - 文件输入框的change事件
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const handleFileSelect = async event => {
 	const file = event.target.files?.[0]
 	if (!file) { return }
@@ -289,6 +617,13 @@ const handleFileSelect = async event => {
 	}
 }
 
+/**
+ * 切换编辑模式
+ * @function toggleEditMode
+ * @description 切换个人信息表单的编辑模式
+ * 如果当前处于编辑模式，则取消编辑并重置表单；否则进入编辑模式
+ * @returns {void}
+ */
 const toggleEditMode = () => {
 	if (isEditing.value) {
 		resetForm()
@@ -299,6 +634,15 @@ const toggleEditMode = () => {
 	}
 }
 
+/**
+ * 重置表单
+ * @function resetForm
+ * @description 将个人信息表单重置为原始数据状态
+ * 1. 将表单数据恢复为原始数据
+ * 2. 清空密码字段
+ * 3. 清除表单验证状态
+ * @returns {void}
+ */
 const resetForm = () => {
 	Object.assign(formData, originalData.value)
 	formData.password = ''
@@ -307,6 +651,13 @@ const resetForm = () => {
 	}
 }
 
+/**
+ * 切换密码修改区域显示状态
+ * @function togglePasswordSection
+ * @description 切换密码修改区域的显示/隐藏状态
+ * 显示时重置密码表单
+ * @returns {void}
+ */
 const togglePasswordSection = () => {
 	showPasswordSection.value = !showPasswordSection.value
 	if (showPasswordSection.value) {
@@ -314,6 +665,14 @@ const togglePasswordSection = () => {
 	}
 }
 
+/**
+ * 重置密码表单
+ * @function resetPasswordForm
+ * @description 将密码修改表单重置为空状态
+ * 1. 清空所有密码相关字段
+ * 2. 清除表单验证状态
+ * @returns {void}
+ */
 const resetPasswordForm = () => {
 	passwordForm.oldPassword = ''
 	passwordForm.newPassword = ''
@@ -323,11 +682,28 @@ const resetPasswordForm = () => {
 	}
 }
 
+/**
+ * 取消密码修改
+ * @function cancelPasswordChange
+ * @description 取消密码修改操作，隐藏密码修改区域并重置表单
+ * @returns {void}
+ */
 const cancelPasswordChange = () => {
 	showPasswordSection.value = false
 	resetPasswordForm()
 }
 
+/**
+ * 确认密码修改
+ * @function confirmPasswordChange
+ * @description 确认密码修改操作
+ * 1. 验证密码修改表单
+ * 2. 设置加载状态为true
+ * 3. 调用API修改密码
+ * 4. 处理成功或失败的响应
+ * 5. 重置加载状态
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const confirmPasswordChange = async () => {
 	if (!passwordFormRef.value) { return }
 
@@ -337,40 +713,63 @@ const confirmPasswordChange = async () => {
 		return
 	}
 
-	isPasswordLoading.value = true
 	try {
-		const token = localStorage.getItem('token')
-		if (!token) {
-			ElMessage.error('请先登录')
-			router.push('/login')
-			return
-		}
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在修改密码...')
+		isPasswordLoading.value = true
+		try {
+			const token = localStorage.getItem('token')
+			if (!token) {
+				ElMessage.error('请先登录')
+				router.push('/login')
+				return
+			}
 
-		const response = await changePassword(token, {
-			oldPassword: passwordForm.oldPassword,
-			newPassword: passwordForm.newPassword,
-			confirmPassword: passwordForm.confirmPassword
-		})
+			const response = await changePassword(token, {
+				oldPassword: passwordForm.oldPassword,
+				newPassword: passwordForm.newPassword,
+				confirmPassword: passwordForm.confirmPassword
+			})
 
-		if (response.code === 200) {
-			ElMessage.success('密码修改成功')
-			showPasswordSection.value = false
-			resetPasswordForm()
-		} else {
-			ElMessage.error(response.message || '修改密码失败')
+			if (response.code === 200) {
+				ElMessage.success('密码修改成功')
+				showPasswordSection.value = false
+				resetPasswordForm()
+			} else {
+				ElMessage.error(response.message || '修改密码失败')
+			}
+		} catch (error) {
+			ElMessage.error(`修改密码失败：${error.message}`)
+			if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+				localStorage.removeItem('token')
+				localStorage.removeItem('userInfo')
+				router.push('/login')
+			}
+		} finally {
+			isPasswordLoading.value = false
 		}
 	} catch (error) {
-		ElMessage.error(`修改密码失败：${error.message}`)
-		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
-			localStorage.removeItem('token')
-			localStorage.removeItem('userInfo')
-			router.push('/login')
-		}
+		console.error('修改密码失败：', error)
 	} finally {
-		isPasswordLoading.value = false
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
 	}
 }
 
+/**
+ * 保存个人信息
+ * @function saveProfile
+ * @description 保存用户修改的个人信息到服务器
+ * 1. 验证当前状态和表单引用
+ * 2. 对表单进行验证
+ * 3. 设置加载状态为true
+ * 4. 验证用户登录状态
+ * 5. 调用API更新学生信息
+ * 6. 处理成功或失败的响应
+ * 7. 更新本地存储的token（如果返回新token）
+ * 8. 重置表单状态并退出编辑模式
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const saveProfile = async () => {
 	if (isLoading.value) {
 		ElMessage.warning('系统正在加载中，请稍后重试')
@@ -389,45 +788,61 @@ const saveProfile = async () => {
 		return
 	}
 
-	isLoading.value = true
 	try {
-		const token = localStorage.getItem('token')
-		if (!token) {
-			ElMessage.error('请先登录')
-			router.push('/login')
-			return
-		}
-
-		const updateData = { ...formData }
-
-		const response = await updateStudentInfo(token, updateData)
-
-		if (response.code === 200) {
-			ElMessage.success('个人信息更新成功')
-			if (response.data && response.data.token) {
-				localStorage.setItem('token', response.data.token)
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在保存个人信息...')
+		isLoading.value = true
+		try {
+			const token = localStorage.getItem('token')
+			if (!token) {
+				ElMessage.error('请先登录')
+				router.push('/login')
+				return
 			}
-			originalData.value = { ...formData }
-			formData.password = ''
-			isEditing.value = false
-		} else {
-			ElMessage.error(response.message || '更新个人信息失败')
+
+			const updateData = { ...formData }
+
+			const response = await updateStudentInfo(token, updateData)
+
+			if (response.code === 200) {
+				ElMessage.success('个人信息更新成功')
+				if (response.data && response.data.token) {
+					localStorage.setItem('token', response.data.token)
+				}
+				originalData.value = { ...formData }
+				formData.password = ''
+				isEditing.value = false
+			} else {
+				ElMessage.error(response.message || '更新个人信息失败')
+			}
+		} catch (error) {
+			ElMessage.error(`更新个人信息失败：${error.message}`)
+			if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
+				localStorage.removeItem('token')
+				localStorage.removeItem('userInfo')
+				router.push('/login')
+			}
+		} finally {
+			isLoading.value = false
 		}
 	} catch (error) {
-		ElMessage.error(`更新个人信息失败：${error.message}`)
-		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
-			localStorage.removeItem('token')
-			localStorage.removeItem('userInfo')
-			router.push('/login')
-		}
+		console.error('保存个人信息失败：', error)
 	} finally {
-		isLoading.value = false
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
 	}
 }
 
 /**
  * 显示裁剪对话框
- * @param file
+ * @function showCropDialog
+ * @description 显示头像裁剪对话框，将选择的图片文件加载到裁剪区域
+ * 1. 恢复遮罩层样式确保正常显示
+ * 2. 使用FileReader读取文件并转换为图片对象
+ * 3. 初始化裁剪区域和事件监听器
+ * @param {File} file - 用户选择的图片文件对象
+ * @returns {Promise<void>} 异步操作完成的Promise
+ * @throws {Error} 当图片加载失败或文件读取失败时抛出错误
  */
 const showCropDialog = async file => new Promise((resolve, reject) => {
 	try {
@@ -473,6 +888,16 @@ const showCropDialog = async file => new Promise((resolve, reject) => {
 
 /**
  * 初始化裁剪
+ * @function initCrop
+ * @description 初始化头像裁剪功能，设置Canvas尺寸、图片缩放比例和裁剪框位置
+ * 1. 验证DOM引用是否存在
+ * 2. 设置Canvas实际像素尺寸和CSS尺寸
+ * 3. 计算初始缩放比例，确保图片最短边铺满裁剪框
+ * 4. 设置图片初始位置为居中显示
+ * 5. 初始化裁剪框位置和尺寸
+ * 6. 设置动态最小缩放比例
+ * 7. 绘制初始图像并设置事件监听器
+ * @returns {void}
  */
 const initCrop = () => {
 	if (!cropCanvasRef.value || !cropImage.value || !cropWrapperRef.value) {
@@ -860,6 +1285,10 @@ const setupCropEvents = () => {
 
 /**
  * 移除裁剪事件
+ * @function removeCropEvents
+ * @description 移除所有与头像裁剪相关的事件监听器，防止内存泄漏
+ * 包括鼠标事件、触摸事件和滚轮事件的监听器移除
+ * @returns {void}
  */
 const removeCropEvents = () => {
 	if (!cropCanvasRef.value) { return }
@@ -891,6 +1320,13 @@ const removeCropEvents = () => {
 
 /**
  * 放大
+ * @function zoomIn
+ * @description 将图片放大0.1倍，最大放大到5倍，放大时以裁剪框中心为基准点
+ * 1. 计算新的缩放比例（最大不超过5倍）
+ * 2. 以裁剪框中心为基准点计算新的图片位置
+ * 3. 更新缩放比例并应用边界限制
+ * 4. 重新绘制裁剪画布
+ * @returns {void}
  */
 const zoomIn = () => {
 	const oldScale = scale.value
@@ -923,6 +1359,13 @@ const zoomIn = () => {
 
 /**
  * 缩小
+ * @function zoomOut
+ * @description 将图片缩小0.1倍，最小缩小到动态计算的最小缩放比例，缩小时以裁剪框中心为基准点
+ * 1. 计算新的缩放比例（最小不低于动态计算的最小缩放比例）
+ * 2. 以裁剪框中心为基准点计算新的图片位置
+ * 3. 更新缩放比例并应用边界限制
+ * 4. 重新绘制裁剪画布
+ * @returns {void}
  */
 const zoomOut = () => {
 	const oldScale = scale.value
@@ -955,6 +1398,11 @@ const zoomOut = () => {
 
 /**
  * 重置裁剪
+ * @function resetCrop
+ * @description 重置裁剪状态，重新初始化裁剪参数到默认值
+ * 1. 验证图片和包装器引用是否存在
+ * 2. 重新初始化裁剪参数
+ * @returns {void}
  */
 const resetCrop = () => {
 	if (!cropImage.value || !cropWrapperRef.value) { return }
@@ -963,6 +1411,14 @@ const resetCrop = () => {
 
 /**
  * 取消裁剪
+ * @function cancelCrop
+ * @description 取消头像裁剪操作，清理事件监听器并重置裁剪状态
+ * 1. 移除所有裁剪事件监听器
+ * 2. 隐藏遮罩层避免视觉闪烁
+ * 3. 清空裁剪图片引用
+ * 4. 关闭裁剪对话框
+ * 5. 延迟清理其他裁剪相关状态数据
+ * @returns {void}
  */
 const cancelCrop = () => {
 	removeCropEvents()
@@ -995,6 +1451,14 @@ const cancelCrop = () => {
 
 /**
  * 确认裁剪
+ * @function confirmCrop
+ * @description 确认头像裁剪操作，提取裁剪区域并上传裁剪后的头像
+ * 1. 验证必要的DOM引用是否存在
+ * 2. 计算裁剪区域在原图中的位置和尺寸
+ * 3. 创建新的Canvas进行裁剪，输出为正方形
+ * 4. 将裁剪结果转换为Blob并创建File对象
+ * 5. 压缩图片后上传到服务器
+ * @returns {Promise<void>} 异步操作完成的Promise
  */
 const confirmCrop = async () => {
 	if (!cropCanvasRef.value || !cropImage.value || !cropBoxRef.value) { return }
@@ -1077,8 +1541,16 @@ const confirmCrop = async () => {
 
 /**
  * 压缩图片直到小于2MB
- * @param file
- * @param maxSize
+ * @function compressImage
+ * @description 压缩图片文件直到其大小小于指定的最大值
+ * 1. 使用FileReader读取图片文件
+ * 2. 创建Image对象加载图片
+ * 3. 使用Canvas进行图片压缩
+ * 4. 递归压缩直到图片大小满足要求或达到最小尺寸
+ * @param {File} file - 需要压缩的图片文件
+ * @param {number} maxSize - 最大文件大小（字节），默认为2MB
+ * @returns {Promise<File>} 压缩后的文件对象
+ * @throws {Error} 当图片加载失败或文件读取失败时抛出错误
  */
 const compressImage = (file, maxSize = 2 * 1024 * 1024) => new Promise((resolve, reject) => {
 	const reader = new FileReader()
@@ -1152,6 +1624,18 @@ const compressImage = (file, maxSize = 2 * 1024 * 1024) => new Promise((resolve,
 	reader.readAsDataURL(file)
 })
 
+/**
+ * 上传头像文件
+ * @function uploadAvatarFile
+ * @description 上传裁剪后的头像文件到服务器
+ * 1. 设置上传状态为加载中
+ * 2. 验证用户登录状态
+ * 3. 调用API上传头像文件
+ * 4. 处理上传成功或失败的响应
+ * 5. 更新头像显示并重置上传状态
+ * @param {File} file - 需要上传的头像文件
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
 const uploadAvatarFile = async file => {
 	isUploading.value = true
 	try {
@@ -1194,7 +1678,11 @@ onMounted(() => {
 </script>
 
 <template>
+	<!-- 个人信息页面主容器(移动端) -->
 	<div class="profile-container">
+		<!-- 全局加载蒙版 -->
+		<LoadingMask/>
+		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-content">
 				<el-button
@@ -1215,14 +1703,19 @@ onMounted(() => {
 			</div>
 		</div>
 
+		<!-- 主内容区域 -->
 		<div class="main-content">
+			<!-- 个人信息卡片 -->
 			<div class="profile-card">
+				<!-- 加载遮罩 -->
 				<div v-if="isLoading" class="loading-overlay">
 					<div class="loading-spinner"/>
 				</div>
 
+				<!-- 用户信息头部 -->
 				<div class="profile-header">
 					<div class="user-info-section">
+						<!-- 头像上传区域 -->
 						<div class="avatar-wrapper">
 							<div class="avatar-container" @click="handleAvatarClick">
 								<div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
@@ -1245,6 +1738,7 @@ onMounted(() => {
 									</el-icon>
 									<span class="upload-text">点击上传头像</span>
 								</div>
+								<!-- 文件输入 -->
 								<input
 									ref="fileInputRef"
 									type="file"
@@ -1260,6 +1754,7 @@ onMounted(() => {
 								<span class="tip-text">{{ avatarUrl ? '点击头像修改头像' : '点击头像上传头像' }}</span>
 							</div>
 						</div>
+						<!-- 用户详细信息 -->
 						<div class="user-details">
 							<h2>{{ formData.name || '用户' }}</h2>
 							<p class="student-id">{{ formData.studentId || '学号' }}</p>
@@ -1273,6 +1768,7 @@ onMounted(() => {
 							</div>
 						</div>
 					</div>
+					<!-- 编辑按钮 -->
 					<div class="action-buttons">
 						<el-button
 							type="primary"
@@ -1597,10 +2093,12 @@ onMounted(() => {
 			class="crop-dialog"
 		>
 			<div class="crop-container">
+				<!-- 裁剪画布包装器 -->
 				<div ref="cropWrapperRef" class="crop-wrapper">
 					<canvas ref="cropCanvasRef" class="crop-canvas"/>
 					<div ref="cropBoxRef" class="crop-box"/>
 				</div>
+				<!-- 裁剪控制按钮 -->
 				<div class="crop-controls">
 					<el-button
 						:icon="ZoomOut"
@@ -1625,5 +2123,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* 导入外部样式文件 */
 @import './css/ProfilePageMobile.css';
 </style>

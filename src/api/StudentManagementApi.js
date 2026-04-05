@@ -6,7 +6,7 @@ class StudentManagementApi {
 	/**
 	 * 获取当前管理员所管理的学生综合信息（含签到次数和总积分）
 	 * @param token - JWT token，用于验证身份和获取管理员ID
-	 * @returns 响应数据，data字段为学生信息列表（含统计数据）
+	 * @returns 响应数据，data 字段为学生信息列表（含统计数据）
 	 *
 	 * 响应数据结构：
 	 * {

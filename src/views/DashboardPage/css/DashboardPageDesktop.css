@@ -1,875 +1,1272 @@
+/**
+ * 仪表板页面 - 桌面端样式
+ * @file DashboardPageDesktop.css
+ * @description 定义仪表板页面桌面端的样式，包括页面布局、统计卡片、图表、等级统计和二维码显示等。
+ */
+
+/* ==================== 页面容器 ==================== */
+
+/**
+ * 仪表板页面容器
+ * 设置相对定位、最小高度、水平溢出隐藏、字体、文本颜色和背景颜色
+ */
 .dashboard-container {
-  position: relative;
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: var(--text-primary);
-  background: var(--bg-primary);
+  position: relative; /* 相对定位 */
+  min-height: 100vh; /* 最小高度为视口高度 */
+  overflow-x: hidden; /* 隐藏水平滚动条 */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* 字体 */
+  color: var(--text-primary); /* 文本颜色 */
+  background: var(--bg-primary); /* 背景颜色 */
 }
 
+/* ==================== 导入头部样式 ==================== */
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0;
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-color);
-}
+@import './desktop/header.css';
 
-.header-left {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
+/* ==================== 主要内容区域 ==================== */
 
-.back-btn {
-  width: 40px;
-  height: 40px;
-  background: var(--primary-color);
-  border: none;
-  box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
-}
-
-.logo {
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.logo:hover {
-  filter: brightness(1.2);
-  transform: scale(1.1);
-}
-
-.title-section h1 {
-  margin: 0 0 5px;
-  font-size: 28px;
-  font-weight: 700;
-  color: #2c3e50;
-}
-
-.dark .title-section h1 {
-  color: #fff;
-}
-
-.title-section p {
-  margin: 0;
-  font-size: 16px;
-  color: #7f8c8d;
-}
-
-.mechanism-section p {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.8;
-  color: var(--text-secondary);
-  text-align: justify;
-}
-
-.dark .title-section p {
-  color: #e2e8f0;
-}
-
-.header-right {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.slogan {
-  display: flex;
-  align-items: center;
-  padding: 8px 16px;
-  margin-right: 8px;
-}
-
-.slogan-img {
-  height: 80px;
-  transition: filter 0.3s ease;
-}
-
-.dark .slogan-img {
-  filter: invert(1);
-}
-
+/**
+ * 主要内容容器
+ * 采用 grid 布局，两列（1:2），子元素间距为 40px，设置最小高度和内边距
+ */
 .main-content {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 40px;
-  min-height: calc(100vh - 200px);
-  padding: 10px 240px 40px 40px;
+  display: grid; /* 网格布局 */
+  grid-template-columns: 1fr 2fr; /* 两列，比例为 1:2 */
+  gap: 40px; /* 子元素间距 */
+  min-height: calc(100vh - 200px); /* 最小高度 */
+  padding: 10px 240px 40px 40px; /* 内边距 */
 }
 
+/**
+ * 左侧区域
+ * 采用 flex 布局，垂直排列
+ */
 .left-section {
-  display: flex;
-  flex-direction: column;
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
 }
 
+/**
+ * 右侧区域
+ * 采用 flex 布局，垂直排列
+ */
 .right-section {
-  display: flex;
-  flex-direction: column;
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
 }
 
+/**
+ * 打卡卡片和概览卡片
+ * 相对定位，采用 flex 布局，垂直排列，设置高度、内边距、背景、边框、圆角和阴影
+ */
 .punch-card, .overview-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 30px;
-  background: #fff;
-  border: 1px solid #f0f0f0;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 0.08);
+  position: relative; /* 相对定位 */
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  height: 100%; /* 高度 100% */
+  padding: 30px; /* 内边距 */
+  background: #fff; /* 背景颜色 */
+  border: 1px solid #f0f0f0; /* 边框 */
+  border-radius: 16px; /* 圆角 */
+  box-shadow: 0 4px 20px rgb(0 0 0 / 0.08); /* 阴影 */
 }
 
+/**
+ * 暗色模式下打卡卡片和概览卡片样式
+ * 设置背景、边框和阴影
+ */
 .dark .punch-card, .dark .overview-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 20px var(--shadow-color);
+  background: var(--bg-secondary); /* 背景颜色 */
+  border: 1px solid var(--border-color); /* 边框 */
+  box-shadow: 0 4px 20px var(--shadow-color); /* 阴影 */
 }
 
+/**
+ * 打卡卡片和概览卡片标题
+ * 设置外边距、字体大小、字重和颜色
+ */
 .punch-card h2, .overview-card h2 {
-  margin: 0 0 10px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #2c3e50;
+  margin: 0 0 10px; /* 底部外边距 */
+  font-size: 24px; /* 字体大小 */
+  font-weight: 700; /* 字重 */
+  color: #2c3e50; /* 颜色 */
 }
 
+/**
+ * 机制卡片标题
+ * 设置底部内边距、外边距、字体大小、字重、文本颜色和左对齐
+ */
 .mechanism-card h2 {
-  padding-bottom: 8px;
-  margin: 0 0 8px;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-align: left;
+  padding-bottom: 8px; /* 底部内边距 */
+  margin: 0 0 8px; /* 底部外边距 */
+  font-size: 24px; /* 字体大小 */
+  font-weight: 700; /* 字重 */
+  color: var(--text-primary); /* 文本颜色 */
+  text-align: left; /* 左对齐 */
 }
 
+/**
+ * 暗色模式下打卡卡片和概览卡片标题样式
+ * 设置文本颜色
+ */
 .dark .punch-card h2, .dark .overview-card h2 {
-  color: #fff;
+  color: #fff; /* 文本颜色 */
 }
 
+/**
+ * 副标题
+ * 设置外边距、字体大小和颜色
+ */
 .subtitle {
-  margin: 0 0 30px;
-  font-size: 16px;
-  color: #7f8c8d;
+  margin: 0 0 30px; /* 底部外边距 */
+  font-size: 16px; /* 字体大小 */
+  color: #7f8c8d; /* 颜色 */
 }
 
+/**
+ * 暗色模式下副标题样式
+ * 设置文本颜色
+ */
 .dark .subtitle {
-  color: #e2e8f0;
+  color: #e2e8f0; /* 文本颜色 */
 }
 
+/**
+ * 优秀学生区域
+ * 弹性伸展，设置底部外边距
+ */
 .top-students {
-  flex: 1;
-  margin-bottom: 30px;
+  flex: 1; /* 弹性伸展 */
+  margin-bottom: 30px; /* 底部外边距 */
 }
 
+/**
+ * 图表头部
+ * 采用 flex 布局，垂直居中，左对齐，设置底部外边距
+ */
 .chart-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 20px;
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: flex-start; /* 左对齐 */
+  margin-bottom: 20px; /* 底部外边距 */
 }
 
+/**
+ * 控制区域
+ * 采用 flex 布局，自动换行，子元素间距为 15px，垂直居中
+ */
 .controls-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: center;
+  display: flex; /* 弹性布局 */
+  flex-wrap: wrap; /* 自动换行 */
+  gap: 15px; /* 子元素间距 */
+  align-items: center; /* 垂直居中 */
 }
 
+/**
+ * 时间范围选择器
+ * 采用 flex 布局，自动换行，子元素间距为 12px，垂直居中
+ */
 .time-range-selector {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
+  display: flex; /* 弹性布局 */
+  flex-wrap: wrap; /* 自动换行 */
+  gap: 12px; /* 子元素间距 */
+  align-items: center; /* 垂直居中 */
 }
 
-
+/**
+ * 图表区域标题
+ * 设置外边距、字体大小、字重、颜色和文本居中
+ */
 .chart-section h3 {
-  margin: 0 0 20px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #2c3e50;
-  text-align: center;
+  margin: 0 0 20px; /* 底部外边距 */
+  font-size: 18px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: #2c3e50; /* 颜色 */
+  text-align: center; /* 文本居中 */
 }
 
+/**
+ * 图表头部标题
+ * 设置无外边距、字体大小、字重和颜色
+ */
 .chart-header h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: #2c3e50;
+  margin: 0; /* 无外边距 */
+  font-size: 18px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: #2c3e50; /* 颜色 */
 }
 
+/**
+ * 暗色模式下图表头部标题样式
+ * 设置文本颜色
+ */
 .dark .chart-header h3 {
-  color: #fff;
+  color: #fff; /* 文本颜色 */
 }
 
+/**
+ * 暗色模式下图表区域标题样式
+ * 设置文本颜色和圆角
+ */
 .dark .chart-section h3 {
-  color: #fff;
-
-  border-radius: 12px;
+  color: #fff; /* 文本颜色 */
+  border-radius: 12px; /* 圆角 */
 }
 
-
+/**
+ * 学生信息
+ * 弹性伸展
+ */
 .student-info {
-  flex: 1;
+  flex: 1; /* 弹性伸展 */
 }
 
+/**
+ * 学生姓名
+ * 设置底部外边距、字体大小、字重和颜色
+ */
 .name {
-  margin-bottom: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #2c3e50;
+  margin-bottom: 4px; /* 底部外边距 */
+  font-size: 16px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: #2c3e50; /* 颜色 */
 }
 
+/**
+ * 暗色模式下学生姓名样式
+ * 设置文本颜色
+ */
 .dark .name {
-  color: #fff;
+  color: #fff; /* 文本颜色 */
 }
 
+/**
+ * 学生详情
+ * 设置字体大小和颜色
+ */
 .details {
-  font-size: 14px;
-  color: #7f8c8d;
+  font-size: 14px; /* 字体大小 */
+  color: #7f8c8d; /* 颜色 */
 }
 
+/**
+ * 暗色模式下学生详情样式
+ * 设置文本颜色
+ */
 .dark .details {
-  color: #e2e8f0;
+  color: #e2e8f0; /* 文本颜色 */
 }
 
+/**
+ * 计数
+ * 设置字体大小、字重和颜色
+ */
 .count {
-  font-size: 18px;
-  font-weight: 700;
-  color: #667eea;
+  font-size: 18px; /* 字体大小 */
+  font-weight: 700; /* 字重 */
+  color: #667eea; /* 颜色 */
 }
 
-
+/**
+ * 图表容器
+ * 采用 grid 布局，弹性伸展，两列，子元素间距为 30px，设置底部外边距
+ */
 .charts-container {
-  display: grid;
-  flex: 1;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  margin-bottom: 30px;
+  display: grid; /* 网格布局 */
+  flex: 1; /* 弹性伸展 */
+  grid-template-columns: 1fr 1fr; /* 两列等宽 */
+  gap: 30px; /* 子元素间距 */
+  margin-bottom: 30px; /* 底部外边距 */
 }
 
+/**
+ * 图表
+ * 设置宽度和高度
+ */
 .chart {
-  width: 100%;
-  height: 300px;
+  width: 100%; /* 宽度 100% */
+  height: 300px; /* 高度 */
 }
 
+/**
+ * 考勤图表
+ * 设置宽度和高度
+ */
 .attendance-chart {
-  width: 100%;
-  height: 550px;
+  width: 100%; /* 宽度 100% */
+  height: 550px; /* 高度 */
 }
 
+/**
+ * 摘要统计
+ * 采用 flex 布局，垂直排列，子元素间距为 20px，设置顶部内边距和顶部边框
+ */
 .summary-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #e8e8e8;
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 20px; /* 子元素间距 */
+  padding-top: 20px; /* 顶部内边距 */
+  border-top: 1px solid #e8e8e8; /* 顶部边框 */
 }
 
+/**
+ * 统计行
+ * 采用 flex 布局，子元素间距为 20px，两端对齐
+ */
 .stats-row {
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
+  display: flex; /* 弹性布局 */
+  gap: 20px; /* 子元素间距 */
+  justify-content: space-between; /* 两端对齐 */
 }
 
+/**
+ * 摘要统计中的统计行
+ * 采用 flex 布局，子元素间距为 20px，垂直居中，两端对齐
+ */
 .summary-stats .stats-row {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; /* 弹性布局 */
+  gap: 20px; /* 子元素间距 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 两端对齐 */
 }
 
+/**
+ * 总计数
+ * 采用 flex 布局，垂直排列，水平居中
+ */
 .total-count {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  align-items: center; /* 水平居中 */
 }
 
+/**
+ * 等级统计
+ * 采用 flex 布局，自动换行，子元素间距为 24px，垂直居中，两端对齐
+ */
 .level-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; /* 弹性布局 */
+  flex-wrap: wrap; /* 自动换行 */
+  gap: 24px; /* 子元素间距 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 两端对齐 */
 }
 
+/**
+ * 等级项
+ * 相对定位，采用 flex 布局，垂直排列，水平垂直居中，设置最小宽度、高度、内边距、溢出隐藏、背景渐变、边框、圆角、阴影和过渡效果
+ */
 .level-item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 90px;
-  height: 70px;
-  padding: 16px 12px;
-  overflow: hidden;
-  background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
-  border: 1px solid #e1e8ff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgb(102 126 234 / 0.08);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative; /* 相对定位 */
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  align-items: center; /* 水平居中 */
+  justify-content: center; /* 垂直居中 */
+  min-width: 90px; /* 最小宽度 */
+  height: 70px; /* 高度 */
+  padding: 16px 12px; /* 内边距 */
+  overflow: hidden; /* 溢出隐藏 */
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%); /* 背景渐变 */
+  border: 1px solid #e1e8ff; /* 边框 */
+  border-radius: 8px; /* 圆角 */
+  box-shadow: 0 2px 8px rgb(102 126 234 / 0.08); /* 阴影 */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡效果 */
 }
 
+/**
+ * 等级项的伪元素
+ * 顶部装饰线，设置位置、高度、内容和背景渐变
+ */
 .level-item::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 4px;
-  content: '';
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  position: absolute; /* 绝对定位 */
+  top: 0; /* 顶部对齐 */
+  right: 0; /* 右侧对齐 */
+  left: 0; /* 左侧对齐 */
+  height: 4px; /* 高度 */
+  content: ''; /* 空内容 */
+  background: linear-gradient(90deg, #667eea, #764ba2); /* 背景渐变 */
 }
 
+/**
+ * 等级项的悬停效果
+ * 鼠标悬停时增强阴影并向上移动和放大
+ */
 .level-item:hover {
-  box-shadow: 0 12px 40px rgb(102 126 234 / 0.2);
-  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 12px 40px rgb(102 126 234 / 0.2); /* 增强阴影 */
+  transform: translateY(-6px) scale(1.05); /* 向上移动和放大 */
 }
 
+/**
+ * 等级图标
+ * 相对定位，z-index 为 2，设置底部外边距
+ */
 .level-icon {
-  position: relative;
-  z-index: 2;
-  margin-bottom: 6px;
+  position: relative; /* 相对定位 */
+  z-index: 2; /* z-index */
+  margin-bottom: 6px; /* 底部外边距 */
 }
 
+/**
+ * 等级图标中的 Element Plus 图标
+ * 设置字体大小和颜色
+ */
 .level-icon .el-icon {
-  font-size: 18px;
-  color: rgb(102 126 234 / 0.8);
+  font-size: 18px; /* 字体大小 */
+  color: rgb(102 126 234 / 0.8); /* 颜色 */
 }
 
+/**
+ * 等级内容
+ * 相对定位，z-index 为 2
+ */
 .level-content {
-  position: relative;
-  z-index: 2;
+  position: relative; /* 相对定位 */
+  z-index: 2; /* z-index */
 }
 
+/**
+ * 等级标签
+ * 设置底部外边距、字体大小、字重、颜色和字间距
+ */
 .level-label {
-  margin-bottom: 4px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #5a6c7d;
-  letter-spacing: 0.5px;
+  margin-bottom: 4px; /* 底部外边距 */
+  font-size: 13px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: #5a6c7d; /* 颜色 */
+  letter-spacing: 0.5px; /* 字间距 */
 }
 
+/**
+ * 等级值
+ * 设置字体大小、字重、颜色和文本阴影
+ */
 .level-value {
-  font-size: 18px;
-  font-weight: 800;
-  color: #2c3e50;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+  font-size: 18px; /* 字体大小 */
+  font-weight: 800; /* 字重 */
+  color: #2c3e50; /* 颜色 */
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.1); /* 文本阴影 */
 }
 
+/**
+ * 管理员等级样式
+ * 设置背景渐变、边框颜色和阴影
+ */
 .admin-level {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-  border-color: #1e40af;
-  box-shadow: 0 2px 8px rgb(30 58 138 / 0.2);
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); /* 背景渐变 */
+  border-color: #1e40af; /* 边框颜色 */
+  box-shadow: 0 2px 8px rgb(30 58 138 / 0.2); /* 阴影 */
 }
 
+/**
+ * 管理员等级伪元素样式
+ * 设置背景渐变
+ */
 .admin-level::before {
-  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6); /* 背景渐变 */
 }
 
+/**
+ * 管理员等级悬停样式
+ * 设置阴影
+ */
 .admin-level:hover {
-  box-shadow: 0 4px 16px rgb(30 58 138 / 0.3);
+  box-shadow: 0 4px 16px rgb(30 58 138 / 0.3); /* 增强阴影 */
 }
 
+/**
+ * 管理员等级图标样式
+ * 设置颜色
+ */
 .admin-level .level-icon .el-icon {
-  color: rgb(255 255 255 / 0.95);
+  color: rgb(255 255 255 / 0.95); /* 颜色 */
 }
 
+/**
+ * 管理员等级标签样式
+ * 设置颜色
+ */
 .admin-level .level-label {
-  color: rgb(255 255 255 / 0.9);
+  color: rgb(255 255 255 / 0.9); /* 颜色 */
 }
 
+/**
+ * 管理员等级值样式
+ * 设置颜色
+ */
 .admin-level .level-value {
-  color: #fff;
+  color: #fff; /* 颜色 */
 }
 
+/**
+ * 核心成员等级样式
+ * 设置背景渐变、边框颜色和阴影
+ */
 .core-level {
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  border-color: #047857;
-  box-shadow: 0 2px 8px rgb(5 150 105 / 0.2);
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%); /* 背景渐变 */
+  border-color: #047857; /* 边框颜色 */
+  box-shadow: 0 2px 8px rgb(5 150 105 / 0.2); /* 阴影 */
 }
 
+/**
+ * 核心成员等级伪元素样式
+ * 设置背景渐变
+ */
 .core-level::before {
-  background: linear-gradient(90deg, #059669, #10b981);
+  background: linear-gradient(90deg, #059669, #10b981); /* 背景渐变 */
 }
 
+/**
+ * 核心成员等级悬停样式
+ * 设置阴影
+ */
 .core-level:hover {
-  box-shadow: 0 4px 16px rgb(5 150 105 / 0.3);
+  box-shadow: 0 4px 16px rgb(5 150 105 / 0.3); /* 增强阴影 */
 }
 
+/**
+ * 核心成员等级图标样式
+ * 设置颜色
+ */
 .core-level .level-icon .el-icon {
-  color: rgb(255 255 255 / 0.95);
+  color: rgb(255 255 255 / 0.95); /* 颜色 */
 }
 
+/**
+ * 核心成员等级标签样式
+ * 设置颜色
+ */
 .core-level .level-label {
-  color: rgb(255 255 255 / 0.9);
+  color: rgb(255 255 255 / 0.9); /* 颜色 */
 }
 
+/**
+ * 核心成员等级值样式
+ * 设置颜色
+ */
 .core-level .level-value {
-  color: #fff;
+  color: #fff; /* 颜色 */
 }
 
+/**
+ * 普通成员等级样式
+ * 设置背景渐变、边框颜色和阴影
+ */
 .normal-level {
-  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-  border-color: #6d28d9;
-  box-shadow: 0 2px 8px rgb(124 58 237 / 0.2);
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); /* 背景渐变 */
+  border-color: #6d28d9; /* 边框颜色 */
+  box-shadow: 0 2px 8px rgb(124 58 237 / 0.2); /* 阴影 */
 }
 
+/**
+ * 普通成员等级伪元素样式
+ * 设置背景渐变
+ */
 .normal-level::before {
-  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  background: linear-gradient(90deg, #7c3aed, #a855f7); /* 背景渐变 */
 }
 
+/**
+ * 普通成员等级悬停样式
+ * 设置阴影
+ */
 .normal-level:hover {
-  box-shadow: 0 4px 16px rgb(124 58 237 / 0.3);
+  box-shadow: 0 4px 16px rgb(124 58 237 / 0.3); /* 增强阴影 */
 }
 
+/**
+ * 普通成员等级图标样式
+ * 设置颜色
+ */
 .normal-level .level-icon .el-icon {
-  color: rgb(255 255 255 / 0.95);
+  color: rgb(255 255 255 / 0.95); /* 颜色 */
 }
 
+/**
+ * 普通成员等级标签样式
+ * 设置颜色
+ */
 .normal-level .level-label {
-  color: rgb(255 255 255 / 0.9);
+  color: rgb(255 255 255 / 0.9); /* 颜色 */
 }
 
+/**
+ * 普通成员等级值样式
+ * 设置颜色
+ */
 .normal-level .level-value {
-  color: #fff;
+  color: #fff; /* 颜色 */
 }
 
+/**
+ * 社团成员等级样式
+ * 设置背景渐变、边框颜色和阴影
+ */
 .club-level {
-  background: linear-gradient(135deg, #96ceb4 0%, #b8e6b8 100%);
-  border-color: #66bb6a;
-  box-shadow: 0 2px 8px rgb(150 206 180 / 0.2);
+  background: linear-gradient(135deg, #96ceb4 0%, #b8e6b8 100%); /* 背景渐变 */
+  border-color: #66bb6a; /* 边框颜色 */
+  box-shadow: 0 2px 8px rgb(150 206 180 / 0.2); /* 阴影 */
 }
 
+/**
+ * 社团成员等级伪元素样式
+ * 设置背景渐变
+ */
 .club-level::before {
-  background: linear-gradient(90deg, #96ceb4, #66bb6a);
+  background: linear-gradient(90deg, #96ceb4, #66bb6a); /* 背景渐变 */
 }
 
+/**
+ * 社团成员等级悬停样式
+ * 设置阴影
+ */
 .club-level:hover {
-  box-shadow: 0 4px 16px rgb(150 206 180 / 0.3);
+  box-shadow: 0 4px 16px rgb(150 206 180 / 0.3); /* 增强阴影 */
 }
 
+/**
+ * 社团成员等级标签样式
+ * 设置颜色
+ */
 .club-level .level-label {
-  color: #2e7d32;
+  color: #2e7d32; /* 颜色 */
 }
 
+/**
+ * 社团成员等级值样式
+ * 设置颜色
+ */
 .club-level .level-value {
-  color: #1b5e20;
+  color: #1b5e20; /* 颜色 */
 }
 
-/* 夜间模式下的club-level样式 */
+/**
+ * 暗色模式下社团成员等级样式
+ * 设置背景渐变、边框颜色和阴影
+ */
 html.dark .club-level {
-  background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%);
-  border-color: #2d5a3d;
-  box-shadow: 0 2px 8px rgb(45 90 61 / 0.3);
+  background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%); /* 背景渐变 */
+  border-color: #2d5a3d; /* 边框颜色 */
+  box-shadow: 0 2px 8px rgb(45 90 61 / 0.3); /* 阴影 */
 }
 
+/**
+ * 暗色模式下社团成员等级伪元素样式
+ * 设置背景渐变
+ */
 html.dark .club-level::before {
-  background: linear-gradient(90deg, #2d5a3d, #4a7c59);
+  background: linear-gradient(90deg, #2d5a3d, #4a7c59); /* 背景渐变 */
 }
 
+/**
+ * 暗色模式下社团成员等级悬停样式
+ * 设置阴影
+ */
 html.dark .club-level:hover {
-  box-shadow: 0 4px 16px rgb(45 90 61 / 0.4);
+  box-shadow: 0 4px 16px rgb(45 90 61 / 0.4); /* 增强阴影 */
 }
 
+/**
+ * 暗色模式下社团成员等级图标样式
+ * 设置颜色
+ */
 .dark .club-level .level-icon .el-icon {
-  color: rgb(255 255 255 / 0.95);
+  color: rgb(255 255 255 / 0.95); /* 颜色 */
 }
 
+/**
+ * 暗色模式下社团成员等级标签样式
+ * 设置颜色
+ */
 html.dark .club-level .level-label {
-  color: rgb(255 255 255 / 0.9);
+  color: rgb(255 255 255 / 0.9); /* 颜色 */
 }
 
+/**
+ * 暗色模式下社团成员等级值样式
+ * 设置颜色
+ */
 html.dark .club-level .level-value {
-  color: #fff;
+  color: #fff; /* 颜色 */
 }
 
+/**
+ * 标签
+ * 采用 flex 布局，子元素间距为 8px，垂直居中，水平居中，设置底部外边距、字体大小、字重和颜色
+ */
 .label {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 8px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #7f8c8d;
+  display: flex; /* 弹性布局 */
+  gap: 8px; /* 子元素间距 */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  margin-bottom: 8px; /* 底部外边距 */
+  font-size: 18px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: #7f8c8d; /* 颜色 */
 }
 
+/**
+ * 值
+ * 设置字体大小、字重、颜色和过渡效果
+ */
 .value {
-  font-size: 28px;
-  font-weight: 700;
-  color: #667eea;
-  transition: transform 0.3s ease;
+  font-size: 28px; /* 字体大小 */
+  font-weight: 700; /* 字重 */
+  color: #667eea; /* 颜色 */
+  transition: transform 0.3s ease; /* 过渡效果 */
 }
 
-
+/**
+ * 统计图标
+ * 设置字体大小和颜色
+ */
 .stat-icon {
-  font-size: 24px;
-  color: #667eea;
+  font-size: 24px; /* 字体大小 */
+  color: #667eea; /* 颜色 */
 }
 
+/**
+ * 加载覆盖层
+ * 绝对定位，覆盖整个父元素，z-index 为 1000，采用 flex 布局，水平垂直居中，设置背景
+ */
 .loading-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgb(255 255 255 / 0.9);
+  position: absolute; /* 绝对定位 */
+  inset: 0; /* 覆盖整个元素 */
+  z-index: 1000; /* z-index */
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  background: rgb(255 255 255 / 0.9); /* 背景颜色 */
 }
 
+/**
+ * 加载旋转器
+ * 设置大小、边框、圆角和旋转动画
+ */
 .loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #667eea;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+  width: 40px; /* 宽度 */
+  height: 40px; /* 高度 */
+  border: 4px solid #f3f3f3; /* 边框 */
+  border-top: 4px solid #667eea; /* 顶部边框 */
+  border-radius: 50%; /* 圆形 */
+  animation: spin 1s linear infinite; /* 旋转动画 */
 }
 
+/**
+ * 旋转动画关键帧
+ * 定义 360 度旋转动画
+ */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); } /* 初始状态 */
+  100% { transform: rotate(360deg); } /* 结束状态 */
 }
 
+/* ==================== 手机显示区域 ==================== */
+
+/**
+ * 手机显示容器
+ * 固定定位，设置位置、z-index，采用 flex 布局，垂直排列，子元素间距为 25px，水平居中
+ */
 .phone-display {
-  position: fixed;
-  right: 40px;
-  bottom: 80px;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  align-items: center;
+  position: fixed; /* 固定定位 */
+  right: 40px; /* 右侧偏移 */
+  bottom: 80px; /* 底部偏移 */
+  z-index: 999; /* z-index */
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 25px; /* 子元素间距 */
+  align-items: center; /* 水平居中 */
 }
 
+/**
+ * 验证码卡片
+ * 采用 flex 布局，垂直排列，子元素间距为 8px，水平垂直居中，设置宽度、最小高度、内边距、背景、边框、圆角和阴影
+ */
 .verification-code-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-  min-height: 100px;
-  padding: 20px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 8px; /* 子元素间距 */
+  align-items: center; /* 水平居中 */
+  justify-content: center; /* 垂直居中 */
+  width: 150px; /* 宽度 */
+  min-height: 100px; /* 最小高度 */
+  background: var(--bg-secondary); /* 背景颜色 */
+  border: 1px solid var(--border-color); /* 边框 */
+  border-radius: 12px; /* 圆角 */
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1); /* 阴影 */
 }
 
+/**
+ * 验证码标签
+ * 设置字体大小、字重、文本颜色和文本居中
+ */
 .verification-code-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-align: center;
+  font-size: 14px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: var(--text-secondary); /* 文本颜色 */
+  text-align: center; /* 文本居中 */
 }
 
+/**
+ * 验证码值
+ * 设置字体、字体大小、字重、文本颜色、文本居中、字间距、文本阴影和过渡效果
+ */
 .verification-code-value {
-  font-family: 'Courier New', monospace;
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--primary-color);
-  text-align: center;
-  letter-spacing: 4px;
-  text-shadow: 0 2px 4px rgb(102 126 234 / 0.3);
-  transition: opacity 0.3s ease;
+  font-family: 'Courier New', monospace; /* 字体 */
+  font-size: 32px; /* 字体大小 */
+  font-weight: 800; /* 字重 */
+  color: var(--primary-color); /* 文本颜色 */
+  text-align: center; /* 文本居中 */
+  letter-spacing: 4px; /* 字间距 */
+  text-shadow: 0 2px 4px rgb(102 126 234 / 0.3); /* 文本阴影 */
+  transition: opacity 0.3s ease; /* 过渡效果 */
+	justify-content: center;
 }
 
+/**
+ * 验证码值中的 span 元素
+ * 设置为内联块级显示，添加过渡效果
+ */
 .verification-code-value span {
-  display: inline-block;
-  transition: opacity 0.3s ease;
+  display: inline-block; /* 内联块级显示 */
+  transition: opacity 0.3s ease; /* 过渡效果 */
 }
 
+/**
+ * 验证码值中的错误文本
+ * 设置字体大小、颜色、字间距和文本阴影
+ */
 .verification-code-value .error-text {
-  font-size: 16px;
-  color: var(--text-secondary);
-  letter-spacing: 0;
-  text-shadow: none;
+  font-size: 16px; /* 字体大小 */
+  color: var(--text-secondary); /* 颜色 */
+  letter-spacing: 0; /* 字间距 */
+  text-shadow: none; /* 无文本阴影 */
 }
 
+/**
+ * 暗色模式下验证码卡片样式
+ * 设置背景、边框和阴影
+ */
 .dark .verification-code-card {
-  background: var(--bg-secondary);
-  border-color: var(--border-color);
-  box-shadow: 0 4px 12px var(--shadow-color);
+  background: var(--bg-secondary); /* 背景颜色 */
+  border-color: var(--border-color); /* 边框颜色 */
+  box-shadow: 0 4px 12px var(--shadow-color); /* 阴影 */
 }
 
+/**
+ * 暗色模式下验证码值样式
+ * 设置颜色和文本阴影
+ */
 .dark .verification-code-value {
-  color: #60a5fa;
-  text-shadow: 0 0 8px rgb(96 165 250 / 0.5);
+  color: #60a5fa; /* 颜色 */
+  text-shadow: 0 0 8px rgb(96 165 250 / 0.5); /* 文本阴影 */
 }
 
+/**
+ * 网站二维码区域和微信二维码区域
+ * 采用 flex 布局，垂直排列，子元素间距为 8px，水平垂直居中，设置宽度、高度、内边距、背景、边框、圆角和阴影
+ */
 .website-qr-section, .wechat-qr-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-  height: 180px;
-  padding: 15px;
-  background: rgb(255 255 255 / 0.95);
-  border: 1px solid #e8e8e8;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 8px; /* 子元素间距 */
+  align-items: center; /* 水平居中 */
+  justify-content: center; /* 垂直居中 */
+  width: 150px; /* 宽度 */
+  height: 180px; /* 高度 */
+  padding: 15px; /* 内边距 */
+  background: rgb(255 255 255 / 0.95); /* 背景颜色 */
+  border: 1px solid #e8e8e8; /* 边框 */
+  border-radius: 12px; /* 圆角 */
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1); /* 阴影 */
 }
 
+/**
+ * 网站二维码和二维码图片
+ * 设置大小和圆角
+ */
 .website-qr-code, .qr-code {
-  width: 120px;
-  height: 120px;
-  border-radius: 8px;
+  width: 120px; /* 宽度 */
+  height: 120px; /* 高度 */
+  border-radius: 8px; /* 圆角 */
 }
 
+/**
+ * 网站二维码文本和二维码文本
+ * 设置最大宽度、字体大小、字重、行高、颜色、文本居中和不换行
+ */
 .website-qr-text, .qr-text {
-  max-width: 140px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: #2c3e50;
-  text-align: center;
-  white-space: nowrap;
+  max-width: 140px; /* 最大宽度 */
+  font-size: 14px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  line-height: 1.4; /* 行高 */
+  color: #2c3e50; /* 颜色 */
+  text-align: center; /* 文本居中 */
+  white-space: nowrap; /* 不换行 */
 }
 
+/**
+ * 网站二维码文本
+ * 设置字重和颜色
+ */
 .website-qr-text {
-  font-weight: 700;
-  color: #667eea;
+  font-weight: 700; /* 字重 */
+  color: #667eea; /* 颜色 */
 }
 
+/**
+ * 暗色模式下网站二维码文本和二维码文本样式
+ * 设置文本颜色
+ */
 .dark .website-qr-text, .dark .qr-text {
-  color: #fff !important;
+  color: #fff !important; /* 文本颜色 */
 }
 
+/**
+ * 暗色模式下网站二维码文本样式
+ * 设置文本颜色
+ */
 .dark .website-qr-text {
-  color: #60a5fa !important;
+  color: #60a5fa !important; /* 文本颜色 */
 }
 
+/**
+ * 手机图片
+ * 设置宽度和高度自适应
+ */
 .phone-image {
-  width: 200px;
-  height: auto;
+  width: 200px; /* 宽度 */
+  height: auto; /* 高度自适应 */
 }
 
+/**
+ * 系统信息
+ * 采用 flex 布局，垂直排列，右对齐，设置文本右对齐
+ */
 .system-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  align-items: flex-end; /* 右对齐 */
+  text-align: right; /* 文本右对齐 */
 }
 
+/**
+ * 系统名称
+ * 设置底部外边距、字体大小、字重和颜色
+ */
 .system-name {
-  margin-bottom: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #2c3e50;
+  margin-bottom: 4px; /* 底部外边距 */
+  font-size: 16px; /* 字体大小 */
+  font-weight: 600; /* 字重 */
+  color: #2c3e50; /* 颜色 */
 }
 
+/**
+ * 暗色模式下系统名称样式
+ * 设置文本颜色
+ */
 .dark .system-name {
-  color: #fff;
+  color: #fff; /* 文本颜色 */
 }
 
+/**
+ * 系统副标题
+ * 设置字体大小和颜色
+ */
 .system-subtitle {
-  font-size: 14px;
-  color: #7f8c8d;
+  font-size: 14px; /* 字体大小 */
+  color: #7f8c8d; /* 颜色 */
 }
 
+/**
+ * 暗色模式下系统副标题样式
+ * 设置文本颜色
+ */
 .dark .system-subtitle {
-  color: #e2e8f0;
+  color: #e2e8f0; /* 文本颜色 */
 }
 
+/* ==================== 页脚 ==================== */
+
+/**
+ * 页脚容器
+ * 固定定位，设置位置、z-index、内边距和背景颜色
+ */
 .footer {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  padding: 8px 40px;
-  background: #667eea;
+  position: fixed; /* 固定定位 */
+  right: 0; /* 右侧对齐 */
+  bottom: 0; /* 底部对齐 */
+  left: 0; /* 左侧对齐 */
+  z-index: 1000; /* z-index */
+  padding: 8px 40px; /* 内边距 */
+  background: #667eea; /* 背景颜色 */
 }
 
+/**
+ * 进度条
+ * 设置宽度、高度、底部外边距、溢出隐藏、背景和圆角
+ */
 .progress-bar {
-  width: 100%;
-  height: 4px;
-  margin-bottom: 0;
-  overflow: hidden;
-  background: rgb(255 255 255 / 0.3);
-  border-radius: 2px;
+  width: 100%; /* 宽度 100% */
+  height: 4px; /* 高度 */
+  margin-bottom: 0; /* 无底部外边距 */
+  overflow: hidden; /* 溢出隐藏 */
+  background: rgb(255 255 255 / 0.3); /* 背景颜色 */
+  border-radius: 2px; /* 圆角 */
 }
 
+/**
+ * 进度条填充
+ * 设置高度、背景、圆角、变换原点和过渡效果
+ */
 .progress-fill {
-  height: 100%;
-  background: #fff;
-  border-radius: 3px;
-  transform-origin: left;
-  transition: transform 0.1s linear;
+  height: 100%; /* 高度 100% */
+  background: #fff; /* 背景颜色 */
+  border-radius: 3px; /* 圆角 */
+  transform-origin: left; /* 变换原点 */
+  transition: transform 0.1s linear; /* 过渡效果 */
 }
 
+/* ==================== 机制卡片 ==================== */
 
+/**
+ * 环境机制区域
+ * 设置顶部外边距
+ */
+.environment-mechanism {
+  margin-top: -20px; /* 顶部外边距 */
+}
+
+/**
+ * 机制卡片
+ * 设置背景、圆角和过渡效果
+ */
+.mechanism-card {
+  background: var(--bg-card); /* 背景颜色 */
+  border-radius: 16px; /* 圆角 */
+  transition: transform 0.3s ease; /* 过渡效果 */
+}
+
+/**
+ * 机制卡片的悬停效果
+ * 鼠标悬停时向上移动
+ */
+.mechanism-card:hover {
+  transform: translateY(-2px); /* 向上移动 */
+}
+
+/**
+ * 机制内容
+ * 采用 flex 布局，垂直排列，子元素间距为 24px
+ */
+.mechanism-content {
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 24px; /* 子元素间距 */
+}
+
+/**
+ * 机制区域
+ * 设置内边距、背景、圆角和过渡效果
+ */
+.mechanism-section {
+  padding: 32px; /* 内边距 */
+  background: var(--bg-secondary); /* 背景颜色 */
+  border-radius: 12px; /* 圆角 */
+  transition: transform 0.3s ease; /* 过渡效果 */
+}
+
+/**
+ * 机制区域的悬停效果
+ * 鼠标悬停时增强阴影并向右移动
+ */
+.mechanism-section:hover {
+  box-shadow: 0 4px 15px rgb(0 0 0 / 0.1); /* 增强阴影 */
+  transform: translateX(4px); /* 向右移动 */
+}
+
+/**
+ * 暗色模式下机制卡片样式
+ * 设置背景颜色
+ */
+html.dark .mechanism-card {
+  background: #1e293b; /* 背景颜色 */
+}
+
+/**
+ * 暗色模式下机制卡片标题样式
+ * 设置文本颜色
+ */
+html.dark .mechanism-card h2 {
+  color: #fff; /* 文本颜色 */
+}
+
+/**
+ * 暗色模式下机制区域样式
+ * 设置背景颜色
+ */
+html.dark .mechanism-section {
+  background: #0f172a; /* 背景颜色 */
+}
+
+/**
+ * 暗色模式下机制区域描述样式
+ * 设置文本颜色
+ */
+html.dark .mechanism-section p {
+  color: #cbd5e1; /* 文本颜色 */
+}
+
+/* ==================== 二维码切换按钮 ==================== */
+
+/**
+ * 二维码切换按钮容器
+ * 采用 flex 布局，水平居中，设置顶部和底部外边距
+ */
+.qr-switch-buttons {
+  display: flex; /* 弹性布局 */
+  justify-content: center; /* 水平居中 */
+  margin-top: 20px; /* 顶部外边距 */
+  margin-bottom: 20px; /* 底部外边距 */
+}
+
+/**
+ * 二维码切换按钮
+ * 设置字重、文本颜色、背景渐变、无边框、圆角和过渡效果
+ */
+.qr-switch-btn {
+  font-weight: 500; /* 字重 */
+  color: white !important; /* 文本颜色 */
+  background: linear-gradient(135deg, #667eea, #764ba2) !important; /* 背景渐变 */
+  border-color: transparent !important; /* 无边框 */
+  border-radius: 8px; /* 圆角 */
+  transition: transform 0.3s ease; /* 过渡效果 */
+}
+
+/**
+ * 二维码切换按钮的悬停效果
+ * 鼠标悬停时改变背景并向上移动
+ */
+.qr-switch-btn:hover {
+  background: linear-gradient(135deg, #5568d3, #6a3d8f) !important; /* 悬停背景渐变 */
+  transform: translateY(-2px); /* 向上移动 */
+}
+
+/**
+ * 暗色模式下二维码切换按钮样式
+ * 设置文本颜色、背景和边框
+ */
+html.dark .qr-switch-btn {
+  color: #e2e8f0; /* 文本颜色 */
+  background: #374151; /* 背景颜色 */
+  border-color: #4b5563; /* 边框颜色 */
+}
+
+/**
+ * 暗色模式下二维码切换按钮悬停样式
+ * 设置背景和边框
+ */
+html.dark .qr-switch-btn:hover {
+  background: #4b5563; /* 悬停背景 */
+  border-color: #6b7280; /* 悬停边框 */
+}
+
+/**
+ * 暗色模式下主要按钮样式的二维码切换按钮
+ * 设置文本颜色、背景渐变和无边框
+ */
+html.dark .qr-switch-btn.el-button--primary {
+  color: white; /* 文本颜色 */
+  background: linear-gradient(135deg, #667eea, #764ba2); /* 背景渐变 */
+  border-color: transparent; /* 无边框 */
+}
+
+/* ==================== 响应式设计 ==================== */
+
+/**
+ * 媒体查询：当屏幕宽度小于等于 1200px 时
+ * 主要内容容器和图表容器变为单列，隐藏手机显示
+ */
 @media (width <= 1200px) {
   .main-content {
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: 1fr; /* 单列布局 */
+    gap: 30px; /* 子元素间距 */
   }
 
   .charts-container {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 单列布局 */
   }
 
   .phone-display {
-    display: none;
+    display: none; /* 隐藏 */
   }
 }
 
-@media (width <= 768px) {
-  .header {
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .main-content {
-    padding: 20px;
-  }
-
-  .punch-card, .overview-card {
-    padding: 20px;
-  }
-
-  .footer {
-    padding: 15px 20px;
-  }
-}
-
-/* 强制覆盖二维码文字样式 */
-.dark .qr-text {
-  color: #fff !important;
-}
-
-html.dark .website-qr-text {
-  color: #60a5fa !important;
-}
-
-html.dark .qr-text {
-  color: #fff !important;
-  text-shadow: 0 0 3px rgb(255 255 255 / 0.5) !important;
-}
-
-/* 针对"扫码了解更多"文字的额外强化 */
-.dark .wechat-qr-section .qr-text {
-  font-weight: 700 !important;
-  color: #fff !important;
-  text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important;
-}
-
-html.dark .wechat-qr-section .qr-text {
-  font-weight: 700 !important;
-  color: #fff !important;
-  text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important;
-}
-
-.environment-mechanism {
-  margin-top: -20px;
-}
-
-.mechanism-card {
-  background: var(--bg-card);
-  border-radius: 16px;
-  transition: transform 0.3s ease;
-}
-
-.mechanism-card:hover {
-  transform: translateY(-2px);
-}
-
-.mechanism-content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.mechanism-section {
-  padding: 32px;
-  background: var(--bg-secondary);
-  border-radius: 12px;
-  transition: transform 0.3s ease;
-}
-
-.mechanism-section:hover {
-  box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
-  transform: translateX(4px);
-}
-
-html.dark .mechanism-card {
-  background: #1e293b;
-}
-
-html.dark .mechanism-card h2 {
-  color: #fff;
-}
-
-html.dark .mechanism-section {
-  background: #0f172a;
-}
-
-html.dark .mechanism-section p {
-  color: #cbd5e1;
-}
-
+/**
+ * 媒体查询：当屏幕宽度小于等于 768px 时（机制卡片）
+ * 机制卡片和机制区域内边距调整，机制卡片标题和机制区域描述字体大小调整
+ */
 @media (width <= 768px) {
   .mechanism-card {
-    padding: 20px;
+    padding: 20px; /* 内边距 */
   }
 
   .mechanism-card h2 {
-    font-size: 20px;
+    font-size: 20px; /* 字体大小 */
   }
 
   .mechanism-section {
-    padding: 24px;
+    padding: 24px; /* 内边距 */
   }
 
   .mechanism-section p {
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: 14px; /* 字体大小 */
+    line-height: 1.7; /* 行高 */
   }
 }
 
-.qr-switch-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+/* ==================== 暗色模式适配（二维码文本） ==================== */
+
+/**
+ * 暗色模式下二维码文本样式
+ * 设置文本颜色
+ */
+.dark .qr-text {
+  color: #fff !important; /* 文本颜色 */
 }
 
-.qr-switch-btn {
-  font-weight: 500;
-  color: white !important;
-  background: linear-gradient(135deg, #667eea, #764ba2) !important;
-  border-color: transparent !important;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
+/**
+ * 暗色模式下网站二维码文本样式
+ * 设置文本颜色
+ */
+html.dark .website-qr-text {
+  color: #60a5fa !important; /* 文本颜色 */
 }
 
-.qr-switch-btn:hover {
-  background: linear-gradient(135deg, #5568d3, #6a3d8f) !important;
-  transform: translateY(-2px);
+/**
+ * 暗色模式下二维码文本样式
+ * 设置文本颜色和文本阴影
+ */
+html.dark .qr-text {
+  color: #fff !important; /* 文本颜色 */
+  text-shadow: 0 0 3px rgb(255 255 255 / 0.5) !important; /* 文本阴影 */
 }
 
-html.dark .qr-switch-btn {
-  color: #e2e8f0;
-  background: #374151;
-  border-color: #4b5563;
+/**
+ * 暗色模式下微信二维码区域的二维码文本样式
+ * 设置字重、文本颜色和文本阴影
+ */
+.dark .wechat-qr-section .qr-text {
+  font-weight: 700 !important; /* 字重 */
+  color: #fff !important; /* 文本颜色 */
+  text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important; /* 文本阴影 */
 }
 
-html.dark .qr-switch-btn:hover {
-  background: #4b5563;
-  border-color: #6b7280;
-}
-
-html.dark .qr-switch-btn.el-button--primary {
-  color: white;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-color: transparent;
+/**
+ * 暗色模式下微信二维码区域的二维码文本样式（覆盖）
+ * 设置字重、文本颜色和文本阴影
+ */
+html.dark .wechat-qr-section .qr-text {
+  font-weight: 700 !important; /* 字重 */
+  color: #fff !important; /* 文本颜色 */
+  text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important; /* 文本阴影 */
 }

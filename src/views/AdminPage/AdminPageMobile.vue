@@ -1,29 +1,38 @@
 <script setup>
-import { onMounted, watch, ref } from 'vue'
+/**
+ * 超级管理员控制台组件
+ * 功能描述：AI坊学生管理系统的超级管理员核心操作界面，提供学生信息管理、考勤记录查看、补卡操作、积分修改等核心功能
+ * 技术栈：Vue3 + Script Setup + Element Plus + 组合式API
+ */
 
-import { useAdminPage } from './AdminPage.js'
+// ===================== 第一部分：依赖导入区 =====================
 
-import './css/AdminPageMobile.css'
-// Element Plus Components
+// 1.1 Vue 核心依赖
+import { useRouter } from 'vue-router'
+import { onMounted, nextTick, ref } from 'vue'
+
+// 1.2 Element Plus 核心组件
+import { ElIcon, ElInput, ElButton } from 'element-plus'
+
+// 1.3 Element Plus 图标组件
 import {
-	ElMessage,
-	ElIcon,
-	ElInput,
-	ElButton,
-	ElSelect,
-	ElOption,
-	ElDialog,
-	ElForm,
-	ElFormItem,
-	ElInputNumber,
-	ElDatePicker,
-	ElTabs,
-	ElTabPane,
-	ElTag,
-	ElTooltip,
-	ElPagination,
-	ElCalendar
-} from 'element-plus'
+	User,            // 用户图标
+	Calendar,        // 日历图标
+	TrendCharts,     // 趋势图图标
+	Search,          // 搜索图标
+	SwitchButton,    // 切换按钮图标
+	Edit,            // 编辑图标
+	Clock,           // 时钟图标
+	Document,        // 文档图标
+	Lock,            // 锁图标
+	House,           // 房屋图标
+	Key,             // 钥匙图标
+	Refresh,         // 刷新图标
+	Download,        // 下载图标
+	ArrowRight,      // 右箭头图标
+} from '@element-plus/icons-vue'
+
+// 1.4 Element Plus 样式导入（按需导入，减少包体积）
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -46,738 +55,700 @@ import 'element-plus/theme-chalk/el-calendar.css'
 import 'element-plus/theme-chalk/el-tabs.css'
 import 'element-plus/theme-chalk/el-tab-pane.css'
 import 'element-plus/theme-chalk/el-tag.css'
-// Icon Components
+
+// 1.5 业务逻辑模块导入
 import {
-	User,
-	Calendar,
-	TrendCharts,
-	Search,
-	Refresh,
-	SwitchButton,
-	Edit,
-	UserFilled,
-	Clock,
-	Warning,
-	Document,
-	Loading,
-	Box,
-	Lock
-} from '@element-plus/icons-vue'
+	authenticate,                      // 身份验证函数
+	isAuthenticating,                  // 验证状态
+	superAdminAvatarUrl,               // 管理员头像URL
+	toShowStudentInfos,                // 待展示的学生列表
+	searchStudents,                    // 搜索学生函数
+	refreshData,                      // 刷新数据函数
+	resetPageState,                   // 重置页面状态
+	getAdminName,                     // 获取管理员名称
+	pageState,                        // 页面状态
+	toggleTheme,                      // 切换主题函数
+	logout,                           // 退出登录函数
+	specialPassword,                  // 特殊密码
+	searchKeywords,                   // 搜索关键词
+} from './ts/AdminPage.ts'
 
-import { getAvatarUrl } from '@/api/student'
+// 1.6 业务组件导入
+// 全局组件
+import LoadingMask from '../../components/LoadingMask.vue'
 
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+// 表单弹窗组件
+import HeatmapChartForm from './forms/mobile/HeatmapChartForm.vue'              // 考勤热力图组件
+import AttendanceTrendChartForm from './forms/mobile/AttendanceTrendChartForm.vue' // 考勤趋势图组件
+import ChangeLevelForm from './forms/mobile/ChangeLevelForm.vue'                  // 修改学生身份组件
+import ChangeAdminForm from './forms/mobile/ChangeAdminForm.vue'                  // 修改所属管理员组件
+import ViewAttendanceRecordsForm from './forms/mobile/ViewAttendanceRecordsForm.vue' // 查看考勤记录组件
+import MakeupAttendanceForm from './forms/mobile/MakeupAttendanceForm.vue'          // 补卡组件
+import CreatePointsRecordForm from './forms/mobile/CreatePointsRecordForm.vue'      // 创建积分记录组件
+import ViewPointsRecordsForm from './forms/mobile/ViewPointsRecordsForm.vue'        // 查看改分记录组件
+import UpdateStudentInfoForm from './forms/mobile/UpdateStudentInfoForm.vue'      // 修改学生个人信息组件
+import DataDownloadForm from './forms/mobile/DataDownloadForm.vue'                // 数据下载表单组件
 
-// 获取ID为2的头像URL
-const adminAvatarUrl = ref(getAvatarUrl(2, 256))
+// ===================== 第二部分：路由实例 =====================
+const router = useRouter()
 
-const {
-	isAuthenticated,
-	specialPassword,
-	authError,
-	authLoading,
-	isLoading,
-	isDataLoaded,
-	loadingProgress,
-	loadingStatus,
-	students,
-	searchKeyword,
-	currentPage,
-	pageSize,
-	totalStudents,
-	todayCount,
-	monthlyCount,
-	studentLevels,
-	studentAttendanceCounts,
-	studentAdmins,
-	studentPoints,
-	activeLevelTab,
-	editDialogVisible,
-	editFormRef,
-	editForm,
-	todayAttendanceDialogVisible,
-	todayAttendanceRecords,
-	attendanceRecordsDialogVisible,
-	currentStudentInfo,
-	calendarValue,
-	scrollPosition,
-	allStudentAttendanceRecords,
-	calendarSlots,
-	filteredStudentAttendanceRecords,
-	heatmapDialogVisible,
-	trendDialogVisible,
-	heatmapChart,
-	lineChart,
-	heatmapInstance,
-	lineInstance,
-	showDateDetailsDialog,
-	selectedDate,
-	makeupDialogVisible,
-	makeupLoading,
-	makeupSelectedStudent,
-	makeupStep,
-	makeupFormRef,
-	datePickerRef,
-	makeupForm,
-	pointsDialogVisible,
-	pointsLoading,
-	pointsSelectedStudent,
-	pointsFormRef,
-	pointsForm,
-	scoreChangeRecordsDialogVisible,
-	scoreChangeRecordsLoading,
-	scoreChangeRecords,
-	currentScoreChangeRecordsStudent,
-	datetimeShortcuts,
-	levelOptions,
-	adminOptions,
-	filteredStudents,
-	currentLevelStudents,
-	editFormRules,
-	pointsFormRules,
-	makeupDateFormRules,
+// ===================== 第三部分：响应式状态定义区 =====================
 
+// 3.1 弹窗显示状态
+/**
+ * 数据下载表单弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const dataDownloadDialogVisible = ref(false)
 
-	getLevelStudents,
-	changeLevel,
-	changeAdmin,
-	loadStudentLevels,
-	loadStudentAttendanceCounts,
-	loadStudentAdmins,
-	handleAvatarError,
-	loadStatistics,
-	refreshData,
-	openEditDialog,
-	cancelEdit,
-	confirmEdit,
-	showTodayAttendance,
-	formatAttendanceTime,
-	getTimePeriodClass,
-	getTimePeriodName,
-	isSlotSigned,
-	openDateDetails,
-	openAttendanceRecordsDialog,
-	closeAttendanceRecordsDialog,
-	closeHeatmapDialog,
-	closeTrendDialog,
-	formatDateForDisplay,
-	formatCalendarTitle,
-	prevMonth,
-	nextMonth,
-	goToday,
-	getTimeSlotLabel,
-	getDateAttendanceTimes,
-	initHeatmapChart,
-	initLineChart,
-	generateHeatmapData,
-	generateLineData,
-	openHeatmapDialog,
-	openTrendDialog,
-	authenticate,
-	logout,
-	getShortcutDate,
-	openMakeupDialog,
-	cancelMakeup,
-	handleDateChange,
-	formatSelectedDate,
-	confirmDateStep,
-	selectDatetimeShortcut,
-	isDatetimeShortcutSelected,
-	selectHour,
-	isHourSelected,
-	updateAttendanceTime,
-	submitMakeup,
-	openPointsDialog,
-	handlePointsDialogClose,
-	cancelPoints,
-	confirmPoints,
-	openScoreChangeRecordsDialog,
-	closeScoreChangeRecordsDialog,
-	formatTime,
-	loadAllData,
-	timeSlots,
-	sortedScoreChangeRecords,
-	totalScoreChangePoints,
-	toggleTheme
-} = useAdminPage()
+/**
+ * 是否显示数据下载按钮
+ * @type {Ref<boolean>}
+ */
+const showDownloadButton = ref(false)
 
+/**
+ * 修改学生身份弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const changeLevelDialogVisible = ref(false)
 
-const monthMap = {
-	January: '一月',
-	February: '二月',
-	March: '三月',
-	April: '四月',
-	May: '五月',
-	June: '六月',
-	July: '七月',
-	August: '八月',
-	September: '九月',
-	October: '十月',
-	November: '十一月',
-	December: '十二月'
+/**
+ * 修改所属管理员弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const changeAdminDialogVisible = ref(false)
+
+/**
+ * 查看考勤记录弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const attendanceDialogVisible = ref(false)
+
+/**
+ * 补卡弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const makeupAttendanceDialogVisible = ref(false)
+
+/**
+ * 创建积分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const createPointsRecordDialogVisible = ref(false)
+
+/**
+ * 查看改分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const viewPointsRecordsDialogVisible = ref(false)
+
+/**
+ * 修改学生个人信息弹窗显示状态
+ * @type {Ref<boolean>}
+ */
+const updateStudentInfoDialogVisible = ref(false)
+
+// 3.2 选中学生状态
+/**
+ * 当前选中的学生对象（用于修改身份）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudent = ref(null)
+
+/**
+ * 当前选中的学生对象（用于修改管理员）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForAdminChange = ref(null)
+
+/**
+ * 当前选中的学生对象（用于查看考勤记录）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForAttendance = ref(null)
+
+/**
+ * 当前选中的学生对象（用于补卡操作）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForMakeup = ref(null)
+
+/**
+ * 当前选中的学生对象（用于创建积分记录操作）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForPointsRecord = ref(null)
+
+/**
+ * 当前选中的学生对象（用于查看改分记录操作）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForViewPointsRecords = ref(null)
+
+/**
+ * 当前选中的学生对象（用于修改个人信息）
+ * @type {Ref<Object|null>}
+ */
+const selectedStudentForUpdateInfo = ref(null)
+
+// 3.3 子组件引用
+/**
+ * 热力图组件引用，用于调用组件方法
+ * @type {Ref<Object|null>}
+ */
+const heatmapChartFormRef = ref(null)
+
+/**
+ * 趋势图组件引用，用于调用组件方法
+ * @type {Ref<Object|null>}
+ */
+const trendChartFormRef = ref(null)
+
+// ===================== 第四部分：弹窗操作函数区 =====================
+
+/**
+ * 打开修改学生身份弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示修改身份对话框
+ */
+const openChangeLevelDialog = (student) => {
+	selectedStudent.value = student
+	changeLevelDialogVisible.value = true
 }
 
+/**
+ * 打开修改所属管理员弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示修改管理员对话框
+ */
+const openChangeAdminDialog = (student) => {
+	selectedStudentForAdminChange.value = student
+	changeAdminDialogVisible.value = true
+}
 
-const monthObserver = null
+/**
+ * 打开查看考勤记录弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示考勤记录对话框
+ */
+const openAttendanceDialog = (student) => {
+	selectedStudentForAttendance.value = student
+	attendanceDialogVisible.value = true
+}
 
+/**
+ * 打开补卡操作弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示补卡对话框
+ */
+const openMakeupAttendanceDialog = (student) => {
+	selectedStudentForMakeup.value = student
+	makeupAttendanceDialogVisible.value = true
+}
 
+/**
+ * 打开创建积分记录弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示创建积分记录对话框
+ */
+const openCreatePointsRecordDialog = (student) => {
+	selectedStudentForPointsRecord.value = student
+	createPointsRecordDialogVisible.value = true
+}
+
+/**
+ * 打开查看改分记录弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示改分记录对话框
+ */
+const openViewPointsRecordsDialog = (student) => {
+	selectedStudentForViewPointsRecords.value = student
+	viewPointsRecordsDialogVisible.value = true
+}
+
+/**
+ * 打开修改学生个人信息弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 选中学生后显示修改个人信息对话框
+ */
+const openUpdateStudentInfoDialog = (student) => {
+	selectedStudentForUpdateInfo.value = student
+	updateStudentInfoDialogVisible.value = true
+}
+
+/**
+ * 打开考勤热力图弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 调用热力图子组件的打开方法，展示学生签到热力图
+ */
+const openHeatmapDialog = (student) => {
+	heatmapChartFormRef.value.openHeatmapDialog(student)
+}
+
+/**
+ * 打开考勤趋势图弹窗
+ * @param {Object} student - 学生信息对象
+ * @description 调用趋势图子组件的打开方法，展示学生签到累计趋势
+ */
+const openTrendChartDialog = (student) => {
+	trendChartFormRef.value.openTrendChartDialog(student)
+}
+
+// ===================== 第五部分：生命周期钩子区 =====================
+
+/**
+ * 组件挂载完成钩子
+ * 执行逻辑：
+ * 1. 设置页面标题
+ * 2. 重置页面状态为初始值
+ * 3. 等待 DOM 更新完成
+ */
 onMounted(async () => {
+	// 设置页面标题
 	document.title = '超级管理员控制台 - AI坊学生管理系统'
 
-	const adminPassword = adminStore.getAdminPassword()
-	if (adminPassword) {
-		// 如果已有密码，直接验证并加载数据
-		isAuthenticated.value = true
-		try {
-			await loadAllData(adminPassword)
-		} catch (error) {
-			ElMessage.error(`加载数据失败：${error.message}`)
-			isAuthenticated.value = false
-			adminStore.clearAdminPassword()
-		}
-	} else {
-		// 没有密码，显示身份验证界面
-		isAuthenticated.value = false
-	}
-})
+	// 重置数据为初始状态
+	resetPageState()
 
-watch(calendarValue, async () => {
-	if (attendanceRecordsDialogVisible.value && !isLoading.value) {
-		await nextTick()
-		initHeatmapChart()
-		initLineChart()
-	}
+	// 等待 DOM 更新
+	await nextTick()
 })
-
 </script>
 
 <template>
-	<!-- 身份验证界面 -->
-	<div v-if="!isAuthenticated" class="auth-section-mobile">
-		<div class="auth-page-header-mobile">
-			<div class="header-content-mobile">
-				<img
-					src="@/assets/AiWorkShop_icon.png"
-					alt="AI坊学生管理系统"
-					class="auth-logo-mobile"
-					title="切换主题模式"
-					@click="toggleTheme"/>
-				<h2>身份验证</h2>
-			</div>
-		</div>
-		<div class="auth-card-mobile">
-			<div class="auth-header-mobile">
-				<div class="auth-icon-container-mobile">
-					<img
-						v-if="adminAvatarUrl"
-						v-lazy="adminAvatarUrl"
-						alt="Admin Avatar"
-						class="admin-avatar-mobile"
-						@error="adminAvatarUrl = null"/>
-					<div v-else class="icon-ring-mobile"/>
-				</div>
-			</div>
-			<div class="auth-form-mobile">
-				<div class="input-container-mobile">
-					<el-input
-						v-model="specialPassword"
-						type="password"
-						placeholder="请输入特殊密码"
-						show-password
-						size="large"
-						class="password-input-mobile"
-						@keyup.enter="authenticate"
-					>
-						<template #prefix>
-							<el-icon>
-								<lock/>
-							</el-icon>
-						</template>
-					</el-input>
-				</div>
+	<!-- ===================== 模板区域 ===================== -->
+
+	<!-- 加载蒙版：全局加载状态提示 -->
+	<LoadingMask/>
+
+	<!-- ===================== 1. 身份验证界面 ===================== -->
+	<!-- 显示条件：未通过身份验证时显示 -->
+	<div v-if="pageState === 'auth'">
+		<!-- 身份认证页面顶部：包含返回按钮、系统logo和锁图标 -->
+		<div class="identify-authentication-page-header">
+			<!-- 左侧区域：返回按钮和系统logo -->
+			<div class="identify-authentication-page-header-left">
+				<!-- 返回首页按钮 -->
 				<el-button
 					type="primary"
+					:icon="House"
+					circle
 					size="large"
-					:loading="authLoading"
-					class="auth-button-mobile"
-					@click="authenticate"
-				>
-					<span>验证身份</span>
-				</el-button>
-			</div>
-		</div>
-	</div>
-
-	<!-- 加载界面 -->
-	<div v-else-if="!isDataLoaded" class="admin-loading-mobile">
-		<div class="loading-page-header-mobile">
-			<img
-				src="@/assets/AiWorkShop_icon.png"
-				alt="AI坊学生管理系统"
-				class="loading-logo-mobile"
-				title="切换主题模式"
-				@click="toggleTheme"/>
-		</div>
-		<div class="loading-container-mobile">
-			<div class="loading-spinner-mobile">
-				<div class="spinner-ring-mobile"/>
-				<div class="spinner-ring-mobile"/>
-				<div class="spinner-ring-mobile"/>
-			</div>
-			<div class="loading-text-mobile">数据加载中，请稍候...</div>
-			<div class="loading-progress-mobile">
-				<div class="progress-bar-mobile" :style="{ width: loadingProgress + '%' }"/>
-			</div>
-			<div class="loading-status-mobile">{{ loadingStatus }}</div>
-		</div>
-	</div>
-
-	<!-- 管理控制台界面 -->
-	<div v-else class="admin-console-mobile">
-		<div class="admin-header-mobile">
-			<div class="header-left-mobile">
+					@click="router.push('/')"
+				/>
+				<!-- 系统logo（点击可切换主题） -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
-					class="logo-mobile"
 					title="切换主题模式"
-					@click="toggleTheme"/>
-				<div class="title-section-mobile">
+					@click="toggleTheme"
+				/>
+			</div>
+
+			<!-- 页面标题 -->
+			<h2 class="identify-authentication-page-header-title">超级管理员身份验证</h2>
+
+			<!-- 右侧区域：安全锁图标 -->
+			<div class="identify-authentication-page-header-right">
+				<el-icon class="identify-authentication-page-header-right-icon">
+					<Lock/>
+				</el-icon>
+			</div>
+		</div>
+
+		<!-- 身份认证页面主体：包含头像、密码输入和验证按钮 -->
+		<div class="identify-authentication-page-body">
+			<!-- 管理员头像 -->
+			<img
+				v-if="superAdminAvatarUrl"
+				v-lazy="superAdminAvatarUrl"
+				alt="Admin Avatar"
+			/>
+
+			<!-- 密码输入框：支持回车提交和密码显示切换 -->
+			<el-input
+				v-model="specialPassword"
+				type="password"
+				placeholder="请输入特殊密码"
+				show-password
+				size="large"
+				@keyup.enter="authenticate"
+			>
+				<template #prefix>
+					<el-icon>
+						<Lock/>
+					</el-icon>
+				</template>
+			</el-input>
+
+			<!-- 身份验证按钮：加载时显示loading状态 -->
+			<el-button
+				type="primary"
+				size="large"
+				:loading="isAuthenticating"
+				@click="authenticate"
+			>
+				<el-icon>
+					<Key/>
+				</el-icon>
+				<span>验证身份</span>
+			</el-button>
+		</div>
+	</div>
+
+	<!-- ===================== 2. 管理控制台主界面 ===================== -->
+	<!-- 显示条件：已通过身份验证时显示 -->
+	<div v-else class="main-page">
+		<!-- 2.1 页面头部：logo、标题和退出按钮 -->
+		<div class="main-page-header">
+			<!-- 左侧区域：系统logo和控制台标题 -->
+			<div class="main-page-header-left">
+				<!-- 系统logo（点击可切换主题） -->
+				<img
+					src="@/assets/AiWorkShop_icon.png"
+					alt="AI坊学生管理系统"
+					title="切换主题模式"
+					@click="toggleTheme"
+				/>
+				<!-- 控制台标题区域 -->
+				<div class="main-page-header-left-title">
 					<h1>超级管理员控制台</h1>
 					<p>Super Admin Console</p>
 				</div>
 			</div>
-			<div class="header-right-mobile">
+
+			<!-- 右侧区域：退出登录按钮 -->
+			<div class="main-page-header-right">
 				<el-button
+					v-if="!showDownloadButton"
 					type="danger"
-					size="small"
-					class="logout-btn-mobile"
-					@click="logout">
+					size="large"
+					@click="logout"
+				>
 					<el-icon>
-						<switch-button/>
+						<SwitchButton/>
 					</el-icon>
 					退出登录
+				</el-button>
+				<el-button
+					v-if="!showDownloadButton"
+					type="info"
+					size="large"
+					@click="showDownloadButton = true"
+					class="arrow-button"
+				>
+					<el-icon>
+						<ArrowRight/>
+					</el-icon>
+				</el-button>
+				<el-button
+					v-if="showDownloadButton"
+					type="primary"
+					size="large"
+					@click="dataDownloadDialogVisible = true"
+				>
+					<el-icon>
+						<Download/>
+					</el-icon>
+					导出数据
+				</el-button>
+				<el-button
+					v-if="showDownloadButton"
+					type="info"
+					size="large"
+					@click="showDownloadButton = false"
+					class="arrow-button"
+				>
+					<el-icon>
+						<ArrowRight style="transform: rotate(180deg)"/>
+					</el-icon>
 				</el-button>
 			</div>
 		</div>
 
-		<div class="admin-stats-mobile">
-			<div class="stat-card-mobile">
-				<div class="stat-icon-mobile">
+		<!-- 2.2 搜索和刷新功能区域 -->
+		<div class="main-page-buttons-and-search">
+			<!-- 搜索框和刷新按钮容器 -->
+			<div class="main-page-buttons-and-search-search">
+				<!-- 多关键词搜索框：支持按学号、姓名等多维度搜索 -->
+				<el-input
+					v-model="searchKeywords"
+					placeholder="搜索学生信息，多词空格隔开"
+					clearable
+					@blur="searchStudents"
+				>
+					<template #prefix>
+						<el-icon>
+							<Search/>
+						</el-icon>
+					</template>
+				</el-input>
+
+				<!-- 刷新数据按钮 -->
+				<el-button
+					type="success"
+					size="default"
+					@click="refreshData"
+				>
 					<el-icon>
-						<user/>
+						<Refresh/>
 					</el-icon>
-				</div>
-				<div class="stat-content-mobile">
-					<div class="stat-value-mobile">{{ totalStudents }}</div>
-					<div class="stat-label-mobile">学生总数</div>
-				</div>
-			</div>
-			<div class="stat-card-mobile" style="cursor: pointer;" @click="showTodayAttendance">
-				<div class="stat-icon-mobile">
-					<el-icon>
-						<calendar/>
-					</el-icon>
-				</div>
-				<div class="stat-content-mobile">
-					<div class="stat-value-mobile">{{ todayCount }}</div>
-					<div class="stat-label-mobile">今日签到</div>
-				</div>
-			</div>
-			<div class="stat-card-mobile">
-				<div class="stat-icon-mobile">
-					<el-icon>
-						<trend-charts/>
-					</el-icon>
-				</div>
-				<div class="stat-content-mobile">
-					<div class="stat-value-mobile">{{ monthlyCount }}</div>
-					<div class="stat-label-mobile">本月签到</div>
-				</div>
+					刷新数据
+				</el-button>
 			</div>
 		</div>
 
-		<div class="students-section-mobile">
-			<div class="section-header-mobile">
-				<h2>学生信息管理</h2>
-				<div class="header-actions-mobile">
-					<el-input
-						v-model="searchKeyword"
-						placeholder="搜索学生信息"
-						clearable
-						class="search-input-mobile"
-					>
-						<template #prefix>
-							<el-icon>
-								<search/>
-							</el-icon>
-						</template>
-					</el-input>
-					<el-button :loading="isLoading" type="primary" @click="refreshData">
-						<el-icon>
-							<refresh/>
-						</el-icon>
-						刷新数据
-					</el-button>
-				</div>
-			</div>
+		<!-- 2.3 学生卡片列表区域 -->
+		<div class="student-cards">
+			<!-- 遍历学生列表，每个学生生成一张卡片 -->
+			<div
+				v-for="studentInfo in toShowStudentInfos"
+				:key="studentInfo.id"
+				class="student-cards-item"
+			>
+				<!-- 学生卡片头部：头像、基本信息和积分展示 -->
+				<div class="student-cards-item-header">
+					<!-- 学生头像 -->
+					<img
+						v-if="studentInfo.avatarUrl"
+						v-lazy="studentInfo.avatarUrl"
+						alt="头像"
+					/>
 
-			<div class="level-tabs-mobile">
-				<el-tabs v-model="activeLevelTab" type="card" class="level-tabs-container-mobile">
-					<el-tab-pane
-						v-for="level in levelOptions"
-						:key="level.value"
-						:label="level.label"
-						:name="level.value.toString()"
-						:class="`level-tab-${level.color}-mobile`"
-					>
-						<template #label>
-							<el-tag :type="level.color" size="large" class="tab-label-mobile">
-								{{ level.label }}
-								<span class="tab-count-mobile">({{ getLevelStudents(level.value).length }})</span>
-							</el-tag>
-						</template>
-					</el-tab-pane>
-				</el-tabs>
-			</div>
-
-			<div class="students-cards-container-mobile">
-				<div
-					v-for="student in filteredStudents"
-					v-show="(parseInt(studentLevels[student.studentId] || 0) === parseInt(activeLevelTab))"
-					:key="student.studentId"
-					class="student-card-mobile"
-					:data-level="studentLevels[student.studentId] || 0">
-					<div class="student-main-row-mobile">
-						<div
-							class="student-avatar-mobile"
-							:class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
-							<img
-								v-if="student.hasAvatar && student.avatarUrl"
-								v-lazy="student.avatarUrl"
-								alt="头像"
-								class="avatar-image-mobile"
-								@error="handleAvatarError(student)"/>
-							<span v-else class="avatar-text-mobile">{{ student.name.charAt(0) }}</span>
-						</div>
-						<div class="student-primary-info-mobile">
-							<div class="student-name-mobile">{{ student.name }}</div>
-							<div class="student-id-mobile">学号: {{ student.studentId }}</div>
-							<div class="student-db-id-mobile">唯一ID: {{ student.id }}</div>
-						</div>
-						<div class="attendance-count-mobile">
-							<el-icon class="attendance-icon-mobile">
-								<calendar/>
-							</el-icon>
-							<span class="count-text-mobile">{{
-								studentAttendanceCounts[student.studentId] || 0
-							}}次</span>
-						</div>
-						<div class="points-info-mobile">
-							<div class="points-summary-mobile">
-								<span class="points-total-mobile">总积分: {{
-									Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64) + ((studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0)
-								}}</span>
-							</div>
-							<div class="points-details-mobile">
-								<span class="points-type-mobile">签到: {{
-									Math.round((studentAttendanceCounts[student.studentId] || 0) * 0.64)
-								}}</span>
-								<span class="points-type-mobile">活动: {{
-									(studentPoints[student.studentId] && studentPoints[student.studentId].totalPoints) || 0
-								}}</span>
-							</div>
-						</div>
+					<!-- 学生基本信息：ID、姓名、学号 -->
+					<div class="student-cards-item-header-student-info">
+						<div>{{ studentInfo.id }}</div>
+						<div>{{ studentInfo.name }}</div>
+						<div>{{ studentInfo.studentId }}</div>
 					</div>
 
-					<div class="student-detail-row-mobile">
-						<div class="student-details-mobile">
-							<div class="detail-item-mobile">
-								<span class="label-mobile">年级：</span>
-								<span class="value-mobile">{{ student.grade }}年级</span>
-							</div>
-							<div class="detail-item-mobile">
-								<span class="label-mobile">专业：</span>
-								<span class="value-mobile">{{ student.major }}</span>
-							</div>
-							<div class="detail-item-mobile">
-								<span class="label-mobile">班级：</span>
-								<span class="value-mobile">{{ student.classNum }}班</span>
-							</div>
-							<div class="detail-item-mobile">
-								<span class="label-mobile">性别：</span>
-								<span class="value-mobile">{{ student.gender }}</span>
-							</div>
-							<div class="detail-item-mobile">
-								<span class="label-mobile">手机：</span>
-								<span class="value-mobile">{{ student.phoneNumber }}</span>
-							</div>
+					<!-- 积分信息：总积分、签到积分、活动积分 -->
+					<div class="student-cards-item-header-points">
+						<div>
+							<span>总积分: {{
+									Math.round(studentInfo.attendanceCount * 0.64) + studentInfo.totalPoints
+								}}</span>
 						</div>
-						<div class="student-actions-mobile">
-							<div>
-								<div>
-									<span>考勤</span>
-								</div>
-								<div class = "attendance-actions-container">
-									<el-button
-										type="success"
-										size="small"
-										class="records-btn-mobile"
-										@click="openAttendanceRecordsDialog(student)"
-									>
-										<el-icon>
-											<calendar/>
-										</el-icon>
-										考勤记录
-									</el-button>
-									<el-button
-										type="warning"
-										size="small"
-										class="makeup-btn-mobile"
-										@click="openMakeupDialog(student)"
-									>
-										<el-icon>
-											<clock/>
-										</el-icon>
-										补卡
-									</el-button>
-									<el-button
-										type="info"
-										size="small"
-										class="heatmap-btn-mobile"
-										@click="openHeatmapDialog(student)"
-									>
-										<el-icon>
-											<trend-charts/>
-										</el-icon>
-										热力图
-									</el-button>
-									<el-button
-										type="primary"
-										size="small"
-										class="trend-btn-mobile"
-										@click="openTrendDialog(student)"
-									>
-										<el-icon>
-											<trend-charts/>
-										</el-icon>
-										趋势图
-									</el-button>
-								</div>
-							</div>
+						<div>
+							<span>签到: {{
+									Math.round(studentInfo.attendanceCount * 0.64)
+								}} ({{
+									studentInfo.attendanceCount
+								}})</span>
+							<span>&nbsp;&nbsp;活动: {{
+									studentInfo.totalPoints
+								}}</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- 学生详细信息：年级、专业、班级、性别、手机、身份、所属管理员 -->
+				<div class="student-cards-item-student-info">
+					<span>年级：{{ studentInfo.grade }}年级</span>
+					<span>学院：{{ studentInfo.college }}</span>
+					<span>专业：{{ studentInfo.major }}</span>
+					<span>班级：{{ studentInfo.classNum }}班</span>
+					<span>性别：{{ studentInfo.gender }}</span>
+					<span>手机：{{ studentInfo.phoneNumber }}</span>
+					<!-- 学生身份：可点击修改 -->
+					<span>身份：
+						<el-button
+							type="primary"
+							size="small"
+							@click="openChangeLevelDialog(studentInfo)"
+						>
+							<el-icon>
+								<User/>
+							</el-icon>
+							{{ studentInfo.levelName }}
+						</el-button>
+					</span>
+					<!-- 所属管理员：仅非超级管理员显示，可点击修改 -->
+					<span v-if="studentInfo.level !== 3">
+						所属管理员：
+						<el-button
+							type="primary"
+							size="small"
+							@click="openChangeAdminDialog(studentInfo)"
+						>
+							<el-icon>
+								<User/>
+							</el-icon>
+							{{ getAdminName(studentInfo.adminId) }}
+						</el-button>
+					</span>
+				</div>
+
+				<!-- 学生卡片操作按钮区：考勤、积分、个人信息 -->
+				<div class="student-cards-item-buttons">
+					<!-- 考勤相关操作 -->
+					<div>
+						<span>考勤</span>
+						<div>
+							<!-- 查看考勤记录按钮 -->
 							<el-button
 								type="success"
 								size="small"
-								class="points-btn-mobile"
-								@click="openPointsDialog(student)"
+								@click="openAttendanceDialog(studentInfo)"
 							>
 								<el-icon>
-									<edit/>
+									<Calendar/>
 								</el-icon>
-								修改积分
+								考勤记录
 							</el-button>
+
+							<!-- 补卡操作按钮 -->
+							<el-button
+								type="warning"
+								size="small"
+								@click="openMakeupAttendanceDialog(studentInfo)"
+							>
+								<el-icon>
+									<Clock/>
+								</el-icon>
+								补卡
+							</el-button>
+
+							<!-- 查看热力图按钮 -->
 							<el-button
 								type="info"
 								size="small"
-								class="score-records-btn-mobile"
-								@click="openScoreChangeRecordsDialog(student)"
+								@click="openHeatmapDialog(studentInfo)"
 							>
 								<el-icon>
-									<document/>
+									<TrendCharts/>
+								</el-icon>
+								热力图
+							</el-button>
+
+							<!-- 查看趋势图按钮 -->
+							<el-button
+								type="primary"
+								size="small"
+								@click="openTrendChartDialog(studentInfo)"
+							>
+								<el-icon>
+									<TrendCharts/>
+								</el-icon>
+								趋势图
+							</el-button>
+						</div>
+					</div>
+
+					<!-- 积分相关操作 -->
+					<div>
+						<span>积分</span>
+						<div>
+							<!-- 修改积分按钮 -->
+							<el-button
+								type="success"
+								size="small"
+								@click="openCreatePointsRecordDialog(studentInfo)"
+							>
+								<el-icon>
+									<Edit/>
+								</el-icon>
+								修改积分
+							</el-button>
+							<!-- 查看改分记录按钮 -->
+							<el-button
+								type="info"
+								size="small"
+								@click="openViewPointsRecordsDialog(studentInfo)"
+							>
+								<el-icon>
+									<Document/>
 								</el-icon>
 								改分记录
 							</el-button>
 						</div>
 					</div>
 
-					<div class="student-management-row-mobile">
-						<div class="level-management-mobile">
-							<span class="management-label-mobile">学生等级：</span>
-							<el-select
-								:model-value="studentLevels[student.studentId] || 0"
+					<!-- 个人信息操作 -->
+					<div>
+						<span>个人信息</span>
+						<div>
+							<!-- 编辑个人信息按钮 -->
+							<el-button
+								type="primary"
 								size="small"
-								style="width: 120px;"
-								:loading="isLoading"
-								class="level-select-mobile"
-								@change="(value) => changeLevel(student.studentId, value)"
+								@click="openUpdateStudentInfoDialog(studentInfo)"
 							>
-								<el-option
-									v-for="option in levelOptions"
-									:key="option.value"
-									:label="option.label"
-									:value="option.value"
-								>
-									<el-tag
-										:type="option.color"
-										size="small"
-										style="width: 100%; text-align: center;"
-									>
-										{{ option.label }}
-									</el-tag>
-								</el-option>
-							</el-select>
-						</div>
-						<div class="admin-management-mobile">
-							<span class="management-label-mobile">所属管理员：</span>
-							<div v-if="(studentLevels[student.studentId] || 0) === 3" class="admin-level-notice-mobile">
-								<el-icon class="admin-icon-mobile">
-									<user-filled/>
+								<el-icon>
+									<Edit/>
 								</el-icon>
-								<span>管理员身份</span>
-							</div>
-							<div v-else-if="adminOptions.length === 0" class="no-admin-available-mobile">
-								<el-icon class="warning-icon-mobile">
-									<warning/>
-								</el-icon>
-								<span>暂无可用的管理员</span>
-							</div>
-							<div v-else>
-								<el-select
-									:model-value="studentAdmins[student.studentId]?.adminStudentId || ''"
-									size="small"
-									style="width: 180px;"
-									:loading="isLoading"
-									class="admin-select-mobile"
-									placeholder="分配管理员"
-									clearable
-									@change="(value) => changeAdmin(student.studentId, value)"
-								>
-									<el-option
-										v-for="option in adminOptions"
-										:key="option.value"
-										:label="option.label"
-										:value="option.value"
-									>
-										<div class="admin-option-mobile">
-											<el-icon class="option-icon-mobile">
-												<user-filled/>
-											</el-icon>
-											<div class="option-text-mobile">
-												<div class="option-name-mobile">{{ option.student.name }}</div>
-												<div class="option-id-mobile">{{ option.student.studentId }}</div>
-											</div>
-										</div>
-									</el-option>
-								</el-select>
-							</div>
-						</div>
-						<div class="edit-action-mobile">
-							<el-tooltip content="编辑学生信息" placement="top">
-								<el-button
-									type="primary"
-									size="small"
-									:loading="isLoading"
-									class="edit-btn-mobile"
-									@click="openEditDialog(student)"
-								>
-									<el-icon>
-										<edit/>
-									</el-icon>
-									编辑
-								</el-button>
-							</el-tooltip>
+								编辑
+							</el-button>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="table-footer-mobile">
-				<div class="pagination-info-mobile">
-					共 {{ currentLevelStudents.length }} 条记录
-				</div>
-				<el-pagination
-					v-model:current-page="currentPage"
-					v-model:page-size="pageSize"
-					:page-sizes="[10, 20, 50, 100]"
-					:total="currentLevelStudents.length"
-					layout="total, sizes, prev, pager, next, jumper"
-					class="pagination-mobile"
-				/>
-			</div>
 		</div>
+	</div>
 
-		<div class="admin-footer-mobile">
-			<div class="footer-content-mobile">
-				<div class="footer-left-mobile">
-					<span>人工智能创作坊学生管理系统</span>
-				</div>
-				<div class="footer-right-mobile">
-					<span>超级管理员模式</span>
-				</div>
-			</div>
-		</div>
+	<!-- ===================== 3. 表单弹窗组件 ===================== -->
 
-		<el-dialog
-			v-if="editDialogVisible"
-			v-model="editDialogVisible"
-			title="修改学生信息"
-			width="90%"
-			:close-on-click-modal="false"
-			:close-on-press-escape="false"
-			:append-to-body="true"
-			:teleported="true"
-			class="edit-dialog-mobile"
-		>
-			<el-form
-				ref="editFormRef"
-				:model="editForm"
-				:rules="editFormRules"
-				label-width="80px"
-				class="edit-form-mobile"
-			>
-				<el-form-item label="姓名" prop="name">
-					<el-input v-model="editForm.name" placeholder="请输入学生姓名"/>
-				</el-form-item>
-				<el-form-item label="学号" prop="studentId">
-					<el-input v-model="editForm.studentId" placeholder="请输入学号"/>
-				</el-form-item>
-				<el-form-item label="性别" prop="gender">
-					<el-select v-model="editForm.gender" placeholder="请选择性别" style="width: 100%">
-						<el-option label="男" value="男"/>
-						<el-option label="女" value="女"/>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="手机号" prop="phoneNumber">
-					<el-input v-model="editForm.phoneNumber" placeholder="请输入手机号"/>
-				</el-form-item>
-				<el-form-item label="学院" prop="college">
-					<el-input v-model="editForm.college" placeholder="请输入学院"/>
-				</el-form-item>
-				<el-form-item label="专业" prop="major">
-					<el-input v-model="editForm.major" placeholder="请输入专业"/>
-				</el-form-item>
-				<el-form-item label="年级" prop="grade">
-					<el-select v-model="editForm.grade" placeholder="请选择年级" style="width: 100%">
-						<el-option label="1年级" :value="1"/>
-						<el-option label="2年级" :value="2"/>
-						<el-option label="3年级" :value="3"/>
-						<el-option label="4年级" :value="4"/>
-						<el-option label="5年级" :value="5"/>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="班级" prop="classNum">
-					<el-input-number
-						v-model="editForm.classNum"
-						:min="1"
-						:max="100"
-						placeholder="请输入班级"
-						style="width: 100%"
-					/>
-				</el-form-item>
-				<el-form-item label="密码" prop="password">
-					<el-input
-						v-model="editForm.password"
-						type="password"
-						placeholder="请输入新密码（6-16位）"
-						show-password
-					/>
-				</el-form-item>
-			</el-form>
-			<template #footer>
-				<div class="dialog-footer-mobile">
-					<el-button :disabled="isLoading" @click="cancelEdit">取消</el-button>
-					<el-button type="primary" :loading="isLoading" @click="confirmEdit">
-						确认修改
+	<!-- 修改学生身份弹窗组件 -->
+	<ChangeLevelForm
+		v-model="changeLevelDialogVisible"
+		:student="selectedStudent"
+	/>
+
+	<!-- 修改所属管理员弹窗组件 -->
+	<ChangeAdminForm
+		v-model="changeAdminDialogVisible"
+		:student="selectedStudentForAdminChange"
+	/>
+
+	<!-- 查看考勤记录弹窗组件 -->
+	<ViewAttendanceRecordsForm
+		v-model="attendanceDialogVisible"
+		:student="selectedStudentForAttendance"
+	/>
+
+	<!-- 补卡操作弹窗组件 -->
+	<MakeupAttendanceForm
+		v-model="makeupAttendanceDialogVisible"
+		:student="selectedStudentForMakeup"
+	/>
+
+	<!-- 创建积分记录弹窗组件 -->
+	<CreatePointsRecordForm
+		v-model="createPointsRecordDialogVisible"
+		:student="selectedStudentForPointsRecord"
+	/>
+
+	<!-- 查看改分记录弹窗组件 -->
+	<ViewPointsRecordsForm
+		v-model="viewPointsRecordsDialogVisible"
+		:student="selectedStudentForViewPointsRecords"
+	/>
+
+	<!-- 修改学生个人信息弹窗组件 -->
+	<UpdateStudentInfoForm
+		v-model="updateStudentInfoDialogVisible"
+		:student="selectedStudentForUpdateInfo"
+		@success="refreshData"
+	/>
+
+	<!-- 考勤热力图弹窗组件 -->
+	<HeatmapChartForm ref="heatmapChartFormRef" />
+
+	<!-- 考勤趋势图弹窗组件 -->
+	<AttendanceTrendChartForm ref="trendChartFormRef" />
+
+	<!-- 数据下载表单弹窗组件 -->
+	<DataDownloadForm v-model="dataDownloadDialogVisible" />
+</template>
+
+<!-- 样式文件导入：按模块分别导入 -->
+<style scoped src="./css/mobile/AdminPageMobile.css"></style>
+<style scoped src="./css/mobile/AdminPage-identify_authentication_page.css"></style>
+<style scoped src="./css/mobile/AdminPage-main_page_header.css"></style>
+<style scoped src="./css/mobile/AdminPage-main_page_buttons_and_search.css"></style>
+<style scoped src="./css/mobile/AdminPage-main_page_student_cards.css"></style>
+
 					</el-button>
 				</div>
 			</template>

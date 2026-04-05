@@ -1,10 +1,18 @@
 <script setup>
-import { ArrowLeft, Loading, Box, View, User, Search } from '@element-plus/icons-vue'
+/**
+ * 全部成员页面组件(移动端)
+ *
+ * @description 展示所有成员信息和积分排名(移动端)
+ * @component AllMembersPageMobile
+ */
+import { ArrowLeft, Box, View, User, Search } from '@element-plus/icons-vue'
 import { ElButton, ElIcon, ElDialog, ElInput } from 'element-plus'
 import { ref, onMounted, nextTick, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
+import LoadingMask from '@/components/LoadingMask.vue'
 import AdjustRecordsDialogManager from '@/views/AllMembersPage/js/AdjustRecordsDialogManager'
 import AllMembersPage from '@/views/AllMembersPage/js/AllMembersPage'
 
@@ -16,49 +24,135 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 
 
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 全局加载蒙版 Store
+ * @type {Store}
+ * @description 管理全局加载蒙版的显示和隐藏
+ */
+const loadingMaskStore = useLoadingMaskStore()
 
-
+// ===================== 响应式变量定义区 =====================
+/**
+ * 总积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按总积分排序的学生列表
+ */
 const totalRanking = ref([])
+/**
+ * 优秀学生列表
+ * @type {Ref<Array>}
+ * @description 存储排名靠前的学生数据,用于展示优秀成员
+ */
 const topStudents = ref([])
+/**
+ * 搜索关键词
+ * @type {Ref<string>}
+ * @description 用户输入的搜索关键词,用于筛选学生
+ */
 const searchKeyword = ref('')
+/**
+ * 筛选后的学生列表
+ * @type {Ref<Array>}
+ * @description 根据搜索关键词筛选后的学生数据列表
+ */
 const filteredStudents = ref([])
-const isLoading = ref(true)
+/**
+ * 已加载的数据数量
+ * @type {Ref<number>}
+ * @description 记录已加载的学生数据数量,用于进度显示
+ */
 const loadedCount = ref(0)
+/**
+ * 总学生数量
+ * @type {Ref<number>}
+ * @description 系统中所有学生的总数
+ */
 const totalCount = ref(0)
 
-
-// 弹窗管理器
+// ===================== 弹窗管理器 =====================
+/**
+ * 改分记录弹窗管理器
+ * @type {Reactive<AdjustRecordsDialogManager>}
+ * @description 管理改分记录弹窗的打开、关闭和数据加载
+ */
 const adjustRecordsDialogManager = reactive(new AdjustRecordsDialogManager())
 
+// ===================== 页面操作方法区 =====================
+/**
+ * 返回上一页
+ * @function goBack
+ * @description 点击返回按钮时触发,跳转到导航页面
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 切换主题
+ * @function toggleTheme
+ * @description 切换应用的明暗主题模式
+ */
 const toggleTheme = () => {
 	themeStore.toggleTheme()
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当学生头像加载失败时调用,标记为无头像状态
+ * @param {Object} student - 学生对象,包含hasAvatar和avatarUrl属性
+ */
 const handleAvatarError = student => {
 	student.hasAvatar = false
 	student.avatarUrl = null
 }
 
-
+/**
+ * 打开改分记录弹窗
+ * @function openRecordsDialog
+ * @description 点击学生卡片时触发,打开该学生的改分记录弹窗
+ * @param {Object} student - 学生对象,包含学生ID等信息
+ */
 const openRecordsDialog = student => {
 	adjustRecordsDialogManager.open(student)
 }
 
-
+// ===================== 工具方法区 =====================
+/**
+ * 格式化年级
+ * @function formatGrade
+ * @description 将数字年级转换为中文显示格式
+ * @param {string|number} grade - 年级数字(1-6)
+ * @returns {string} 格式化后的年级文本,如'大一'、'大二'等
+ */
 const formatGrade = grade => {
+	// 空值处理
 	if (!grade) {
 		return ''
 	}
+	// 转换为数字
 	const gradeNum = parseInt(grade, 10)
+	// 非数字时返回原值
 	if (isNaN(gradeNum)) {
 		return grade
 	}
+	/**
+	 * 年级数字与中文的映射关系
+	 * @type {Object<number, string>}
+	 */
 	const gradeMap = {
 		1: '大一',
 		2: '大二',
@@ -70,27 +164,48 @@ const formatGrade = grade => {
 	return gradeMap[gradeNum] || `${gradeNum}年级`
 }
 
-
+/**
+ * 检查学生是否匹配搜索关键词
+ * @function checkStudentMatch
+ * @description 检查学生的姓名、性别、学院、专业是否包含搜索关键词
+ * @param {Object} student - 学生对象
+ * @param {string} keyword - 搜索关键词(已转换为小写)
+ * @returns {boolean} true表示匹配,false表示不匹配
+ */
 const checkStudentMatch = (student, keyword) => {
+	// 检查姓名是否包含关键词
 	if (student.name && student.name.toLowerCase().includes(keyword)) {
 		return true
 	}
+	// 检查性别是否包含关键词
 	if (student.gender && student.gender.toLowerCase().includes(keyword)) {
 		return true
 	}
+	// 检查学院是否包含关键词
 	if (student.college && student.college.toLowerCase().includes(keyword)) {
 		return true
 	}
+	// 检查专业是否包含关键词
 	if (student.major && student.major.toLowerCase().includes(keyword)) {
 		return true
 	}
 	return false
 }
 
+/**
+ * 检查年级是否匹配搜索关键词
+ * @function checkGradeMatch
+ * @description 检查学生的年级格式化文本是否包含搜索关键词
+ * @param {Object} student - 学生对象
+ * @param {string} keyword - 搜索关键词(已转换为小写)
+ * @returns {boolean} true表示匹配,false表示不匹配
+ */
 const checkGradeMatch = (student, keyword) => {
+	// 无年级信息时返回不匹配
 	if (!student.grade) {
 		return false
 	}
+	// 格式化年级并转换为小写进行比较
 	const gradeText = formatGrade(student.grade).toLowerCase()
 	if (gradeText.includes(keyword)) {
 		return true
@@ -101,6 +216,14 @@ const checkGradeMatch = (student, keyword) => {
 	return false
 }
 
+/**
+ * 检查学生积分是否匹配搜索关键词
+ * @function checkPointsMatch
+ * @description 检查学生的总积分、签到积分、活动积分是否包含搜索关键词
+ * @param {Object} student - 学生对象
+ * @param {string} keyword - 搜索关键词
+ * @returns {boolean} true表示匹配,false表示不匹配
+ */
 const checkPointsMatch = (student, keyword) => {
 	if (student.totalPoints != null && student.totalPoints.toString().includes(keyword)) {
 		return true
@@ -111,6 +234,13 @@ const checkPointsMatch = (student, keyword) => {
 	return Boolean(student.activityPoints != null && student.activityPoints.toString().includes(keyword))
 }
 
+/**
+ * 处理搜索功能
+ * @function handleSearch
+ * @description 根据搜索关键词筛选学生列表
+ * 筛选字段:姓名、性别、学院、专业、年级、总积分、签到积分、活动积分
+ * @returns {void}
+ */
 const handleSearch = () => {
 	if (!searchKeyword.value.trim()) {
 		filteredStudents.value = totalRanking.value
@@ -127,6 +257,19 @@ const handleSearch = () => {
 	topStudents.value = filteredStudents.value
 }
 
+/**
+ * 获取学生卡片背景渐变色
+ * @function getStudentBackground
+ * @description 根据学生等级返回对应的背景渐变色
+ * 颜色映射:
+ * - 占位符: 默认蓝青渐变
+ * - 0级(普通): 蓝色渐变
+ * - 1级(优秀): 绿色渐变
+ * - 2级(卓越): 黄色渐变
+ * - 3级(传奇): 红色渐变
+ * @param {Object} student - 学生对象,包含levelCode或placeholder属性
+ * @returns {string} CSS渐变背景样式
+ */
 const getStudentBackground = student => {
 	if (student.placeholder) {
 		return 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%)'
@@ -146,6 +289,14 @@ const getStudentBackground = student => {
 	return 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%)'
 }
 
+/**
+ * 填充学生列表至指定长度
+ * @function padTopStudents
+ * @description 当学生数量不足时,使用占位符填充列表至指定长度
+ * @param {Array} list - 原始学生列表
+ * @param {number} targetLength - 目标列表长度,默认12
+ * @returns {Array} 填充后的学生列表
+ */
 const padTopStudents = (list, targetLength = 12) => {
 	const filled = [...list]
 	while (filled.length < targetLength) {
@@ -157,28 +308,52 @@ const padTopStudents = (list, targetLength = 12) => {
 	return filled
 }
 
+/**
+ * 组件挂载完成后的生命周期钩子
+ * @function onMounted
+ * @description 初始化页面数据
+ * 执行内容:
+ * 1. 等待DOM更新
+ * 2. 显示全局加载蒙版
+ * 3. 创建AllMembersPage实例并加载数据
+ * 4. 绑定学生数据到页面响应式变量
+ * 5. 使用padTopStudents处理数据
+ * 6. 更新计数器
+ * 7. 隐藏全局加载蒙版
+ * @async
+ * @returns {Promise<void>}
+ */
 onMounted(async () => {
-	await nextTick()
+	try {
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在加载全部成员数据...')
+		await nextTick()
 
-	// 使用 AllMembersPage 加载数据
-	const allMembersPage = new AllMembersPage()
-	await allMembersPage.initData()
+		// 使用 AllMembersPage 加载数据
+		const allMembersPage = new AllMembersPage()
+		await allMembersPage.initData()
 
-	// 将加载的学生数据绑定到页面
-	totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
-	filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
+		// 将加载的学生数据绑定到页面
+		totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
+		filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
 
-	// 调用 padTopStudents 处理数据
-	topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
+		// 调用 padTopStudents 处理数据
+		topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
 
-	// 更新计数器
-	loadedCount.value = filteredStudents.value.length
-	totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
+		// 更新计数器
+		loadedCount.value = filteredStudents.value.length
+		totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
+	} finally {
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
+	}
 })
 </script>
 
 <template>
 	<div style="min-height: 100vh; background: var(--bg-primary); display: flex; flex-direction: column;">
+		<!-- 全局加载蒙版 -->
+		<LoadingMask/>
 		<!--顶部导航栏-->
 		<div
 			style="position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.05);
@@ -282,16 +457,6 @@ onMounted(async () => {
 								<span>管理员</span>
 							</div>
 						</div>
-						<div
-							style="display: flex; align-items: center; gap: 4px;"
-						>
-							<el-icon
-								style="font-size: 12px; color: var(--primary-color); flex-shrink: 0;"
-							>
-								<view/>
-							</el-icon>
-							<span>点击眼睛图标可查看全部改分记录</span>
-						</div>
 						<div style="display: flex; flex-wrap: wrap; gap: 8px;">
 							<div style="display: flex; align-items: center; gap: 4px;">
 								<span
@@ -379,20 +544,9 @@ onMounted(async () => {
 					</div>
 				</div>
 			</div>
-			<!-- 加载中状态 -->
-			<div
-				v-else-if="isLoading"
-				style="display: flex; flex-direction: column; align-items: center; justify-content: center;
-				gap: 12px; color: var(--text-secondary); padding: 60px 20px; font-size: 14px;"
-			>
-				<el-icon class="is-loading" size="48">
-					<loading/>
-				</el-icon>
-				<span>数据加载中...</span>
-			</div>
 			<!-- 暂无数据状态 -->
 			<div
-				v-else
+				v-if="topStudents.length === 0"
 				style="display: flex; flex-direction: column; align-items: center; justify-content: center;
 				gap: 8px; color: var(--text-secondary); padding: 60px 20px; font-size: 14px;"
 			>

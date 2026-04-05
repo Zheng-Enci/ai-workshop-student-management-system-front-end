@@ -1,0 +1,453 @@
+/* ==================== 右侧学生总览区域 ==================== */
+
+.dashboard-desktop-overview-right-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-desktop-overview-punch-card,
+.dashboard-desktop-overview-overview-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 0.08);
+}
+
+.dark .dashboard-desktop-overview-punch-card,
+.dark .dashboard-desktop-overview-overview-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.dashboard-desktop-overview-punch-card h2,
+.dashboard-desktop-overview-overview-card h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.dark .dashboard-desktop-overview-punch-card h2,
+.dark .dashboard-desktop-overview-overview-card h2 {
+  color: #fff;
+}
+
+.dashboard-desktop-overview-subtitle {
+  margin: 0 0 30px;
+  font-size: 16px;
+  color: #7f8c8d;
+}
+
+.dark .dashboard-desktop-overview-subtitle {
+  color: #e2e8f0;
+}
+
+/* ==================== 图表容器 ==================== */
+
+.dashboard-desktop-overview-charts-container {
+  display: grid;
+  flex: 1;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.dashboard-desktop-overview-chart {
+  width: 100%;
+  height: 300px;
+}
+
+.dashboard-desktop-overview-chart-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-desktop-overview-chart-section h3 {
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.dark .dashboard-desktop-overview-chart-section h3 {
+  color: #fff;
+  border-radius: 12px;
+}
+
+/* ==================== 等级统计 ==================== */
+
+.dashboard-desktop-overview-level-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-desktop-overview-level-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  height: 70px;
+  padding: 16px 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+  border: 1px solid #e1e8ff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(102 126 234 / 0.08);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dashboard-desktop-overview-level-item::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  content: '';
+  background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.dashboard-desktop-overview-level-item:hover {
+  box-shadow: 0 12px 40px rgb(102 126 234 / 0.2);
+  transform: translateY(-6px) scale(1.05);
+}
+
+.dashboard-desktop-overview-level-icon {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 6px;
+}
+
+.dashboard-desktop-overview-level-icon .el-icon {
+  font-size: 18px;
+  color: rgb(102 126 234 / 0.8);
+}
+
+.dashboard-desktop-overview-level-content {
+  position: relative;
+  z-index: 2;
+}
+
+.dashboard-desktop-overview-level-label {
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #5a6c7d;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-desktop-overview-level-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #2c3e50;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+}
+
+/* 管理员等级 */
+.dashboard-desktop-overview-admin-level {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  border-color: #1e40af;
+  box-shadow: 0 2px 8px rgb(30 58 138 / 0.2);
+}
+
+.dashboard-desktop-overview-admin-level::before {
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+}
+
+.dashboard-desktop-overview-admin-level:hover {
+  box-shadow: 0 4px 16px rgb(30 58 138 / 0.3);
+}
+
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon {
+  color: rgb(255 255 255 / 0.95);
+}
+
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-label {
+  color: rgb(255 255 255 / 0.9);
+}
+
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-value {
+  color: #fff;
+}
+
+/* 核心成员等级 */
+.dashboard-desktop-overview-core-level {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  border-color: #047857;
+  box-shadow: 0 2px 8px rgb(5 150 105 / 0.2);
+}
+
+.dashboard-desktop-overview-core-level::before {
+  background: linear-gradient(90deg, #059669, #10b981);
+}
+
+.dashboard-desktop-overview-core-level:hover {
+  box-shadow: 0 4px 16px rgb(5 150 105 / 0.3);
+}
+
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon {
+  color: rgb(255 255 255 / 0.95);
+}
+
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-label {
+  color: rgb(255 255 255 / 0.9);
+}
+
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-value {
+  color: #fff;
+}
+
+/* 普通成员等级 */
+.dashboard-desktop-overview-normal-level {
+  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+  border-color: #6d28d9;
+  box-shadow: 0 2px 8px rgb(124 58 237 / 0.2);
+}
+
+.dashboard-desktop-overview-normal-level::before {
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+}
+
+.dashboard-desktop-overview-normal-level:hover {
+  box-shadow: 0 4px 16px rgb(124 58 237 / 0.3);
+}
+
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon {
+  color: rgb(255 255 255 / 0.95);
+}
+
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-label {
+  color: rgb(255 255 255 / 0.9);
+}
+
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-value {
+  color: #fff;
+}
+
+/* 社团成员等级 */
+.dashboard-desktop-overview-club-level {
+  background: linear-gradient(135deg, #96ceb4 0%, #b8e6b8 100%);
+  border-color: #66bb6a;
+  box-shadow: 0 2px 8px rgb(150 206 180 / 0.2);
+}
+
+.dashboard-desktop-overview-club-level::before {
+  background: linear-gradient(90deg, #96ceb4, #66bb6a);
+}
+
+.dashboard-desktop-overview-club-level:hover {
+  box-shadow: 0 4px 16px rgb(150 206 180 / 0.3);
+}
+
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label {
+  color: #2e7d32;
+}
+
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-value {
+  color: #1b5e20;
+}
+
+html.dark .dashboard-desktop-overview-club-level {
+  background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%);
+  border-color: #2d5a3d;
+  box-shadow: 0 2px 8px rgb(45 90 61 / 0.3);
+}
+
+html.dark .dashboard-desktop-overview-club-level::before {
+  background: linear-gradient(90deg, #2d5a3d, #4a7c59);
+}
+
+html.dark .dashboard-desktop-overview-club-level:hover {
+  box-shadow: 0 4px 16px rgb(45 90 61 / 0.4);
+}
+
+html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
+  color: rgb(255 255 255 / 0.95);
+}
+
+html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label {
+  color: rgb(255 255 255 / 0.9);
+}
+
+html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-value {
+  color: #fff;
+}
+
+/* ==================== 统计标签和值 ==================== */
+
+.dashboard-desktop-overview-summary-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.dashboard-desktop-overview-stats-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-desktop-overview-total-count {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-desktop-overview-total-count .dashboard-desktop-overview-label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #7f8c8d;
+}
+
+.dashboard-desktop-overview-total-count .dashboard-desktop-overview-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #667eea;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-desktop-overview-total-count .dashboard-desktop-overview-stat-icon {
+  font-size: 24px;
+  color: #667eea;
+}
+
+/* ==================== 文明公约机制 ==================== */
+
+.dashboard-desktop-overview-environment-mechanism {
+  margin-top: -20px;
+}
+
+.dashboard-desktop-overview-mechanism-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-desktop-overview-mechanism-card:hover {
+  transform: translateY(-2px);
+}
+
+.dashboard-desktop-overview-mechanism-card h2 {
+  padding-bottom: 8px;
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: left;
+}
+
+html.dark .dashboard-desktop-overview-mechanism-card {
+  background: #1e293b;
+}
+
+html.dark .dashboard-desktop-overview-mechanism-card h2 {
+  color: #fff;
+}
+
+.dashboard-desktop-overview-mechanism-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dashboard-desktop-overview-mechanism-section {
+  padding: 32px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-desktop-overview-mechanism-section:hover {
+  box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+  transform: translateX(4px);
+}
+
+.dashboard-desktop-overview-mechanism-section p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  text-align: justify;
+}
+
+html.dark .dashboard-desktop-overview-mechanism-section {
+  background: #0f172a;
+}
+
+html.dark .dashboard-desktop-overview-mechanism-section p {
+  color: #cbd5e1;
+}
+
+/* ==================== 系统信息 ==================== */
+
+.dashboard-desktop-overview-system-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.dashboard-desktop-overview-system-name {
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.dark .dashboard-desktop-overview-system-name {
+  color: #fff;
+}
+
+.dashboard-desktop-overview-system-subtitle {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.dark .dashboard-desktop-overview-system-subtitle {
+  color: #e2e8f0;
+}
+
+/* ==================== 响应式样式 ==================== */
+
+@media (width <= 1200px) {
+  .dashboard-desktop-overview-charts-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width <= 768px) {
+  .dashboard-desktop-overview-overview-card {
+    padding: 20px;
+  }
+
+  .dashboard-desktop-overview-overview-card h2 {
+    font-size: 20px;
+  }
+
+  .dashboard-desktop-overview-mechanism-card {
+    padding: 20px;
+  }
+
+  .dashboard-desktop-overview-mechanism-card h2 {
+    font-size: 20px;
+  }
+}

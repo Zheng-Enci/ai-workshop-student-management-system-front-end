@@ -1,44 +1,77 @@
 
 
+/**
+ * 学生管理页面 - 考勤记录对话框样式
+ * @file StudentManagerPage-Attendance_Records_Dialog.css
+ * @description 定义考勤记录对话框中日期列表项的样式，包括日期块、时间段显示和夜间模式适配
+ */
 
+/* ==================== 考勤记录列表项 ==================== */
 
-/* 考勤记录对话框里面的每一个“天”块 */
+/**
+ * 考勤记录对话框里面的每一个"天"块
+ * 使用flex布局，左右分布显示日期和时间段信息
+ */
 .attendance-records-dialog-list-item {
-	display: flex;
-	justify-content: space-between;
+	display: flex; /* 弹性布局 */
+	justify-content: space-between; /* 两端对齐 */
 }
+
+/**
+ * 考勤记录列表项的内容容器
+ * 垂直排列时间段信息
+ */
 .attendance-records-dialog-list-item-div {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	margin-top: 8px;
+	display: flex; /* 弹性布局 */
+	flex-direction: column; /* 垂直方向排列 */
+	gap: 4px; /* 子元素间距 */
+	margin-top: 8px; /* 顶部外边距 */
 }
 
+/**
+ * 时间段文本样式
+ * 为每个时间段添加内边距
+ */
 .attendance-records-dialog-list-item-div span {
-	padding: 0 4px;
+	padding: 0 4px; /* 左右内边距 */
 }
 
+/**
+ * 日期数字圆形标识
+ * 显示日期数字的圆形背景，用于标识每一天
+ */
 .attendance-records-dialog-list-item-span {
-	font-size: 14px;
-	font-weight: bold;
-	background-color: #1F2937;
-	height: 20px;
-	width: 20px;
-	border-radius: 50%;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	color: white !important;
-	margin-right: 0;
+	font-size: 14px; /* 字体大小 */
+	font-weight: bold; /* 字体粗细 */
+	background-color: #1F2937; /* 深灰色背景 */
+	height: 20px; /* 高度 */
+	width: 20px; /* 宽度 */
+	border-radius: 50%; /* 圆形 */
+	align-items: center; /* 垂直居中 */
+	justify-content: center; /* 水平居中 */
+	display: flex; /* 弹性布局 */
+	color: white !important; /* 白色文字 */
+	margin-right: 0; /* 右边距为0 */
 }
 
-/* 考勤记录对话框夜间模式下的文字颜色 */
+/* ==================== 夜间模式适配 ==================== */
+
+/**
+ * 考勤记录对话框夜间模式下的文字颜色
+ * 在深色模式下，将文字颜色调整为较浅的灰色，提高可读性
+ */
 html.dark .attendance-records-dialog-list-item * {
-	color: #5a6c7d !important;
+	color: #5a6c7d !important; /* 浅灰色文字 */
 }
-/* 考勤记录对话框有签到记录的时间段会执行本 css */
+
+/* ==================== 有签到记录的样式 ==================== */
+
+/**
+ * 考勤记录对话框有签到记录的时间段样式
+ * 当某个时间段有签到记录时，应用此样式，使用绿色背景高亮显示
+ */
 .attendance-records-dialog-list-item-has-attendance {
-	font-weight: bold;  /* 加粗 */
-	background-color: #67C23A;
-	border-radius: 4px;
+	font-weight: bold; /* 加粗字体 */
+	background-color: #67C23A; /* 绿色背景（成功色） */
+	border-radius: 4px; /* 圆角 */
 }

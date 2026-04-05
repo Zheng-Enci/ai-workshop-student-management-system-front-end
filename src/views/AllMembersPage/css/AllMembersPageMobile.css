@@ -1,257 +1,380 @@
-/* 组件样式 */
+/**
+ * 所有成员页面 - 移动端样式
+ * @file AllMembersPageMobile.css
+ * @description 定义所有成员页面移动端的样式，包括学生卡片、积分记录弹窗、头像效果等
+ */
 
-/* 改分记录弹窗样式 */
+/* ==================== 组件样式 ==================== */
+
+/* ==================== 改分记录弹窗样式 ==================== */
+
+/**
+ * 改分记录加载状态
+ * 显示加载动画时的容器样式
+ */
 .records-loading {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-	align-items: center;
-	justify-content: center;
-	padding: 60px 20px;
-	color: var(--text-secondary);
+	display: flex; /* 弹性布局 */
+	flex-direction: column; /* 垂直排列 */
+	gap: 16px; /* 子元素间距 */
+	align-items: center; /* 水平居中 */
+	justify-content: center; /* 垂直居中 */
+	padding: 60px 20px; /* 内边距 */
+	color: var(--text-secondary); /* 次要文字颜色 */
 }
 
+/**
+ * 改分记录为空状态
+ * 当没有积分调整记录时显示的样式
+ */
 .records-empty {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-	align-items: center;
-	justify-content: center;
-	padding: 60px 20px;
-	color: var(--text-secondary);
+	display: flex; /* 弹性布局 */
+	flex-direction: column; /* 垂直排列 */
+	gap: 16px; /* 子元素间距 */
+	align-items: center; /* 水平居中 */
+	justify-content: center; /* 垂直居中 */
+	padding: 60px 20px; /* 内边距 */
+	color: var(--text-secondary); /* 次要文字颜色 */
 }
 
+/**
+ * 改分记录列表容器
+ * 垂直排列所有积分调整记录
+ */
 .records-list {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
+	display: flex; /* 弹性布局 */
+	flex-direction: column; /* 垂直排列 */
+	gap: 12px; /* 记录项间距 */
 }
 
+/**
+ * 积分调整记录项
+ * 单个积分调整记录的卡片样式，使用渐变背景和毛玻璃效果
+ */
 .record-item {
-	padding: 16px;
+	padding: 16px; /* 内边距 */
+	/* 渐变背景：从蓝紫色到青色，低透明度 */
 	background: linear-gradient(135deg, rgb(102 126 234 / 0.08) 0%, rgb(0 242 254 / 0.05) 100%);
-	border: 1px solid rgb(102 126 234 / 0.15);
-	border-radius: 12px;
-	backdrop-filter: blur(10px);
+	border: 1px solid rgb(102 126 234 / 0.15); /* 半透明边框 */
+	border-radius: 12px; /* 圆角 */
+	backdrop-filter: blur(10px); /* 背景模糊效果 */
 }
 
+/**
+ * 记录项头部
+ * 包含时间和积分变化量
+ */
 .record-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 12px;
+	display: flex; /* 弹性布局 */
+	align-items: center; /* 垂直居中 */
+	justify-content: space-between; /* 两端对齐 */
+	margin-bottom: 12px; /* 底部外边距 */
 }
 
+/**
+ * 记录时间
+ * 显示积分调整的时间
+ */
 .record-time {
-	font-size: 13px;
-	font-weight: 500;
-	color: var(--text-secondary);
+	font-size: 13px; /* 字体大小 */
+	font-weight: 500; /* 字体粗细 */
+	color: var(--text-secondary); /* 次要文字颜色 */
 }
 
+/**
+ * 正积分标签
+ * 显示增加的积分，使用绿色主题
+ */
 .points-positive {
-	min-width: 60px;
-	padding: 4px 12px;
-	font-size: 16px;
-	font-weight: 700;
-	color: #10b981;
-	text-align: center;
-	background: rgb(16 185 129 / 0.15);
-	border: 1px solid rgb(16 185 129 / 0.3);
-	border-radius: 6px;
+	min-width: 60px; /* 最小宽度 */
+	padding: 4px 12px; /* 内边距 */
+	font-size: 16px; /* 字体大小 */
+	font-weight: 700; /* 字体粗细 */
+	color: #10b981; /* 绿色文字 */
+	text-align: center; /* 文字居中 */
+	background: rgb(16 185 129 / 0.15); /* 半透明绿色背景 */
+	border: 1px solid rgb(16 185 129 / 0.3); /* 半透明绿色边框 */
+	border-radius: 6px; /* 圆角 */
 }
 
+/**
+ * 负积分标签
+ * 显示减少的积分，使用红色主题
+ */
 .points-negative {
-	min-width: 60px;
-	padding: 4px 12px;
-	font-size: 16px;
-	font-weight: 700;
-	color: #ef4444;
-	text-align: center;
-	background: rgb(239 68 68 / 0.15);
-	border: 1px solid rgb(239 68 68 / 0.3);
-	border-radius: 6px;
+	min-width: 60px; /* 最小宽度 */
+	padding: 4px 12px; /* 内边距 */
+	font-size: 16px; /* 字体大小 */
+	font-weight: 700; /* 字体粗细 */
+	color: #ef4444; /* 红色文字 */
+	text-align: center; /* 文字居中 */
+	background: rgb(239 68 68 / 0.15); /* 半透明红色背景 */
+	border: 1px solid rgb(239 68 68 / 0.3); /* 半透明红色边框 */
+	border-radius: 6px; /* 圆角 */
 }
 
+/**
+ * 调整原因文本
+ * 显示积分调整的原因说明
+ */
 .record-reason {
-	font-size: 14px;
-	line-height: 1.6;
-	color: var(--text-primary);
-	word-break: break-all;
+	font-size: 14px; /* 字体大小 */
+	line-height: 1.6; /* 行高 */
+	color: var(--text-primary); /* 主文字颜色 */
+	word-break: break-all; /* 允许在任意字符间换行 */
 }
 
+/* ==================== 动画效果 ==================== */
+
+/**
+ * 卡片闪光动画
+ * 从左侧滑入，经过卡片，然后从右侧滑出
+ */
 @keyframes card-shine {
 	0% {
-		opacity: 0;
-		transform: translateX(-100%);
+		opacity: 0; /* 完全透明 */
+		transform: translateX(-100%); /* 从左侧移入 */
 	}
 
 	10% {
-		opacity: 1;
+		opacity: 1; /* 完全不透明 */
 	}
 
 	90% {
-		opacity: 1;
+		opacity: 1; /* 保持不透明 */
 	}
 
 	100% {
-		opacity: 0;
-		transform: translateX(200%);
+		opacity: 0; /* 完全透明 */
+		transform: translateX(200%); /* 移动到右侧 */
 	}
 }
 
+/**
+ * 头像闪光动画
+ * 从左上角滑入，经过头像，然后从右下角滑出
+ */
 @keyframes avatar-shine {
 	0% {
-		opacity: 0;
-		transform: translate(-100%, -100%);
+		opacity: 0; /* 完全透明 */
+		transform: translate(-100%, -100%); /* 从左上角移入 */
 	}
 
 	10% {
-		opacity: 1;
+		opacity: 1; /* 完全不透明 */
 	}
 
 	90% {
-		opacity: 1;
+		opacity: 1; /* 保持不透明 */
 	}
 
 	100% {
-		opacity: 0;
-		transform: translate(100%, 100%);
+		opacity: 0; /* 完全透明 */
+		transform: translate(100%, 100%); /* 移动到右下角 */
 	}
 }
 
+/* ==================== 积分类型颜色 ==================== */
+
+/**
+ * 考勤积分颜色
+ * 使用蓝色标识考勤积分
+ */
 .attendance-points {
-	color: #3b82f6 !important;
+	color: #3b82f6 !important; /* 蓝色 */
 }
 
+/**
+ * 活动积分颜色
+ * 使用橙色标识活动积分
+ */
 .activity-points {
-	color: #f59e0b !important;
+	color: #f59e0b !important; /* 橙色 */
 }
 
+/* ==================== 学生卡片样式 ==================== */
+
+/**
+ * 学生卡片容器
+ * 单个学生信息的卡片容器
+ */
 .student-card {
-	padding: 8px;
-	border-radius: 8px;
+	padding: 8px; /* 内边距 */
+	border-radius: 8px; /* 圆角 */
 }
 
+/* ==================== 卡片内容区域 ==================== */
 
-
-/* 卡片内容区域 */
+/**
+ * 卡片内容区域
+ * 包含头像和学生信息的水平布局
+ */
 .student-card-content {
-	display: flex;
-	gap: 12px;
+	display: flex; /* 弹性布局 */
+	gap: 12px; /* 子元素间距 */
 }
 
+/**
+ * 学生积分区域
+ * 显示学生的积分信息和操作按钮
+ */
 .student-card-points {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding-right: 8px;
-	padding-left: 8px;
-}
-
-.student-card-points button {
-	font-weight: 500;
-	color: #667eea;
-	background: rgb(102 126 234 / 0.1);
-	border: 1px solid rgb(102 126 234 / 0.2);
-	border-radius: 8px;
-}
-
-
-/* 头像容器 */
-.avatar-container {
-	position: relative;
-	display: flex;
-	flex-shrink: 0;
-	align-items: center;
-	justify-content: center;
-	width: 56px;
-	height: 56px;
-	overflow: hidden;
-	color: white;
-	background: linear-gradient(135deg, #667eea, #764ba2);
-	border-radius: 8px;
-	box-shadow: 0 2px 8px rgb(102 126 234 / 0.3);
-}
-
-/* 头像光影效果 */
-.avatar-container .avatar-shine {
-	position: absolute;
-	inset: 0;
-	z-index: 2;
-	pointer-events: none;
-	background: linear-gradient(135deg, transparent 30%, rgb(255 255 255 / 0.5) 50%, transparent 70%);
-	border-radius: 8px;
-	transform: translate(-100%, -100%);
-	animation: avatar-shine 3s ease-in-out infinite;
-}
-
-/* 头像图片 */
-.avatar-container .avatar-image {
-	position: relative;
-	z-index: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 8px;
-}
-
-/* 头像图标 */
-.avatar-container .avatar-icon {
-	position: relative;
-	z-index: 0;
-}
-
-/* 学生信息区域 */
-.student-info {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	gap: 8px;
-}
-
-/* 学生姓名 */
-.student-name {
-	font-size: 16px;
-	font-weight: 700;
-	color: var(--text-primary);
-}
-
-/* 学生标签 */
-.student-meta {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 4px;
-	font-size: 11px;
-}
-
-.student-meta .meta-tag {
-	padding: 2px 6px;
-	color: var(--text-primary);
-	background: rgb(102 126 234 / 0.12);
-	border: 1px solid rgb(102 126 234 / 0.2);
-	border-radius: 4px;
-}
-
-/* 学生积分区域 */
-.student-points {
-	display: flex;
-	gap: 6px;
-	align-items: center;
+	display: flex; /* 弹性布局 */
+	align-items: center; /* 垂直居中 */
+	justify-content: space-between; /* 两端对齐 */
+	padding-right: 8px; /* 右内边距 */
+	padding-left: 8px; /* 左内边距 */
 	padding-top: 8px;
-	border-top: 1px solid rgb(102 126 234 / 0.1);
 }
 
-/* 总积分 */
+/**
+ * 积分操作按钮
+ * 查看积分详情的按钮样式
+ */
+.student-card-points button {
+	font-weight: 500; /* 字体粗细 */
+	color: #667eea; /* 蓝紫色文字 */
+	background: rgb(102 126 234 / 0.1); /* 半透明蓝紫色背景 */
+	border: 1px solid rgb(102 126 234 / 0.2); /* 半透明蓝紫色边框 */
+	border-radius: 8px; /* 圆角 */
+}
+
+/* ==================== 头像容器 ==================== */
+
+/**
+ * 头像容器
+ * 学生头像的容器，支持图片和图标两种显示方式
+ */
+.avatar-container {
+	position: relative; /* 相对定位 */
+	display: flex; /* 弹性布局 */
+	flex-shrink: 0; /* 不允许收缩 */
+	align-items: center; /* 垂直居中 */
+	justify-content: center; /* 水平居中 */
+	width: 56px; /* 宽度 */
+	height: 56px; /* 高度 */
+	overflow: hidden; /* 隐藏溢出内容 */
+	color: white; /* 白色文字（用于图标） */
+	/* 渐变背景：从蓝紫色到紫色 */
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	border-radius: 8px; /* 圆角 */
+	box-shadow: 0 2px 8px rgb(102 126 234 / 0.3); /* 阴影效果 */
+}
+
+/**
+ * 头像光影效果
+ * 在头像上添加闪光动画效果，增强视觉吸引力
+ */
+.avatar-container .avatar-shine {
+	position: absolute; /* 绝对定位 */
+	inset: 0; /* 覆盖整个容器 */
+	z-index: 2; /* 层级 */
+	pointer-events: none; /* 不响应鼠标事件 */
+	/* 渐变背景：创建闪光效果 */
+	background: linear-gradient(135deg, transparent 30%, rgb(255 255 255 / 0.5) 50%, transparent 70%);
+	border-radius: 8px; /* 圆角 */
+	transform: translate(-100%, -100%); /* 初始位置：左上角外 */
+	animation: avatar-shine 3s ease-in-out infinite; /* 无限循环动画 */
+}
+
+/**
+ * 头像图片
+ * 学生头像图片样式
+ */
+.avatar-container .avatar-image {
+	position: relative; /* 相对定位 */
+	z-index: 0; /* 层级 */
+	width: 100%; /* 宽度100% */
+	height: 100%; /* 高度100% */
+	object-fit: cover; /* 覆盖整个容器，保持比例 */
+	border-radius: 8px; /* 圆角 */
+}
+
+/**
+ * 头像图标
+ * 当没有头像图片时显示的默认图标
+ */
+.avatar-container .avatar-icon {
+	position: relative; /* 相对定位 */
+	z-index: 0; /* 层级 */
+}
+
+/* ==================== 学生信息区域 ==================== */
+
+/**
+ * 学生信息区域
+ * 包含学生姓名、标签和积分信息
+ */
+.student-info {
+	display: flex; /* 弹性布局 */
+	flex: 1; /* 占据剩余空间 */
+	flex-direction: column; /* 垂直排列 */
+	gap: 8px; /* 子元素间距 */
+}
+
+/**
+ * 学生姓名
+ * 显示学生的姓名，使用加粗字体
+ */
+.student-name {
+	font-size: 16px; /* 字体大小 */
+	font-weight: 700; /* 字体粗细 */
+	color: var(--text-primary); /* 主文字颜色 */
+}
+
+/**
+ * 学生标签
+ * 显示学生的元信息标签（如等级、专业等）
+ */
+.student-meta {
+	display: flex; /* 弹性布局 */
+	flex-wrap: wrap; /* 允许换行 */
+	gap: 4px; /* 标签间距 */
+	font-size: 11px; /* 字体大小 */
+}
+
+/**
+ * 元信息标签
+ * 单个标签的样式
+ */
+.student-meta .meta-tag {
+	padding: 2px 6px; /* 内边距 */
+	color: var(--text-primary); /* 主文字颜色 */
+	background: rgb(102 126 234 / 0.12); /* 半透明蓝紫色背景 */
+	border: 1px solid rgb(102 126 234 / 0.2); /* 半透明蓝紫色边框 */
+	border-radius: 4px; /* 圆角 */
+}
+
+/* ==================== 学生积分区域 ==================== */
+
+/**
+ * 学生积分区域
+ * 显示学生的总积分、考勤积分和活动积分
+ */
+.student-points {
+	display: flex; /* 弹性布局 */
+	gap: 6px; /* 子元素间距 */
+	align-items: center; /* 垂直居中 */
+	border-top: 1px solid rgb(102 126 234 / 0.1); /* 顶部边框 */
+}
+
+/**
+ * 总积分
+ * 使用渐变色文字效果显示总积分
+ */
 .student-total-points {
-	font-size: 18px;
-	font-weight: 800;
+	font-size: 18px; /* 字体大小 */
+	font-weight: 800; /* 字体粗细 */
+	/* 渐变背景：从蓝紫色到青色 */
 	background: linear-gradient(135deg, #667eea, #00d4ff, #00f2fe);
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
+	-webkit-text-fill-color: transparent; /* WebKit浏览器文字透明 */
+	background-clip: text; /* 文字裁剪，显示背景 */
 }
 
-/* 分隔符 */
+/**
+ * 积分分隔符
+ * 用于分隔不同类型积分的符号
+ */
 .points-separator {
-	font-size: 14px;
-	color: var(--text-secondary);
+	font-size: 14px; /* 字体大小 */
+	color: var(--text-secondary); /* 次要文字颜色 */
 }

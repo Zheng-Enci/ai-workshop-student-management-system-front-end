@@ -1,24 +1,43 @@
-<script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
-import 'element-plus/theme-chalk/el-message.css'
-import 'element-plus/theme-chalk/el-button.css'
-import 'element-plus/theme-chalk/el-icon.css'
-import 'element-plus/theme-chalk/el-segmented.css'
-import { ArrowLeft, User, Clock, TrendCharts, Trophy, PieChart } from '@element-plus/icons-vue'
-// ECharts 按需引入
-import { PieChart as EChartsPieChart, LineChart } from 'echarts/charts'
-import {
-	TitleComponent,
-	TooltipComponent,
-	GridComponent,
-	LegendComponent
-} from 'echarts/components'
-import * as echarts from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { ElMessage, ElButton, ElIcon, ElSegmented } from 'element-plus'
+<template>
+  <div class="mobile-only-notice">
+    <div class="notice-content">
+      <el-icon :size="48" color="#909399"><Monitor /></el-icon>
+      <h2>本功能只支持电脑端</h2>
+      <p>请使用电脑访问以查看考勤分析数据</p>
+    </div>
+  </div>
+</template>
 
-// 注册需要的组件
+<script setup lang="ts">
+import { Monitor } from '@element-plus/icons-vue'
+</script>
+
+<style scoped>
+.mobile-only-notice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.notice-content {
+  text-align: center;
+  color: #fff;
+  padding: 40px;
+}
+
+.notice-content h2 {
+  margin: 20px 0 10px;
+  font-size: 24px;
+}
+
+.notice-content p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+</style>
+��组件
 echarts.use([
 	TitleComponent,
 	TooltipComponent,

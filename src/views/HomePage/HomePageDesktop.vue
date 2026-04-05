@@ -1,65 +1,71 @@
 <script setup>
-import './css/HomePageDesktop.css'
-import { TrendCharts, Calendar, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
-import { ElIcon, ElDialog, ElButton } from 'element-plus'
+/**
+ * 首页组件(桌面端)
+ *
+ * @component HomePageDesktop
+ * @description 展示系统介绍、快捷入口和环境保障机制
+ * 主要功能:
+ * 1. 展示AI坊学生管理系统的介绍和特色
+ * 2. 提供快捷功能入口(登录、数据看板、考勤分析等)
+ * 3. 展示环境保障机制和政策说明
+ * 4. 支持主题切换功能
+ *
+ * @author 前端开发团队
+ * @version 1.0.0
+ */
+
+// ===================== 样式和依赖导入区 =====================
+// Element Plus 图标组件导入
+import { TrendCharts, Lock, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
+import { ElIcon, ElButton } from 'element-plus'
+// Vue3 响应式API导入
 import { ref } from 'vue'
 
+// 首页共用业务逻辑导入
 import { useHomePageLogic } from './js/HomePage.js'
+// 环境保障政策组件导入
+import EnvironmentPolicy from './forms/desktop/EnvironmentPolicy.vue'
+// Element Plus 基础样式导入(按需导入,减小打包体积)
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/dist/index.css'
 
+// ===================== 类型定义 =====================
 
-// 使用共用逻辑
+/**
+ * @typedef {Object} HomePageDesktopEmits
+ * @description HomePageDesktop组件的事件类型定义
+ */
+
+// ===================== 业务逻辑初始化 =====================
 const {
 	toggleTheme,
 	goToLogin,
 	goToDashboard,
-	goToAttendanceAnalysis,
+	goToAdminSystem,
 	goToPointsDashboard,
-	goToAllMembers
+	goToAllMembers,
+	goToAttendanceAnalysis
 } = useHomePageLogic()
 
-// 导出组件以便在模板中使用
-defineExpose({
-	ElIcon
-})
-
-// 桌面端特有逻辑
-const environmentPolicyVisible = ref(false)
-const isClosingEnvironmentPolicy = ref(false)
+const environmentPolicyRef = ref(null)
 
 const showEnvironmentPolicy = () => {
-	environmentPolicyVisible.value = true
+	environmentPolicyRef.value?.showEnvironmentPolicy()
 }
+	</script>
 
-const closeEnvironmentPolicy = () => {
-	// 防止重复关闭
-	if (isClosingEnvironmentPolicy.value) { return }
-	isClosingEnvironmentPolicy.value = true
-
-	// 先手动隐藏遮罩层，避免视觉闪烁
-	const dialogWrapper = document.querySelector('.environment-policy-overlay')
-	if (dialogWrapper) {
-		dialogWrapper.style.display = 'none'
-		dialogWrapper.style.visibility = 'hidden'
-		dialogWrapper.style.opacity = '0'
-	}
-
-	// 关闭弹窗
-	environmentPolicyVisible.value = false
-
-	// 重置关闭状态
-	setTimeout(() => {
-		isClosingEnvironmentPolicy.value = false
-	}, 0)
-}
-</script>
-
+<!-- 
+  首页模板定义
+  @template HomePageDesktopTemplate
+  @description 定义首页桌面端的完整UI结构，包括主题切换、系统介绍、功能入口和环境保障政策弹窗
+-->
 <template>
+	<!-- 首页根容器 -->
 	<div class="home-container">
+		<!-- 主题切换容器:固定在页面右上角 -->
 		<div class="theme-toggle-container">
+			<!-- 系统Logo:点击切换明暗主题 -->
 			<img
 				src="@/assets/AiWorkShop_icon.png"
 				alt="AI坊"
@@ -69,20 +75,30 @@ const closeEnvironmentPolicy = () => {
 			/>
 		</div>
 
+		<!-- 主要内容区域:包含系统介绍和功能入口 -->
 		<div class="hero-section">
 			<div class="hero-content">
+				<!-- 左侧内容区:系统介绍和操作按钮 -->
 				<div class="hero-left">
+					<!-- Logo和标题区域 -->
 					<div class="logo-section">
+						<!-- Logo容器:带发光效果 -->
 						<div class="logo-container">
 							<div class="logo-glow"/>
 						</div>
+						<!-- 主标题:系统名称 -->
 						<h1 class="main-title">厦门工学院人工智能创作坊</h1>
+						<!-- 副标题:系统类型 -->
 						<p class="main-subtitle">学生管理系统</p>
+						<!-- 标语:品牌口号 -->
 						<p class="tagline">世界很大 AI无限</p>
 					</div>
 
+					<!-- 系统介绍区域 -->
 					<div class="description-section">
+						<!-- 介绍标题 -->
 						<h2 class="section-title">欢迎使用AI坊学生管理系统</h2>
+						<!-- 第一段介绍:AI坊的定位和功能 -->
 						<p class="description">
 							&nbsp;&nbsp;&nbsp;&nbsp;厦门工学院人工智能创作坊（
 							<strong style="color: #ff6b6b;">AI坊</strong>）是学校根据智能学科发展特点，
@@ -92,6 +108,7 @@ const closeEnvironmentPolicy = () => {
 							<strong style="color: #45b7d1;">研发</strong>、
 							<strong style="color: #96ceb4;">展示推广</strong>于一体的创新平台。
 						</p>
+						<!-- 第二段介绍:AI坊的培养目标和愿景 -->
 						<p class="description">
 							&nbsp;&nbsp;&nbsp;&nbsp;我们以前沿特色项目实践为导向，
 							着重培养学生的<strong style="color: #f39c12;">AI实践应用能力</strong>与
@@ -104,12 +121,15 @@ const closeEnvironmentPolicy = () => {
 						</p>
 					</div>
 
+					<!-- 操作按钮区域 -->
 					<div class="action-section">
+						<!-- 立即体验按钮:跳转到登录页 -->
 						<el-button type="primary" class="action-button" @click="goToLogin">
 							<el-icon><arrow-right /></el-icon>
 							&nbsp;立即体验
 						</el-button>
 
+						<!-- 环境保障机制按钮:显示政策说明弹窗 -->
 						<el-button class="environment-policy-button" @click="showEnvironmentPolicy">
 							<el-icon><office-building /></el-icon>
 							&nbsp;环境保障机制
@@ -117,8 +137,10 @@ const closeEnvironmentPolicy = () => {
 					</div>
 				</div>
 
+				<!-- 右侧内容区:功能卡片展示 -->
 				<div class="hero-right">
 					<div class="features-showcase">
+						<!-- 数据看板功能卡片:点击跳转到数据看板页面 -->
 						<div class="feature-card primary" title="点击查看数据看板" @click="goToDashboard">
 							<div class="feature-icon">
 								<el-icon><trend-charts /></el-icon>
@@ -127,14 +149,16 @@ const closeEnvironmentPolicy = () => {
 							<p>实时展示签到排行、考勤统计、成员数据</p>
 						</div>
 
-						<div class="feature-card secondary" title="点击查看考勤分析" @click="goToAttendanceAnalysis">
+						<!-- 超级管理员系统功能卡片:点击跳转到超级管理员身份验证页面 -->
+						<div class="feature-card secondary" title="点击进入超级管理员系统" @click="goToAdminSystem">
 							<div class="feature-icon">
-								<el-icon><calendar /></el-icon>
+								<el-icon><lock /></el-icon>
 							</div>
-							<h3>签到分析</h3>
-							<p>可视化展示签到趋势、出勤率统计</p>
+							<h3>超级管理员系统</h3>
+							<p>管理学生信息、调整积分、处理考勤记录</p>
 						</div>
 
+						<!-- 积分看板功能卡片:点击跳转到积分看板页面 -->
 						<div class="feature-card tertiary" title = "点击查看积分看板" @click="goToPointsDashboard">
 							<div class="feature-icon">
 								<el-icon><star /></el-icon>
@@ -143,6 +167,7 @@ const closeEnvironmentPolicy = () => {
 							<p>展示成员积分排行和优秀成员信息</p>
 						</div>
 
+						<!-- 全部成员功能卡片:点击跳转到所有成员页面 -->
 						<div class="feature-card quaternary" title = "点击查看全部成员" @click="goToAllMembers">
 							<div class="feature-icon">
 								<el-icon><user /></el-icon>
@@ -150,12 +175,22 @@ const closeEnvironmentPolicy = () => {
 							<h3>全部成员</h3>
 							<p>查看所有成员信息和积分排名</p>
 						</div>
+
+						<!-- 考勤分析功能卡片:点击跳转到考勤分析页面 -->
+						<div class="feature-card quinary" title = "点击查看考勤趋势" @click="goToAttendanceAnalysis">
+							<div class="feature-icon">
+								<el-icon><trend-charts /></el-icon>
+							</div>
+							<h3>考勤分析</h3>
+							<p>查看考勤趋势数据和统计信息</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 
+		<!-- 页脚区域:作者信息和联系方式 -->
 		<div class="footer">
 			<div class="footer-content">
 				<div class="author-info">
@@ -164,65 +199,24 @@ const closeEnvironmentPolicy = () => {
 						<span class="author-contact">📧 zheng_enci@qq.com</span>
 						<a href="https://gitee.com/zheng-enci050704" target="_blank" class="author-link">🔗 Gitee</a>
 						<a href="https://juejin.cn/user/2883382090934252" target="_blank" class="author-link">📝 掘金</a>
+						<a href="https://blog.csdn.net/2301_79239314" target="_blank" class="author-link">📄 CSDN</a>
+						<a href="https://github.com/Zheng-Enci" target="_blank" class="author-link">🌐 GitHub</a>
+						<a href="https://gitcode.com/ZhengEnCi" target="_blank" class="author-link">💻 GitCode</a>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<el-dialog
-			v-if="environmentPolicyVisible"
-			v-model="environmentPolicyVisible"
-			title="厦门工学院人工智能创作坊日常环境保障机制"
-			width="80%"
-			:before-close="closeEnvironmentPolicy"
-			:close-on-click-modal="false"
-			:destroy-on-close="true"
-			:append-to-body="true"
-			:teleported="true"
-			modal-class="environment-policy-overlay"
-			class="environment-policy-dialog"
-		>
-			<div class="environment-policy-content">
-				<div class="policy-section">
-					<h3 class="section-title">
-						<el-icon><office-building /></el-icon>
-						第一章 总则
-					</h3>
-					<div class="policy-content">
-						<p>
-							<strong>第一条 目的：</strong>
-							为保障厦门工学院人工智能创作坊（以下简称"创作坊"）拥有整洁、舒适、安全、高效的工作与学习环境，
-							维护设备安全，培养使用者良好习惯，提升空间利用效率，特制定本保障机制。
-						</p>
-						<p><strong>第二条 适用范围：</strong>本机制适用于所有进入并使用创作坊的师生。</p>
-						<p><strong>第三条 核心原则：</strong>“谁使用，谁负责；人走场清，物归原位；共同维护，持续改进”。</p>
-					</div>
-				</div>
+		<EnvironmentPolicy ref="environmentPolicyRef" />
 
-				<div class="policy-section">
-					<h3 class="section-title">
-						<el-icon><office-building /></el-icon>
-						第二章 日常行为规范
-					</h3>
-					<div class="policy-content">
-						<p><strong>第四条 个人工位区域（桌椅）管理：</strong></p>
-						<ol>
-							<li><strong>人走椅归：</strong>使用者离开工位时，必须将座椅完全推入桌下，保持整齐划一，不得阻碍通道。</li>
-							<li>
-								<strong>桌面整洁：</strong>
-								<ul>
-									<li>
-										<strong>物品精简：</strong>
-										桌面仅限放置与当前工作/学习直接相关的设备（如电脑、开发板）、资料、必要文具及饮用水杯。
-										严禁堆放食物、零食等无关杂物。
-									</li>
-									<li><strong>资料规整：</strong>文件、书籍、笔记本、科研设备等应整齐摆放或及时收纳，避免杂乱无章。</li>
-									<li><strong>桌面整洁：</strong>离开前需清理桌面灰尘、碎屑、水渍、污迹，保持桌面清洁。</li>
-								</ul>
-							</li>
-							<li>
-								<strong>垃圾自清：</strong>
-								个人产生的废纸、饮料瓶、零食包装等垃圾，必须自行投入指定垃圾桶内，
+	</div>
+</template>
+
+<style scoped>
+@import './css/HomePageDesktop.css';
+</style>
+
+			个人产生的废纸、饮料瓶、零食包装等垃圾，必须自行投入指定垃圾桶内，
 								不得遗留在桌面或地面。垃圾桶内垃圾超过3/4时，应将垃圾打包带走，换上新的垃圾袋。
 							</li>
 						</ol>

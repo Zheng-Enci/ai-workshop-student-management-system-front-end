@@ -1,0 +1,68 @@
+.attendance-trend-container {
+	width: 100%;
+	padding: 40px 60px;
+	animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.attendance-trend-card {
+	background: rgb(255 255 255 / 0.05);
+	border: 1px solid rgb(255 255 255 / 0.1);
+	border-radius: 16px;
+	padding: 30px;
+	backdrop-filter: blur(20px);
+	animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+.attendance-trend-title {
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 24px;
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.attendance-trend-buttons {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 24px;
+}
+
+.attendance-trend-buttons .el-button {
+	flex: 1;
+	border-radius: 8px;
+	font-weight: 500;
+	transition: all 0.3s ease;
+}
+
+.attendance-trend-buttons .el-button:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+html.dark .attendance-trend-buttons .el-button--default {
+	background-color: rgba(255, 255, 255, 0.08);
+	border-color: rgba(255, 255, 255, 0.2);
+	color: #e5eaf3;
+}
+
+html.dark .attendance-trend-buttons .el-button--default:hover {
+	background-color: rgba(255, 255, 255, 0.12);
+	border-color: rgba(255, 255, 255, 0.3);
+}
+
+html.dark .attendance-trend-buttons .el-button--primary {
+	background-color: #667eea;
+	border-color: #667eea;
+	color: #fff;
+}
+
+html.dark .attendance-trend-buttons .el-button--primary:hover {
+	background-color: #7a8ff0;
+	border-color: #7a8ff0;
+}
+
+.attendance-trend-content {
+	width: 100%;
+	height: 400px;
+}

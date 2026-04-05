@@ -1,203 +1,166 @@
-<script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+<script setup lang="ts">
 import { useRouter } from 'vue-router'
-import 'element-plus/theme-chalk/el-message.css'
-import 'element-plus/theme-chalk/el-button.css'
-import 'element-plus/theme-chalk/el-icon.css'
-import 'element-plus/theme-chalk/el-radio-group.css'
-import 'element-plus/theme-chalk/el-radio-button.css'
-import 'element-plus/theme-chalk/el-date-picker.css'
-import {
-	ArrowLeft,
-	Refresh,
-	PieChart,
-	Clock,
-	Trophy,
-	Medal,
-	Star,
-	TrendCharts
-} from '@element-plus/icons-vue'
-// ECharts 按需引入
-import { PieChart as EChartsPieChart, LineChart, ScatterChart } from 'echarts/charts'
-import {
-	TitleComponent,
-	TooltipComponent,
-	GridComponent,
-	LegendComponent
-} from 'echarts/components'
-import * as echarts from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton, ElDatePicker } from 'element-plus'
-
-echarts.use([
-	TitleComponent,
-	TooltipComponent,
-	GridComponent,
-	LegendComponent,
-	EChartsPieChart,
-	LineChart,
-	ScatterChart,
-	CanvasRenderer
-])
-import { getTodayAttendanceRecords, getDailyAttendanceCountInRange } from '@/api/attendance'
-import { getStudentLevel } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
+import LoadingMask from '@/components/LoadingMask.vue'
+import DateRangeSelector from './forms/desktop/DateRangeSelector.vue'
+import { ElButton, ElIcon } from 'element-plus'
+import { ArrowLeft } from '@element-plus/icons-vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import AttendanceTrendChart from './ts/attendanceTrendChart'
+import { getDateRange, getAttendanceTrendData } from './ts/attendanceTrendChart'
 
 const router = useRouter()
 const themeStore = useThemeStore()
+const loadingMaskStore = useLoadingMaskStore()
 const { toggleTheme } = themeStore
 
-const initChartsWithTheme = () => {
-	try {
-		if (periodChartInstance) {
-			periodChartInstance.dispose()
-			periodChartInstance = null
-		}
-		if (timelineChartInstance) {
-			timelineChartInstance.dispose()
-			timelineChartInstance = null
-		}
+const chartRef = ref(null);
+let trendChart: AttendanceTrendChart | null = null;
 
-		window.requestAnimationFrame(async () => {
-			setTimeout(async () => {
-				await initPeriodChart()
-				await initTimelineChart()
-			}, 100)
-		})
-	} catch (error) {
-		return
+const timeRange = ref('全部');
+
+const showDateRangeSelector = ref(false);
+
+const timeRanges = [
+	{ label: '最近七天', value: '最近七天' },
+	{ label: '最近三十天', value: '最近三十天' },
+	{ label: '最近三个月', value: '最近三个月' },
+	{ label: '最近半年', value: '最近半年' },
+	{ label: '最近一年', value: '最近一年' },
+	{ label: '全部', value: '全部' }
+];
+
+const handleTimeRangeChange = async (range: string) => {
+	timeRange.value = range
+	loadingMaskStore.showLoadingMask('正在加载签到数据...')
+	await updateChartData(range)
+	loadingMaskStore.hideLoadingMask()
+}
+
+const handleCustomDateRange = async (startDate: string, endDate: string) => {
+	timeRange.value = '自定义'
+	loadingMaskStore.showLoadingMask('正在加载签到数据...')
+	const data = await getAttendanceTrendData(startDate, endDate)
+	const dates = data.map(item => item.date)
+	const values = data.map(item => item.count)
+	if (trendChart) {
+		trendChart.setOption(dates, values)
+	}
+	loadingMaskStore.hideLoadingMask()
+}
+
+const updateChartData = async (range: string) => {
+	const { startDate, endDate } = getDateRange(range)
+	const data = await getAttendanceTrendData(startDate, endDate)
+	const dates = data.map(item => item.date)
+	const values = data.map(item => item.count)
+	if (trendChart) {
+		trendChart.setOption(dates, values)
 	}
 }
-
-const refreshCharts = () => {
-	try {
-		if (periodChartInstance) {
-			periodChartInstance.dispose()
-			periodChartInstance = null
-		}
-		if (timelineChartInstance) {
-			timelineChartInstance.dispose()
-			timelineChartInstance = null
-		}
-
-		window.requestAnimationFrame(async () => {
-			setTimeout(async () => {
-				await initPeriodChart()
-				await initTimelineChart()
-			}, 100)
-		})
-	} catch (error) {
-		return
-	}
-}
-
-const handleThemeToggle = () => {
-	toggleTheme()
-	window.requestAnimationFrame(() => {
-		setTimeout(() => {
-			refreshCharts()
-		}, 150)
-	})
-}
-
-const isLoading = ref(false)
-const lastUpdateTime = ref('')
-const attendanceRecords = ref([])
-const totalAttendance = ref(0)
-const periodStats = ref({
-	morning: 0,
-	afternoon: 0,
-	evening: 0
-})
-const rankingList = ref([])
-const latestAttendance = ref(null)
-const earliestAttendance = ref(null)
-const averageTime = ref('')
-const studentDetails = ref({})
-
-const selectedTimeRange = ref('today')
-const customDateRange = ref([])
-const timelineData = ref([])
-
-const PROJECT_LAUNCH_DATE = new Date('2025-09-09T00:00:00')
-
-const ensureTimeNotBeforeLaunch = time => (time < PROJECT_LAUNCH_DATE ? PROJECT_LAUNCH_DATE : time)
-
-const timeRangeOptions = [
-	{ label: '今日', value: 'today' },
-	{ label: '昨天', value: 'yesterday' },
-	{ label: '本周', value: 'week' },
-	{ label: '上周', value: 'lastWeek' },
-	{ label: '本月', value: 'month' },
-	{ label: '昨月', value: 'lastMonth' },
-	{ label: '最近7天', value: 'last7days' },
-	{ label: '最近30天', value: 'last30days' },
-	{ label: '本年度', value: 'year' },
-	{ label: '全部', value: 'all' },
-	{ label: '自定义', value: 'custom' }
-]
-
-
-let periodChartInstance = null
-let timelineChartInstance = null
-let refreshTimer = null
-const resizeTimeout = null
-let periodResizeObserver = null
-let timelineResizeObserver = null
-
-const periodChart = ref(null)
-const timelineChart = ref(null)
 
 const goBack = () => {
-	router.push('/navigation')
+	router.push('/navigation-desktop')
 }
 
-const handleTimeRangeChange = async () => {
-	try {
-		await loadTimelineData()
-		await nextTick()
-		if (timelineChartInstance) {
-			updateTimelineChart()
-		} else {
-			setTimeout(async () => {
-				await initTimelineChart()
-			}, 100)
-		}
-	} catch (error) {
-		ElMessage.error('加载时间线数据失败')
+const handleResize = () => {
+	if (trendChart) {
+		trendChart.resize()
 	}
 }
 
-const handleCustomDateChange = async () => {
-	if (customDateRange.value && customDateRange.value.length === 2) {
-		try {
-			await loadTimelineData()
-			await nextTick()
-			if (timelineChartInstance) {
-				updateTimelineChart()
-			} else {
-				setTimeout(async () => {
-					await initTimelineChart()
-				}, 100)
+let unwatchTheme: (() => void) | undefined;
+
+onMounted(async () => {
+	await nextTick(() => {
+		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDarkMode)
+		trendChart.init()
+		// 监听主题切换并更新图表
+		unwatchTheme = watch(
+			() => themeStore.isDarkMode,
+			(newIsDarkMode) => {
+				if (trendChart) {
+					trendChart.updateTheme(newIsDarkMode);
+				}
 			}
-		} catch (error) {
-			ElMessage.error('加载时间线数据失败')
-		}
-	}
-}
-
-const formatTime = timeString => {
-	const date = new Date(timeString)
-	return date.toLocaleTimeString('zh-CN', {
-		hour: '2-digit',
-		minute: '2-digit',
-		second: '2-digit'
+		)
+		loadingMaskStore.showLoadingMask('正在加载签到数据...')
+		const {startDate, endDate} = getDateRange('全部')
+		getAttendanceTrendData(startDate, endDate).then(data => {
+			const dates = data.map(item => item.date)
+			const values = data.map(item => item.count)
+			trendChart?.setOption(dates, values)
+			loadingMaskStore.hideLoadingMask()
+		})
+		window.addEventListener('resize', handleResize)
 	})
-}
+})
 
+onUnmounted(() => {
+	if (trendChart) {
+		trendChart.dispose()
+	}
+	unwatchTheme?.();
+	window.removeEventListener('resize', handleResize)
+})
+</script>
 
-const getRankingClass = index => {
-	if (index === 0) { return 'rank-first' }
+<template>
+	<div class="attendance-analysis-page">
+		<LoadingMask/>
+		<div class="header-header">
+			<div class="header-header-left">
+				<el-button
+					class="header-home-btn"
+					type="primary"
+					circle
+					@click="goBack"
+				>
+					<el-icon><ArrowLeft /></el-icon>
+				</el-button>
+				<img
+					src="@/assets/AiWorkShop_icon.png"
+					alt="Logo"
+					class="header-logo"
+					title="切换主题模式"
+					@click="toggleTheme"
+				/>
+				<div class="header-title-section">
+					<h1>考勤分析</h1>
+					<p>人工智能创作坊</p>
+				</div>
+			</div>
+		</div>
+		<div class="attendance-trend-container">
+			<div class="attendance-trend-card">
+				<div class="attendance-trend-title">签到趋势</div>
+				<div class="attendance-trend-buttons">
+					<el-button
+						v-for="range in timeRanges"
+						:key="range.value"
+						:type="timeRange === range.value ? 'primary' : 'default'"
+						@click="handleTimeRangeChange(range.value)"
+					>
+						{{ range.label }}
+					</el-button>
+					<el-button type="default" @click="showDateRangeSelector = true">
+						自定义日期
+					</el-button>
+				</div>
+				<div ref="chartRef" class="attendance-trend-content"></div>
+			</div>
+		</div>
+		<DateRangeSelector v-model="showDateRangeSelector" @confirm="handleCustomDateRange" />
+	</div>
+</template>
+
+<style scoped>
+@import './css/desktop/header.css';
+@import './css/desktop/page.css';
+@import './css/desktop/attendance-trend.css';
+</style>
+x === 0) { return 'rank-first' }
 	if (index === 1) { return 'rank-second' }
 	if (index === 2) { return 'rank-third' }
 	return 'rank-normal'

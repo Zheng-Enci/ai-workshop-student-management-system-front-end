@@ -1,0 +1,113 @@
+/**
+ * 积分卡片样式
+ * @file points-card.css
+ * @description 导航页面移动端的积分卡片样式，包括总积分、活动积分、签到积分等
+ */
+
+/* ==================== 积分显示区域 ==================== */
+
+.points-card-display {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  animation: points-card-fadeInUp 0.6s ease-out 0.3s both;
+}
+
+@keyframes points-card-fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== 积分卡片 ==================== */
+
+.points-card-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  max-width: 40%;
+  padding: 12px 14px;
+  background: rgb(255 255 255 / 0.08);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.points-card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+}
+
+/* ==================== 积分图标 ==================== */
+
+.points-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
+}
+
+.points-card-icon .el-icon {
+  font-size: 16px;
+  color: white;
+}
+
+.points-card-total .points-card-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
+}
+
+.points-card-activity .points-card-icon {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  box-shadow: 0 4px 12px rgb(17 153 142 / 0.3);
+}
+
+.points-card-signin .points-card-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 4px 12px rgb(240 147 251 / 0.3);
+}
+
+/* ==================== 积分内容 ==================== */
+
+.points-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ==================== 积分标签 ==================== */
+
+.points-card-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==================== 积分数值 ==================== */
+
+.points-card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+}

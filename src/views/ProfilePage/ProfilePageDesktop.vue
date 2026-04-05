@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 个人信息页面组件(桌面端)
+ * 
+ * @description 提供用户个人信息的查看、编辑、密码修改和头像上传功能
+ * @component ProfilePageDesktop
+ */
 // Fix 1: Import order - Icons first, then Element Plus core
 import { ArrowLeft, User, Edit, Lock, Calendar, Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
 import {
@@ -42,59 +48,256 @@ import {
 	getStudentDatabaseTableId
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
 import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
 import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
+import LoadingMask from '@/components/LoadingMask.vue'
 
-// Fix 2: Declare all refs/reactive variables first (resolve no-use-before-define)
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 全局加载蒙版 Store
+ * @type {Store}
+ * @description 管理全局加载蒙版的显示和隐藏
+ */
+const loadingMaskStore = useLoadingMaskStore()
 
-// Form refs
+// ===================== 表单引用区 =====================
+/**
+ * 个人信息表单引用
+ * @type {Ref<ElForm|null>}
+ * @description Element Plus表单组件引用,用于表单验证和提交
+ */
 const formRef = ref()
+/**
+ * 密码修改表单引用
+ * @type {Ref<ElForm|null>}
+ * @description 密码修改表单组件引用,用于密码表单验证
+ */
 const passwordFormRef = ref()
+/**
+ * 文件输入框引用
+ * @type {Ref<HTMLInputElement|null>}
+ * @description 隐藏的文件输入框引用,用于触发文件选择
+ */
 const fileInputRef = ref(null)
 
-// Crop refs
+// ===================== 头像裁剪相关引用 =====================
+/**
+ * 裁剪弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制头像裁剪弹窗的显示/隐藏
+ */
 const cropDialogVisible = ref(false)
+/**
+ * 裁剪画布引用
+ * @type {Ref<HTMLCanvasElement|null>}
+ * @description Canvas元素引用,用于绘制裁剪后的头像
+ */
 const cropCanvasRef = ref(null)
+/**
+ * 裁剪容器引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 裁剪区域的容器元素引用
+ */
 const cropWrapperRef = ref(null)
+/**
+ * 裁剪框引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 裁剪框元素引用,用于定义裁剪区域
+ */
 const cropBoxRef = ref(null)
 
-// Loading states
+// ===================== 加载状态变量 =====================
+/**
+ * 数据加载状态
+ * @type {Ref<boolean>}
+ * @description 控制个人信息数据加载中的状态显示
+ */
 const isLoading = ref(false)
+/**
+ * 密码修改加载状态
+ * @type {Ref<boolean>}
+ * @description 控制密码修改操作加载中的状态显示
+ */
 const isPasswordLoading = ref(false)
+/**
+ * 头像加载状态
+ * @type {Ref<boolean>}
+ * @description 控制头像加载中的状态显示
+ */
 const avatarLoading = ref(false)
+/**
+ * 头像上传状态
+ * @type {Ref<boolean>}
+ * @description 控制头像上传操作加载中的状态显示
+ */
 const isUploading = ref(false)
+/**
+ * 头像裁剪状态
+ * @type {Ref<boolean>}
+ * @description 控制头像裁剪操作进行中的状态显示
+ */
 const isCropping = ref(false)
 
-// UI states
+// ===================== UI状态变量 =====================
+/**
+ * 编辑模式状态
+ * @type {Ref<boolean>}
+ * @description 控制是否处于编辑模式,编辑模式下表单可编辑
+ */
 const isEditing = ref(false)
+/**
+ * 密码修改区域显示状态
+ * @type {Ref<boolean>}
+ * @description 控制密码修改区域的显示/隐藏
+ */
 const showPasswordSection = ref(false)
+/**
+ * 考勤次数
+ * @type {Ref<number|null>}
+ * @description 用户累计签到次数
+ */
 const attendanceCount = ref(null)
+/**
+ * 学生数据库ID
+ * @type {Ref<number|null>}
+ * @description 学生数据库表主键ID,用于头像上传等操作
+ */
 const studentInfoId = ref(null)
+/**
+ * 头像URL
+ * @type {Ref<string|null>}
+ * @description 用户头像的URL地址
+ */
 const avatarUrl = ref(null)
 
-// Crop state
+// ===================== 头像裁剪状态变量 =====================
+/**
+ * 原始图片文件
+ * @type {Ref<File|null>}
+ * @description 用户选择的原始图片文件对象
+ */
 const originalImageFile = ref(null)
+/**
+ * 裁剪图片对象
+ * @type {Ref<HTMLImageElement|null>}
+ * @description 用于裁剪的图片对象引用
+ */
 const cropImage = ref(null)
+/**
+ * 图片缩放比例
+ * @type {Ref<number>}
+ * @description 图片的当前缩放比例,初始值为1(100%)
+ */
 const scale = ref(1)
+/**
+ * 最小缩放比例
+ * @type {Ref<number>}
+ * @description 图片允许的最小缩放比例,防止过度缩小
+ */
 const minScale = ref(0.1)
+/**
+ * 图片X轴偏移量
+ * @type {Ref<number>}
+ * @description 图片在裁剪区域中的X轴位置偏移
+ */
 const imageX = ref(0)
+/**
+ * 图片Y轴偏移量
+ * @type {Ref<number>}
+ * @description 图片在裁剪区域中的Y轴位置偏移
+ */
 const imageY = ref(0)
+/**
+ * 是否正在拖拽
+ * @type {Ref<boolean>}
+ * @description 标记用户是否正在拖拽图片
+ */
 const isDragging = ref(false)
+/**
+ * 拖拽起始X坐标
+ * @type {Ref<number>}
+ * @description 记录鼠标按下时的X坐标
+ */
 const dragStartX = ref(0)
+/**
+ * 拖拽起始Y坐标
+ * @type {Ref<number>}
+ * @description 记录鼠标按下时的Y坐标
+ */
 const dragStartY = ref(0)
+/**
+ * 拖拽起始图片X偏移
+ * @type {Ref<number>}
+ * @description 记录拖拽开始时的图片X轴偏移量
+ */
 const dragStartImageX = ref(0)
+/**
+ * 拖拽起始图片Y偏移
+ * @type {Ref<number>}
+ * @description 记录拖拽开始时的图片Y轴偏移量
+ */
 const dragStartImageY = ref(0)
 
-// Event handlers (for cleanup)
+// ===================== 事件处理器引用 =====================
+/**
+ * 鼠标按下事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseDownHandler = null
+/**
+ * 鼠标移动事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseMoveHandler = null
+/**
+ * 鼠标抬起事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseUpHandler = null
+/**
+ * 鼠标离开事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let mouseLeaveHandler = null
+/**
+ * 鼠标滚轮事件处理器
+ * @type {Function|null}
+ * @description 用于移除事件监听器
+ */
 let wheelHandler = null
 
-// Form data
+// ===================== 表单数据定义区 =====================
+/**
+ * 个人信息表单数据
+ * @type {Reactive<Object>}
+ * @description 存储用户的个人信息,包含所有可编辑字段
+ * @property {string} name - 姓名
+ * @property {string} studentId - 学号
+ * @property {string} gender - 性别
+ * @property {string} phoneNumber - 手机号
+ * @property {string} college - 学院
+ * @property {string} major - 专业
+ * @property {number|null} grade - 年级
+ * @property {number|null} classNum - 班级
+ * @property {string} password - 密码(编辑时使用)
+ */
 const formData = reactive({
 	name: '',
 	studentId: '',
@@ -107,18 +310,34 @@ const formData = reactive({
 	password: ''
 })
 
+/**
+ * 密码修改表单数据
+ * @type {Reactive<Object>}
+ * @description 存储密码修改相关的表单数据
+ * @property {string} oldPassword - 旧密码
+ * @property {string} newPassword - 新密码
+ * @property {string} confirmPassword - 确认新密码
+ */
 const passwordForm = reactive({
 	oldPassword: '',
 	newPassword: '',
 	confirmPassword: ''
 })
 
+/**
+ * 原始数据备份
+ * @type {Ref<Object>}
+ * @description 保存用户信息的原始数据,用于取消编辑时恢复
+ */
 const originalData = ref({})
 
 // Fix 3: Move all utility functions BEFORE their usage (resolve no-use-before-define)
 /**
- * Constrain image position to ensure it covers the crop box
- * @returns
+ * 限制图片位置确保覆盖裁剪框
+ * @function constrainImagePosition
+ * @description 确保图片位置不会超出裁剪框边界
+ * 计算图片在当前缩放比例下的尺寸,并根据裁剪框位置限制图片移动范围
+ * @returns {void}
  */
 const constrainImagePosition = () => {
 	if (!cropCanvasRef.value || !cropImage.value || !cropBoxRef.value) {
@@ -171,8 +390,15 @@ const constrainImagePosition = () => {
 }
 
 /**
- * Draw the crop canvas with image and crop mask
- * @returns
+ * 绘制裁剪画布,显示图片和裁剪遮罩
+ * @function drawCropCanvas
+ * @description 在Canvas上绘制图片和半透明遮罩层
+ * 绘制流程:
+ * 1. 清空画布
+ * 2. 绘制半透明黑色遮罩
+ * 3. 清除裁剪框区域使其透明
+ * 4. 绘制裁剪框边框
+ * @returns {void}
  */
 const drawCropCanvas = () => {
 	if (!cropCanvasRef.value || !cropImage.value) {
@@ -227,8 +453,16 @@ const drawCropCanvas = () => {
 }
 
 /**
- * Remove crop event listeners to prevent memory leaks
- * @returns
+ * 移除裁剪相关的事件监听器
+ * @function removeCropEvents
+ * @description 清除所有裁剪功能的鼠标事件监听器,防止内存泄漏
+ * 移除的事件包括:
+ * - mousedown (画布上)
+ * - mousemove (文档上)
+ * - mouseup (文档上)
+ * - mouseleave (画布上)
+ * - wheel (画布上)
+ * @returns {void}
  */
 const removeCropEvents = () => {
 	if (!cropCanvasRef.value) {
@@ -255,8 +489,16 @@ const removeCropEvents = () => {
 }
 
 /**
- * Setup crop event listeners (drag, zoom)
- * @returns
+ * 设置裁剪相关的事件监听器
+ * @function setupCropEvents
+ * @description 为裁剪功能添加鼠标事件,支持拖拽移动和滚轮缩放
+ * 事件包括:
+ * - mousedown: 开始拖拽
+ * - mousemove: 拖拽中移动图片
+ * - mouseup: 结束拖拽
+ * - mouseleave: 鼠标离开画布
+ * - wheel: 滚轮缩放
+ * @returns {void}
  */
 const setupCropEvents = () => {
 	if (!cropCanvasRef.value) {
@@ -363,8 +605,15 @@ const setupCropEvents = () => {
 }
 
 /**
- * Initialize crop canvas and settings
- * @returns
+ * 初始化裁剪画布和相关设置
+ * @function initCrop
+ * @description 设置裁剪功能所需的画布尺寸、图片位置和缩放
+ * 执行步骤:
+ * 1. 设置画布尺寸匹配容器
+ * 2. 计算图片初始缩放比例
+ * 3. 将图片居中显示
+ * 4. 设置事件监听器
+ * @returns {void}
  */
 const initCrop = () => {
 	if (!cropCanvasRef.value || !cropImage.value || !cropWrapperRef.value) {
@@ -424,8 +673,15 @@ const initCrop = () => {
 }
 
 /**
- * Load user avatar from server
- * @returns
+ * 从服务器加载用户头像
+ * @function loadAvatar
+ * @description 获取用户头像URL并验证头像是否存在
+ * 流程:
+ * 1. 构建头像URL
+ * 2. 创建Image对象预加载头像
+ * 3. 根据加载结果设置头像URL
+ * @async
+ * @returns {Promise<void>}
  */
 const loadAvatar = async () => {
 	if (!studentInfoId.value) {
@@ -462,9 +718,16 @@ const loadAvatar = async () => {
 }
 
 /**
- * Show crop dialog with selected image
- * @param file - Selected image file
- * @returns
+ * 显示裁剪对话框并加载选中的图片
+ * @function showCropDialog
+ * @description 读取用户选择的图片文件,打开裁剪弹窗
+ * 流程:
+ * 1. 恢复对话框遮罩层样式
+ * 2. 使用FileReader读取图片文件
+ * 3. 加载图片为Image对象
+ * 4. 显示裁剪对话框并初始化裁剪功能
+ * @param {File} file - 用户选择的图片文件
+ * @returns {Promise<void>}
  */
 const showCropDialog = file => new Promise((resolve, reject) => {
 	try {
@@ -502,9 +765,18 @@ const showCropDialog = file => new Promise((resolve, reject) => {
 })
 
 /**
- * Upload cropped avatar file to server
- * @param file - Cropped and compressed avatar file
- * @returns
+ * 上传裁剪后的头像文件到服务器
+ * @function uploadAvatarFile
+ * @description 将裁剪并压缩后的头像文件上传到服务器
+ * 流程:
+ * 1. 验证token是否存在
+ * 2. 调用上传API上传文件
+ * 3. 处理上传成功/失败响应
+ * 4. 更新头像显示
+ * 5. 处理token过期情况
+ * @param {File} file - 裁剪并压缩后的头像文件
+ * @async
+ * @returns {Promise<void>}
  */
 const uploadAvatarFile = async file => {
 	isUploading.value = true
@@ -545,8 +817,10 @@ const uploadAvatarFile = async file => {
 }
 
 /**
- * Reset form to original data
- * @returns
+ * 重置表单到原始数据
+ * @function resetForm
+ * @description 将表单数据恢复到修改前的状态,并清除表单验证
+ * @returns {void}
  */
 const resetForm = () => {
 	Object.assign(formData, originalData.value)
@@ -557,8 +831,10 @@ const resetForm = () => {
 }
 
 /**
- * Reset password form to empty state
- * @returns
+ * 重置密码表单为空状态
+ * @function resetPasswordForm
+ * @description 清空密码修改表单的所有字段并清除验证
+ * @returns {void}
  */
 const resetPasswordForm = () => {
 	passwordForm.oldPassword = ''
@@ -571,29 +847,42 @@ const resetPasswordForm = () => {
 
 // Fix 4: Business logic functions (after utility functions)
 /**
- * Navigate back to the navigation page
- * @returns
+ * 返回导航页面
+ * @function goBack
+ * @description 跳转到导航页面
+ * @returns {void}
  */
 const goBack = () => {
 	router.push('/navigation')
 }
 
 /**
- * Toggle between light and dark theme
- * @returns
+ * 切换明暗主题
+ * @function toggleTheme
+ * @description 在亮色模式和暗色模式之间切换
+ * @returns {void}
  */
 const toggleTheme = () => {
 	themeStore.toggleTheme()
 }
 
 /**
- * Load user profile data from server
- * @returns
+ * 从服务器加载用户个人资料数据
+ * @function loadProfile
+ * @description 获取用户个人信息、考勤次数和学生ID
+ * 流程:
+ * 1. 验证token是否存在
+ * 2. 并行请求个人信息、考勤次数和学生ID
+ * 3. 将数据绑定到响应式变量
+ * @async
+ * @returns {Promise<void>}
  */
 const loadProfile = async () => {
-	isLoading.value = true
-
 	try {
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在加载个人信息...')
+		isLoading.value = true
+
 		const token = localStorage.getItem('token')
 		if (!token) {
 			ElMessage.error('请先登录')
@@ -631,6 +920,8 @@ const loadProfile = async () => {
 		}
 	} finally {
 		isLoading.value = false
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
 	}
 }
 
@@ -927,9 +1218,11 @@ const confirmPasswordChange = async () => {
 		return
 	}
 
-	isPasswordLoading.value = true
-
 	try {
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在修改密码...')
+		isPasswordLoading.value = true
+
 		const token = localStorage.getItem('token')
 		if (!token) {
 			ElMessage.error('请先登录')
@@ -959,6 +1252,8 @@ const confirmPasswordChange = async () => {
 		}
 	} finally {
 		isPasswordLoading.value = false
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
 	}
 }
 
@@ -984,9 +1279,11 @@ const saveProfile = async () => {
 		return
 	}
 
-	isLoading.value = true
-
 	try {
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在保存个人信息...')
+		isLoading.value = true
+
 		const token = localStorage.getItem('token')
 		if (!token) {
 			ElMessage.error('请先登录')
@@ -1017,6 +1314,8 @@ const saveProfile = async () => {
 		}
 	} finally {
 		isLoading.value = false
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
 	}
 }
 
@@ -1099,7 +1398,11 @@ onMounted(() => {
 </script>
 
 <template>
+	<!-- 个人信息页面主容器 -->
 	<div class="profile-container">
+		<!-- 全局加载蒙版 -->
+		<LoadingMask/>
+		<!-- 背景装饰效果 -->
 		<div class="background-effects">
 			<div class="gradient-orb orb-1"/>
 			<div class="gradient-orb orb-2"/>
@@ -1107,6 +1410,7 @@ onMounted(() => {
 		</div>
 
 		<div class="content-wrapper">
+			<!-- 页面头部 -->
 			<div class="page-header">
 				<el-button
 					class="back-btn"
@@ -1126,14 +1430,19 @@ onMounted(() => {
 				</div>
 			</div>
 
+			<!-- 主内容区域 -->
 			<div class="main-content">
+				<!-- 个人信息卡片 -->
 				<div class="profile-card">
+					<!-- 加载遮罩 -->
 					<div v-if="isLoading" class="loading-overlay">
 						<div class="loading-spinner"/>
 					</div>
 
+					<!-- 用户信息头部 -->
 					<div class="profile-header">
 						<div class="user-info-section">
+							<!-- 头像上传区域 -->
 							<div class="avatar-wrapper">
 								<div class="avatar-container" @click="handleAvatarClick">
 									<div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
@@ -1156,6 +1465,7 @@ onMounted(() => {
 										</el-icon>
 										<span class="upload-text">点击上传头像</span>
 									</div>
+									<!-- 文件输入 -->
 									<input
 										ref="fileInputRef"
 										type="file"
@@ -1173,6 +1483,7 @@ onMounted(() => {
 									}}</span>
 								</div>
 							</div>
+							<!-- 用户详细信息 -->
 							<div class="user-details">
 								<h2>{{ formData.name || '用户' }}</h2>
 								<p class="student-id">{{ formData.studentId || '学号' }}</p>
@@ -1185,6 +1496,7 @@ onMounted(() => {
 									</div>
 								</div>
 							</div>
+							<!-- 编辑按钮 -->
 							<div class="action-buttons">
 								<el-button
 									type="primary"
@@ -1539,10 +1851,12 @@ onMounted(() => {
 			class="crop-dialog"
 		>
 			<div class="crop-container">
+				<!-- 裁剪画布包装器 -->
 				<div ref="cropWrapperRef" class="crop-wrapper">
 					<canvas ref="cropCanvasRef" class="crop-canvas"/>
 					<div ref="cropBoxRef" class="crop-box"/>
 				</div>
+				<!-- 裁剪控制按钮 -->
 				<div class="crop-controls">
 					<el-button :icon="ZoomOut" circle @click="zoomOut"/>
 					<span class="zoom-info">{{ Math.round(scale * 100) }}%</span>
@@ -1559,5 +1873,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* 导入外部样式文件 */
 @import './css/ProfilePageDesktop.css';
 </style>

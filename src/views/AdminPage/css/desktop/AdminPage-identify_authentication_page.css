@@ -1,0 +1,121 @@
+/**
+ * ============================================================================
+ * 超级管理员页面 - 身份验证页面头部样式
+ * ============================================================================
+ */
+
+/* ==================== 页面头部 ==================== */
+.identify-authentication-page-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px 32px;
+}
+.identify-authentication-page-header-left {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+.identify-authentication-page-header-title {
+	font-size: 32px;
+	letter-spacing: 20px;
+	font-weight: 500;
+	text-transform: uppercase;
+	opacity: 0.9;
+	transition: all 0.3s ease;
+	margin-right: 2%;
+}
+
+.identify-authentication-page-header-left img {
+	width: 64px;
+	height: 64px;
+}
+.identify-authentication-page-header-left img:hover {
+	transform: scale(1.1);
+}
+
+.identify-authentication-page-header-right-icon {
+	font-size: 50px;
+}
+/* 方案1：使用绝对定位居中（最简单直接） */
+.identify-authentication-page-body {
+	position: absolute;
+	width: 16%;
+	height: 32%;
+	top: 34%;
+	left: 42%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	padding: 8px;
+}
+.identify-authentication-page-body img {
+	width: 64%;
+	height: 64%;
+	border-radius: 25%;
+}
+.identify-authentication-page-body :deep(.el-input__wrapper) {
+	border-radius: 16px !important;
+}
+.identify-authentication-page-body .el-button {
+	width: 100%;
+	letter-spacing: 16px;
+	font-size: 18px;
+	border-radius: 16px;
+}
+
+
+/* 添加入场动画 */
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translateY(-30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes zoomIn {
+	from {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* 应用动画到页面头部 */
+.identify-authentication-page-header {
+	animation: fadeInDown 0.8s ease-out;
+}
+
+/* 应用动画到页面主体 */
+.identify-authentication-page-body {
+	animation: fadeInUp 0.8s ease-out 0.3s both; /* 延迟0.3秒，both保持动画结束状态 */
+}
+
+.identify-authentication-page-body img {
+	animation: zoomIn 0.6s ease-out 0.5s both; /* 图像延迟0.5秒 */
+}
+
+.identify-authentication-page-body .el-button {
+	animation: fadeInUp 0.5s ease-out 0.7s both; /* 按钮延迟0.7秒 */
+}
+

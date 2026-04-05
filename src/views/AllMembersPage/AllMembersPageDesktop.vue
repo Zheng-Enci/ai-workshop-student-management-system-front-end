@@ -1,8 +1,16 @@
 <script setup>
+/**
+ * 全部成员页面组件(桌面端)
+ *
+ * @description 展示所有成员的积分信息和排名统计
+ * @component AllMembersPageDesktop
+ */
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
+import LoadingMask from '@/components/LoadingMask.vue'
 
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
@@ -16,7 +24,7 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
-import { ArrowLeft, Box, DataAnalysis, Loading, Search, User, View } from '@element-plus/icons-vue'
+import { ArrowLeft, Box, DataAnalysis, Search, User, View } from '@element-plus/icons-vue'
 import { BarChart } from 'echarts/charts'
 import { GridComponent } from 'echarts/components'
 import * as echarts from 'echarts/core'
@@ -33,33 +41,135 @@ echarts.use([
 	CanvasRenderer
 ])
 
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 全局加载蒙版 Store
+ * @type {Store}
+ * @description 管理全局加载蒙版的显示和隐藏
+ */
+const loadingMaskStore = useLoadingMaskStore()
+/**
+ * 主题切换方法
+ * @type {Function}
+ * @description 解构自主题Store,用于切换明暗主题
+ */
 const { toggleTheme } = themeStore
 
+// ===================== 响应式变量定义区 =====================
+/**
+ * 当前激活的标签页
+ * @type {Ref<string>}
+ * @description 控制显示哪个排行榜:'total'|'signIn'|'activity'
+ */
 const activeTab = ref('total')
+/**
+ * 选中的排行榜显示数量
+ * @type {number}
+ * @description Java Integer最大值,表示无上限显示所有数据
+ */
 const selectedTopN = 2147483647 // Java Integer 最大值，无上限
+/**
+ * 总积分排行榜显示数量
+ * @type {number}
+ * @description Java Integer最大值,表示无上限显示所有数据
+ */
 const totalRankingTopN = 2147483647 // Java Integer 最大值，无上限
+/**
+ * 签到积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按签到积分排序的学生列表
+ */
 const signInRanking = ref([])
+/**
+ * 活动积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按活动积分排序的学生列表
+ */
 const activityRanking = ref([])
+/**
+ * 总积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按总积分排序的学生列表
+ */
 const totalRanking = ref([])
+/**
+ * 优秀学生列表
+ * @type {Ref<Array>}
+ * @description 存储排名靠前的学生数据
+ */
 const topStudents = ref([])
-const signInLoading = ref(false)
-const totalLoading = ref(true)
+/**
+ * 已加载的数据数量
+ * @type {Ref<number>}
+ * @description 记录已加载的学生数据数量,用于进度显示
+ */
 const loadedCount = ref(0)
 
-// 统计数据
+// ===================== 统计数据变量 =====================
+/**
+ * 总学生数量
+ * @type {Ref<number>}
+ * @description 系统中所有学生的总数
+ */
 const totalCount = ref(0)
+/**
+ * 学院统计
+ * @type {Ref<object>}
+ * @description 按学院分类的学生数量统计
+ */
 const collegeStats = ref({})
+/**
+ * 专业统计
+ * @type {Ref<object>}
+ * @description 按专业分类的学生数量统计
+ */
 const majorStats = ref({})
+/**
+ * 性别统计
+ * @type {Ref<object>}
+ * @description 按性别分类的学生数量统计
+ */
 const genderStats = ref({})
+/**
+ * 年级统计
+ * @type {Ref<object>}
+ * @description 按年级分类的学生数量统计
+ */
 const gradeStats = ref({})
 
-// 搜索功能
+// ===================== 搜索功能变量 =====================
+/**
+ * 搜索关键词
+ * @type {Ref<string>}
+ * @description 用户输入的搜索关键词,用于筛选学生
+ */
 const searchKeyword = ref('')
+/**
+ * 筛选后的学生列表
+ * @type {Ref<Array>}
+ * @description 根据搜索关键词筛选后的学生数据列表
+ */
 const filteredStudents = ref([])
 
-// 随机文案相关 - 128句技术相关激励文案
+// ===================== 随机文案相关 =====================
+/**
+ * 技术相关激励文案数组
+ * @type {Array<string>}
+ * @description 包含128句技术相关的激励文案,用于页面随机展示
+ * 文案内容涵盖编程、学习、成长等主题,激励学生持续学习
+ */
 const quotes = [
 	'每一行代码，都是向梦想更近一步',
 	'今天的代码，是明天产品的基石',
@@ -192,54 +302,109 @@ const quotes = [
 	'你的代码版本控制，记录了成长的轨迹'
 ]
 
+/**
+ * 当前显示的文案
+ * @type {Ref<string>}
+ * @description 当前正在显示的激励文案内容
+ */
 const currentQuote = ref('')
+/**
+ * 文案显示状态
+ * @type {Ref<boolean>}
+ * @description 控制文案的显示/隐藏,用于淡入淡出动画
+ */
 const showQuote = ref(false)
+/**
+ * 文案轮播定时器
+ * @type {number|null}
+ * @description 存储文案轮播的定时器ID,用于清除定时器
+ */
 let quoteTimer = null
+/**
+ * 上次显示的文案索引
+ * @type {number}
+ * @description 记录上次显示的文案在数组中的索引,避免连续显示相同文案
+ */
 let lastQuoteIndex = -1
 
-// 获取随机文案（避免连续显示相同文案）
+// ===================== 随机文案方法区 =====================
+/**
+ * 获取随机文案
+ * @function getRandomQuote
+ * @description 从文案数组中随机选择一条文案,确保不连续显示相同文案
+ * @returns 随机选择的激励文案
+ */
 const getRandomQuote = () => {
 	let randomIndex
-	// 如果只有一条文案，直接返回
+	// 如果只有一条文案,直接返回
 	if (quotes.length === 1) {
 		return quotes[0]
 	}
-	// 确保不连续显示相同的文案
+	/**
+	 * 确保不连续显示相同的文案
+	 * @description 通过循环确保新选择的文案索引与上次不同
+	 */
 	do {
 		randomIndex = Math.floor(Math.random() * quotes.length)
 	} while (randomIndex === lastQuoteIndex && quotes.length > 1)
 
+	// 记录当前文案索引
 	lastQuoteIndex = randomIndex
 	return quotes[randomIndex]
 }
 
-// 更新文案（带淡入淡出效果）
+/**
+ * 更新文案(带淡入淡出效果)
+ * @function updateQuote
+ * @description 更新显示的文案,先淡出再淡入,实现平滑过渡效果
+ * 淡出时间400ms,然后显示新文案并淡入
+ */
 const updateQuote = () => {
+	// 先隐藏当前文案(淡出)
 	showQuote.value = false
+	// 等待淡出动画完成后显示新文案
 	setTimeout(() => {
 		currentQuote.value = getRandomQuote()
-		showQuote.value = true
+		showQuote.value = true // 淡入显示新文案
 	}, 400) // 淡出时间
 }
 
-// 启动文案轮播
+/**
+ * 启动文案轮播
+ * @function startQuoteRotation
+ * @description 启动文案自动轮播功能
+ * 流程:
+ * 1. 立即显示第一条随机文案
+ * 2. 每隔5-8秒随机间隔更新一次文案
+ * 3. 使用递归调用实现持续轮播
+ */
 const startQuoteRotation = () => {
-	// 立即显示第一条
+	// 立即显示第一条随机文案
 	currentQuote.value = getRandomQuote()
 	showQuote.value = true
 
-	// 每隔一段时间刷新（5-8秒随机间隔，增加自然感）
+	/**
+	 * 安排下一次文案更新
+	 * @description 使用递归调用实现持续轮播
+	 * 随机间隔5-8秒,增加自然感,避免过于机械
+	 */
 	const scheduleNext = () => {
-		const delay = 5000 + Math.random() * 3000 // 5-8秒随机
+		// 5-8秒随机间隔
+		const delay = 5000 + Math.random() * 3000
 		quoteTimer = setTimeout(() => {
 			updateQuote()
-			scheduleNext()
+			scheduleNext() // 递归调用,实现持续轮播
 		}, delay)
 	}
 	scheduleNext()
 }
 
-// 停止文案轮播
+/**
+ * 停止文案轮播
+ * @function stopQuoteRotation
+ * @description 清除文案轮播定时器,停止自动更新
+ * 在组件卸载时调用,避免内存泄漏
+ */
 const stopQuoteRotation = () => {
 	if (quoteTimer) {
 		clearTimeout(quoteTimer)
@@ -247,31 +412,116 @@ const stopQuoteRotation = () => {
 	}
 }
 
-// 改分记录弹窗相关
+// ===================== 改分记录弹窗相关变量 =====================
+/**
+ * 改分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录弹窗的显示/隐藏
+ */
 const recordsDialogVisible = ref(false)
+/**
+ * 当前选中的学生
+ * @type {Ref<object | null>}
+ * @description 存储当前查看改分记录的学生信息
+ */
 const currentStudent = ref(null)
+/**
+ * 所有改分记录
+ * @type {Ref<Array>}
+ * @description 存储当前学生的所有积分调整记录
+ */
 const allRecords = ref([])
+/**
+ * 改分记录加载状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录数据加载中的状态显示
+ */
 const recordsLoading = ref(false)
 
-// 统计数据弹窗
+// ===================== 统计数据弹窗相关变量 =====================
+/**
+ * 统计数据弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制统计数据弹窗的显示/隐藏
+ */
 const statisticsDialogVisible = ref(false)
+/**
+ * 统计数据弹窗关闭状态标记
+ * @type {Ref<boolean>}
+ * @description 防止弹窗关闭动画期间的重复关闭操作
+ */
 const isClosingStatisticsDialog = ref(false)
 
+// ===================== 图表相关变量 =====================
+/**
+ * 签到积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 签到积分柱状图的DOM元素引用
+ */
 const signInChart = ref(null)
+/**
+ * 活动积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 活动积分柱状图的DOM元素引用
+ */
 const activityChart = ref(null)
+/**
+ * 总积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 总积分柱状图的DOM元素引用
+ */
 const totalChart = ref(null)
+/**
+ * 签到积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts签到积分图表实例
+ */
 let signInChartInstance = null
+/**
+ * 活动积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts活动积分图表实例
+ */
 let activityChartInstance = null
+/**
+ * 总积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts总积分图表实例
+ */
 let totalChartInstance = null
 
+// ===================== 页面跳转方法区 =====================
+/**
+ * 返回上一页
+ * @function goBack
+ * @description 点击返回按钮时触发,跳转到导航页面
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 跳转到积分看板页面
+ * @function goToPointsDashboard
+ * @description 点击积分看板入口时触发,跳转到积分看板页面
+ */
 const goToPointsDashboard = () => {
 	router.push('/points-dashboard')
 }
 
+/**
+ * 初始化签到积分柱状图
+ * @function initSignInChart
+ * @description 创建并配置签到积分排行榜的柱状图
+ * 特性:
+ * - 水平柱状图展示学生排名
+ * - 根据排名动态计算柱状颜色
+ * - 支持明暗主题切换
+ * - 显示学生姓名、专业、年级信息
+ * @param data - 学生签到积分数据数组
+ * @async
+ * @returns
+ */
 const initSignInChart = async data => {
 	if (!signInChart.value) {
 		await nextTick()
@@ -384,6 +634,19 @@ const initSignInChart = async data => {
 	signInChartInstance.setOption(option)
 }
 
+/**
+ * 初始化活动积分柱状图
+ * @function initActivityChart
+ * @description 创建并配置活动积分排行榜的柱状图
+ * 特性:
+ * - 水平柱状图展示学生排名
+ * - 根据排名动态计算柱状颜色
+ * - 支持明暗主题切换
+ * - 显示学生姓名、专业、年级信息
+ * @param data - 学生活动积分数据数组
+ * @async
+ * @returns
+ */
 const initActivityChart = async data => {
 	if (!activityChart.value) {
 		await nextTick()
@@ -496,6 +759,19 @@ const initActivityChart = async data => {
 	activityChartInstance.setOption(option)
 }
 
+/**
+ * 初始化总积分柱状图
+ * @function initTotalChart
+ * @description 创建并配置总积分排行榜的柱状图
+ * 特性:
+ * - 水平柱状图展示学生排名
+ * - 双柱显示签到积分和活动积分
+ * - 根据排名动态计算柱状颜色
+ * - 支持明暗主题切换
+ * @param data - 学生总积分数据数组
+ * @async
+ * @returns
+ */
 const initTotalChart = async data => {
 	if (!totalChart.value) {
 		await nextTick()
@@ -603,14 +879,30 @@ const initTotalChart = async data => {
 	totalChartInstance.setOption(option)
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当学生头像加载失败时调用,标记为无头像状态
+ * @param student - 学生对象,包含hasAvatar和avatarUrl属性
+ * @returns
+ */
 const handleAvatarError = student => {
 	student.hasAvatar = false
 	student.avatarUrl = null
 }
 
-
+/**
+ * 加载签到积分排行榜数据
+ * @function loadSignInRanking
+ * @description 从服务器获取签到次数排名并转换为积分显示
+ * 流程:
+ * 1. 调用API获取签到排名数据
+ * 2. 将签到次数转换为积分(1次=0.64分)
+ * 3. 初始化签到积分图表
+ * @async
+ * @returns
+ */
 const loadSignInRanking = async () => {
-	signInLoading.value = true
 	try {
 		const response = await getAttendanceTopRanking(selectedTopN)
 		if (response.code === 200 && response.data) {
@@ -619,7 +911,6 @@ const loadSignInRanking = async () => {
 				attendanceCount: item.attendanceCount,
 				signInPoints: Math.round(item.attendanceCount * 0.64)
 			}))
-			signInLoading.value = false
 			await nextTick()
 			if (signInRanking.value.length > 0) {
 				const initChartWithRetry = async (retryCount = 0) => {
@@ -638,11 +929,17 @@ const loadSignInRanking = async () => {
 		}
 	} catch (error) {
 		signInRanking.value = []
-	} finally {
-		signInLoading.value = false
 	}
 }
 
+/**
+ * 填充学生列表至指定长度
+ * @function padTopStudents
+ * @description 当学生数量不足时,使用占位符填充列表至指定长度
+ * @param list - 原始学生列表
+ * @param targetLength - 目标列表长度,默认12
+ * @returns 填充后的学生列表
+ */
 const padTopStudents = (list, targetLength = 12) => {
 	const filled = [...list]
 	while (filled.length < targetLength) {
@@ -654,6 +951,12 @@ const padTopStudents = (list, targetLength = 12) => {
 	return filled
 }
 
+/**
+ * 处理窗口大小变化
+ * @function handleResize
+ * @description 当窗口大小改变时,重新调整所有图表尺寸
+ * @returns
+ */
 const handleResize = () => {
 	if (signInChartInstance) {
 		signInChartInstance.resize()
@@ -666,7 +969,19 @@ const handleResize = () => {
 	}
 }
 
-// 计算统计数据
+/**
+ * 计算学生统计数据
+ * @function calculateStatistics
+ * @description 统计学生的学院、专业、性别、年级分布情况
+ * 统计内容:
+ * - 总学生数量
+ * - 按学院分类的数量
+ * - 按专业分类的数量
+ * - 按性别分类的数量
+ * - 按年级分类的数量
+ * @param students - 学生数据数组
+ * @returns
+ */
 const calculateStatistics = students => {
 	totalCount.value = students.length
 
@@ -716,14 +1031,26 @@ watch(() => themeStore.isDarkMode, () => {
 })
 
 
-// 打开统计数据弹窗
+/**
+ * 打开统计数据弹窗
+ * @function showStatisticsDialog
+ * @description 显示学生统计数据对话框
+ * 重置关闭状态并显示弹窗
+ * @returns
+ */
 const showStatisticsDialog = () => {
 	// 重置关闭状态
 	isClosingStatisticsDialog.value = false
 	statisticsDialogVisible.value = true
 }
 
-// 关闭统计数据弹窗
+/**
+ * 关闭统计数据弹窗
+ * @function closeStatisticsDialog
+ * @description 关闭学生统计数据对话框
+ * 防止重复关闭,并隐藏遮罩层
+ * @returns
+ */
 const closeStatisticsDialog = () => {
 	// 防止重复关闭
 	if (isClosingStatisticsDialog.value) { return }
@@ -746,6 +1073,13 @@ const closeStatisticsDialog = () => {
 	}, 0)
 }
 
+/**
+ * 格式化年级
+ * @function formatGrade
+ * @description 将数字年级转换为中文显示格式
+ * @param grade - 年级数字(1-6)
+ * @returns 格式化后的年级文本,如'大一'、'大二'等
+ */
 const formatGrade = grade => {
 	if (!grade) { return '' }
 	const gradeNum = parseInt(grade)
@@ -761,6 +1095,13 @@ const formatGrade = grade => {
 	return gradeMap[gradeNum] || `${gradeNum}年级`
 }
 
+/**
+ * 格式化时间
+ * @function formatTime
+ * @description 将时间字符串格式化为 YYYY-MM-DD HH:MM 格式
+ * @param timeString - 时间字符串
+ * @returns 格式化后的时间字符串,无效时返回原始值
+ */
 const formatTime = timeString => {
 	if (!timeString) { return '--' }
 	try {
@@ -776,7 +1117,13 @@ const formatTime = timeString => {
 	}
 }
 
-// 搜索处理函数
+/**
+ * 处理搜索功能
+ * @function handleSearch
+ * @description 根据搜索关键词筛选学生列表
+ * 筛选字段:姓名、性别、学院、专业、年级、总积分、签到积分、活动积分
+ * @returns
+ */
 const handleSearch = () => {
 	if (!searchKeyword.value.trim()) {
 		filteredStudents.value = totalRanking.value
@@ -820,44 +1167,96 @@ const handleSearch = () => {
 }
 
 
+/**
+ * 组件挂载完成后的生命周期钩子
+ * @function onMounted
+ * @description 初始化页面数据和启动各种功能
+ * 执行内容:
+ * 1. 等待DOM更新
+ * 2. 显示全局加载蒙版
+ * 3. 创建AllMembersPage实例并加载数据
+ * 4. 绑定学生数据到页面响应式变量
+ * 5. 使用padTopStudents处理数据
+ * 6. 更新计数器
+ * 7. 计算统计数据
+ * 8. 隐藏全局加载蒙版
+ * 9. 监听窗口resize事件
+ * 10. 启动励志语录轮播
+ * @async
+ * @returns {Promise<void>}
+ */
 onMounted(async () => {
-	await nextTick()
+	try {
+		// 显示全局加载蒙版
+		loadingMaskStore.showLoadingMask('正在加载全部成员数据...')
+		await nextTick()
 
-	// 使用 AllMembersPage 加载数据
-	const allMembersPage = new AllMembersPage()
-	await allMembersPage.initData()
+		// 使用 AllMembersPage 加载数据
+		const allMembersPage = new AllMembersPage()
+		await allMembersPage.initData()
 
-	// 将加载的学生数据绑定到页面
-	totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
-	filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
+		// 将加载的学生数据绑定到页面
+		totalRanking.value = allMembersPage.currentPageToShowStudentProfiles || []
+		filteredStudents.value = allMembersPage.currentPageToShowStudentProfiles || []
 
-	// 调用 padTopStudents 处理数据
-	topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
+		// 调用 padTopStudents 处理数据
+		topStudents.value = padTopStudents(filteredStudents.value, filteredStudents.value.length)
 
-	// 更新计数器
-	loadedCount.value = filteredStudents.value.length
-	totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
+		// 更新计数器
+		loadedCount.value = filteredStudents.value.length
+		totalCount.value = allMembersPage.sortedStudentInfoIds?.length || 0
 
-	// 计算统计数据
-	calculateStatistics(totalRanking.value)
+		// 计算统计数据
+		calculateStatistics(totalRanking.value)
+	} finally {
+		// 隐藏全局加载蒙版
+		loadingMaskStore.hideLoadingMask()
+	}
 
 	window.addEventListener('resize', handleResize)
 	startQuoteRotation()
 })
 
 // 创建响应式实例（替换原有的 ref 定义）
+/**
+ * 改分记录弹窗管理器
+ * @type {Reactive<AdjustRecordsDialogManager>}
+ * @description 管理改分记录弹窗的打开、关闭和数据加载
+ */
 const adjustRecordsDialogManager = reactive(new AdjustRecordsDialogManager())
 
 // 方法修改为调用类方法
+/**
+ * 打开改分记录弹窗
+ * @function openRecordsDialog
+ * @description 点击学生卡片时触发,打开该学生的改分记录弹窗
+ * @param student - 学生对象,包含学生ID等信息
+ * @returns
+ */
 const openRecordsDialog = student => {
 	adjustRecordsDialogManager.open(student)
 }
 
+/**
+ * 处理改分记录弹窗关闭事件
+ * @function handleRecordsDialogClose
+ * @description 关闭改分记录弹窗时调用管理器的关闭方法
+ * @returns
+ */
 const handleRecordsDialogClose = () => {
 	adjustRecordsDialogManager.handleDialogClose()
 }
 
-
+/**
+ * 组件卸载前的生命周期钩子
+ * @function onUnmounted
+ * @description 组件卸载前清理资源和事件监听
+ * 清理内容:
+ * 1. 停止励志语录轮播
+ * 2. 销毁所有图表实例
+ * 3. 移除窗口resize监听
+ * @returns {void}
+ */
 onUnmounted(() => {
 	stopQuoteRotation()
 	if (signInChartInstance) {
@@ -874,7 +1273,11 @@ onUnmounted(() => {
 </script>
 
 <template>
+	<!-- 全部成员页面主容器 -->
 	<div class="points-dashboard-container" style="overflow-y: visible;">
+		<!-- 全局加载蒙版 -->
+		<LoadingMask/>
+		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-left">
 				<el-button
@@ -954,7 +1357,7 @@ onUnmounted(() => {
 								<div class="legend-section">
 									<div class="legend-item">
 										<el-icon class="hint-icon">
-											<view/>
+											<View/>
 										</el-icon>
 										<span class="legend-text">点击眼睛图标可查看全部改分记录</span>
 									</div>
@@ -973,7 +1376,7 @@ onUnmounted(() => {
 										<span class="legend-text">总活动积分</span>
 									</div>
 								</div>
-								<div class="legend-section" style="display: flex; align-items: center; gap: 20px;">
+								<div class="legend-section" style="display: flex; gap: 20px; align-items: center;">
 									<div class="legend-item">
 										<el-input
 											v-model="searchKeyword"
@@ -1094,7 +1497,7 @@ onUnmounted(() => {
 												@click="openRecordsDialog(student)"
 											>
 												<el-icon>
-													<view/>
+													<View/>
 												</el-icon>
 											</el-button>
 										</div>
@@ -1104,16 +1507,8 @@ onUnmounted(() => {
 						</div>
 					</div>
 
-					<!-- 加载中：显示加载动画 -->
-					<div v-else-if="totalLoading" class="side-empty">
-						<el-icon class="is-loading" size="48">
-							<loading/>
-						</el-icon>
-						<span>数据加载中...</span>
-					</div>
-
 					<!-- 无数据：显示暂无数据 -->
-					<div v-else class="side-empty">
+					<div v-if="topStudents.length === 0" class="side-empty">
 						<el-icon size="48">
 							<box/>
 						</el-icon>

@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * 积分看板页面组件(桌面端)
+ *
+ * @description 展示学生积分排行榜,包括总积分、签到积分、活动积分三个维度
+ * @component PointsDashboardPageDesktop
+ */
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -37,28 +43,110 @@ echarts.use([
 	CanvasRenderer
 ])
 
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 主题切换方法
+ * @type {Function}
+ * @description 解构自主题Store,用于切换明暗主题
+ */
 const { toggleTheme } = themeStore
 
-// 创建 PointsDashboardPage 实例
+// ===================== 业务逻辑实例初始化 =====================
+/**
+ * 积分看板页面业务逻辑实例
+ * @type {Ref<PointsDashboardPage>}
+ * @description 封装积分看板页面的核心业务逻辑,包含数据加载、图表初始化等方法
+ */
 const dashboardPage = ref(new PointsDashboardPage())
 
+// ===================== 响应式变量定义区 =====================
+/**
+ * 当前激活的标签页
+ * @type {Ref<string>}
+ * @description 控制显示哪个排行榜:'total'|'signIn'|'activity'
+ */
 const activeTab = ref('total')
+/**
+ * 标签页顺序数组
+ * @type {Array<string>}
+ * @description 定义标签页的切换顺序,用于左右箭头切换
+ */
 const tabOrder = ['total', 'signIn', 'activity']
+/**
+ * 标签页名称映射
+ * @type {Object<string, string>}
+ * @description 标签页标识与显示名称的映射关系
+ */
 const tabLabelMap = {
 	total: '总积分排行榜',
 	signIn: '签到积分排行榜',
 	activity: '活动积分排行榜'
 }
+/**
+ * 当前标签页显示名称
+ * @type {ComputedRef<string>}
+ * @description 根据当前激活的标签页返回对应的显示名称
+ */
 const currentTabLabel = computed(() => tabLabelMap[activeTab.value] || '')
+/**
+ * 签到积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按签到积分排序的学生列表
+ */
 const signInRanking = ref([])
+/**
+ * 活动积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按活动积分排序的学生列表
+ */
 const activityRanking = ref([])
+/**
+ * 总积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按总积分排序的学生列表
+ */
 const totalRanking = ref([])
+/**
+ * 优秀学生列表
+ * @type {Ref<Array>}
+ * @description 存储排名靠前的学生数据,用于展示优秀成员
+ */
 const topStudents = ref([])
+/**
+ * 考勤数据
+ * @type {Ref<Array>}
+ * @description 存储学生的考勤相关数据
+ */
 const attendanceData = ref([])
+/**
+ * 签到积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制签到积分数据加载中的状态显示
+ */
 const signInLoading = ref(false)
+/**
+ * 活动积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制活动积分数据加载中的状态显示
+ */
 const activityLoading = ref(false)
+/**
+ * 总积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制总积分数据加载中的状态显示
+ */
 const totalLoading = ref(false)
 
 // 随机文案相关 - 128句技术相关激励文案
@@ -194,54 +282,110 @@ const quotes = [
 	'你的代码版本控制，记录了成长的轨迹'
 ]
 
+// ===================== 随机文案相关变量 =====================
+/**
+ * 当前显示的文案
+ * @type {Ref<string>}
+ * @description 当前正在显示的激励文案内容
+ */
 const currentQuote = ref('')
+/**
+ * 文案显示状态
+ * @type {Ref<boolean>}
+ * @description 控制文案的显示/隐藏,用于淡入淡出动画
+ */
 const showQuote = ref(false)
+/**
+ * 文案轮播定时器
+ * @type {number|null}
+ * @description 存储文案轮播的定时器ID,用于清除定时器
+ */
 let quoteTimer = null
+/**
+ * 上次显示的文案索引
+ * @type {number}
+ * @description 记录上次显示的文案在数组中的索引,避免连续显示相同文案
+ */
 let lastQuoteIndex = -1
 
-// 获取随机文案（避免连续显示相同文案）
+// ===================== 随机文案方法区 =====================
+/**
+ * 获取随机文案
+ * @function getRandomQuote
+ * @description 从文案数组中随机选择一条文案,确保不连续显示相同文案
+ * @returns {string} 随机选择的激励文案
+ */
 const getRandomQuote = () => {
 	let randomIndex
-	// 如果只有一条文案，直接返回
+	// 如果只有一条文案,直接返回
 	if (quotes.length === 1) {
 		return quotes[0]
 	}
-	// 确保不连续显示相同的文案
+	/**
+	 * 确保不连续显示相同的文案
+	 * @description 通过循环确保新选择的文案索引与上次不同
+	 */
 	do {
 		randomIndex = Math.floor(Math.random() * quotes.length)
 	} while (randomIndex === lastQuoteIndex && quotes.length > 1)
 
+	// 记录当前文案索引
 	lastQuoteIndex = randomIndex
 	return quotes[randomIndex]
 }
 
-// 更新文案（带淡入淡出效果）
+/**
+ * 更新文案(带淡入淡出效果)
+ * @function updateQuote
+ * @description 更新显示的文案,先淡出再淡入,实现平滑过渡效果
+ * 淡出时间400ms,然后显示新文案并淡入
+ */
 const updateQuote = () => {
+	// 先隐藏当前文案(淡出)
 	showQuote.value = false
+	// 等待淡出动画完成后显示新文案
 	setTimeout(() => {
 		currentQuote.value = getRandomQuote()
-		showQuote.value = true
+		showQuote.value = true // 淡入显示新文案
 	}, 400) // 淡出时间
 }
 
-// 启动文案轮播
+/**
+ * 启动文案轮播
+ * @function startQuoteRotation
+ * @description 启动文案自动轮播功能
+ * 流程:
+ * 1. 立即显示第一条随机文案
+ * 2. 每隔5-8秒随机间隔更新一次文案
+ * 3. 使用递归调用实现持续轮播
+ */
 const startQuoteRotation = () => {
-	// 立即显示第一条
+	// 立即显示第一条随机文案
 	currentQuote.value = getRandomQuote()
 	showQuote.value = true
 
-	// 每隔一段时间刷新（5-8秒随机间隔，增加自然感）
+	/**
+	 * 安排下一次文案更新
+	 * @description 使用递归调用实现持续轮播
+	 * 随机间隔5-8秒,增加自然感,避免过于机械
+	 */
 	const scheduleNext = () => {
-		const delay = 5000 + Math.random() * 3000 // 5-8秒随机
+		// 5-8秒随机间隔
+		const delay = 5000 + Math.random() * 3000
 		quoteTimer = setTimeout(() => {
 			updateQuote()
-			scheduleNext()
+			scheduleNext() // 递归调用,实现持续轮播
 		}, delay)
 	}
 	scheduleNext()
 }
 
-// 停止文案轮播
+/**
+ * 停止文案轮播
+ * @function stopQuoteRotation
+ * @description 清除文案轮播定时器,停止自动更新
+ * 在组件卸载时调用,避免内存泄漏
+ */
 const stopQuoteRotation = () => {
 	if (quoteTimer) {
 		clearTimeout(quoteTimer)
@@ -249,51 +393,155 @@ const stopQuoteRotation = () => {
 	}
 }
 
-// 改分记录弹窗相关
+// ===================== 改分记录弹窗相关变量 =====================
+/**
+ * 改分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录弹窗的显示/隐藏
+ */
 const recordsDialogVisible = ref(false)
+/**
+ * 当前选中的学生
+ * @type {Ref<Object|null>}
+ * @description 存储当前查看改分记录的学生信息
+ */
 const currentStudent = ref(null)
+/**
+ * 所有改分记录
+ * @type {Ref<Array>}
+ * @description 存储当前学生的所有积分调整记录
+ */
 const allRecords = ref([])
+/**
+ * 改分记录加载状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录数据加载中的状态显示
+ */
 const recordsLoading = ref(false)
+/**
+ * 改分记录弹窗关闭状态标记
+ * @type {Ref<boolean>}
+ * @description 防止弹窗关闭动画期间的重复关闭操作
+ */
 const isClosingRecordsDialog = ref(false)
 
+// ===================== 图表相关变量 =====================
+/**
+ * 签到积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 签到积分柱状图的DOM元素引用
+ */
 const signInChart = ref(null)
+/**
+ * 活动积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 活动积分柱状图的DOM元素引用
+ */
 const activityChart = ref(null)
+/**
+ * 总积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 总积分堆叠柱状图的DOM元素引用
+ */
 const totalChart = ref(null)
+/**
+ * 签到积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts签到积分图表实例
+ */
 let signInChartInstance = null
+/**
+ * 活动积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts活动积分图表实例
+ */
 let activityChartInstance = null
+/**
+ * 总积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts总积分图表实例
+ */
 let totalChartInstance = null
 
+// ===================== 页面操作方法区 =====================
+/**
+ * 返回上一页
+ * @function goBack
+ * @description 点击返回按钮时触发,跳转到导航页面
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+ * 跳转到所有成员页面
+ * @function goToAllMembers
+ * @description 点击所有成员入口时触发,跳转到所有成员页面
+ */
 const goToAllMembers = () => {
 	router.push('/all-members')
 }
 
+/**
+ * 切换标签页
+ * @function switchTab
+ * @description 根据方向切换标签页,支持循环切换
+ * @param {string} direction - 切换方向:'prev'表示上一个,'next'表示下一个
+ */
 const switchTab = direction => {
+	// 获取当前标签页在数组中的索引
 	const idx = tabOrder.indexOf(activeTab.value)
+	/**
+	 * 计算下一个标签页索引
+	 * @description 使用模运算实现循环切换
+	 * - 向前切换:索引减1,如果小于0则跳到最后一个
+	 * - 向后切换:索引加1,如果超过数组长度则跳到第一个
+	 */
 	const nextIdx = direction === 'prev'
 		? (idx - 1 + tabOrder.length) % tabOrder.length
 		: (idx + 1) % tabOrder.length
+	// 更新当前激活的标签页
 	activeTab.value = tabOrder[nextIdx]
+	// 触发标签页切换处理
 	handleTabChange(activeTab.value)
 }
 
+/**
+ * 初始化签到积分图表
+ * @function initSignInChart
+ * @description 初始化并配置签到积分柱状图
+ * 流程:
+ * 1. 检查DOM元素是否存在
+ * 2. 销毁旧实例(如果存在)
+ * 3. 创建新的ECharts实例
+ * 4. 排序数据并计算最大值
+ * 5. 配置图表选项并渲染
+ * @param {Array} data - 学生积分数据数组
+ * @async
+ * @returns {Promise<void>}
+ */
 const initSignInChart = async data => {
+	// 检查DOM元素是否存在,不存在则等待下一个tick
 	if (!signInChart.value) {
 		await nextTick()
 		if (!signInChart.value) { return }
 	}
 
+	// 如果已存在实例,先销毁避免内存泄漏
 	if (signInChartInstance) {
 		signInChartInstance.dispose()
 	}
 
+	// 创建新的ECharts实例
 	signInChartInstance = echarts.init(signInChart.value)
 
+	/**
+	 * 排序数据并计算最大值
+	 * @description 按签到积分升序排列,用于图表显示
+	 * 计算最大值用于设置X轴范围
+	 */
 	const sortedData = [...data].sort((a, b) => (a.signInPoints || 0) - (b.signInPoints || 0))
-	const isDark = themeStore.isDarkMode
+	const isDark = themeStore.isDarkMode // 获取当前主题模式
 	const maxValue = sortedData.length > 0 ? sortedData[sortedData.length - 1].signInPoints || 0 : 0
 
 	const option = {
@@ -384,20 +632,42 @@ const initSignInChart = async data => {
 	signInChartInstance.setOption(option)
 }
 
+/**
+ * 初始化活动积分图表
+ * @function initActivityChart
+ * @description 初始化并配置活动积分柱状图
+ * 流程:
+ * 1. 检查DOM元素是否存在
+ * 2. 销毁旧实例(如果存在)
+ * 3. 创建新的ECharts实例
+ * 4. 排序数据并计算最大值
+ * 5. 配置图表选项并渲染
+ * @param {Array} data - 学生积分数据数组
+ * @async
+ * @returns {Promise<void>}
+ */
 const initActivityChart = async data => {
+	// 检查DOM元素是否存在,不存在则等待下一个tick
 	if (!activityChart.value) {
 		await nextTick()
 		if (!activityChart.value) { return }
 	}
 
+	// 如果已存在实例,先销毁避免内存泄漏
 	if (activityChartInstance) {
 		activityChartInstance.dispose()
 	}
 
+	// 创建新的ECharts实例
 	activityChartInstance = echarts.init(activityChart.value)
 
+	/**
+	 * 排序数据并计算最大值
+	 * @description 按活动积分升序排列,用于图表显示
+	 * 计算最大值用于设置X轴范围
+	 */
 	const sortedData = [...data].sort((a, b) => (a.activityPoints || 0) - (b.activityPoints || 0))
-	const isDark = themeStore.isDarkMode
+	const isDark = themeStore.isDarkMode // 获取当前主题模式
 	const maxValue = sortedData.length > 0 ? sortedData[sortedData.length - 1].activityPoints || 0 : 0
 
 	const option = {
@@ -488,20 +758,42 @@ const initActivityChart = async data => {
 	activityChartInstance.setOption(option)
 }
 
+/**
+ * 初始化总积分图表
+ * @function initTotalChart
+ * @description 初始化并配置总积分堆叠柱状图
+ * 流程:
+ * 1. 检查DOM元素是否存在
+ * 2. 销毁旧实例(如果存在)
+ * 3. 创建新的ECharts实例
+ * 4. 排序数据并计算最大值
+ * 5. 配置图表选项并渲染(堆叠柱状图,包含签到积分和活动积分)
+ * @param {Array} data - 学生积分数据数组
+ * @async
+ * @returns {Promise<void>}
+ */
 const initTotalChart = async data => {
+	// 检查DOM元素是否存在,不存在则等待下一个tick
 	if (!totalChart.value) {
 		await nextTick()
 		if (!totalChart.value) { return }
 	}
 
+	// 如果已存在实例,先销毁避免内存泄漏
 	if (totalChartInstance) {
 		totalChartInstance.dispose()
 	}
 
+	// 创建新的ECharts实例
 	totalChartInstance = echarts.init(totalChart.value)
 
+	/**
+	 * 排序数据并计算最大值
+	 * @description 按总积分升序排列,用于图表显示
+	 * 计算最大值用于设置X轴范围
+	 */
 	const sortedData = [...data].sort((a, b) => (a.totalPoints || 0) - (b.totalPoints || 0))
-	const isDark = themeStore.isDarkMode
+	const isDark = themeStore.isDarkMode // 获取当前主题模式
 	const maxValue = sortedData.length > 0 ? sortedData[sortedData.length - 1].totalPoints || 0 : 0
 
 	const option = {
@@ -594,16 +886,31 @@ const initTotalChart = async data => {
 	totalChartInstance.setOption(option)
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当学生头像加载失败时调用,标记为无头像状态
+ * @param {Object} student - 学生对象,包含hasAvatar和avatarUrl属性
+ */
 const handleAvatarError = student => {
 	student.hasAvatar = false
 	student.avatarUrl = null
 }
 
-
-// 已删除 loadStudentInfo 函数，因为 PointsDashboardPage 已经返回了完整的学生信息
-
-// 删除了冗余的 loadSignInRanking 和 loadActivityRanking 函数，现在统一使用 PointsDashboardPage 管理数据
-
+// ===================== 数据加载方法区 =====================
+/**
+ * 获取考勤数据
+ * @function getAttendanceData
+ * @description 获取签到排行榜数据并补充学生信息
+ * 流程:
+ * 1. 获取原始签到排名数据(前32名)
+ * 2. 检查综合排名数据是否存在
+ * 3. 遍历签到数据,从综合排名数据中补充学生信息(姓名等)
+ * 4. 如果综合排名数据中找不到,则调用API获取
+ * 5. 格式化数据为图表所需格式
+ * @async
+ * @returns {Promise<void>}
+ */
 const getAttendanceData = async () => {
 	try {
 		// 1. 先获取原始签到排名数据
@@ -670,27 +977,58 @@ const getAttendanceData = async () => {
 	}
 }
 
+/**
+ * 填充学生列表到指定长度
+ * @function padTopStudents
+ * @description 如果学生列表长度不足,使用占位符填充到目标长度
+ * 用于保持网格布局的整齐,避免最后一行留空
+ * @param {Array} list - 学生数据列表
+ * @param {number} targetLength - 目标长度,默认12
+ * @returns {Array} 填充后的列表,包含占位符对象
+ */
 const padTopStudents = (list, targetLength = 12) => {
 	const filled = [...list]
+	// 如果列表长度不足,添加占位符
 	while (filled.length < targetLength) {
 		filled.push({
-			placeholder: true,
-			placeholderId: `placeholder-${filled.length}`
+			placeholder: true, // 标记为占位符
+			placeholderId: `placeholder-${filled.length}` // 唯一标识
 		})
 	}
 	return filled
 }
 
+/**
+ * 加载总积分排行榜
+ * @function loadTotalRanking
+ * @description 从业务逻辑类获取综合排名数据并格式化
+ * 流程:
+ * 1. 调用业务逻辑类初始化数据
+ * 2. 获取综合排名数据
+ * 3. 格式化数据为图表和列表所需格式
+ * 4. 填充侧边栏显示列表(前32名)
+ * 5. 初始化图表(显示前20名)
+ * @async
+ * @returns {Promise<void>}
+ */
 const loadTotalRanking = async () => {
+	// 开启加载状态
 	totalLoading.value = true
 	try {
-		// 使用 PointsDashboardPage 获取数据（前32名）
+		/**
+		 * 使用 PointsDashboardPage 获取数据(前32名)
+		 * @description 调用业务逻辑类初始化数据,获取综合排名
+		 */
 		await dashboardPage.value.initData()
 		const rankingData = dashboardPage.value.comprehensiveRankingData || []
 
-		// 将数据格式化为图表所需格式，直接使用 PointsDashboardPage 返回的完整数据
+		/**
+		 * 将数据格式化为图表所需格式
+		 * @description 直接使用 PointsDashboardPage 返回的完整数据
+		 * 包含学生ID、姓名、年级、专业、等级、头像、各类积分等信息
+		 */
 		totalRanking.value = rankingData.map(student => ({
-			studentInfoId: student.studentInfoId,
+			studentInfoId: student.studentInfoId, // 学生数据库ID
 			name: student.name, // 直接使用已获取的姓名
 			grade: student.grade, // 直接使用已获取的年级
 			major: student.major, // 直接使用已获取的专业
@@ -702,7 +1040,11 @@ const loadTotalRanking = async () => {
 			totalPoints: student.totalPoints // 总积分
 		}))
 
-		// 侧边栏显示前32名
+		/**
+		 * 侧边栏显示前32名
+		 * @description 截取前32名学生,并使用占位符填充到32个
+		 * 保持网格布局整齐(4行×8列或类似布局)
+		 */
 		const topList = totalRanking.value.slice(0, 32)
 		topStudents.value = padTopStudents(topList, 32)
 
@@ -730,6 +1072,19 @@ const loadTotalRanking = async () => {
 	}
 }
 
+/**
+ * 处理标签页切换事件
+ * @function handleTabChange
+ * @description 切换标签页时触发,加载对应的数据并初始化图表
+ * 流程:
+ * 1. 等待下一个tick确保DOM更新
+ * 2. 根据标签页类型加载对应数据
+ * 3. 使用重试机制初始化图表(最多重试10次)
+ * 4. 处理加载状态和错误
+ * @param {string} tabName - 标签页名称:'signIn'|'activity'|'total'
+ * @async
+ * @returns {Promise<void>}
+ */
 const handleTabChange = async tabName => {
 	await nextTick()
 	if (tabName === 'signIn') {
@@ -789,19 +1144,19 @@ const handleTabChange = async tabName => {
 		if (totalRanking.value.length === 0) {
 			await loadTotalRanking()
 		} else if (totalRanking.value.length > 0) {
-			const initChartWithRetry = async (retryCount = 0) => {
-				if (totalChart.value) {
-					await initTotalChart(totalRanking.value.slice(0, 32))
-				} else if (retryCount < 10) {
-					setTimeout(() => {
-						initChartWithRetry(retryCount + 1)
-					}, 100)
+				const initChartWithRetry = async (retryCount = 0) => {
+					if (totalChart.value) {
+						await initTotalChart(totalRanking.value.slice(0, 32))
+					} else if (retryCount < 10) {
+						setTimeout(() => {
+							initChartWithRetry(retryCount + 1)
+						}, 100)
+					}
 				}
+				setTimeout(() => {
+					initChartWithRetry()
+				}, 200)
 			}
-			setTimeout(() => {
-				initChartWithRetry()
-			}, 200)
-		}
 	}
 }
 
@@ -818,9 +1173,25 @@ const handleResize = () => {
 }
 
 // 自动刷新定时器
+/**
+ * 自动刷新定时器
+ * @type {number|null}
+ * @description 存储定时器引用,用于启动和停止自动刷新功能
+ */
 let refreshTimer = null
 
-// 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
+/**
+ * 统一的刷新数据函数
+ * @function refreshData
+ * @description 根据当前激活的标签页刷新对应的数据
+ * 流程:
+ * 1. 调用dashboardPage刷新所有数据
+ * 2. 更新总积分排行榜数据
+ * 3. 更新侧边栏显示的前32名学生
+ * 4. 根据当前激活标签页更新对应排行榜
+ * @async
+ * @returns {Promise<void>}
+ */
 const refreshData = async () => {
 	// 统一使用 PointsDashboardPage 刷新数据
 	await dashboardPage.value.refreshData()
@@ -864,7 +1235,15 @@ const refreshData = async () => {
 	}
 }
 
-// 启动自动刷新
+/**
+ * 启动自动刷新功能
+ * @function startAutoRefresh
+ * @description 设置定时器,每隔60秒自动刷新一次数据
+ * 流程:
+ * 1. 清除已存在的定时器(避免重复)
+ * 2. 创建新的定时器,每60秒调用refreshData()
+ * @returns {void}
+ */
 const startAutoRefresh = () => {
 	// 清除已存在的定时器
 	if (refreshTimer) {
@@ -876,7 +1255,12 @@ const startAutoRefresh = () => {
 	}, 60000)
 }
 
-// 停止自动刷新
+/**
+ * 停止自动刷新功能
+ * @function stopAutoRefresh
+ * @description 清除自动刷新定时器,释放资源
+ * @returns {void}
+ */
 const stopAutoRefresh = () => {
 	if (refreshTimer) {
 		clearInterval(refreshTimer)
@@ -896,6 +1280,20 @@ watch(() => themeStore.isDarkMode, () => {
 	}, 100)
 })
 
+/**
+ * 打开改分记录对话框
+ * @function openRecordsDialog
+ * @description 打开学生改分记录弹窗并加载对应数据
+ * 流程:
+ * 1. 重置关闭状态
+ * 2. 恢复遮罩层样式
+ * 3. 设置当前学生并显示弹窗
+ * 4. 调用API获取该学生的改分记录
+ * 5. 按时间降序排序记录
+ * @param {Object} student - 学生信息对象,包含studentInfoId等
+ * @async
+ * @returns {Promise<void>}
+ */
 const openRecordsDialog = async student => {
 	// 重置关闭状态
 	isClosingRecordsDialog.value = false
@@ -932,6 +1330,17 @@ const openRecordsDialog = async student => {
 	}
 }
 
+/**
+ * 处理改分记录对话框关闭事件
+ * @function handleRecordsDialogClose
+ * @description 关闭改分记录弹窗,执行清理操作
+ * 流程:
+ * 1. 防止重复关闭(使用标志位)
+ * 2. 隐藏遮罩层DOM,避免闪烁
+ * 3. 清空记录数据,防止渲染问题
+ * 4. 延迟清理其他状态数据
+ * @returns {void}
+ */
 const handleRecordsDialogClose = () => {
 	// 防止重复关闭
 	if (isClosingRecordsDialog.value) { return }
@@ -986,6 +1395,19 @@ const formatTime = timeString => {
 	}
 }
 
+/**
+ * 组件挂载完成后的生命周期钩子
+ * @function onMounted
+ * @description 组件挂载后初始化数据和启动各种功能
+ * 执行内容:
+ * 1. 等待DOM更新完成
+ * 2. 加载总积分排行榜数据
+ * 3. 监听窗口resize事件
+ * 4. 启动励志语录轮播
+ * 5. 启动自动刷新功能
+ * @async
+ * @returns {Promise<void>}
+ */
 onMounted(async () => {
 	await nextTick()
 	await loadTotalRanking()
@@ -995,6 +1417,17 @@ onMounted(async () => {
 	startAutoRefresh()
 })
 
+/**
+ * 组件卸载前的生命周期钩子
+ * @function onUnmounted
+ * @description 组件卸载前清理资源和事件监听
+ * 清理内容:
+ * 1. 停止励志语录轮播
+ * 2. 停止自动刷新
+ * 3. 销毁所有图表实例
+ * 4. 移除窗口resize监听
+ * @returns {void}
+ */
 onUnmounted(() => {
 	stopQuoteRotation()
 	// 停止自动刷新
@@ -1013,7 +1446,9 @@ onUnmounted(() => {
 </script>
 
 <template>
+	<!-- 积分看板页面主容器 -->
 	<div class="points-dashboard-container">
+		<!-- 页面头部 -->
 		<div class="header">
 			<div class="header-left">
 				<el-button
@@ -1241,7 +1676,7 @@ onUnmounted(() => {
 								<div class="legend-section">
 									<div class="legend-item">
 										<el-icon class="hint-icon">
-											<view/>
+											<View/>
 										</el-icon>
 										<span class="legend-text">点击眼睛图标可查看全部改分记录</span>
 									</div>
@@ -1341,7 +1776,7 @@ onUnmounted(() => {
 													@click="openRecordsDialog(student)"
 												>
 													<el-icon>
-														<view/>
+														<View/>
 													</el-icon>
 												</el-button>
 											</div>

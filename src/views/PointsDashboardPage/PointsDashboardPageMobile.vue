@@ -39,58 +39,248 @@ echarts.use([
 	CanvasRenderer
 ])
 
+/**
+ * 积分看板页面组件(移动端)
+ *
+ * @component PointsDashboardPageMobile
+ * @description 展示学生积分排行榜,包括总积分、签到积分、活动积分三个维度(移动端适配)
+ * 主要功能:
+ * 1. 展示三种积分排行榜(总积分、签到积分、活动积分)
+ * 2. 提供图表可视化展示积分分布
+ * 3. 支持查看学生改分记录
+ * 4. 支持标签页切换和左右箭头导航
+ *
+ * @author 前端开发团队
+ * @version 1.0.0
+ */
+
+// ===================== 全局实例初始化 =====================
+/**
+ * 路由实例
+ * @type {Router}
+ * @description 用于页面跳转和路由导航
+ */
 const router = useRouter()
+/**
+ * 主题状态仓库实例
+ * @type {Store}
+ * @description 管理应用主题切换(亮色/暗色模式)
+ */
 const themeStore = useThemeStore()
+/**
+ * 主题切换方法
+ * @type {Function}
+ * @description 解构自主题Store,用于切换明暗主题
+ */
 const { toggleTheme } = themeStore
 
-// 创建 PointsDashboardPage 实例
+// ===================== 业务逻辑实例初始化 =====================
+/**
+ * 积分看板页面业务逻辑实例
+ * @type {Ref<PointsDashboardPage>}
+ * @description 封装积分看板页面的核心业务逻辑,包含数据加载、图表初始化等方法
+ */
 const dashboardPage = ref(new PointsDashboardPage())
 
+// ===================== 响应式变量定义区 =====================
+/**
+ * 当前激活的标签页
+ * @type {Ref<string>}
+ * @description 控制显示哪个排行榜:'total'|'signIn'|'activity'
+ */
 const activeTab = ref('total')
+/**
+ * 标签页顺序数组
+ * @type {Array<string>}
+ * @description 定义标签页的切换顺序,用于左右箭头切换
+ */
 const tabOrder = ['total', 'signIn', 'activity']
+/**
+ * 标签页名称映射
+ * @type {Object<string, string>}
+ * @description 标签页标识与显示名称的映射关系
+ */
 const tabLabelMap = {
 	total: '总积分排行榜',
 	signIn: '签到积分排行榜',
 	activity: '活动积分排行榜'
 }
+/**
+ * 当前标签页显示名称
+ * @type {ComputedRef<string>}
+ * @description 根据当前激活的标签页返回对应的显示名称
+ */
 const currentTabLabel = computed(() => tabLabelMap[activeTab.value] || '')
+/**
+ * 签到积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按签到积分排序的学生列表
+ */
 const signInRanking = ref([])
+/**
+ * 活动积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按活动积分排序的学生列表
+ */
 const activityRanking = ref([])
+/**
+ * 总积分排行榜数据
+ * @type {Ref<Array>}
+ * @description 存储按总积分排序的学生列表
+ */
 const totalRanking = ref([])
+/**
+ * 优秀学生列表
+ * @type {Ref<Array>}
+ * @description 存储排名靠前的学生数据,用于展示优秀成员
+ */
 const topStudents = ref([])
+/**
+ * 考勤数据
+ * @type {Ref<Array>}
+ * @description 存储学生的考勤相关数据
+ */
 const attendanceData = ref([])
+/**
+ * 签到积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制签到积分数据加载中的状态显示
+ */
 const signInLoading = ref(false)
+/**
+ * 活动积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制活动积分数据加载中的状态显示
+ */
 const activityLoading = ref(false)
+/**
+ * 总积分加载状态
+ * @type {Ref<boolean>}
+ * @description 控制总积分数据加载中的状态显示
+ */
 const totalLoading = ref(false)
 
-// 改分记录弹窗相关
+// ===================== 改分记录弹窗相关变量 =====================
+/**
+ * 改分记录弹窗显示状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录弹窗的显示/隐藏
+ */
 const recordsDialogVisible = ref(false)
+/**
+ * 当前选中的学生
+ * @type {Ref<Object|null>}
+ * @description 存储当前查看改分记录的学生信息
+ */
 const currentStudent = ref(null)
+/**
+ * 所有改分记录
+ * @type {Ref<Array>}
+ * @description 存储当前学生的所有积分调整记录
+ */
 const allRecords = ref([])
+/**
+ * 改分记录加载状态
+ * @type {Ref<boolean>}
+ * @description 控制改分记录数据加载中的状态显示
+ */
 const recordsLoading = ref(false)
+/**
+ * 弹窗标题
+ * @type {Ref<string>}
+ * @description 改分记录弹窗的标题文本
+ */
 const dialogTitle = ref('改分记录')
+/**
+ * 是否显示改分记录内容
+ * @type {Ref<boolean>}
+ * @description 控制弹窗中改分记录内容的显示/隐藏
+ */
 const showRecordsContent = ref(true)
 
+// ===================== 图表相关变量 =====================
+/**
+ * 签到积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 签到积分柱状图的DOM元素引用
+ */
 const signInChart = ref(null)
+/**
+ * 活动积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 活动积分柱状图的DOM元素引用
+ */
 const activityChart = ref(null)
+/**
+ * 总积分图表DOM引用
+ * @type {Ref<HTMLElement|null>}
+ * @description 总积分柱状图的DOM元素引用
+ */
 const totalChart = ref(null)
+/**
+ * 签到积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts签到积分图表实例
+ */
 let signInChartInstance = null
+/**
+ * 活动积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts活动积分图表实例
+ */
 let activityChartInstance = null
+/**
+ * 总积分图表实例
+ * @type {EChartsInstance|null}
+ * @description ECharts总积分图表实例
+ */
 let totalChartInstance = null
 
+// ===================== 页面操作方法区 =====================
+/**
+ * 返回上一页
+ * @function goBack
+ * @description 点击返回按钮时触发,跳转到导航页面
+ */
 const goBack = () => {
 	router.push('/navigation')
 }
 
+/**
+/**
+ * 切换标签页
+ * @function switchTab
+ * @description 根据方向切换标签页,支持循环切换
+ * @param {string} direction - 切换方向:'prev'表示上一个,'next'表示下一个
+ */
 const switchTab = direction => {
+	// 获取当前标签页在数组中的索引
 	const idx = tabOrder.indexOf(activeTab.value)
+	/**
+	 * 计算下一个标签页索引
+	 * @description 使用模运算实现循环切换
+	 * - 向前切换:索引减1,如果小于0则跳到最后一个
+	 * - 向后切换:索引加1,如果超过数组长度则跳到第一个
+	 */
 	const nextIdx = direction === 'prev'
 		? (idx - 1 + tabOrder.length) % tabOrder.length
 		: (idx + 1) % tabOrder.length
+	// 更新当前激活的标签页
 	activeTab.value = tabOrder[nextIdx]
+	// 触发标签页切换处理
 	handleTabChange(activeTab.value)
 }
 
+/**
+ * 初始化签到积分柱状图
+ * @function initSignInChart
+ * @description 使用ECharts初始化签到积分排行榜的横向柱状图
+ * @param {Array<Object>} data - 学生签到积分数据数组
+ * @param {number} data[].signInPoints - 签到积分
+ * @param {string} data[].name - 学生姓名
+ * @param {number} data[].totalPoints - 总积分
+ * @returns {Promise<void>}
+ */
 const initSignInChart = async data => {
 	if (!signInChart.value) {
 		await nextTick()
@@ -193,6 +383,17 @@ const initSignInChart = async data => {
 
 	signInChartInstance.setOption(option)
 }
+
+/**
+ * 初始化活动积分柱状图
+ * @function initActivityChart
+ * @description 使用ECharts初始化活动积分排行榜的横向柱状图
+ * @param {Array<Object>} data - 学生活动积分数据数组
+ * @param {number} data[].activityPoints - 活动积分
+ * @param {string} data[].name - 学生姓名
+ * @param {number} data[].targetStudentInfoId - 目标学生ID
+ * @returns {Promise<void>}
+ */
 const initActivityChart = async data => {
 	if (!activityChart.value) {
 		await nextTick()
@@ -286,6 +487,18 @@ const initActivityChart = async data => {
 	activityChartInstance.setOption(option)
 }
 
+/**
+ * 初始化总积分堆叠柱状图
+ * @function initTotalChart
+ * @description 使用ECharts初始化总积分排行榜的堆叠横向柱状图,显示签到积分和活动积分的组成
+ * @param {Array<Object>} data - 学生总积分数据数组
+ * @param {number} data[].totalPoints - 总积分
+ * @param {number} data[].signInPoints - 签到积分
+ * @param {number} data[].activityPoints - 活动积分
+ * @param {string} data[].name - 学生姓名
+ * @param {number} data[].studentInfoId - 学生ID
+ * @returns {Promise<void>}
+ */
 const initTotalChart = async data => {
 	if (!totalChart.value) {
 		await nextTick()
@@ -384,6 +597,14 @@ const initTotalChart = async data => {
 	totalChartInstance.setOption(option)
 }
 
+/**
+ * 处理头像加载错误
+ * @function handleAvatarError
+ * @description 当学生头像加载失败时,标记该学生没有头像并清空头像URL
+ * @param {Object} student - 学生对象
+ * @param {boolean} student.hasAvatar - 是否有头像
+ * @param {string|null} student.avatarUrl - 头像URL
+ */
 const handleAvatarError = student => {
 	student.hasAvatar = false
 	student.avatarUrl = null
@@ -394,6 +615,12 @@ const handleAvatarError = student => {
 
 // 已删除冗余的 loadSignInRanking 和 loadActivityRanking 函数，现在统一使用 PointsDashboardPage 管理数据
 
+/**
+ * 获取考勤数据并处理签到排行榜
+ * @function getAttendanceData
+ * @description 获取前32名学生的考勤数据,补充学生信息(姓名、年级、专业等),并格式化为图表所需格式
+ * @returns {Promise<void>}
+ */
 const getAttendanceData = async () => {
 	try {
 		// 1. 先获取原始签到排名数据
@@ -464,6 +691,14 @@ const getAttendanceData = async () => {
 	}
 }
 
+/**
+ * 填充优秀学生列表
+ * @function padTopStudents
+ * @description 将学生列表填充到指定长度,不足时添加占位符对象
+ * @param {Array<Object>} list - 学生列表
+ * @param {number} targetLength - 目标长度,默认为12
+ * @returns {Array<Object>} 填充后的列表
+ */
 const padTopStudents = (list, targetLength = 12) => {
 	const filled = [...list]
 	while (filled.length < targetLength) {
@@ -475,6 +710,12 @@ const padTopStudents = (list, targetLength = 12) => {
 	return filled
 }
 
+/**
+ * 加载总积分排行榜数据
+ * @function loadTotalRanking
+ * @description 获取前32名学生的综合排名数据,格式化为图表所需格式,并初始化总积分图表
+ * @returns {Promise<void>}
+ */
 const loadTotalRanking = async () => {
 	totalLoading.value = true
 	try {
@@ -524,6 +765,13 @@ const loadTotalRanking = async () => {
 	}
 }
 
+/**
+ * 处理标签页切换
+ * @function handleTabChange
+ * @description 根据标签页名称加载对应的数据并初始化图表
+ * @param {string} tabName - 标签页名称:'total'|'signIn'|'activity'
+ * @returns {Promise<void>}
+ */
 const handleTabChange = async tabName => {
 	await nextTick()
 	if (tabName === 'signIn') {
@@ -601,6 +849,11 @@ const handleTabChange = async tabName => {
 	}
 }
 
+/**
+ * 处理窗口大小调整
+ * @function handleResize
+ * @description 当窗口大小改变时,调整所有图表的尺寸以适应新的窗口大小
+ */
 const handleResize = () => {
 	if (signInChartInstance) {
 		signInChartInstance.resize()
@@ -616,7 +869,12 @@ const handleResize = () => {
 // 自动刷新定时器
 const refreshTimer = null
 
-// 统一的刷新函数，根据当前激活的 tab 刷新对应的数据
+/**
+ * 刷新数据
+ * @function refreshData
+ * @description 根据当前激活的标签页刷新对应的数据,并更新排行榜和图表
+ * @returns {Promise<void>}
+ */
 const refreshData = async () => {
 	// 统一使用 PointsDashboardPage 刷新数据
 	await dashboardPage.value.refreshData()
@@ -661,6 +919,10 @@ const refreshData = async () => {
 }
 
 
+/**
+ * 监听主题模式变化
+ * @description 当主题模式切换时,重新初始化当前激活标签页的图表以适配新主题
+ */
 watch(() => themeStore.isDarkMode, () => {
 	setTimeout(() => {
 		if (activeTab.value === 'signIn' && signInRanking.value.length > 0) {
@@ -673,6 +935,15 @@ watch(() => themeStore.isDarkMode, () => {
 	}, 100)
 })
 
+/**
+ * 打开改分记录弹窗
+ * @function openRecordsDialog
+ * @description 打开指定学生的改分记录弹窗,并加载该学生的改分记录
+ * @param {Object} student - 学生对象
+ * @param {number} student.studentInfoId - 学生ID
+ * @param {string} student.name - 学生姓名
+ * @returns {Promise<void>}
+ */
 const openRecordsDialog = async student => {
 	// 恢复遮罩层样式，确保可以正常显示
 	const dialogWrapper = document.querySelector('.records-dialog-overlay')
@@ -708,6 +979,11 @@ const openRecordsDialog = async student => {
 	}
 }
 
+/**
+ * 关闭改分记录弹窗
+ * @function handleRecordsDialogClose
+ * @description 关闭改分记录弹窗,清空数据并隐藏遮罩层
+ */
 const handleRecordsDialogClose = () => {
 	// 先直接操作DOM隐藏遮罩层，避免闪烁
 	const dialogWrapper = document.querySelector('.records-dialog-overlay')
@@ -728,6 +1004,13 @@ const handleRecordsDialogClose = () => {
 	}, 0)
 }
 
+/**
+ * 格式化年级显示
+ * @function formatGrade
+ * @description 将年级数字转换为中文显示(如:1->大一,2->大二)
+ * @param {string|number} grade - 年级数字
+ * @returns {string} 格式化后的年级字符串
+ */
 const formatGrade = grade => {
 	if (!grade) { return '' }
 	const gradeNum = parseInt(grade)
@@ -743,6 +1026,13 @@ const formatGrade = grade => {
 	return gradeMap[gradeNum] || `${gradeNum}年级`
 }
 
+/**
+ * 格式化时间显示
+ * @function formatTime
+ * @description 将时间字符串格式化为"YYYY-MM-DD HH:mm"格式
+ * @param {string} timeString - 时间字符串
+ * @returns {string} 格式化后的时间字符串
+ */
 const formatTime = timeString => {
 	if (!timeString) { return '--' }
 	try {
@@ -758,12 +1048,22 @@ const formatTime = timeString => {
 	}
 }
 
+/**
+ * 组件挂载时的生命周期钩子
+ * @function onMounted
+ * @description 组件挂载时加载总积分排行榜数据并添加窗口大小调整监听器
+ */
 onMounted(async () => {
 	await nextTick()
 	await loadTotalRanking()
 	window.addEventListener('resize', handleResize)
 })
 
+/**
+ * 组件卸载时的生命周期钩子
+ * @function onUnmounted
+ * @description 组件卸载时销毁所有图表实例并移除窗口大小调整监听器
+ */
 onUnmounted(() => {
 	if (signInChartInstance) {
 		signInChartInstance.dispose()
@@ -995,7 +1295,7 @@ onUnmounted(() => {
 								<div class="legend-section">
 									<div class="legend-item">
 										<el-icon class="hint-icon">
-											<view/>
+											<View/>
 										</el-icon>
 										<span class="legend-text">点击眼睛图标可查看全部改分记录</span>
 									</div>
@@ -1092,7 +1392,7 @@ onUnmounted(() => {
 													@click="openRecordsDialog(student)"
 												>
 													<el-icon>
-														<view/>
+														<View/>
 													</el-icon>
 												</el-button>
 											</div>

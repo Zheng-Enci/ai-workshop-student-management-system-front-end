@@ -1,103 +1,222 @@
-/* 学生卡片 */
+/* ========================================
+ * 学生卡片区域样式
+ * 用于桌面端学生管理页面的学生卡片展示组件
+ * ======================================== */
+
+/**
+ * 学生卡片主容器
+ * 包含头部和卡片列表的整体布局
+ */
 .student-cards {
-	width: 80%;
-	margin-left: 10%;
-	padding: 1%;
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+	width: 80%;                    /* 容器宽度占父元素的80% */
+	margin-left: 10%;              /* 左侧外边距10%，实现水平居中 */
+	padding: 1%;                   /* 1%内边距，为内容提供呼吸空间 */
+	display: flex;                 /* 使用Flexbox布局 */
+	flex-direction: column;        /* 垂直方向排列子元素 */
+	gap: 8px;                     /* 子元素之间8px间距 */
 }
-/* 学生卡片头部 */
+
+/* ========================================
+ * 学生卡片头部样式
+ * ======================================== */
+
+/**
+ * 卡片头部容器
+ * 包含标题和搜索框，使用Flexbox实现两端对齐布局
+ */
 .student-cards-header{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	display: flex;                 /* 使用Flexbox布局 */
+	justify-content: space-between; /* 子元素两端对齐，标题在左，搜索框在右 */
+	align-items: center;           /* 子元素垂直居中对齐 */
 }
-/* 学生卡片头部标题 */
+
+/**
+ * 头部标题样式
+ * 显示"学生卡片"等页面标题
+ */
 .student-cards-header h2 {
-	font-size: 1.8rem;
+	font-size: 1.8rem;            /* 标题字体大小1.8rem，突出视觉层级 */
 }
-/* 学生卡片头部搜索框 */
+
+/**
+ * 头部搜索框宽度设置
+ * 使用Element Plus的el-input组件
+ */
 .student-cards-header .el-input {
-	width: 32%;
+	width: 32%;                   /* 搜索框宽度占头部容器的32% */
 }
 
-/* 学生卡片内容 */
+/* ========================================
+ * 学生卡片列表容器
+ * ======================================== */
+
+/**
+ * 卡片列表容器
+ * 使用Flexbox实现卡片网格布局，支持自动换行
+ */
 .student-cards-list {
-	display: flex;
-	gap: 16px;
-	flex-wrap: wrap;
+	display: flex;                 /* 使用Flexbox布局 */
+	gap: 16px;                    /* 卡片之间16px间距 */
+	flex-wrap: wrap;              /* 允许卡片换行，适应不同屏幕尺寸 */
 }
-/* 学生卡片内容单个学生卡片 */
+
+/* ========================================
+ * 单个学生卡片样式
+ * ======================================== */
+
+/**
+ * 单个学生卡片容器
+ * 每张卡片包含头像、姓名、积分等信息
+ */
 .student-cards-list-item {
-	padding: 18px 16px;
-	border-radius: 8%;
-	width: 24%;
-	font-size: 0.9rem;
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
+	padding: 18px 16px;           /* 上下18px，左右16px内边距 */
+	border-radius: 8%;            /* 8%圆角，创建柔和的卡片外观 */
+	width: 24%;                   /* 单个卡片宽度占容器24%，一行约显示4个 */
+	font-size: 0.9rem;            /* 字体大小0.9rem，适合桌面端阅读 */
+	display: flex;                 /* 使用Flexbox布局 */
+	flex-direction: column;        /* 垂直方向排列子元素（头像在顶，按钮在底） */
+	gap: 16px;                    /* 子元素之间16px间距 */
 }
-/* 学生卡片内容单个学生卡片日间模式 */
+
+/**
+ * 日间模式卡片背景
+ * 使用浅蓝色背景，营造清爽的视觉效果
+ * html.light选择器匹配日间模式
+ */
 html.light .student-cards-list-item {
-	background: rgba(59, 130, 246, 0.12);  /* 浅蓝色 */
-	transition: background 0.4s ease;
+	background: rgba(59, 130, 246, 0.12);  /* 浅蓝色背景，12%透明度 */
+	transition: background 0.4s ease;      /* 背景颜色切换使用0.4s缓动 */
 }
 
-/* 学生卡片内容单个学生卡片夜间模式 */
+/**
+ * 夜间模式卡片背景
+ * 使用深灰色背景，减少刺眼感，保护视力
+ * html.dark选择器匹配夜间模式
+ */
 html.dark .student-cards-list-item {
-	background: #1a202c;
-	transition: background 0.4s ease;
-}
-/* 学生卡片内容单个学生卡片夜间模式文字颜色 */
-html.dark .student-cards-list-item * {
-	color: #5a6c7d !important;
-}
-/* 学生卡片内容单个学生卡片头部 */
-.student-cards-list-item-header {
-	display: flex;
-	gap: 16px;
+	background: #1a202c;          /* 深灰色背景，适合夜间阅读 */
+	transition: background 0.4s ease;      /* 背景颜色切换使用0.4s缓动 */
 }
 
-/* 学生卡片内容单个学生卡片头部头像 */
+/**
+ * 夜间模式卡片内所有文字颜色
+ * 使用通用选择器*，确保所有子元素文字颜色统一
+ * !important确保覆盖其他样式规则
+ */
+html.dark .student-cards-list-item * {
+	color: #c8c8c8 !important;    /* 中灰色文字，在深色背景下清晰可读 */
+}
+
+/* ========================================
+ * 卡片头部样式（头像和信息）
+ * ======================================== */
+
+/**
+ * 卡片头部容器
+ * 包含头像和基本信息（姓名、学号、签到次数）
+ */
+.student-cards-list-item-header {
+	display: flex;                 /* 使用Flexbox布局 */
+	gap: 16px;                    /* 头像与文字信息之间16px间距 */
+}
+
+/**
+ * 卡片头像图片
+ * 显示学生的个人头像
+ */
 .student-cards-list-item-header img {
-	width: 80px;
-	height: 80px;
-	border-radius: 25%;
+	width: 80px;                  /* 头像宽度80px */
+	height: 80px;                 /* 头像高度80px，保持正方形 */
+	border-radius: 25%;           /* 25%圆角，创建椭圆形头像外观 */
 }
-/* 学生卡片内容单个学生卡片头部姓名 学号和签到次数 */
+
+/**
+ * 基本信息容器
+ * 包含姓名、学号和签到次数三个信息项
+ */
 .student-cards-list-item-header-name--student_id-attendance-count {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	gap: 3px;
+	display: flex;                 /* 使用Flexbox布局 */
+	flex-direction: column;        /* 垂直方向排列三个信息项 */
+	justify-content: center;       /* 垂直居中对齐 */
+	gap: 3px;                     /* 信息项之间3px间距，紧凑排列 */
 }
+
+/**
+ * 单个信息项容器
+ * 用于包裹姓名、学号、签到次数等文本
+ */
 .student-cards-list-item-header-name--student_id-attendance-count div {
-	display: flex;
+	display: flex;                 /* 使用Flexbox，允许图标和文字水平排列 */
 }
-/* 学生卡片内容单个学生卡片积分块 */
+
+/* ========================================
+ * 积分信息块样式
+ * ======================================== */
+
+/**
+ * 积分信息块
+ * 显示学生的积分相关数据
+ */
 .student-cards-list-item-points {
-	display: flex;
-	align-items: center;
-	gap: 16px;
+	display: flex;                 /* 使用Flexbox布局 */
+	align-items: center;           /* 子元素垂直居中对齐 */
+	gap: 16px;                    /* 积分项之间16px间距 */
+	padding: 12px;                 /* 12px内边距 */
+	border-radius: 12px;           /* 12px圆角 */
+	background-color: var(--bg-tertiary);  /* 使用CSS变量定义的第三级背景色 */
+	flex-wrap: wrap;              /* 允许积分项换行，适应不同内容长度 */
 }
-/* 学生卡片内容单个学生卡片其他信息块 */
+
+/* ========================================
+ * 其他信息块样式
+ * ======================================== */
+
+/**
+ * 其他信息块
+ * 显示学生的其他信息，如等级、管理员等
+ */
 .student-cards-list-item-other_info {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 4px;
+	display: flex;                 /* 使用Flexbox布局 */
+	flex-wrap: wrap;              /* 允许信息项换行 */
+	gap: 12px 20px;               /* 行间距12px，列间距20px */
+	padding: 12px;                 /* 12px内边距 */
+	border-radius: 12px;           /* 12px圆角 */
+	background-color: var(--bg-tertiary);  /* 使用CSS变量定义的第三级背景色 */
 }
+
+/**
+ * 其他信息项
+ * 单个信息信息的右侧间距
+ */
 .student-cards-list-item-other_info div {
-	margin-right: 16px;
+	margin-right: 16px;            /* 信息项右侧16px间距 */
 }
-/* 学生卡片内容单个学生卡片按钮 */
+
+/* ========================================
+ * 卡片按钮样式
+ * ======================================== */
+
+/**
+ * 按钮容器
+ * 包含编辑、删除等操作按钮
+ */
 .student-cards-list-item-buttons {
-	display: flex;
+	display: flex;                 /* 使用Flexbox布局 */
 }
+
+/**
+ * 按钮样式
+ * Element Plus的el-button组件
+ */
 .student-cards-list-item-buttons .el-button {
-	font-size: 0.8rem;
-	padding: 1px 7px;
+	font-size: 0.8rem;            /* 按钮文字大小0.8rem */
+	padding: 1px 7px;             /* 上下1px，左右7px内边距，紧凑按钮样式 */
 }
+
+/**
+ * 按钮悬停效果
+ * 提供交互反馈，增强用户体验
+ */
 .student-cards-list-item-buttons .el-button:hover {
-	transform: scale(1.05);
+	transform: scale(1.05);        /* 放大至1.05倍，产生轻微弹跳效果 */
 }

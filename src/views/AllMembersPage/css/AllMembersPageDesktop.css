@@ -1,473 +1,738 @@
-/* 阴影系统 CSS 变量 - 根据主题模式调整 */
-/* 日间模式：使用深灰色阴影（而非纯黑色）增强对比度，不透明度 0.2-0.3，增大模糊半径和扩散范围 */
-/* 参考 Material Design 3、Ant Design、腾讯云等：避免纯黑色，使用深灰色 rgba(30-50, 30-50, 30-50) */
+/**
+ * ============================================================================
+ * 全部成员页面 - 积分仪表板（桌面端样式）
+ * ============================================================================
+ * 设计特点：
+ * 1. 采用专业级阴影系统，增强视觉层次
+ * 2. 玻璃拟态 + 渐变设计，现代感十足
+ * 3. 响应式网格布局，自适应不同屏幕尺寸
+ * 4. 丰富的动画效果（卡片入场、悬停、光影扫过等）
+ * 5. 支持10列网格展示，适合大量成员信息展示
+ * ============================================================================
+ */
+
+/* ==================== 阴影系统 CSS 变量 ====================
+ * 设计原则：
+ * - 日间模式：使用深灰色阴影（而非纯黑色）增强对比度
+ * - 不透明度范围：0.2-0.3
+ * - 增大模糊半径和扩散范围，营造柔和感
+ * - 参考：Material Design 3、Ant Design、腾讯云等设计规范
+ * - 颜色：rgba(30-50, 30-50, 30-50) 避免纯黑色
+ * ========================================================= */
 :root {
-	--shadow-sm: 0 2px 12px rgba(30, 30, 30, 0.2), 0 1px 4px rgba(30, 30, 30, 0.15);
-	--shadow-md: 0 4px 20px rgba(40, 40, 40, 0.25), 0 2px 8px rgba(40, 40, 40, 0.18);
-	--shadow-lg: 0 8px 40px rgba(50, 50, 50, 0.3), 0 4px 16px rgba(50, 50, 50, 0.22), 0 2px 8px rgba(50, 50, 50, 0.15);
-	--shadow-primary: 0 2px 12px rgba(102, 126, 234, 0.35), 0 1px 4px rgba(102, 126, 234, 0.25);
-	--shadow-card: 0 4px 20px rgba(40, 40, 40, 0.25), 0 2px 8px rgba(40, 40, 40, 0.18);
-	--shadow-button: 0 8px 40px rgba(102, 126, 234, 0.5), 0 4px 16px rgba(102, 126, 234, 0.35);
+	--shadow-sm: 0 2px 12px rgb(30 30 30 / 0.2), 0 1px 4px rgb(30 30 30 / 0.15);
+	--shadow-md: 0 4px 20px rgb(40 40 40 / 0.25), 0 2px 8px rgb(40 40 40 / 0.18);
+	--shadow-lg: 0 8px 40px rgb(50 50 50 / 0.3), 0 4px 16px rgb(50 50 50 / 0.22), 0 2px 8px rgb(50 50 50 / 0.15);
+	--shadow-primary: 0 2px 12px rgb(102 126 234 / 0.35), 0 1px 4px rgb(102 126 234 / 0.25);
+	--shadow-card: 0 4px 20px rgb(40 40 40 / 0.25), 0 2px 8px rgb(40 40 40 / 0.18);
+	--shadow-button: 0 8px 40px rgb(102 126 234 / 0.5), 0 4px 16px rgb(102 126 234 / 0.35);
 }
 
-
+/* ==================== 主容器 ==================== */
 .points-dashboard-container {
-	min-height: 100vh;
-	background: var(--bg-primary);
 	display: flex;
 	flex-direction: column;
+	min-height: 100vh;
+	background: var(--bg-primary);
 }
 
+/* ==================== 顶部导航栏 ==================== */
 .header {
 	position: sticky;
 	top: 0;
 	z-index: 100;
-	background: rgba(255, 255, 255, 0.05);
-	backdrop-filter: blur(20px);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-	padding: 12px 24px;
 	display: flex;
+	flex-shrink: 0;
+	align-items: center;
 	justify-content: space-between;
-	align-items: center;
 	min-height: 72px;
-	flex-shrink: 0;
+	padding: 12px 24px;
+	background: rgb(255 255 255 / 0.05);
+	border-bottom: 1px solid rgb(255 255 255 / 0.1);
+	backdrop-filter: blur(20px);
 }
 
-.header-left {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	position: absolute;
-	left: 24px;
-	z-index: 1;
-}
-
-.header-left .back-btn,
-.header-left .logo {
-	flex-shrink: 0;
-}
-
-.header-right {
-	display: flex;
-	align-items: center;
-	gap: 20px;
-	position: absolute;
-	right: 24px;
-	z-index: 1;
-}
-
-.slogan {
-	display: flex;
-	align-items: center;
-	padding: 16px 16px 0 16px;
-	margin-right: 8px;
-}
-
-.slogan-img {
-	height: 80px;
-	transition: filter 0.3s ease;
-}
-
-html.dark .slogan-img {
-	filter: invert(1);
-}
-
+/**
+ * 返回按钮样式
+ * @description 48px正方形按钮,使用主题色背景和按钮阴影效果
+ */
 .back-btn {
 	width: 48px;
 	height: 48px;
 	background: var(--primary-color);
 	border: none;
 	box-shadow: var(--shadow-button);
+	flex-shrink: 0;
 }
 
+/* 防止按钮被压缩 */
+.header-left .back-btn {
+	/* flex-shrink: 0; 已在上层定义 */
+}
+
+/**
+ * Logo图标样式
+ * @description 64px正方形图标,可点击,无圆角
+ */
 .logo {
 	width: 64px;
 	height: 64px;
 	cursor: pointer;
 	border-radius: 0;
+	flex-shrink: 0;
 }
 
+/* 左侧导航区域（返回按钮、Logo） */
+.header-left {
+	position: absolute;
+	left: 24px;
+	z-index: 1;
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+
+/* 右侧操作区域 */
+.header-right {
+	position: absolute;
+	right: 24px;
+	z-index: 1;
+	display: flex;
+	gap: 20px;
+	align-items: center;
+}
+
+/* 口号标语区域 */
+.slogan {
+	display: flex;
+	align-items: center;
+	padding: 16px 16px 0;
+	margin-right: 8px;
+}
+
+/* 口号图片 */
+.slogan-img {
+	height: 80px;
+	transition: filter 0.3s ease;
+}
+
+/* 深色模式下反转图片颜色 */
+html.dark .slogan-img {
+	filter: invert(1);
+}
+
+/**
+ * 返回按钮样式
+ * @description 48px正方形按钮,使用主题色背景和按钮阴影效果
+ */
+.back-btn {
+	width: 48px;
+	height: 48px;
+	background: var(--primary-color);
+	border: none;
+	box-shadow: var(--shadow-button);
+	flex-shrink: 0;
+}
+
+/* 防止按钮被压缩 */
+.header-left .back-btn {
+	/* flex-shrink: 0; 已在上层定义 */
+}
+
+/**
+ * Logo图标样式
+ * @description 64px正方形图标,可点击,无圆角
+ */
+.logo {
+	width: 64px;
+	height: 64px;
+	cursor: pointer;
+	border-radius: 0;
+	flex-shrink: 0;
+}
+
+/* Logo的特定样式 */
+.header-left .logo {
+	/* flex-shrink: 0; 已在上层定义 */
+}
+
+/**
+ * 标题区域
+ * @description Flex列布局,居中对齐,占据剩余空间
+ * 包含主标题、副标题等元素
+ */
 .title-section {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
-	flex: 1;
 }
 
+/**
+ * 主标题样式
+ * @description 32px超粗字体,使用渐变色文字效果(紫蓝色渐变)
+ * 通过background-clip实现文字渐变,带文字阴影增强立体感
+ */
 .title-section .main-title {
+	display: block;
+	padding: 0;
+	margin: 0;
 	font-size: 32px;
 	font-weight: 800;
-	margin: 0;
-	padding: 0;
 	line-height: 1.2;
-	background: linear-gradient(135deg, #667eea, #764ba2);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
 	letter-spacing: 2px;
-	text-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-	display: block;
+	text-shadow: 0 2px 8px rgb(102 126 234 / 0.3);
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
+/**
+ * 标题备用样式
+ * @description 当主标题不可用时使用的备用标题样式
+ * 同样使用渐变色效果,保持视觉一致性
+ */
 .title-section h1 {
+	margin: 0;
 	font-size: 32px;
 	font-weight: 700;
-	margin: 0;
 	background: linear-gradient(135deg, #667eea, #764ba2);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
 	background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
+/**
+ * 副标题样式
+ * @description 16px中等字重,使用次要文字颜色
+ * 用于显示页面说明或补充信息
+ */
 .title-section p {
+	margin: 8px 0 0;
 	font-size: 16px;
-	color: var(--text-secondary);
-	margin: 8px 0 0 0;
 	font-weight: 500;
+	color: var(--text-secondary);
 }
 
-
-.dashboard-side {
-	min-width: 0;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-}
-
-.side-card {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	border-radius: 20px;
-	padding: 0 24px 0 24px;
-	backdrop-filter: blur(20px);
-	box-shadow: var(--shadow-lg);
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-}
-
+/* 卡片头部区域 */
 .side-card-header {
+	position: relative;
 	display: flex;
+	flex-shrink: 0;
+	gap: 12px;
 	align-items: center;
 	justify-content: space-between;
-	gap: 12px;
-	margin-bottom: 12px;
-	margin-top: 1%;
 	padding-top: 0;
 	padding-bottom: 10px;
-	border-bottom: 1px solid rgba(102, 126, 234, 0.15);
-	flex-shrink: 0;
-	position: relative;
+	margin-top: 1%;
+	margin-bottom: 12px;
+	border-bottom: 1px solid rgb(102 126 234 / 0.15);
 }
 
+/* 随机语录容器：绝对定位在右侧 */
 .random-quote-container {
 	position: absolute;
-	right: 0;
 	top: 50%;
-	transform: translateY(-50%);
-	width: fit-content;
-	padding: 12px 18px;
-	background: transparent;
-	border-radius: 12px;
-	border: none;
-	backdrop-filter: none;
-	box-shadow: none;
+	right: 0;
 	z-index: 5;
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+	width: fit-content;
+	padding: 12px 18px;
 	margin-right: 0;
+	background: transparent;
+	border: none;
+	border-radius: 12px;
+	box-shadow: none;
+	backdrop-filter: none;
+	transform: translateY(-50%);
 }
 
+/* 随机语录文字：带淡入淡出动画 */
 .random-quote {
 	font-size: 14px;
-	color: var(--text-primary);
+	font-weight: 500;
 	line-height: 1.8;
+	color: var(--text-primary);
 	text-align: right;
+	letter-spacing: 1px;
+	word-break: break-all;
+	overflow-wrap: break-word;
+	text-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
 	opacity: 0;
 	transition: opacity 0.5s ease-in-out;
-	font-weight: 500;
-	letter-spacing: 1px;
-	word-break: break-word;
-	overflow-wrap: break-word;
-	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+/* 语录淡入状态 */
 .random-quote.fade-in {
 	opacity: 0.95;
 }
 
+/* 头部左侧区域 */
 .card-header-left {
 	display: flex;
-	flex-direction: column;
 	flex-shrink: 0;
+	flex-direction: column;
 }
 
+/* 卡片标题：渐变文字效果 */
 .side-card-title {
+	position: relative;
+	display: inline-block;
 	font-size: 24px;
 	font-weight: 800;
 	color: var(--text-primary);
-	background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
 	letter-spacing: 1px;
-	text-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
-	position: relative;
-	display: inline-block;
+	text-shadow: 0 2px 8px rgb(102 126 234 / 0.2);
+	background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
+/* ==================== 仪表板侧边栏 ==================== */
+.dashboard-side {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	min-width: 0;
+}
+
+/* 侧边栏卡片：玻璃拟态设计 */
+.side-card {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 0 24px;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.1) 0%, rgb(0 242 254 / 0.08) 100%);
+	border: 1px solid rgb(102 126 234 / 0.2);
+	border-radius: 20px;
+	box-shadow: var(--shadow-lg);
+	backdrop-filter: blur(20px);
+}
+
+/* 卡片头部区域 */
+.side-card-header {
+	position: relative;
+	display: flex;
+	flex-shrink: 0;
+	gap: 12px;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 0;
+	padding-bottom: 10px;
+	margin-top: 1%;
+	margin-bottom: 12px;
+	border-bottom: 1px solid rgb(102 126 234 / 0.15);
+}
+
+/* 卡片主体：10列网格布局 */
 .side-card-body {
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat(10, minmax(0, 1fr));
 	grid-auto-rows: min-content;
 	gap: 6px;
-	width: 100%;
 	align-items: start;
-	position: relative;
+	width: 100%;
 	padding-top: 10px;
 	overflow: hidden;
 }
 
-/* 全部成员块对角线光影扫过效果 */
+.random-quote {
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.8;
+	color: var(--text-primary);
+	text-align: right;
+	letter-spacing: 1px;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	text-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+}
+
+/* 语录淡入状态 */
+.random-quote.fade-in {
+	opacity: 0.95;
+}
+
+/* 头部左侧区域 */
+.card-header-left {
+	display: flex;
+	flex-shrink: 0;
+	flex-direction: column;
+}
+
+/* 卡片标题：渐变文字效果 */
+.side-card-title {
+	position: relative;
+	display: inline-block;
+	font-size: 24px;
+	font-weight: 800;
+	color: var(--text-primary);
+	letter-spacing: 1px;
+	text-shadow: 0 2px 8px rgb(102 126 234 / 0.2);
+	background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+/* 卡片主体：10列网格布局 */
+.side-card-body {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(10, minmax(0, 1fr));
+	grid-auto-rows: min-content;
+	gap: 6px;
+	align-items: start;
+	width: 100%;
+	padding-top: 10px;
+	overflow: hidden;
+}
+
+/**
+ * ==================== 对角线光影扫过效果 ====================
+ * 为整个成员区域添加动态光影，增强视觉吸引力
+ * 使用伪元素::after创建光影层,通过动画实现对角线扫过效果
+ * ==================================================
+ */
 .side-card-body::after {
-	content: '';
-	position: absolute;
-	top: -50%;
-	left: -50%;
-	width: 200%;
-	height: 200%;
+	position: absolute; /* 绝对定位 */
+	top: -50%; /* 从上方50%位置开始 */
+	left: -50%; /* 从左侧50%位置开始 */
+	z-index: 10; /* 层级高于内容 */
+	width: 200%; /* 宽度为容器的2倍,确保覆盖整个区域 */
+	height: 200%; /* 高度为容器的2倍,确保覆盖整个区域 */
+	pointer-events: none; /* 不响应鼠标事件 */
+	content: ''; /* 创建伪元素 */
+
+	/**
+	 * 渐变背景
+	 * @description 135度对角线渐变,中间50%位置为半透明白色,两端透明
+	 * 形成一条斜向的光影带
+	 */
 	background: linear-gradient(
 		135deg,
 		transparent 30%,
-		rgba(255, 255, 255, 0.15) 50%,
+		rgb(255 255 255 / 0.15) 50%,
 		transparent 70%
 	);
-	transform: translate(-100%, -100%);
-	animation: diagonal-sweep 3s ease-in-out infinite;
-	pointer-events: none;
-	z-index: 10;
+	transform: translate(-100%, -100%); /* 初始位置:左上角外 */
+	animation: diagonal-sweep 3s ease-in-out infinite; /* 3秒循环动画 */
 }
 
+/**
+ * 对角线扫过动画
+ * @description 光影从左上角移动到右下角,实现扫过效果
+ * 0-10%:淡入,10-90%:保持可见,90-100%:淡出
+ */
 @keyframes diagonal-sweep {
 	0% {
-		transform: translate(-100%, -100%);
-		opacity: 0;
+		opacity: 0; /* 完全透明 */
+		transform: translate(-100%, -100%); /* 起始位置:左上角外 */
 	}
+
 	10% {
-		opacity: 1;
+		opacity: 1; /* 淡入完成 */
 	}
+
 	90% {
-		opacity: 1;
+		opacity: 1; /* 保持可见 */
 	}
+
 	100% {
-		transform: translate(100%, 100%);
-		opacity: 0;
+		opacity: 0; /* 完全透明 */
+		transform: translate(100%, 100%); /* 结束位置:右下角外 */
 	}
 }
 
-
+/**
+ * ==================== 成员卡片 ====================
+ * 学生信息卡片的基础样式
+ * 使用玻璃拟态设计,带进入动画和悬停效果
+ */
 .side-student {
+	position: relative; /* 相对定位,用于放置伪元素 */
+	z-index: 2; /* 层级高于背景 */
 	display: flex;
-	flex-direction: column;
-	gap: 7px;
-	padding: 12px;
-	border-radius: 10px;
-	background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
-	box-shadow: var(--shadow-card), 0 2px 8px rgba(102, 126, 234, 0.1);
-	position: relative;
-	overflow: visible;
-	min-height: 0;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	animation: card-enter 0.6s ease-out backwards;
-	z-index: 2;
+	flex-direction: column; /* 垂直布局 */
+	gap: 7px; /* 子元素间距 */
+	min-height: 0; /* 允许收缩 */
+	padding: 12px; /* 内边距 */
+	overflow: visible; /* 允许内容溢出,用于显示阴影等效果 */
+
+	/**
+	 * 渐变背景
+	 * @description 135度对角线渐变,从半透明白色到更透明的白色
+	 * 营造玻璃拟态效果
+	 */
+	background: linear-gradient(135deg, rgb(255 255 255 / 0.08) 0%, rgb(255 255 255 / 0.04) 100%);
+	border-radius: 10px; /* 圆角 */
+
+	/**
+	 * 阴影效果
+	 * @description 使用CSS变量和固定阴影组合,增强层次感
+	 */
+	box-shadow: var(--shadow-card), 0 2px 8px rgb(102 126 234 / 0.1);
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	animation: card-enter 0.6s ease-out backwards; /* 进入动画 */
 }
 
+/**
+ * 卡片边缘渐变边框效果
+ * @description 使用伪元素::before创建渐变边框
+ * 通过mask-composite实现边框效果,不占用额外空间
+ */
 .side-student::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	border-radius: 10px;
-	padding: 2px;
-	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(102, 126, 234, 0.08) 100%);
-	-webkit-mask-composite: xor;
-	mask-composite: exclude;
-	pointer-events: none;
-	z-index: 0;
+	position: absolute; /* 绝对定位 */
+	inset: 0; /* 覆盖整个卡片 */
+	z-index: 0; /* 层级低于内容 */
+	padding: 2px; /* 边框宽度 */
+	pointer-events: none; /* 不响应鼠标事件 */
+	content: ''; /* 创建伪元素 */
+
+	/**
+	 * 渐变背景
+	 * @description 135度渐变,60%之前透明,60%之后逐渐显示颜色
+	 * 形成右下角的渐变边框效果
+	 */
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgb(102 126 234 / 0.08) 100%);
+	border-radius: 10px; /* 与卡片相同的圆角 */
+	mask-composite: exclude; /* 标准遮罩合成方式,排除重叠部分 */
 }
 
+/* ==================== 成员等级样式 ==================== */
+
+/* 社团成员 - 蓝色主题 */
 .side-student.level-club-member {
-	background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.06) 100%);
+	background: linear-gradient(135deg, rgb(59 130 246 / 0.12) 0%, rgb(59 130 246 / 0.06) 100%);
 }
 
+/* 社团成员边框效果 */
 .side-student.level-club-member::before {
-	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(59, 130, 246, 0.12) 100%);
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgb(59 130 246 / 0.12) 100%);
 }
 
+/* 普通成员 - 绿色主题 */
 .side-student.level-normal-member {
-	background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%);
+	background: linear-gradient(135deg, rgb(34 197 94 / 0.12) 0%, rgb(34 197 94 / 0.06) 100%);
 }
 
+/* 普通成员边框效果 */
 .side-student.level-normal-member::before {
-	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(34, 197, 94, 0.12) 100%);
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgb(34 197 94 / 0.12) 100%);
 }
 
+/* 核心成员 - 黄色主题 */
 .side-student.level-core-member {
-	background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.06) 100%);
+	background: linear-gradient(135deg, rgb(251 191 36 / 0.12) 0%, rgb(251 191 36 / 0.06) 100%);
 }
 
+/* 核心成员边框效果 */
 .side-student.level-core-member::before {
-	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(251, 191, 36, 0.12) 100%);
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgb(251 191 36 / 0.12) 100%);
 }
 
+/* 管理员 - 红色主题 */
 .side-student.level-admin {
-	background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%);
+	background: linear-gradient(135deg, rgb(239 68 68 / 0.12) 0%, rgb(239 68 68 / 0.06) 100%);
 }
 
+/* 管理员边框效果 */
 .side-student.level-admin::before {
-	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(239, 68, 68, 0.12) 100%);
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgb(239 68 68 / 0.12) 100%);
 }
 
+/**
+ * 学生卡片进入动画延迟设置
+ * @description 为前12个卡片设置不同的动画延迟时间
+ * 实现依次出现的视觉效果,增强用户体验
+ * 每个卡片延迟0.1秒递增
+ */
 .side-student:nth-child(1) {
-	animation-delay: 0.1s;
+	animation-delay: 0.1s; /* 第1个卡片延迟0.1秒 */
 }
 
 .side-student:nth-child(2) {
-	animation-delay: 0.2s;
+	animation-delay: 0.2s; /* 第2个卡片延迟0.2秒 */
 }
 
 .side-student:nth-child(3) {
-	animation-delay: 0.3s;
+	animation-delay: 0.3s; /* 第3个卡片延迟0.3秒 */
 }
 
 .side-student:nth-child(4) {
-	animation-delay: 0.4s;
+	animation-delay: 0.4s; /* 第4个卡片延迟0.4秒 */
 }
 
 .side-student:nth-child(5) {
-	animation-delay: 0.5s;
+	animation-delay: 0.5s; /* 第5个卡片延迟0.5秒 */
 }
 
 .side-student:nth-child(6) {
-	animation-delay: 0.6s;
+	animation-delay: 0.6s; /* 第6个卡片延迟0.6秒 */
 }
 
 .side-student:nth-child(7) {
-	animation-delay: 0.7s;
+	animation-delay: 0.7s; /* 第7个卡片延迟0.7秒 */
 }
 
 .side-student:nth-child(8) {
-	animation-delay: 0.8s;
+	animation-delay: 0.8s; /* 第8个卡片延迟0.8秒 */
 }
 
 .side-student:nth-child(9) {
-	animation-delay: 0.9s;
+	animation-delay: 0.9s; /* 第9个卡片延迟0.9秒 */
 }
 
 .side-student:nth-child(10) {
-	animation-delay: 1.0s;
+	animation-delay: 1.0s; /* 第10个卡片延迟1.0秒 */
 }
 
 .side-student:nth-child(11) {
-	animation-delay: 1.1s;
+	animation-delay: 1.1s; /* 第11个卡片延迟1.1秒 */
 }
 
 .side-student:nth-child(12) {
-	animation-delay: 1.2s;
+	animation-delay: 1.2s; /* 第12个卡片延迟1.2秒 */
 }
 
-
+/**
+ * 占位符学生卡片样式
+ * @description 用于网格布局中的空位占位
+ * 降低不透明度,使用虚线边框,移除阴影和渐变边框
+ * 与真实卡片区分,避免视觉混乱
+ */
 .side-student.is-placeholder {
-	opacity: 0.6;
-	box-shadow: none;
-	background: rgba(255, 255, 255, 0.02);
-	border: 2px dashed rgba(102, 126, 234, 0.2);
+	background: rgb(255 255 255 / 0.02); /* 极淡的背景色 */
+	border: 2px dashed rgb(102 126 234 / 0.2); /* 虚线边框 */
+	box-shadow: none; /* 移除阴影 */
+	opacity: 0.6; /* 降低不透明度 */
 }
 
+/**
+ * 占位符卡片移除渐变边框
+ * @description 占位符卡片不需要渐变边框效果
+ */
 .side-student.is-placeholder::before {
-	display: none;
+	display: none; /* 隐藏伪元素 */
 }
 
 
+/**
+ * 学生信息容器
+ * @description Flex列布局,包含学生的详细信息
+ * 占据卡片的主要空间,支持内容溢出处理
+ */
 .side-info {
-	min-width: 0;
+	position: relative; /* 相对定位 */
+	z-index: 2; /* 层级高于背景 */
 	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	flex: 1;
-	justify-content: flex-start;
-	position: relative;
-	z-index: 2;
-	min-height: 0;
-	overflow: hidden;
+	flex: 1; /* 占据剩余空间 */
+	flex-direction: column; /* 垂直布局 */
+	gap: 8px; /* 子元素间距 */
+	justify-content: flex-start; /* 顶部对齐 */
+	min-width: 0; /* 允许收缩 */
+	min-height: 0; /* 允许收缩 */
+	overflow: hidden; /* 隐藏溢出内容 */
 }
 
+/**
+ * 头像区域
+ * @description 包含学生头像的容器区域
+ * Flex列布局,居中对齐
+ */
 .side-avatar-section {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 7px;
+	flex-direction: column; /* 垂直布局 */
+	gap: 7px; /* 子元素间距 */
+	align-items: center; /* 水平居中 */
 	margin-bottom: 0;
 }
 
+/**
+ * 学生头像容器
+ * @description 56px正方形头像容器
+ * 使用渐变背景作为默认头像,支持自定义头像图片
+ */
 .side-avatar {
+	position: relative; /* 相对定位,用于放置伪元素 */
+	display: flex;
+	flex-shrink: 0; /* 禁止收缩 */
+	align-items: center; /* 垂直居中 */
+	justify-content: center; /* 水平居中 */
 	width: 56px;
 	height: 56px;
+	overflow: hidden; /* 隐藏溢出内容 */
+	color: white; /* 图标颜色 */
+
+	/**
+	 * 默认渐变背景
+	 * @description 紫蓝色渐变,作为无头像时的默认显示
+	 */
 	background: linear-gradient(135deg, #667eea, #764ba2);
-	border-radius: 8px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: white;
-	box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
-	flex-shrink: 0;
-	position: relative;
-	overflow: hidden;
+	border-radius: 8px; /* 圆角 */
+	box-shadow: 0 2px 8px rgb(102 126 234 / 0.3); /* 阴影效果 */
 }
 
-
+/**
+ * 有头像时的样式
+ * @description 当学生上传了自定义头像时,背景设为透明
+ * 显示头像图片而非默认渐变背景
+ */
 .side-avatar.has-avatar {
-	background: transparent;
+	background: transparent; /* 透明背景 */
 }
 
+/**
+ * 无头像时的样式
+ * @description 当学生未上传头像时,使用渐变背景
+ * 显示默认图标
+ */
 .side-avatar.no-avatar {
-	background: linear-gradient(135deg, #667eea, #764ba2);
+	background: linear-gradient(135deg, #667eea, #764ba2); /* 渐变背景 */
 }
 
+/**
+ * 头像图片样式
+ * @description 自定义头像图片的样式
+ * 覆盖整个容器,保持比例裁剪
+ */
 .side-avatar .avatar-image {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 8px;
 	position: relative;
-	z-index: 0;
+	z-index: 0; /* 层级低于光泽效果 */
+	width: 100%; /* 宽度100% */
+	height: 100%; /* 高度100% */
+	object-fit: cover; /* 覆盖裁剪,保持比例 */
+	border-radius: 8px; /* 与容器相同的圆角 */
 }
 
 .side-avatar .avatar-icon {
-	color: white;
 	position: relative;
 	z-index: 0;
+	color: white;
 }
 
 
 .side-name {
-	font-size: 12px;
-	font-weight: 700;
-	color: var(--text-primary);
-	word-break: break-word;
-	line-height: 1.3;
-	letter-spacing: 0;
 	flex: 1;
 	min-width: 0;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--text-primary);
+	letter-spacing: 0;
+	word-break: break-all;
 }
 
 
 .side-content {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: 9px;
-	flex: 1;
 	min-width: 0;
 }
 
@@ -475,38 +740,37 @@ html.dark .slogan-img {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
+	width: 100%;
+	min-height: 0;
 	font-size: 10px;
 	color: var(--text-primary);
-	min-height: 0;
-	width: 100%;
 }
 
 .side-meta .meta-row {
 	display: flex;
-	flex-direction: row;
+	flex-flow: row nowrap;
 	gap: 4px;
-	flex-wrap: nowrap;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
 }
 
 .side-meta .meta-line {
-	padding: 2px 4px;
-	border-radius: 4px;
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.08) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	line-height: 1.3;
-	cursor: default;
-	width: fit-content;
-	flex: 0 0 auto;
-	box-sizing: border-box;
-	font-weight: 500;
-	box-shadow: var(--shadow-primary);
 	position: relative;
+	box-sizing: border-box;
+	flex: 0 0 auto;
+	width: fit-content;
+	padding: 2px 4px;
 	font-size: 10px;
-	white-space: nowrap;
+	font-weight: 500;
+	line-height: 1.3;
 	text-align: center;
+	white-space: nowrap;
+	cursor: default;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.12) 0%, rgb(0 242 254 / 0.08) 100%);
+	border: 1px solid rgb(102 126 234 / 0.2);
+	border-radius: 4px;
+	box-shadow: var(--shadow-primary);
 }
 
 .side-meta .meta-line-second {
@@ -517,54 +781,53 @@ html.dark .slogan-img {
 
 .unified-legend {
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	gap: 16px;
 	flex: 1;
+	flex-flow: row wrap;
+	gap: 16px;
+	align-items: center;
 	min-width: 0;
 	padding: 0;
 	border-bottom: none;
-	align-items: center;
 }
 
 .unified-legend .legend-section {
 	display: flex;
-	align-items: center;
-	gap: 16px;
 	flex-wrap: wrap;
+	gap: 16px;
+	align-items: center;
 }
 
 .unified-legend .legend-item {
 	display: inline-flex;
-	align-items: center;
 	gap: 8px;
-	color: var(--text-secondary);
+	align-items: center;
 	font-size: 12px;
+	color: var(--text-secondary);
 }
 
 .unified-legend .legend-dot {
+	display: inline-block;
+	flex-shrink: 0;
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
-	display: inline-block;
-	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
-	flex-shrink: 0;
+	box-shadow: 0 0 0 1px rgb(255 255 255 / 0.2);
 }
 
 .unified-legend .legend-club-member {
-	background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%);
+	background: linear-gradient(135deg, rgb(59 130 246 / 0.8) 0%, rgb(59 130 246 / 0.6) 100%);
 }
 
 .unified-legend .legend-normal-member {
-	background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.6) 100%);
+	background: linear-gradient(135deg, rgb(34 197 94 / 0.8) 0%, rgb(34 197 94 / 0.6) 100%);
 }
 
 .unified-legend .legend-core-member {
-	background: linear-gradient(135deg, rgba(251, 191, 36, 0.8) 0%, rgba(251, 191, 36, 0.6) 100%);
+	background: linear-gradient(135deg, rgb(251 191 36 / 0.8) 0%, rgb(251 191 36 / 0.6) 100%);
 }
 
 .unified-legend .legend-admin {
-	background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.6) 100%);
+	background: linear-gradient(135deg, rgb(239 68 68 / 0.8) 0%, rgb(239 68 68 / 0.6) 100%);
 }
 
 .unified-legend .legend-total {
@@ -587,80 +850,80 @@ html.dark .slogan-img {
 
 
 .unified-legend .hint-icon {
+	flex-shrink: 0;
 	font-size: 14px;
 	color: var(--primary-color);
-	flex-shrink: 0;
 }
 
 
 .side-points {
 	display: flex;
+	flex-shrink: 0;
 	flex-direction: column;
 	gap: 3px;
 	padding-top: 7px;
-	border-top: 1px solid rgba(102, 126, 234, 0.1);
-	flex-shrink: 0;
+	border-top: 1px solid rgb(102 126 234 / 0.1);
 }
 
 .points-total-row {
 	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
 	align-items: center;
 	justify-content: space-between;
-	gap: 6px;
-	flex-wrap: wrap;
 }
 
 .points-formula {
 	display: flex;
-	align-items: center;
-	gap: 4px;
-	flex-wrap: nowrap;
 	flex: 1;
+	flex-wrap: nowrap;
+	gap: 4px;
+	align-items: center;
 	min-width: 0;
 }
 
 .points-total {
+	flex-shrink: 0;
 	font-size: 14px;
 	font-weight: 800;
 	letter-spacing: 0;
-	flex-shrink: 0;
 }
 
 .points-equals {
-	color: var(--text-secondary);
-	font-size: 12px;
-	font-weight: 600;
 	flex-shrink: 0;
 	margin: 0 1px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-secondary);
 }
 
 .points-plus {
-	color: var(--text-secondary);
-	font-size: 12px;
-	font-weight: 600;
 	flex-shrink: 0;
 	margin: 0 1px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-secondary);
 }
 
 .points-total-main {
-	color: var(--primary-color) !important;
 	font-weight: 800;
+	color: var(--primary-color) !important;
 }
 
 .points-number {
-	font-weight: 700;
-	font-size: 11px;
 	flex-shrink: 0;
+	font-size: 11px;
+	font-weight: 700;
 }
 
 .points-number.points-signin {
-	color: #10b981 !important;
 	font-weight: 700;
+	color: #10b981 !important;
 }
 
 .points-number.points-activity {
-	color: #f59e0b !important;
 	font-weight: 700;
+	color: #f59e0b !important;
 }
 
 
@@ -673,28 +936,28 @@ html.dark .slogan-img {
 .side-empty {
 	display: flex;
 	flex-direction: column;
+	gap: 8px;
 	align-items: center;
 	justify-content: center;
-	gap: 8px;
-	color: var(--text-secondary);
 	padding: 32px 12px;
 	font-size: 13px;
+	color: var(--text-secondary);
 }
 
 .legend-item {
 	display: inline-flex;
-	align-items: center;
 	gap: 8px;
-	color: var(--text-secondary);
+	align-items: center;
 	font-size: 13px;
+	color: var(--text-secondary);
 }
 
 .legend-dot {
+	display: inline-block;
 	width: 12px;
 	height: 12px;
 	border-radius: 50%;
-	display: inline-block;
-	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+	box-shadow: 0 0 0 1px rgb(255 255 255 / 0.2);
 }
 
 .legend-signin {
@@ -706,24 +969,24 @@ html.dark .slogan-img {
 }
 
 .view-records-btn {
+	flex-shrink: 0;
 	width: 24px;
 	height: 24px;
 	padding: 0;
-	flex-shrink: 0;
-	backdrop-filter: blur(10px);
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.35);
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.12) 0%, rgb(0 242 254 / 0.1) 100%);
+	border: 1px solid rgb(102 126 234 / 0.35);
 	box-shadow: var(--shadow-primary);
+	backdrop-filter: blur(10px);
 }
 
 .records-loading,
 .records-empty {
 	display: flex;
 	flex-direction: column;
+	gap: 16px;
 	align-items: center;
 	justify-content: center;
 	padding: 60px 20px;
-	gap: 16px;
 	color: var(--text-secondary);
 }
 
@@ -734,46 +997,46 @@ html.dark .slogan-img {
 }
 
 .record-card {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.15);
-	border-radius: 12px;
 	padding: 16px;
-	backdrop-filter: blur(10px);
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.08) 0%, rgb(0 242 254 / 0.05) 100%);
+	border: 1px solid rgb(102 126 234 / 0.15);
+	border-radius: 12px;
 	box-shadow: var(--shadow-sm);
+	backdrop-filter: blur(10px);
 }
 
 .record-header {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
+	justify-content: space-between;
 	margin-bottom: 12px;
 }
 
 .record-time {
 	font-size: 13px;
-	color: var(--text-secondary);
 	font-weight: 500;
+	color: var(--text-secondary);
 }
 
 .record-points-badge {
+	min-width: 60px;
+	padding: 4px 12px;
 	font-size: 16px;
 	font-weight: 700;
-	padding: 4px 12px;
-	border-radius: 6px;
-	min-width: 60px;
 	text-align: center;
+	border-radius: 6px;
 }
 
 .record-points-badge.positive {
 	color: #10b981;
-	background: rgba(16, 185, 129, 0.15);
-	border: 1px solid rgba(16, 185, 129, 0.3);
+	background: rgb(16 185 129 / 0.15);
+	border: 1px solid rgb(16 185 129 / 0.3);
 }
 
 .record-points-badge.negative {
 	color: #ef4444;
-	background: rgba(239, 68, 68, 0.15);
-	border: 1px solid rgba(239, 68, 68, 0.3);
+	background: rgb(239 68 68 / 0.15);
+	border: 1px solid rgb(239 68 68 / 0.3);
 }
 
 /* 动画关键帧定义 */
@@ -782,6 +1045,7 @@ html.dark .slogan-img {
 		opacity: 0;
 		transform: translateY(20px) scale(0.95);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
@@ -791,70 +1055,79 @@ html.dark .slogan-img {
 
 .record-reason-text {
 	font-size: 14px;
-	color: var(--text-primary);
 	line-height: 1.6;
+	color: var(--text-primary);
 	word-break: break-word;
 }
 
+/* ==================== 统计数据展示 ==================== */
+
+/* 统计内容容器 */
 .statistics-content {
 	display: flex;
 	flex-direction: column;
 	gap: 24px;
 }
 
+/* 统计区域包装器 */
 .statistics-section-wrapper {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
 }
 
+/* 统计区域标题 */
 .statistics-section-title {
+	padding-bottom: 8px;
 	font-size: 16px;
 	font-weight: 700;
 	color: var(--primary-color);
-	padding-bottom: 8px;
-	border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+	border-bottom: 2px solid rgb(102 126 234 / 0.2);
 }
 
+/* 统计卡片网格 */
 .statistics-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 	gap: 12px;
 }
 
+/* 统计卡片 */
 .statistics-card {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.15);
-	border-radius: 10px;
-	padding: 16px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	gap: 8px;
-	backdrop-filter: blur(10px);
+	align-items: center;
+	padding: 16px;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.08) 0%, rgb(0 242 254 / 0.05) 100%);
+	border: 1px solid rgb(102 126 234 / 0.15);
+	border-radius: 10px;
 	box-shadow: var(--shadow-sm);
+	backdrop-filter: blur(10px);
 	transition: all 0.3s ease;
 }
 
+/* 统计卡片悬停效果 */
 .statistics-card:hover {
-	transform: translateY(-2px);
+	border-color: rgb(102 126 234 / 0.3);
 	box-shadow: var(--shadow-md);
-	border-color: rgba(102, 126, 234, 0.3);
+	transform: translateY(-2px);
 }
 
+/* 统计卡片标签 */
 .statistics-card-label {
 	font-size: 13px;
-	color: var(--text-secondary);
 	font-weight: 500;
+	color: var(--text-secondary);
 	text-align: center;
 }
 
+/* 统计卡片数值 - 使用渐变文字 */
 .statistics-card-value {
 	font-size: 20px;
 	font-weight: 700;
 	color: var(--primary-color);
 	background: linear-gradient(135deg, var(--primary-color), #00d4ff);
-	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 }

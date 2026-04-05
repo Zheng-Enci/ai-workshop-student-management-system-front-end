@@ -1,0 +1,181 @@
+/**
+ * 搜索区域样式
+ * 用于移动端学生管理页面的搜索功能组件
+ * 包含搜索输入框的样式定义，支持日间和夜间两种主题模式
+ */
+
+/* ========================================
+ * 搜索容器样式
+ * ======================================== */
+
+/**
+ * 搜索区域主容器
+ * 负责控制搜索区域的整体布局和间距
+ */
+.search {
+	padding: 12px 16px;           /* 上下12px，左右16px的内边距，保证内容不贴边 */
+	width: 100%;                   /* 容器宽度占满父元素 */
+	box-sizing: border-box;        /* 盒模型设置为border-box，padding不增加总宽度 */
+}
+
+/* ========================================
+ * Element Plus 搜索输入框样式
+ * ======================================== */
+
+/**
+ * 搜索输入框容器
+ * 使用 :deep() 深度选择器穿透 Element Plus 组件样式作用域
+ * 确保宽度设置能正确应用到内部组件
+ */
+.search :deep(.el-input) {
+	width: 100%;                   /* 输入框宽度占满容器 */
+}
+
+/**
+ * 搜索输入框包装器
+ * Element Plus 组件的外层包装元素
+ * 控制输入框的圆角、内边距、阴影和边框样式
+ * 包含默认、悬停和聚焦三种状态的样式定义
+ */
+.search :deep(.el-input__wrapper) {
+	border-radius: 24px;           /* 24px圆角，创建胶囊状外观 */
+	padding: 8px 16px;            /* 内边距，为图标和文字预留空间 */
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  /* 轻微阴影，增加层次感 */
+	border: 1px solid #dcdfe6;     /* 默认边框颜色，灰色系 */
+	transition: all 0.3s ease;     /* 所有属性变化使用0.3s缓动过渡 */
+}
+
+/* 悬停状态：鼠标悬停时增强阴影效果和边框颜色 */
+.search :deep(.el-input__wrapper:hover) {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  /* 阴影加深，提升交互反馈 */
+	border-color: #c0c4cc;        /* 边框颜色变深，视觉上更明显 */
+}
+
+/* 聚焦状态：输入框获得焦点时使用主题蓝色，提供明确的焦点指示 */
+.search :deep(.el-input__wrapper.is-focus) {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);   /* 阴影进一步加深 */
+	border-color: #409eff;        /* Element Plus 主题蓝 */
+}
+
+/**
+ * 搜索输入框内部文本区域
+ * 控制输入文字的大小和颜色
+ */
+.search :deep(.el-input__inner) {
+	font-size: 14px;              /* 字体大小14px，适合移动端阅读 */
+	color: #333;                  /* 深灰色文字，保证可读性 */
+}
+
+/* ========================================
+ * 搜索图标样式
+ * ======================================== */
+
+/**
+ * 前缀图标容器
+ * 用于放置搜索图标
+ * 设置与输入框文字的间距
+ */
+.search :deep(.el-input__prefix) {
+	margin-right: 8px;            /* 图标右侧8px间距 */
+}
+
+/**
+ * 搜索图标本身
+ * 控制图标的大小和颜色
+ */
+.search :deep(.el-input__prefix .el-icon) {
+	font-size: 18px;              /* 图标大小18px，与输入框尺寸协调 */
+	color: #909399;               /* 浅灰色，不抢夺文字视觉重点 */
+}
+
+/* ========================================
+ * 清空按钮样式
+ * ======================================== */
+
+/**
+ * 后缀图标容器
+ * 用于放置清空按钮
+ * 设置与输入框文字的间距
+ */
+.search :deep(.el-input__suffix) {
+	margin-left: 8px;             /* 清空按钮左侧8px间距 */
+}
+
+/**
+ * 清空按钮
+ * 控制清空图标的大小、颜色和交互效果
+ */
+.search :deep(.el-input__clear) {
+	font-size: 14px;              /* 图标大小14px */
+	color: #909399;               /* 默认浅灰色 */
+	transition: color 0.3s ease;  /* 颜色变化使用0.3s缓动 */
+}
+
+/* 清空按钮悬停状态：使用主题蓝色提供交互反馈 */
+.search :deep(.el-input__clear:hover) {
+	color: #409eff;               /* Element Plus 主题蓝 */
+}
+
+/* ========================================
+ * 夜间模式样式
+ * ======================================== */
+
+/**
+ * 夜间模式输入框包装器
+ * 使用 :global(.dark) 全局选择器，匹配 body.dark 类
+ * 调整边框颜色和阴影以适应深色背景
+ */
+:global(.dark) .search :deep(.el-input__wrapper) {
+	border-color: rgba(255, 255, 255, 0.15);  /* 半透明白色边框，融入深色背景 */
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);   /* 增强阴影，确保深色模式下层次分明 */
+}
+
+/**
+ * 夜间模式悬停状态
+ * 边框和阴影强度增加，提升深色模式下的可感知性
+ */
+:global(.dark) .search :deep(.el-input__wrapper:hover) {
+	border-color: rgba(255, 255, 255, 0.25);  /* 边框透明度提升 */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* 阴影加深 */
+}
+
+/**
+ * 夜间模式聚焦状态
+ * 保留主题蓝色，但调整透明度以适配夜间主题
+ */
+:global(.dark) .search :deep(.el-input__wrapper.is-focus) {
+	border-color: rgba(64, 158, 255, 0.8);    /* 主题蓝，80%透明度 */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* 阴影进一步加深 */
+}
+
+/**
+ * 夜间模式输入框文字
+ * 使用浅灰色确保在深色背景上的可读性
+ */
+:global(.dark) .search :deep(.el-input__inner) {
+	color: #e5e5e5;               /* 浅灰色，与深色背景形成良好对比 */
+}
+
+/**
+ * 夜间模式搜索图标
+ * 调整为更浅的颜色以适配夜间主题
+ */
+:global(.dark) .search :deep(.el-input__prefix .el-icon) {
+	color: #a0a0a0;               /* 稍亮的灰色 */
+}
+
+/**
+ * 夜间模式清空按钮
+ * 默认状态使用浅灰色
+ */
+:global(.dark) .search :deep(.el-input__clear) {
+	color: #a0a0a0;               /* 与搜索图标保持一致的浅灰色 */
+}
+
+/**
+ * 夜间模式清空按钮悬停
+ * 保留主题蓝色以提供一致的交互反馈
+ */
+:global(.dark) .search :deep(.el-input__clear:hover) {
+	color: #409eff;               /* Element Plus 主题蓝，在夜间模式下更显眼 */
+}

@@ -1,14 +1,30 @@
+/**
+ * 注册页面样式文件
+ * 定义注册页面的所有样式规则，包括背景效果、表单样式、下拉选择器、响应式布局等
+ *
+ * @file RegisterPage.css
+ * @description 注册页面的完整样式定义，包含毛玻璃效果、渐变背景、动画、表单布局等
+ */
+
+/**
+ * 注册容器
+ * 全屏居中布局，使用主题背景色，支持垂直滚动
+ */
 .register-container {
 	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
-	padding: 20px 0;
+	padding: 20px 0; /* 上下留出空间 */
 	overflow: hidden;
 	background: var(--bg-primary);
 }
 
+/**
+ * 背景特效容器
+ * 固定定位，覆盖整个视口，用于放置动画背景元素
+ */
 .background-effects {
 	position: fixed;
 	top: 0;
@@ -16,17 +32,25 @@
 	z-index: 0;
 	width: 100%;
 	height: 100%;
-	pointer-events: none;
+	pointer-events: none; /* 不拦截鼠标事件 */
 }
 
+/**
+ * 渐变光球基础样式
+ * 用于创建浮动的背景装饰效果
+ */
 .gradient-orb {
 	position: absolute;
-	border-radius: 50%;
-	opacity: 0.3;
-	filter: blur(100px);
-	animation: float 20s ease-in-out infinite;
+	border-radius: 50%; /* 圆形 */
+	opacity: 0.3; /* 半透明 */
+	filter: blur(100px); /* 模糊效果 */
+	animation: float 20s ease-in-out infinite; /* 浮动动画 */
 }
 
+/**
+ * 第一个光球
+ * 位于左上角，紫色渐变
+ */
 .orb-1 {
 	top: 10%;
 	left: 10%;
@@ -36,24 +60,36 @@
 	animation-delay: 0s;
 }
 
+/**
+ * 第二个光球
+ * 位于右上角，粉红色渐变
+ */
 .orb-2 {
 	top: 60%;
 	right: 10%;
 	width: 200px;
 	height: 200px;
 	background: linear-gradient(135deg, #f093fb, #f5576c);
-	animation-delay: -7s;
+	animation-delay: -7s; /* 延迟启动，错开动画 */
 }
 
+/**
+ * 第三个光球
+ * 位于底部中央，蓝色渐变
+ */
 .orb-3 {
 	bottom: 20%;
 	left: 50%;
 	width: 250px;
 	height: 250px;
 	background: linear-gradient(135deg, #4facfe, #00f2fe);
-	animation-delay: -14s;
+	animation-delay: -14s; /* 延迟启动，错开动画 */
 }
 
+/**
+ * 浮动动画关键帧
+ * 定义光球的上下浮动和旋转动画
+ */
 @keyframes float {
 	0%, 100% {
 		transform: translateY(0) rotate(0deg);
@@ -147,10 +183,18 @@
 	margin-bottom: 0;
 }
 
+/**
+ * 密码表单项样式
+ * 密码字段的特殊间距
+ */
 .password-form-item {
 	margin-bottom: 16px;
 }
 
+/**
+ * 最后一个输入表单项样式
+ * 最后一个输入字段的底部间距
+ */
 .last-input-form-item {
 	margin-bottom: 20px;
 }
@@ -159,16 +203,27 @@
 	width: 100%;
 }
 
+/**
+ * 表单行容器
+ * 用于并排显示两个表单项（如年级和班级）
+ */
 .form-row {
 	display: flex;
-	gap: 16px;
+	gap: 16px; /* 表单项之间的间距 */
 	margin-bottom: 20px;
 }
 
+/**
+ * 表单项半宽样式
+ * 在form-row中占据一半宽度
+ */
 .form-item-half {
-	flex: 1;
+	flex: 1; /* 平均分配空间 */
 }
 
+/**
+ * 半宽表单项内容样式
+ */
 .form-item-half :deep(.el-form-item__content) {
 	width: 100%;
 }
@@ -229,16 +284,27 @@
 	color: var(--text-tertiary);
 }
 
+/**
+ * 自定义下拉选择器容器
+ * 用于年级、性别等下拉选择字段
+ */
 .custom-select {
 	position: relative;
-	z-index: 1;
+	z-index: 1; /* 确保下拉菜单在上层 */
 	width: 100%;
 }
 
+/**
+ * Element Plus选择器样式覆盖
+ */
 .custom-select :deep(.el-select) {
 	width: 100%;
 }
 
+/**
+ * Element Plus选择器包装器样式
+ * 毛玻璃效果，左侧留出图标空间，右侧留出下拉箭头空间
+ */
 .custom-select :deep(.el-select__wrapper) {
 	position: relative;
 	display: flex;
@@ -246,8 +312,8 @@
 	width: 100%;
 	height: 40px;
 	min-height: 40px;
-	padding-right: 40px;
-	padding-left: 48px;
+	padding-right: 40px; /* 为右侧下拉箭头留出空间 */
+	padding-left: 48px; /* 为左侧图标留出空间 */
 	cursor: pointer;
 	background: rgb(255 255 255 / 0.1);
 	border: 1px solid rgb(255 255 255 / 0.2);
@@ -256,11 +322,18 @@
 	transition: transform 0.3s ease;
 }
 
+/**
+ * 选择器悬停效果
+ */
 .custom-select :deep(.el-select__wrapper:hover) {
 	background: rgb(255 255 255 / 0.15);
 	border-color: rgb(255 255 255 / 0.4);
 }
 
+/**
+ * 选择器聚焦效果
+ * 增强背景和边框，添加焦点环
+ */
 .custom-select :deep(.el-select__wrapper.is-focus) {
 	background: rgb(255 255 255 / 0.2);
 	border-color: var(--primary-color);
@@ -409,6 +482,10 @@
 	text-decoration: underline;
 }
 
+/**
+ * 平板及以下设备响应式样式
+ * 屏幕宽度小于等于768px
+ */
 @media (width <= 768px) {
 	.home-btn {
 		top: 20px;
@@ -435,11 +512,13 @@
 		height: 70px;
 	}
 
+	/* 移动端表单行改为垂直排列 */
 	.form-row {
 		flex-direction: column;
 		gap: 0;
 	}
 
+	/* 移动端半宽表单项恢复全宽并添加底部间距 */
 	.form-item-half {
 		margin-bottom: 20px;
 	}
@@ -454,6 +533,10 @@
 	}
 }
 
+/**
+ * 小屏手机响应式样式
+ * 屏幕宽度小于等于480px
+ */
 @media (width <= 480px) {
 	.register-card {
 		padding: 24px 20px;

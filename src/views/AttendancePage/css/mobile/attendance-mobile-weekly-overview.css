@@ -1,0 +1,165 @@
+.attendance-mobile-weekly-overview-mobile {
+	margin-top: 0;
+	padding: 0;
+	width: 100%;
+	box-sizing: border-box;
+	background: transparent;
+	border-radius: 12px;
+}
+
+.attendance-mobile-weekly-overview-title-mobile {
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--text-primary, #1f2937);
+	margin-bottom: 16px;
+	text-align: center;
+}
+
+.attendance-mobile-weekly-overview-grid-mobile {
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
+}
+
+.attendance-mobile-weekly-overview-day-mobile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 12px;
+	font-weight: 600;
+	transition: all 0.2s ease;
+	position: relative;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile::before {
+	content: '';
+	position: absolute;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: var(--card-background, #ffffff);
+	z-index: 1;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile span,
+.attendance-mobile-weekly-overview-circle-mobile .slot-count {
+	position: relative;
+	z-index: 2;
+	color: var(--text-primary, #1f2937);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.today::after {
+	content: '';
+	position: absolute;
+	inset: -3px;
+	border-radius: 50%;
+	border: 2px solid #667eea;
+	z-index: 3;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.future {
+	opacity: 0.4;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-morning {
+	background: conic-gradient(#e5e7eb 0deg 240deg, #f59e0b 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-afternoon {
+	background: conic-gradient(#3b82f6 0deg 120deg, #e5e7eb 120deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-evening {
+	background: conic-gradient(#e5e7eb 0deg 120deg, #8b5cf6 120deg 240deg, #e5e7eb 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-morning-afternoon {
+	background: conic-gradient(#3b82f6 0deg 120deg, #e5e7eb 120deg 240deg, #f59e0b 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-morning-evening {
+	background: conic-gradient(#e5e7eb 0deg 120deg, #8b5cf6 120deg 240deg, #f59e0b 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evening {
+	background: conic-gradient(#3b82f6 0deg 120deg, #8b5cf6 120deg 240deg, #e5e7eb 240deg 360deg);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-all {
+	background: conic-gradient(#3b82f6 0deg 120deg, #8b5cf6 120deg 240deg, #f59e0b 240deg 360deg);
+	box-shadow: 0 0 8px 2px rgba(34, 197, 94, 0.6);
+}
+
+.attendance-mobile-weekly-overview-circle-mobile.slot-none {
+	background: #e5e7eb;
+}
+
+.attendance-mobile-weekly-overview-circle-mobile .slot-indicator {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.attendance-mobile-weekly-overview-day-name-mobile {
+	font-size: 11px;
+	color: var(--text-secondary, #6b7280);
+	font-weight: 500;
+}
+
+.attendance-mobile-weekly-overview-day-mobile.today .attendance-mobile-weekly-overview-day-name-mobile {
+	color: #667eea;
+	font-weight: 600;
+}
+
+html.dark .attendance-mobile-weekly-overview-title-mobile {
+	color: var(--text-primary, #f3f4f6);
+}
+
+html.dark .attendance-mobile-weekly-overview-day-name-mobile {
+	color: var(--text-secondary, #9ca3af);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-none {
+	background: #4b5563;
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile::before {
+	background: var(--card-background, #1f2937);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning {
+	background: conic-gradient(#4b5563 0deg 240deg, #f59e0b 240deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon {
+	background: conic-gradient(#3b82f6 0deg 120deg, #4b5563 120deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-evening {
+	background: conic-gradient(#4b5563 0deg 120deg, #8b5cf6 120deg 240deg, #4b5563 240deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning-afternoon {
+	background: conic-gradient(#3b82f6 0deg 120deg, #4b5563 120deg 240deg, #f59e0b 240deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning-evening {
+	background: conic-gradient(#4b5563 0deg 120deg, #8b5cf6 120deg 240deg, #f59e0b 240deg 360deg);
+}
+
+html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evening {
+	background: conic-gradient(#3b82f6 0deg 120deg, #8b5cf6 120deg 240deg, #4b5563 240deg 360deg);
+}

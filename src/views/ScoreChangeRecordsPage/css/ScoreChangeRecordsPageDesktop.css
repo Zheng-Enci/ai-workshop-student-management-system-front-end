@@ -1,299 +1,487 @@
+/**
+ * 积分变更记录页面 - 桌面端样式
+ * @file ScoreChangeRecordsPageDesktop.css
+ * @description 定义积分变更记录页面桌面端的样式，包括背景效果、统计卡片、记录列表等
+ */
+
+/* ==================== 页面容器 ==================== */
+
+/**
+ * 积分变更记录页面容器
+ * 设置页面最小高度和背景
+ */
 .score-change-records-container {
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-  background: var(--bg-primary);
+  position: relative; /* 相对定位 */
+  min-height: 100vh; /* 最小高度：视口高度 */
+  overflow: hidden; /* 隐藏溢出内容 */
+  background: var(--bg-primary); /* 主背景颜色 */
 }
 
+/* ==================== 背景效果 ==================== */
+
+/**
+ * 背景效果容器
+ * 固定在页面上的背景动画效果
+ */
 .background-effects {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  position: fixed; /* 固定定位 */
+  top: 0; /* 顶部对齐 */
+  left: 0; /* 左侧对齐 */
+  z-index: 0; /* 层级 */
+  width: 100%; /* 宽度100% */
+  height: 100%; /* 高度100% */
+  pointer-events: none; /* 不响应鼠标事件 */
 }
 
+/**
+ * 渐变光球
+ * 背景中的浮动光球效果
+ */
 .gradient-orb {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.3;
-  filter: blur(100px);
-  animation: float 20s ease-in-out infinite;
+  position: absolute; /* 绝对定位 */
+  border-radius: 50%; /* 圆形 */
+  opacity: 0.3; /* 透明度 */
+  filter: blur(100px); /* 模糊效果 */
+  animation: float 20s ease-in-out infinite; /* 浮动动画 */
 }
 
+/**
+ * 第一个光球
+ * 左上角位置的蓝紫色光球
+ */
 .orb-1 {
-  top: 10%;
-  left: 10%;
-  width: 300px;
-  height: 300px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  animation-delay: 0s;
+  top: 10%; /* 距离顶部10% */
+  left: 10%; /* 距离左侧10% */
+  width: 300px; /* 宽度 */
+  height: 300px; /* 高度 */
+  background: linear-gradient(135deg, #667eea, #764ba2); /* 蓝紫色渐变 */
+  animation-delay: 0s; /* 动画延迟 */
 }
 
+/**
+ * 第二个光球
+ * 右上角位置的粉红色光球
+ */
 .orb-2 {
-  top: 60%;
-  right: 10%;
-  width: 200px;
-  height: 200px;
-  background: linear-gradient(135deg, #f093fb, #f5576c);
-  animation-delay: -7s;
+  top: 60%; /* 距离顶部60% */
+  right: 10%; /* 距离右侧10% */
+  width: 200px; /* 宽度 */
+  height: 200px; /* 高度 */
+  background: linear-gradient(135deg, #f093fb, #f5576c); /* 粉红色渐变 */
+  animation-delay: -7s; /* 动画延迟 */
 }
 
+/**
+ * 第三个光球
+ * 左下角位置的青色光球
+ */
 .orb-3 {
-  bottom: 20%;
-  left: 50%;
-  width: 250px;
-  height: 250px;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  animation-delay: -14s;
+  bottom: 20%; /* 距离底部20% */
+  left: 50%; /* 距离左侧50% */
+  width: 250px; /* 宽度 */
+  height: 250px; /* 高度 */
+  background: linear-gradient(135deg, #4facfe, #00f2fe); /* 青色渐变 */
+  animation-delay: -14s; /* 动画延迟 */
 }
 
+/**
+ * 浮动动画
+ * 光球的上下浮动和旋转动画
+ */
 @keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-30px) rotate(120deg); }
-  66% { transform: translateY(30px) rotate(240deg); }
+  0%, 100% { transform: translateY(0) rotate(0deg); } /* 初始和结束位置 */
+  33% { transform: translateY(-30px) rotate(120deg); } /* 向上移动并旋转 */
+  66% { transform: translateY(30px) rotate(240deg); } /* 向下移动并旋转 */
 }
 
+/* ==================== 页面头部 ==================== */
+
+/**
+ * 页面头部
+ * 包含返回按钮、Logo和标题
+ */
 .header {
-  position: relative;
-  z-index: 10;
-  padding: 24px 60px;
-  background: rgb(255 255 255 / 0.05);
-  border-bottom: 1px solid rgb(255 255 255 / 0.1);
-  backdrop-filter: blur(20px);
+  position: relative; /* 相对定位 */
+  z-index: 10; /* 层级 */
+  padding: 24px 60px; /* 内边距 */
+  background: rgb(255 255 255 / 0.05); /* 半透明背景 */
+  border-bottom: 1px solid rgb(255 255 255 / 0.1); /* 底部边框 */
+  backdrop-filter: blur(20px); /* 背景模糊效果 */
 }
 
+/**
+ * 头部左侧区域
+ * 包含返回按钮和Logo
+ */
 .header-left {
-  display: flex;
-  gap: 20px;
-  align-items: center;
+  display: flex; /* 弹性布局 */
+  gap: 20px; /* 子元素间距 */
+  align-items: center; /* 垂直居中 */
 }
 
+/**
+ * 返回按钮
+ * 返回上一页的按钮样式
+ */
 .back-btn {
-  width: 44px;
-  height: 44px;
-  background: var(--primary-color);
-  border: none;
-  box-shadow: 0 4px 16px rgb(102 126 234 / 0.25);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 44px; /* 宽度 */
+  height: 44px; /* 高度 */
+  background: var(--primary-color); /* 主色背景 */
+  border: none; /* 无边框 */
+  box-shadow: 0 4px 16px rgb(102 126 234 / 0.25); /* 阴影效果 */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡动画 */
 }
 
+/**
+ * 返回按钮悬停效果
+ * 鼠标悬停时上移并增强阴影
+ */
 .back-btn:hover {
-  box-shadow: 0 6px 20px rgb(102 126 234 / 0.35);
-  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgb(102 126 234 / 0.35); /* 增强阴影 */
+  transform: translateY(-2px); /* 向上移动 */
 }
 
+/**
+ * Logo图片
+ * 应用Logo，支持点击和悬停效果
+ */
 .logo {
-  width: 56px;
-  height: 56px;
-  cursor: pointer;
-  border-radius: 14px;
-  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 56px; /* 宽度 */
+  height: 56px; /* 高度 */
+  cursor: pointer; /* 鼠标指针样式 */
+  border-radius: 14px; /* 圆角 */
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡动画 */
 }
 
+/**
+ * Logo悬停效果
+ * 鼠标悬停时放大、旋转并增加亮度
+ */
 .logo:hover {
-  filter: brightness(1.15);
-  transform: scale(1.05) rotate(3deg);
+  filter: brightness(1.15); /* 增加亮度 */
+  transform: scale(1.05) rotate(3deg); /* 放大并旋转 */
 }
 
+/**
+ * 标题区域标题
+ * 页面主标题，使用渐变色文字效果
+ */
 .title-section h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  margin: 0; /* 无外边距 */
+  font-size: 28px; /* 字体大小 */
+  font-weight: 700; /* 字体粗细 */
+  letter-spacing: -0.5px; /* 字母间距 */
+  background: linear-gradient(135deg, #667eea, #764ba2); /* 渐变背景 */
+  background-clip: text; /* 文字裁剪 */
+  -webkit-text-fill-color: transparent; /* WebKit浏览器文字透明 */
 }
 
+/**
+ * 标题区域副标题
+ * 页面副标题文字
+ */
 .title-section p {
-  margin: 4px 0 0;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
+  margin: 4px 0 0; /* 外边距 */
+  font-size: 14px; /* 字体大小 */
+  font-weight: 500; /* 字体粗细 */
+  color: var(--text-secondary); /* 次要文字颜色 */
 }
 
+/* ==================== 主要内容区域 ==================== */
+
+/**
+ * 主要内容区域
+ * 页面主要内容容器
+ */
 .main-content {
-  position: relative;
-  z-index: 10;
-  min-height: calc(100vh - 200px);
-  padding: 40px 60px 60px;
+  position: relative; /* 相对定位 */
+  z-index: 10; /* 层级 */
+  min-height: calc(100vh - 200px); /* 最小高度 */
+  padding: 40px 60px 60px; /* 内边距 */
 }
 
+/**
+ * 内容包装器
+ * 限制内容最大宽度并居中
+ */
 .content-wrapper {
-  max-width: 1400px;
-  margin: 0 auto;
+  max-width: 1400px; /* 最大宽度 */
+  margin: 0 auto; /* 水平居中 */
 }
 
+/* ==================== 统计卡片 ==================== */
+
+/**
+ * 统计卡片网格
+ * 四列网格布局，显示各种统计数据
+ */
 .stats-card {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin-bottom: 40px;
+  display: grid; /* 网格布局 */
+  grid-template-columns: repeat(4, 1fr); /* 四列等宽 */
+  gap: 24px; /* 卡片间距 */
+  margin-bottom: 40px; /* 底部外边距 */
 }
 
+/**
+ * 统计项
+ * 单个统计数据的卡片样式
+ */
 .stats-item {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  padding: 24px;
-  background: rgb(255 255 255 / 0.08);
-  border: 1px solid rgb(255 255 255 / 0.15);
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
-  backdrop-filter: blur(20px);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex; /* 弹性布局 */
+  gap: 16px; /* 子元素间距 */
+  align-items: center; /* 垂直居中 */
+  padding: 24px; /* 内边距 */
+  background: rgb(255 255 255 / 0.08); /* 半透明背景 */
+  border: 1px solid rgb(255 255 255 / 0.15); /* 半透明边框 */
+  border-radius: 16px; /* 圆角 */
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.1); /* 阴影效果 */
+  backdrop-filter: blur(20px); /* 背景模糊效果 */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡动画 */
 }
 
+/**
+ * 统计项悬停效果
+ * 鼠标悬停时上移并增强背景和阴影
+ */
 .stats-item:hover {
-  background: rgb(255 255 255 / 0.12);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 0.15);
-  transform: translateY(-4px);
+  background: rgb(255 255 255 / 0.12); /* 增强背景透明度 */
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.15); /* 增强阴影 */
+  transform: translateY(-4px); /* 向上移动 */
 }
 
+/**
+ * 统计图标
+ * 统计数据的图标容器
+ */
 .stats-icon {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  display: flex; /* 弹性布局 */
+  flex-shrink: 0; /* 不允许收缩 */
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+  width: 48px; /* 宽度 */
+  height: 48px; /* 高度 */
+  border-radius: 12px; /* 圆角 */
 }
 
+/**
+ * 总积分图标
+ * 使用蓝紫色主题
+ */
 .stats-icon.total {
-  color: #667eea;
-  background: rgb(102 126 234 / 0.2);
+  color: #667eea; /* 蓝紫色文字 */
+  background: rgb(102 126 234 / 0.2); /* 半透明蓝紫色背景 */
 }
 
+/**
+ * 正积分图标
+ * 使用绿色主题
+ */
 .stats-icon.positive {
-  color: #10b981;
-  background: rgb(16 185 129 / 0.2);
+  color: #10b981; /* 绿色文字 */
+  background: rgb(16 185 129 / 0.2); /* 半透明绿色背景 */
 }
 
+/**
+ * 负积分图标
+ * 使用红色主题
+ */
 .stats-icon.negative {
-  color: #ef4444;
-  background: rgb(239 68 68 / 0.2);
+  color: #ef4444; /* 红色文字 */
+  background: rgb(239 68 68 / 0.2); /* 半透明红色背景 */
 }
 
+/**
+ * 积分图标
+ * 使用黄色主题
+ */
 .stats-icon.points {
-  color: #fbbf24;
-  background: rgb(251 191 36 / 0.2);
+  color: #fbbf24; /* 黄色文字 */
+  background: rgb(251 191 36 / 0.2); /* 半透明黄色背景 */
 }
 
+/**
+ * 统计信息容器
+ * 包含统计标签和数值
+ */
 .stats-info {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 4px;
+  display: flex; /* 弹性布局 */
+  flex: 1; /* 占据剩余空间 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 4px; /* 子元素间距 */
 }
 
+/**
+ * 统计标签
+ * 统计数据的标签文字
+ */
 .stats-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
+  font-size: 13px; /* 字体大小 */
+  font-weight: 500; /* 字体粗细 */
+  color: var(--text-secondary); /* 次要文字颜色 */
 }
 
+/**
+ * 统计数值
+ * 统计数据的主要数值
+ */
 .stats-value {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-primary);
+  font-size: 24px; /* 字体大小 */
+  font-weight: 700; /* 字体粗细 */
+  color: var(--text-primary); /* 主文字颜色 */
 }
 
+/* ==================== 加载和空状态 ==================== */
+
+/**
+ * 加载容器和空状态容器
+ * 显示加载动画或空状态提示
+ */
 .loading-container,
 .empty-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 20px;
-  color: var(--text-secondary);
+  display: flex; /* 弹性布局 */
+  flex-direction: column; /* 垂直排列 */
+  gap: 16px; /* 子元素间距 */
+  align-items: center; /* 水平居中 */
+  justify-content: center; /* 垂直居中 */
+  padding: 80px 20px; /* 内边距 */
+  color: var(--text-secondary); /* 次要文字颜色 */
 }
 
+/**
+ * 加载图标
+ * 加载状态的图标样式
+ */
 .loading-container .el-icon {
-  font-size: 48px;
-  color: var(--primary-color);
+  font-size: 48px; /* 字体大小 */
+  color: var(--primary-color); /* 主色 */
 }
 
+/**
+ * 空状态图标
+ * 空状态的图标样式
+ */
 .empty-container .el-icon {
-  font-size: 64px;
-  color: var(--text-secondary);
-  opacity: 0.5;
+  font-size: 64px; /* 字体大小 */
+  color: var(--text-secondary); /* 次要文字颜色 */
+  opacity: 0.5; /* 透明度 */
 }
 
+/**
+ * 加载和空状态文字
+ * 提示文字样式
+ */
 .loading-container span,
 .empty-container span {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 16px; /* 字体大小 */
+  font-weight: 500; /* 字体粗细 */
 }
 
+/* ==================== 记录列表 ==================== */
+
+/**
+ * 记录容器
+ * 积分变更记录的容器
+ */
 .records-container {
-  width: 100%;
+  width: 100%; /* 宽度100% */
 }
 
+/**
+ * 记录网格
+ * 响应式网格布局，自动填充列
+ */
 .records-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
+  display: grid; /* 网格布局 */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* 自动填充，最小320px */
+  gap: 20px; /* 卡片间距 */
 }
 
+/**
+ * 记录卡片
+ * 单个积分变更记录的卡片样式
+ */
 .record-card {
-  padding: 20px;
-  background: linear-gradient(135deg, rgb(102 126 234 / 0.08) 0%, rgb(0 242 254 / 0.05) 100%);
-  border: 1px solid rgb(102 126 234 / 0.15);
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px; /* 内边距 */
+  background: linear-gradient(135deg, rgb(102 126 234 / 0.08) 0%, rgb(0 242 254 / 0.05) 100%); /* 渐变背景 */
+  border: 1px solid rgb(102 126 234 / 0.15); /* 半透明边框 */
+  border-radius: 16px; /* 圆角 */
+  box-shadow: 0 4px 20px rgb(0 0 0 / 0.1); /* 阴影效果 */
+  backdrop-filter: blur(10px); /* 背景模糊效果 */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡动画 */
 }
 
+/**
+ * 记录卡片悬停效果
+ * 鼠标悬停时上移并增强背景和边框
+ */
 .record-card:hover {
-  background: linear-gradient(135deg, rgb(102 126 234 / 0.12) 0%, rgb(0 242 254 / 0.08) 100%);
-  border-color: rgb(102 126 234 / 0.25);
-  box-shadow: 0 8px 32px rgb(0 0 0 / 0.15);
-  transform: translateY(-4px);
+  background: linear-gradient(135deg, rgb(102 126 234 / 0.12) 0%, rgb(0 242 254 / 0.08) 100%); /* 增强渐变背景 */
+  border-color: rgb(102 126 234 / 0.25); /* 增强边框 */
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.15); /* 增强阴影 */
+  transform: translateY(-4px); /* 向上移动 */
 }
 
+/**
+ * 记录头部
+ * 包含时间和积分变化量
+ */
 .record-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
+  display: flex; /* 弹性布局 */
+  align-items: center; /* 垂直居中 */
+  justify-content: space-between; /* 两端对齐 */
+  margin-bottom: 12px; /* 底部外边距 */
 }
 
+/**
+ * 记录时间
+ * 显示积分调整的时间
+ */
 .record-time {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
+  font-size: 13px; /* 字体大小 */
+  font-weight: 500; /* 字体粗细 */
+  color: var(--text-secondary); /* 次要文字颜色 */
 }
 
+/**
+ * 积分变化标签
+ * 显示积分变化量的标签
+ */
 .record-points-badge {
-  min-width: 70px;
-  padding: 6px 14px;
-  font-size: 16px;
-  font-weight: 700;
-  text-align: center;
-  border-radius: 8px;
+  min-width: 70px; /* 最小宽度 */
+  padding: 6px 14px; /* 内边距 */
+  font-size: 16px; /* 字体大小 */
+  font-weight: 700; /* 字体粗细 */
+  text-align: center; /* 文字居中 */
+  border-radius: 8px; /* 圆角 */
 }
 
+/**
+ * 正积分标签
+ * 显示增加的积分，使用绿色主题
+ */
 .record-points-badge.positive {
-  color: #10b981;
-  background: rgb(16 185 129 / 0.15);
-  border: 1px solid rgb(16 185 129 / 0.3);
+  color: #10b981; /* 绿色文字 */
+  background: rgb(16 185 129 / 0.15); /* 半透明绿色背景 */
+  border: 1px solid rgb(16 185 129 / 0.3); /* 半透明绿色边框 */
 }
 
+/**
+ * 负积分标签
+ * 显示减少的积分，使用红色主题
+ */
 .record-points-badge.negative {
-  color: #ef4444;
-  background: rgb(239 68 68 / 0.15);
-  border: 1px solid rgb(239 68 68 / 0.3);
+  color: #ef4444; /* 红色文字 */
+  background: rgb(239 68 68 / 0.15); /* 半透明红色背景 */
+  border: 1px solid rgb(239 68 68 / 0.3); /* 半透明红色边框 */
 }
 
+/**
+ * 调整原因文本
+ * 显示积分调整的原因说明
+ */
 .record-reason-text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-primary);
-  overflow-wrap: break-word;
+  font-size: 14px; /* 字体大小 */
+  line-height: 1.6; /* 行高 */
+  color: var(--text-primary); /* 主文字颜色 */
+  overflow-wrap: break-word; /* 允许在任意字符间换行 */
 }

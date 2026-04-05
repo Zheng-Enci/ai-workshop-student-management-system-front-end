@@ -1,4 +1,22 @@
+/* ========== 积分排行榜手机端页面样式 ========== */
 
+/* ========== CSS变量定义 ========== */
+
+/* 阴影系统 CSS 变量 - 根据主题模式调整 */
+/* 日间模式：使用深灰色阴影（而非纯黑色）增强对比度，不透明度 0.2-0.3，增大模糊半径和扩散范围 */
+/* 参考 Material Design 3、Ant Design、腾讯云等：避免纯黑色，使用深灰色 rgba(30-50, 30-50, 30-50) */
+:root {
+	--shadow-sm: 0 2px 12px rgba(30, 30, 30, 0.2), 0 1px 4px rgba(30, 30, 30, 0.15);
+	--shadow-md: 0 4px 20px rgba(40, 40, 40, 0.25), 0 2px 8px rgba(40, 40, 40, 0.18);
+	--shadow-lg: 0 8px 40px rgba(50, 50, 50, 0.3), 0 4px 16px rgba(50, 50, 50, 0.22), 0 2px 8px rgba(50, 50, 50, 0.15);
+	--shadow-primary: 0 2px 12px rgba(102, 126, 234, 0.35), 0 1px 4px rgba(102, 126, 234, 0.25);
+	--shadow-card: 0 4px 20px rgba(40, 40, 40, 0.25), 0 2px 8px rgba(40, 40, 40, 0.18);
+	--shadow-button: 0 8px 40px rgba(102, 126, 234, 0.5), 0 4px 16px rgba(102, 126, 234, 0.35);
+}
+
+/* ========== 页面容器 ========== */
+
+/* 积分排行榜主容器 - 占满全屏高度，使用CSS变量控制背景色，Flex列布局 */
 .points-dashboard-container {
 	min-height: 100vh;
 	background: var(--bg-primary);
@@ -6,6 +24,9 @@
 	flex-direction: column;
 }
 
+/* ========== 头部导航区域 ========== */
+
+/* 顶部导航栏 - 半透明毛玻璃效果，相对定位，z-index确保在最上层 */
 .header {
 	top: 0;
 	z-index: 100;
@@ -20,6 +41,7 @@
 	min-height: 60px;
 }
 
+/* 头部左侧区域 - 绝对定位，包含返回按钮和logo */
 .header-left {
 	display: flex;
 	align-items: center;
@@ -29,17 +51,20 @@
 	z-index: 1;
 }
 
+/* 防止按钮和logo被压缩，保持固定尺寸 */
 .header-left .back-btn,
 .header-left .logo {
 	flex-shrink: 0;
 }
 
+/* 头部右侧区域 - 用于放置其他操作按钮 */
 .header-right {
 	display: flex;
 	align-items: center;
 	gap: 20px;
 }
 
+/* 标语容器 - Flex布局，垂直居中 */
 .slogan {
 	display: flex;
 	align-items: center;
@@ -47,15 +72,18 @@
 	margin-right: 4px;
 }
 
+/* 标语图片 - 高度50px，支持颜色反转过渡动画 */
 .slogan-img {
 	height: 50px;
 	transition: filter 0.3s ease;
 }
 
+/* 暗黑模式下反转标语图片颜色 */
 html.dark .slogan-img {
 	filter: invert(1);
 }
 
+/* 返回按钮 - 44px正方形，使用主题色背景，禁止触摸延迟 */
 .back-btn {
 	width: 44px;
 	height: 44px;
@@ -63,10 +91,10 @@ html.dark .slogan-img {
 	min-height: 44px;
 	background: var(--primary-color);
 	border: none;
-	
 	touch-action: manipulation;
 }
 
+/* Logo图标 - 48px正方形，可点击，禁止触摸延迟 */
 .logo {
 	width: 48px;
 	height: 48px;
@@ -77,6 +105,13 @@ html.dark .slogan-img {
 	touch-action: manipulation;
 }
 
+/* ========== 标题区域 ========== */
+
+/**
+ * 标题区域
+ * @description Flex列布局,居中对齐,占据剩余空间
+ * 包含主标题、副标题和描述文字
+ */
 .title-section {
 	display: flex;
 	flex-direction: column;
@@ -85,6 +120,11 @@ html.dark .slogan-img {
 	flex: 1;
 }
 
+/**
+ * 主标题样式
+ * @description 12px超粗字体,使用渐变色文字效果(紫蓝色渐变)
+ * 通过background-clip实现文字渐变效果
+ */
 .title-section .main-title {
 	font-size: 12px;
 	font-weight: 800;
@@ -96,10 +136,14 @@ html.dark .slogan-img {
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 	letter-spacing: 1px;
-	
 	display: block;
 }
 
+/**
+ * 副标题样式
+ * @description 20px粗字体,同样使用渐变色效果
+ * 与主标题保持一致的视觉风格
+ */
 .title-section h1 {
 	font-size: 20px;
 	font-weight: 700;
@@ -110,6 +154,11 @@ html.dark .slogan-img {
 	background-clip: text;
 }
 
+/**
+ * 描述文字样式
+ * @description 12px中等字重,使用次要文字颜色
+ * 用于显示页面说明或补充信息
+ */
 .title-section p {
 	font-size: 12px;
 	color: var(--text-secondary);
@@ -117,6 +166,9 @@ html.dark .slogan-img {
 	font-weight: 500;
 }
 
+/* ========== 主内容区域 ========== */
+
+/* 主内容容器 - 内边距12px，占据剩余高度 */
 .main-content {
 	padding: 12px;
 	max-width: 100%;
@@ -126,6 +178,7 @@ html.dark .slogan-img {
 	flex-direction: column;
 }
 
+/* 仪表板布局 - Flex列布局，16px间距 */
 .dashboard-layout {
 	display: flex;
 	flex-direction: column;
@@ -134,76 +187,116 @@ html.dark .slogan-img {
 	min-height: 0;
 }
 
+/* 主内容区域 - 宽度100%，防止溢出 */
 .dashboard-main {
 	min-width: 0;
 	width: 100%;
 	max-width: 100%;
 }
 
+/**
+ * 排行榜标签页容器
+ * @description Flex列布局,包含排行榜的导航和内容
+ * 宽度100%,无外边距,子元素无间距
+ */
 .ranking-tabs {
 	width: 100%;
 	margin-left: 0;
 	margin-top: 0;
 	display: flex;
-	flex-direction: column;
-	gap: 0;
+	flex-direction: column; /* 垂直布局 */
+	gap: 0; /* 无间距 */
 }
 
+/**
+ * 排行榜顶部栏
+ * @description 包含导航箭头和标签的顶部控制栏
+ * Flex布局,两端对齐,支持换行以适应小屏幕
+ */
 .ranking-topbar {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 8px;
-	flex-wrap: wrap;
-	flex-shrink: 0;
+	align-items: center; /* 垂直居中 */
+	justify-content: space-between; /* 两端对齐 */
+	gap: 8px; /* 子元素间距 */
+	flex-wrap: wrap; /* 允许换行 */
+	flex-shrink: 0; /* 禁止收缩 */
 	width: 100%;
 	margin-bottom: 1%;
 }
 
+/**
+ * 排行榜导航箭头容器
+ * @description 包含左右切换箭头的容器
+ * 毛玻璃背景效果,圆角边框,带模糊效果
+ */
 .ranking-arrows {
 	display: flex;
-	gap: 2px;
-	align-items: center;
+	gap: 2px; /* 箭头按钮间距 */
+	align-items: center; /* 垂直居中 */
 	margin-bottom: 0;
+	/**
+	 * 毛玻璃背景
+	 * @description 半透明白色背景,配合backdrop-filter实现毛玻璃效果
+	 */
 	background: rgba(255, 255, 255, 0.6);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	border-radius: 6px;
-	padding: 2px 4px;
-	backdrop-filter: blur(6px);
+	border: 1px solid rgba(102, 126, 234, 0.2); /* 主题色边框 */
+	border-radius: 6px; /* 圆角 */
+	padding: 2px 4px; /* 内边距 */
+	backdrop-filter: blur(6px); /* 背景模糊效果 */
 }
 
+/**
+ * 暗黑模式下的箭头按钮样式
+ * @description 深色背景,浅色边框,适配暗色主题
+ */
 html.dark .ranking-arrows {
-	background: rgba(15, 23, 42, 0.65);
-	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: rgba(15, 23, 42, 0.65); /* 深色半透明背景 */
+	border: 1px solid rgba(255, 255, 255, 0.08); /* 浅色边框 */
 }
 
+/**
+ * 箭头按钮内的小按钮
+ * @description Element Plus按钮在箭头容器内的样式
+ * 22px正方形,优化移动端触摸体验
+ */
 .ranking-arrows .el-button {
-	padding: 1px;
-	width: 22px;
-	height: 22px;
-	min-width: 22px;
-	min-height: 22px;
-	touch-action: manipulation;
+	padding: 1px; /* 最小内边距 */
+	width: 22px; /* 固定宽度 */
+	height: 22px; /* 固定高度 */
+	min-width: 22px; /* 最小宽度 */
+	min-height: 22px; /* 最小高度 */
+	touch-action: manipulation; /* 优化移动端触摸,禁用双击缩放 */
 }
 
+/**
+ * 排行榜标签
+ * @description 显示当前排行榜类型的标签
+ * 9px超粗字体,圆角背景,主题色边框
+ */
 .ranking-label {
-	font-size: 9px;
-	font-weight: 700;
-	color: var(--text-primary);
-	padding: 1px 4px;
-	border-radius: 4px;
-	background: rgba(102, 126, 234, 0.1);
-	border: 1px solid rgba(102, 126, 234, 0.2);
-	line-height: 12px;
-	white-space: nowrap;
+	font-size: 9px; /* 小号字体 */
+	font-weight: 700; /* 超粗字重 */
+	color: var(--text-primary); /* 主文本色 */
+	padding: 1px 4px; /* 内边距 */
+	border-radius: 4px; /* 圆角 */
+	background: rgba(102, 126, 234, 0.1); /* 主题色半透明背景 */
+	border: 1px solid rgba(102, 126, 234, 0.2); /* 主题色边框 */
+	line-height: 12px; /* 行高 */
+	white-space: nowrap; /* 不换行 */
 }
 
+/**
+ * 暗黑模式下的标签样式
+ * @description 浅色背景和边框,适配暗色主题
+ */
 html.dark .ranking-label {
-	background: rgba(255, 255, 255, 0.08);
-	border: 1px solid rgba(255, 255, 255, 0.12);
+	background: rgba(255, 255, 255, 0.08); /* 浅色半透明背景 */
+	border: 1px solid rgba(255, 255, 255, 0.12); /* 浅色边框 */
 }
 
+/* ========== 侧边栏区域 ========== */
 
+/* 侧边栏容器 - Flex列布局，支持溢出处理 */
 .dashboard-side {
 	min-width: 0;
 	width: 100%;
@@ -212,19 +305,20 @@ html.dark .ranking-label {
 	overflow: hidden;
 }
 
+/* 侧边卡片 - 毛玻璃背景，渐变边框，16px圆角 */
 .side-card {
 	background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
 	border: 1px solid rgba(102, 126, 234, 0.2);
 	border-radius: 16px;
 	padding: 0 16px 16px 16px;
 	backdrop-filter: blur(20px);
-	
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	overflow: visible;
 }
 
+/* 卡片头部 - Flex布局，两端对齐，底部边框分隔 */
 .side-card-header {
 	display: flex;
 	align-items: center;
@@ -238,12 +332,14 @@ html.dark .ranking-label {
 	flex-shrink: 0;
 }
 
+/* 卡片头部左侧 - Flex列布局，禁止压缩 */
 .card-header-left {
 	display: flex;
 	flex-direction: column;
 	flex-shrink: 0;
 }
 
+/* 侧边卡片标题 - 渐变色文字，18px超粗字体 */
 .side-card-title {
 	font-size: 18px;
 	font-weight: 800;
@@ -253,11 +349,11 @@ html.dark .ranking-label {
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 	letter-spacing: 0;
-	
 	position: relative;
 	display: inline-block;
 }
 
+/* 卡片副标题 - 10px字体，次要文字颜色，降低不透明度 */
 .side-card-subtitle {
 	font-size: 10px;
 	color: var(--text-secondary);
@@ -266,6 +362,7 @@ html.dark .ranking-label {
 	line-height: 1.3;
 }
 
+/* 卡片主体内容 - 网格布局，2列自适应，顶部对齐 */
 .side-card-body {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -280,7 +377,9 @@ html.dark .ranking-label {
 	padding-top: 10px;
 }
 
+/* ========== 学生卡片 ========== */
 
+/* 侧边学生卡片 - Flex列布局，圆角背景，渐变边框，进入动画 */
 .side-student {
 	display: flex;
 	flex-direction: column;
@@ -289,7 +388,6 @@ html.dark .ranking-label {
 	border-radius: 8px;
 	background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
 	border: 2px solid rgba(102, 126, 234, 0.2);
-	
 	position: relative;
 	overflow: visible;
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -298,26 +396,31 @@ html.dark .ranking-label {
 	min-height: 0;
 }
 
+/* 社团成员等级卡片 - 蓝色主题 */
 .side-student.level-club-member {
 	background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.06) 100%);
 	border-color: rgba(59, 130, 246, 0.3);
 }
 
+/* 普通成员等级卡片 - 绿色主题 */
 .side-student.level-normal-member {
 	background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%);
 	border-color: rgba(34, 197, 94, 0.3);
 }
 
+/* 核心成员等级卡片 - 黄色主题 */
 .side-student.level-core-member {
 	background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.06) 100%);
 	border-color: rgba(251, 191, 36, 0.3);
 }
 
+/* 管理员等级卡片 - 红色主题 */
 .side-student.level-admin {
 	background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%);
 	border-color: rgba(239, 68, 68, 0.3);
 }
 
+/* 学生卡片进入动画延迟设置 - 第1-12个卡片依次延迟0.1-1.2秒 */
 .side-student:nth-child(1) {
 	animation-delay: 0.1s;
 }
@@ -366,7 +469,7 @@ html.dark .ranking-label {
 	animation-delay: 1.2s;
 }
 
-
+/* 占位符学生卡片 - 降低不透明度，使用虚线边框 */
 .side-student.is-placeholder {
 	opacity: 0.6;
 	border-style: dashed;
@@ -374,7 +477,9 @@ html.dark .ranking-label {
 	background: rgba(255, 255, 255, 0.02);
 }
 
+/* ========== 学生卡片内部组件 ========== */
 
+/* 学生信息容器 - Flex列布局，顶部对齐 */
 .side-info {
 	min-width: 0;
 	display: flex;
@@ -388,6 +493,7 @@ html.dark .ranking-label {
 	overflow: hidden;
 }
 
+/* 头像区域 - Flex列布局，居中对齐 */
 .side-avatar-section {
 	display: flex;
 	flex-direction: column;
@@ -396,6 +502,7 @@ html.dark .ranking-label {
 	margin-bottom: 0;
 }
 
+/* 学生头像 - 42px正方形，圆角，渐变背景 */
 .side-avatar {
 	width: 42px;
 	height: 42px;
@@ -405,12 +512,12 @@ html.dark .ranking-label {
 	align-items: center;
 	justify-content: center;
 	color: white;
-	
 	flex-shrink: 0;
 	position: relative;
 	overflow: hidden;
 }
 
+/* 头像光泽扫过效果 - 使用伪元素实现动画 */
 .side-avatar::before {
 	content: '';
 	position: absolute;
@@ -430,6 +537,7 @@ html.dark .ranking-label {
 	z-index: 1;
 }
 
+/* 头像光泽动画 - 从左上角到右下角扫过 */
 @keyframes avatarShine {
 	0% {
 		top: -200%;
@@ -441,14 +549,17 @@ html.dark .ranking-label {
 	}
 }
 
+/* 有头像时背景透明 */
 .side-avatar.has-avatar {
 	background: transparent;
 }
 
+/* 无头像时使用渐变背景 */
 .side-avatar.no-avatar {
 	background: linear-gradient(135deg, #667eea, #764ba2);
 }
 
+/* 头像图片 - 填充容器，圆角 */
 .side-avatar .avatar-image {
 	width: 100%;
 	height: 100%;
@@ -458,13 +569,14 @@ html.dark .ranking-label {
 	z-index: 0;
 }
 
+/* 头像图标 */
 .side-avatar .avatar-icon {
 	color: white;
 	position: relative;
 	z-index: 0;
 }
 
-
+/* 学生姓名 - 11px超粗字体，支持换行和连字符 */
 .side-name {
 	font-size: 11px;
 	font-weight: 700;
@@ -478,7 +590,7 @@ html.dark .ranking-label {
 	min-width: 0;
 }
 
-
+/* 学生内容区域 - Flex列布局，占据剩余空间 */
 .side-content {
 	display: flex;
 	flex-direction: column;
@@ -487,6 +599,7 @@ html.dark .ranking-label {
 	min-width: 0;
 }
 
+/* 学生元数据 - Flex行布局，居中对齐，支持换行 */
 .side-meta {
 	display: flex;
 	flex-direction: row;
@@ -499,6 +612,7 @@ html.dark .ranking-label {
 	justify-content: center;
 }
 
+/* 元数据标签行 - 圆角背景，渐变边框 */
 .side-meta .meta-line {
 	padding: 2px 6px;
 	border-radius: 4px;
@@ -510,20 +624,21 @@ html.dark .ranking-label {
 	max-width: 100%;
 	box-sizing: border-box;
 	font-weight: 500;
-	
 	position: relative;
 	font-size: 10px;
 	white-space: nowrap;
 }
 
-
-
+/* 第二行元数据 - 次要文字颜色，更小字号 */
 .side-meta .meta-line-second {
 	min-height: 0;
 	font-size: 9px;
 	color: var(--text-secondary);
 }
 
+/* ========== 图例组件 ========== */
+
+/* 统一图例容器 - Flex行布局，支持换行 */
 .unified-legend {
 	display: flex;
 	flex-direction: row;
@@ -536,6 +651,7 @@ html.dark .ranking-label {
 	align-items: center;
 }
 
+/* 图例区域 - Flex布局，居中对齐 */
 .unified-legend .legend-section {
 	display: flex;
 	align-items: center;
@@ -543,6 +659,7 @@ html.dark .ranking-label {
 	flex-wrap: wrap;
 }
 
+/* 单个图例项 - Flex布局，居中对齐 */
 .unified-legend .legend-item {
 	display: inline-flex;
 	align-items: center;
@@ -551,15 +668,16 @@ html.dark .ranking-label {
 	font-size: 11px;
 }
 
+/* 图例圆点 - 9px圆形 */
 .unified-legend .legend-dot {
 	width: 9px;
 	height: 9px;
 	border-radius: 50%;
 	display: inline-block;
-	
 	flex-shrink: 0;
 }
 
+/* 各等级图例颜色 */
 .unified-legend .legend-club-member {
 	background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%);
 }
@@ -588,19 +706,23 @@ html.dark .ranking-label {
 	background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
 }
 
+/* 图例文字 */
 .unified-legend .legend-text {
 	font-size: 11px;
 	color: var(--text-secondary);
 	white-space: nowrap;
 }
 
+/* 图例提示图标 */
 .unified-legend .hint-icon {
 	font-size: 13px;
 	color: var(--primary-color);
 	flex-shrink: 0;
 }
 
+/* ========== 积分显示 ========== */
 
+/* 积分容器 - Flex列布局，顶部边框分隔 */
 .side-points {
 	display: flex;
 	flex-direction: column;
@@ -610,6 +732,7 @@ html.dark .ranking-label {
 	flex-shrink: 0;
 }
 
+/* 积分总分行 - Flex布局，两端对齐 */
 .points-total-row {
 	display: flex;
 	align-items: center;
@@ -618,6 +741,7 @@ html.dark .ranking-label {
 	flex-wrap: wrap;
 }
 
+/* 积分公式 - Flex布局，不换行 */
 .points-formula {
 	display: flex;
 	align-items: center;
@@ -627,6 +751,7 @@ html.dark .ranking-label {
 	min-width: 0;
 }
 
+/* 总积分文本 - 12px超粗字体 */
 .points-total {
 	font-size: 12px;
 	font-weight: 800;
@@ -634,6 +759,7 @@ html.dark .ranking-label {
 	flex-shrink: 0;
 }
 
+/* 等号符号 */
 .points-equals {
 	color: var(--text-secondary);
 	font-size: 11px;
@@ -642,6 +768,7 @@ html.dark .ranking-label {
 	margin: 0 2px;
 }
 
+/* 加号符号 */
 .points-plus {
 	color: var(--text-secondary);
 	font-size: 11px;
@@ -650,6 +777,7 @@ html.dark .ranking-label {
 	margin: 0 2px;
 }
 
+/* 总积分主文本 - 蓝色，超粗字体，重要标识 */
 .points-total-main,
 .points-total-main * {
 	color: #1e88e5 !important;  /* 使用更明显的蓝色 */
@@ -681,37 +809,40 @@ html.dark .side-student.level-admin .points-total-main * {
 	color: #1e88e5 !important;
 }
 
-
-
+/* 积分数字 - 10px粗字体 */
 .points-number {
 	font-weight: 700;
 	font-size: 10px;
 	flex-shrink: 0;
 }
 
+/* 签到积分 - 绿色 */
 .points-number.points-signin,
 .points-number.points-signin * {
 	color: #10b981 !important;
 }
 
+/* 活动积分 - 橙色 */
 .points-number.points-activity,
 .points-number.points-activity * {
 	color: #f59e0b !important;
 }
 
+/* 积分分隔符 */
 .points-separator {
 	color: var(--text-secondary);
 	opacity: 0.5;
 	font-size: 9px;
 }
 
+/* 积分占位符 */
 .points-placeholder {
 	font-size: 10px;
 	color: var(--text-secondary);
 	opacity: 0.6;
 }
 
-
+/* 记录原因文本 */
 .record-reason {
 	color: var(--text-primary);
 	flex: 1;
@@ -722,6 +853,9 @@ html.dark .side-student.level-admin .points-total-main * {
 	hyphens: auto;
 }
 
+/* ========== 空状态 ========== */
+
+/* 侧边空状态 - Flex列布局，居中对齐 */
 .side-empty {
 	display: flex;
 	flex-direction: column;
@@ -733,6 +867,9 @@ html.dark .side-student.level-admin .points-total-main * {
 	font-size: 13px;
 }
 
+/* ========== 排行榜组件 ========== */
+
+/* 排行榜头部 - Flex布局，左对齐 */
 .ranking-header {
 	display: flex;
 	justify-content: flex-start;
@@ -741,6 +878,7 @@ html.dark .side-student.level-admin .points-total-main * {
 	margin-bottom: 12px;
 }
 
+/* 排行榜标签页 - 毛玻璃背景，圆角边框 */
 .ranking-tabs {
 	background: rgba(255, 255, 255, 0.05);
 	border-radius: 16px;
@@ -749,12 +887,13 @@ html.dark .side-student.level-admin .points-total-main * {
 	backdrop-filter: blur(20px);
 }
 
-
+/* 排行榜列表容器 - 最小高度280px */
 .ranking-list-container {
 	min-height: 280px;
 	width: 100%;
 }
 
+/* 加载和空状态容器 */
 .loading-container,
 .empty-container {
 	display: flex;
@@ -766,16 +905,21 @@ html.dark .side-student.level-admin .points-total-main * {
 	color: var(--text-secondary);
 }
 
+/* 加载图标 - 48px */
 .loading-container .el-icon {
 	font-size: 48px;
 	color: var(--primary-color);
 }
 
+/* 空状态图标 - 48px */
 .empty-container .el-icon {
 	font-size: 48px;
 	color: var(--text-secondary);
 }
 
+/* ========== 图表组件 ========== */
+
+/* 积分图表 - 宽度100%，高度400-500px范围，仅允许垂直触摸 */
 .points-chart {
 	width: 100%;
 	height: 400px;
@@ -784,7 +928,7 @@ html.dark .side-student.level-admin .points-total-main * {
 	touch-action: pan-y;
 }
 
-
+/* 图例项 */
 .legend-item {
 	display: inline-flex;
 	align-items: center;
@@ -793,22 +937,27 @@ html.dark .side-student.level-admin .points-total-main * {
 	font-size: 11px;
 }
 
+/* 图例圆点 - 10px圆形 */
 .legend-dot {
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
 	display: inline-block;
-	
 }
 
+/* 签到图例 - 蓝色渐变 */
 .legend-signin {
 	background: linear-gradient(135deg, #4facfe, #60a5fa);
 }
 
+/* 活动图例 - 青色渐变 */
 .legend-activity {
 	background: linear-gradient(135deg, #00f2fe, #00d4ff);
 }
 
+/* ========== 公式卡片 ========== */
+
+/* 公式卡片 - 毛玻璃背景，圆角边框 */
 .formula-card {
 	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
 	border-radius: 10px;
@@ -816,15 +965,16 @@ html.dark .side-student.level-admin .points-total-main * {
 	margin-bottom: 12px;
 	border: 1px solid rgba(102, 126, 234, 0.15);
 	backdrop-filter: blur(10px);
-	
 }
 
+/* 公式内容 - Flex列布局，10px间距 */
 .formula-content {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
 }
 
+/* 单个公式项 - Flex布局，支持换行 */
 .formula-item {
 	display: flex;
 	align-items: center;
@@ -835,6 +985,7 @@ html.dark .side-student.level-admin .points-total-main * {
 	line-height: 1.4;
 }
 
+/* 公式标签 - 主题色，粗字体 */
 .formula-label {
 	font-weight: 600;
 	color: var(--primary-color);
@@ -842,6 +993,7 @@ html.dark .side-student.level-admin .points-total-main * {
 	letter-spacing: 0;
 }
 
+/* 公式等号 */
 .formula-equals {
 	color: var(--text-secondary);
 	font-weight: 500;
@@ -849,6 +1001,7 @@ html.dark .side-student.level-admin .points-total-main * {
 	font-size: 12px;
 }
 
+/* 公式值 - 渐变背景，圆角边框 */
 .formula-value {
 	background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(0, 242, 254, 0.12) 100%);
 	padding: 3px 8px;
@@ -859,6 +1012,7 @@ html.dark .side-student.level-admin .points-total-main * {
 	font-size: 11px;
 }
 
+/* 公式运算符 */
 .formula-operator {
 	color: var(--text-secondary);
 	font-weight: 600;
@@ -867,7 +1021,7 @@ html.dark .side-student.level-admin .points-total-main * {
 	opacity: 0.8;
 }
 
-
+/* 迷你公式卡片 - 更紧凑的间距和字号 */
 .formula-card.formula-mini {
 	padding: 10px 12px;
 	margin-bottom: 12px;
@@ -895,19 +1049,23 @@ html.dark .side-student.level-admin .points-total-main * {
 	margin: 0 2px;
 }
 
+/* 迷你公式签到项 */
 .formula-card.formula-mini .formula-signin {
 	background-color: rgba(64, 158, 255, 0.15);
 	padding: 2px 6px;
 	border-radius: 4px;
 }
 
+/* 迷你公式活动项 */
 .formula-card.formula-mini .formula-activity {
 	background-color: rgba(250, 173, 20, 0.15);
 	padding: 2px 6px;
 	border-radius: 4px;
 }
 
+/* ========== 查看记录按钮 ========== */
 
+/* 查看记录按钮 - 小尺寸，毛玻璃背景 */
 .view-records-btn {
 	width: 22px;
 	height: 22px;
@@ -917,21 +1075,22 @@ html.dark .side-student.level-admin .points-total-main * {
 	backdrop-filter: blur(10px);
 	background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
 	border: 1px solid rgba(102, 126, 234, 0.35);
-	
 	touch-action: manipulation;
 }
 
+/* 按钮悬停和聚焦状态 */
 .view-records-btn:hover,
 .view-records-btn:focus {
 	background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
 	border-color: rgba(102, 126, 234, 0.35);
-	
 }
 
+/* 按钮激活状态 - 缩放效果 */
 .view-records-btn:active {
 	transform: scale(0.95);
 }
 
+/* 按钮内部内容样式 */
 .view-records-btn :deep(.el-button__inner) {
 	display: flex;
 	align-items: center;
@@ -939,12 +1098,15 @@ html.dark .side-student.level-admin .points-total-main * {
 	color: var(--primary-color);
 }
 
+/* 按钮图标 */
 .view-records-btn .el-icon {
 	font-size: 11px;
 	color: var(--primary-color);
 }
 
+/* ========== 对话框样式 ========== */
 
+/* 记录对话框主体 - 最大高度70vh，支持滚动 */
 .records-dialog :deep(.el-dialog__body) {
 	padding: 16px;
 	max-height: 70vh;
@@ -1001,8 +1163,9 @@ html.dark .side-student.level-admin .points-total-main * {
 	transition-delay: 0s !important;
 }
 
-/* 弹窗遮罩和容器定位修复 */
+/* ========== 弹窗遮罩和容器定位修复 ========== */
 
+/* 记录加载和空状态 */
 .records-loading,
 .records-empty {
 	display: flex;
@@ -1014,16 +1177,19 @@ html.dark .side-student.level-admin .points-total-main * {
 	color: var(--text-secondary);
 }
 
+/* 加载图标 */
 .records-loading .el-icon {
 	font-size: 48px;
 	color: var(--primary-color);
 }
 
+/* 空状态图标 */
 .records-empty .el-icon {
 	font-size: 48px;
 	color: var(--text-secondary);
 }
 
+/* 记录网格 - 单列布局，12px间距 */
 .records-grid {
 	display: grid;
 	grid-template-columns: 1fr;
@@ -1032,17 +1198,18 @@ html.dark .side-student.level-admin .points-total-main * {
 	box-sizing: border-box;
 }
 
+/* 记录卡片 - 毛玻璃背景，圆角边框 */
 .record-card {
 	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
 	border: 1px solid rgba(102, 126, 234, 0.15);
 	border-radius: 12px;
 	padding: 12px;
-	
 	width: 100%;
 	box-sizing: border-box;
 	word-break: break-word;
 }
 
+/* 记录头部 - Flex布局，两端对齐 */
 .record-header {
 	display: flex;
 	justify-content: space-between;
@@ -1050,12 +1217,14 @@ html.dark .side-student.level-admin .points-total-main * {
 	margin-bottom: 12px;
 }
 
+/* 记录时间 */
 .record-time {
 	font-size: 13px;
 	color: var(--text-secondary);
 	font-weight: 500;
 }
 
+/* 记录积分徽章 - 最小宽度60px */
 .record-points-badge {
 	font-size: 16px;
 	font-weight: 700;
@@ -1065,19 +1234,33 @@ html.dark .side-student.level-admin .points-total-main * {
 	text-align: center;
 }
 
+/* 正分徽章 - 绿色 */
 .record-points-badge.positive {
 	color: #10b981;
 	background: rgba(16, 185, 129, 0.15);
 	border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
+/* 负分徽章 - 红色 */
 .record-points-badge.negative {
 	color: #ef4444;
 	background: rgba(239, 68, 68, 0.15);
 	border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-/* 动画关键帧定义 */
+/* 记录原因文本 */
+.record-reason-text {
+	font-size: 13px;
+	color: var(--text-primary);
+	line-height: 1.6;
+	word-break: break-word;
+	overflow-wrap: break-word;
+	hyphens: auto;
+}
+
+/* ========== 动画定义 ========== */
+
+/* 卡片进入动画 - 从下往上淡入，伴随缩放 */
 @keyframes card-enter {
 	0% {
 		opacity: 0;
@@ -1089,7 +1272,7 @@ html.dark .side-student.level-admin .points-total-main * {
 	}
 }
 
-
+/* 积分渐变流动动画 */
 @keyframes points-gradient-flow {
 	0% {
 		background-position: 0 50%;
@@ -1100,13 +1283,4 @@ html.dark .side-student.level-admin .points-total-main * {
 	100% {
 		background-position: 0 50%;
 	}
-}
-
-.record-reason-text {
-	font-size: 13px;
-	color: var(--text-primary);
-	line-height: 1.6;
-	word-break: break-word;
-	overflow-wrap: break-word;
-	hyphens: auto;
 }

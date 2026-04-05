@@ -1,70 +1,123 @@
-/* 页面头部块 */
+/**
+ * 学生管理页面 - 页面头部样式
+ * @file StudentManagerPage-PageHeader.css
+ * @description 定义学生管理页面头部的布局和样式，包括左侧导航、中间标题和右侧用户信息
+ */
+
+/* ==================== 页面头部容器 ==================== */
+
+/**
+ * 页面头部块
+ * 使用flex布局，水平分布左侧、中间和右侧内容
+ */
 .page-header {
-	display: flex;
-	justify-content: space-between;
-	padding: 16px 32px;
-	align-items: center;
+	display: flex; /* 弹性布局 */
+	justify-content: space-between; /* 两端对齐 */
+	padding: 16px 32px; /* 内边距 */
+	align-items: center; /* 垂直居中 */
 }
 
-/* 页面头部左边块 */
+/* ==================== 页面头部左侧区域 ==================== */
+
+/**
+ * 页面头部左边块
+ * 包含返回按钮和Logo图片
+ */
 .page-header-left {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+	display: flex; /* 弹性布局 */
+	align-items: center; /* 垂直居中 */
+	gap: 8px; /* 子元素间距 */
 }
+
+/**
+ * 页面头部左侧按钮悬停效果
+ * 鼠标悬停时放大按钮，提供交互反馈
+ */
 .page-header-left .el-button:hover {
-	transform: scale(1.1);
-	transition: all 0.2s ease;
+	transform: scale(1.1); /* 放大1.1倍 */
+	transition: all 0.2s ease; /* 平滑过渡动画 */
 }
-/* 页面头部左边块按钮 */
+
+/**
+ * 页面头部左边块按钮
+ * Element Plus按钮的自定义样式，用于返回按钮
+ */
 .page-header-left .el-button {
-	font-size: 20px !important;
-	border: none;
-	background: #1e88e5;
-	border-radius: 20%;
-	width: 40px;
-	margin: 5px;
+	font-size: 20px !important; /* 字体大小 */
+	border: none; /* 无边框 */
+	background: #1e88e5; /* 蓝色背景 */
+	border-radius: 20%; /* 圆角 */
+	width: 40px; /* 宽度 */
+	margin: 5px; /* 外边距 */
 }
-/* 页面头部左边块图片 */
+
+/**
+ * 页面头部左边块图片（Logo）
+ * 显示应用Logo，支持点击交互
+ */
 .page-header-left img {
-	width: 64px;
-	height: 64px;
-	margin: 5px;
-	cursor: pointer;
+	width: 64px; /* 宽度 */
+	height: 64px; /* 高度 */
+	margin: 5px; /* 外边距 */
+	cursor: pointer; /* 鼠标指针样式 */
 }
+
+/**
+ * Logo图片悬停效果
+ * 鼠标悬停时放大图片，提供视觉反馈
+ */
 .page-header-left img:hover {
-	transform: scale(1.1);
-	transition: all 0.2s ease;
+	transform: scale(1.1); /* 放大1.1倍 */
+	transition: all 0.2s ease; /* 平滑过渡动画 */
 }
 
-/* 页面头部中间块标题 */
+/* ==================== 页面头部中间区域 ==================== */
+
+/**
+ * 页面头部中间块标题容器
+ * 居中显示页面标题
+ */
 .page-header-middle {
-	display: flex;
-	align-items: center;
+	display: flex; /* 弹性布局 */
+	align-items: center; /* 垂直居中 */
 }
 
+/**
+ * 页面标题样式
+ * 使用渐变色文字效果，增强视觉吸引力
+ */
 .page-header-middle h1 {
-	margin: 0;
-	font-size: 40px;
-	font-weight: 700;
+	margin: 0; /* 无外边距 */
+	font-size: 40px; /* 字体大小 */
+	font-weight: 700; /* 字体粗细 */
+	/* 渐变背景：从蓝紫色到紫色 */
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-	letter-spacing: 1px;
+	-webkit-background-clip: text; /* WebKit浏览器文字裁剪 */
+	-webkit-text-fill-color: transparent; /* 透明文字，显示背景 */
+	background-clip: text; /* 标准文字裁剪 */
+	letter-spacing: 1px; /* 字母间距 */
 }
 
-/* 页面头部块右边块 */
+/* ==================== 页面头部右侧区域 ==================== */
+
+/**
+ * 页面头部块右边块
+ * 显示用户信息，如用户名和头像
+ */
 .page-header-right {
-	font-size: 20px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 4px;
+	font-size: 20px; /* 字体大小 */
+	display: flex; /* 弹性布局 */
+	flex-direction: column; /* 垂直排列 */
+	align-items: center; /* 水平居中 */
+	gap: 4px; /* 子元素间距 */
 }
-/* 页面头部块右边块头像 */
+
+/**
+ * 页面头部块右边块头像
+ * 用户头像图片样式，圆形显示
+ */
 .page-header-right img {
-	width: 74px;
-	height: 74px;
-	border-radius: 25%;
+	width: 74px; /* 宽度 */
+	height: 74px; /* 高度 */
+	border-radius: 25%; /* 圆角（接近圆形） */
 }

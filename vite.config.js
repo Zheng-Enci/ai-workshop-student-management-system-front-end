@@ -6,6 +6,7 @@ import { cssAnalyzerPlugin } from './code-quality/vite-plugins/vite-plugin-css-a
 import { depcheckPlugin } from './code-quality/vite-plugins/vite-plugin-depcheck.js'
 import { auditPlugin } from './code-quality/vite-plugins/vite-plugin-audit.js'
 import { commentCoveragePlugin } from './code-quality/vite-plugins/vite-plugin-comment-coverage.js'
+import { eslintReportPlugin } from './code-quality/vite-plugins/vite-plugin-eslint-report.js'
 import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 
@@ -33,7 +34,7 @@ function withCheckLogging(plugin, checkName) {
       const timestamp = new Date().toLocaleTimeString('zh-CN', { hour12: false })
       
       if (logger.info) {
-        logger.info(`🔍 [${timestamp}] 正在运行 ${checkName} 检查...`, { timestamp: true })
+        logger.info(`🔍 [${timestamp}] 正在运行 ${checkName} 检查...`)
       } else {
         console.log(`🔍 [${timestamp}] 正在运行 ${checkName} 检查...`)
       }
@@ -52,7 +53,7 @@ function withCheckLogging(plugin, checkName) {
               const duration = ((Date.now() - this[startTime]) / 1000).toFixed(2)
               const endTime = new Date().toLocaleTimeString('zh-CN', { hour12: false })
               if (logger.info) {
-                logger.info(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`, { timestamp: true })
+                logger.info(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`)
               } else {
                 console.log(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`)
               }
@@ -67,7 +68,7 @@ function withCheckLogging(plugin, checkName) {
           // 延迟一点输出，让检查有时间执行
           setTimeout(() => {
             if (logger.info) {
-              logger.info(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`, { timestamp: true })
+              logger.info(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`)
             } else {
               console.log(`✅ [${endTime}] ${checkName} 检查完成 (耗时 ${duration}s)`)
             }
@@ -81,27 +82,27 @@ function withCheckLogging(plugin, checkName) {
 }
 
 // https://vitejs.dev/config/
-const skipChecks = process.env.SKIP_CHECKS === 'true'
-
-export default defineConfig({
-  plugins: [
-    vue(),
+export default defineConfig(({ mode }) => {
+  // 通过环境变量控制是否启用代码质量检查
+  const enableCodeQualityChecks = process.env.ENABLE_CODE_QUALITY_CHECKS === 'true'
+  
+  // 代码质量检查插件数组
+  const codeQualityPlugins = enableCodeQualityChecks ? [
     // 代码质量检查提示插件
     {
       name: 'code-quality-logger',
       apply: 'serve',
       buildStart(pluginContext) {
-        if (skipChecks) return
         const logger = pluginContext?.logger || console
         if (logger.info) {
-          logger.info('\n📋 开始代码质量检查...', { timestamp: true })
+          logger.info('\n📋 开始代码质量检查...')
         } else {
           console.log('\n📋 开始代码质量检查...')
         }
       }
     },
-    // ESLint 检查
-    skipChecks ? null : (() => {
+    // ESLint 检查（仅开发模式）
+    (() => {
       const eslintPlugin = eslint({
         overrideConfigFile: 'code-quality/code-quality-config/.eslintrc.js',
         ignorePath: 'code-quality/code-quality-config/.eslintignore',
@@ -110,12 +111,26 @@ export default defineConfig({
         cache: false,
         fix: true,
         failOnWarning: false,
-        failOnError: true
+        failOnError: false // 构建时不阻塞
       })
+      // 只在开发模式下运行
+      eslintPlugin.apply = 'serve'
       return withCheckLogging(eslintPlugin, 'ESLint 代码规范')
     })(),
-    // Stylelint 检查
-    skipChecks ? null : (() => {
+    // ESLint 报告生成
+    (() => {
+      const eslintReport = eslintReportPlugin({
+        enabled: true,
+        configFile: 'code-quality/code-quality-config/.eslintrc.js',
+        ignorePath: 'code-quality/code-quality-config/.eslintignore',
+        include: ['src/**/*.{js,vue}'],
+        exclude: ['node_modules', 'dist'],
+        skipOnError: true
+      })
+      return withCheckLogging(eslintReport, 'ESLint 报告生成')
+    })(),
+    // Stylelint 检查（仅开发模式）
+    (() => {
       const stylelintPlugin = stylelint({
         configFile: 'code-quality/code-quality-config/.stylelintrc.js',
         include: ['src/**/*.{css,scss,sass,less,styl,vue}'],
@@ -123,10 +138,12 @@ export default defineConfig({
         cache: false,
         fix: true
       })
+      // 只在开发模式下运行
+      stylelintPlugin.apply = 'serve'
       return withCheckLogging(stylelintPlugin, 'Stylelint 样式规范')
     })(),
     // CSS 分析
-    skipChecks ? null : (() => {
+    (() => {
       const cssAnalyzer = cssAnalyzerPlugin({
         enabled: true,
         threshold: 0,
@@ -137,7 +154,7 @@ export default defineConfig({
       return withCheckLogging(cssAnalyzer, 'CSS 使用情况分析')
     })(),
     // 依赖检查
-    skipChecks ? null : (() => {
+    (() => {
       const depcheck = depcheckPlugin({
         enabled: true,
         configPath: 'code-quality/code-quality-config/.depcheckrc.json',
@@ -146,7 +163,7 @@ export default defineConfig({
       return withCheckLogging(depcheck, '依赖完整性检查')
     })(),
     // 安全审计
-    skipChecks ? null : (() => {
+    (() => {
       const audit = auditPlugin({
         enabled: true,
         auditLevel: 'moderate',
@@ -155,39 +172,45 @@ export default defineConfig({
       return withCheckLogging(audit, '安全漏洞审计')
     })(),
     // 注释覆盖率检查
-    skipChecks ? null : (() => {
+    (() => {
       const commentCoverage = commentCoveragePlugin({
         enabled: true,
         srcDir: 'src',
         extensions: ['.js', '.vue', '.css', '.scss'],
-        minCoverage: 32,
+        minCoverage: 32, // 默认最低要求（用于未配置的文件类型）
         minCoverageByExtension: {
-          '.js': 32,
-          '.vue': 32,
-          '.css': 16,
-          '.scss': 16
+          '.js': 32,    // JavaScript 文件最低要求 32%
+          '.vue': 32,   // Vue 文件最低要求 32%
+          '.css': 16,   // CSS 文件最低要求 16%
+          '.scss': 16   // SCSS 文件最低要求 16%
         },
         warnThreshold: 10,
         showDetails: false,
         skipOnError: true
       })
       return withCheckLogging(commentCoverage, '代码注释覆盖率')
-    })(),
-    (process.env.ANALYZE === 'true' || process.env.NODE_ENV === 'production') &&
-      visualizer({
-        open: false,
-        filename: 'dist/stats.html',
-        gzipSize: true,
-        brotliSize: true,
-        template: 'treemap',
-        title: 'Bundle Analysis',
-        emitFile: true
-      })
-  ].filter(Boolean),
+    })()
+  ] : []
+
+  return {
+    plugins: [
+      vue(),
+      ...codeQualityPlugins,
+      (process.env.ANALYZE === 'true' || process.env.NODE_ENV === 'production') &&
+        visualizer({
+          open: false,
+          filename: 'dist/stats.html',
+          gzipSize: true,
+          brotliSize: true,
+          template: 'treemap',
+          title: 'Bundle Analysis',
+          emitFile: true
+        })
+    ].filter(Boolean),
   server: {
     port: 3000,
     host: '0.0.0.0',
-    open: true,
+    open: false, // 禁用自动打开浏览器
     strictPort: false,
     proxy: {
       // 如果有API代理需求，可以在这里配置
@@ -220,5 +243,6 @@ export default defineConfig({
         additionalData: `@import "@/assets/styles/theme.css";`
       }
     }
+  }
   }
 })

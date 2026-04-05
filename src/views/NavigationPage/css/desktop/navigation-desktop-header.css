@@ -1,0 +1,279 @@
+/* ==================== 页面容器 ==================== */
+
+.navigation-container {
+	position: relative;
+	min-height: 100vh;
+	overflow: hidden;
+	background: var(--bg-primary);
+}
+
+/* ==================== 背景效果 ==================== */
+
+.background-effects {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.gradient-orb {
+	position: absolute;
+	border-radius: 50%;
+	opacity: 0.3;
+	filter: blur(100px);
+	animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+	top: 10%;
+	left: 10%;
+	width: 300px;
+	height: 300px;
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	animation-delay: 0s;
+}
+
+.orb-2 {
+	top: 60%;
+	right: 10%;
+	width: 200px;
+	height: 200px;
+	background: linear-gradient(135deg, #f093fb, #f5576c);
+	animation-delay: -7s;
+}
+
+.orb-3 {
+	bottom: 20%;
+	left: 50%;
+	width: 250px;
+	height: 250px;
+	background: linear-gradient(135deg, #4facfe, #00f2fe);
+	animation-delay: -14s;
+}
+
+@keyframes float {
+	0%, 100% {
+		transform: translate(0, 0) rotate(0deg);
+	}
+	25% {
+		transform: translate(30px, -30px) rotate(90deg);
+	}
+	50% {
+		transform: translate(0, -60px) rotate(180deg);
+	}
+	75% {
+		transform: translate(-30px, -30px) rotate(270deg);
+	}
+}
+
+/* ==================== 页面头部容器 ==================== */
+
+.navigation-desktop-header-container {
+	position: relative;
+	z-index: 10;
+	background: rgb(255 255 255 / 0.05);
+	border-bottom: 1px solid rgb(255 255 255 / 0.1);
+	backdrop-filter: blur(20px);
+	animation: navigation-desktop-header-fadeInDown 0.6s ease-out;
+}
+
+@keyframes navigation-desktop-header-fadeInDown {
+	from {
+		opacity: 0;
+		transform: translateY(-30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.navigation-desktop-header-top {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 24px 60px;
+}
+
+.navigation-desktop-header-left {
+	display: flex;
+	flex-shrink: 0;
+	gap: 20px;
+	align-items: center;
+}
+
+.navigation-desktop-header-center {
+	position: absolute;
+	left: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: translateX(-50%);
+}
+
+.navigation-desktop-header-right {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+}
+
+/* ==================== 首页按钮 ==================== */
+
+.navigation-desktop-header-home-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	background: var(--primary-color);
+	border: none;
+}
+
+/* ==================== Logo ==================== */
+
+.navigation-desktop-header-logo {
+	width: 56px;
+	height: 56px;
+	cursor: pointer;
+	border-radius: 0;
+	transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navigation-desktop-header-logo:hover {
+	filter: brightness(1.15);
+	transform: scale(1.05) rotate(3deg);
+}
+
+/* ==================== 标题区域 ==================== */
+
+.navigation-desktop-header-title-section h1 {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 700;
+	letter-spacing: -0.5px;
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.navigation-desktop-header-title-section p {
+	margin: 4px 0 0;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--text-secondary);
+}
+
+/* ==================== 主内容区域 ==================== */
+
+.navigation-desktop-main-content {
+	position: relative;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100vh - 300px);
+	padding: 40px 60px 60px;
+	overflow: visible;
+}
+
+/* ==================== 页面标题 ==================== */
+
+.navigation-desktop-header-page-title-wrapper {
+	position: relative;
+	display: flex;
+	gap: 14px;
+	align-items: center;
+	padding: 12px 32px;
+	overflow: hidden;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.08), rgb(118 75 162 / 0.08));
+	border: 1px solid rgb(255 255 255 / 0.15);
+	border-radius: 24px;
+	box-shadow: 0 8px 32px rgb(0 0 0 / 0.12),
+		inset 0 1px 0 rgb(255 255 255 / 0.2),
+		0 0 0 1px rgb(102 126 234 / 0.1);
+	backdrop-filter: blur(16px);
+	transition: backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	will-change: backdrop-filter;
+}
+
+.navigation-desktop-header-page-title-wrapper::before {
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	content: '';
+	background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.1), transparent);
+	transform: translateX(0);
+	transition: transform 0.6s ease;
+}
+
+.navigation-desktop-header-page-title-wrapper:hover::before {
+	transform: translateX(200%);
+}
+
+.navigation-desktop-header-page-title-wrapper:hover {
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.12), rgb(118 75 162 / 0.12));
+	border-color: rgb(255 255 255 / 0.25);
+	box-shadow: 0 12px 48px rgb(0 0 0 / 0.18),
+		inset 0 1px 0 rgb(255 255 255 / 0.3),
+		0 0 0 1px rgb(102 126 234 / 0.2),
+		0 0 40px rgb(102 126 234 / 0.15);
+	transform: translateY(-3px) scale(1.02);
+}
+
+.navigation-desktop-header-page-title {
+	position: relative;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+		'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+	font-size: 22px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	white-space: nowrap;
+	text-shadow: 0 0 30px rgb(102 126 234 / 0.3);
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+	background-clip: text;
+	background-size: 200% 100%;
+	filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.1));
+	animation: gradient-shift 5s ease-in-out infinite;
+	-webkit-text-fill-color: transparent;
+}
+
+@keyframes gradient-shift {
+	0%, 100% {
+		filter: brightness(1);
+	}
+
+	50% {
+		filter: brightness(1.15);
+	}
+}
+
+/* ==================== 退出按钮 ==================== */
+
+.navigation-desktop-header-logout-btn {
+	position: relative;
+	overflow: hidden;
+	padding: 12px 24px;
+	font-weight: 600;
+	color: var(--danger-color);
+	background: rgb(255 255 255 / 0.05);
+	border: 1px solid rgb(255 255 255 / 0.15);
+	border-radius: 12px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.navigation-desktop-header-logout-btn:hover {
+	background: rgb(255 255 255 / 0.1);
+	border-color: rgb(255 255 255 / 0.25);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
+}

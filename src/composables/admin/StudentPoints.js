@@ -14,25 +14,45 @@ import { useAdminStore } from '@/stores/admin'
 /**
  * 学生积分管理Composable
  */
+/**
+ * 学生积分管理Composable函数
+ * 提供积分查询、调整、变更记录查看等功能
+ * 
+ * @returns {Object} 包含状态、表单、验证规则和方法的对象
+ */
 export function useStudentPoints() {
-	// 响应式状态
+	/**
+	 * 响应式状态定义
+	 */
+	// 加载状态标识
 	const loading = ref(false)
+	// 学生积分数据对象，key为学生ID，value为积分值
 	const studentPoints = ref({})
+	// 积分调整对话框显示状态
 	const pointsDialogVisible = ref(false)
+	// 积分变更记录对话框显示状态
 	const scoreChangeRecordsDialogVisible = ref(false)
+	// 积分变更记录列表
 	const scoreChangeRecords = ref([])
+	// 当前操作的学生信息
 	const currentStudent = ref(null)
 
-	// 积分调整表单
+	/**
+	 * 积分调整表单数据
+	 * 使用reactive创建响应式对象
+	 */
 	const pointsForm = reactive({
-		studentInfoId: null,
-		changeAmount: 0,
-		reason: '',
-		operation: 'add', // add 或 subtract
-		specialPassword: ''
+		studentInfoId: null, // 学生信息ID
+		changeAmount: 0, // 积分变更数量
+		reason: '', // 变更原因
+		operation: 'add', // 操作类型：'add'（增加）或 'subtract'（扣除）
+		specialPassword: '' // 特殊密码（管理员密码）
 	})
 
-	// 积分表单验证规则
+	/**
+	 * 积分表单验证规则
+	 * 定义表单字段的验证规则，用于表单验证
+	 */
 	const pointsFormRules = {
 		changeAmount: [
 			{ required: true, message: '请输入积分变更数量', trigger: 'blur' },
@@ -48,7 +68,10 @@ export function useStudentPoints() {
 		]
 	}
 
-	// 管理员状态
+	/**
+	 * 管理员状态管理
+	 * 用于获取管理员权限和密码
+	 */
 	const adminStore = useAdminStore()
 
 	/**
@@ -153,8 +176,10 @@ export function useStudentPoints() {
 
 	/**
 	 * 确认积分调整
-	 * @param formRef 表单引用
-	 * @returns 操作结果
+	 * 验证表单并提交积分变更请求
+	 * 
+	 * @param {Object} formRef - 表单引用对象，用于表单验证
+	 * @returns {Promise<Object>} 操作结果对象，包含success、message和newPoints字段
 	 */
 	const confirmPoints = async formRef => {
 		if (!formRef) {
@@ -162,24 +187,25 @@ export function useStudentPoints() {
 		}
 
 		try {
-			// 验证表单
+			// 验证表单：检查所有字段是否符合验证规则
 			await formRef.validate()
 
 			loading.value = true
 
 			// 计算变更后的积分
 			const currentPoints = getStudentPoints(pointsForm.studentInfoId)
+			// 根据操作类型计算变更量：增加为正数，扣除为负数
 			const changeAmount = pointsForm.operation === 'add'
 				? pointsForm.changeAmount
 				: -pointsForm.changeAmount
 			const newPoints = currentPoints + changeAmount
 
-			// 检查积分是否会变为负数
+			// 检查积分是否会变为负数：不允许积分为负
 			if (newPoints < 0) {
 				return { success: false, message: '积分不能为负数，请调整变更数量' }
 			}
 
-			// 提交积分变更
+			// 提交积分变更：调用API创建积分调整记录
 			const response = await createPointsRecord(
 				pointsForm.specialPassword,
 				pointsForm.reason,
@@ -187,8 +213,9 @@ export function useStudentPoints() {
 				pointsForm.studentInfoId
 			)
 
+			// 处理成功响应
 			if (response.code === 200) {
-				// 更新本地积分状态
+				// 更新本地积分状态：同步更新本地缓存
 				studentPoints.value = {
 					...studentPoints.value,
 					[pointsForm.studentInfoId]: newPoints
@@ -208,10 +235,10 @@ export function useStudentPoints() {
 			console.error('积分调整失败:', error)
 
 			if (error && error.message) {
-				// 表单验证错误
+				// 表单验证错误：验证规则不通过
 				return { success: false, message: '表单验证失败，请检查输入信息' }
 			}
-			// API调用错误
+			// API调用错误：网络或服务器错误
 			return { success: false, message: '积分调整失败，请检查网络连接' }
 		} finally {
 			loading.value = false

@@ -6,7 +6,7 @@ class AttendanceApi {
 	/**
 	 * 通过学生数据库表主键ID获取总签到次数
 	 * @param studentInfoId - 学生数据库表主键ID
-	 * @returns 响应数据，data字段为签到次数
+	 * @returns 响应数据，data 字段为签到次数
 	 */
 	static async getTotalAttendanceCountByStudentInfoId(studentInfoId) {
 		const response = await this.api.get('/api/v1/attendance/total-attendance-count-by-student-info-id', {
@@ -41,6 +41,22 @@ class AttendanceApi {
 	static async getStudentAttendanceRecords(studentId) {
 		const response = await this.api.get('/api/v1/attendance/student-records', {
 			params: { studentId }
+		}).catch(error => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
+	/**
+	 * 获取今日签到次数（不去重）
+	 * @param date - 查询日期，格式：yyyy-MM-dd，不传则查询当天
+	 * @returns 响应数据，data 字段为签到记录总数（数字类型）
+	 */
+	static async getTodayAttendanceCount(date) {
+		const params = date ? { date } : {}
+		const response = await this.api.get('/api/v1/attendance/today-attendance-count', {
+			params
 		}).catch(error => {
 			const msg = error.response?.data?.message
 			throw new Error(error.response?.status >= 500 ? '服务器错误，请稍后重试' : msg)
