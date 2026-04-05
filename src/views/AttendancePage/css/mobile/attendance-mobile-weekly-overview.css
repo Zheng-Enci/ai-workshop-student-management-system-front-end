@@ -186,3 +186,22 @@ html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-morning-evening 
 html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evening {
 	background: conic-gradient(#3b82f6 0deg 120deg, #8b5cf6 120deg 240deg, #4b5563 240deg 360deg);
 }
+
+@keyframes circle-pop-in {
+	0% {
+		opacity: 0;
+		transform: scale(0);
+	}
+	80% {
+		transform: scale(1.1);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+.attendance-mobile-weekly-overview-day-mobile.circle-animate {
+	animation: circle-pop-in 0.4s ease-out forwards;
+	opacity: 0;
+}

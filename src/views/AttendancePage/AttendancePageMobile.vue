@@ -101,6 +101,8 @@ const weeklyAttendanceData = ref([
 ])
 /** 本周签到数据加载状态 */
 const weeklyAttendanceLoading = ref(false)
+/** 是否显示圆圈入场动画 */
+const showCircleAnimation = ref(false)
 /** 学生数据库表主键ID */
 const studentInfoId = ref(null)
 /** 今日签到状态（从服务器获取） */
@@ -732,6 +734,7 @@ const loadWeeklyAttendance = async () => {
 		console.error('加载本周签到数据失败:', error)
 	} finally {
 		weeklyAttendanceLoading.value = false
+		showCircleAnimation.value = true
 	}
 }
 
@@ -855,9 +858,14 @@ onUnmounted(() => {
 				<div class="attendance-mobile-weekly-overview-mobile">
 					<div class="attendance-mobile-weekly-overview-title-mobile">本周签到概览</div>
 					<div class="attendance-mobile-weekly-overview-grid-mobile">
-						<div v-for="day in weeklyAttendanceData" :key="day.date"
+						<div v-for="(day, index) in weeklyAttendanceData" :key="day.date"
 								 class="attendance-mobile-weekly-overview-day-mobile"
-								 :class="{ 'today': day.isToday, 'future': day.isFuture }">
+								 :class="{ 
+									 'today': day.isToday, 
+									 'future': day.isFuture,
+									 'circle-animate': showCircleAnimation 
+								 }"
+								 :style="{ animationDelay: `${index * 0.08}s` }">
 								<div class="attendance-mobile-weekly-overview-circle-mobile"
 									:class="getSlotClass(day.slots)">
 									<span class="slot-count">{{ getSignedCount(day.slots) }}</span>
