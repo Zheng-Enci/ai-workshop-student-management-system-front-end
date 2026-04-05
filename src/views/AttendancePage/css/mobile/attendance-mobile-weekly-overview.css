@@ -46,7 +46,7 @@
 	transform: translateX(-50%);
 	width: 60px;
 	height: 28px;
-	background-image: url('@/assets/flame.gif');
+	background-image: url('@/assets/burning-flame.gif');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
