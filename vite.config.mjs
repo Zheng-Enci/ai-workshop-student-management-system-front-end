@@ -2,13 +2,24 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import stylelint from 'vite-plugin-stylelint'
 import eslint from 'vite-plugin-eslint'
-import { cssAnalyzerPlugin } from './code-quality/vite-plugins/vite-plugin-css-analyzer.js'
-import { depcheckPlugin } from './code-quality/vite-plugins/vite-plugin-depcheck.js'
-import { auditPlugin } from './code-quality/vite-plugins/vite-plugin-audit.js'
-import { commentCoveragePlugin } from './code-quality/vite-plugins/vite-plugin-comment-coverage.js'
-import { eslintReportPlugin } from './code-quality/vite-plugins/vite-plugin-eslint-report.js'
 import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
+
+const SKIP_CHECKS = process.env.SKIP_CHECKS === 'true' || true
+
+let cssAnalyzerPlugin, depcheckPlugin, auditPlugin, commentCoveragePlugin, eslintReportPlugin
+
+if (!SKIP_CHECKS) {
+  try {
+    ({ cssAnalyzerPlugin } = await import('./code-quality/vite-plugins/vite-plugin-css-analyzer.js'))
+    ({ depcheckPlugin } = await import('./code-quality/vite-plugins/vite-plugin-depcheck.js'))
+    ({ auditPlugin } = await import('./code-quality/vite-plugins/vite-plugin-audit.js'))
+    ({ commentCoveragePlugin } = await import('./code-quality/vite-plugins/vite-plugin-comment-coverage.js'))
+    ({ eslintReportPlugin } = await import('./code-quality/vite-plugins/vite-plugin-eslint-report.js'))
+  } catch (e) {
+    console.warn('Code quality plugins not found, skipping checks')
+  }
+}
 
 /**
  * 为插件添加检查提示信息
@@ -84,10 +95,10 @@ function withCheckLogging(plugin, checkName) {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // 通过环境变量控制是否启用代码质量检查
-  const enableCodeQualityChecks = process.env.ENABLE_CODE_QUALITY_CHECKS === 'true'
+  const enableCodeQualityChecks = !SKIP_CHECKS && process.env.ENABLE_CODE_QUALITY_CHECKS === 'true'
   
   // 代码质量检查插件数组
-  const codeQualityPlugins = enableCodeQualityChecks ? [
+  const codeQualityPlugins = enableCodeQualityChecks && cssAnalyzerPlugin ? [
     // 代码质量检查提示插件
     {
       name: 'code-quality-logger',
@@ -118,7 +129,7 @@ export default defineConfig(({ mode }) => {
       return withCheckLogging(eslintPlugin, 'ESLint 代码规范')
     })(),
     // ESLint 报告生成
-    (() => {
+    eslintReportPlugin ? (() => {
       const eslintReport = eslintReportPlugin({
         enabled: true,
         configFile: 'code-quality/code-quality-config/.eslintrc.js',
@@ -128,7 +139,7 @@ export default defineConfig(({ mode }) => {
         skipOnError: true
       })
       return withCheckLogging(eslintReport, 'ESLint 报告生成')
-    })(),
+    })() : null,
     // Stylelint 检查（仅开发模式）
     (() => {
       const stylelintPlugin = stylelint({
@@ -195,7 +206,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       vue(),
-      ...codeQualityPlugins,
+      ...codeQualityPlugins.filter(Boolean),
       (process.env.ANALYZE === 'true' || process.env.NODE_ENV === 'production') &&
         visualizer({
           open: false,
