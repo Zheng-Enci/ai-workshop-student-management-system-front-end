@@ -729,22 +729,6 @@ onMounted(async () => {
 <style scoped src="./css/desktop/AdminPage-main_page_header.css"></style>
 <style scoped src="./css/desktop/AdminPage-main_page_buttons_and_search.css"></style>
 <style scoped src="./css/desktop/AdminPage-main_page_student_cards.css"></style>
-ass="student-id">{{ record.scheduleId }}</div>
-							</div>
-							<div class="attendance-time">
-								<el-icon class="time-icon"><clock /></el-icon>
-								<span class="time-text">{{ formatAttendanceTime(record.attendanceTime) }}</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<template #footer>
-				<div class="dialog-footer">
-					<el-button @click="todayAttendanceDialogVisible = false">关闭</el-button>
-				</div>
-			</template>
-		</el-dialog>
 
 		<el-dialog
 			v-if="attendanceRecordsDialogVisible"
