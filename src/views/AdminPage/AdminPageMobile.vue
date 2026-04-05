@@ -30,6 +30,7 @@ import {
 	Refresh,         // 刷新图标
 	Download,        // 下载图标
 	ArrowRight,      // 右箭头图标
+	Warning,         // 警告图标
 } from '@element-plus/icons-vue'
 
 // 1.4 Element Plus 样式导入（按需导入，减少包体积）
