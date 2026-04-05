@@ -159,45 +159,7 @@ onUnmounted(() => {
 @import './css/desktop/header.css';
 @import './css/desktop/page.css';
 @import './css/desktop/attendance-trend.css';
-</style>
-x === 0) { return 'rank-first' }
-	if (index === 1) { return 'rank-second' }
-	if (index === 2) { return 'rank-third' }
-	return 'rank-normal'
-}
 
-const getLevelClass = levelName => {
-	if (levelName === '管理员') { return 'level-admin' }
-	if (levelName === '核心成员') { return 'level-core' }
-	if (levelName === '普通成员') { return 'level-normal' }
-	return 'level-club'
-}
-
-const calculatePeriodStats = records => {
-	const stats = { morning: 0, afternoon: 0, evening: 0 }
-
-	records.forEach(record => {
-		const hour = new Date(record.attendanceTime).getHours()
-		if (hour >= 8 && hour < 12) { stats.morning++ } else if (hour >= 14 && hour < 18) { stats.afternoon++ } else if (hour >= 19 && hour < 22) { stats.evening++ }
-	})
-
-	return stats
-}
-
-const calculateAverageTime = records => {
-	if (records.length === 0) { return '暂无数据' }
-
-	const totalMinutes = records.reduce((sum, record) => {
-		const date = new Date(record.attendanceTime)
-		return sum + date.getHours() * 60 + date.getMinutes()
-	}, 0)
-
-	const avgMinutes = Math.round(totalMinutes / records.length)
-	const hours = Math.floor(avgMinutes / 60)
-	const minutes = avgMinutes % 60
-
-	return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
-}
 
 const loadStudentDetails = async () => {
 	try {
@@ -1036,177 +998,21 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-	stopAutoRefresh()
-	if (resizeTimeout) {
-		clearTimeout(resizeTimeout)
-	}
-	if (periodResizeObserver) {
-		periodResizeObserver.disconnect()
-	}
-	if (timelineResizeObserver) {
-		timelineResizeObserver.disconnect()
-	}
-	if (periodChartInstance) {
-		periodChartInstance.dispose()
-	}
-	if (timelineChartInstance) {
-		timelineChartInstance.dispose()
-	}
-})
+		stopAutoRefresh()
+		if (resizeTimeout) {
+			clearTimeout(resizeTimeout)
+		}
+		if (periodResizeObserver) {
+			periodResizeObserver.disconnect()
+		}
+		if (timelineResizeObserver) {
+			timelineResizeObserver.disconnect()
+		}
+		if (periodChartInstance) {
+			periodChartInstance.dispose()
+		}
+		if (timelineChartInstance) {
+			timelineChartInstance.dispose()
+		}
+	})
 </script>
-
-<template>
-	<div class="attendance-analysis-container">
-		<div class="header">
-			<div class="header-left">
-				<el-button
-					class="back-btn"
-					type="primary"
-					:icon="ArrowLeft"
-					circle
-					@click="goBack"/>
-				<img
-					src="@/assets/AiWorkShop_icon.png"
-					alt="AI坊"
-					class="logo"
-					title="切换主题模式"
-					@click="handleThemeToggle"/>
-				<div class="title-section">
-					<h1>签到分析</h1>
-					<p>Attendance Analysis Dashboard</p>
-				</div>
-			</div>
-			<div class="header-right">
-				<div class="refresh-section">
-					<el-button
-						:loading="isLoading"
-						type="primary"
-						:icon="Refresh"
-						circle
-						@click="refreshData"/>
-					<span class="last-update">最后更新: {{ lastUpdateTime }}</span>
-				</div>
-			</div>
-		</div>
-
-		<div class="main-content">
-			<div class="content-grid">
-				<div class="left-column">
-					<div class="chart-card">
-						<div class="card-header">
-							<h3>今日签到时段分布</h3>
-							<el-icon class="header-icon"><pie-chart /></el-icon>
-						</div>
-						<div ref="periodChart" class="chart"/>
-					</div>
-
-					<div class="chart-card">
-						<div class="card-header">
-							<h3>签到时间线</h3>
-							<el-icon class="header-icon"><clock /></el-icon>
-						</div>
-						<div class="timeline-controls">
-							<div class="time-range-selector">
-								<el-radio-group
-									v-model="selectedTimeRange"
-									size="small"
-									class="time-radio-group"
-									@change="handleTimeRangeChange"
-								>
-									<el-radio-button
-										v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
-										:key="option.value"
-										:label="option.value"
-									>
-										{{ option.label }}
-									</el-radio-button>
-								</el-radio-group>
-							</div>
-
-							<div v-if="selectedTimeRange === 'custom'" class="custom-date-range">
-								<el-date-picker
-									v-model="customDateRange"
-									type="daterange"
-									range-separator="至"
-									start-placeholder="开始日期"
-									end-placeholder="结束日期"
-									size="small"
-									class="custom-date-picker"
-									@change="handleCustomDateChange"
-								/>
-							</div>
-						</div>
-						<div ref="timelineChart" class="timeline-chart"/>
-					</div>
-				</div>
-
-				<div class="right-column">
-					<div class="chart-card">
-						<div class="card-header">
-							<h3>今日签到排行榜</h3>
-							<el-icon class="header-icon"><trophy /></el-icon>
-						</div>
-						<div class="ranking-list">
-							<div v-if="isLoading" class="loading-overlay">
-								<div class="loading-spinner"/>
-							</div>
-							<div
-								v-for="(record, index) in rankingList"
-								:key="index"
-								class="ranking-item"
-								:class="getRankingClass(index)"
-							>
-								<div class="rank-number">{{ index + 1 }}</div>
-								<div class="student-info">
-									<div class="student-name">{{ record.name }}</div>
-									<div class="student-details">
-										<span class="student-level" :class="getLevelClass(studentDetails[record.scheduleId]?.levelName)">
-											{{ studentDetails[record.scheduleId]?.levelName || '社团成员' }}
-										</span>
-									</div>
-								</div>
-								<div class="attendance-time">{{ formatTime(record.attendanceTime) }}</div>
-								<div v-if="index < 3" class="rank-badge">
-									<el-icon v-if="index === 0" class="trophy-icon"><trophy /></el-icon>
-									<el-icon v-else-if="index === 1" class="medal-icon"><medal /></el-icon>
-									<el-icon v-else class="star-icon"><star /></el-icon>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="chart-card">
-						<div class="card-header">
-							<h3>实时签到动态</h3>
-							<el-icon class="header-icon"><trend-charts /></el-icon>
-						</div>
-						<div class="realtime-stats">
-							<div class="realtime-item">
-								<div class="realtime-label">最近签到</div>
-								<div v-if="latestAttendance" class="realtime-value">
-									{{ latestAttendance.name }} - {{ formatTime(latestAttendance.attendanceTime) }}
-								</div>
-								<div v-else class="realtime-value">暂无数据</div>
-							</div>
-							<div class="realtime-item">
-								<div class="realtime-label">平均签到时间</div>
-								<div class="realtime-value">{{ averageTime }}</div>
-							</div>
-							<div class="realtime-item">
-								<div class="realtime-label">最早签到</div>
-								<div v-if="earliestAttendance" class="realtime-value">
-									{{ earliestAttendance.name }} - {{ formatTime(earliestAttendance.attendanceTime) }}
-								</div>
-								<div v-else class="realtime-value">暂无数据</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</template>
-
-<style scoped>
-@import './css/AttendanceAnalysisPageDesktop.css';
-</style>
