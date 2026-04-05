@@ -50,44 +50,6 @@
 	border-radius: 2px;
 }
 
-.attendance-mobile-weekly-overview-day-mobile.today::before {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 18px;
-	height: 12px;
-	background: linear-gradient(to top, rgba(245, 158, 11, 0.9), rgba(239, 68, 68, 0.6));
-	clip-path: polygon(50% 0%, 5% 100%, 95% 100%);
-	animation: flame-burn 0.5s ease-in-out infinite alternate;
-	filter: blur(0.5px);
-	z-index: -1;
-}
-
-@keyframes flame-burn {
-	0% {
-		transform: translateX(-50%) scale(1, 1) translateY(0);
-		opacity: 0.85;
-	}
-	25% {
-		transform: translateX(-52%) scale(1.05, 1.15) translateY(-1px);
-		opacity: 0.95;
-	}
-	50% {
-		transform: translateX(-48%) scale(0.95, 1.1) translateY(0);
-		opacity: 0.9;
-	}
-	75% {
-		transform: translateX(-51%) scale(1.08, 1.2) translateY(-1px);
-		opacity: 1;
-	}
-	100% {
-		transform: translateX(-50%) scale(1.02, 1.08) translateY(0);
-		opacity: 0.88;
-	}
-}
-
 .attendance-mobile-weekly-overview-circle-mobile {
 	width: 40px;
 	height: 40px;
