@@ -40,6 +40,7 @@ import {useUserStore} from '@/stores/user' // 用户信息状态
 import AttendancePageConfig from '@/views/AttendancePage/js/AttendancePageConfig'
 import {flameController} from '@/views/AttendancePage/ts/FlameDisplayController'
 import flameGif from '@/assets/flame.gif'
+import flameGrayStaticGif from '@/assets/flame-gray-static.gif'
 
 // ======================== 响应式变量定义区 ========================
 /** 通用加载状态 - 用于按钮/接口请求加载中展示 */
@@ -831,9 +832,9 @@ onUnmounted(() => {
 						<User/>
 					</el-icon>
 				</div>
-				<!-- 火焰图标：本周签到≥3次时显示 -->
-			<div v-if="flameController.isVisible" class="attendance-mobile-flame-mobile">
-				<img :src="flameGif" alt="火焰" class="attendance-mobile-flame-image-mobile"/>
+				<!-- 火焰图标：本周签到≥1次时显示 -->
+			<div class="attendance-mobile-flame-mobile">
+				<img :src="flameController.weeklyCount >= 3 ? flameGif : flameGrayStaticGif" alt="火焰" class="attendance-mobile-flame-image-mobile"/>
 				<span class="attendance-mobile-flame-count-mobile">{{ flameController.displayCount }}</span>
 			</div>
 			</div>
