@@ -64,6 +64,10 @@ const router = useRouter()
  */
 const themeStore = useThemeStore()
 
+// ===================== 样式导入 ====================
+// 导入移动端CSS样式
+import '@/views/DashboardPage/css/DashboardPageMobile.css'
+
 // ===================== 响应式变量定义区 =====================
 /**
  * 今日考勤人数
@@ -829,29 +833,5 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.time-radio-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-}
-
-.time-radio-group .el-radio-button {
-  margin: 0;
-}
-
-.time-radio-group .el-radio-button__inner {
-  padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 6px;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.time-radio-group .el-radio-button__original-radio:checked + .el-radio-button__inner {
-  color: #fff;
-  background-color: #409eff;
-  border-color: #409eff;
-  box-shadow: 0 2px 8px rgb(64 158 255 / 0.3);
-}
 </style>
 

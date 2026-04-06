@@ -1,0 +1,20 @@
+/* ==================== 移动端主题变量 ==================== */
+:root {
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --card-bg: rgb(255 255 255 / 0.9);
+  --card-border: rgb(0 0 0 / 0.1);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --header-bg: rgb(255 255 255 / 0.9);
+  --header-border: rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  --card-bg: rgb(255 255 255 / 0.05);
+  --card-border: rgb(255 255 255 / 0.1);
+  --text-primary: #e0e0e0;
+  --text-secondary: rgb(224 224 224 / 0.7);
+  --header-bg: rgb(255 255 255 / 0.05);
+  --header-border: rgb(255 255 255 / 0.1);
+}

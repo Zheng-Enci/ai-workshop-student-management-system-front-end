@@ -1,0 +1,28 @@
+/* ==================== 移动端文明公约区域 ==================== */
+.mechanism-section {
+  margin-bottom: 20px;
+}
+
+.mechanism-card {
+  padding: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.mechanism-card h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.mechanism-content p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  text-align: justify;
+}
