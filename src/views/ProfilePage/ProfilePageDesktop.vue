@@ -1874,4 +1874,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+:deep(.profile-page-desktop-back-btn.el-button--primary.is-circle) {
+	width: 48px !important;
+	height: 48px !important;
+	padding: 0 !important;
+	border-radius: 50% !important;
+}
 </style>
