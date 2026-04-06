@@ -1764,11 +1764,13 @@ onMounted(() => {
 					<!-- 密码修改对话框 -->
 					<el-dialog
 						v-model="showPasswordDialog"
+						v-if="showPasswordDialog"
 						title="修改密码"
 						width="700px"
 						:close-on-click-modal="false"
 						:close-on-press-escape="false"
 						class="profile-page-change-password-dialog"
+						@close="closePasswordDialog"
 					>
 						<ProfilePageChangePasswordDesktopForm v-model="showPasswordDialog" @success="closePasswordDialog" />
 					</el-dialog>
