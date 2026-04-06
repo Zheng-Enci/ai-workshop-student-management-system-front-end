@@ -52,7 +52,7 @@
 .profile-page-desktop-title-section {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 4px;
 }
 
 .profile-page-desktop-title-section h1 {
