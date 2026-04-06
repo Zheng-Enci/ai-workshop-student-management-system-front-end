@@ -9,3 +9,6 @@ PageName+Page.vue | +PageDesktop.vue | +PageMobile.vue | +Page.css | +Page.js | 
 PageName+{功能名}DesktopForm.vue | +{功能名}MobileForm.vue
 # API文件
 AttendanceApi.ts/js | PointsApi.ts/js | attendance.js | points.js | StudentManagementApi.js | ChangePassword.ts/js
+# CSS样式类名
+Vue组件文件的样式类名必须使用kebab-case格式，且前缀必须与文件名保持一致
+例如：ProfilePageUploadAvatarDesktopForm.vue 的样式类名前缀为 profile-page-upload-avatar-desktop-form-*
