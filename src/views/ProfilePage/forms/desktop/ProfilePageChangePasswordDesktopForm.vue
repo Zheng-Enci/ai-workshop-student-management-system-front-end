@@ -158,8 +158,9 @@ const handleSubmit = async () => {
  * @returns {void}
  */
 const handleCancel = () => {
-	resetForm()
-	// 通知父组件取消操作
+	passwordForm.oldPassword = ''
+	passwordForm.newPassword = ''
+	passwordForm.confirmPassword = ''
 	emit('cancel')
 }
 
