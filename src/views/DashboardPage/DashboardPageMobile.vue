@@ -679,7 +679,7 @@ const loadRankingData = async () => {
 				const dayOfWeek = now.getDay()
 				const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)
 				const monday = new Date(now.setDate(diff))
-				const [weekStart] = monday.toISOString().split('T')
+				const weekStart = monday.toLocaleDateString('en-CA')
 				response = await getWeeklyRanking(weekStart, selectedTopN)
 				break
 			}
@@ -691,7 +691,7 @@ const loadRankingData = async () => {
 				break
 			}
 			case 'today': {
-				const today = new Date().toISOString().split('T')[0]
+				const today = new Date().toLocaleDateString('en-CA')
 				const startTime = `${today}T00:00:00`
 				const endTime = `${today}T23:59:59`
 				response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
@@ -706,8 +706,8 @@ const loadRankingData = async () => {
 			case 'all': {
 				const PROJECT_LAUNCH_DATE = new Date('2024-09-09T00:00:00')
 				const now = new Date()
-				const [startDate] = PROJECT_LAUNCH_DATE.toISOString().split('T')
-				const [endDate] = now.toISOString().split('T')
+				const startDate = PROJECT_LAUNCH_DATE.toLocaleDateString('en-CA')
+				const endDate = now.toLocaleDateString('en-CA')
 				const startTime = `${startDate}T00:00:00`
 				const endTime = `${endDate}T23:59:59`
 				response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
