@@ -1046,28 +1046,28 @@ html.dark .profile-page-desktop-crop-box::after {
 	z-index: 100;
 }
 
-.profile-page-desktop-crop-box .profile-page-desktop-crop-corner-tl {
+.profile-page-desktop-crop-corner-tl {
 	top: 0;
 	left: 0;
 	border-right: none;
 	border-bottom: none;
 }
 
-.profile-page-desktop-crop-box .profile-page-desktop-crop-corner-tr {
+.profile-page-desktop-crop-corner-tr {
 	top: 0;
 	right: 0;
 	border-left: none;
 	border-bottom: none;
 }
 
-.profile-page-desktop-crop-box .profile-page-desktop-crop-corner-bl {
+.profile-page-desktop-crop-corner-bl {
 	bottom: 0;
 	left: 0;
 	border-right: none;
 	border-top: none;
 }
 
-.profile-page-desktop-crop-box .profile-page-desktop-crop-corner-br {
+.profile-page-desktop-crop-corner-br {
 	bottom: 0;
 	right: 0;
 	border-left: none;
