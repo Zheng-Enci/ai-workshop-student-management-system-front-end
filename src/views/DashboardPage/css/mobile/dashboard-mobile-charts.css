@@ -1,9 +1,9 @@
 /* ==================== 移动端图表区域 ==================== */
-.charts-section {
+.dashboard-mobile-charts-section {
   margin-bottom: 20px;
 }
 
-.chart-item {
+.dashboard-mobile-chart-item {
   padding: 16px;
   margin-bottom: 16px;
   background: var(--card-bg);
@@ -13,7 +13,7 @@
   backdrop-filter: blur(10px);
 }
 
-.chart-item h3 {
+.dashboard-mobile-chart-item h3 {
   margin: 0 0 12px;
   font-size: 16px;
   color: var(--text-primary);

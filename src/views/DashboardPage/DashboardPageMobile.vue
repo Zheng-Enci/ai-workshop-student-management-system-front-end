@@ -781,24 +781,24 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div class="dashboard-page-mobile">
-		<div class="mobile-header">
-			<div class="header-left">
-				<el-button type="text" class="back-btn" @click="goBack">
+	<div class="dashboard-mobile-page">
+		<div class="dashboard-mobile-header">
+			<div class="dashboard-mobile-header-left">
+				<el-button type="text" class="dashboard-mobile-back-btn" @click="goBack">
 					<el-icon><arrow-left /></el-icon>
 				</el-button>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
-					class="logo"
+					class="dashboard-mobile-logo"
 					@click="toggleTheme"/>
 			</div>
-			<div class="header-center">数据看板</div>
-			<div class="header-right">
+			<div class="dashboard-mobile-header-center">数据看板</div>
+			<div class="dashboard-mobile-header-right">
 				<img
 					src="@/assets/QunCeQunLiChuangXingGongXing.png"
 					alt="群策群力"
-					class="header-logo"/>
+					class="dashboard-mobile-header-logo"/>
 			</div>
 		</div>
 

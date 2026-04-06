@@ -1,133 +1,133 @@
 /* ==================== 移动端响应式布局优化 ==================== */
 /* 针对320px-480px手机屏幕优化 */
 @media (max-width: 480px) {
-  .dashboard-page-mobile {
+  .dashboard-mobile-page {
     font-size: 14px;
   }
 
-  .mobile-header {
+  .dashboard-mobile-header {
     padding: 10px 12px;
   }
 
-  .header-left {
+  .dashboard-mobile-header-left {
     gap: 8px;
   }
 
-  .back-btn {
+  .dashboard-mobile-back-btn {
     font-size: 16px;
     padding: 6px;
   }
 
-  .logo {
+  .dashboard-mobile-logo {
     width: 28px;
     height: 28px;
   }
 
-  .header-title {
+  .dashboard-mobile-header-center {
     font-size: 16px;
   }
 
-  .mobile-content {
+  .dashboard-mobile-content {
     padding: 12px;
   }
 
-  .stats-grid {
+  .dashboard-mobile-stats-grid {
     gap: 10px;
   }
 
-  .stat-card {
+  .dashboard-mobile-stat-card {
     padding: 14px;
     border-radius: 10px;
   }
 
-  .stat-label {
+  .dashboard-mobile-stat-label {
     font-size: 13px;
     margin-bottom: 6px;
   }
 
-  .stat-value {
+  .dashboard-mobile-stat-value {
     font-size: 22px;
   }
 
-  .level-stats-mobile {
+  .dashboard-mobile-level-stats {
     gap: 10px;
   }
 
-  .level-item {
+  .dashboard-mobile-level-item {
     padding: 14px;
     border-radius: 10px;
   }
 
-  .level-item .el-icon {
+  .dashboard-mobile-level-item .el-icon {
     margin-right: 12px;
     font-size: 22px;
   }
 
-  .level-label {
+  .dashboard-mobile-level-label {
     font-size: 13px;
   }
 
-  .level-value {
+  .dashboard-mobile-level-value {
     font-size: 17px;
   }
 
-  .ranking-section {
+  .dashboard-mobile-ranking-section {
     padding: 14px;
     border-radius: 10px;
   }
 
-  .section-header h3 {
+  .dashboard-mobile-ranking-header h3 {
     font-size: 16px;
     margin-bottom: 10px;
   }
 
-  .controls {
+  .dashboard-mobile-ranking-controls {
     gap: 6px;
   }
 
-  .time-radio-group .el-radio-button__inner {
+  .dashboard-mobile-ranking-radio-group .el-radio-button__inner {
     padding: 5px 10px;
     font-size: 11px;
   }
 
-  .chart-container {
+  .dashboard-mobile-ranking-chart-container {
     height: 380px;
   }
 
-  .chart {
+  .dashboard-mobile-ranking-chart {
     height: 330px;
   }
 
-  .charts-section {
+  .dashboard-mobile-charts-section {
     margin-bottom: 16px;
   }
 
-  .chart-item {
+  .dashboard-mobile-chart-item {
     padding: 14px;
     border-radius: 10px;
     margin-bottom: 14px;
   }
 
-  .chart-item h3 {
+  .dashboard-mobile-chart-item h3 {
     font-size: 15px;
     margin-bottom: 10px;
   }
 
-  .mechanism-section {
+  .dashboard-mobile-mechanism-section {
     margin-bottom: 16px;
   }
 
-  .mechanism-card {
+  .dashboard-mobile-mechanism-card {
     padding: 14px;
     border-radius: 10px;
   }
 
-  .mechanism-card h3 {
+  .dashboard-mobile-mechanism-card h3 {
     font-size: 15px;
     margin-bottom: 10px;
   }
 
-  .mechanism-content p {
+  .dashboard-mobile-mechanism-content p {
     font-size: 13px;
     line-height: 1.5;
   }
@@ -135,47 +135,47 @@
 
 /* 针对超小屏幕（320px-375px）进一步优化 */
 @media (max-width: 375px) {
-  .mobile-header {
+  .dashboard-mobile-header {
     padding: 8px 10px;
   }
 
-  .header-title {
+  .dashboard-mobile-header-center {
     font-size: 15px;
   }
 
-  .mobile-content {
+  .dashboard-mobile-content {
     padding: 10px;
   }
 
-  .stat-card {
+  .dashboard-mobile-stat-card {
     padding: 12px;
   }
 
-  .stat-value {
+  .dashboard-mobile-stat-value {
     font-size: 20px;
   }
 
-  .level-item {
+  .dashboard-mobile-level-item {
     padding: 12px;
   }
 
-  .level-item .el-icon {
+  .dashboard-mobile-level-item .el-icon {
     font-size: 20px;
   }
 
-  .level-value {
+  .dashboard-mobile-level-value {
     font-size: 16px;
   }
 
-  .chart-container {
+  .dashboard-mobile-ranking-chart-container {
     height: 360px;
   }
 
-  .chart {
+  .dashboard-mobile-ranking-chart {
     height: 310px;
   }
 
-  .time-radio-group .el-radio-button__inner {
+  .dashboard-mobile-ranking-radio-group .el-radio-button__inner {
     padding: 4px 8px;
     font-size: 10px;
   }
@@ -183,30 +183,30 @@
 
 /* 针对大一点的手机屏幕（480px-500px） */
 @media (min-width: 481px) and (max-width: 500px) {
-  .mobile-content {
+  .dashboard-mobile-content {
     padding: 18px;
   }
 
-  .stat-card {
+  .dashboard-mobile-stat-card {
     padding: 18px;
   }
 
-  .stat-value {
+  .dashboard-mobile-stat-value {
     font-size: 26px;
   }
 
-  .chart-container {
+  .dashboard-mobile-ranking-chart-container {
     height: 420px;
   }
 
-  .chart {
+  .dashboard-mobile-ranking-chart {
     height: 370px;
   }
 }
 
 /* ==================== 触摸友好优化 ==================== */
 /* 确保所有可点击元素符合触摸友好要求（最小44px高度） */
-.back-btn {
+.dashboard-mobile-back-btn {
   min-width: 44px;
   min-height: 44px;
   display: flex;
@@ -215,11 +215,11 @@
   border-radius: 8px;
 }
 
-.back-btn .el-icon {
+.dashboard-mobile-back-btn .el-icon {
   font-size: 20px;
 }
 
-.logo {
+.dashboard-mobile-logo {
   min-width: 44px;
   min-height: 44px;
   display: flex;
@@ -227,20 +227,20 @@
   justify-content: center;
 }
 
-.time-radio-group {
+.dashboard-mobile-ranking-radio-group {
   min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.time-radio-group .el-radio-button {
+.dashboard-mobile-ranking-radio-group .el-radio-button {
   min-height: 40px;
   display: flex;
   align-items: center;
 }
 
-.time-radio-group .el-radio-button__inner {
+.dashboard-mobile-ranking-radio-group .el-radio-button__inner {
   min-height: 40px;
   display: flex;
   align-items: center;
@@ -251,17 +251,17 @@
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.time-radio-group .el-radio-button__inner:hover {
+.dashboard-mobile-ranking-radio-group .el-radio-button__inner:hover {
   opacity: 0.9;
   transform: scale(1.05);
 }
 
-.time-radio-group .el-radio-button__inner:active {
+.dashboard-mobile-ranking-radio-group .el-radio-button__inner:active {
   transform: scale(0.95);
 }
 
 /* 按钮组容器优化 */
-.controls {
+.dashboard-mobile-ranking-controls {
   min-height: 44px;
   display: flex;
   align-items: center;
@@ -270,7 +270,7 @@
 }
 
 /* 统计卡片触摸优化 */
-.stat-card {
+.dashboard-mobile-stat-card {
   min-height: 80px;
   display: flex;
   flex-direction: column;
@@ -280,163 +280,163 @@
   touch-action: manipulation;
 }
 
-.stat-card:active {
+.dashboard-mobile-stat-card:active {
   transform: scale(0.98);
   transition: transform 0.1s ease;
 }
 
 /* 等级卡片触摸优化 */
-.level-item {
+.dashboard-mobile-level-item {
   min-height: 64px;
   cursor: pointer;
   touch-action: manipulation;
 }
 
-.level-item:active {
+.dashboard-mobile-level-item:active {
   transform: scale(0.98);
   transition: transform 0.1s ease;
 }
 
 /* 排行榜卡片触摸优化 */
-.ranking-section {
+.dashboard-mobile-ranking-section {
   min-height: 400px;
   cursor: pointer;
   touch-action: manipulation;
 }
 
-.ranking-section:active {
+.dashboard-mobile-ranking-section:active {
   transform: scale(0.99);
   transition: transform 0.1s ease;
 }
 
 /* 图表卡片触摸优化 */
-.chart-item {
+.dashboard-mobile-chart-item {
   min-height: 250px;
   cursor: pointer;
   touch-action: manipulation;
 }
 
-.chart-item:active {
+.dashboard-mobile-chart-item:active {
   transform: scale(0.99);
   transition: transform 0.1s ease;
 }
 
 /* 文明公约卡片触摸优化 */
-.mechanism-card {
+.dashboard-mobile-mechanism-card {
   min-height: 150px;
   cursor: pointer;
   touch-action: manipulation;
 }
 
-.mechanism-card:active {
+.dashboard-mobile-mechanism-card:active {
   transform: scale(0.99);
   transition: transform 0.1s ease;
 }
 
 /* 响应式触摸优化 */
 @media (max-width: 480px) {
-  .back-btn {
+  .dashboard-mobile-back-btn {
     min-width: 40px;
     min-height: 40px;
   }
 
-  .back-btn .el-icon {
+  .dashboard-mobile-back-btn .el-icon {
     font-size: 18px;
   }
 
-  .logo {
+  .dashboard-mobile-logo {
     min-width: 40px;
     min-height: 40px;
   }
 
-  .time-radio-group .el-radio-button__inner {
+  .dashboard-mobile-ranking-radio-group .el-radio-button__inner {
     min-height: 36px;
     padding: 5px 10px;
     font-size: 11px;
   }
 
-  .stat-card {
+  .dashboard-mobile-stat-card {
     min-height: 70px;
   }
 
-  .level-item {
+  .dashboard-mobile-level-item {
     min-height: 56px;
   }
 
-  .ranking-section {
+  .dashboard-mobile-ranking-section {
     min-height: 380px;
   }
 
-  .chart-item {
+  .dashboard-mobile-chart-item {
     min-height: 230px;
   }
 
-  .mechanism-card {
+  .dashboard-mobile-mechanism-card {
     min-height: 140px;
   }
 }
 
 @media (max-width: 375px) {
-  .back-btn {
+  .dashboard-mobile-back-btn {
     min-width: 36px;
     min-height: 36px;
   }
 
-  .back-btn .el-icon {
+  .dashboard-mobile-back-btn .el-icon {
     font-size: 16px;
   }
 
-  .logo {
+  .dashboard-mobile-logo {
     min-width: 36px;
     min-height: 36px;
   }
 
-  .time-radio-group .el-radio-button__inner {
+  .dashboard-mobile-ranking-radio-group .el-radio-button__inner {
     min-height: 32px;
     padding: 4px 8px;
     font-size: 10px;
   }
 
-  .stat-card {
+  .dashboard-mobile-stat-card {
     min-height: 64px;
   }
 
-  .level-item {
+  .dashboard-mobile-level-item {
     min-height: 48px;
   }
 
-  .ranking-section {
+  .dashboard-mobile-ranking-section {
     min-height: 360px;
   }
 
-  .chart-item {
+  .dashboard-mobile-chart-item {
     min-height: 210px;
   }
 
-  .mechanism-card {
+  .dashboard-mobile-mechanism-card {
     min-height: 130px;
   }
 }
 
 /* 针对大一点的手机屏幕（480px-500px） */
 @media (min-width: 481px) and (max-width: 500px) {
-  .stat-card {
+  .dashboard-mobile-stat-card {
     min-height: 90px;
   }
 
-  .level-item {
+  .dashboard-mobile-level-item {
     min-height: 72px;
   }
 
-  .ranking-section {
+  .dashboard-mobile-ranking-section {
     min-height: 420px;
   }
 
-  .chart-item {
+  .dashboard-mobile-chart-item {
     min-height: 270px;
   }
 
-  .mechanism-card {
+  .dashboard-mobile-mechanism-card {
     min-height: 160px;
   }
 }

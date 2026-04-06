@@ -1,11 +1,11 @@
 /* ==================== 移动端头部区域 ==================== */
-.dashboard-page-mobile {
+.dashboard-mobile-page {
   min-height: 100vh;
   padding: 0;
   background: var(--bg-gradient);
 }
 
-.mobile-header {
+.dashboard-mobile-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,35 +15,29 @@
   backdrop-filter: blur(10px);
 }
 
-.header-left {
+.dashboard-mobile-header-left {
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
-.back-btn {
+.dashboard-mobile-back-btn {
   font-size: 18px;
   color: var(--text-primary);
 }
 
-.logo {
+.dashboard-mobile-logo {
   width: 32px;
   height: 32px;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
 
-.logo:hover {
+.dashboard-mobile-logo:hover {
   transform: scale(1.1);
 }
 
-.header-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.header-center {
+.dashboard-mobile-header-center {
   flex: 1;
   text-align: center;
   font-size: 18px;
@@ -51,12 +45,12 @@
   color: var(--text-primary);
 }
 
-.header-right {
+.dashboard-mobile-header-right {
   display: flex;
   align-items: center;
 }
 
-.header-logo {
+.dashboard-mobile-header-logo {
   width: 32px;
   height: 32px;
   cursor: pointer;

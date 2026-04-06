@@ -1,9 +1,9 @@
 /* ==================== 移动端文明公约区域 ==================== */
-.mechanism-section {
+.dashboard-mobile-mechanism-section {
   margin-bottom: 20px;
 }
 
-.mechanism-card {
+.dashboard-mobile-mechanism-card {
   padding: 16px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -12,14 +12,14 @@
   backdrop-filter: blur(10px);
 }
 
-.mechanism-card h3 {
+.dashboard-mobile-mechanism-card h3 {
   margin: 0 0 12px;
   font-size: 16px;
   color: var(--text-primary);
   text-align: center;
 }
 
-.mechanism-content p {
+.dashboard-mobile-mechanism-content p {
   margin: 0;
   font-size: 14px;
   line-height: 1.6;

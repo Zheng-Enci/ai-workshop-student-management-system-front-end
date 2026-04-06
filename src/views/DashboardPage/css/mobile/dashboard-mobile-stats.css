@@ -1,16 +1,16 @@
 /* ==================== 移动端统计卡片区域 ==================== */
-.mobile-content {
+.dashboard-mobile-content {
   padding: 16px;
 }
 
-.stats-grid {
+.dashboard-mobile-stats-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
   margin-bottom: 20px;
 }
 
-.stat-card {
+.dashboard-mobile-stat-card {
   padding: 16px;
   text-align: center;
   background: var(--card-bg);
@@ -20,13 +20,13 @@
   backdrop-filter: blur(10px);
 }
 
-.stat-label {
+.dashboard-mobile-stat-label {
   margin-bottom: 8px;
   font-size: 14px;
   color: var(--text-secondary);
 }
 
-.stat-value {
+.dashboard-mobile-stat-value {
   font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);

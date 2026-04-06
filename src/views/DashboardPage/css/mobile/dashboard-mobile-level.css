@@ -1,12 +1,12 @@
 /* ==================== 移动端等级统计区域 ==================== */
-.level-stats-mobile {
+.dashboard-mobile-level-stats {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-bottom: 20px;
 }
 
-.level-item {
+.dashboard-mobile-level-item {
   display: flex;
   align-items: center;
   padding: 16px;
@@ -15,68 +15,68 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 }
 
-.admin-level {
+.dashboard-mobile-admin-level {
   background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
 }
 
-.core-level {
+.dashboard-mobile-core-level {
   background: linear-gradient(135deg, #059669 0%, #10b981 100%);
 }
 
-.normal-level {
+.dashboard-mobile-normal-level {
   background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
 }
 
-.club-level {
+.dashboard-mobile-club-level {
   background: linear-gradient(135deg, #96ceb4 0%, #b8e6b8 100%);
 }
 
-.level-item .el-icon {
+.dashboard-mobile-level-item .el-icon {
   margin-right: 16px;
   font-size: 24px;
 }
 
-.club-level .el-icon {
+.dashboard-mobile-club-level .el-icon {
   color: #2e7d32;
 }
 
-.level-info {
+.dashboard-mobile-level-info {
   display: flex;
   flex-direction: column;
 }
 
-.level-label {
+.dashboard-mobile-level-label {
   margin-bottom: 4px;
   font-size: 14px;
   opacity: 0.9;
 }
 
-.club-level .level-label {
+.dashboard-mobile-club-level .dashboard-mobile-level-label {
   color: #2e7d32;
 }
 
-.level-value {
+.dashboard-mobile-level-value {
   font-size: 18px;
   font-weight: 700;
 }
 
-.club-level .level-value {
+.dashboard-mobile-club-level .dashboard-mobile-level-value {
   color: #1b5e20;
 }
 
 /* 夜间模式下的club-level样式 */
-html.dark .club-level {
+html.dark .dashboard-mobile-club-level {
   background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%);
 }
 
-html.dark .club-level .el-icon {
+html.dark .dashboard-mobile-club-level .el-icon {
   color: rgb(255 255 255 / 0.95);
 }
 
-html.dark .club-level .level-label {
+html.dark .dashboard-mobile-club-level .dashboard-mobile-level-label {
   color: rgb(255 255 255 / 0.9);
 }
 
-html.dark .club-level .level-value {
+html.dark .dashboard-mobile-club-level .dashboard-mobile-level-value {
   color: #fff;
 }
