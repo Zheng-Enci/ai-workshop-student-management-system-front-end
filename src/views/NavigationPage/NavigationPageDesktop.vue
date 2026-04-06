@@ -925,6 +925,7 @@ onMounted(() => {
 </style>
 
 <style>
+@import '@/views/NavigationPage/css/NavigationPageDesktop.css';
 @import '@/views/NavigationPage/css/desktop/navigation-desktop-header.css';
 @import '@/views/NavigationPage/css/desktop/navigation-desktop-user-card.css';
 @import '@/views/NavigationPage/css/desktop/navigation-desktop-navSections.css';

@@ -100,16 +100,13 @@
 	width: 64px;
 	height: 64px;
 	color: var(--primary-color);
-	background: rgb(255 255 255 / 0.1);
 	border-radius: 16px;
 	box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
 	will-change: transform;
 }
 
 .navigation-desktop-navSectionCard-card:hover .navigation-desktop-navSectionCard-card-icon {
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.2), rgb(118 75 162 / 0.2));
-	box-shadow: 0 6px 16px rgb(102 126 234 / 0.3);
 	transform: scale(1.1) rotate(5deg);
 }
 
