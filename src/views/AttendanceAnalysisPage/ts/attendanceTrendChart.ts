@@ -156,7 +156,7 @@ class AttendanceTrendChart {
 			},
 			grid: {
 				left: '2%',
-				right: '2%',
+				right: '8%',
 				top: '25%',
 				bottom: '3%',
 				containLabel: true
