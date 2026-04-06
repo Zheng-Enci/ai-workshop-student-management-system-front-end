@@ -793,7 +793,13 @@ onUnmounted(() => {
 					class="logo"
 					@click="toggleTheme"/>
 			</div>
-			<div class="header-title">数据看板</div>
+			<div class="header-center">数据看板</div>
+			<div class="header-right">
+				<img
+					src="@/assets/QunCeQunLiChuangXingGongXing.png"
+					alt="群策群力"
+					class="header-logo"/>
+			</div>
 		</div>
 
 		<div class="mobile-content">

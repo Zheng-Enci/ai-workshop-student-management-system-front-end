@@ -42,3 +42,22 @@
   font-weight: 600;
   color: var(--text-primary);
 }
+
+.header-center {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
