@@ -545,7 +545,7 @@ const initCrop = () => {
  */
 const showCropDialog = file => new Promise((resolve, reject) => {
 	try {
-		const dialogWrapper = document.querySelector('.crop-dialog-overlay')
+		const dialogWrapper = document.querySelector('.profile-page-desktop-crop-dialog-overlay')
 		if (dialogWrapper) {
 			dialogWrapper.style.display = ''
 			dialogWrapper.style.visibility = ''
@@ -713,7 +713,7 @@ const resetCrop = () => {
  * @returns {void}
  */
 const cancelCrop = () => {
-	const dialogWrapper = document.querySelector('.crop-dialog-overlay')
+	const dialogWrapper = document.querySelector('.profile-page-desktop-crop-dialog-overlay')
 	if (dialogWrapper) {
 		dialogWrapper.style.opacity = '0'
 	}
@@ -927,19 +927,24 @@ watch(() => props.studentInfoId, newId => {
 			width="600px"
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
-			modal-class="crop-dialog-overlay"
-			class="crop-dialog"
+			modal-class="profile-page-desktop-crop-dialog-overlay"
+			class="profile-page-desktop-crop-dialog"
 		>
-			<div class="crop-container">
+			<div class="profile-page-desktop-crop-container">
 				<!-- 裁剪画布包装器 -->
-				<div ref="cropWrapperRef" class="crop-wrapper">
-					<canvas ref="cropCanvasRef" class="crop-canvas"/>
-					<div ref="cropBoxRef" class="crop-box"/>
+				<div ref="cropWrapperRef" class="profile-page-desktop-crop-wrapper">
+					<canvas ref="cropCanvasRef" class="profile-page-desktop-crop-canvas"/>
+					<div ref="cropBoxRef" class="profile-page-desktop-crop-box">
+						<div class="profile-page-desktop-crop-corner profile-page-desktop-crop-corner-tl"/>
+						<div class="profile-page-desktop-crop-corner profile-page-desktop-crop-corner-tr"/>
+						<div class="profile-page-desktop-crop-corner profile-page-desktop-crop-corner-bl"/>
+						<div class="profile-page-desktop-crop-corner profile-page-desktop-crop-corner-br"/>
+					</div>
 				</div>
 				<!-- 裁剪控制按钮 -->
-				<div class="crop-controls">
+				<div class="profile-page-desktop-crop-controls">
 					<el-button :icon="ZoomOut" circle @click="zoomOut"/>
-					<span class="zoom-info">{{ Math.round(scale * 100) }}%</span>
+					<span class="profile-page-desktop-zoom-info">{{ Math.round(scale * 100) }}%</span>
 					<el-button :icon="ZoomIn" circle @click="zoomIn"/>
 					<el-button style="margin-left: 20px;" @click="resetCrop">重置</el-button>
 				</div>
@@ -955,13 +960,13 @@ watch(() => props.studentInfoId, newId => {
 <style scoped>
 @import '@/views/ProfilePage/css/desktop/profile-page-desktop-avatar.css';
 
-.crop-container {
+.profile-page-desktop-crop-container {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
 }
 
-.crop-wrapper {
+.profile-page-desktop-crop-wrapper {
 	position: relative;
 	width: 100%;
 	height: 400px;
@@ -970,25 +975,108 @@ watch(() => props.studentInfoId, newId => {
 	overflow: hidden;
 }
 
-.crop-canvas {
+html.dark .profile-page-desktop-crop-wrapper {
+	background: #1a1a1a;
+}
+
+.profile-page-desktop-crop-canvas {
 	display: block;
 }
 
-.crop-box {
+.profile-page-desktop-crop-box {
 	position: absolute;
-	border: 2px dashed #409eff;
-	box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+	border: 3px solid #333;
+	box-shadow: 
+		0 0 0 9999px rgba(0, 0, 0, 0.5),
+		0 0 20px rgba(0, 0, 0, 0.3),
+		inset 0 0 0 2px #409eff;
 	cursor: move;
+	box-sizing: border-box;
 }
 
-.crop-controls {
+html.dark .profile-page-desktop-crop-box {
+	border: 3px solid #fff;
+	box-shadow: 
+		0 0 0 9999px rgba(0, 0, 0, 0.6),
+		0 0 20px rgba(0, 0, 0, 0.5),
+		inset 0 0 0 2px #409eff;
+	cursor: move;
+	box-sizing: border-box;
+}
+
+.profile-page-desktop-crop-box::before,
+.profile-page-desktop-crop-box::after {
+	content: '';
+	position: absolute;
+	background: rgba(0, 0, 0, 0.6);
+	pointer-events: none;
+}
+
+html.dark .profile-page-desktop-crop-box::before,
+html.dark .profile-page-desktop-crop-box::after {
+	background: rgba(255, 255, 255, 0.8);
+}
+
+.profile-page-desktop-crop-box::before {
+	top: 0;
+	left: 50%;
+	width: 1px;
+	height: 100%;
+	transform: translateX(-50%);
+}
+
+.profile-page-desktop-crop-box::after {
+	top: 50%;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	transform: translateY(-50%);
+}
+
+.profile-page-desktop-crop-box .profile-page-desktop-crop-corner {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border: 3px solid #409eff;
+	pointer-events: none;
+}
+
+.profile-page-desktop-crop-box .profile-page-desktop-crop-corner-tl {
+	top: 0;
+	left: 0;
+	border-right: none;
+	border-bottom: none;
+}
+
+.profile-page-desktop-crop-box .profile-page-desktop-crop-corner-tr {
+	top: 0;
+	right: 0;
+	border-left: none;
+	border-bottom: none;
+}
+
+.profile-page-desktop-crop-box .profile-page-desktop-crop-corner-bl {
+	bottom: 0;
+	left: 0;
+	border-right: none;
+	border-top: none;
+}
+
+.profile-page-desktop-crop-box .profile-page-desktop-crop-corner-br {
+	bottom: 0;
+	right: 0;
+	border-left: none;
+	border-top: none;
+}
+
+.profile-page-desktop-crop-controls {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 12px;
 }
 
-.zoom-info {
+.profile-page-desktop-zoom-info {
 	min-width: 60px;
 	text-align: center;
 	font-size: 14px;
