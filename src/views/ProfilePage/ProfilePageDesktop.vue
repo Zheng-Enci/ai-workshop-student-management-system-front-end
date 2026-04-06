@@ -172,6 +172,12 @@ const isEditing = ref(false)
  */
 const showPasswordSection = ref(false)
 /**
+ * 密码修改对话框显示状态
+ * @type {Ref<boolean>}
+ * @description 控制密码修改对话框的显示/隐藏
+ */
+const showPasswordDialog = ref(false)
+/**
  * 考勤次数
  * @type {Ref<number|null>}
  * @description 用户累计签到次数
@@ -1202,6 +1208,32 @@ const togglePasswordSection = () => {
 }
 
 /**
+ * 打开密码修改对话框
+ * @function openPasswordDialog
+ * @description 打开密码修改对话框并重置表单
+ * @returns {void}
+ */
+const openPasswordDialog = () => {
+	showPasswordDialog.value = true
+	if (passwordFormRef.value) {
+		passwordFormRef.value.clearValidate()
+	}
+}
+
+/**
+ * 关闭密码修改对话框
+ * @function closePasswordDialog
+ * @description 关闭密码修改对话框并重置表单
+ * @returns {void}
+ */
+const closePasswordDialog = () => {
+	showPasswordDialog.value = false
+	if (passwordFormRef.value) {
+		passwordFormRef.value.clearValidate()
+	}
+}
+
+/**
  * Cancel password change and hide section
  * @returns
  */
@@ -1726,8 +1758,8 @@ onMounted(() => {
 								type="primary"
 								:icon="Lock"
 								class="security-btn"
-								@click="togglePasswordSection">
-								{{ showPasswordSection ? '返回基本信息' : '修改密码' }}
+								@click="openPasswordDialog">
+								{{ showPasswordDialog ? '返回基本信息' : '修改密码' }}
 							</el-button>
 						</div>
 					</div>
