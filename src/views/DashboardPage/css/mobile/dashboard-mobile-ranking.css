@@ -9,23 +9,20 @@
 }
 
 .dashboard-mobile-ranking-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
 
-.dashboard-mobile-ranking-header h3 {
-  margin: 0 0 12px;
+.dashboard-mobile-ranking-title {
   font-size: 18px;
+  font-weight: 600;
   color: var(--dashboard-mobile-text-primary);
 }
 
-.dashboard-mobile-ranking-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
 .dashboard-mobile-ranking-select {
-  width: 100%;
+  width: 140px;
 }
 
 .dashboard-mobile-ranking-chart-container {

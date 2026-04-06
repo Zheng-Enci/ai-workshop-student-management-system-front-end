@@ -809,22 +809,20 @@ onUnmounted(() => {
 			<!-- 排行榜区域：放在最上面 -->
 			<div class="dashboard-mobile-ranking-section">
 				<div class="dashboard-mobile-ranking-header">
-					<h3>排行榜</h3>
-					<div class="dashboard-mobile-ranking-controls">
-						<el-select
-							v-model="selectedTimeRange"
-							size="small"
-							class="dashboard-mobile-ranking-select"
-							@change="loadRankingData"
-						>
-							<el-option label="本周" value="week" />
-							<el-option label="本月" value="month" />
+					<span class="dashboard-mobile-ranking-title">排行榜</span>
+					<el-select
+						v-model="selectedTimeRange"
+						size="small"
+						class="dashboard-mobile-ranking-select"
+						@change="loadRankingData"
+					>
+						<el-option label="本周" value="week" />
+						<el-option label="本月" value="month" />
 							<el-option label="今日" value="today" />
 							<el-option label="最近7天" value="last7days" />
 							<el-option label="最近30天" value="last30days" />
 							<el-option label="全部" value="all" />
-						</el-select>
-					</div>
+					</el-select>
 				</div>
 				<div class="dashboard-mobile-ranking-chart-container">
 					<div ref="attendanceChart" class="dashboard-mobile-ranking-chart"/>
