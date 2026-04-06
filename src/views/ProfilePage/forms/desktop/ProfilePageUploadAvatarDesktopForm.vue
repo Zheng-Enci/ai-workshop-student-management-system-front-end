@@ -228,11 +228,7 @@ onUnmounted(() => {
 /**
  * 加载用户头像
  * @function loadAvatar
- * @description 获取用户头像URL并验证头像是否存在
- * 流程:
- * 1. 构建头像URL
- * 2. 使用Image对象预加载验证头像是否存在
- * 3. 根据加载结果设置头像URL
+ * @description 获取用户头像URL，头像加载由v-lazy处理
  * @async
  * @returns {Promise<void>}
  */
@@ -241,30 +237,8 @@ const loadAvatar = async () => {
 		return
 	}
 
-	avatarLoading.value = true
-
-	try {
-		const avatarUrlString = getAvatarUrl(props.studentInfoId, ProfilePageConfig.AVATAR_SIZE)
-		if (!avatarUrlString) {
-			avatarUrl.value = null
-			return
-		}
-
-		avatarUrl.value = avatarUrlString
-
-		const img = new Image()
-		img.onload = () => {
-			avatarLoading.value = false
-		}
-		img.onerror = () => {
-			avatarUrl.value = null
-			avatarLoading.value = false
-		}
-		img.src = avatarUrlString
-	} catch (error) {
-		avatarUrl.value = null
-		avatarLoading.value = false
-	}
+	const avatarUrlString = getAvatarUrl(props.studentInfoId, ProfilePageConfig.AVATAR_SIZE)
+	avatarUrl.value = avatarUrlString
 }
 
 /**
@@ -910,7 +884,7 @@ watch(() => props.studentInfoId, newId => {
 				<div class="profile-page-desktop-avatar" :class="{ 'profile-page-desktop-avatar-loading': avatarLoading }">
 					<img
 						v-if="avatarUrl"
-						:src="avatarUrl"
+						v-lazy="avatarUrl"
 						alt="头像"
 						class="profile-page-desktop-avatar-image"
 						@error="handleAvatarError"
