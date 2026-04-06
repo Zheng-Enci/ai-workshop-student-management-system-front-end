@@ -311,7 +311,7 @@ onMounted(() => {
 						>
 							<div class="ScoreChangeRecordsPageMobile-record-header">
 								<span class="ScoreChangeRecordsPageMobile-record-time">{{ formatTime(record.createTime) }}</span>
-								<span class="ScoreChangeRecordsPageMobile-record-points-badge" :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
+								<span class="ScoreChangeRecordsPageMobile-record-points-badge" :class="{ 'ScoreChangeRecordsPageMobile-positive': record.adjustPoints >= 0, 'ScoreChangeRecordsPageMobile-negative': record.adjustPoints < 0 }">
 									{{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
 								</span>
 							</div>
