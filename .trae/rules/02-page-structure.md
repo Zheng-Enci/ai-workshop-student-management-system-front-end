@@ -1,3 +1,7 @@
+---
+alwaysApply: false
+description: 页面目录结构、入口文件规范、表单组件命名规则
+---
 # 页面结构
 3个Vue文件：PageName.vue（入口）、PageNameDesktop.vue、PageNameMobile.vue
 # 表单
