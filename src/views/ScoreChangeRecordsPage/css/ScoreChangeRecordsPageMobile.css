@@ -439,6 +439,25 @@
   border-color: rgba(102, 126, 234, 0.25); /* 增强边框 */
 }
 
+@keyframes card-pop-in {
+	0% {
+		opacity: 0;
+		transform: translateY(20px) scale(0.9);
+	}
+	80% {
+		transform: translateY(-4px) scale(1.02);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.record-card.card-animate {
+	animation: card-pop-in 0.4s ease-out forwards;
+	opacity: 0;
+}
+
 /**
  * 记录头部
  * 包含时间和积分变化量

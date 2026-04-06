@@ -54,6 +54,13 @@ const { toggleTheme } = themeStore
  */
 const records = ref([])
 
+/**
+ * 记录卡片动画显示状态
+ * @type {Ref<boolean>}
+ * @description 控制记录卡片是否以动画方式显示
+ */
+const showCardAnimation = ref(false)
+
 // ===================== 计算属性区 =====================
 /**
  * 排序后的记录列表
@@ -181,6 +188,8 @@ const loadRecords = async () => {
 	} finally {
 		// 隐藏全局加载蒙版
 		loadingMaskStore.hideLoadingMask()
+		// 显示记录卡片动画
+		showCardAnimation.value = true
 	}
 }
 
@@ -289,6 +298,8 @@ onMounted(() => {
 							v-for="(record, index) in sortedRecords"
 							:key="index"
 							class="record-card"
+							:class="{ 'card-animate': showCardAnimation }"
+							:style="{ animationDelay: `${index * 0.1}s` }"
 						>
 							<div class="record-header">
 								<span class="record-time">{{ formatTime(record.createTime) }}</span>
