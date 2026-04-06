@@ -933,10 +933,12 @@ watch(() => props.studentInfoId, newId => {
 			v-model="cropDialogVisible"
 			title="裁剪头像"
 			width="600px"
-			:close-on-click-modal="false"
-			:close-on-press-escape="false"
+			:close-on-click-modal="true"
+			:close-on-press-escape="true"
+			destroy-on-close
 			modal-class="profile-page-upload-avatar-desktop-form-dialog-overlay"
 			class="profile-page-upload-avatar-desktop-form-dialog"
+			@close="closeCropDialog"
 		>
 			<div class="profile-page-upload-avatar-desktop-form-container">
 				<!-- 裁剪画布包装器 -->
