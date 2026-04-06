@@ -1,6 +1,6 @@
 ---
 alwaysApply: false
-description: 使用Element库的时候必须阅读本文件
+description: Element Plus按需导入规则、样式文件导入示例
 ---
 # Element Plus 按需导入规范
 
