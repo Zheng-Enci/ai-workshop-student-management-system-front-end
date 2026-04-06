@@ -1769,8 +1769,9 @@ onMounted(() => {
 						:close-on-click-modal="false"
 						:close-on-press-escape="false"
 						class="profile-page-change-password-dialog"
+						@close="closePasswordDialog"
 					>
-						<ProfilePageChangePasswordDesktopForm @success="closePasswordDialog" @cancel="closePasswordDialog" />
+						<ProfilePageChangePasswordDesktopForm @success="closePasswordDialog" />
 					</el-dialog>
 				</div>
 			</div>

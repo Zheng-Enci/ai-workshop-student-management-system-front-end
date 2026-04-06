@@ -12,7 +12,7 @@ import { ElMessage, ElIcon, ElForm, ElFormItem, ElInput, ElButton } from 'elemen
 import { Lock } from '@element-plus/icons-vue'
 import ChangePasswordApi from '@/views/ProfilePage/js/ChangePassword'
 
-const emit = defineEmits(['success', 'cancel'])
+const emit = defineEmits(['success'])
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
@@ -154,14 +154,13 @@ const handleSubmit = async () => {
 /**
  * 取消密码修改
  * @function handleCancel
- * @description 取消密码修改操作并重置表单
+ * @description 取消密码修改操作
  * @returns {void}
  */
 const handleCancel = () => {
 	passwordForm.oldPassword = ''
 	passwordForm.newPassword = ''
 	passwordForm.confirmPassword = ''
-	emit('cancel')
 }
 
 // ======================== 生命周期 ========================
