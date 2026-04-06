@@ -222,7 +222,7 @@ const calculateDailyAvgAttendance = monthlyCount => {
 	while (currentDate <= endOfMonth) {
 		const dayOfWeek = currentDate.getDay()
 		const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6) // 周日/周六
-		const [dateString] = currentDate.toISOString().split('T') // 格式化为YYYY-MM-DD
+		const [dateString] = currentDate.toLocaleDateString('en-CA').split('T') // 格式化为YYYY-MM-DD
 		const isHoliday = holidays.includes(dateString)
 
 		// 非周末且非节假日 = 工作日
@@ -255,7 +255,7 @@ const getCurrentWeekStart = () => {
 	// 计算与周一的差值（周日特殊处理为-6）
 	const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)
 	const monday = new Date(now.setDate(diff))
-	return monday.toISOString().split('T')[0]
+	return monday.toLocaleDateString('en-CA')
 }
 
 /**
@@ -647,7 +647,7 @@ const loadRankingData = async () => {
 				break
 			}
 			case 'today': {
-				const today = new Date().toISOString().split('T')[0]
+				const today = new Date().toLocaleDateString('en-CA')
 				const startTime = `${today}T00:00:00`
 				const endTime = `${today}T23:59:59`
 				response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
@@ -664,8 +664,8 @@ const loadRankingData = async () => {
 				// 项目启动日期（固定）
 				const PROJECT_LAUNCH_DATE = new Date('2024-09-09T00:00:00')
 				const now = new Date()
-				const [startDate] = PROJECT_LAUNCH_DATE.toISOString().split('T')
-				const [endDate] = now.toISOString().split('T')
+				const startDate = PROJECT_LAUNCH_DATE.toLocaleDateString('en-CA')
+				const endDate = now.toLocaleDateString('en-CA')
 				const startTime = `${startDate}T00:00:00`
 				const endTime = `${endDate}T23:59:59`
 				response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
