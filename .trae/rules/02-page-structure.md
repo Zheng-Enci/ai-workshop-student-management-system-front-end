@@ -3,8 +3,8 @@
 # 表单
 forms/文件夹，desktop/mobile子文件夹，文件名+Form后缀
 # 表单组件命名
-表单组件文件名：{PageName}DesktopForm.vue | {PageName}MobileForm.vue
-CSS前缀：{PageNameDesktop}-{类名} | {PageNameMobile}-{类名}
+表单组件文件名：{PageName}{功能名}DesktopForm.vue | {PageName}{功能名}MobileForm.vue
+CSS前缀：{PageName}{功能名}Desktop-{类名} | {PageName}{功能名}Mobile-{类名}
 # 表单组件模板
 <script setup>
 /** *******************************************************************
