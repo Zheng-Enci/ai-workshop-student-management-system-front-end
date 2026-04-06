@@ -775,7 +775,7 @@ onMounted(() => {
 
 						<div class="navigation-desktop-navSectionCard-grid">
 							<div class="navigation-desktop-navSectionCard-card" @click="goToAttendance">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-1">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-1">
 									<el-icon size="28">
 										<check/>
 									</el-icon>
@@ -787,7 +787,7 @@ onMounted(() => {
 							</div>
 
 							<div class="navigation-desktop-navSectionCard-card" @click="showProfile">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-2">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-2">
 									<el-icon size="28">
 										<user/>
 									</el-icon>
@@ -799,7 +799,7 @@ onMounted(() => {
 							</div>
 
 							<div class="navigation-desktop-navSectionCard-card" @click="goToScoreChangeRecords">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-3">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-3">
 									<el-icon size="28">
 										<document/>
 									</el-icon>
@@ -811,7 +811,7 @@ onMounted(() => {
 							</div>
 
 							<div class="navigation-desktop-navSectionCard-card" @click="handleInvitationCode">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-4">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-4">
 									<el-icon size="28">
 										<star/>
 									</el-icon>
@@ -838,7 +838,7 @@ onMounted(() => {
 
 						<div class="navigation-desktop-navSectionCard-grid">
 							<div class="navigation-desktop-navSectionCard-card" @click="goToAttendanceAnalysis">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-5">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-5">
 									<el-icon size="28">
 										<data-analysis/>
 									</el-icon>
@@ -850,7 +850,7 @@ onMounted(() => {
 							</div>
 
 							<div class="navigation-desktop-navSectionCard-card" @click="goToDashboard">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-6">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-6">
 									<el-icon size="28">
 										<data-analysis/>
 									</el-icon>
@@ -862,7 +862,7 @@ onMounted(() => {
 							</div>
 
 							<div class="navigation-desktop-navSectionCard-card" @click="goToPointsDashboard">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-7">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-7">
 									<el-icon size="28">
 										<trophy/>
 									</el-icon>
@@ -874,7 +874,7 @@ onMounted(() => {
 							</div>
 
 							<div class="navigation-desktop-navSectionCard-card" @click="goToAllMembers">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-8">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-8">
 									<el-icon size="28">
 										<user-filled/>
 									</el-icon>
@@ -901,7 +901,7 @@ onMounted(() => {
 
 						<div class="navigation-desktop-navSectionCard-grid">
 							<div class="navigation-desktop-navSectionCard-card" @click="goToAdmin">
-								<div class="navigation-desktop-navSectionCard-card-icon nav-icon-gradient-1">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-1">
 									<el-icon size="28">
 										<user-filled/>
 									</el-icon>
