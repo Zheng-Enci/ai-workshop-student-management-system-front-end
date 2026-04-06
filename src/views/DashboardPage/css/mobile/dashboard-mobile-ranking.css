@@ -1,5 +1,5 @@
 /* ==================== 移动端排行榜区域 ==================== */
-.ranking-section {
+.dashboard-mobile-ranking-section {
   padding: 16px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -8,30 +8,30 @@
   backdrop-filter: blur(10px);
 }
 
-.section-header {
+.dashboard-mobile-ranking-header {
   margin-bottom: 16px;
 }
 
-.section-header h3 {
+.dashboard-mobile-ranking-header h3 {
   margin: 0 0 12px;
   font-size: 18px;
   color: var(--text-primary);
 }
 
-.controls {
+.dashboard-mobile-ranking-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.time-radio-group {
+.dashboard-mobile-ranking-radio-group {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
 }
 
-.time-radio-group .el-radio-button__inner {
+.dashboard-mobile-ranking-radio-group .el-radio-button__inner {
   padding: 4px 10px !important;
   font-size: 12px;
   line-height: 1.2 !important;
@@ -39,16 +39,16 @@
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.time-radio-group .el-radio-button {
+.dashboard-mobile-ranking-radio-group .el-radio-button {
   margin: 0;
   line-height: 1.2 !important;
 }
 
-.chart-container {
+.dashboard-mobile-ranking-chart-container {
   height: 400px;
 }
 
-.chart {
+.dashboard-mobile-ranking-chart {
   width: 100%;
   height: 350px;
 }

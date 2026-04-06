@@ -798,14 +798,14 @@ onUnmounted(() => {
 
 		<div class="mobile-content">
 			<!-- 排行榜区域：放在最上面 -->
-			<div class="ranking-section">
-				<div class="section-header">
+			<div class="dashboard-mobile-ranking-section">
+				<div class="dashboard-mobile-ranking-header">
 					<h3>排行榜</h3>
-					<div class="controls">
+					<div class="dashboard-mobile-ranking-controls">
 						<el-radio-group
 							v-model="selectedTimeRange"
 							size="small"
-							class="time-radio-group"
+							class="dashboard-mobile-ranking-radio-group"
 							@change="loadRankingData"
 						>
 							<el-radio-button label="week">本周</el-radio-button>
@@ -817,8 +817,8 @@ onUnmounted(() => {
 						</el-radio-group>
 					</div>
 				</div>
-				<div class="chart-container">
-					<div ref="attendanceChart" class="chart"/>
+				<div class="dashboard-mobile-ranking-chart-container">
+					<div ref="attendanceChart" class="dashboard-mobile-ranking-chart"/>
 				</div>
 			</div>
 
