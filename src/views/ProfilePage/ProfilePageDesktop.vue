@@ -1499,18 +1499,6 @@ onMounted(() => {
 									</div>
 								</div>
 							</div>
-							<!-- 编辑按钮 -->
-							<div class="profile-page-desktop-action-buttons">
-								<el-button
-									type="primary"
-									:icon="Edit"
-									:disabled="isLoading"
-									class="profile-page-desktop-edit-btn"
-									@click="toggleEditMode"
-								>
-									{{ isEditing ? '取消' : '编辑' }}
-								</el-button>
-							</div>
 						</div>
 					</div>
 
@@ -1527,6 +1515,17 @@ onMounted(() => {
 									<lock/>
 								</el-icon>
 								<span>安全保护</span>
+							</div>
+							<div class="profile-page-desktop-form-actions">
+								<el-button
+									type="primary"
+									:icon="Edit"
+									:disabled="isLoading"
+									class="profile-page-desktop-edit-btn"
+									@click="toggleEditMode"
+								>
+									{{ isEditing ? '取消' : '编辑' }}
+								</el-button>
 							</div>
 						</div>
 
