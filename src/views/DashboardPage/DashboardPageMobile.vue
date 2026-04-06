@@ -802,7 +802,7 @@ onUnmounted(() => {
 			</div>
 		</div>
 
-		<div class="mobile-content">
+		<div class="dashboard-mobile-content">
 			<!-- 排行榜区域：放在最上面 -->
 			<div class="dashboard-mobile-ranking-section">
 				<div class="dashboard-mobile-ranking-header">
@@ -829,71 +829,71 @@ onUnmounted(() => {
 			</div>
 
 			<!-- 统计数据区域 -->
-			<div class="stats-grid">
-				<div class="stat-card">
-					<div class="stat-label">今日签到总人次</div>
-					<div class="stat-value">{{ todayAttendance }}人</div>
+			<div class="dashboard-mobile-stats-grid">
+				<div class="dashboard-mobile-stat-card">
+					<div class="dashboard-mobile-stat-label">今日签到总人次</div>
+					<div class="dashboard-mobile-stat-value">{{ todayAttendance }}人</div>
 				</div>
-				<div class="stat-card">
-					<div class="stat-label">本月签到总人数</div>
-					<div class="stat-value">{{ monthlyAttendanceCount }}人</div>
+				<div class="dashboard-mobile-stat-card">
+					<div class="dashboard-mobile-stat-label">本月签到总人数</div>
+					<div class="dashboard-mobile-stat-value">{{ monthlyAttendanceCount }}人</div>
 				</div>
-				<div class="stat-card">
-					<div class="stat-label">坊内成员人数</div>
-					<div class="stat-value">{{ workshopMembersCount }}人</div>
+				<div class="dashboard-mobile-stat-card">
+					<div class="dashboard-mobile-stat-label">坊内成员人数</div>
+					<div class="dashboard-mobile-stat-value">{{ workshopMembersCount }}人</div>
 				</div>
 			</div>
 
 			<!-- 等级统计区域 -->
-			<div class="level-stats-mobile">
-				<div class="level-item admin-level">
+			<div class="dashboard-mobile-level-stats">
+				<div class="dashboard-mobile-level-item dashboard-mobile-admin-level">
 					<el-icon><setting /></el-icon>
-					<div class="level-info">
-						<span class="level-label">管理员</span>
-						<span class="level-value">{{ levelStats.admin }}人</span>
+					<div class="dashboard-mobile-level-info">
+						<span class="dashboard-mobile-level-label">管理员</span>
+						<span class="dashboard-mobile-level-value">{{ levelStats.admin }}人</span>
 					</div>
 				</div>
-				<div class="level-item core-level">
+				<div class="dashboard-mobile-level-item dashboard-mobile-core-level">
 					<el-icon><star /></el-icon>
-					<div class="level-info">
-						<span class="level-label">核心成员</span>
-						<span class="level-value">{{ levelStats.core }}人</span>
+					<div class="dashboard-mobile-level-info">
+						<span class="dashboard-mobile-level-label">核心成员</span>
+						<span class="dashboard-mobile-level-value">{{ levelStats.core }}人</span>
 					</div>
 				</div>
-				<div class="level-item normal-level">
+				<div class="dashboard-mobile-level-item dashboard-mobile-normal-level">
 					<el-icon><avatar /></el-icon>
-					<div class="level-info">
-						<span class="level-label">普通成员</span>
-						<span class="level-value">{{ levelStats.normal }}人</span>
+					<div class="dashboard-mobile-level-info">
+						<span class="dashboard-mobile-level-label">普通成员</span>
+						<span class="dashboard-mobile-level-value">{{ levelStats.normal }}人</span>
 					</div>
 				</div>
-				<div class="level-item club-level">
+				<div class="dashboard-mobile-level-item dashboard-mobile-club-level">
 					<el-icon><user /></el-icon>
-					<div class="level-info">
-						<span class="level-label">社团成员</span>
-						<span class="level-value">{{ clubMembers }}人</span>
+					<div class="dashboard-mobile-level-info">
+						<span class="dashboard-mobile-level-label">社团成员</span>
+						<span class="dashboard-mobile-level-value">{{ clubMembers }}人</span>
 					</div>
 				</div>
 			</div>
 
 			<!-- 图表区域 -->
-			<div class="charts-section">
-				<div class="chart-item">
+			<div class="dashboard-mobile-charts-section">
+				<div class="dashboard-mobile-chart-item">
 					<h3>年级分布</h3>
-					<div ref="gradeChart" class="chart"/>
+					<div ref="gradeChart" class="dashboard-mobile-chart"/>
 				</div>
 
-				<div class="chart-item">
+				<div class="dashboard-mobile-chart-item">
 					<h3>专业分布</h3>
-					<div ref="majorChart" class="chart"/>
+					<div ref="majorChart" class="dashboard-mobile-chart"/>
 				</div>
 			</div>
 
 			<!-- 文明公约区域 -->
-			<div class="mechanism-section">
-				<div class="mechanism-card">
+			<div class="dashboard-mobile-mechanism-section">
+				<div class="dashboard-mobile-mechanism-card">
 					<h3>AI 坊文明公约</h3>
-					<div class="mechanism-content">
+					<div class="dashboard-mobile-mechanism-content">
 						<p>
 							厦门工学院人工智能创作坊环境保障机制适用于所有入坊师生，遵循"谁使用，谁负责；人走场清，物归原位；共同维护"原则。
 							个人工位需人走椅归、桌面整洁、垃圾自清；公共区域保持地面无杂物、设备用后归位；最后离开者需关闭照明空调、关好门窗。
