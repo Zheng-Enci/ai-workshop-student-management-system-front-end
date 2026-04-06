@@ -231,7 +231,7 @@ class AttendanceTrendChart {
 											width: 2
 										},
 										label: {
-											formatter: `${maxValue} 人次`,
+											formatter: `${maxValue}`,
 											position: 'end',
 											color: this.getDarkMode() ? '#f50' : '#ff4400'
 										}
