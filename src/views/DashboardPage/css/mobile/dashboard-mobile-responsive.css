@@ -91,11 +91,11 @@
   }
 
   .chart-container {
-    height: 280px;
+    height: 380px;
   }
 
   .chart {
-    height: 230px;
+    height: 330px;
   }
 
   .charts-section {
@@ -168,11 +168,11 @@
   }
 
   .chart-container {
-    height: 260px;
+    height: 360px;
   }
 
   .chart {
-    height: 210px;
+    height: 310px;
   }
 
   .time-radio-group .el-radio-button__inner {
@@ -196,11 +196,11 @@
   }
 
   .chart-container {
-    height: 320px;
+    height: 420px;
   }
 
   .chart {
-    height: 270px;
+    height: 370px;
   }
 }
 
