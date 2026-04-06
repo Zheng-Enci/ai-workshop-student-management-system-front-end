@@ -59,61 +59,61 @@
 	--el-form-label-font-size: 14px;
 }
 
-.form-grid {
+.profile-page-desktop-form-grid {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 24px;
 }
 
-.form-group {
+.profile-page-desktop-form-group {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
 }
 
-.form-item {
+.profile-page-desktop-form-item {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
 }
 
-.form-label {
+.profile-page-desktop-form-label {
 	font-size: 14px;
 	font-weight: 500;
 	color: var(--text-primary);
 }
 
-.form-input {
+.profile-page-desktop-form-input {
 	width: 100%;
 }
 
-.el-select.form-input {
+.profile-page-desktop-form-input .el-select {
 	width: 100%;
 }
 
-.form-input.is-disabled .el-input__wrapper,
-.form-input.is-disabled .el-select__wrapper {
+.profile-page-desktop-form-input.is-disabled .el-input__wrapper,
+.profile-page-desktop-form-input.is-disabled .el-select__wrapper {
 	background-color: var(--bg-secondary);
 	cursor: not-allowed;
 }
 
-.form-input.is-disabled .el-input__inner,
-.form-input.is-disabled .el-select__selected-item {
+.profile-page-desktop-form-input.is-disabled .el-input__inner,
+.profile-page-desktop-form-input.is-disabled .el-select__selected-item {
 	color: var(--text-secondary);
 }
 
-.form-actions {
+.profile-page-desktop-form-actions {
 	display: flex;
 	gap: 16px;
 	padding-top: 24px;
 }
 
-.reset-btn {
+.profile-page-desktop-reset-btn {
 	padding: 12px 24px;
 	font-size: 14px;
 }
 
-.save-btn {
+.profile-page-desktop-save-btn {
 	padding: 12px 32px;
 	font-size: 16px;
 }
