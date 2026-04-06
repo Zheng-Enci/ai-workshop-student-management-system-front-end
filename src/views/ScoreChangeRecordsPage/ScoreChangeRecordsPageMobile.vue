@@ -239,11 +239,11 @@ onMounted(() => {
 					circle
 					@click="goBack"/>
 				<img
-					:src="logoUrl"
-					alt="Logo"
+					src="@/assets/AiWorkShop_icon.png"
+					alt="AI坊学生管理系统"
 					class="ScoreChangeRecordsPageMobile-logo"
-					@click="goHome"
-				/>
+					title="切换主题模式"
+					@click="toggleTheme"/>
 					<div class="ScoreChangeRecordsPageMobile-title-section">
 						<h1>积分变更记录</h1>
 						<p>查看您的积分调整历史</p>
