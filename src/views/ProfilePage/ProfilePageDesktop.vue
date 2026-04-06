@@ -6,7 +6,7 @@
  * @component ProfilePageDesktop
  */
 // Fix 1: Import order - Icons first, then Element Plus core
-import { ArrowLeft, User, Edit, Lock, Calendar } from '@element-plus/icons-vue'
+import { ArrowLeft, User, Edit, Lock } from '@element-plus/icons-vue'
 import {
 	ElMessage,
 	ElButton,
@@ -580,7 +580,6 @@ onMounted(() => {
 							<!-- 头像上传组件 -->
 							<ProfilePageUploadAvatarDesktopForm
 								:student-info-id="studentInfoId"
-								@upload-success="handleAvatarUploadSuccess"
 							/>
 							<!-- 用户详细信息 -->
 							<div class="profile-page-desktop-user-details">
