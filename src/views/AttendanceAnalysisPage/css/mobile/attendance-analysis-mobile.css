@@ -98,6 +98,16 @@ html.dark {
   flex: 1;
 }
 
+.attendance-analysis-mobile-select .el-select__wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 1px solid var(--attendance-analysis-mobile-card-border) !important;
+}
+
+.attendance-analysis-mobile-select .el-select__selection {
+  background: transparent !important;
+}
+
 .attendance-analysis-mobile-chart {
   width: 100% !important;
   height: 150px !important;
