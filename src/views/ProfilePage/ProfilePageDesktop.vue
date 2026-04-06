@@ -39,6 +39,7 @@ import 'element-plus/theme-chalk/base.css'
 
 // Project imports
 import { getMyAttendanceCount } from '@/api/attendance'
+import '@/views/ProfilePage/css/desktop/profile-page-desktop-header.css'
 import {
 	getStudentProfile,
 	updateStudentInfo,
@@ -1399,21 +1400,21 @@ onMounted(() => {
 
 <template>
 	<!-- 个人信息页面主容器 -->
-	<div class="profile-container">
+	<div class="profile-page-desktop-container">
 		<!-- 全局加载蒙版 -->
 		<LoadingMask/>
 		<!-- 背景装饰效果 -->
-		<div class="background-effects">
-			<div class="gradient-orb orb-1"/>
-			<div class="gradient-orb orb-2"/>
-			<div class="gradient-orb orb-3"/>
+		<div class="profile-page-desktop-background-effects">
+			<div class="profile-page-desktop-gradient-orb profile-page-desktop-gradient-orb-1"/>
+			<div class="profile-page-desktop-gradient-orb profile-page-desktop-gradient-orb-2"/>
+			<div class="profile-page-desktop-gradient-orb profile-page-desktop-gradient-orb-3"/>
 		</div>
 
-		<div class="content-wrapper">
+		<div class="profile-page-desktop-content-wrapper">
 			<!-- 页面头部 -->
-			<div class="page-header">
+			<div class="profile-page-desktop-page-header">
 				<el-button
-					class="back-btn"
+					class="profile-page-desktop-back-btn"
 					type="primary"
 					:icon="ArrowLeft"
 					circle
@@ -1421,49 +1422,49 @@ onMounted(() => {
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
-					class="logo"
+					class="profile-page-desktop-logo"
 					title="切换主题模式"
 					@click="toggleTheme"/>
-				<div class="title-section">
+				<div class="profile-page-desktop-title-section">
 					<h1>个人信息</h1>
 					<p>Personal Profile</p>
 				</div>
 			</div>
 
 			<!-- 主内容区域 -->
-			<div class="main-content">
+			<div class="profile-page-desktop-main-content">
 				<!-- 个人信息卡片 -->
-				<div class="profile-card">
+				<div class="profile-page-desktop-profile-card">
 					<!-- 加载遮罩 -->
-					<div v-if="isLoading" class="loading-overlay">
-						<div class="loading-spinner"/>
+					<div v-if="isLoading" class="profile-page-desktop-loading-overlay">
+						<div class="profile-page-desktop-loading-spinner"/>
 					</div>
 
 					<!-- 用户信息头部 -->
-					<div class="profile-header">
-						<div class="user-info-section">
+					<div class="profile-page-desktop-profile-header">
+						<div class="profile-page-desktop-user-info-section">
 							<!-- 头像上传区域 -->
-							<div class="avatar-wrapper">
-								<div class="avatar-container" @click="handleAvatarClick">
-									<div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
+							<div class="profile-page-desktop-avatar-wrapper">
+								<div class="profile-page-desktop-avatar-container" @click="handleAvatarClick">
+									<div class="profile-page-desktop-avatar" :class="{ 'profile-page-desktop-avatar-loading': avatarLoading }">
 										<img
 											v-if="avatarUrl"
 											:src="avatarUrl"
 											alt="头像"
-											class="avatar-image"
+											class="profile-page-desktop-avatar-image"
 											@error="handleAvatarError"
 										/>
-										<el-icon v-else class="avatar-icon">
+										<el-icon v-else class="profile-page-desktop-avatar-icon">
 											<user/>
 										</el-icon>
-										<div v-if="avatarLoading" class="avatar-loading-spinner"/>
+										<div v-if="avatarLoading" class="profile-page-desktop-avatar-loading-spinner"/>
 									</div>
-									<div class="avatar-status"/>
-									<div class="avatar-upload-overlay">
-										<el-icon class="upload-icon">
+									<div class="profile-page-desktop-avatar-status"/>
+									<div class="profile-page-desktop-avatar-upload-overlay">
+										<el-icon class="profile-page-desktop-upload-icon">
 											<camera/>
 										</el-icon>
-										<span class="upload-text">点击上传头像</span>
+										<span class="profile-page-desktop-upload-text">点击上传头像</span>
 									</div>
 									<!-- 文件输入 -->
 									<input
@@ -1474,8 +1475,8 @@ onMounted(() => {
 										@change="handleFileSelect"
 									/>
 								</div>
-								<div class="avatar-tip">
-									<el-icon class="tip-icon">
+								<div class="profile-page-desktop-avatar-tip">
+									<el-icon class="profile-page-desktop-tip-icon">
 										<camera/>
 									</el-icon>
 									<span class="tip-text">{{
@@ -1484,25 +1485,25 @@ onMounted(() => {
 								</div>
 							</div>
 							<!-- 用户详细信息 -->
-							<div class="user-details">
+							<div class="profile-page-desktop-user-details">
 								<h2>{{ formData.name || '用户' }}</h2>
-								<p class="student-id">{{ formData.studentId || '学号' }}</p>
-								<div class="user-stats">
-									<div v-if="attendanceCount !== null" class="stat-item">
-										<el-icon class="stat-icon">
+								<p class="profile-page-desktop-student-id">{{ formData.studentId || '学号' }}</p>
+								<div class="profile-page-desktop-user-stats">
+									<div v-if="attendanceCount !== null" class="profile-page-desktop-stat-item">
+										<el-icon class="profile-page-desktop-stat-icon">
 											<calendar/>
 										</el-icon>
-										<span class="stat-text">已签到 {{ attendanceCount }} 次</span>
+										<span class="profile-page-desktop-stat-text">已签到 {{ attendanceCount }} 次</span>
 									</div>
 								</div>
 							</div>
 							<!-- 编辑按钮 -->
-							<div class="action-buttons">
+							<div class="profile-page-desktop-action-buttons">
 								<el-button
 									type="primary"
 									:icon="Edit"
 									:disabled="isLoading"
-									class="edit-btn"
+									class="profile-page-desktop-edit-btn"
 									@click="toggleEditMode"
 								>
 									{{ isEditing ? '取消' : '编辑' }}
@@ -1511,16 +1512,16 @@ onMounted(() => {
 						</div>
 					</div>
 
-					<div v-if="!showPasswordSection" class="form-section">
-						<div class="section-header">
-							<div class="section-title-wrapper">
+					<div v-if="!showPasswordSection" class="profile-page-desktop-form-section">
+						<div class="profile-page-desktop-section-header">
+							<div class="profile-page-desktop-section-title-wrapper">
 								<div>
 									<h3>基本信息</h3>
 									<p>管理您的个人资料信息</p>
 								</div>
 							</div>
-							<div class="security-badge">
-								<el-icon class="badge-icon">
+							<div class="profile-page-desktop-security-badge">
+								<el-icon class="profile-page-desktop-badge-icon">
 									<lock/>
 								</el-icon>
 								<span>安全保护</span>
@@ -1531,7 +1532,7 @@ onMounted(() => {
 							ref="formRef"
 							:model="formData"
 							:rules="rules"
-							class="profile-form"
+							profile-page-desktop-form
 						>
 							<div class="form-grid">
 								<div class="form-group">
@@ -1700,7 +1701,7 @@ onMounted(() => {
 					</div>
 
 					<div class="password-section">
-						<div class="section-header">
+						<div class="profile-page-desktop-section-header">
 							<h3>安全设置</h3>
 							<p>保护您的账户安全</p>
 						</div>
@@ -1727,7 +1728,7 @@ onMounted(() => {
 					</div>
 
 					<div v-if="showPasswordSection" class="password-section">
-						<div class="section-header security-header">
+						<div class="profile-page-desktop-section-header profile-page-desktop-security-header">
 							<div class="section-title-wrapper">
 								<el-icon class="section-icon security-icon-large">
 									<lock/>
