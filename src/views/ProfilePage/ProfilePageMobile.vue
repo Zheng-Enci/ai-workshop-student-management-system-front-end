@@ -2123,6 +2123,4 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* 导入外部样式文件 */
-@import './css/ProfilePageMobile.css';
 </style>
