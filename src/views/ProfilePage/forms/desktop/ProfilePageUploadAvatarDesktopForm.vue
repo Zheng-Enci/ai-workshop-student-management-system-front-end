@@ -545,7 +545,7 @@ const initCrop = () => {
  */
 const showCropDialog = file => new Promise((resolve, reject) => {
 	try {
-		const dialogWrapper = document.querySelector('.profile-page-desktop-crop-dialog-overlay')
+		const dialogWrapper = document.querySelector('.profile-page-upload-avatar-desktop-form-dialog-overlay')
 		if (dialogWrapper) {
 			dialogWrapper.style.display = ''
 			dialogWrapper.style.visibility = ''
@@ -713,7 +713,7 @@ const resetCrop = () => {
  * @returns {void}
  */
 const cancelCrop = () => {
-	const dialogWrapper = document.querySelector('.profile-page-desktop-crop-dialog-overlay')
+	const dialogWrapper = document.querySelector('.profile-page-upload-avatar-desktop-form-dialog-overlay')
 	if (dialogWrapper) {
 		dialogWrapper.style.opacity = '0'
 	}
@@ -927,19 +927,19 @@ watch(() => props.studentInfoId, newId => {
 			width="600px"
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
-			modal-class="profile-page-desktop-crop-dialog-overlay"
-			class="profile-page-desktop-crop-dialog"
+			modal-class="profile-page-upload-avatar-desktop-form-dialog-overlay"
+			class="profile-page-upload-avatar-desktop-form-dialog"
 		>
-			<div class="profile-page-desktop-crop-container">
+			<div class="profile-page-upload-avatar-desktop-form-container">
 				<!-- 裁剪画布包装器 -->
-				<div ref="cropWrapperRef" class="profile-page-desktop-crop-wrapper">
-					<canvas ref="cropCanvasRef" class="profile-page-desktop-crop-canvas"/>
-					<div ref="cropBoxRef" class="profile-page-desktop-crop-box"/>
+				<div ref="cropWrapperRef" class="profile-page-upload-avatar-desktop-form-wrapper">
+					<canvas ref="cropCanvasRef" class="profile-page-upload-avatar-desktop-form-canvas"/>
+					<div ref="cropBoxRef" class="profile-page-upload-avatar-desktop-form-box"/>
 				</div>
 				<!-- 裁剪控制按钮 -->
-				<div class="profile-page-desktop-crop-controls">
+				<div class="profile-page-upload-avatar-desktop-form-controls">
 					<el-button :icon="ZoomOut" circle @click="zoomOut"/>
-					<span class="profile-page-desktop-zoom-info">{{ Math.round(scale * 100) }}%</span>
+					<span class="profile-page-upload-avatar-desktop-form-zoom-info">{{ Math.round(scale * 100) }}%</span>
 					<el-button :icon="ZoomIn" circle @click="zoomIn"/>
 					<el-button style="margin-left: 20px;" @click="resetCrop">重置</el-button>
 				</div>
@@ -955,13 +955,13 @@ watch(() => props.studentInfoId, newId => {
 <style scoped>
 @import '@/views/ProfilePage/css/desktop/profile-page-desktop-avatar.css';
 
-.profile-page-desktop-crop-container {
+.profile-page-upload-avatar-desktop-form-container {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
 }
 
-.profile-page-desktop-crop-wrapper {
+.profile-page-upload-avatar-desktop-form-wrapper {
 	position: relative;
 	width: 100%;
 	height: 400px;
@@ -970,15 +970,15 @@ watch(() => props.studentInfoId, newId => {
 	overflow: visible;
 }
 
-html.dark .profile-page-desktop-crop-wrapper {
+html.dark .profile-page-upload-avatar-desktop-form-wrapper {
 	background: #1a1a1a;
 }
 
-.profile-page-desktop-crop-canvas {
+.profile-page-upload-avatar-desktop-form-canvas {
 	display: block;
 }
 
-.profile-page-desktop-crop-box {
+.profile-page-upload-avatar-desktop-form-box {
 	position: absolute;
 	overflow: visible;
 	z-index: 5;
@@ -991,7 +991,7 @@ html.dark .profile-page-desktop-crop-wrapper {
 	box-sizing: border-box;
 }
 
-html.dark .profile-page-desktop-crop-box {
+html.dark .profile-page-upload-avatar-desktop-form-box {
 	overflow: visible;
 	z-index: 5;
 	border: 3px solid #fff;
@@ -1003,20 +1003,20 @@ html.dark .profile-page-desktop-crop-box {
 	box-sizing: border-box;
 }
 
-.profile-page-desktop-crop-box::before,
-.profile-page-desktop-crop-box::after {
+.profile-page-upload-avatar-desktop-form-box::before,
+.profile-page-upload-avatar-desktop-form-box::after {
 	content: '';
 	position: absolute;
 	background: rgba(0, 0, 0, 0.6);
 	pointer-events: none;
 }
 
-html.dark .profile-page-desktop-crop-box::before,
-html.dark .profile-page-desktop-crop-box::after {
+html.dark .profile-page-upload-avatar-desktop-form-box::before,
+html.dark .profile-page-upload-avatar-desktop-form-box::after {
 	background: rgba(255, 255, 255, 0.8);
 }
 
-.profile-page-desktop-crop-box::before {
+.profile-page-upload-avatar-desktop-form-box::before {
 	top: 0;
 	left: 50%;
 	width: 1px;
@@ -1024,7 +1024,7 @@ html.dark .profile-page-desktop-crop-box::after {
 	transform: translateX(-50%);
 }
 
-.profile-page-desktop-crop-box::after {
+.profile-page-upload-avatar-desktop-form-box::after {
 	top: 50%;
 	left: 0;
 	width: 100%;
@@ -1032,14 +1032,14 @@ html.dark .profile-page-desktop-crop-box::after {
 	transform: translateY(-50%);
 }
 
-.profile-page-desktop-crop-controls {
+.profile-page-upload-avatar-desktop-form-controls {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 12px;
 }
 
-.profile-page-desktop-zoom-info {
+.profile-page-upload-avatar-desktop-form-zoom-info {
 	min-width: 60px;
 	text-align: center;
 	font-size: 14px;
