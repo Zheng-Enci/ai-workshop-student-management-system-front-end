@@ -1,3 +1,7 @@
+---
+alwaysApply: false
+description: 使用Element库的时候必须阅读本文件
+---
 # Element Plus 按需导入规范
 
 本项目使用 Element Plus **按需导入**方式，必须手动导入组件对应的样式文件。
