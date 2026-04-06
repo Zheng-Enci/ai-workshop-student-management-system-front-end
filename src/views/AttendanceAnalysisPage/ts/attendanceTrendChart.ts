@@ -202,7 +202,7 @@ class AttendanceTrendChart {
 					smooth: true,
 					lineStyle: {
 						color: '#667eea',
-						width: 3
+						width: 2
 					},
 					areaStyle: {
 						color: {
@@ -228,7 +228,7 @@ class AttendanceTrendChart {
 										lineStyle: {
 											color: this.getDarkMode() ? '#f50' : '#ff4400',
 											type: 'dashed',
-											width: 2
+											width: 1
 										},
 										label: {
 											formatter: `${maxValue}`,
@@ -244,7 +244,7 @@ class AttendanceTrendChart {
 					type: 'line',
 					data: smoothValues,
 					smooth: true,
-					lineStyle: { color: this.getDarkMode() ? '#ff7875' : '#ff4d4f', width: 3, type: 'dashed' },
+					lineStyle: { color: this.getDarkMode() ? '#ff7875' : '#ff4d4f', width: 1, type: 'dashed' },
 							itemStyle: { color: this.getDarkMode() ? '#ff7875' : '#ff4d4f' },
 					symbol: 'none'
 				},
@@ -253,7 +253,7 @@ class AttendanceTrendChart {
 					type: 'line',
 					data: trendLineValues,
 					smooth: false,
-					lineStyle: { color: this.getDarkMode() ? '#52c41a' : '#389e0d', width: 2 },
+					lineStyle: { color: this.getDarkMode() ? '#52c41a' : '#389e0d', width: 1 },
 					itemStyle: { color: this.getDarkMode() ? '#52c41a' : '#389e0d' },
 					symbol: 'none'
 				}
