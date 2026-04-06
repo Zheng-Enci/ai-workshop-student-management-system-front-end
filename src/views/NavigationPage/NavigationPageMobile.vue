@@ -914,12 +914,12 @@ onBeforeUnmount(() => {
 
 <style>
 /* ==================== 移动端 CSS 模块化 ==================== */
-@import '@/views/NavigationPage/css/mobile/background.css';
-@import '@/views/NavigationPage/css/mobile/navigation-mobile-header.css';
-@import '@/views/NavigationPage/css/mobile/user-card.css';
-@import '@/views/NavigationPage/css/mobile/points-card.css';
-@import '@/views/NavigationPage/css/mobile/navSections.css';
-@import '@/views/NavigationPage/css/mobile/navSectionCard.css';
-@import '@/views/NavigationPage/css/mobile/footer.css';
+@import '@/views/NavigationPage/css/mobile/navigation-page-mobile-background.css';
+@import '@/views/NavigationPage/css/mobile/navigation-page-mobile-header.css';
+@import '@/views/NavigationPage/css/mobile/navigation-page-mobile-user-card.css';
+@import '@/views/NavigationPage/css/mobile/navigation-page-mobile-points-card.css';
+@import '@/views/NavigationPage/css/mobile/navigation-page-mobile-nav-sections.css';
+@import '@/views/NavigationPage/css/mobile/navigation-page-mobile-nav-section-card.css';
+@import '@/views/NavigationPage/css/mobile/navigation-page-mobile-footer.css';
 </style>
 
