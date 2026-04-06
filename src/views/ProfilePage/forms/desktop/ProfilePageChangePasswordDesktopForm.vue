@@ -274,7 +274,7 @@ defineExpose({
 	</div>
 </template>
 
-<style scoped>
+<style>
 /**
  * 表单容器
  * @block profile-page-change-password-desktop-form-wrapper
