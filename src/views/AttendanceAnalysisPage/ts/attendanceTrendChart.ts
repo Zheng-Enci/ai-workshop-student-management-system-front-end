@@ -253,7 +253,7 @@ class AttendanceTrendChart {
 					type: 'line',
 					data: trendLineValues,
 					smooth: false,
-					lineStyle: { color: this.getDarkMode() ? '#52c41a' : '#389e0d', width: 2 },
+					lineStyle: { color: this.getDarkMode() ? '#52c41a' : '#389e0d', width: 3 },
 					itemStyle: { color: this.getDarkMode() ? '#52c41a' : '#389e0d' },
 					symbol: 'none'
 				}
