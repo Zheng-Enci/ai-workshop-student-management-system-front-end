@@ -972,7 +972,7 @@ watch(() => props.studentInfoId, newId => {
 	height: 400px;
 	background: #f5f5f5;
 	border-radius: 8px;
-	overflow: hidden;
+	overflow: visible;
 }
 
 html.dark .profile-page-desktop-crop-wrapper {
@@ -985,6 +985,7 @@ html.dark .profile-page-desktop-crop-wrapper {
 
 .profile-page-desktop-crop-box {
 	position: absolute;
+	overflow: visible;
 	border: 3px solid #333;
 	box-shadow: 
 		0 0 0 9999px rgba(0, 0, 0, 0.5),
@@ -995,6 +996,7 @@ html.dark .profile-page-desktop-crop-wrapper {
 }
 
 html.dark .profile-page-desktop-crop-box {
+	overflow: visible;
 	border: 3px solid #fff;
 	box-shadow: 
 		0 0 0 9999px rgba(0, 0, 0, 0.6),
