@@ -85,3 +85,22 @@
 	margin: 0 auto;
 	padding: 40px 40px;
 }
+
+.profile-page-desktop-main-content {
+	opacity: 0;
+}
+
+.profile-page-desktop-animate-in {
+	animation: profilePageSlideIn 0.6s ease-out 0.2s forwards;
+}
+
+@keyframes profilePageSlideIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

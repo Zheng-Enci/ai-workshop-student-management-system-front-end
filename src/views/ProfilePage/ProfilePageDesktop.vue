@@ -566,7 +566,7 @@ onMounted(() => {
 			</div>
 
 			<!-- 主内容区域 -->
-			<div class="profile-page-desktop-main-content">
+			<div class="profile-page-desktop-main-content profile-page-desktop-animate-in">
 				<!-- 个人信息卡片 -->
 				<div class="profile-page-desktop-profile-card">
 					<!-- 加载遮罩 -->
