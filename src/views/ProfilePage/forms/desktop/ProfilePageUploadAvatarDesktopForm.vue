@@ -7,7 +7,7 @@
  */
 
 // ======================== 导入 ========================
-import { ref, reactive, nextTick, onUnmounted } from 'vue'
+import { ref, reactive, nextTick, onUnmounted, watch } from 'vue'
 import { ElMessage, ElButton, ElIcon, ElDialog } from 'element-plus'
 import { Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
 import { uploadAvatar, getAvatarUrl } from '@/api/student'
@@ -885,10 +885,23 @@ const uploadAvatarFile = async file => {
  * @returns {Promise<void>}
  */
 const init = async () => {
-	await loadAvatar()
+	if (props.studentInfoId) {
+		await loadAvatar()
+	}
 }
 
 init()
+
+/**
+ * 监听 studentInfoId 变化,当 ID 可用时加载头像
+ * @watch studentInfoId
+ * @description 监听父组件传入的 studentInfoId 属性,当值变化时重新加载头像
+ */
+watch(() => props.studentInfoId, newId => {
+	if (newId) {
+		loadAvatar()
+	}
+})
 </script>
 
 <template>
