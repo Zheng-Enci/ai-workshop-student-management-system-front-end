@@ -1003,35 +1003,6 @@ html.dark .profile-page-upload-avatar-desktop-form-box {
 	box-sizing: border-box;
 }
 
-.profile-page-upload-avatar-desktop-form-box::before,
-.profile-page-upload-avatar-desktop-form-box::after {
-	content: '';
-	position: absolute;
-	background: rgba(0, 0, 0, 0.6);
-	pointer-events: none;
-}
-
-html.dark .profile-page-upload-avatar-desktop-form-box::before,
-html.dark .profile-page-upload-avatar-desktop-form-box::after {
-	background: rgba(255, 255, 255, 0.8);
-}
-
-.profile-page-upload-avatar-desktop-form-box::before {
-	top: 0;
-	left: 50%;
-	width: 1px;
-	height: 100%;
-	transform: translateX(-50%);
-}
-
-.profile-page-upload-avatar-desktop-form-box::after {
-	top: 50%;
-	left: 0;
-	width: 100%;
-	height: 1px;
-	transform: translateY(-50%);
-}
-
 .profile-page-upload-avatar-desktop-form-controls {
 	display: flex;
 	align-items: center;
