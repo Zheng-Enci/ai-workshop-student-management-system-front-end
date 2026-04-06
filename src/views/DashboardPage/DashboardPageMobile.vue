@@ -562,7 +562,7 @@ const initAttendanceChart = data => {
 	const isDark = themeStore.isDarkMode
 
 	const chartData = sortedData.map((item, index) => ({
-		name: `${item.name} (${item.levelName})`,
+		name: item.name,
 		value: item.attendanceCount,
 		itemData: item
 	}))
@@ -580,7 +580,7 @@ const initAttendanceChart = data => {
 			},
 			formatter(params) {
 				const itemData = sortedData[params[0].dataIndex]
-				return `${itemData.name} (${itemData.levelName})<br/>${itemData.grade}年级 - ${itemData.major}<br/>签到次数: ${itemData.attendanceCount}次`
+				return `${itemData.name}<br/>${itemData.grade}年级 - ${itemData.major}<br/>签到次数: ${itemData.attendanceCount}次`
 			}
 		},
 		grid: {
