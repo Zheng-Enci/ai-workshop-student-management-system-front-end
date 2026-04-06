@@ -22,6 +22,8 @@ const themeStore = useThemeStore()
 const loadingMaskStore = useLoadingMaskStore()
 const { toggleTheme } = themeStore
 
+const showPageAnimation = ref(false)
+
 const chartRef = ref(null)
 let trendChart: AttendanceTrendChart | null = null
 
@@ -81,6 +83,7 @@ const handleResize = () => {
 let unwatchTheme: (() => void) | undefined
 
 onMounted(async () => {
+	showPageAnimation.value = true
 	await nextTick(() => {
 		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDarkMode)
 		trendChart.init()
@@ -118,7 +121,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div class="attendance-analysis-mobile-page">
+	<div class="attendance-analysis-mobile-page" :class="{ 'attendance-analysis-mobile-page-animate': showPageAnimation }">
 		<LoadingMask/>
 		<div class="attendance-analysis-mobile-header">
 			<div class="attendance-analysis-mobile-header-left">
