@@ -644,11 +644,11 @@ const initAttendanceChart = data => {
 					position: 'right',
 					formatter(params) {
 						const itemData = sortedData[params.dataIndex]
-						return `${itemData.grade}年级 ${itemData.major}`
+						return `${itemData.grade}年级\n${itemData.major}`
 					},
 					fontSize: 11,
 					color: isDark ? '#ffffff' : '#666',
-					lineHeight: 12,
+					lineHeight: 10,
 					distance: 8
 				},
 				emphasis: {
