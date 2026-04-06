@@ -790,7 +790,7 @@ onUnmounted(() => {
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
-					class="dashboard-mobile-header-logo"
+					class="dashboard-mobile-logo"
 					@click="toggleTheme"/>
 			</div>
 			<div class="dashboard-mobile-header-center">数据看板</div>
