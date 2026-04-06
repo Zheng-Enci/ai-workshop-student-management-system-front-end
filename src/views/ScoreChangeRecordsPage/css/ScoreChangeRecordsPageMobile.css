@@ -152,7 +152,6 @@
   height: 48px; /* 高度 */
   cursor: pointer; /* 鼠标指针样式 */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡动画 */
-  border-radius: 12px; /* 圆角 */
   touch-action: manipulation; /* 触摸操作优化 */
   flex-shrink: 0; /* 不允许收缩 */
 }
