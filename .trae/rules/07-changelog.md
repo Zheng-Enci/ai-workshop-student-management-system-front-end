@@ -1,23 +1,7 @@
-# Changelog Rules
-
-## Changelog File Location
-
-- Root directory: `Note/更新日志/`
-- Year directory: `Note/更新日志/YYYY/`
-- Month directory: `Note/更新日志/YYYY/MM/`
-
-## Changelog File Naming
-
-- Format: `YYYY-MM-DD-feature-description.md`
-
-## Changelog Content Format
-
-```markdown
+# 更新日志规范
+位置：Note/更新日志/YYYY/MM/
+命名：YYYY-MM-DD-功能描述.md
+格式：
 # YYYY-MM-DD
-
-## [File or Module Name]
-- Change description
-
-## [Another File or Module Name]
-- Change description
-```
+## 文件或模块名
+- 变更描述

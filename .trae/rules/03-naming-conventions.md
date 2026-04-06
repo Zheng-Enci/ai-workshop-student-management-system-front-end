@@ -1,6 +1,6 @@
-# Naming
-Ref: camelCase | Const: UPPER_SNAKE | Bool: is/has/can | Event: on/handle | API: camelCase | Private: _prefix
-# Page
+# 命名约定
+变量：ref驼峰 | 常量全大写下划线 | 布尔is/has/can | 事件on/handle | API函数驼峰 | 私有下划线前缀
+# 页面文件
 PageName+Page.vue | +PageDesktop.vue | +PageMobile.vue | +Page.css | +Page.js | +PageConfig.js | +PageUtils.js | +DataLoader.ts
-# API
+# API文件
 AttendanceApi.ts/js | PointsApi.ts/js | attendance.js | points.js | StudentManagementApi.js
