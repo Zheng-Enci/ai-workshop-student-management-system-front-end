@@ -11,6 +11,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElIcon, ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
 import { Lock } from '@element-plus/icons-vue'
 import ChangePasswordApi from '@/views/ProfilePage/js/ChangePassword'
+
+const emit = defineEmits(['success', 'cancel'])
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
