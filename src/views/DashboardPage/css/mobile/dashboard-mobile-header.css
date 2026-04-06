@@ -26,9 +26,9 @@
   color: var(--dashboard-mobile-text-primary);
 }
 
-.dashboard-mobile-header-logo {
-  width: 64px;
-  height: 44px;
+.dashboard-mobile-logo {
+  width: 32px;
+  height: 32px;
   cursor: pointer;
 }
 
