@@ -983,9 +983,6 @@ html.dark .profile-page-upload-avatar-desktop-form-wrapper {
 	overflow: visible;
 	z-index: 5;
 	border: 3px solid #333;
-	box-shadow: 
-		0 0 0 9999px rgba(0, 0, 0, 0.5),
-		0 0 20px rgba(0, 0, 0, 0.3);
 	cursor: move;
 	box-sizing: border-box;
 }
@@ -994,9 +991,6 @@ html.dark .profile-page-upload-avatar-desktop-form-box {
 	overflow: visible;
 	z-index: 5;
 	border: 3px solid #fff;
-	box-shadow: 
-		0 0 0 9999px rgba(0, 0, 0, 0.6),
-		0 0 20px rgba(0, 0, 0, 0.5);
 	cursor: move;
 	box-sizing: border-box;
 }
