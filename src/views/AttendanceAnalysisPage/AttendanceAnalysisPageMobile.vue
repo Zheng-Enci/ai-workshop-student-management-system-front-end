@@ -175,7 +175,7 @@ onUnmounted(() => {
 :deep(.el-select__wrapper) {
   background: transparent !important;
   box-shadow: none !important;
-  border: 1px solid rgb(0 0 0 / 0.1) !important;
+  border: none !important;
 }
 
 :deep(.el-select__selection) {
@@ -184,7 +184,7 @@ onUnmounted(() => {
 
 :deep(.el-button) {
   background: transparent !important;
-  border: 1px solid rgb(0 0 0 / 0.1) !important;
+  border: none !important;
 }
 
 :deep(.el-input__wrapper) {
