@@ -10,6 +10,13 @@
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import ChangePasswordApi from '@/views/ProfilePage/js/ChangePassword'
+import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/el-form.css'
+import 'element-plus/theme-chalk/el-form-item.css'
+import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-message.css'
 
 // ======================== 常量 ========================
 /**
