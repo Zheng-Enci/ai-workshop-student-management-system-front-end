@@ -237,8 +237,9 @@ const loadAvatar = async () => {
 		return
 	}
 
+	const timestamp = Date.now()
 	const avatarUrlString = getAvatarUrl(props.studentInfoId, ProfilePageConfig.AVATAR_SIZE)
-	avatarUrl.value = avatarUrlString
+	avatarUrl.value = `${avatarUrlString}&t=${timestamp}`
 }
 
 /**
@@ -792,13 +793,10 @@ const confirmCrop = async () => {
 				ElMessage.info('正在处理头像, 请稍候...')
 				const compressedFile = await ProfilePageUtils.compressImage(croppedFile)
 
-				const reader = new FileReader()
-				reader.onload = e => {
-					avatarUrl.value = e.target.result
-				}
-				reader.readAsDataURL(compressedFile)
-
 				await uploadAvatarFile(compressedFile)
+
+				await loadAvatar()
+
 				resolve()
 			}, originalImageFile.value?.type || 'image/jpeg', 0.9)
 		})
