@@ -986,6 +986,7 @@ html.dark .profile-page-desktop-crop-wrapper {
 .profile-page-desktop-crop-box {
 	position: absolute;
 	overflow: visible;
+	z-index: 5;
 	border: 3px solid #333;
 	box-shadow: 
 		0 0 0 9999px rgba(0, 0, 0, 0.5),
@@ -997,6 +998,7 @@ html.dark .profile-page-desktop-crop-wrapper {
 
 html.dark .profile-page-desktop-crop-box {
 	overflow: visible;
+	z-index: 5;
 	border: 3px solid #fff;
 	box-shadow: 
 		0 0 0 9999px rgba(0, 0, 0, 0.6),
@@ -1037,10 +1039,11 @@ html.dark .profile-page-desktop-crop-box::after {
 
 .profile-page-desktop-crop-box .profile-page-desktop-crop-corner {
 	position: absolute;
-	width: 20px;
-	height: 20px;
-	border: 3px solid #409eff;
+	width: 24px;
+	height: 24px;
+	border: 4px solid #409eff;
 	pointer-events: none;
+	z-index: 10;
 }
 
 .profile-page-desktop-crop-box .profile-page-desktop-crop-corner-tl {
