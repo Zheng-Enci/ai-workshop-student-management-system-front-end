@@ -135,7 +135,7 @@ const clubMembers = ref(0)
  * @type {Ref<string>}
  * @description 排行榜的时间范围选择('week'|'month'|'year')
  */
-const selectedTimeRange = ref('week')
+const selectedTimeRange = ref('today')
 /**
  * 排行榜显示数量
  * @type {number}
@@ -216,9 +216,9 @@ const loadUserPreferences = () => {
 	if (saved) {
 		try {
 			const preferences = JSON.parse(saved)
-			selectedTimeRange.value = preferences.selectedTimeRange || 'week'
+			selectedTimeRange.value = preferences.selectedTimeRange || 'today'
 		} catch (error) {
-			selectedTimeRange.value = 'week'
+			selectedTimeRange.value = 'today'
 		}
 	}
 }
