@@ -98,6 +98,8 @@ html.dark {
 }
 
 .attendance-analysis-mobile-chart {
-  width: 100%;
+  width: 100% !important;
   height: 150px !important;
+  min-height: 150px !important;
+  max-height: 150px !important;
 }
