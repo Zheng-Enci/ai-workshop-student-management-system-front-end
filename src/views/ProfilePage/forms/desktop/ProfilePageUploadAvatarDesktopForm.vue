@@ -1041,7 +1041,6 @@ html.dark .profile-page-desktop-crop-box::after {
 	position: absolute;
 	width: 24px;
 	height: 24px;
-	border: 4px solid #409eff;
 	pointer-events: none;
 	z-index: 100;
 }
@@ -1049,6 +1048,8 @@ html.dark .profile-page-desktop-crop-box::after {
 .profile-page-desktop-crop-corner-tl {
 	top: 0;
 	left: 0;
+	border-top: 4px solid #409eff;
+	border-left: 4px solid #409eff;
 	border-right: none;
 	border-bottom: none;
 }
@@ -1056,6 +1057,8 @@ html.dark .profile-page-desktop-crop-box::after {
 .profile-page-desktop-crop-corner-tr {
 	top: 0;
 	right: 0;
+	border-top: 4px solid #409eff;
+	border-right: 4px solid #409eff;
 	border-left: none;
 	border-bottom: none;
 }
@@ -1063,6 +1066,8 @@ html.dark .profile-page-desktop-crop-box::after {
 .profile-page-desktop-crop-corner-bl {
 	bottom: 0;
 	left: 0;
+	border-bottom: 4px solid #409eff;
+	border-left: 4px solid #409eff;
 	border-right: none;
 	border-top: none;
 }
@@ -1070,6 +1075,8 @@ html.dark .profile-page-desktop-crop-box::after {
 .profile-page-desktop-crop-corner-br {
 	bottom: 0;
 	right: 0;
+	border-bottom: 4px solid #409eff;
+	border-right: 4px solid #409eff;
 	border-left: none;
 	border-top: none;
 }
