@@ -10,14 +10,15 @@
  * 仪表板页面入口组件
  *
  * @component DashboardPage
- * @description 数据看板页面,仅支持桌面端查看
+ * @description 数据看板页面,支持桌面端和移动端查看
  * 主要功能:
  * 1. 检测设备类型(桌面端/移动端)
- * 2. 移动端显示提示信息,引导用户使用电脑端访问
+ * 2. 根据设备类型自动显示对应的仪表板版本
  * 3. 桌面端显示完整的数据看板功能
+ * 4. 移动端显示优化后的响应式数据看板
  *
  * @author 前端开发团队
- * @version 2.0.0
+ * @version 3.0.0
  */
 
 // Vue3 核心API导入
@@ -26,6 +27,7 @@ import { useRouter } from 'vue-router'
 import { ArrowLeft, Setting } from '@element-plus/icons-vue'
 import { ElButton, ElIcon } from 'element-plus'
 import DashboardPageDesktop from './DashboardPageDesktop.vue'
+import DashboardPageMobile from './DashboardPageMobile.vue'
 
 // ===================== 全局实例初始化 =====================
 const router = useRouter()
@@ -44,8 +46,8 @@ const deviceType = ref('desktop')
  * @function detectDevice
  * @description 根据浏览器窗口宽度判断当前设备类型
  * 判断规则:
- * - 屏幕宽度 < 768px: 判定为移动设备
- * - 屏幕宽度 >= 768px: 判定为桌面设备
+ * - 屏幕宽度 < 768px: 判定为移动设备,显示移动端仪表板
+ * - 屏幕宽度 >= 768px: 判定为桌面设备,显示桌面端仪表板
  * 这是响应式设计的标准断点,符合移动端和桌面端的分界
  */
 const detectDevice = () => {
@@ -91,33 +93,8 @@ onMounted(() => {
 
 <template>
 	<div class="dashboard-page">
-		<!-- 移动端: 显示提示信息 -->
-		<div v-if="deviceType === 'mobile'" class="mobile-tip">
-			<div class="mobile-tip-content">
-				<div class="tip-header">
-					<el-button type="text" class="back-btn" @click="goBack">
-						<el-icon><arrow-left /></el-icon>
-					</el-button>
-					<img
-						src="@/assets/AiWorkShop_icon.png"
-						alt="AI坊"
-						class="logo"/>
-					<div class="header-title">数据看板</div>
-				</div>
-				<div class="tip-card">
-					<div class="tip-icon">
-						<el-icon size="64"><setting /></el-icon>
-					</div>
-					<h3 class="tip-title">数据看板</h3>
-					<p class="tip-description">
-						数据看板功能仅支持电脑端查看，请在电脑上访问本系统以查看完整的数据统计和分析功能。
-					</p>
-					<el-button type="primary" class="return-btn" @click="goBack">
-						返回导航页
-					</el-button>
-				</div>
-			</div>
-		</div>
+		<!-- 移动端: 显示优化后的响应式仪表板 -->
+		<dashboard-page-mobile v-if="deviceType === 'mobile'" />
 		<!-- 桌面端: 显示完整数据看板 -->
 		<dashboard-page-desktop v-else />
 	</div>
@@ -127,107 +104,5 @@ onMounted(() => {
 .dashboard-page {
 	width: 100%;
 	height: 100%;
-}
-
-/* 移动端提示样式 */
-.mobile-tip {
-	width: 100%;
-	height: 100%;
-	background: var(--bg-color, #f5f7fa);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.mobile-tip-content {
-	width: 100%;
-	max-width: 500px;
-	padding: 20px;
-}
-
-.tip-header {
-	display: flex;
-	align-items: center;
-	margin-bottom: 40px;
-}
-
-.back-btn {
-	padding: 8px;
-	font-size: 20px;
-	color: var(--text-primary, #333);
-}
-
-.logo {
-	width: 32px;
-	height: 32px;
-	margin: 0 12px;
-	cursor: pointer;
-}
-
-.header-title {
-	flex: 1;
-	text-align: center;
-	font-size: 18px;
-	font-weight: 600;
-	color: var(--text-primary, #333);
-}
-
-.tip-card {
-	background: var(--card-bg, #fff);
-	border-radius: 16px;
-	padding: 40px 30px;
-	text-align: center;
-	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-}
-
-.tip-icon {
-	margin-bottom: 20px;
-	color: var(--primary-color, #409eff);
-}
-
-.tip-title {
-	font-size: 24px;
-	font-weight: 600;
-	color: var(--text-primary, #333);
-	margin: 0 0 16px 0;
-}
-
-.tip-description {
-	font-size: 14px;
-	color: var(--text-secondary, #666);
-	line-height: 1.6;
-	margin: 0 0 30px 0;
-}
-
-.return-btn {
-	width: 100%;
-	height: 44px;
-	font-size: 16px;
-}
-
-/* 暗色模式 */
-html.dark .mobile-tip {
-	background: var(--bg-color, #0f172a);
-}
-
-html.dark .tip-card {
-	background: var(--card-bg, #1e293b);
-	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-}
-
-html.dark .back-btn {
-	color: var(--text-primary, #e2e8f0);
-}
-
-html.dark .header-title {
-	color: var(--text-primary, #e2e8f0);
-}
-
-html.dark .tip-title {
-	color: var(--text-primary, #e2e8f0);
-}
-
-html.dark .tip-description {
-	color: var(--text-secondary, #94a3b8);
 }
 </style>
