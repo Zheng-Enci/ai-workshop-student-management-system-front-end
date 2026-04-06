@@ -707,12 +707,12 @@ const resetCrop = () => {
 }
 
 /**
- * 取消裁剪
- * @function cancelCrop
- * @description 关闭裁剪对话框并清理裁剪数据
+ * 关闭裁剪对话框并清理数据
+ * @function closeCropDialog
+ * @description 关闭对话框，先执行淡出动画再清理数据
  * @returns {void}
  */
-const cancelCrop = () => {
+const closeCropDialog = () => {
 	const dialogWrapper = document.querySelector('.profile-page-upload-avatar-desktop-form-dialog-overlay')
 	if (dialogWrapper) {
 		dialogWrapper.style.opacity = '0'
@@ -728,6 +728,16 @@ const cancelCrop = () => {
 		imageY.value = 0
 		isDragging.value = false
 	}, 0)
+}
+
+/**
+ * 取消裁剪
+ * @function cancelCrop
+ * @description 关闭裁剪对话框并清理裁剪数据
+ * @returns {void}
+ */
+const cancelCrop = () => {
+	closeCropDialog()
 }
 
 /**
@@ -788,7 +798,7 @@ const confirmCrop = async () => {
 					}
 				)
 
-				cropDialogVisible.value = false
+				closeCropDialog()
 
 				ElMessage.info('正在处理头像, 请稍候...')
 				const compressedFile = await ProfilePageUtils.compressImage(croppedFile)
