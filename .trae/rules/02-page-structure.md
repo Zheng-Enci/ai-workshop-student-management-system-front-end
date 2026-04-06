@@ -22,3 +22,9 @@ BEM/kebab命名 | -desktop/-mobile后缀 | 类名前缀：{文件名}-{类名}
 
 <template></template>
 <style scoped></style>
+
+# 路由配置
+页面路由与组件文件对应关系：
+- /pageName → PageName.vue（入口，自动检测设备类型）
+- /pageName-desktop → PageNameDesktop.vue（桌面端）
+- /pageName-mobile → PageNameMobile.vue（移动端）
