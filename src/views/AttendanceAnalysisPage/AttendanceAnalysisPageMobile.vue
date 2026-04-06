@@ -173,13 +173,13 @@ onUnmounted(() => {
 @import './css/mobile/attendance-analysis-mobile.css';
 
 :deep(.el-select__wrapper) {
-  background: rgb(255 255 255 / 0.9) !important;
+  background: transparent !important;
   box-shadow: none !important;
-  border: none !important;
+  border: 1px solid rgb(0 0 0 / 0.2) !important;
 }
 
 :deep(.el-select__selection) {
-  background: rgb(255 255 255 / 0.9) !important;
+  background: transparent !important;
 }
 
 :deep(.el-button) {

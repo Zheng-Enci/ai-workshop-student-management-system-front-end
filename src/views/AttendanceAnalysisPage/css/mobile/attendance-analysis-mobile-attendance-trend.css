@@ -31,9 +31,9 @@
 }
 
 .attendance-analysis-mobile-select .el-select__wrapper {
-  background: rgb(255 255 255 / 0.9) !important;
+  background: transparent !important;
   box-shadow: none !important;
-  border: 1px solid var(--attendance-analysis-mobile-card-border) !important;
+  border: 1px solid rgb(0 0 0 / 0.2) !important;
 }
 
 .attendance-analysis-mobile-select .el-select__selection {
