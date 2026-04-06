@@ -73,7 +73,7 @@ html.dark {
 
 .attendance-analysis-mobile-card {
   padding: 16px;
-  background: var(--attendance-analysis-mobile-card-bg);
+  background: transparent !important;
   border: 1px solid var(--attendance-analysis-mobile-card-border);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
