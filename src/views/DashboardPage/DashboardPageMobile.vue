@@ -784,9 +784,7 @@ onUnmounted(() => {
 	<div class="dashboard-mobile-page">
 		<div class="dashboard-mobile-header">
 			<div class="dashboard-mobile-header-left">
-				<el-button type="text" class="dashboard-mobile-back-btn" @click="goBack">
-					<el-icon><ArrowLeft /></el-icon>
-				</el-button>
+				<el-button type="text" class="dashboard-mobile-back-btn" :icon="ArrowLeft" @click="goBack"></el-button>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
