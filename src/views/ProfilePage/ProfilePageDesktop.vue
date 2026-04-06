@@ -1764,116 +1764,17 @@ onMounted(() => {
 						</div>
 					</div>
 
-					<div v-if="showPasswordSection" class="password-section">
-						<div class="profile-page-desktop-section-header profile-page-desktop-security-header">
-							<div class="section-title-wrapper">
-								<el-icon class="section-icon security-icon-large">
-									<lock/>
-								</el-icon>
-								<div>
-									<h3>修改密码</h3>
-									<p>为了账户安全，请设置新密码</p>
-								</div>
-							</div>
-							<div class="security-tip">
-								<el-icon class="tip-icon">
-									<lock/>
-								</el-icon>
-								<span>您的密码将被加密存储</span>
-							</div>
-						</div>
-
-						<el-form
-							ref="passwordFormRef"
-							:model="passwordForm"
-							:rules="passwordRules"
-							class="profile-form"
-						>
-							<div class="profile-page-desktop-form-grid">
-								<div class="profile-page-desktop-form-group">
-									<div class="profile-page-desktop-form-item">
-										<label class="profile-page-desktop-form-label">
-											<el-icon class="label-icon">
-												<lock/>
-											</el-icon>
-											原密码
-										</label>
-										<el-form-item prop="oldPassword">
-											<el-input
-												v-model="passwordForm.oldPassword"
-												type="password"
-												placeholder="请输入原密码"
-												maxlength="16"
-												show-password
-												class="profile-page-desktop-form-input security-input"
-											/>
-										</el-form-item>
-									</div>
-
-									<div class="profile-page-desktop-form-item">
-										<label class="profile-page-desktop-form-label">
-											<el-icon class="label-icon">
-												<lock/>
-											</el-icon>
-											新密码
-										</label>
-										<el-form-item prop="newPassword">
-											<el-input
-												v-model="passwordForm.newPassword"
-												type="password"
-												placeholder="请输入新密码（6-16位字符）"
-												maxlength="16"
-												show-password
-												class="profile-page-desktop-form-input security-input"
-											/>
-										</el-form-item>
-										<div class="security-hint">
-											<el-icon class="hint-icon">
-												<lock/>
-											</el-icon>
-											<span>建议使用字母、数字和特殊字符组合</span>
-										</div>
-									</div>
-
-									<div class="profile-page-desktop-form-item">
-										<label class="profile-page-desktop-form-label">
-											<el-icon class="label-icon">
-												<lock/>
-											</el-icon>
-											确认新密码
-										</label>
-										<el-form-item prop="confirmPassword">
-											<el-input
-												v-model="passwordForm.confirmPassword"
-												type="password"
-												placeholder="请再次输入新密码"
-												maxlength="16"
-												show-password
-												class="profile-page-desktop-form-input security-input"
-											/>
-										</el-form-item>
-									</div>
-								</div>
-							</div>
-
-							<div class="profile-page-desktop-form-actions">
-								<el-button
-									:disabled="isPasswordLoading"
-									class="profile-page-desktop-reset-btn"
-									@click="cancelPasswordChange">
-									取消
-								</el-button>
-								<el-button
-									type="primary"
-									:loading="isPasswordLoading"
-									class="profile-page-desktop-save-btn"
-									@click="confirmPasswordChange"
-								>
-									确认修改
-								</el-button>
-							</div>
-						</el-form>
-					</div>
+					<!-- 密码修改对话框 -->
+					<el-dialog
+						v-model="showPasswordDialog"
+						title="修改密码"
+						width="700px"
+						:close-on-click-modal="false"
+						:close-on-press-escape="false"
+						class="profile-page-change-password-dialog"
+					>
+						<ProfilePageChangePasswordDesktopForm @success="closePasswordDialog" @cancel="closePasswordDialog" />
+					</el-dialog>
 				</div>
 			</div>
 		</div>
