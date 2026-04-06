@@ -881,6 +881,7 @@ watch(() => props.studentInfoId, newId => {
 				<div class="profile-page-desktop-avatar" :class="{ 'profile-page-desktop-avatar-loading': avatarLoading }">
 					<img
 						v-if="avatarUrl"
+						:key="avatarUrl"
 						v-lazy="avatarUrl"
 						alt="头像"
 						class="profile-page-desktop-avatar-image"
