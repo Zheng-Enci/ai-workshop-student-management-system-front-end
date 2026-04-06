@@ -595,12 +595,12 @@ onMounted(() => {
 
 <template>
 	<!-- 导航页面主容器 -->
-	<div class="navigation-container">
+	<div class="navigation-desktop-header-navigation-container">
 		<!-- 背景装饰效果 -->
-		<div class="background-effects">
-			<div class="gradient-orb orb-1"/>
-			<div class="gradient-orb orb-2"/>
-			<div class="gradient-orb orb-3"/>
+		<div class="navigation-desktop-header-background-effects">
+			<div class="navigation-desktop-header-gradient-orb navigation-desktop-header-orb-1"/>
+			<div class="navigation-desktop-header-gradient-orb navigation-desktop-header-orb-2"/>
+			<div class="navigation-desktop-header-gradient-orb navigation-desktop-header-orb-3"/>
 		</div>
 
 		<!-- 页面头部 -->
@@ -655,7 +655,7 @@ onMounted(() => {
 		</div>
 
 		<!-- 主内容区域 -->
-		<div class="navigation-desktop-main-content">
+		<div class="navigation-desktop-header-main-content">
 			<!-- 中心卡片布局 -->
 			<div class="navigation-desktop-user-card-hub-layout">
 				<!-- 中心信息卡片 -->

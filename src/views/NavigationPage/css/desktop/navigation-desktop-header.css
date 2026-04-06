@@ -1,6 +1,6 @@
 /* ==================== 页面容器 ==================== */
 
-.navigation-container {
+.navigation-desktop-header-navigation-container {
 	position: relative;
 	min-height: 100vh;
 	overflow: hidden;
@@ -9,7 +9,7 @@
 
 /* ==================== 背景效果 ==================== */
 
-.background-effects {
+.navigation-desktop-header-background-effects {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -19,7 +19,7 @@
 	pointer-events: none;
 }
 
-.gradient-orb {
+.navigation-desktop-header-gradient-orb {
 	position: absolute;
 	border-radius: 50%;
 	opacity: 0.3;
@@ -27,7 +27,7 @@
 	animation: float 20s ease-in-out infinite;
 }
 
-.orb-1 {
+.navigation-desktop-header-orb-1 {
 	top: 10%;
 	left: 10%;
 	width: 300px;
@@ -36,7 +36,7 @@
 	animation-delay: 0s;
 }
 
-.orb-2 {
+.navigation-desktop-header-orb-2 {
 	top: 60%;
 	right: 10%;
 	width: 200px;
@@ -45,7 +45,7 @@
 	animation-delay: -7s;
 }
 
-.orb-3 {
+.navigation-desktop-header-orb-3 {
 	bottom: 20%;
 	left: 50%;
 	width: 250px;
@@ -171,7 +171,7 @@
 
 /* ==================== 主内容区域 ==================== */
 
-.navigation-desktop-main-content {
+.navigation-desktop-header-main-content {
 	position: relative;
 	z-index: 10;
 	display: flex;
