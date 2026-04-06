@@ -557,12 +557,14 @@ const initAttendanceChart = data => {
 
 	chartInstance = echarts.init(attendanceChart.value)
 
-	const chartData = data.map((item, index) => ({
-		name: item.name,
+	// 数据按签到数升序排序（横向柱状图从下到上递增）
+	const sortedData = [...data].sort((a, b) => a.attendanceCount - b.attendanceCount)
+	const isDark = themeStore.isDarkMode
+
+	const chartData = sortedData.map((item, index) => ({
+		name: `${item.name} (${item.levelName})`,
 		value: item.attendanceCount,
-		itemStyle: {
-			color: `hsl(${200 + index * 5}, 70%, 50%)`
-		}
+		itemData: item
 	}))
 
 	const option = {
@@ -570,33 +572,91 @@ const initAttendanceChart = data => {
 			trigger: 'axis',
 			axisPointer: {
 				type: 'shadow'
+			},
+			backgroundColor: isDark ? 'rgba(30, 41, 59, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+			borderColor: isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+			textStyle: {
+				color: isDark ? '#ffffff' : '#2c3e50'
+			},
+			formatter(params) {
+				const itemData = sortedData[params[0].dataIndex]
+				return `${itemData.name} (${itemData.levelName})<br/>${itemData.grade}年级 - ${itemData.major}<br/>签到次数: ${itemData.attendanceCount}次`
 			}
 		},
 		grid: {
-			left: '3%',
-			right: '4%',
+			left: '0%',
+			right: '15%',
 			bottom: '3%',
+			top: '0%',
 			containLabel: true
 		},
 		xAxis: {
-			type: 'category',
-			data: chartData.map(item => item.name),
+			type: 'value',
 			axisLabel: {
-				rotate: 45,
-				fontSize: 10
+				fontSize: 12,
+				formatter: '{value}次',
+				color: isDark ? '#ffffff' : '#2c3e50'
+			},
+			axisLine: {
+				lineStyle: {
+					color: isDark ? '#ffffff' : '#2c3e50'
+				}
 			}
 		},
 		yAxis: {
-			type: 'value',
-			name: '签到次数'
+			type: 'category',
+			data: chartData.map(item => item.name),
+			axisLabel: {
+				interval: 0,
+				fontSize: 12,
+				color: isDark ? '#ffffff' : '#2c3e50'
+			},
+			axisLine: {
+				lineStyle: {
+					color: isDark ? '#ffffff' : '#2c3e50'
+				}
+			}
 		},
 		series: [
 			{
 				name: '签到次数',
 				type: 'bar',
-				data: chartData,
+				data: chartData.map(item => item.value),
+				barWidth: '60%',
 				itemStyle: {
-					borderRadius: [4, 4, 0, 0]
+					color(params) {
+						const totalCount = sortedData.length
+						const index = params.dataIndex
+
+						if (totalCount <= 10) {
+							const colors = ['#e3f2fd', '#bbdefb', '#90caf9', '#64b5f6', '#42a5f5', '#2196f3', '#1e88e5', '#1976d2', '#1565c0', '#0d47a1']
+							return colors[index]
+						}
+						const hue = 200 + (index / totalCount) * 40
+						const saturation = 70 + (index / totalCount) * 20
+						const lightness = 85 - (index / totalCount) * 30
+						return `hsl(${hue}, ${saturation}%, ${lightness}%)`
+					},
+					borderRadius: [0, 4, 4, 0]
+				},
+				label: {
+					show: true,
+					position: 'right',
+					formatter(params) {
+						const itemData = sortedData[params.dataIndex]
+						return `${itemData.grade}年级\n${itemData.major}`
+					},
+					fontSize: 11,
+					color: isDark ? '#ffffff' : '#666',
+					lineHeight: 14,
+					distance: 10
+				},
+				emphasis: {
+					itemStyle: {
+						shadowBlur: 10,
+						shadowOffsetX: 0,
+						shadowColor: 'rgba(0, 0, 0, 0.5)'
+					}
 				}
 			}
 		]
