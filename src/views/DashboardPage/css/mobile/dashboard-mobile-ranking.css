@@ -36,7 +36,7 @@
 }
 
 .time-radio-group .el-radio-button__inner {
-  padding: 6px 12px;
+  padding: 4px 10px;
   font-size: 12px;
   border-radius: 6px;
   transition: opacity 0.2s ease, transform 0.2s ease;
