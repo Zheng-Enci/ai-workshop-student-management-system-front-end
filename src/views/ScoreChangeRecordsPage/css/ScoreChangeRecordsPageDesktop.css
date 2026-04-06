@@ -17,6 +17,53 @@
   background: var(--bg-primary); /* 主背景颜色 */
 }
 
+/**
+ * 页面入场动画
+ * 淡入并向上滑动的效果
+ */
+.score-change-records-page-animate {
+  animation: scorePageFadeInUp 0.6s ease-out;
+}
+
+@keyframes scorePageFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/**
+ * 记录卡片入场前初始状态
+ * 透明度为0，略微向下偏移
+ */
+.record-card {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/**
+ * 记录卡片入场动画
+ * 淡入并向上滑动的效果，配合延迟实现依次出现
+ */
+.record-card-animate {
+  animation: recordCardFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes recordCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ==================== 背景效果 ==================== */
 
 /**
