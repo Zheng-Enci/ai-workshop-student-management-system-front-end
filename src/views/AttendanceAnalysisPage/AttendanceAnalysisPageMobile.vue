@@ -74,7 +74,7 @@ const goBack = () => {
 
 const handleResize = () => {
 	if (trendChart) {
-		trendChart.resize(undefined, 150)
+		trendChart.resize(undefined, 200)
 	}
 }
 
@@ -85,9 +85,9 @@ onMounted(async () => {
 		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDarkMode)
 		trendChart.init()
 		if (chartRef.value) {
-			chartRef.value.style.height = '150px'
+			chartRef.value.style.height = '200px'
 		}
-		trendChart.resize(undefined, 150)
+		trendChart.resize(undefined, 200)
 		unwatchTheme = watch(
 			() => themeStore.isDarkMode,
 			(newIsDarkMode) => {
