@@ -6,7 +6,7 @@
  * @component ProfilePageDesktop
  */
 // Fix 1: Import order - Icons first, then Element Plus core
-import { ArrowLeft, User, Edit, Lock } from '@element-plus/icons-vue'
+import { ArrowLeft, User, Edit, Lock, Calendar } from '@element-plus/icons-vue'
 import {
 	ElMessage,
 	ElButton,
