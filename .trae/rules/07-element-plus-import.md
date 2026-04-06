@@ -16,26 +16,6 @@
 element-plus/theme-chalk/{组件名}.css
 ```
 
-## 组件与样式对应表
-
-| 组件 | 样式文件 |
-|------|----------|
-| ElButton | el-button.css |
-| ElInput | el-input.css |
-| ElForm / ElFormItem | el-form.css / el-form-item.css |
-| ElMessage | el-message.css |
-| ElDialog | el-dialog.css |
-| ElSelect / ElOption | el-select.css / el-option.css |
-| ElIcon | el-icon.css |
-| ElTable | el-table.css |
-| ElPagination | el-pagination.css |
-| ElDatePicker | el-date-picker.css |
-| ElUpload | el-upload.css |
-| ElTag | el-tag.css |
-| ElSwitch | el-switch.css |
-| ElRadio / ElCheckbox | el-radio.css / el-checkbox.css |
-| **基础样式（必加）** | base.css |
-
 ## 示例
 
 ```js
