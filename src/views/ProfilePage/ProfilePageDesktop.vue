@@ -44,6 +44,7 @@ import '@/views/ProfilePage/css/desktop/profile-page-desktop-header.css'
 import '@/views/ProfilePage/css/desktop/profile-page-desktop-avatar.css'
 import '@/views/ProfilePage/css/desktop/profile-page-desktop-user-info.css'
 import '@/views/ProfilePage/css/desktop/profile-page-desktop-form.css'
+import '@/views/ProfilePage/css/desktop/profile-page-desktop-security.css'
 import {
 	getStudentProfile,
 	updateStudentInfo,
