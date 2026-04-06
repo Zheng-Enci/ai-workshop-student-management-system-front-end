@@ -1,0 +1,56 @@
+.profile-page-desktop-user-info-section {
+	display: flex;
+	gap: 32px;
+}
+
+.profile-page-desktop-user-details {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.profile-page-desktop-user-details h2 {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 700;
+	color: var(--text-primary);
+}
+
+.profile-page-desktop-student-id {
+	margin: 0;
+	font-size: 16px;
+	color: var(--text-secondary);
+}
+
+.profile-page-desktop-user-stats {
+	display: flex;
+	gap: 24px;
+}
+
+.profile-page-desktop-stat-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--text-secondary);
+}
+
+.profile-page-desktop-stat-icon {
+	width: 20px;
+	height: 20px;
+	color: var(--color-primary);
+}
+
+.profile-page-desktop-stat-text {
+	font-size: 14px;
+}
+
+.profile-page-desktop-action-buttons {
+	display: flex;
+	gap: 16px;
+}
+
+.profile-page-desktop-edit-btn {
+	padding: 12px 24px;
+	font-size: 16px;
+}
