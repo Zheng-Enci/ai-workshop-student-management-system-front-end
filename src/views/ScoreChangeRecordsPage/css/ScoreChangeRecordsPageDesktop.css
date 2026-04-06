@@ -193,11 +193,11 @@
  * 应用Logo，支持点击和悬停效果
  */
 .score-change-records-page-desktop-logo {
-  width: 56px; /* 宽度 */
-  height: 56px; /* 高度 */
-  cursor: pointer; /* 鼠标指针样式 */
-  border-radius: 14px; /* 圆角 */
-  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡动画 */
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /**
