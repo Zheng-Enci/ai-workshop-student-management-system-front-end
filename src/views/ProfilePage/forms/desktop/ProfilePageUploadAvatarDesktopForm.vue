@@ -934,12 +934,7 @@ watch(() => props.studentInfoId, newId => {
 				<!-- 裁剪画布包装器 -->
 				<div ref="cropWrapperRef" class="profile-page-desktop-crop-wrapper">
 					<canvas ref="cropCanvasRef" class="profile-page-desktop-crop-canvas"/>
-					<div ref="cropBoxRef" class="profile-page-desktop-crop-box">
-						<div class="profile-page-desktop-crop-corner profile-page-desktop-crop-corner-tl"/>
-						<div class="profile-page-desktop-crop-corner profile-page-desktop-crop-corner-tr"/>
-						<div class="profile-page-desktop-crop-corner profile-page-desktop-crop-corner-bl"/>
-						<div class="profile-page-desktop-crop-corner profile-page-desktop-crop-corner-br"/>
-					</div>
+					<div ref="cropBoxRef" class="profile-page-desktop-crop-box"/>
 				</div>
 				<!-- 裁剪控制按钮 -->
 				<div class="profile-page-desktop-crop-controls">
@@ -1035,50 +1030,6 @@ html.dark .profile-page-desktop-crop-box::after {
 	width: 100%;
 	height: 1px;
 	transform: translateY(-50%);
-}
-
-.profile-page-desktop-crop-box .profile-page-desktop-crop-corner {
-	position: absolute;
-	width: 24px;
-	height: 24px;
-	pointer-events: none;
-	z-index: 100;
-}
-
-.profile-page-desktop-crop-corner-tl {
-	top: 0;
-	left: 0;
-	border-top: 4px solid #409eff;
-	border-left: 4px solid #409eff;
-	border-right: none;
-	border-bottom: none;
-}
-
-.profile-page-desktop-crop-corner-tr {
-	top: 0;
-	right: 0;
-	border-top: 4px solid #409eff;
-	border-right: 4px solid #409eff;
-	border-left: none;
-	border-bottom: none;
-}
-
-.profile-page-desktop-crop-corner-bl {
-	bottom: 0;
-	left: 0;
-	border-bottom: 4px solid #409eff;
-	border-left: 4px solid #409eff;
-	border-right: none;
-	border-top: none;
-}
-
-.profile-page-desktop-crop-corner-br {
-	bottom: 0;
-	right: 0;
-	border-bottom: 4px solid #409eff;
-	border-right: 4px solid #409eff;
-	border-left: none;
-	border-top: none;
 }
 
 .profile-page-desktop-crop-controls {
