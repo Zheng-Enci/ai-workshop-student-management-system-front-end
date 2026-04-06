@@ -323,8 +323,8 @@ defineExpose({
  * @block profile-page-change-password-desktop-form-grid
  */
 .profile-page-change-password-desktop-form-grid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	display: flex;
+	flex-direction: column;
 	gap: 24px;
 }
 
