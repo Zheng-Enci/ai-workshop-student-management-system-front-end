@@ -37,10 +37,3 @@ import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 ```
-
-## 注意事项
-
-1. **base.css 是基础样式**，每个使用 Element Plus 的文件都建议导入
-2. 导入顺序：先 base.css，再按组件依赖顺序导入
-3. 如果不确定需要哪些样式，可以参考同类型页面或组件的导入
-4. 样式文件位于 `node_modules/element-plus/theme-chalk/` 目录下
