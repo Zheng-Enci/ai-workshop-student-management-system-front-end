@@ -831,13 +831,15 @@ onUnmounted(() => {
 
 			<!-- 统计数据区域 -->
 			<div class="dashboard-mobile-stats-grid">
-				<div class="dashboard-mobile-stat-card">
-					<div class="dashboard-mobile-stat-label">今日签到总人次</div>
-					<div class="dashboard-mobile-stat-value">{{ todayAttendance }}人</div>
-				</div>
-				<div class="dashboard-mobile-stat-card">
-					<div class="dashboard-mobile-stat-label">本月签到总人数</div>
-					<div class="dashboard-mobile-stat-value">{{ monthlyAttendanceCount }}人</div>
+				<div class="dashboard-mobile-stat-row">
+					<div class="dashboard-mobile-stat-card">
+						<div class="dashboard-mobile-stat-label">今日签到总人次</div>
+						<div class="dashboard-mobile-stat-value">{{ todayAttendance }}人</div>
+					</div>
+					<div class="dashboard-mobile-stat-card">
+						<div class="dashboard-mobile-stat-label">本月签到总人数</div>
+						<div class="dashboard-mobile-stat-value">{{ monthlyAttendanceCount }}人</div>
+					</div>
 				</div>
 				<div class="dashboard-mobile-stat-card">
 					<div class="dashboard-mobile-stat-label">坊内成员人数</div>
