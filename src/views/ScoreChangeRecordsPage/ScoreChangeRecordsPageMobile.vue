@@ -221,101 +221,101 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="score-change-records-container" :class="{ 'page-animate': showPageAnimation }">
+	<div class="ScoreChangeRecordsPageMobile-score-change-records-container" :class="{ 'ScoreChangeRecordsPageMobile-page-animate': showPageAnimation }">
 		<!-- 全局加载蒙版 -->
 		<LoadingMask/>
-		<div class="background-effects">
-			<div class="gradient-orb orb-1"/>
-			<div class="gradient-orb orb-2"/>
-			<div class="gradient-orb orb-3"/>
+		<div class="ScoreChangeRecordsPageMobile-background-effects">
+			<div class="ScoreChangeRecordsPageMobile-gradient-orb ScoreChangeRecordsPageMobile-orb-1"/>
+			<div class="ScoreChangeRecordsPageMobile-gradient-orb ScoreChangeRecordsPageMobile-orb-2"/>
+			<div class="ScoreChangeRecordsPageMobile-gradient-orb ScoreChangeRecordsPageMobile-orb-3"/>
 		</div>
 
-		<div class="header">
-			<div class="header-content">
+		<div class="ScoreChangeRecordsPageMobile-header">
+			<div class="ScoreChangeRecordsPageMobile-header-content">
 				<el-button
-					class="back-btn"
+					class="ScoreChangeRecordsPageMobile-back-btn"
 					type="primary"
 					:icon="ArrowLeft"
 					circle
 					@click="goBack"/>
 				<img
-					src="@/assets/AiWorkShop_icon.png"
-					alt="AI坊学生管理系统"
-					class="logo"
-					title="切换主题模式"
-					@click="toggleTheme"/>
-				<div class="title-section">
-					<h1>改分记录</h1>
-					<p>查看所有积分调整记录</p>
+					:src="logoUrl"
+					alt="Logo"
+					class="ScoreChangeRecordsPageMobile-logo"
+					@click="goHome"
+				/>
+					<div class="ScoreChangeRecordsPageMobile-title-section">
+						<h1>积分变更记录</h1>
+						<p>查看您的积分调整历史</p>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="main-content">
-			<div class="content-wrapper">
-				<!-- 统计信息卡片 -->
-				<div class="stats-card">
-					<div class="stats-item">
-						<div class="stats-icon total">
-							<el-icon size="20"><document /></el-icon>
+			<div class="ScoreChangeRecordsPageMobile-main-content">
+				<div class="ScoreChangeRecordsPageMobile-content-wrapper">
+					<!-- 统计卡片 -->
+					<div class="ScoreChangeRecordsPageMobile-stats-card">
+						<div class="ScoreChangeRecordsPageMobile-stats-item">
+							<div class="ScoreChangeRecordsPageMobile-stats-icon ScoreChangeRecordsPageMobile-total">
+								<el-icon><Coin /></el-icon>
+							</div>
+							<div class="ScoreChangeRecordsPageMobile-stats-info">
+								<span class="ScoreChangeRecordsPageMobile-stats-label">总记录数</span>
+								<span class="ScoreChangeRecordsPageMobile-stats-value">{{ records.length }}</span>
+							</div>
 						</div>
-						<div class="stats-info">
-							<div class="stats-label">总记录数</div>
-							<div class="stats-value">{{ records.length }}</div>
+						<div class="ScoreChangeRecordsPageMobile-stats-item">
+							<div class="ScoreChangeRecordsPageMobile-stats-icon ScoreChangeRecordsPageMobile-positive">
+								<el-icon><ArrowUp /></el-icon>
+							</div>
+							<div class="ScoreChangeRecordsPageMobile-stats-info">
+								<span class="ScoreChangeRecordsPageMobile-stats-label">加分记录</span>
+								<span class="ScoreChangeRecordsPageMobile-stats-value">{{ positiveCount }}</span>
+							</div>
+						</div>
+						<div class="ScoreChangeRecordsPageMobile-stats-item">
+							<div class="ScoreChangeRecordsPageMobile-stats-icon ScoreChangeRecordsPageMobile-negative">
+								<el-icon><ArrowDown /></el-icon>
+							</div>
+							<div class="ScoreChangeRecordsPageMobile-stats-info">
+								<span class="ScoreChangeRecordsPageMobile-stats-label">扣分记录</span>
+								<span class="ScoreChangeRecordsPageMobile-stats-value">{{ negativeCount }}</span>
+							</div>
+						</div>
+						<div class="ScoreChangeRecordsPageMobile-stats-item">
+							<div class="ScoreChangeRecordsPageMobile-stats-icon ScoreChangeRecordsPageMobile-points">
+								<el-icon><Box /></el-icon>
+							</div>
+							<div class="ScoreChangeRecordsPageMobile-stats-info">
+								<span class="ScoreChangeRecordsPageMobile-stats-label">总调整分数</span>
+								<span class="ScoreChangeRecordsPageMobile-stats-value">{{ totalPoints > 0 ? `+${totalPoints}` : totalPoints }}</span>
+							</div>
 						</div>
 					</div>
-					<div class="stats-item">
-						<div class="stats-icon positive">
-							<el-icon size="20"><arrow-up /></el-icon>
-						</div>
-						<div class="stats-info">
-							<div class="stats-label">加分记录</div>
-							<div class="stats-value">{{ positiveCount }}</div>
-						</div>
-					</div>
-					<div class="stats-item">
-						<div class="stats-icon negative">
-							<el-icon size="20"><arrow-down /></el-icon>
-						</div>
-						<div class="stats-info">
-							<div class="stats-label">扣分记录</div>
-							<div class="stats-value">{{ negativeCount }}</div>
-						</div>
-					</div>
-					<div class="stats-item">
-						<div class="stats-icon points">
-							<el-icon size="20"><coin /></el-icon>
-						</div>
-						<div class="stats-info">
-							<div class="stats-label">总调整分数</div>
-							<div class="stats-value">{{ totalPoints > 0 ? `+${totalPoints}` : totalPoints }}</div>
-						</div>
-					</div>
-				</div>
 
-				<!-- 空状态 -->
-				<div v-if="records.length === 0" class="empty-container">
+					<!-- 空状态 -->
+					<div v-if="records.length === 0" class="ScoreChangeRecordsPageMobile-empty-container">
 					<el-icon><box /></el-icon>
 					<span>暂无改分记录</span>
 				</div>
 
 				<!-- 记录列表 -->
-				<div v-else class="records-container">
-					<div class="records-list">
+				<div v-else class="ScoreChangeRecordsPageMobile-records-container">
+					<div class="ScoreChangeRecordsPageMobile-records-list">
 						<div
 							v-for="(record, index) in sortedRecords"
 							:key="index"
-							class="record-card"
-							:class="{ 'card-animate': showCardAnimation }"
+							class="ScoreChangeRecordsPageMobile-record-card"
+							:class="{ 'ScoreChangeRecordsPageMobile-card-animate': showCardAnimation }"
 							:style="{ animationDelay: `${index * 0.1}s` }"
 						>
-							<div class="record-header">
-								<span class="record-time">{{ formatTime(record.createTime) }}</span>
-								<span class="record-points-badge" :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
+							<div class="ScoreChangeRecordsPageMobile-record-header">
+								<span class="ScoreChangeRecordsPageMobile-record-time">{{ formatTime(record.createTime) }}</span>
+								<span class="ScoreChangeRecordsPageMobile-record-points-badge" :class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
 									{{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
 								</span>
 							</div>
-							<div class="record-reason-text">{{ record.adjustReason }}</div>
+							<div class="ScoreChangeRecordsPageMobile-record-reason-text">{{ record.adjustReason }}</div>
 						</div>
 					</div>
 				</div>
