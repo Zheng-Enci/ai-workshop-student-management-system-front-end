@@ -168,7 +168,7 @@ class AttendanceTrendChart {
 				axisLabel: {
 					color: this.getDarkMode() ? '#ccc' : '#666',
 					fontSize: 10,
-					rotate: 45
+					rotate: 90
 				},
 				axisLine: {
 					lineStyle: {
