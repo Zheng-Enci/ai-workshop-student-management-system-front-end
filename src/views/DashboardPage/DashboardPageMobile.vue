@@ -849,32 +849,36 @@ onUnmounted(() => {
 
 			<!-- 等级统计区域 -->
 			<div class="dashboard-mobile-level-stats">
-				<div class="dashboard-mobile-level-item dashboard-mobile-admin-level">
-					<el-icon><setting /></el-icon>
-					<div class="dashboard-mobile-level-info">
-						<span class="dashboard-mobile-level-label">管理员</span>
-						<span class="dashboard-mobile-level-value">{{ levelStats.admin }}人</span>
+				<div class="dashboard-mobile-level-row">
+					<div class="dashboard-mobile-level-item dashboard-mobile-admin-level">
+						<el-icon><setting /></el-icon>
+						<div class="dashboard-mobile-level-info">
+							<span class="dashboard-mobile-level-label">管理员</span>
+							<span class="dashboard-mobile-level-value">{{ levelStats.admin }}人</span>
+						</div>
+					</div>
+					<div class="dashboard-mobile-level-item dashboard-mobile-core-level">
+						<el-icon><star /></el-icon>
+						<div class="dashboard-mobile-level-info">
+							<span class="dashboard-mobile-level-label">核心成员</span>
+							<span class="dashboard-mobile-level-value">{{ levelStats.core }}人</span>
+						</div>
 					</div>
 				</div>
-				<div class="dashboard-mobile-level-item dashboard-mobile-core-level">
-					<el-icon><star /></el-icon>
-					<div class="dashboard-mobile-level-info">
-						<span class="dashboard-mobile-level-label">核心成员</span>
-						<span class="dashboard-mobile-level-value">{{ levelStats.core }}人</span>
+				<div class="dashboard-mobile-level-row">
+					<div class="dashboard-mobile-level-item dashboard-mobile-normal-level">
+						<el-icon><avatar /></el-icon>
+						<div class="dashboard-mobile-level-info">
+							<span class="dashboard-mobile-level-label">普通成员</span>
+							<span class="dashboard-mobile-level-value">{{ levelStats.normal }}人</span>
+						</div>
 					</div>
-				</div>
-				<div class="dashboard-mobile-level-item dashboard-mobile-normal-level">
-					<el-icon><avatar /></el-icon>
-					<div class="dashboard-mobile-level-info">
-						<span class="dashboard-mobile-level-label">普通成员</span>
-						<span class="dashboard-mobile-level-value">{{ levelStats.normal }}人</span>
-					</div>
-				</div>
-				<div class="dashboard-mobile-level-item dashboard-mobile-club-level">
-					<el-icon><user /></el-icon>
-					<div class="dashboard-mobile-level-info">
-						<span class="dashboard-mobile-level-label">社团成员</span>
-						<span class="dashboard-mobile-level-value">{{ clubMembers }}人</span>
+					<div class="dashboard-mobile-level-item dashboard-mobile-club-level">
+						<el-icon><user /></el-icon>
+						<div class="dashboard-mobile-level-info">
+							<span class="dashboard-mobile-level-label">社团成员</span>
+							<span class="dashboard-mobile-level-value">{{ clubMembers }}人</span>
+						</div>
 					</div>
 				</div>
 			</div>

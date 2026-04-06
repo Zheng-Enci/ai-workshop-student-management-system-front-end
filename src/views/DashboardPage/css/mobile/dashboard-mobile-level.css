@@ -6,6 +6,12 @@
   margin-bottom: 20px;
 }
 
+.dashboard-mobile-level-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
 .dashboard-mobile-level-item {
   display: flex;
   align-items: center;
