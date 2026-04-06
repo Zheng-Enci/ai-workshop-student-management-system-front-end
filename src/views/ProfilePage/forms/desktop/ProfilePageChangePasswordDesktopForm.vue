@@ -107,6 +107,7 @@ const handleSubmit = async () => {
 	try {
 		// 显示加载提示
 		ElMessage.info('正在修改密码...')
+		isLoading.value = true
 
 		const token = localStorage.getItem('token')
 		if (!token) {
@@ -136,7 +137,7 @@ const handleSubmit = async () => {
 			window.location.href = '/login'
 		}
 	} finally {
-		// 隐藏加载提示
+		isLoading.value = false
 	}
 }
 
