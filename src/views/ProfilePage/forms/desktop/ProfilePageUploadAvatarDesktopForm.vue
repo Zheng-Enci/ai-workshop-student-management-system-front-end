@@ -902,7 +902,6 @@ watch(() => props.studentInfoId, newId => {
 					</el-icon>
 					<div v-if="avatarLoading" class="profile-page-desktop-avatar-loading-spinner"/>
 				</div>
-				<div class="profile-page-desktop-avatar-status"/>
 				<div class="profile-page-desktop-avatar-upload-overlay">
 					<el-icon class="profile-page-desktop-upload-icon">
 						<Camera/>
