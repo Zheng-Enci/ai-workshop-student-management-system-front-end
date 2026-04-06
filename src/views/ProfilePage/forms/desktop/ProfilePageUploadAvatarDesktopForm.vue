@@ -300,9 +300,8 @@ const constrainImagePosition = () => {
  * @description 在Canvas上绘制图片和半透明遮罩层
  * 绘制流程:
  * 1. 清空画布
- * 2. 绘制半透明黑色遮罩
- * 3. 清除裁剪框区域使其透明
- * 4. 绘制裁剪框边框
+ * 2. 绘制图片
+ * 3. 在裁剪框外部绘制半透明遮罩
  * @returns {void}
  */
 const drawCropCanvas = () => {
@@ -316,14 +315,10 @@ const drawCropCanvas = () => {
 
 	ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-	ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'
-	ctx.fillRect(0, 0, canvas.width, canvas.height)
-
 	const imgWidth = img.width * scale.value
 	const imgHeight = img.height * scale.value
 
 	ctx.save()
-	ctx.globalCompositeOperation = 'source-over'
 	ctx.drawImage(img, imageX.value, imageY.value, imgWidth, imgHeight)
 
 	if (cropBoxRef.value) {
@@ -345,8 +340,12 @@ const drawCropCanvas = () => {
 			cropY = top
 		}
 
-		ctx.globalCompositeOperation = 'destination-out'
-		ctx.fillRect(cropX, cropY, cropSize, cropSize)
+		ctx.globalCompositeOperation = 'source-over'
+		ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'
+		ctx.fillRect(0, 0, canvas.width, cropY)
+		ctx.fillRect(0, cropY, cropX, cropSize)
+		ctx.fillRect(cropX + cropSize, cropY, canvas.width - cropX - cropSize, cropSize)
+		ctx.fillRect(0, cropY + cropSize, canvas.width, canvas.height - cropY - cropSize)
 	}
 
 	ctx.restore()
@@ -965,13 +964,13 @@ watch(() => props.studentInfoId, newId => {
 	position: relative;
 	width: 100%;
 	height: 400px;
-	background: #f5f5f5;
+	background: transparent;
 	border-radius: 8px;
 	overflow: visible;
 }
 
 html.dark .profile-page-upload-avatar-desktop-form-wrapper {
-	background: #1a1a1a;
+	background: transparent;
 }
 
 .profile-page-upload-avatar-desktop-form-canvas {
