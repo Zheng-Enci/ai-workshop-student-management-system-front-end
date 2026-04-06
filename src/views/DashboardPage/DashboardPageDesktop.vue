@@ -222,7 +222,7 @@ const calculateDailyAvgAttendance = monthlyCount => {
 	while (currentDate <= endOfMonth) {
 		const dayOfWeek = currentDate.getDay()
 		const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6) // 周日/周六
-		const [dateString] = currentDate.toLocaleDateString('en-CA').split('T') // 格式化为YYYY-MM-DD
+		const dateString = currentDate.toLocaleDateString('en-CA') // 格式化为YYYY-MM-DD
 		const isHoliday = holidays.includes(dateString)
 
 		// 非周末且非节假日 = 工作日

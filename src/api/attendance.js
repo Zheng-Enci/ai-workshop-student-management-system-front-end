@@ -502,7 +502,7 @@ export const getWeeklyRanking = (weekStart, topN = 10) => {
 	const startTime = `${weekStart}T00:00:00`
 	const weekEnd = new Date(weekStart)
 	weekEnd.setDate(weekEnd.getDate() + 6)
-	const endTime = `${weekEnd.toISOString().split('T')[0]}T23:59:59`
+	const endTime = `${weekEnd.toLocaleDateString('en-CA')}T23:59:59`
 	return getTopStudentsByTimeRange(startTime, endTime, topN)
 }
 
@@ -597,8 +597,8 @@ export const getLast7DaysRanking = (topN = 10) => {
 	const endDate = new Date()
 	const startDate = new Date(endDate.getTime() - 6 * 24 * 60 * 60 * 1000)
 
-	const startTime = `${startDate.toISOString().split('T')[0]}T00:00:00`
-	const endTime = `${endDate.toISOString().split('T')[0]}T23:59:59`
+	const startTime = `${startDate.toLocaleDateString('en-CA')}T00:00:00`
+	const endTime = `${endDate.toLocaleDateString('en-CA')}T23:59:59`
 
 	return getTopStudentsByTimeRange(startTime, endTime, topN)
 }
@@ -614,8 +614,8 @@ export const getLast30DaysRanking = (topN = 10) => {
 	const endDate = new Date()
 	const startDate = new Date(endDate.getTime() - 29 * 24 * 60 * 60 * 1000)
 
-	const startTime = `${startDate.toISOString().split('T')[0]}T00:00:00`
-	const endTime = `${endDate.toISOString().split('T')[0]}T23:59:59`
+	const startTime = `${startDate.toLocaleDateString('en-CA')}T00:00:00`
+	const endTime = `${endDate.toLocaleDateString('en-CA')}T23:59:59`
 
 	return getTopStudentsByTimeRange(startTime, endTime, topN)
 }
@@ -662,7 +662,7 @@ export const getDailyAttendanceCountInRange = async (startTime, endTime) => {
 		for (let i = 0; i < daysDiff; i++) {
 			const currentDate = new Date(actualStartDate)
 			currentDate.setDate(actualStartDate.getDate() + i)
-			const [dateStr] = currentDate.toISOString().split('T')
+			const dateStr = currentDate.toLocaleDateString('en-CA')
 
 			// 为每一天创建请求，失败时返回0
 			requests.push(

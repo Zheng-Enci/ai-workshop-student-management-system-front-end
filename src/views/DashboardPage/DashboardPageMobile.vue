@@ -258,7 +258,7 @@ const calculateDailyAvgAttendance = monthlyCount => {
 	while (currentDate <= endOfMonth) {
 		const dayOfWeek = currentDate.getDay()
 		const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6)
-		const [dateString] = currentDate.toISOString().split('T')
+		const dateString = currentDate.toLocaleDateString('en-CA')
 		const isHoliday = holidays.includes(dateString)
 
 		if (!isWeekend && !isHoliday) {

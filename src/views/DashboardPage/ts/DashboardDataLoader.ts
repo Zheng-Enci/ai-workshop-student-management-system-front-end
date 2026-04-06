@@ -77,7 +77,7 @@ const calculateDailyAvgAttendance = (monthlyCount: number): number => {
 	while (currentDate <= endOfMonth) {
 		const dayOfWeek = currentDate.getDay()
 		const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6)
-		const [dateString] = currentDate.toISOString().split('T')
+		const dateString = currentDate.toLocaleDateString('en-CA')
 		const isHoliday = holidays.includes(dateString)
 
 		if (!isWeekend && !isHoliday) {
@@ -105,7 +105,7 @@ const getCurrentWeekStart = (): string => {
 	const dayOfWeek = now.getDay()
 	const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)
 	const monday = new Date(now.setDate(diff))
-	return monday.toISOString().split('T')[0]
+	return monday.toLocaleDateString('en-CA')
 }
 
 /**
@@ -209,7 +209,7 @@ class DashboardDataLoader {
 					break
 				}
 				case 'today': {
-					const today = new Date().toISOString().split('T')[0]
+					const today = new Date().toLocaleDateString('en-CA')
 					const startTime = `${today}T00:00:00`
 					const endTime = `${today}T23:59:59`
 					response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
@@ -225,8 +225,8 @@ class DashboardDataLoader {
 				case 'all': {
 					const PROJECT_LAUNCH_DATE = new Date('2024-09-09T00:00:00')
 					const now = new Date()
-					const [startDate] = PROJECT_LAUNCH_DATE.toISOString().split('T')
-					const [endDate] = now.toISOString().split('T')
+					const startDate = PROJECT_LAUNCH_DATE.toLocaleDateString('en-CA')
+					const endDate = now.toLocaleDateString('en-CA')
 					const startTime = `${startDate}T00:00:00`
 					const endTime = `${endDate}T23:59:59`
 					response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
