@@ -222,19 +222,19 @@ onMounted(() => {
 
 <template>
 	<!-- 改分记录页面主容器 -->
-	<div class="score-change-records-container" :class="{ 'score-change-records-page-animate': showPageAnimation }">
+	<div class="score-change-records-page-desktop-container" :class="{ 'score-change-records-page-desktop-page-animate': showPageAnimation }">
 		<!-- 全局加载蒙版 -->
 		<LoadingMask/>
-		<div class="background-effects">
-			<div class="gradient-orb orb-1"/>
-			<div class="gradient-orb orb-2"/>
-			<div class="gradient-orb orb-3"/>
+		<div class="score-change-records-page-desktop-background-effects">
+			<div class="score-change-records-page-desktop-gradient-orb score-change-records-page-desktop-orb-1"/>
+			<div class="score-change-records-page-desktop-gradient-orb score-change-records-page-desktop-orb-2"/>
+			<div class="score-change-records-page-desktop-gradient-orb score-change-records-page-desktop-orb-3"/>
 		</div>
 
-		<div class="header">
-			<div class="header-left">
+		<div class="score-change-records-page-desktop-header">
+			<div class="score-change-records-page-desktop-header-left">
 				<el-button
-					class="back-btn"
+					class="score-change-records-page-desktop-back-btn"
 					type="primary"
 					:icon="ArrowLeft"
 					circle
@@ -242,84 +242,84 @@ onMounted(() => {
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
-					class="logo"
+					class="score-change-records-page-desktop-logo"
 					title="切换主题模式"
 					@click="toggleTheme"/>
-				<div class="title-section">
+				<div class="score-change-records-page-desktop-title-section">
 					<h1>改分记录</h1>
 					<p>查看所有积分调整记录</p>
 				</div>
 			</div>
 		</div>
 
-		<div class="main-content">
-			<div class="content-wrapper">
+		<div class="score-change-records-page-desktop-main-content">
+			<div class="score-change-records-page-desktop-content-wrapper">
 				<!-- 统计信息卡片 -->
-				<div class="stats-card">
-					<div class="stats-item">
-						<div class="stats-icon total">
+				<div class="score-change-records-page-desktop-stats-card">
+					<div class="score-change-records-page-desktop-stats-item">
+						<div class="score-change-records-page-desktop-stats-icon total">
 							<el-icon size="24"><document /></el-icon>
 						</div>
-						<div class="stats-info">
-							<div class="stats-label">总记录数</div>
-							<div class="stats-value">{{ records.length }}</div>
+						<div class="score-change-records-page-desktop-stats-info">
+							<div class="score-change-records-page-desktop-stats-label">总记录数</div>
+							<div class="score-change-records-page-desktop-stats-value">{{ records.length }}</div>
 						</div>
 					</div>
-					<div class="stats-item">
-						<div class="stats-icon positive">
+					<div class="score-change-records-page-desktop-stats-item">
+						<div class="score-change-records-page-desktop-stats-icon positive">
 							<el-icon size="24"><arrow-up /></el-icon>
 						</div>
-						<div class="stats-info">
-							<div class="stats-label">加分记录</div>
-							<div class="stats-value">{{ positiveCount }}</div>
+						<div class="score-change-records-page-desktop-stats-info">
+							<div class="score-change-records-page-desktop-stats-label">加分记录</div>
+							<div class="score-change-records-page-desktop-stats-value">{{ positiveCount }}</div>
 						</div>
 					</div>
-					<div class="stats-item">
-						<div class="stats-icon negative">
+					<div class="score-change-records-page-desktop-stats-item">
+						<div class="score-change-records-page-desktop-stats-icon negative">
 							<el-icon size="24"><arrow-down /></el-icon>
 						</div>
-						<div class="stats-info">
-							<div class="stats-label">扣分记录</div>
-							<div class="stats-value">{{ negativeCount }}</div>
+						<div class="score-change-records-page-desktop-stats-info">
+							<div class="score-change-records-page-desktop-stats-label">扣分记录</div>
+							<div class="score-change-records-page-desktop-stats-value">{{ negativeCount }}</div>
 						</div>
 					</div>
-					<div class="stats-item">
-						<div class="stats-icon points">
+					<div class="score-change-records-page-desktop-stats-item">
+						<div class="score-change-records-page-desktop-stats-icon points">
 							<el-icon size="24"><coin /></el-icon>
 						</div>
-						<div class="stats-info">
-							<div class="stats-label">总调整分数</div>
-							<div class="stats-value">{{ totalPoints > 0 ? `+${totalPoints}` : totalPoints }}</div>
+						<div class="score-change-records-page-desktop-stats-info">
+							<div class="score-change-records-page-desktop-stats-label">总调整分数</div>
+							<div class="score-change-records-page-desktop-stats-value">{{ totalPoints > 0 ? `+${totalPoints}` : totalPoints }}</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- 空状态 -->
-				<div v-if="records.length === 0" class="empty-container">
+				<div v-if="records.length === 0" class="score-change-records-page-desktop-empty-container">
 					<el-icon><box /></el-icon>
 					<span>暂无改分记录</span>
 				</div>
 
 				<!-- 记录列表 -->
-				<div v-else class="records-container">
-					<div class="records-grid">
+				<div v-else class="score-change-records-page-desktop-records-container">
+					<div class="score-change-records-page-desktop-records-grid">
 						<div
 							v-for="(record, index) in sortedRecords"
 							:key="index"
-							class="record-card"
-							:class="{ 'record-card-animate': showCardAnimation }"
+							class="score-change-records-page-desktop-record-card"
+							:class="{ 'score-change-records-page-desktop-record-card-animate': showCardAnimation }"
 							:style="{ animationDelay: `${index * 0.1}s` }"
 						>
-							<div class="record-header">
-								<span class="record-time">{{ formatTime(record.createTime) }}</span>
+							<div class="score-change-records-page-desktop-record-header">
+								<span class="score-change-records-page-desktop-record-time">{{ formatTime(record.createTime) }}</span>
 								<span
-									class="record-points-badge"
+									class="score-change-records-page-desktop-record-points-badge"
 									:class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }"
 								>
 									{{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
 								</span>
 							</div>
-							<div class="record-reason-text">{{ record.adjustReason }}</div>
+							<div class="score-change-records-page-desktop-record-reason-text">{{ record.adjustReason }}</div>
 						</div>
 					</div>
 				</div>

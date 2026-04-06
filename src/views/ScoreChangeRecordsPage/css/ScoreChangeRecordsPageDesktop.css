@@ -10,7 +10,7 @@
  * 积分变更记录页面容器
  * 设置页面最小高度和背景
  */
-.score-change-records-container {
+.score-change-records-page-desktop-container {
   position: relative; /* 相对定位 */
   min-height: 100vh; /* 最小高度：视口高度 */
   overflow: hidden; /* 隐藏溢出内容 */
@@ -21,11 +21,11 @@
  * 页面入场动画
  * 淡入并向上滑动的效果
  */
-.score-change-records-page-animate {
-  animation: scorePageFadeInUp 0.6s ease-out;
+.score-change-records-page-desktop-page-animate {
+  animation: scoreChangeRecordsPageDesktopFadeInUp 0.6s ease-out;
 }
 
-@keyframes scorePageFadeInUp {
+@keyframes scoreChangeRecordsPageDesktopFadeInUp {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -40,7 +40,7 @@
  * 记录卡片入场前初始状态
  * 透明度为0，略微向下偏移
  */
-.record-card {
+.score-change-records-page-desktop-record-card {
   opacity: 0;
   transform: translateY(20px);
 }
@@ -49,11 +49,11 @@
  * 记录卡片入场动画
  * 淡入并向上滑动的效果，配合延迟实现依次出现
  */
-.record-card-animate {
-  animation: recordCardFadeIn 0.5s ease-out forwards;
+.score-change-records-page-desktop-record-card-animate {
+  animation: scoreChangeRecordsPageDesktopCardFadeIn 0.5s ease-out forwards;
 }
 
-@keyframes recordCardFadeIn {
+@keyframes scoreChangeRecordsPageDesktopCardFadeIn {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -70,7 +70,7 @@
  * 背景效果容器
  * 固定在页面上的背景动画效果
  */
-.background-effects {
+.score-change-records-page-desktop-background-effects {
   position: fixed; /* 固定定位 */
   top: 0; /* 顶部对齐 */
   left: 0; /* 左侧对齐 */
@@ -84,19 +84,19 @@
  * 渐变光球
  * 背景中的浮动光球效果
  */
-.gradient-orb {
+.score-change-records-page-desktop-gradient-orb {
   position: absolute; /* 绝对定位 */
   border-radius: 50%; /* 圆形 */
   opacity: 0.3; /* 透明度 */
   filter: blur(100px); /* 模糊效果 */
-  animation: float 20s ease-in-out infinite; /* 浮动动画 */
+  animation: scoreChangeRecordsPageDesktopFloat 20s ease-in-out infinite; /* 浮动动画 */
 }
 
 /**
  * 第一个光球
  * 左上角位置的蓝紫色光球
  */
-.orb-1 {
+.score-change-records-page-desktop-orb-1 {
   top: 10%; /* 距离顶部10% */
   left: 10%; /* 距离左侧10% */
   width: 300px; /* 宽度 */
@@ -109,7 +109,7 @@
  * 第二个光球
  * 右上角位置的粉红色光球
  */
-.orb-2 {
+.score-change-records-page-desktop-orb-2 {
   top: 60%; /* 距离顶部60% */
   right: 10%; /* 距离右侧10% */
   width: 200px; /* 宽度 */
@@ -122,7 +122,7 @@
  * 第三个光球
  * 左下角位置的青色光球
  */
-.orb-3 {
+.score-change-records-page-desktop-orb-3 {
   bottom: 20%; /* 距离底部20% */
   left: 50%; /* 距离左侧50% */
   width: 250px; /* 宽度 */
@@ -135,7 +135,7 @@
  * 浮动动画
  * 光球的上下浮动和旋转动画
  */
-@keyframes float {
+@keyframes scoreChangeRecordsPageDesktopFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); } /* 初始和结束位置 */
   33% { transform: translateY(-30px) rotate(120deg); } /* 向上移动并旋转 */
   66% { transform: translateY(30px) rotate(240deg); } /* 向下移动并旋转 */
@@ -147,7 +147,7 @@
  * 页面头部
  * 包含返回按钮、Logo和标题
  */
-.header {
+.score-change-records-page-desktop-header {
   position: relative; /* 相对定位 */
   z-index: 10; /* 层级 */
   padding: 24px 60px; /* 内边距 */
@@ -160,7 +160,7 @@
  * 头部左侧区域
  * 包含返回按钮和Logo
  */
-.header-left {
+.score-change-records-page-desktop-header-left {
   display: flex; /* 弹性布局 */
   gap: 20px; /* 子元素间距 */
   align-items: center; /* 垂直居中 */
@@ -170,7 +170,7 @@
  * 返回按钮
  * 返回上一页的按钮样式
  */
-.back-btn {
+.score-change-records-page-desktop-back-btn {
   width: 44px; /* 宽度 */
   height: 44px; /* 高度 */
   background: var(--primary-color); /* 主色背景 */
@@ -183,7 +183,7 @@
  * 返回按钮悬停效果
  * 鼠标悬停时上移并增强阴影
  */
-.back-btn:hover {
+.score-change-records-page-desktop-back-btn:hover {
   box-shadow: 0 6px 20px rgb(102 126 234 / 0.35); /* 增强阴影 */
   transform: translateY(-2px); /* 向上移动 */
 }
@@ -192,7 +192,7 @@
  * Logo图片
  * 应用Logo，支持点击和悬停效果
  */
-.logo {
+.score-change-records-page-desktop-logo {
   width: 56px; /* 宽度 */
   height: 56px; /* 高度 */
   cursor: pointer; /* 鼠标指针样式 */
@@ -204,7 +204,7 @@
  * Logo悬停效果
  * 鼠标悬停时放大、旋转并增加亮度
  */
-.logo:hover {
+.score-change-records-page-desktop-logo:hover {
   filter: brightness(1.15); /* 增加亮度 */
   transform: scale(1.05) rotate(3deg); /* 放大并旋转 */
 }
@@ -213,7 +213,7 @@
  * 标题区域标题
  * 页面主标题，使用渐变色文字效果
  */
-.title-section h1 {
+.score-change-records-page-desktop-title-section h1 {
   margin: 0; /* 无外边距 */
   font-size: 28px; /* 字体大小 */
   font-weight: 700; /* 字体粗细 */
@@ -227,7 +227,7 @@
  * 标题区域副标题
  * 页面副标题文字
  */
-.title-section p {
+.score-change-records-page-desktop-title-section p {
   margin: 4px 0 0; /* 外边距 */
   font-size: 14px; /* 字体大小 */
   font-weight: 500; /* 字体粗细 */
@@ -240,7 +240,7 @@
  * 主要内容区域
  * 页面主要内容容器
  */
-.main-content {
+.score-change-records-page-desktop-main-content {
   position: relative; /* 相对定位 */
   z-index: 10; /* 层级 */
   min-height: calc(100vh - 200px); /* 最小高度 */
@@ -251,7 +251,7 @@
  * 内容包装器
  * 限制内容最大宽度并居中
  */
-.content-wrapper {
+.score-change-records-page-desktop-content-wrapper {
   max-width: 1400px; /* 最大宽度 */
   margin: 0 auto; /* 水平居中 */
 }
@@ -262,7 +262,7 @@
  * 统计卡片网格
  * 四列网格布局，显示各种统计数据
  */
-.stats-card {
+.score-change-records-page-desktop-stats-card {
   display: grid; /* 网格布局 */
   grid-template-columns: repeat(4, 1fr); /* 四列等宽 */
   gap: 24px; /* 卡片间距 */
@@ -273,7 +273,7 @@
  * 统计项
  * 单个统计数据的卡片样式
  */
-.stats-item {
+.score-change-records-page-desktop-stats-item {
   display: flex; /* 弹性布局 */
   gap: 16px; /* 子元素间距 */
   align-items: center; /* 垂直居中 */
@@ -290,7 +290,7 @@
  * 统计项悬停效果
  * 鼠标悬停时上移并增强背景和阴影
  */
-.stats-item:hover {
+.score-change-records-page-desktop-stats-item:hover {
   background: rgb(255 255 255 / 0.12); /* 增强背景透明度 */
   box-shadow: 0 12px 32px rgb(0 0 0 / 0.15); /* 增强阴影 */
   transform: translateY(-4px); /* 向上移动 */
@@ -300,7 +300,7 @@
  * 统计图标
  * 统计数据的图标容器
  */
-.stats-icon {
+.score-change-records-page-desktop-stats-icon {
   display: flex; /* 弹性布局 */
   flex-shrink: 0; /* 不允许收缩 */
   align-items: center; /* 垂直居中 */
@@ -314,7 +314,7 @@
  * 总积分图标
  * 使用蓝紫色主题
  */
-.stats-icon.total {
+.score-change-records-page-desktop-stats-icon.total {
   color: #667eea; /* 蓝紫色文字 */
   background: rgb(102 126 234 / 0.2); /* 半透明蓝紫色背景 */
 }
@@ -323,7 +323,7 @@
  * 正积分图标
  * 使用绿色主题
  */
-.stats-icon.positive {
+.score-change-records-page-desktop-stats-icon.positive {
   color: #10b981; /* 绿色文字 */
   background: rgb(16 185 129 / 0.2); /* 半透明绿色背景 */
 }
@@ -332,7 +332,7 @@
  * 负积分图标
  * 使用红色主题
  */
-.stats-icon.negative {
+.score-change-records-page-desktop-stats-icon.negative {
   color: #ef4444; /* 红色文字 */
   background: rgb(239 68 68 / 0.2); /* 半透明红色背景 */
 }
@@ -341,7 +341,7 @@
  * 积分图标
  * 使用黄色主题
  */
-.stats-icon.points {
+.score-change-records-page-desktop-stats-icon.points {
   color: #fbbf24; /* 黄色文字 */
   background: rgb(251 191 36 / 0.2); /* 半透明黄色背景 */
 }
@@ -350,7 +350,7 @@
  * 统计信息容器
  * 包含统计标签和数值
  */
-.stats-info {
+.score-change-records-page-desktop-stats-info {
   display: flex; /* 弹性布局 */
   flex: 1; /* 占据剩余空间 */
   flex-direction: column; /* 垂直排列 */
@@ -361,7 +361,7 @@
  * 统计标签
  * 统计数据的标签文字
  */
-.stats-label {
+.score-change-records-page-desktop-stats-label {
   font-size: 13px; /* 字体大小 */
   font-weight: 500; /* 字体粗细 */
   color: var(--text-secondary); /* 次要文字颜色 */
@@ -371,7 +371,7 @@
  * 统计数值
  * 统计数据的主要数值
  */
-.stats-value {
+.score-change-records-page-desktop-stats-value {
   font-size: 24px; /* 字体大小 */
   font-weight: 700; /* 字体粗细 */
   color: var(--text-primary); /* 主文字颜色 */
@@ -383,8 +383,8 @@
  * 加载容器和空状态容器
  * 显示加载动画或空状态提示
  */
-.loading-container,
-.empty-container {
+.score-change-records-page-desktop-loading-container,
+.score-change-records-page-desktop-empty-container {
   display: flex; /* 弹性布局 */
   flex-direction: column; /* 垂直排列 */
   gap: 16px; /* 子元素间距 */
@@ -398,7 +398,7 @@
  * 加载图标
  * 加载状态的图标样式
  */
-.loading-container .el-icon {
+.score-change-records-page-desktop-loading-container .el-icon {
   font-size: 48px; /* 字体大小 */
   color: var(--primary-color); /* 主色 */
 }
@@ -407,7 +407,7 @@
  * 空状态图标
  * 空状态的图标样式
  */
-.empty-container .el-icon {
+.score-change-records-page-desktop-empty-container .el-icon {
   font-size: 64px; /* 字体大小 */
   color: var(--text-secondary); /* 次要文字颜色 */
   opacity: 0.5; /* 透明度 */
@@ -417,8 +417,8 @@
  * 加载和空状态文字
  * 提示文字样式
  */
-.loading-container span,
-.empty-container span {
+.score-change-records-page-desktop-loading-container span,
+.score-change-records-page-desktop-empty-container span {
   font-size: 16px; /* 字体大小 */
   font-weight: 500; /* 字体粗细 */
 }
@@ -429,7 +429,7 @@
  * 记录容器
  * 积分变更记录的容器
  */
-.records-container {
+.score-change-records-page-desktop-records-container {
   width: 100%; /* 宽度100% */
 }
 
@@ -437,7 +437,7 @@
  * 记录网格
  * 响应式网格布局，自动填充列
  */
-.records-grid {
+.score-change-records-page-desktop-records-grid {
   display: grid; /* 网格布局 */
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* 自动填充，最小320px */
   gap: 20px; /* 卡片间距 */
@@ -447,7 +447,7 @@
  * 记录卡片
  * 单个积分变更记录的卡片样式
  */
-.record-card {
+.score-change-records-page-desktop-record-card {
   padding: 20px; /* 内边距 */
   background: linear-gradient(135deg, rgb(102 126 234 / 0.08) 0%, rgb(0 242 254 / 0.05) 100%); /* 渐变背景 */
   border: 1px solid rgb(102 126 234 / 0.15); /* 半透明边框 */
@@ -461,7 +461,7 @@
  * 记录卡片悬停效果
  * 鼠标悬停时上移并增强背景和边框
  */
-.record-card:hover {
+.score-change-records-page-desktop-record-card:hover {
   background: linear-gradient(135deg, rgb(102 126 234 / 0.12) 0%, rgb(0 242 254 / 0.08) 100%); /* 增强渐变背景 */
   border-color: rgb(102 126 234 / 0.25); /* 增强边框 */
   box-shadow: 0 8px 32px rgb(0 0 0 / 0.15); /* 增强阴影 */
@@ -472,7 +472,7 @@
  * 记录头部
  * 包含时间和积分变化量
  */
-.record-header {
+.score-change-records-page-desktop-record-header {
   display: flex; /* 弹性布局 */
   align-items: center; /* 垂直居中 */
   justify-content: space-between; /* 两端对齐 */
@@ -483,7 +483,7 @@
  * 记录时间
  * 显示积分调整的时间
  */
-.record-time {
+.score-change-records-page-desktop-record-time {
   font-size: 13px; /* 字体大小 */
   font-weight: 500; /* 字体粗细 */
   color: var(--text-secondary); /* 次要文字颜色 */
@@ -493,7 +493,7 @@
  * 积分变化标签
  * 显示积分变化量的标签
  */
-.record-points-badge {
+.score-change-records-page-desktop-record-points-badge {
   min-width: 70px; /* 最小宽度 */
   padding: 6px 14px; /* 内边距 */
   font-size: 16px; /* 字体大小 */
@@ -506,7 +506,7 @@
  * 正积分标签
  * 显示增加的积分，使用绿色主题
  */
-.record-points-badge.positive {
+.score-change-records-page-desktop-record-points-badge.positive {
   color: #10b981; /* 绿色文字 */
   background: rgb(16 185 129 / 0.15); /* 半透明绿色背景 */
   border: 1px solid rgb(16 185 129 / 0.3); /* 半透明绿色边框 */
@@ -516,7 +516,7 @@
  * 负积分标签
  * 显示减少的积分，使用红色主题
  */
-.record-points-badge.negative {
+.score-change-records-page-desktop-record-points-badge.negative {
   color: #ef4444; /* 红色文字 */
   background: rgb(239 68 68 / 0.15); /* 半透明红色背景 */
   border: 1px solid rgb(239 68 68 / 0.3); /* 半透明红色边框 */
@@ -526,7 +526,7 @@
  * 调整原因文本
  * 显示积分调整的原因说明
  */
-.record-reason-text {
+.score-change-records-page-desktop-record-reason-text {
   font-size: 14px; /* 字体大小 */
   line-height: 1.6; /* 行高 */
   color: var(--text-primary); /* 主文字颜色 */
