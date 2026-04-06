@@ -1538,44 +1538,44 @@ onMounted(() => {
 							:rules="rules"
 							profile-page-desktop-form
 						>
-							<div class="form-grid">
-								<div class="form-group">
-									<div class="form-item">
-										<label class="form-label">姓名</label>
+							<div class="profile-page-desktop-form-grid">
+								<div class="profile-page-desktop-form-group">
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">姓名</label>
 										<el-form-item prop="name">
 											<el-input
 												v-model="formData.name"
 												:disabled="!isEditing"
 												placeholder="请输入姓名"
 												maxlength="20"
-												class="form-input"
+												class="profile-page-desktop-form-input"
 											/>
 										</el-form-item>
 									</div>
 
-									<div class="form-item">
-										<label class="form-label">学号</label>
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">学号</label>
 										<el-form-item prop="studentId">
 											<el-input
 												v-model="formData.studentId"
 												:disabled="!isEditing"
 												placeholder="请输入学号"
 												maxlength="10"
-												class="form-input"
+												class="profile-page-desktop-form-input"
 											/>
 										</el-form-item>
 									</div>
 								</div>
 
-								<div class="form-group">
-									<div class="form-item">
-										<label class="form-label">性别</label>
+								<div class="profile-page-desktop-form-group">
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">性别</label>
 										<el-form-item prop="gender">
 											<el-select
 												v-model="formData.gender"
 												:disabled="!isEditing"
 												placeholder="请选择性别"
-												class="form-input"
+												class="profile-page-desktop-form-input"
 											>
 												<el-option label="男" value="男"/>
 												<el-option label="女" value="女"/>
@@ -1583,57 +1583,57 @@ onMounted(() => {
 										</el-form-item>
 									</div>
 
-									<div class="form-item">
-										<label class="form-label">手机号</label>
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">手机号</label>
 										<el-form-item prop="phoneNumber">
 											<el-input
 												v-model="formData.phoneNumber"
 												:disabled="!isEditing"
 												placeholder="请输入手机号"
 												maxlength="11"
-												class="form-input"
+												class="profile-page-desktop-form-input"
 											/>
 										</el-form-item>
 									</div>
 								</div>
 
-								<div class="form-group">
-									<div class="form-item">
-										<label class="form-label">学院</label>
+								<div class="profile-page-desktop-form-group">
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">学院</label>
 										<el-form-item prop="college">
 											<el-input
 												v-model="formData.college"
 												:disabled="!isEditing"
 												placeholder="请输入学院"
 												maxlength="50"
-												class="form-input"
+												class="profile-page-desktop-form-input"
 											/>
 										</el-form-item>
 									</div>
 
-									<div class="form-item">
-										<label class="form-label">专业</label>
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">专业</label>
 										<el-form-item prop="major">
 											<el-input
 												v-model="formData.major"
 												:disabled="!isEditing"
 												placeholder="请输入专业"
 												maxlength="50"
-												class="form-input"
+												class="profile-page-desktop-form-input"
 											/>
 										</el-form-item>
 									</div>
 								</div>
 
-								<div class="form-group">
-									<div class="form-item">
-										<label class="form-label">年级</label>
+								<div class="profile-page-desktop-form-group">
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">年级</label>
 										<el-form-item prop="grade">
 											<el-select
 												v-model="formData.grade"
 												:disabled="!isEditing"
 												placeholder="请选择年级"
-												class="form-input"
+												class="profile-page-desktop-form-input"
 											>
 												<el-option label="1年级" :value="1"/>
 												<el-option label="2年级" :value="2"/>
@@ -1644,8 +1644,8 @@ onMounted(() => {
 										</el-form-item>
 									</div>
 
-									<div class="form-item">
-										<label class="form-label">班级</label>
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">班级</label>
 										<el-form-item prop="classNum">
 											<el-input-number
 												v-model="formData.classNum"
@@ -1653,15 +1653,15 @@ onMounted(() => {
 												:min="1"
 												:max="100"
 												placeholder="请输入班级"
-												class="form-input"
+												class="profile-page-desktop-form-input"
 											/>
 										</el-form-item>
 									</div>
 								</div>
 
-								<div class="form-group">
-									<div class="form-item">
-										<label class="form-label">
+								<div class="profile-page-desktop-form-group">
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">
 											<el-icon class="label-icon">
 												<lock/>
 											</el-icon>
@@ -1675,7 +1675,7 @@ onMounted(() => {
 												placeholder="请输入当前密码以确认身份"
 												maxlength="16"
 												show-password
-												class="form-input security-input"
+												class="profile-page-desktop-form-input security-input"
 											/>
 										</el-form-item>
 										<div v-if="isEditing" class="security-hint">
@@ -1688,15 +1688,15 @@ onMounted(() => {
 								</div>
 							</div>
 
-							<div v-if="isEditing" class="form-actions">
-								<el-button :disabled="isLoading" class="reset-btn" @click.prevent="resetForm">
+							<div v-if="isEditing" class="profile-page-desktop-form-actions">
+								<el-button :disabled="isLoading" class="profile-page-desktop-reset-btn" @click.prevent="resetForm">
 									重置
 								</el-button>
 								<el-button
 									type="primary"
 									:loading="isLoading"
 									:disabled="isLoading"
-									class="save-btn"
+									class="profile-page-desktop-save-btn"
 									@click="saveProfile">
 									保存修改
 								</el-button>
@@ -1756,10 +1756,10 @@ onMounted(() => {
 							:rules="passwordRules"
 							class="profile-form"
 						>
-							<div class="form-grid">
-								<div class="form-group">
-									<div class="form-item">
-										<label class="form-label">
+							<div class="profile-page-desktop-form-grid">
+								<div class="profile-page-desktop-form-group">
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">
 											<el-icon class="label-icon">
 												<lock/>
 											</el-icon>
@@ -1772,13 +1772,13 @@ onMounted(() => {
 												placeholder="请输入原密码"
 												maxlength="16"
 												show-password
-												class="form-input security-input"
+												class="profile-page-desktop-form-input security-input"
 											/>
 										</el-form-item>
 									</div>
 
-									<div class="form-item">
-										<label class="form-label">
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">
 											<el-icon class="label-icon">
 												<lock/>
 											</el-icon>
@@ -1791,7 +1791,7 @@ onMounted(() => {
 												placeholder="请输入新密码（6-16位字符）"
 												maxlength="16"
 												show-password
-												class="form-input security-input"
+												class="profile-page-desktop-form-input security-input"
 											/>
 										</el-form-item>
 										<div class="security-hint">
@@ -1802,8 +1802,8 @@ onMounted(() => {
 										</div>
 									</div>
 
-									<div class="form-item">
-										<label class="form-label">
+									<div class="profile-page-desktop-form-item">
+										<label class="profile-page-desktop-form-label">
 											<el-icon class="label-icon">
 												<lock/>
 											</el-icon>
@@ -1816,24 +1816,24 @@ onMounted(() => {
 												placeholder="请再次输入新密码"
 												maxlength="16"
 												show-password
-												class="form-input security-input"
+												class="profile-page-desktop-form-input security-input"
 											/>
 										</el-form-item>
 									</div>
 								</div>
 							</div>
 
-							<div class="form-actions">
+							<div class="profile-page-desktop-form-actions">
 								<el-button
 									:disabled="isPasswordLoading"
-									class="reset-btn"
+									class="profile-page-desktop-reset-btn"
 									@click="cancelPasswordChange">
 									取消
 								</el-button>
 								<el-button
 									type="primary"
 									:loading="isPasswordLoading"
-									class="save-btn"
+									class="profile-page-desktop-save-btn"
 									@click="confirmPasswordChange"
 								>
 									确认修改
