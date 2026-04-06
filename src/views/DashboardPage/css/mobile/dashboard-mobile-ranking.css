@@ -24,24 +24,8 @@
   gap: 8px;
 }
 
-.dashboard-mobile-ranking-radio-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-}
-
-.dashboard-mobile-ranking-radio-group .el-radio-button__inner {
-  padding: 4px 10px !important;
-  font-size: 12px;
-  line-height: 1.2 !important;
-  border-radius: 6px;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.dashboard-mobile-ranking-radio-group .el-radio-button {
-  margin: 0;
-  line-height: 1.2 !important;
+.dashboard-mobile-ranking-select {
+  width: 100%;
 }
 
 .dashboard-mobile-ranking-chart-container {

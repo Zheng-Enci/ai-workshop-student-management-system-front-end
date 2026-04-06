@@ -16,7 +16,7 @@ import {
 } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton, ElSelect, ElOption } from 'element-plus'
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import 'echarts-wordcloud'
@@ -806,19 +806,19 @@ onUnmounted(() => {
 				<div class="dashboard-mobile-ranking-header">
 					<h3>排行榜</h3>
 					<div class="dashboard-mobile-ranking-controls">
-						<el-radio-group
+						<el-select
 							v-model="selectedTimeRange"
 							size="small"
-							class="dashboard-mobile-ranking-radio-group"
+							class="dashboard-mobile-ranking-select"
 							@change="loadRankingData"
 						>
-							<el-radio-button label="week">本周</el-radio-button>
-							<el-radio-button label="month">本月</el-radio-button>
-							<el-radio-button label="today">今日</el-radio-button>
-							<el-radio-button label="last7days">最近7天</el-radio-button>
-							<el-radio-button label="last30days">最近30天</el-radio-button>
-							<el-radio-button label="all">全部</el-radio-button>
-						</el-radio-group>
+							<el-option label="本周" value="week" />
+							<el-option label="本月" value="month" />
+							<el-option label="今日" value="today" />
+							<el-option label="最近7天" value="last7days" />
+							<el-option label="最近30天" value="last30days" />
+							<el-option label="全部" value="all" />
+						</el-select>
 					</div>
 				</div>
 				<div class="dashboard-mobile-ranking-chart-container">
