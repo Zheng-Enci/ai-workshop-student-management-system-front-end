@@ -26,6 +26,11 @@
   color: var(--dashboard-mobile-text-primary);
 }
 
+.dashboard-mobile-back-btn .el-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .dashboard-mobile-logo {
   width: 32px;
   height: 32px;
