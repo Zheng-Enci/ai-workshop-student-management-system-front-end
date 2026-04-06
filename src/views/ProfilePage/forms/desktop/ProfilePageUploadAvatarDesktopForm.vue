@@ -231,7 +231,7 @@ onUnmounted(() => {
  * @description 获取用户头像URL并验证头像是否存在
  * 流程:
  * 1. 构建头像URL
- * 2. 创建Image对象预加载头像
+ * 2. 使用Image对象预加载验证头像是否存在
  * 3. 根据加载结果设置头像URL
  * @async
  * @returns {Promise<void>}
@@ -244,27 +244,25 @@ const loadAvatar = async () => {
 	avatarLoading.value = true
 
 	try {
-		const url = getAvatarUrl(props.studentInfoId, ProfilePageConfig.AVATAR_SIZE)
-		if (!url) {
+		const avatarUrlString = getAvatarUrl(props.studentInfoId, ProfilePageConfig.AVATAR_SIZE)
+		if (!avatarUrlString) {
 			avatarUrl.value = null
 			return
 		}
 
+		avatarUrl.value = avatarUrlString
+
 		const img = new Image()
-		img.crossOrigin = 'anonymous'
-
-		const checkAvatar = new Promise(resolve => {
-			img.onload = () => resolve(true)
-			img.onerror = () => resolve(false)
-			setTimeout(() => resolve(false), 5000)
-			img.src = url
-		})
-
-		const hasAvatar = await checkAvatar
-		avatarUrl.value = hasAvatar ? url : null
+		img.onload = () => {
+			avatarLoading.value = false
+		}
+		img.onerror = () => {
+			avatarUrl.value = null
+			avatarLoading.value = false
+		}
+		img.src = avatarUrlString
 	} catch (error) {
 		avatarUrl.value = null
-	} finally {
 		avatarLoading.value = false
 	}
 }
