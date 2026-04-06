@@ -46,6 +46,7 @@ import '@/views/ProfilePage/css/desktop/profile-page-desktop-user-info.css'
 import '@/views/ProfilePage/css/desktop/profile-page-desktop-form.css'
 import '@/views/ProfilePage/css/desktop/profile-page-desktop-security.css'
 import ProfilePageChangePasswordDesktopForm from '@/views/ProfilePage/forms/desktop/ProfilePageChangePasswordDesktopForm.vue'
+import ProfilePageUploadAvatarDesktopForm from '@/views/ProfilePage/forms/desktop/ProfilePageUploadAvatarDesktopForm.vue'
 import {
 	getStudentProfile,
 	updateStudentInfo,
@@ -96,36 +97,6 @@ const passwordFormRef = ref()
 /**
  * 文件输入框引用
  * @type {Ref<HTMLInputElement|null>}
- * @description 隐藏的文件输入框引用,用于触发文件选择
- */
-const fileInputRef = ref(null)
-
-// ===================== 头像裁剪相关引用 =====================
-/**
- * 裁剪弹窗显示状态
- * @type {Ref<boolean>}
- * @description 控制头像裁剪弹窗的显示/隐藏
- */
-const cropDialogVisible = ref(false)
-/**
- * 裁剪画布引用
- * @type {Ref<HTMLCanvasElement|null>}
- * @description Canvas元素引用,用于绘制裁剪后的头像
- */
-const cropCanvasRef = ref(null)
-/**
- * 裁剪容器引用
- * @type {Ref<HTMLElement|null>}
- * @description 裁剪区域的容器元素引用
- */
-const cropWrapperRef = ref(null)
-/**
- * 裁剪框引用
- * @type {Ref<HTMLElement|null>}
- * @description 裁剪框元素引用,用于定义裁剪区域
- */
-const cropBoxRef = ref(null)
-
 // ===================== 加载状态变量 =====================
 /**
  * 数据加载状态
@@ -139,24 +110,6 @@ const isLoading = ref(false)
  * @description 控制密码修改操作加载中的状态显示
  */
 const isPasswordLoading = ref(false)
-/**
- * 头像加载状态
- * @type {Ref<boolean>}
- * @description 控制头像加载中的状态显示
- */
-const avatarLoading = ref(false)
-/**
- * 头像上传状态
- * @type {Ref<boolean>}
- * @description 控制头像上传操作加载中的状态显示
- */
-const isUploading = ref(false)
-/**
- * 头像裁剪状态
- * @type {Ref<boolean>}
- * @description 控制头像裁剪操作进行中的状态显示
- */
-const isCropping = ref(false)
 
 // ===================== UI状态变量 =====================
 /**
@@ -947,6 +900,16 @@ const handleAvatarError = () => {
 }
 
 /**
+ * Handle avatar upload success
+ * @function handleAvatarUploadSuccess
+ * @description 头像上传成功后的回调处理
+ * @returns {void}
+ */
+const handleAvatarUploadSuccess = () => {
+	loadAvatar()
+}
+
+/**
  * Trigger file input click when avatar is clicked
  * @returns
  */
@@ -1416,17 +1379,6 @@ const passwordRules = {
 	]
 }
 
-// Fix 7: Watch for crop dialog visibility (after function declarations)
-watch(cropDialogVisible, visible => {
-	if (visible && cropImage.value) {
-		nextTick(() => {
-			setTimeout(() => {
-				initCrop()
-			}, 200)
-		})
-	}
-})
-
 // Fix 8: Mounted hook (last in script setup)
 onMounted(() => {
 	loadProfile()
@@ -1478,47 +1430,11 @@ onMounted(() => {
 					<!-- 用户信息头部 -->
 					<div class="profile-page-desktop-profile-header">
 						<div class="profile-page-desktop-user-info-section">
-							<!-- 头像上传区域 -->
-							<div class="profile-page-desktop-avatar-wrapper">
-								<div class="profile-page-desktop-avatar-container" @click="handleAvatarClick">
-									<div class="profile-page-desktop-avatar" :class="{ 'profile-page-desktop-avatar-loading': avatarLoading }">
-										<img
-											v-if="avatarUrl"
-											:src="avatarUrl"
-											alt="头像"
-											class="profile-page-desktop-avatar-image"
-											@error="handleAvatarError"
-										/>
-										<el-icon v-else class="profile-page-desktop-avatar-icon">
-											<user/>
-										</el-icon>
-										<div v-if="avatarLoading" class="profile-page-desktop-avatar-loading-spinner"/>
-									</div>
-									<div class="profile-page-desktop-avatar-status"/>
-									<div class="profile-page-desktop-avatar-upload-overlay">
-										<el-icon class="profile-page-desktop-upload-icon">
-											<camera/>
-										</el-icon>
-										<span class="profile-page-desktop-upload-text">点击上传头像</span>
-									</div>
-									<!-- 文件输入 -->
-									<input
-										ref="fileInputRef"
-										type="file"
-										accept="image/*"
-										style="display: none"
-										@change="handleFileSelect"
-									/>
-								</div>
-								<div class="profile-page-desktop-avatar-tip">
-									<el-icon class="profile-page-desktop-tip-icon">
-										<camera/>
-									</el-icon>
-									<span class="tip-text">{{
-										avatarUrl ? '点击头像修改头像' : '点击头像上传头像'
-									}}</span>
-								</div>
-							</div>
+							<!-- 头像上传组件 -->
+							<ProfilePageUploadAvatarDesktopForm
+								:student-info-id="studentInfoId"
+								@upload-success="handleAvatarUploadSuccess"
+							/>
 							<!-- 用户详细信息 -->
 							<div class="profile-page-desktop-user-details">
 								<h2>{{ formData.name || '用户' }}</h2>
@@ -1777,36 +1693,6 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
-
-		<!-- 头像裁剪对话框 -->
-		<el-dialog
-			v-model="cropDialogVisible"
-			title="裁剪头像"
-			width="600px"
-			:close-on-click-modal="false"
-			:close-on-press-escape="false"
-			modal-class="crop-dialog-overlay"
-			class="crop-dialog"
-		>
-			<div class="crop-container">
-				<!-- 裁剪画布包装器 -->
-				<div ref="cropWrapperRef" class="crop-wrapper">
-					<canvas ref="cropCanvasRef" class="crop-canvas"/>
-					<div ref="cropBoxRef" class="crop-box"/>
-				</div>
-				<!-- 裁剪控制按钮 -->
-				<div class="crop-controls">
-					<el-button :icon="ZoomOut" circle @click="zoomOut"/>
-					<span class="zoom-info">{{ Math.round(scale * 100) }}%</span>
-					<el-button :icon="ZoomIn" circle @click="zoomIn"/>
-					<el-button style="margin-left: 20px;" @click="resetCrop">重置</el-button>
-				</div>
-			</div>
-			<template #footer>
-				<el-button @click="cancelCrop">取消</el-button>
-				<el-button type="primary" :loading="isCropping" @click="confirmCrop">确认裁剪</el-button>
-			</template>
-		</el-dialog>
 	</div>
 </template>
 
