@@ -1,39 +1,170 @@
-<template>
-  <div class="mobile-only-notice">
-    <div class="notice-content">
-      <el-icon :size="48" color="#909399"><Monitor /></el-icon>
-      <h2>本功能只支持电脑端</h2>
-      <p>请使用电脑访问以查看考勤分析数据</p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { Monitor } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
+import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
+import LoadingMask from '@/components/LoadingMask.vue'
+import DateRangeSelector from './forms/desktop/DateRangeSelector.vue'
+import { ElButton, ElIcon, ElSelect, ElOption } from 'element-plus'
+import { ArrowLeft } from '@element-plus/icons-vue'
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
+
+import 'element-plus/theme-chalk/el-select.css'
+import 'element-plus/theme-chalk/el-option.css'
+import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/el-icon.css'
+
+import AttendanceTrendChart from './ts/attendanceTrendChart'
+import { getDateRange, getAttendanceTrendData } from './ts/attendanceTrendChart'
+
+const router = useRouter()
+const themeStore = useThemeStore()
+const loadingMaskStore = useLoadingMaskStore()
+const { toggleTheme } = themeStore
+
+const chartRef = ref(null)
+let trendChart: AttendanceTrendChart | null = null
+
+const timeRange = ref('全部')
+
+const showDateRangeSelector = ref(false)
+
+const timeRanges = [
+	{ label: '最近七天', value: '最近七天' },
+	{ label: '最近三十天', value: '最近三十天' },
+	{ label: '最近三个月', value: '最近三个月' },
+	{ label: '最近半年', value: '最近半年' },
+	{ label: '最近一年', value: '最近一年' },
+	{ label: '全部', value: '全部' }
+]
+
+const handleTimeRangeChange = async (range: string) => {
+	if (!range) return
+	timeRange.value = range
+	loadingMaskStore.showLoadingMask('正在加载签到数据...')
+	await updateChartData(range)
+	loadingMaskStore.hideLoadingMask()
+}
+
+const handleCustomDateRange = async (startDate: string, endDate: string) => {
+	timeRange.value = '自定义'
+	loadingMaskStore.showLoadingMask('正在加载签到数据...')
+	const data = await getAttendanceTrendData(startDate, endDate)
+	const dates = data.map(item => item.date)
+	const values = data.map(item => item.count)
+	if (trendChart) {
+		trendChart.setOption(dates, values)
+	}
+	loadingMaskStore.hideLoadingMask()
+}
+
+const updateChartData = async (range: string) => {
+	const { startDate, endDate } = getDateRange(range)
+	const data = await getAttendanceTrendData(startDate, endDate)
+	const dates = data.map(item => item.date)
+	const values = data.map(item => item.count)
+	if (trendChart) {
+		trendChart.setOption(dates, values)
+	}
+}
+
+const goBack = () => {
+	router.back()
+}
+
+const handleResize = () => {
+	if (trendChart) {
+		trendChart.resize()
+	}
+}
+
+let unwatchTheme: (() => void) | undefined
+
+onMounted(async () => {
+	await nextTick(() => {
+		trendChart = new AttendanceTrendChart(chartRef, themeStore.isDarkMode)
+		trendChart.init()
+		unwatchTheme = watch(
+			() => themeStore.isDarkMode,
+			(newIsDarkMode) => {
+				if (trendChart) {
+					trendChart.updateTheme(newIsDarkMode)
+				}
+			}
+		)
+		loadingMaskStore.showLoadingMask('正在加载签到数据...')
+		const { startDate, endDate } = getDateRange('全部')
+		getAttendanceTrendData(startDate, endDate).then(data => {
+			const dates = data.map(item => item.date)
+			const values = data.map(item => item.count)
+			trendChart?.setOption(dates, values)
+			loadingMaskStore.hideLoadingMask()
+		})
+		window.addEventListener('resize', handleResize)
+	})
+})
+
+onUnmounted(() => {
+	if (trendChart) {
+		trendChart.dispose()
+	}
+	unwatchTheme?.()
+	window.removeEventListener('resize', handleResize)
+})
 </script>
 
+<template>
+	<div class="attendance-analysis-mobile-page">
+		<LoadingMask/>
+		<div class="attendance-analysis-mobile-header">
+			<div class="attendance-analysis-mobile-header-left">
+				<el-button
+					type="text"
+					class="attendance-analysis-mobile-back-btn"
+					:icon="ArrowLeft"
+					@click="goBack"
+				></el-button>
+				<img
+					src="@/assets/AiWorkShop_icon.png"
+					alt="Logo"
+					class="attendance-analysis-mobile-logo"
+					title="切换主题模式"
+					@click="toggleTheme"
+				/>
+			</div>
+			<div class="attendance-analysis-mobile-header-center">考勤分析</div>
+			<div class="attendance-analysis-mobile-header-right"></div>
+		</div>
+
+		<div class="attendance-analysis-mobile-content">
+			<div class="attendance-analysis-mobile-card">
+				<div class="attendance-analysis-mobile-title">签到趋势</div>
+				<div class="attendance-analysis-mobile-controls">
+					<el-select
+						v-model="timeRange"
+						size="small"
+						class="attendance-analysis-mobile-select"
+						@change="handleTimeRangeChange"
+					>
+						<el-option
+							v-for="range in timeRanges"
+							:key="range.value"
+							:label="range.label"
+							:value="range.value"
+						/>
+					</el-select>
+					<el-button size="small" @click="showDateRangeSelector = true">
+						自定义
+					</el-button>
+				</div>
+				<div ref="chartRef" class="attendance-analysis-mobile-chart"></div>
+			</div>
+		</div>
+
+		<DateRangeSelector v-model="showDateRangeSelector" @confirm="handleCustomDateRange" />
+	</div>
+</template>
+
 <style scoped>
-.mobile-only-notice {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.notice-content {
-  text-align: center;
-  color: #fff;
-  padding: 40px;
-}
-
-.notice-content h2 {
-  margin: 20px 0 10px;
-  font-size: 24px;
-}
-
-.notice-content p {
-  font-size: 14px;
-  opacity: 0.8;
-}
+@import './css/mobile/attendance-analysis-mobile.css';
 </style>
