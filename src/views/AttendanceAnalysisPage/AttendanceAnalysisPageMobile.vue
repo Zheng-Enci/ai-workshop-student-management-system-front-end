@@ -171,4 +171,24 @@ onUnmounted(() => {
 
 <style scoped>
 @import './css/mobile/attendance-analysis-mobile.css';
+
+:deep(.el-select__wrapper) {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 1px solid rgb(0 0 0 / 0.1) !important;
+}
+
+:deep(.el-select__selection) {
+  background: transparent !important;
+}
+
+:deep(.el-button) {
+  background: transparent !important;
+  border: 1px solid rgb(0 0 0 / 0.1) !important;
+}
+
+:deep(.el-input__wrapper) {
+  background: transparent !important;
+  box-shadow: none !important;
+}
 </style>
