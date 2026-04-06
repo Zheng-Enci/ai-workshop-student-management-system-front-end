@@ -1228,9 +1228,6 @@ const openPasswordDialog = () => {
  */
 const closePasswordDialog = () => {
 	showPasswordDialog.value = false
-	if (passwordFormRef.value) {
-		passwordFormRef.value.clearValidate()
-	}
 }
 
 /**
