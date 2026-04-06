@@ -734,6 +734,32 @@ onUnmounted(() => {
 		</div>
 
 		<div class="mobile-content">
+			<!-- 排行榜区域：放在最上面 -->
+			<div class="ranking-section">
+				<div class="section-header">
+					<h3>排行榜</h3>
+					<div class="controls">
+						<el-radio-group
+							v-model="selectedTimeRange"
+							size="small"
+							class="time-radio-group"
+							@change="loadRankingData"
+						>
+							<el-radio-button label="week">本周</el-radio-button>
+							<el-radio-button label="month">本月</el-radio-button>
+							<el-radio-button label="year">本年度</el-radio-button>
+							<el-radio-button label="last7days">最近7天</el-radio-button>
+							<el-radio-button label="last30days">最近30天</el-radio-button>
+							<el-radio-button label="all">全部</el-radio-button>
+						</el-radio-group>
+					</div>
+				</div>
+				<div class="chart-container">
+					<div ref="attendanceChart" class="chart"/>
+				</div>
+			</div>
+
+			<!-- 统计数据区域 -->
 			<div class="stats-grid">
 				<div class="stat-card">
 					<div class="stat-label">今日签到总人次</div>
@@ -749,6 +775,7 @@ onUnmounted(() => {
 				</div>
 			</div>
 
+			<!-- 等级统计区域 -->
 			<div class="level-stats-mobile">
 				<div class="level-item admin-level">
 					<el-icon><setting /></el-icon>
@@ -780,30 +807,7 @@ onUnmounted(() => {
 				</div>
 			</div>
 
-			<div class="ranking-section">
-				<div class="section-header">
-					<h3>排行榜</h3>
-					<div class="controls">
-						<el-radio-group
-							v-model="selectedTimeRange"
-							size="small"
-							class="time-radio-group"
-							@change="loadRankingData"
-						>
-							<el-radio-button label="week">本周</el-radio-button>
-							<el-radio-button label="month">本月</el-radio-button>
-							<el-radio-button label="year">本年度</el-radio-button>
-							<el-radio-button label="last7days">最近7天</el-radio-button>
-							<el-radio-button label="last30days">最近30天</el-radio-button>
-							<el-radio-button label="all">全部</el-radio-button>
-						</el-radio-group>
-					</div>
-				</div>
-				<div class="chart-container">
-					<div ref="attendanceChart" class="chart"/>
-				</div>
-			</div>
-
+			<!-- 图表区域 -->
 			<div class="charts-section">
 				<div class="chart-item">
 					<h3>年级分布</h3>
@@ -816,6 +820,7 @@ onUnmounted(() => {
 				</div>
 			</div>
 
+			<!-- 文明公约区域 -->
 			<div class="mechanism-section">
 				<div class="mechanism-card">
 					<h3>AI 坊文明公约</h3>
