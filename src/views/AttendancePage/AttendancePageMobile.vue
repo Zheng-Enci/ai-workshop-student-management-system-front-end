@@ -696,21 +696,20 @@ const loadWeeklyAttendance = async () => {
 		const { startTime, endTime } = getWeekDateRange()
 		const records = await AttendanceApi.getStudentRecordsByTimeRange(studentInfoId.value, startTime, endTime)
 		const daySlots = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-		const today = new Date().toDateString()
 		let todaySlots = { morning: false, afternoon: false, evening: false }
 		weeklyAttendanceData.value = weeklyAttendanceData.value.map((day, index) => {
 			const currentDate = new Date()
 			const dayOfWeek = currentDate.getDay() || 7
 			currentDate.setDate(currentDate.getDate() - dayOfWeek + 1 + index)
-			const dateStr = currentDate.toISOString().split('T')[0]
+			const dateStr = currentDate.toLocaleDateString('en-CA')
 			const dayName = daySlots[currentDate.getDay()]
-			const isToday = currentDate.toDateString() === today
-			const isFuture = currentDate > new Date()
+			const isToday = currentDate.toLocaleDateString('en-CA') === new Date().toLocaleDateString('en-CA')
+			const isFuture = currentDate.toLocaleDateString('en-CA') > new Date().toLocaleDateString('en-CA')
 			const slots = { morning: false, afternoon: false, evening: false }
 			if (!isFuture) {
 				records.forEach(record => {
 					const recordDate = new Date(record)
-					if (recordDate.toISOString().split('T')[0] === dateStr) {
+					if (recordDate.toLocaleDateString('en-CA') === dateStr) {
 						const slot = getSlotFromTime(record)
 						if (slot) slots[slot] = true
 					}
