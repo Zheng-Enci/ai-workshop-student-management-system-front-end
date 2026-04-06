@@ -40,6 +40,7 @@ import 'element-plus/theme-chalk/base.css'
 // Project imports
 import { getMyAttendanceCount } from '@/api/attendance'
 import '@/views/ProfilePage/css/desktop/profile-page-desktop-header.css'
+import '@/views/ProfilePage/css/desktop/profile-page-desktop-avatar.css'
 import {
 	getStudentProfile,
 	updateStudentInfo,
