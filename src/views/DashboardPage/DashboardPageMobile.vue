@@ -790,7 +790,7 @@ onUnmounted(() => {
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
-					class="dashboard-mobile-logo"
+					class="dashboard-mobile-header-logo"
 					@click="toggleTheme"/>
 			</div>
 			<div class="dashboard-mobile-header-center">数据看板</div>
@@ -880,12 +880,12 @@ onUnmounted(() => {
 			<div class="dashboard-mobile-charts-section">
 				<div class="dashboard-mobile-chart-item">
 					<h3>年级分布</h3>
-					<div ref="gradeChart" class="dashboard-mobile-chart"/>
+					<div ref="gradeChart" class="dashboard-mobile-chart-item"/>
 				</div>
 
 				<div class="dashboard-mobile-chart-item">
 					<h3>专业分布</h3>
-					<div ref="majorChart" class="dashboard-mobile-chart"/>
+					<div ref="majorChart" class="dashboard-mobile-chart-item"/>
 				</div>
 			</div>
 

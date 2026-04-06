@@ -1,8 +1,8 @@
 /* ==================== 移动端排行榜区域 ==================== */
 .dashboard-mobile-ranking-section {
   padding: 16px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: var(--dashboard-mobile-card-bg);
+  border: 1px solid var(--dashboard-mobile-card-border);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
   backdrop-filter: blur(10px);
@@ -15,7 +15,7 @@
 .dashboard-mobile-ranking-header h3 {
   margin: 0 0 12px;
   font-size: 18px;
-  color: var(--text-primary);
+  color: var(--dashboard-mobile-text-primary);
 }
 
 .dashboard-mobile-ranking-controls {

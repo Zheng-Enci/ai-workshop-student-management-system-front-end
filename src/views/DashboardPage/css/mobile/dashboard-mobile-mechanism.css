@@ -5,8 +5,8 @@
 
 .dashboard-mobile-mechanism-card {
   padding: 16px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: var(--dashboard-mobile-card-bg);
+  border: 1px solid var(--dashboard-mobile-card-border);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
   backdrop-filter: blur(10px);
@@ -15,7 +15,7 @@
 .dashboard-mobile-mechanism-card h3 {
   margin: 0 0 12px;
   font-size: 16px;
-  color: var(--text-primary);
+  color: var(--dashboard-mobile-text-primary);
   text-align: center;
 }
 
@@ -23,6 +23,6 @@
   margin: 0;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--text-secondary);
+  color: var(--dashboard-mobile-text-secondary);
   text-align: justify;
 }

@@ -13,8 +13,8 @@
 .dashboard-mobile-stat-card {
   padding: 16px;
   text-align: center;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: var(--dashboard-mobile-card-bg);
+  border: 1px solid var(--dashboard-mobile-card-border);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
   backdrop-filter: blur(10px);
@@ -23,11 +23,11 @@
 .dashboard-mobile-stat-label {
   margin-bottom: 8px;
   font-size: 14px;
-  color: var(--text-secondary);
+  color: var(--dashboard-mobile-text-secondary);
 }
 
 .dashboard-mobile-stat-value {
   font-size: 24px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--dashboard-mobile-text-primary);
 }
