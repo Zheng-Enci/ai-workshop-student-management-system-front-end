@@ -7,12 +7,10 @@
  */
 
 // ======================== 导入 ========================
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElIcon, ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
 import { Lock } from '@element-plus/icons-vue'
 import ChangePasswordApi from '@/views/ProfilePage/js/ChangePassword'
-
-const emit = defineEmits(['success'])
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
@@ -20,6 +18,23 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-message.css'
+
+// ======================== Props ========================
+const props = defineProps({
+	modelValue: {
+		type: Boolean,
+		default: false
+	}
+})
+
+// ======================== Emits ========================
+const emit = defineEmits(['update:modelValue', 'success'])
+
+// ======================== 计算属性 ========================
+const dialogVisible = computed({
+	get: () => props.modelValue,
+	set: (val) => emit('update:modelValue', val)
+})
 
 // ======================== 常量 ========================
 /**
@@ -158,9 +173,8 @@ const handleSubmit = async () => {
  * @returns {void}
  */
 const handleCancel = () => {
-	passwordForm.oldPassword = ''
-	passwordForm.newPassword = ''
-	passwordForm.confirmPassword = ''
+	formRef.value?.resetFields()
+	dialogVisible.value = false
 }
 
 // ======================== 生命周期 ========================
