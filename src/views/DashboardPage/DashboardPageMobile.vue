@@ -20,6 +20,8 @@ import { ElMessage, ElButton, ElIcon, ElRadioGroup, ElRadioButton, ElSelect, ElO
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import 'echarts-wordcloud'
+import 'element-plus/theme-chalk/el-select.css'
+import 'element-plus/theme-chalk/el-option.css'
 
 // 注册需要的组件
 echarts.use([
