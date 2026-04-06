@@ -21,7 +21,7 @@ html.dark {
 
 .attendance-analysis-mobile-page {
   min-height: 100vh;
-  background: var(--attendance-analysis-mobile-bg-gradient);
+  background: transparent !important;
 }
 
 .attendance-analysis-mobile-header {
@@ -69,6 +69,7 @@ html.dark {
 
 .attendance-analysis-mobile-content {
   padding: 16px;
+  background: transparent !important;
 }
 
 .attendance-analysis-mobile-card {
