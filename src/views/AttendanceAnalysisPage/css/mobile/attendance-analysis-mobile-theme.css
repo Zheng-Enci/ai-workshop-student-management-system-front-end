@@ -1,0 +1,19 @@
+:root {
+  --attendance-analysis-mobile-bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --attendance-analysis-mobile-card-bg: rgb(255 255 255 / 0.9);
+  --attendance-analysis-mobile-card-border: rgb(0 0 0 / 0.1);
+  --attendance-analysis-mobile-text-primary: #1e293b;
+  --attendance-analysis-mobile-text-secondary: #64748b;
+  --attendance-analysis-mobile-header-bg: rgb(255 255 255 / 0.9);
+  --attendance-analysis-mobile-header-border: rgb(0 0 0 / 0.1);
+}
+
+html.dark {
+  --attendance-analysis-mobile-bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  --attendance-analysis-mobile-card-bg: rgb(255 255 255 / 0.05);
+  --attendance-analysis-mobile-card-border: rgb(255 255 255 / 0.1);
+  --attendance-analysis-mobile-text-primary: #e0e0e0;
+  --attendance-analysis-mobile-text-secondary: rgb(224 224 224 / 0.7);
+  --attendance-analysis-mobile-header-bg: rgb(255 255 255 / 0.05);
+  --attendance-analysis-mobile-header-border: rgb(255 255 255 / 0.1);
+}

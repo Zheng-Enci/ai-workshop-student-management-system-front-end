@@ -1,0 +1,49 @@
+.attendance-analysis-mobile-content {
+  padding: 16px;
+  background: transparent !important;
+}
+
+.attendance-analysis-mobile-card {
+  padding: 16px;
+  background: transparent !important;
+  border: 1px solid var(--attendance-analysis-mobile-card-border);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.attendance-analysis-mobile-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--attendance-analysis-mobile-text-primary);
+}
+
+.attendance-analysis-mobile-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.attendance-analysis-mobile-select {
+  flex: 1;
+  width: 140px;
+}
+
+.attendance-analysis-mobile-select .el-select__wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 1px solid var(--attendance-analysis-mobile-card-border) !important;
+}
+
+.attendance-analysis-mobile-select .el-select__selection {
+  background: transparent !important;
+}
+
+.attendance-analysis-mobile-chart {
+  width: 100% !important;
+  height: 150px !important;
+  min-height: 150px !important;
+  max-height: 150px !important;
+  background: transparent !important;
+}

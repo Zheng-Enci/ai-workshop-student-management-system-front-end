@@ -1,0 +1,42 @@
+.attendance-analysis-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--attendance-analysis-mobile-header-bg);
+  border-bottom: 1px solid var(--attendance-analysis-mobile-header-border);
+  backdrop-filter: blur(10px);
+}
+
+.attendance-analysis-mobile-header-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.attendance-analysis-mobile-back-btn {
+  font-size: 18px;
+  color: var(--attendance-analysis-mobile-text-primary) !important;
+  border: none !important;
+  padding: 4px;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.attendance-analysis-mobile-logo {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.attendance-analysis-mobile-header-center {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--attendance-analysis-mobile-text-primary);
+}
+
+.attendance-analysis-mobile-header-right {
+  width: 32px;
+}
