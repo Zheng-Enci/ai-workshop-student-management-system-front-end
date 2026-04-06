@@ -8,7 +8,7 @@
 
 // ======================== 导入 ========================
 import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, ElIcon } from 'element-plus'
+import { ElMessage, ElIcon, ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
 import { Lock } from '@element-plus/icons-vue'
 import ChangePasswordApi from '@/views/ProfilePage/js/ChangePassword'
 import 'element-plus/theme-chalk/base.css'
