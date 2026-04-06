@@ -685,9 +685,13 @@ const loadRankingData = async () => {
 				response = await getMonthlyRanking(currentYear, currentMonth, selectedTopN)
 				break
 			}
-			case 'year':
-				response = await getYearlyRanking(new Date().getFullYear(), selectedTopN)
+			case 'today': {
+				const today = new Date().toISOString().split('T')[0]
+				const startTime = `${today}T00:00:00`
+				const endTime = `${today}T23:59:59`
+				response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
 				break
+			}
 			case 'last7days':
 				response = await getLast7DaysRanking(selectedTopN)
 				break
@@ -806,7 +810,7 @@ onUnmounted(() => {
 						>
 							<el-radio-button label="week">本周</el-radio-button>
 							<el-radio-button label="month">本月</el-radio-button>
-							<el-radio-button label="year">本年度</el-radio-button>
+							<el-radio-button label="today">今日</el-radio-button>
 							<el-radio-button label="last7days">最近7天</el-radio-button>
 							<el-radio-button label="last30days">最近30天</el-radio-button>
 							<el-radio-button label="all">全部</el-radio-button>
