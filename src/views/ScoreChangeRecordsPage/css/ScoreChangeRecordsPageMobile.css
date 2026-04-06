@@ -439,6 +439,21 @@
   border-color: rgba(102, 126, 234, 0.25); /* 增强边框 */
 }
 
+@keyframes page-slide-in {
+	0% {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.score-change-records-container.page-animate {
+	animation: page-slide-in 0.5s ease-out forwards;
+}
+
 @keyframes card-pop-in {
 	0% {
 		opacity: 0;

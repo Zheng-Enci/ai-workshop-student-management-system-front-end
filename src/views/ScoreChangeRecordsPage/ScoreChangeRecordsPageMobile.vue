@@ -61,6 +61,13 @@ const records = ref([])
  */
 const showCardAnimation = ref(false)
 
+/**
+ * 页面入场动画状态
+ * @type {Ref<boolean>}
+ * @description 控制页面入场动画显示
+ */
+const showPageAnimation = ref(false)
+
 // ===================== 计算属性区 =====================
 /**
  * 排序后的记录列表
@@ -190,6 +197,7 @@ const loadRecords = async () => {
 		loadingMaskStore.hideLoadingMask()
 		// 显示记录卡片动画
 		showCardAnimation.value = true
+		showPageAnimation.value = true
 	}
 }
 
@@ -213,7 +221,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="score-change-records-container">
+	<div class="score-change-records-container" :class="{ 'page-animate': showPageAnimation }">
 		<!-- 全局加载蒙版 -->
 		<LoadingMask/>
 		<div class="background-effects">
