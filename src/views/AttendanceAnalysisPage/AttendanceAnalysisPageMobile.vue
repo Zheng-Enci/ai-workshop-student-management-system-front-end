@@ -179,7 +179,7 @@ onUnmounted(() => {
 }
 
 :deep(.el-select__selection) {
-  background: transparent !important;
+  background: rgb(255 255 255 / 0.9) !important;
 }
 
 :deep(.el-button) {
