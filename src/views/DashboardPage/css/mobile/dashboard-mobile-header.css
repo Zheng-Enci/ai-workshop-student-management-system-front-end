@@ -23,7 +23,18 @@
 
 .dashboard-mobile-back-btn {
   font-size: 18px;
-  color: var(--dashboard-mobile-text-primary);
+  color: var(--dashboard-mobile-text-primary) !important;
+  border: none !important;
+  padding: 4px;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.dashboard-mobile-back-btn:hover,
+.dashboard-mobile-back-btn:focus {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .dashboard-mobile-back-btn .el-icon {
