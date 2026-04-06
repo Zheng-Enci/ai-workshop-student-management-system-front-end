@@ -261,8 +261,17 @@ class AttendanceTrendChart {
 		this.instance.setOption(option)
 	}
 
-	resize() {
+	resize(width?: number, height?: number) {
 		if (this.instance) {
+			const container = this.containerRef.value
+			if (container) {
+				if (width !== undefined) {
+					container.style.width = width + 'px'
+				}
+				if (height !== undefined) {
+					container.style.height = height + 'px'
+				}
+			}
 			this.instance.resize()
 		}
 	}
