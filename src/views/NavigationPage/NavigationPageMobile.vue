@@ -20,7 +20,7 @@ import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, Ho
 // Element Plus 核心组件导入
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
 // Vue3 核心API导入
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 // Vue Router 路由功能导入
 import { useRouter } from 'vue-router'
 
@@ -595,6 +595,23 @@ onMounted(() => {
 	loadStudentLevel()
 	loadPoints()
 	loadUserAvatar()
+
+	const savedScrollY = localStorage.getItem('navigationPageScrollY')
+	if (savedScrollY) {
+		setTimeout(() => {
+			window.scrollTo(0, parseFloat(savedScrollY))
+		}, 100)
+	}
+
+	window.addEventListener('scroll', handleScroll)
+})
+
+const handleScroll = () => {
+	localStorage.setItem('navigationPageScrollY', window.scrollY.toString())
+}
+
+onBeforeUnmount(() => {
+	window.removeEventListener('scroll', handleScroll)
 })
 </script>
 
