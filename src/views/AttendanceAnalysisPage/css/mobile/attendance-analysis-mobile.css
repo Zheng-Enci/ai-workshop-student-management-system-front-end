@@ -1,5 +1,5 @@
 /* ==================== 移动端考勤分析页面 ==================== */
-@import './mobile/attendance-analysis-mobile-page.css';
-@import './mobile/attendance-analysis-mobile-header.css';
-@import './mobile/attendance-analysis-mobile-attendance-trend.css';
-@import './mobile/attendance-analysis-mobile-theme.css';
+@import './attendance-analysis-mobile-page.css';
+@import './attendance-analysis-mobile-header.css';
+@import './attendance-analysis-mobile-attendance-trend.css';
+@import './attendance-analysis-mobile-theme.css';
