@@ -156,7 +156,7 @@ class AttendanceTrendChart {
 			},
 			grid: {
 				left: '2%',
-				right: '10%',
+				right: '2%',
 				top: '25%',
 				bottom: '3%',
 				containLabel: true
@@ -180,7 +180,8 @@ class AttendanceTrendChart {
 				type: 'value',
 				axisLabel: {
 					color: this.getDarkMode() ? '#ccc' : '#666',
-					fontSize: 12
+					fontSize: 12,
+					formatter: (value: number) => value.toString()
 				},
 				axisLine: {
 					lineStyle: {
