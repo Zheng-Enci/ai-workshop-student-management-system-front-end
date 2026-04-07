@@ -274,7 +274,7 @@ const handleClose = () => {
 	align-items: center;
 	text-align: center;
 	padding: 32px 24px;
-	background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+	background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 	border-radius: 16px;
 	width: 100%;
 	box-sizing: border-box;
@@ -318,7 +318,7 @@ const handleClose = () => {
 /* ==================== 按钮样式 ==================== */
 
 .invitation-code-actions .el-button--primary {
-	background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+	background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 	border: none;
 	padding: 20px 32px;
 	font-size: 16px;
