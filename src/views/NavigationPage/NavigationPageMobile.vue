@@ -864,13 +864,13 @@ onBeforeUnmount(() => {
 				</div>
 
 				<!-- 管理功能分组（管理员可见） -->
-				<div v-if="isAdmin" class="nav-section">
-					<div class="section-header">
-						<div class="section-title">
-							<el-icon class="section-icon"><user-filled /></el-icon>
+				<div v-if="isAdmin" class="navigation-page-mobile-nav-sections-item">
+					<div class="navigation-page-mobile-nav-sections-header">
+						<div class="navigation-page-mobile-nav-sections-title">
+							<el-icon class="navigation-page-mobile-nav-sections-icon"><user-filled /></el-icon>
 							<span>管理功能</span>
 						</div>
-						<div class="section-divider"/>
+						<div class="navigation-page-mobile-nav-sections-divider"/>
 					</div>
 					<div class="navigation-page-mobile-nav-sections-grid">
 						<div class="navigation-page-mobile-nav-sections-card admin-card" @click="goToAdmin">

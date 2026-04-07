@@ -32,3 +32,186 @@
 	gap: 28px;
 	width: 100%;
 }
+
+/* ==================== 导航区块项 ==================== */
+
+.navigation-page-mobile-nav-sections-item {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+}
+
+/* ==================== 区域头部 ==================== */
+
+.navigation-page-mobile-nav-sections-header {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	margin-bottom: 4px;
+}
+
+/* ==================== 区域标题 ==================== */
+
+.navigation-page-mobile-nav-sections-title {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	font-size: 16px;
+	font-weight: 700;
+	color: white;
+	white-space: nowrap;
+}
+
+.navigation-page-mobile-nav-sections-title .navigation-page-mobile-nav-sections-icon {
+	font-size: 18px;
+	color: #667eea;
+}
+
+/* ==================== 区域分隔线 ==================== */
+
+.navigation-page-mobile-nav-sections-divider {
+	flex: 1;
+	height: 1px;
+	background: linear-gradient(90deg, rgb(102 126 234 / 0.3) 0%, rgb(102 126 234 / 0.1) 50%, transparent 100%);
+}
+
+/* ==================== 功能网格布局 ==================== */
+
+.navigation-page-mobile-nav-sections-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+}
+
+/* ==================== 功能卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 16px;
+	overflow: hidden;
+	cursor: pointer;
+	background: rgb(255 255 255 / 0.08);
+	border-radius: 16px;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navigation-page-mobile-nav-sections-card::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.1), rgb(118 75 162 / 0.1));
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.navigation-page-mobile-nav-sections-card:hover::before {
+	opacity: 1;
+}
+
+.navigation-page-mobile-nav-sections-card:hover {
+	transform: translateY(-2px);
+}
+
+.navigation-page-mobile-nav-sections-card:active {
+	transform: scale(0.98);
+}
+
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	color: white;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
+}
+
+.navigation-page-mobile-nav-sections-card:hover .navigation-page-mobile-nav-sections-card-icon {
+	box-shadow: 0 6px 16px rgb(102 126 234 / 0.45);
+}
+
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon .el-icon {
+	font-size: 18px;
+}
+
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-content {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+}
+
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text h3 {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: white;
+}
+
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text p {
+	margin: 0;
+	font-size: 12px;
+	color: rgb(255 255 255 / 0.6);
+}
+
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-arrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	color: rgb(255 255 255 / 0.5);
+}
+
+.navigation-page-mobile-nav-sections-card:hover .navigation-page-mobile-nav-sections-card-arrow {
+	color: white;
+}
+
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-bg {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+/* ==================== 数据看板卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.data-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ==================== 积分看板卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.points-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* ==================== 考勤分析卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.analysis-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+}
+
+/* ==================== 全部成员卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.members-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* ==================== 管理员卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.admin-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
