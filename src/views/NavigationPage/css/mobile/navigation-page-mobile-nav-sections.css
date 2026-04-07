@@ -199,29 +199,47 @@
 /* ==================== 数据看板卡片 ==================== */
 
 .navigation-page-mobile-nav-sections-card.data-card .navigation-page-mobile-nav-sections-card-icon {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
 /* ==================== 积分看板卡片 ==================== */
 
 .navigation-page-mobile-nav-sections-card.points-card .navigation-page-mobile-nav-sections-card-icon {
-	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+	background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
 }
 
 /* ==================== 考勤分析卡片 ==================== */
 
 .navigation-page-mobile-nav-sections-card.analysis-card .navigation-page-mobile-nav-sections-card-icon {
-	background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+	background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
 }
 
 /* ==================== 全部成员卡片 ==================== */
 
 .navigation-page-mobile-nav-sections-card.members-card .navigation-page-mobile-nav-sections-card-icon {
-	background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+	background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
 }
 
 /* ==================== 管理员卡片 ==================== */
 
 .navigation-page-mobile-nav-sections-card.admin-card .navigation-page-mobile-nav-sections-card-icon {
-	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ==================== 签到卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.primary-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+/* ==================== 个人信息卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.invite-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* ==================== 改分记录卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.records-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 }

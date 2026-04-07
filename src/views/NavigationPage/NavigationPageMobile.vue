@@ -720,67 +720,55 @@ onBeforeUnmount(() => {
 						</div>
 						<div class="navigation-page-mobile-nav-section-card-divider"/>
 					</div>
-					<div class="navigation-page-mobile-nav-section-card-grid">
-						<div class="navigation-page-mobile-nav-section-card-card primary-card" @click="goToAttendance">
-							<div class="navigation-page-mobile-nav-section-card-card-bg"/>
-							<div class="navigation-page-mobile-nav-section-card-card-content">
-								<div class="navigation-page-mobile-nav-section-card-card-icon">
-									<el-icon size="32"><check /></el-icon>
+					<div class="navigation-page-mobile-nav-sections-grid">
+						<div class="navigation-page-mobile-nav-sections-card primary-card" @click="goToAttendance">
+							<div class="navigation-page-mobile-nav-sections-card-bg"/>
+							<div class="navigation-page-mobile-nav-sections-card-content">
+								<div class="navigation-page-mobile-nav-sections-card-icon">
+									<el-icon size="28"><check /></el-icon>
 								</div>
-								<div class="navigation-page-mobile-nav-section-card-card-text">
+								<div class="navigation-page-mobile-nav-sections-card-text">
 									<h3>学生签到</h3>
 									<p>进行AI坊实践签到</p>
 								</div>
-								<div class="navigation-page-mobile-nav-section-card-card-arrow">
-									<el-icon><arrow-right /></el-icon>
-								</div>
 							</div>
 						</div>
 
-						<div class="navigation-page-mobile-nav-section-card-card invite-card" @click="showProfile">
-							<div class="navigation-page-mobile-nav-section-card-card-bg"/>
-							<div class="navigation-page-mobile-nav-section-card-card-content">
-								<div class="navigation-page-mobile-nav-section-card-card-icon">
+						<div class="navigation-page-mobile-nav-sections-card invite-card" @click="showProfile">
+							<div class="navigation-page-mobile-nav-sections-card-bg"/>
+							<div class="navigation-page-mobile-nav-sections-card-content">
+								<div class="navigation-page-mobile-nav-sections-card-icon">
 									<el-icon size="28"><user /></el-icon>
 								</div>
-								<div class="navigation-page-mobile-nav-section-card-card-text">
+								<div class="navigation-page-mobile-nav-sections-card-text">
 									<h3>个人信息</h3>
 									<p>编辑个人资料信息</p>
 								</div>
-								<div class="navigation-page-mobile-nav-section-card-card-arrow">
-									<el-icon><arrow-right /></el-icon>
-								</div>
 							</div>
 						</div>
 
-						<div class="navigation-page-mobile-nav-section-card-card records-card" @click="goToScoreChangeRecords">
-							<div class="navigation-page-mobile-nav-section-card-card-bg"/>
-							<div class="navigation-page-mobile-nav-section-card-card-content">
-								<div class="navigation-page-mobile-nav-section-card-card-icon">
+						<div class="navigation-page-mobile-nav-sections-card records-card" @click="goToScoreChangeRecords">
+							<div class="navigation-page-mobile-nav-sections-card-bg"/>
+							<div class="navigation-page-mobile-nav-sections-card-content">
+								<div class="navigation-page-mobile-nav-sections-card-icon">
 									<el-icon size="28"><document /></el-icon>
 								</div>
-								<div class="navigation-page-mobile-nav-section-card-card-text">
+								<div class="navigation-page-mobile-nav-sections-card-text">
 									<h3>改分记录</h3>
 									<p>查看所有积分调整记录</p>
 								</div>
-								<div class="navigation-page-mobile-nav-section-card-card-arrow">
-									<el-icon><arrow-right /></el-icon>
-								</div>
 							</div>
 						</div>
 
-						<div class="navigation-page-mobile-nav-section-card-card invite-card" @click="goToInvitationCode">
-							<div class="navigation-page-mobile-nav-section-card-card-bg"/>
-							<div class="navigation-page-mobile-nav-section-card-card-content">
-								<div class="navigation-page-mobile-nav-section-card-card-icon">
+						<div class="navigation-page-mobile-nav-sections-card invite-card" @click="goToInvitationCode">
+							<div class="navigation-page-mobile-nav-sections-card-bg"/>
+							<div class="navigation-page-mobile-nav-sections-card-content">
+								<div class="navigation-page-mobile-nav-sections-card-icon">
 									<el-icon size="28"><star /></el-icon>
 								</div>
-								<div class="navigation-page-mobile-nav-section-card-card-text">
+								<div class="navigation-page-mobile-nav-sections-card-text">
 									<h3>邀请码</h3>
 									<p>查看我的邀请码</p>
-								</div>
-								<div class="navigation-page-mobile-nav-section-card-card-arrow">
-									<el-icon><arrow-right /></el-icon>
 								</div>
 							</div>
 						</div>
