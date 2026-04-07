@@ -807,9 +807,6 @@ onBeforeUnmount(() => {
 									<h3>数据看板</h3>
 									<p>查看数据统计图表</p>
 								</div>
-								<div class="navigation-page-mobile-nav-sections-card-arrow">
-									<el-icon><arrow-right /></el-icon>
-								</div>
 							</div>
 						</div>
 
@@ -822,9 +819,6 @@ onBeforeUnmount(() => {
 								<div class="navigation-page-mobile-nav-sections-card-text">
 									<h3>积分看板</h3>
 									<p>查看积分排行榜</p>
-								</div>
-								<div class="navigation-page-mobile-nav-sections-card-arrow">
-									<el-icon><arrow-right /></el-icon>
 								</div>
 							</div>
 						</div>
@@ -839,9 +833,6 @@ onBeforeUnmount(() => {
 									<h3>考勤分析</h3>
 									<p>查看考勤数据统计</p>
 								</div>
-								<div class="navigation-page-mobile-nav-sections-card-arrow">
-									<el-icon><arrow-right /></el-icon>
-								</div>
 							</div>
 						</div>
 
@@ -854,9 +845,6 @@ onBeforeUnmount(() => {
 								<div class="navigation-page-mobile-nav-sections-card-text">
 									<h3>全部成员</h3>
 									<p>查看所有成员信息</p>
-								</div>
-								<div class="navigation-page-mobile-nav-sections-card-arrow">
-									<el-icon><arrow-right /></el-icon>
 								</div>
 							</div>
 						</div>
@@ -882,9 +870,6 @@ onBeforeUnmount(() => {
 								<div class="navigation-page-mobile-nav-sections-card-text">
 									<h3>学生管理</h3>
 									<p>管理学生信息</p>
-								</div>
-								<div class="navigation-page-mobile-nav-sections-card-arrow">
-									<el-icon><arrow-right /></el-icon>
 								</div>
 							</div>
 						</div>
