@@ -51,25 +51,24 @@
 	width: 200%;
 	height: 200%;
 	background: linear-gradient(
-		to bottom right,
+		315deg,
 		transparent 40%,
-		rgba(255, 255, 255, 0.15) 45%,
-		rgba(255, 255, 255, 0.25) 50%,
-		rgba(255, 255, 255, 0.15) 55%,
+		rgba(255, 255, 255, 0.12) 45%,
+		rgba(255, 255, 255, 0.2) 50%,
+		rgba(255, 255, 255, 0.12) 55%,
 		transparent 60%
 	);
-	transform: rotate(30deg);
-	animation: scan-light 4s linear infinite;
+	animation: scan-light 3s linear infinite;
 	pointer-events: none;
 	z-index: 1;
 }
 
 @keyframes scan-light {
 	0% {
-		transform: rotate(30deg) translateX(-100%);
+		transform: translate(-100%, -100%);
 	}
 	100% {
-		transform: rotate(30deg) translateX(100%);
+		transform: translate(100%, 100%);
 	}
 }
 
