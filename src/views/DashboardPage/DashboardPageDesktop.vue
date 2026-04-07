@@ -540,7 +540,7 @@ const initAttendanceChart = data => {
 		},
 		grid: {
 			left: '0%', // 左内边距
-			right: '15%', // 右内边距（预留标签空间）
+			right: '25%', // 右内边距（预留标签空间）
 			bottom: '3%', // 下内边距
 			top: '0%', // 上内边距
 			containLabel: true // 包含标签在内
@@ -564,7 +564,10 @@ const initAttendanceChart = data => {
 			axisLabel: {
 				interval: 0, // 显示所有标签
 				fontSize: 12,
-				color: isDark ? '#ffffff' : '#2c3e50'
+				color: isDark ? '#ffffff' : '#2c3e50',
+				width: 80,
+				overflow: 'truncate',
+				ellipsis: '...'
 			},
 			axisLine: {
 				lineStyle: {

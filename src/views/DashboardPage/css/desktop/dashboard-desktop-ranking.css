@@ -3,20 +3,19 @@
 .dashboard-desktop-ranking-left-section {
 	display: flex;
 	flex-direction: column;
-	padding-right: 10px;
 }
 
 .dashboard-desktop-ranking-punch-card,
 .dashboard-desktop-ranking-overview-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 30px;
-  background: #fff;
-  border: 1px solid #f0f0f0;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 0.08);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 30px;
+	background: #fff;
+	border: 1px solid #f0f0f0;
+	border-radius: 16px;
+	box-shadow: 0 4px 20px rgb(0 0 0 / 0.08);
 }
 
 .dark .dashboard-desktop-ranking-punch-card,
