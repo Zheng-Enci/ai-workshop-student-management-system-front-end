@@ -535,7 +535,7 @@ const initAttendanceChart = data => {
 			// 自定义提示框内容
 			formatter(params) {
 				const itemData = sortedData[params[0].dataIndex]
-				const major = itemData.major.length > 6 ? itemData.major.replace(/(.{6})/g, '$1<br/>') : itemData.major
+				const major = itemData.major.replace(/(.{6})/g, '$1<br/>')
 				return `${itemData.name} (${itemData.levelName})<br/>${itemData.grade}年级 - ${major}<br/>签到次数: ${itemData.attendanceCount}次`
 			}
 		},
