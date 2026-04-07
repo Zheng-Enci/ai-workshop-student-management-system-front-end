@@ -1,5 +1,24 @@
 /* 积分看板页面排名区域样式 - 桌面版 */
 
+/* 页面主内容区域样式 - 左右布局 */
+.main-content {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
+/* 看板布局样式 - 左右分布 */
+.dashboard-layout {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 20px;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
 /* 看板主区域样式 */
 /* 左侧排名列表区域 */
 .points-dashboard-page-desktop-dashboard-main {
