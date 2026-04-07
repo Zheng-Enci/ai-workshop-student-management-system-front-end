@@ -918,7 +918,6 @@ echarts.use([
 					class="dashboard-desktop-header-back-btn"
 					type="primary"
 					:icon="ArrowLeft"
-					circle
 					@click="goBack"/>
 				<!-- Logo（点击切换主题） -->
 				<img
