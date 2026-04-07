@@ -909,7 +909,7 @@ echarts.use([
 
 <template>
 	<!-- 仪表盘主容器 -->
-	<div class="dashboard-desktop-container">
+	<div class="dashboard-desktop-container dashboard-desktop-container-enter-animation">
 		<!-- 头部区域：返回按钮 + 标题 + 标语 -->
 		<div class="dashboard-desktop-header">
 			<div class="dashboard-desktop-header-left">
