@@ -25,6 +25,7 @@ import 'element-plus/theme-chalk/display.css'
 import './css/desktop/PointsDashboardPageDesktopHeader.css'
 import './css/desktop/PointsDashboardPageDesktopRanking.css'
 import './css/desktop/PointsDashboardPageDesktopSide.css'
+import PointsDashboardPageViewRecordsDesktopForm from './forms/desktop/PointsDashboardPageViewRecordsDesktopForm.vue'
 
 import { ArrowLeft, ArrowRight, Box, Loading, User, View } from '@element-plus/icons-vue'
 import { BarChart } from 'echarts/charts'
@@ -1550,49 +1551,11 @@ onUnmounted(() => {
 		</div>
 
 		<!-- 改分记录弹窗 -->
-		<el-dialog
-			v-if="recordsDialogVisible"
+		<PointsDashboardPageViewRecordsDesktopForm
 			v-model="recordsDialogVisible"
-			:title="`${currentStudent?.name || '学生'}的改分记录`"
-			width="80%"
-			:close-on-click-modal="false"
-			:destroy-on-close="true"
-			:append-to-body="true"
-			:teleported="true"
-			modal-class="records-dialog-overlay"
-			class="records-dialog"
-			@close="handleRecordsDialogClose"
-		>
-			<div v-if="recordsLoading" class="records-loading">
-				<el-icon class="is-loading">
-					<loading/>
-				</el-icon>
-				<span>加载中...</span>
-			</div>
-			<div v-else-if="allRecords.length === 0" class="records-empty">
-				<el-icon>
-					<box/>
-				</el-icon>
-				<span>暂无改分记录</span>
-			</div>
-			<div v-else class="records-grid">
-				<div
-					v-for="(record, index) in allRecords"
-					:key="index"
-					class="record-card"
-				>
-					<div class="record-header">
-						<span class="record-time">{{ formatTime(record.createTime) }}</span>
-						<span
-							class="record-points-badge"
-							:class="{ positive: record.adjustPoints >= 0, negative: record.adjustPoints < 0 }">
-							{{ record.adjustPoints > 0 ? `+${record.adjustPoints}` : record.adjustPoints }}
-						</span>
-					</div>
-					<div class="record-reason-text">{{ record.adjustReason }}</div>
-				</div>
-			</div>
-		</el-dialog>
+			:student-info-id="currentStudent?.studentInfoId"
+			:student-name="currentStudent?.name"
+		/>
 	</div>
 </template>
 
