@@ -163,8 +163,8 @@ defineExpose({
 }
 
 .points-dashboard-page-view-records-desktop-form-grid {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 	gap: 16px;
 	max-height: 500px;
 	overflow-y: auto;
@@ -175,7 +175,7 @@ defineExpose({
 	background: var(--bg-primary);
 	border: 1px solid var(--border-color);
 	border-radius: 12px;
-	padding: 16px;
+	padding: 14px;
 	transition: all 0.2s ease;
 }
 
@@ -188,20 +188,20 @@ defineExpose({
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 12px;
+	margin-bottom: 8px;
 }
 
 .points-dashboard-page-view-records-desktop-form-card-time {
-	font-size: 13px;
+	font-size: 12px;
 	color: var(--text-secondary);
 }
 
 .points-dashboard-page-view-records-desktop-form-card-badge {
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: 700;
-	padding: 4px 12px;
+	padding: 3px 10px;
 	border-radius: 20px;
-	min-width: 50px;
+	min-width: 45px;
 	text-align: center;
 }
 
