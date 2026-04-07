@@ -287,6 +287,14 @@ const handleInvitationCode = () => {
  * @function goToAdmin
  * @description 点击管理员入口时触发,跳转到学生管理页面(仅管理员可见)
  */
+const handleAdminClick = () => {
+	if (isAdmin.value) {
+		router.push('/student-manager')
+	} else {
+		ElMessage.warning('您不是学生管理员，没有权限访问学生管理页面')
+	}
+}
+
 const goToAdmin = () => {
 	router.push('/student-manager')
 }
@@ -938,7 +946,7 @@ onBeforeUnmount(() => {
 								</div>
 							</div>
 
-							<div v-if="isAdmin" class="navigation-desktop-navSectionCard-card" @click="goToAdmin">
+							<div class="navigation-desktop-navSectionCard-card" @click="handleAdminClick">
 								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-10">
 									<el-icon size="28">
 										<user-filled/>
