@@ -1847,4 +1847,4 @@ onUnmounted(() => {
 	</div>
 </template>
 
-<style scoped src="./css/PointsDashboardPageDesktop.css"></style>
+
