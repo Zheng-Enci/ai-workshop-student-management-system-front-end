@@ -46,6 +46,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { Loading as Loading, Box as Box } from '@element-plus/icons-vue'
+import { ElDialog, ElIcon } from 'element-plus'
 import { getTopAdjustRecordsByStudentInfoId } from '@/api/points'
 
 const props = defineProps({
@@ -55,7 +56,7 @@ const props = defineProps({
 	},
 	studentInfoId: {
 		type: [Number, String],
-		required: true
+		default: null
 	},
 	studentName: {
 		type: String,
