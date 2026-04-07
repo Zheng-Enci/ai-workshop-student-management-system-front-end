@@ -22,6 +22,8 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
+import './css/desktop/PointsDashboardPageDesktopHeader.css'
+
 import { ArrowLeft, ArrowRight, Box, Loading, User, View } from '@element-plus/icons-vue'
 import { BarChart } from 'echarts/charts'
 import { GridComponent, TooltipComponent } from 'echarts/components'
@@ -1447,12 +1449,12 @@ onUnmounted(() => {
 
 <template>
 	<!-- 积分看板页面主容器 -->
-	<div class="points-dashboard-container">
+	<div class="points-dashboard-container points-dashboard-desktop-enter-animation">
 		<!-- 页面头部 -->
-		<div class="header">
-			<div class="header-left">
+		<div class="points-dashboard-page-desktop-header">
+			<div class="points-dashboard-page-desktop-header-left">
 				<el-button
-					class="back-btn"
+					class="points-dashboard-page-desktop-header-back-btn"
 					type="primary"
 					:icon="ArrowLeft"
 					circle
@@ -1460,14 +1462,14 @@ onUnmounted(() => {
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
-					class="logo"
+					class="points-dashboard-page-desktop-header-logo"
 					title="切换主题模式"
 					@click="toggleTheme"/>
-				<div class="title-section">
-					<h1 class="main-title">在0与1之间，见证每一位创作者的光芒</h1>
+				<div class="points-dashboard-page-desktop-header-title-section">
+					<h1 class="points-dashboard-page-desktop-header-main-title">在0与1之间，见证每一位创作者的光芒</h1>
 				</div>
 			</div>
-			<div class="header-right">
+			<div class="points-dashboard-page-desktop-header-right">
 				<el-button
 					type="primary"
 					size="default"
@@ -1478,8 +1480,8 @@ onUnmounted(() => {
 					</el-icon>
 					<span style="margin-left: 6px;">查看全部成员</span>
 				</el-button>
-				<div class="slogan">
-					<img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="slogan-img"/>
+				<div class="points-dashboard-page-desktop-header-slogan">
+					<img src="@/assets/QunCeQunLiChuangXingGongXing.png" alt="群策群力，创新共行" class="points-dashboard-page-desktop-header-slogan-img"/>
 				</div>
 			</div>
 		</div>
