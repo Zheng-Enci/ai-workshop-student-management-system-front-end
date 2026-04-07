@@ -1722,7 +1722,9 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 			</div>
 			<!-- 学生卡片列表块内容 -->
 			<div v-if="!loading && filteredStudents.length > 0" class="student-cards-list">
-				<div v-for="student in filteredStudents" :key="student.studentId" class="student-cards-list-item">
+				<div v-for="(student, index) in filteredStudents" :key="student.studentId" 
+				     class="student-cards-list-item"
+				     :style="{ animationDelay: `${index * 0.08}s` }">
 					<!-- 学生卡片头部块 -->
 					<div class="student-cards-list-item-header">
 						<!-- 块1：头像 -->

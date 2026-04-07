@@ -3,6 +3,26 @@
  * 用于桌面端学生管理页面的学生卡片展示组件
  * ======================================== */
 
+/* 卡片入场动画 */
+@keyframes card-enter {
+	0% {
+		opacity: 0;
+		transform: translateY(20px) scale(0.9);
+	}
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.05);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.student-cards-list-item {
+	animation: card-enter 0.5s ease-out backwards;
+}
+
 /**
  * 学生卡片主容器
  * 包含头部和卡片列表的整体布局
