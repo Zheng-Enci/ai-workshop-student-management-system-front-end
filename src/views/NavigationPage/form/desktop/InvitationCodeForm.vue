@@ -165,27 +165,27 @@ const handleClose = () => {
 	>
 		<div class="invitation-code-form-container">
 			<!-- 加载状态 -->
-			<div v-if="isLoading" style="text-align: center; padding: 60px;">
-				<el-icon :size="48" class="is-loading">
+			<div v-if="isLoading" class="invitation-code-state">
+				<el-icon :size="64" class="is-loading">
 					<Star/>
 				</el-icon>
-				<p style="margin-top: 16px; color: #909399;">正在加载邀请码...</p>
+				<p class="invitation-code-state-text">正在加载邀请码...</p>
 			</div>
 
 			<!-- 错误提示 -->
-			<div v-else-if="errorMessage" style="text-align: center; padding: 60px;">
-				<el-icon :size="48" style="color: #F56C6C;">
+			<div v-else-if="errorMessage" class="invitation-code-state error">
+				<el-icon :size="64">
 					<Star/>
 				</el-icon>
-				<p style="margin-top: 16px; color: #F56C6C;">{{ errorMessage }}</p>
+				<p class="invitation-code-state-text error-text">{{ errorMessage }}</p>
 			</div>
 
 			<!-- 无数据提示 -->
-			<div v-else-if="!invitationCode" style="text-align: center; padding: 60px;">
-				<el-icon :size="48">
+			<div v-else-if="!invitationCode" class="invitation-code-state">
+				<el-icon :size="64">
 					<Star/>
 				</el-icon>
-				<p style="margin-top: 16px; color: #909399;">暂无邀请码</p>
+				<p class="invitation-code-state-text">暂无邀请码</p>
 			</div>
 
 			<!-- 邀请码展示 -->
@@ -232,6 +232,32 @@ const handleClose = () => {
 	min-height: 300px;
 }
 
+/* ==================== 状态显示 ==================== */
+
+.invitation-code-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 60px;
+	gap: 16px;
+	color: #909399;
+}
+
+.invitation-code-state .el-icon {
+	color: #C0C4CC;
+}
+
+.invitation-code-state-text {
+	margin: 0;
+	font-size: 14px;
+}
+
+.invitation-code-state.error .el-icon,
+.invitation-code-state.error .invitation-code-state-text {
+	color: #F56C6C;
+}
+
 /* ==================== 邀请码内容 ==================== */
 
 .invitation-code-content {
@@ -244,33 +270,40 @@ const handleClose = () => {
 .invitation-code-info {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: 16px;
 	align-items: center;
 	text-align: center;
+	padding: 32px 24px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border-radius: 16px;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .invitation-code-label {
 	font-size: 14px;
 	font-weight: 500;
-	color: #606266;
+	color: rgba(255, 255, 255, 0.8);
 }
 
 .invitation-code-value {
-	font-size: 24px;
-	font-weight: 600;
-	color: #303133;
+	font-size: 28px;
+	font-weight: 700;
+	color: #ffffff;
 	padding: 16px 24px;
-	background: #F5F7FA;
-	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.15);
+	border-radius: 12px;
 	font-family: 'Courier New', monospace;
-	letter-spacing: 1px;
+	letter-spacing: 2px;
 	word-break: break-all;
 	max-width: 400px;
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .invitation-code-tip {
 	font-size: 12px;
-	color: #909399;
+	color: rgba(255, 255, 255, 0.7);
 	max-width: 300px;
 }
 
@@ -279,6 +312,25 @@ const handleClose = () => {
 .invitation-code-actions {
 	display: flex;
 	gap: 12px;
+	justify-content: center;
+}
+
+/* ==================== 按钮样式 ==================== */
+
+.invitation-code-actions .el-button--primary {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border: none;
+	padding: 20px 32px;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 12px;
+}
+
+.invitation-code-actions .el-button--default {
+	padding: 20px 32px;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 12px;
 }
 
 /* ==================== 夜间模式适配 ==================== */
