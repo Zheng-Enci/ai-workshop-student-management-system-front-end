@@ -6,7 +6,7 @@
 
 /* ==================== 页面头部容器 ==================== */
 
-.navigation-mobile-header-container {
+.navigation-page-mobile-header-container {
   position: relative;
   z-index: 10;
   display: flex;
@@ -16,10 +16,10 @@
   background: rgb(255 255 255 / 0.08);
   border-bottom: 1px solid rgb(255 255 255 / 0.12);
   backdrop-filter: blur(20px);
-  animation: header-fadeInDown 0.6s ease-out;
+  animation: navigation-page-mobile-header-fadeInDown 0.6s ease-out;
 }
 
-@keyframes navigation-mobile-header-fadeInDown {
+@keyframes navigation-page-mobile-header-fadeInDown {
   from {
     opacity: 0;
     transform: translateY(-20px);
@@ -32,7 +32,7 @@
 
 /* ==================== 头部内容区域 ==================== */
 
-.navigation-mobile-header-content {
+.navigation-page-mobile-header-content {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -43,7 +43,7 @@
 
 /* ==================== 首页按钮 ==================== */
 
-.navigation-mobile-header-home-btn {
+.navigation-page-mobile-header-home-btn {
   position: relative;
   left: auto;
   top: auto;
@@ -56,19 +56,19 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.1) !important;
 }
 
-.navigation-mobile-header-home-btn:hover {
+.navigation-page-mobile-header-home-btn:hover {
   background: rgb(255 255 255 / 0.15) !important;
   border-color: rgb(255 255 255 / 0.25) !important;
 }
 
-.navigation-mobile-header-home-btn .el-icon {
+.navigation-page-mobile-header-home-btn .el-icon {
   font-size: 18px;
   color: white;
 }
 
 /* ==================== Logo ==================== */
 
-.navigation-mobile-header-logo {
+.navigation-page-mobile-header-logo {
   width: 50px;
   height: 50px;
   cursor: pointer;
@@ -78,13 +78,13 @@
 
 /* ==================== 标题区域 ==================== */
 
-.navigation-mobile-header-title-section {
+.navigation-page-mobile-header-title-section {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.navigation-mobile-header-title-section h1 {
+.navigation-page-mobile-header-title-section h1 {
   margin: 0;
   font-size: 20px;
   font-weight: 700;
@@ -93,7 +93,7 @@
   letter-spacing: 0.5px;
 }
 
-.navigation-mobile-header-title-section p {
+.navigation-page-mobile-header-title-section p {
   margin: 0;
   font-size: 13px;
   font-weight: 400;
