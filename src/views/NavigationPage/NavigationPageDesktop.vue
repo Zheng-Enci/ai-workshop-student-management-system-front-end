@@ -927,7 +927,7 @@ onBeforeUnmount(() => {
 
 						<div class="navigation-desktop-navSectionCard-grid">
 							<div class="navigation-desktop-navSectionCard-card" @click="goToSuperAdmin">
-								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-8">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-9">
 									<el-icon size="28">
 										<setting/>
 									</el-icon>
@@ -939,7 +939,7 @@ onBeforeUnmount(() => {
 							</div>
 
 							<div v-if="isAdmin" class="navigation-desktop-navSectionCard-card" @click="goToAdmin">
-								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-1">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-10">
 									<el-icon size="28">
 										<user-filled/>
 									</el-icon>
