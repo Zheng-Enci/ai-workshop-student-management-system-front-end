@@ -1,8 +1,9 @@
 /* ==================== 左侧排行榜区域 ==================== */
 
 .dashboard-desktop-ranking-left-section {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	padding-right: 10px;
 }
 
 .dashboard-desktop-ranking-punch-card,
