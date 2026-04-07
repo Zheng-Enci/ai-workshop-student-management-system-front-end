@@ -32,7 +32,6 @@
 .points-dashboard-page-desktop-header-logo {
     width: 48px;
     height: 48px;
-    border-radius: 8px;
     object-fit: cover;
     cursor: pointer;
     transition: transform 0.3s ease;
