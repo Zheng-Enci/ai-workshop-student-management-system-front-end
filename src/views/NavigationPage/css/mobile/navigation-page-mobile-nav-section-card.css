@@ -76,7 +76,7 @@
 
 .navigation-page-mobile-nav-section-card-grid {
 	display: grid;
-	grid-template-columns: 1fr;
+	grid-template-columns: 1fr 1fr;
 	gap: 14px;
 	animation: navigation-page-mobile-nav-section-card-fadeInUp 0.6s ease-out 0.2s both;
 }
