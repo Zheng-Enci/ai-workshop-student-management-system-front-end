@@ -39,6 +39,38 @@
 	flex-direction: column;
 	overflow: hidden;
 	height: 100%;
+	position: relative;
+}
+
+/* 光影扫描效果 */
+.points-dashboard-page-desktop-side-card::after {
+	content: '';
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+	background: linear-gradient(
+		to bottom right,
+		transparent 40%,
+		rgba(255, 255, 255, 0.15) 45%,
+		rgba(255, 255, 255, 0.25) 50%,
+		rgba(255, 255, 255, 0.15) 55%,
+		transparent 60%
+	);
+	transform: rotate(30deg);
+	animation: scan-light 4s linear infinite;
+	pointer-events: none;
+	z-index: 1;
+}
+
+@keyframes scan-light {
+	0% {
+		transform: rotate(30deg) translateX(-100%);
+	}
+	100% {
+		transform: rotate(30deg) translateX(100%);
+	}
 }
 
 /* 侧边卡片头部样式 */
