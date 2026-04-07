@@ -560,14 +560,14 @@ const initAttendanceChart = data => {
 		},
 		yAxis: {
 			type: 'category', // 分类轴
-			data: sortedData.map(item => `${item.name} (${item.levelName})`), // Y轴标签
+			data: sortedData.map(item => {
+				const name = `${item.name} (${item.levelName})`
+				return name.length > 5 ? name.replace(/(.{5})/g, '$1\n') : name
+			}), // Y轴标签
 			axisLabel: {
 				interval: 0, // 显示所有标签
 				fontSize: 12,
-				color: isDark ? '#ffffff' : '#2c3e50',
-				width: 62,
-				overflow: 'break',
-				lineHeight: 18
+				color: isDark ? '#ffffff' : '#2c3e50'
 			},
 			axisLine: {
 				lineStyle: {
