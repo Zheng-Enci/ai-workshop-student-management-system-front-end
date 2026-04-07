@@ -1508,11 +1508,11 @@ onUnmounted(() => {
 														student.totalPoints
 													}}</span>
 													<span class="points-dashboard-page-desktop-points-equals">=</span>
-													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-signin" style="color: #3b82f6 !important;">{{
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-signin" style="color: #4facfe !important;">{{
 														student.signInPoints
 													}}</span>
 													<span class="points-dashboard-page-desktop-points-plus">+</span>
-													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity" style="color: #f59e0b !important;">{{
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity" style="color: #00f2fe !important;">{{
 														student.activityPoints
 													}}</span>
 												</div>
