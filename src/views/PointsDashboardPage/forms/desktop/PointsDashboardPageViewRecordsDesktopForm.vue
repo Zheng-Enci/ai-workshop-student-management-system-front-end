@@ -136,13 +136,14 @@ defineExpose({
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 40px 0;
+	padding: 60px 0;
 	color: var(--text-secondary);
-	gap: 12px;
+	gap: 16px;
 }
 
 .points-dashboard-page-view-records-desktop-form-loading .el-icon {
-	font-size: 32px;
+	font-size: 40px;
+	color: var(--primary-color);
 }
 
 .points-dashboard-page-view-records-desktop-form-empty {
@@ -150,61 +151,74 @@ defineExpose({
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 40px 0;
+	padding: 60px 0;
 	color: var(--text-secondary);
-	gap: 12px;
+	gap: 16px;
 }
 
 .points-dashboard-page-view-records-desktop-form-empty .el-icon {
-	font-size: 48px;
+	font-size: 64px;
+	color: var(--text-secondary);
+	opacity: 0.5;
 }
 
 .points-dashboard-page-view-records-desktop-form-grid {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
-	max-height: 400px;
+	gap: 16px;
+	max-height: 500px;
 	overflow-y: auto;
+	padding-right: 8px;
 }
 
 .points-dashboard-page-view-records-desktop-form-card {
-	background: var(--bg-secondary);
-	border-radius: 8px;
-	padding: 12px;
+	background: var(--bg-primary);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	padding: 16px;
+	transition: all 0.2s ease;
+}
+
+.points-dashboard-page-view-records-desktop-form-card:hover {
+	border-color: var(--primary-color);
+	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
 }
 
 .points-dashboard-page-view-records-desktop-form-card-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 8px;
+	margin-bottom: 12px;
 }
 
 .points-dashboard-page-view-records-desktop-form-card-time {
-	font-size: 12px;
+	font-size: 13px;
 	color: var(--text-secondary);
 }
 
 .points-dashboard-page-view-records-desktop-form-card-badge {
-	font-size: 14px;
-	font-weight: 600;
-	padding: 2px 8px;
-	border-radius: 4px;
+	font-size: 15px;
+	font-weight: 700;
+	padding: 4px 12px;
+	border-radius: 20px;
+	min-width: 50px;
+	text-align: center;
 }
 
 .points-dashboard-page-view-records-desktop-form-card-badge.positive {
 	color: #10b981;
-	background: rgba(16, 185, 129, 0.1);
+	background: rgba(16, 185, 129, 0.12);
 }
 
 .points-dashboard-page-view-records-desktop-form-card-badge.negative {
 	color: #ef4444;
-	background: rgba(239, 68, 68, 0.1);
+	background: rgba(239, 68, 68, 0.12);
 }
 
 .points-dashboard-page-view-records-desktop-form-card-reason {
-	font-size: 13px;
+	font-size: 14px;
 	color: var(--text-primary);
-	line-height: 1.5;
+	line-height: 1.6;
+	word-break: break-word;
 }
 </style>
