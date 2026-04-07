@@ -1504,15 +1504,15 @@ onUnmounted(() => {
 										<div class="points-dashboard-page-desktop-side-points">
 											<div class="points-dashboard-page-desktop-points-total-row">
 												<div v-if="!student.placeholder" class="points-dashboard-page-desktop-points-formula">
-													<span class="points-dashboard-page-desktop-points-total points-dashboard-page-desktop-points-total-main">{{
+													<span class="points-dashboard-page-desktop-points-total points-dashboard-page-desktop-points-total-main" style="color: #667eea !important;">{{
 														student.totalPoints
 													}}</span>
 													<span class="points-dashboard-page-desktop-points-equals">=</span>
-													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-signin">{{
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-signin" style="color: #3b82f6 !important;">{{
 														student.signInPoints
 													}}</span>
 													<span class="points-dashboard-page-desktop-points-plus">+</span>
-													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity">{{
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity" style="color: #f59e0b !important;">{{
 														student.activityPoints
 													}}</span>
 												</div>
