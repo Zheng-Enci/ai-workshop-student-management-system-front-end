@@ -1,5 +1,5 @@
 /* 积分看板页面头部样式 - 桌面版 */
-.header {
+.points-dashboard-page-desktop-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -9,13 +9,13 @@
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
-.header-left {
+.points-dashboard-page-desktop-header-left {
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.back-btn {
+.points-dashboard-page-desktop-header-back-btn {
     width: 40px;
     height: 40px;
     padding: 0;
@@ -27,12 +27,12 @@
     transition: all 0.3s ease;
 }
 
-.back-btn:hover {
+.points-dashboard-page-desktop-header-back-btn:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: scale(1.05);
 }
 
-.logo {
+.points-dashboard-page-desktop-header-logo {
     width: 48px;
     height: 48px;
     border-radius: 8px;
@@ -41,15 +41,15 @@
     transition: transform 0.3s ease;
 }
 
-.logo:hover {
+.points-dashboard-page-desktop-header-logo:hover {
     transform: scale(1.1);
 }
 
-.title-section {
+.points-dashboard-page-desktop-header-title-section {
     margin-left: 8px;
 }
 
-.main-title {
+.points-dashboard-page-desktop-header-main-title {
     font-size: 20px;
     font-weight: 600;
     color: #fff;
@@ -58,18 +58,18 @@
     letter-spacing: 1px;
 }
 
-.header-right {
+.points-dashboard-page-desktop-header-right {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.slogan {
+.points-dashboard-page-desktop-header-slogan {
     display: flex;
     align-items: center;
 }
 
-.slogan-img {
+.points-dashboard-page-desktop-header-slogan-img {
     height: 36px;
     object-fit: contain;
     filter: brightness(1.1);
