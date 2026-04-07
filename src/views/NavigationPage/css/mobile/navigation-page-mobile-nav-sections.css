@@ -158,15 +158,18 @@
 	position: relative;
 	z-index: 1;
 	display: flex;
-	flex-direction: column;
-	gap: 4px;
+	align-items: center;
+	gap: 10px;
 	min-width: 0;
+	flex: 1;
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 2px;
+	flex: 1;
+	min-width: 0;
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text h3 {
@@ -184,7 +187,6 @@
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-arrow {
-	order: 2;
 	display: flex;
 	align-items: center;
 	justify-content: center;
