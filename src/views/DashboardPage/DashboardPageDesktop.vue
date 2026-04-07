@@ -565,7 +565,7 @@ const initAttendanceChart = data => {
 				interval: 0, // 显示所有标签
 				fontSize: 12,
 				color: isDark ? '#ffffff' : '#2c3e50',
-				width: 100,
+				width: 72,
 				overflow: 'break',
 				lineHeight: 18
 			},
