@@ -1493,14 +1493,9 @@ onUnmounted(() => {
 									</div>
 									<div class="points-dashboard-page-desktop-side-content">
 										<div v-if="!student.placeholder" class="points-dashboard-page-desktop-side-meta">
-											<div v-if="student.major" class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">
-												{{ student.major }}
-											</div>
-											<div v-else class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">--</div>
-											<div v-if="student.grade" class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">
-												{{ formatGrade(student.grade) }}
-											</div>
-											<div v-else class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">--</div>
+											<span class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">
+												{{ student.major || '--' }}<template v-if="student.major && student.grade"> | </template>{{ student.grade ? formatGrade(student.grade) : '' }}
+											</span>
 										</div>
 										<div class="points-dashboard-page-desktop-side-points">
 											<div class="points-dashboard-page-desktop-points-total-row">
