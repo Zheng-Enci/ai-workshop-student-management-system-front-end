@@ -281,8 +281,8 @@
 
 /* 侧边头像样式 */
 .points-dashboard-page-desktop-side-avatar {
-	width: 56px;
-	height: 56px;
+	width: 64px;
+	height: 64px;
 	background: linear-gradient(135deg, #667eea, #764ba2);
 	border-radius: 8px;
 	display: flex;
