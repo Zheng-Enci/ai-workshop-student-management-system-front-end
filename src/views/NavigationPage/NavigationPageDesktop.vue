@@ -612,7 +612,6 @@ onMounted(() => {
 						class="navigation-desktop-header-home-btn"
 						type="primary"
 						:icon="House"
-						circle
 						@click="goToHome"
 					/>
 
