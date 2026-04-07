@@ -53,9 +53,9 @@
 	background: linear-gradient(
 		315deg,
 		transparent 40%,
-		rgba(255, 255, 255, 0.12) 45%,
-		rgba(255, 255, 255, 0.2) 50%,
-		rgba(255, 255, 255, 0.12) 55%,
+		rgba(255, 255, 255, 0.6) 45%,
+		rgba(255, 255, 255, 0.8) 50%,
+		rgba(255, 255, 255, 0.6) 55%,
 		transparent 60%
 	);
 	animation: scan-light 3s linear infinite;
