@@ -28,6 +28,7 @@
 				v-for="(record, index) in records"
 				:key="index"
 				class="points-dashboard-page-view-records-desktop-form-card"
+				:style="{ background: getRecordColor(record) }"
 			>
 				<div class="points-dashboard-page-view-records-desktop-form-card-header">
 					<span class="points-dashboard-page-view-records-desktop-form-card-time">{{ formatTime(record.createTime) }}</span>
@@ -68,6 +69,8 @@ const emit = defineEmits(['update:modelValue', 'close'])
 
 const loading = ref(false)
 const records = ref([])
+const maxPoints = ref(0)
+const minPoints = ref(0)
 
 const dialogVisible = computed({
 	get: () => props.modelValue,
@@ -79,6 +82,19 @@ watch(() => props.modelValue, val => {
 		loadRecords()
 	}
 })
+
+const getRecordColor = record => {
+	const points = record.adjustPoints
+	if (maxPoints.value === minPoints.value) { return 'rgba(102, 126, 234, 0.08)' }
+	const range = maxPoints.value - minPoints.value
+	const percent = Math.abs(points) / range
+	const intensity = Math.max(0.08, Math.min(0.35, percent * 0.4))
+	if (points >= 0) {
+		return `rgba(16, 185, 129, ${intensity})`
+	} else {
+		return `rgba(239, 68, 68, ${intensity})`
+	}
+}
 
 const formatTime = timeString => {
 	if (!timeString) { return '--' }
@@ -102,11 +118,17 @@ const loadRecords = async () => {
 	try {
 		const response = await getTopAdjustRecordsByStudentInfoId(props.studentInfoId, 100)
 		if (response.code === 200 && Array.isArray(response.data)) {
-			records.value = response.data.sort((a, b) => {
+			const sorted = response.data.sort((a, b) => {
 				const timeA = new Date(a.createTime).getTime()
 				const timeB = new Date(b.createTime).getTime()
 				return timeB - timeA
 			})
+			records.value = sorted
+			if (sorted.length > 0) {
+				const points = sorted.map(r => r.adjustPoints)
+				maxPoints.value = Math.max(...points)
+				minPoints.value = Math.min(...points)
+			}
 		}
 	} catch (error) {
 		console.error('获取改分记录失败:', error)
@@ -172,7 +194,6 @@ defineExpose({
 }
 
 .points-dashboard-page-view-records-desktop-form-card {
-	background: var(--bg-primary);
 	border: 1px solid var(--border-color);
 	border-radius: 12px;
 	padding: 14px;
