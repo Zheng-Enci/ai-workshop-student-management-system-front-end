@@ -69,44 +69,6 @@
 	opacity: 0.85;
 }
 
-/* 随机名言容器样式 */
-.points-dashboard-page-desktop-random-quote-container {
-	position: absolute;
-	right: 0;
-	top: 50%;
-	transform: translateY(-50%);
-	width: fit-content;
-	padding: 12px 18px;
-	background: transparent;
-	border-radius: 12px;
-	border: none;
-	backdrop-filter: none;
-	box-shadow: none;
-	z-index: 5;
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	margin-right: 0;
-}
-
-/* 随机名言文字样式 */
-.points-dashboard-page-desktop-random-quote {
-	font-size: 14px;
-	color: var(--text-primary);
-	line-height: 1.8;
-	text-align: right;
-	opacity: 0;
-	transition: opacity 0.5s ease-in-out;
-	font-weight: 500;
-	letter-spacing: 1px;
-	overflow-wrap: break-word;
-}
-
-/* 随机名言淡入效果 */
-.points-dashboard-page-desktop-random-quote.points-dashboard-page-desktop-fade-in {
-	opacity: 0.95;
-}
-
 /* 统一图例样式 */
 .points-dashboard-page-desktop-unified-legend {
 	display: flex;
