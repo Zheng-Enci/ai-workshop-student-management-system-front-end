@@ -243,3 +243,9 @@
 .navigation-page-mobile-nav-sections-card.records-card .navigation-page-mobile-nav-sections-card-icon {
 	background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
 }
+
+/* ==================== 邀请码卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.invitation-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+}

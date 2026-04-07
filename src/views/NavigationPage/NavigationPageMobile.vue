@@ -760,7 +760,7 @@ onBeforeUnmount(() => {
 							</div>
 						</div>
 
-						<div class="navigation-page-mobile-nav-sections-card invite-card" @click="goToInvitationCode">
+						<div class="navigation-page-mobile-nav-sections-card invitation-card" @click="goToInvitationCode">
 							<div class="navigation-page-mobile-nav-sections-card-bg"/>
 							<div class="navigation-page-mobile-nav-sections-card-content">
 								<div class="navigation-page-mobile-nav-sections-card-icon">
