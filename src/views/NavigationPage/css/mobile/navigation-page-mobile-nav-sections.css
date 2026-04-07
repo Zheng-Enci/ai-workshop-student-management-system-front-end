@@ -89,8 +89,8 @@
 .navigation-page-mobile-nav-sections-card {
 	position: relative;
 	display: flex;
-	align-items: center;
-	gap: 14px;
+	flex-direction: column;
+	gap: 12px;
 	padding: 16px;
 	overflow: hidden;
 	cursor: pointer;
@@ -158,8 +158,7 @@
 	position: relative;
 	z-index: 1;
 	display: flex;
-	align-items: center;
-	flex: 1;
+	flex-direction: column;
 	gap: 12px;
 	min-width: 0;
 }
@@ -168,8 +167,6 @@
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
-	flex: 1;
-	min-width: 0;
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text h3 {
@@ -178,21 +175,16 @@
 	font-weight: 600;
 	color: white;
 	text-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text p {
 	margin: 0;
 	font-size: 12px;
 	color: rgb(255 255 255 / 0.65);
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-arrow {
+	order: 2;
 	display: flex;
 	align-items: center;
 	justify-content: center;
