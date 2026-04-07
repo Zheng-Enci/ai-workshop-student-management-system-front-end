@@ -142,7 +142,7 @@ const dataLoader = new DashboardDataLoader(
  * 返回上一级页面（导航页）
  */
 const goBack = () => {
-	router.push('/navigation-desktop')
+	router.push('/navigation')
 }
 
 /**
