@@ -607,7 +607,8 @@ const initAttendanceChart = data => {
 					// 自定义标签内容（年级+专业）
 					formatter(params) {
 						const itemData = sortedData[params.dataIndex]
-						return `${itemData.grade}年级\n${itemData.major}`
+						const major = itemData.major.replace(/(.{6})/g, '$1\n')
+						return `${itemData.grade}年级\n${major}`
 					},
 					fontSize: 11,
 					color: isDark ? '#ffffff' : '#666',
