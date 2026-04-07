@@ -139,6 +139,12 @@ const loadRecords = async () => {
 }
 
 const handleClose = () => {
+	const dialogWrapper = document.querySelector('.records-dialog-overlay')
+	if (dialogWrapper) {
+		dialogWrapper.style.display = 'none'
+		dialogWrapper.style.visibility = 'hidden'
+		dialogWrapper.style.opacity = '0'
+	}
 	setTimeout(() => {
 		records.value = []
 		maxPoints.value = 0
