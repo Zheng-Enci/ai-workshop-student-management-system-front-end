@@ -6,7 +6,7 @@
 
 /* ==================== 页面容器 ==================== */
 
-.dashboard-container {
+.dashboard-desktop-container {
 	position: relative;
 	min-height: 100vh;
 	overflow-x: hidden;
@@ -17,7 +17,7 @@
 
 /* ==================== 主要内容区域 ==================== */
 
-.main-content {
+.dashboard-desktop-main-content {
 	display: grid;
 	grid-template-columns: 1fr 2fr;
 	gap: 40px;

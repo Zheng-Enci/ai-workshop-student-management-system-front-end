@@ -904,7 +904,7 @@ echarts.use([
 
 <template>
 	<!-- 仪表盘主容器 -->
-	<div class="dashboard-container">
+	<div class="dashboard-desktop-container">
 		<!-- 头部区域：返回按钮 + 标题 + 标语 -->
 		<div class="dashboard-desktop-header">
 			<div class="dashboard-desktop-header-left">
@@ -937,7 +937,7 @@ echarts.use([
 		</div>
 
 		<!-- 主内容区域：左侧排行榜 + 右侧学生总览 -->
-		<div class="main-content">
+		<div class="dashboard-desktop-main-content">
 			<!-- 左侧区域：签到排行榜 -->
 			<div class="dashboard-desktop-ranking-left-section">
 				<div class="dashboard-desktop-ranking-punch-card">
