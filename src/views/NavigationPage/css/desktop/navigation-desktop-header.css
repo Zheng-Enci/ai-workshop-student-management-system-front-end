@@ -132,7 +132,7 @@
 	padding: 0;
 	background: var(--primary-color);
 	border: none;
-	border-radius: 50%;
+	border-radius: 50% !important;
 }
 
 /* ==================== Logo ==================== */
