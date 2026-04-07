@@ -1,5 +1,17 @@
 /* 积分看板页面侧边区域样式 - 桌面版 */
 
+/* 卡片入场动画 */
+@keyframes card-enter {
+	0% {
+		opacity: 0;
+		transform: translateY(20px) scale(0.95);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
 /* 看板侧边区域样式 */
 /* 右侧积分展示区域 */
 .points-dashboard-page-desktop-dashboard-side {
