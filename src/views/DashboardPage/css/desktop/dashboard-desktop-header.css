@@ -16,11 +16,12 @@
 }
 
 .dashboard-desktop-header-back-btn {
-  width: 40px;
-  height: 40px;
-  background: var(--primary-color);
-  border: none;
-  box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
+	width: 40px;
+	height: 40px;
+	background: var(--primary-color);
+	border: none;
+	border-radius: 50%;
+	box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
 }
 
 .dashboard-desktop-header-logo {
