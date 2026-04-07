@@ -16,7 +16,8 @@ import {
 	House,
 	Trophy,
 	Coin,
-	Document
+	Document,
+	Setting
 } from '@element-plus/icons-vue'
 // 导入 Element Plus 组件
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
@@ -243,6 +244,15 @@ const goToDashboard = () => {
  */
 const goToPointsDashboard = () => {
 	router.push('/points-dashboard')
+}
+
+/**
+ * 跳转到超级管理员系统
+ * @function goToSuperAdmin
+ * @description 点击超级管理员入口时触发,跳转到超级管理系统(所有用户可见)
+ */
+const goToSuperAdmin = () => {
+	router.push('/super-admin')
 }
 
 /**
@@ -887,7 +897,7 @@ onMounted(() => {
 					</div>
 
 					<!-- 管理功能分组（管理员可见）-->
-					<div v-if="isAdmin" class="navigation-desktop-navSectionAdmin">
+					<div class="navigation-desktop-navSectionAdmin">
 						<div class="navigation-desktop-navSectionAdmin-header">
 							<div class="navigation-desktop-navSectionAdmin-title">
 								<el-icon class="navigation-desktop-navSectionAdmin-icon">
@@ -899,7 +909,19 @@ onMounted(() => {
 						</div>
 
 						<div class="navigation-desktop-navSectionCard-grid">
-							<div class="navigation-desktop-navSectionCard-card" @click="goToAdmin">
+							<div class="navigation-desktop-navSectionCard-card" @click="goToSuperAdmin">
+								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-8">
+									<el-icon size="28">
+										<setting/>
+									</el-icon>
+								</div>
+								<div class="navigation-desktop-navSectionCard-content">
+									<div class="navigation-desktop-navSectionCard-label">超级管理员</div>
+									<div class="navigation-desktop-navSectionCard-description">前往超级管理系统</div>
+								</div>
+							</div>
+
+							<div v-if="isAdmin" class="navigation-desktop-navSectionCard-card" @click="goToAdmin">
 								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-1">
 									<el-icon size="28">
 										<user-filled/>
