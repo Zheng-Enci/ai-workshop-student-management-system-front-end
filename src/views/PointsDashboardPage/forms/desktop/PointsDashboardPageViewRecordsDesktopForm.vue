@@ -139,7 +139,11 @@ const loadRecords = async () => {
 }
 
 const handleClose = () => {
-	records.value = []
+	setTimeout(() => {
+		records.value = []
+		maxPoints.value = 0
+		minPoints.value = 0
+	}, 300)
 	emit('close')
 }
 
