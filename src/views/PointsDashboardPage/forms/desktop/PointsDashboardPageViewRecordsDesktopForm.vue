@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { Loading as Loading, Box as Box } from '@element-plus/icons-vue'
 import { ElDialog, ElIcon } from 'element-plus'
 import { getTopAdjustRecordsByStudentInfoId } from '@/api/points'
@@ -72,6 +72,12 @@ const records = ref([])
 const dialogVisible = computed({
 	get: () => props.modelValue,
 	set: (val) => emit('update:modelValue', val)
+})
+
+watch(() => props.modelValue, val => {
+	if (val && props.studentInfoId) {
+		loadRecords()
+	}
 })
 
 const formatTime = timeString => {
