@@ -252,7 +252,7 @@ const goToPointsDashboard = () => {
  * @description 点击超级管理员入口时触发,跳转到超级管理系统(所有用户可见)
  */
 const goToSuperAdmin = () => {
-	router.push('/super-admin')
+	router.push('/admin/desktop')
 }
 
 /**
