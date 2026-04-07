@@ -1512,7 +1512,7 @@ onUnmounted(() => {
 														student.signInPoints
 													}}</span>
 													<span class="points-dashboard-page-desktop-points-plus">+</span>
-													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity" style="color: #00f2fe !important;">{{
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity" style="color: #f59e0b !important;">{{
 														student.activityPoints
 													}}</span>
 												</div>
