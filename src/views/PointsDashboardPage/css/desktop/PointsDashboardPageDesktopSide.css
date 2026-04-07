@@ -385,7 +385,7 @@
 .points-dashboard-page-desktop-points-total {
 	font-weight: 700;
 	font-size: 14px;
-	color: var(--primary-color);
+	color: var(--primary-color) !important;
 }
 
 /* 主要总积分 */
@@ -404,17 +404,17 @@
 .points-dashboard-page-desktop-points-number {
 	font-weight: 500;
 	font-size: 11px;
-	color: var(--text-secondary);
+	color: var(--text-secondary) !important;
 }
 
 /* 签到积分 */
 .points-dashboard-page-desktop-points-number.points-dashboard-page-desktop-points-signin {
-	color: #3b82f6;
+	color: #3b82f6 !important;
 }
 
 /* 活动积分 */
 .points-dashboard-page-desktop-points-number.points-dashboard-page-desktop-points-activity {
-	color: #f59e0b;
+	color: #f59e0b !important;
 }
 
 /* 加号 */
