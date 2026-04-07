@@ -1460,7 +1460,7 @@ onUnmounted(() => {
 							<div
 								v-for="(student, index) in topStudents"
 								:key="student.studentInfoId || student.placeholderId"
-								:style="{ animationDelay: `${index * 0.05}s` }"
+								:style="{ animationDelay: `${index * 0.12}s` }"
 								class="points-dashboard-page-desktop-side-student"
 								:class="{
 									'points-dashboard-page-desktop-is-placeholder': student.placeholder,
