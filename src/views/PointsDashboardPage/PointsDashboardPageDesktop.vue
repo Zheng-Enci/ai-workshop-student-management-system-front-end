@@ -23,6 +23,7 @@ import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
 import './css/desktop/PointsDashboardPageDesktopHeader.css'
+import './css/desktop/PointsDashboardPageDesktopRanking.css'
 
 import { ArrowLeft, ArrowRight, Box, Loading, User, View } from '@element-plus/icons-vue'
 import { BarChart } from 'echarts/charts'
@@ -1488,10 +1489,10 @@ onUnmounted(() => {
 
 		<div class="main-content">
 			<div class="dashboard-layout">
-				<div class="dashboard-main">
-					<div v-if="activeTab === 'signIn'" class="ranking-tabs">
-						<div class="ranking-topbar">
-							<div class="ranking-arrows">
+				<div class="points-dashboard-page-desktop-dashboard-main">
+					<div v-if="activeTab === 'signIn'" class="points-dashboard-page-desktop-ranking-tabs">
+						<div class="points-dashboard-page-desktop-ranking-topbar">
+							<div class="points-dashboard-page-desktop-ranking-arrows">
 								<el-button
 									circle
 									size="small"
@@ -1501,7 +1502,7 @@ onUnmounted(() => {
 										<arrow-left/>
 									</el-icon>
 								</el-button>
-								<span class="ranking-label">{{ currentTabLabel }}</span>
+								<span class="points-dashboard-page-desktop-ranking-label">{{ currentTabLabel }}</span>
 								<el-button
 									circle
 									size="small"
@@ -1513,29 +1514,29 @@ onUnmounted(() => {
 								</el-button>
 							</div>
 						</div>
-						<div class="ranking-list-container">
-							<div v-if="signInLoading" class="loading-container">
+						<div class="points-dashboard-page-desktop-ranking-list-container">
+							<div v-if="signInLoading" class="points-dashboard-page-desktop-loading-container">
 								<el-icon class="is-loading">
 									<loading/>
 								</el-icon>
 								<span>加载中...</span>
 							</div>
-							<div v-else-if="signInRanking.length === 0" class="empty-container">
+							<div v-else-if="signInRanking.length === 0" class="points-dashboard-page-desktop-empty-container">
 								<el-icon>
 									<box/>
 								</el-icon>
 								<span>暂无数据</span>
 							</div>
-							<div v-else class="chart-container">
-								<div ref="signInChart" class="points-chart"/>
-								<div class="formula-card formula-mini">
-									<div class="formula-content">
-										<div class="formula-item">
-											<span class="formula-label">总签到积分</span>
-											<span class="formula-equals">=</span>
-											<span class="formula-value">签到次数</span>
-											<span class="formula-operator">×</span>
-											<span class="formula-value">0.64</span>
+							<div v-else class="points-dashboard-page-desktop-chart-container">
+								<div ref="signInChart" class="points-dashboard-page-desktop-points-chart"/>
+								<div class="points-dashboard-page-desktop-formula-card points-dashboard-page-desktop-formula-mini">
+									<div class="points-dashboard-page-desktop-formula-content">
+										<div class="points-dashboard-page-desktop-formula-item">
+											<span class="points-dashboard-page-desktop-formula-label">总签到积分</span>
+											<span class="points-dashboard-page-desktop-formula-equals">=</span>
+											<span class="points-dashboard-page-desktop-formula-value">签到次数</span>
+											<span class="points-dashboard-page-desktop-formula-operator">×</span>
+											<span class="points-dashboard-page-desktop-formula-value">0.64</span>
 										</div>
 									</div>
 								</div>
@@ -1543,9 +1544,9 @@ onUnmounted(() => {
 						</div>
 					</div>
 
-					<div v-else-if="activeTab === 'activity'" class="ranking-tabs">
-						<div class="ranking-topbar">
-							<div class="ranking-arrows">
+					<div v-else-if="activeTab === 'activity'" class="points-dashboard-page-desktop-ranking-tabs">
+						<div class="points-dashboard-page-desktop-ranking-topbar">
+							<div class="points-dashboard-page-desktop-ranking-arrows">
 								<el-button
 									circle
 									size="small"
@@ -1555,7 +1556,7 @@ onUnmounted(() => {
 										<arrow-left/>
 									</el-icon>
 								</el-button>
-								<span class="ranking-label">{{ currentTabLabel }}</span>
+								<span class="points-dashboard-page-desktop-ranking-label">{{ currentTabLabel }}</span>
 								<el-button
 									circle
 									size="small"
@@ -1567,27 +1568,27 @@ onUnmounted(() => {
 								</el-button>
 							</div>
 						</div>
-						<div class="ranking-list-container">
-							<div v-if="activityLoading" class="loading-container">
+						<div class="points-dashboard-page-desktop-ranking-list-container">
+							<div v-if="activityLoading" class="points-dashboard-page-desktop-loading-container">
 								<el-icon class="is-loading">
 									<loading/>
 								</el-icon>
 								<span>加载中...</span>
 							</div>
-							<div v-else-if="activityRanking.length === 0" class="empty-container">
+							<div v-else-if="activityRanking.length === 0" class="points-dashboard-page-desktop-empty-container">
 								<el-icon>
 									<box/>
 								</el-icon>
 								<span>暂无数据</span>
 							</div>
-							<div v-else class="chart-container">
-								<div ref="activityChart" class="points-chart"/>
-								<div class="formula-card formula-mini">
-									<div class="formula-content">
-										<div class="formula-item">
-											<span class="formula-label">总活动积分</span>
-											<span class="formula-equals">=</span>
-											<span class="formula-value">Σ(所有活动积分)</span>
+							<div v-else class="points-dashboard-page-desktop-chart-container">
+								<div ref="activityChart" class="points-dashboard-page-desktop-points-chart"/>
+								<div class="points-dashboard-page-desktop-formula-card points-dashboard-page-desktop-formula-mini">
+									<div class="points-dashboard-page-desktop-formula-content">
+										<div class="points-dashboard-page-desktop-formula-item">
+											<span class="points-dashboard-page-desktop-formula-label">总活动积分</span>
+											<span class="points-dashboard-page-desktop-formula-equals">=</span>
+											<span class="points-dashboard-page-desktop-formula-value">Σ(所有活动积分)</span>
 										</div>
 									</div>
 								</div>
@@ -1595,9 +1596,9 @@ onUnmounted(() => {
 						</div>
 					</div>
 
-					<div v-else class="ranking-tabs">
-						<div class="ranking-topbar">
-							<div class="ranking-arrows">
+					<div v-else class="points-dashboard-page-desktop-ranking-tabs">
+						<div class="points-dashboard-page-desktop-ranking-topbar">
+							<div class="points-dashboard-page-desktop-ranking-arrows">
 								<el-button
 									circle
 									size="small"
@@ -1607,7 +1608,7 @@ onUnmounted(() => {
 										<arrow-left/>
 									</el-icon>
 								</el-button>
-								<span class="ranking-label">{{ currentTabLabel }}</span>
+								<span class="points-dashboard-page-desktop-ranking-label">{{ currentTabLabel }}</span>
 								<el-button
 									circle
 									size="small"
@@ -1619,29 +1620,29 @@ onUnmounted(() => {
 								</el-button>
 							</div>
 						</div>
-						<div class="ranking-list-container">
-							<div v-if="totalLoading" class="loading-container">
+						<div class="points-dashboard-page-desktop-ranking-list-container">
+							<div v-if="totalLoading" class="points-dashboard-page-desktop-loading-container">
 								<el-icon class="is-loading">
 									<loading/>
 								</el-icon>
 								<span>加载中...</span>
 							</div>
-							<div v-else-if="totalRanking.length === 0" class="empty-container">
+							<div v-else-if="totalRanking.length === 0" class="points-dashboard-page-desktop-empty-container">
 								<el-icon>
 									<box/>
 								</el-icon>
 								<span>暂无符合条件的学生</span>
 							</div>
-							<div v-else class="chart-container">
-								<div ref="totalChart" class="points-chart"/>
-								<div class="formula-card formula-mini">
-									<div class="formula-content">
-										<div class="formula-item">
-											<span class="formula-label">总积分</span>
-											<span class="formula-equals">=</span>
-											<span class="formula-value formula-signin">总签到积分</span>
-											<span class="formula-operator">+</span>
-											<span class="formula-value formula-activity">总活动积分</span>
+							<div v-else class="points-dashboard-page-desktop-chart-container">
+								<div ref="totalChart" class="points-dashboard-page-desktop-points-chart"/>
+								<div class="points-dashboard-page-desktop-formula-card points-dashboard-page-desktop-formula-mini">
+									<div class="points-dashboard-page-desktop-formula-content">
+										<div class="points-dashboard-page-desktop-formula-item">
+											<span class="points-dashboard-page-desktop-formula-label">总积分</span>
+											<span class="points-dashboard-page-desktop-formula-equals">=</span>
+											<span class="points-dashboard-page-desktop-formula-value points-dashboard-page-desktop-formula-signin">总签到积分</span>
+											<span class="points-dashboard-page-desktop-formula-operator">+</span>
+											<span class="points-dashboard-page-desktop-formula-value points-dashboard-page-desktop-formula-activity">总活动积分</span>
 										</div>
 									</div>
 								</div>
