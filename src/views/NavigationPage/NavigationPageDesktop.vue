@@ -22,7 +22,7 @@ import {
 // 导入 Element Plus 组件
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
 // 导入 Vue 核心 API
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, onBeforeUnmount } from 'vue'
 // 导入 Vue Router
 import { useRouter } from 'vue-router'
 
@@ -600,6 +600,23 @@ onMounted(() => {
 	loadStudentLevel()
 	loadPoints()
 	loadUserAvatar()
+
+	const savedScrollY = localStorage.getItem('navigationPageScrollY')
+	if (savedScrollY) {
+		setTimeout(() => {
+			window.scrollTo(0, parseFloat(savedScrollY))
+		}, 100)
+	}
+
+	window.addEventListener('scroll', handleScroll)
+})
+
+const handleScroll = () => {
+	localStorage.setItem('navigationPageScrollY', window.scrollY.toString())
+}
+
+onBeforeUnmount(() => {
+	window.removeEventListener('scroll', handleScroll)
 })
 </script>
 
