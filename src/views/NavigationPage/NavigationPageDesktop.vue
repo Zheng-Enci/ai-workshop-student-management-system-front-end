@@ -954,7 +954,7 @@ onBeforeUnmount(() => {
 								</div>
 								<div class="navigation-desktop-navSectionCard-content">
 									<div class="navigation-desktop-navSectionCard-label">学生管理</div>
-									<div class="navigation-desktop-navSectionCard-description">管理学生信息</div>
+									<div class="navigation-desktop-navSectionCard-description">仅供学生管理员使用</div>
 								</div>
 							</div>
 						</div>
