@@ -24,6 +24,7 @@ import 'element-plus/theme-chalk/el-tooltip.css'
 import 'element-plus/theme-chalk/display.css'
 import './css/desktop/PointsDashboardPageDesktopHeader.css'
 import './css/desktop/PointsDashboardPageDesktopRanking.css'
+import './css/desktop/PointsDashboardPageDesktopSide.css'
 
 import { ArrowLeft, ArrowRight, Box, Loading, User, View } from '@element-plus/icons-vue'
 import { BarChart } from 'echarts/charts'
@@ -1650,123 +1651,123 @@ onUnmounted(() => {
 						</div>
 					</div>
 				</div>
-				<div class="dashboard-side">
-					<div class="side-card">
-						<div class="side-card-header">
-							<div class="card-header-left">
-								<div class="side-card-title">优秀成员</div>
-								<div class="side-card-subtitle">总积分前32名</div>
+				<div class="points-dashboard-page-desktop-dashboard-side">
+					<div class="points-dashboard-page-desktop-side-card">
+						<div class="points-dashboard-page-desktop-side-card-header">
+							<div class="points-dashboard-page-desktop-card-header-left">
+								<div class="points-dashboard-page-desktop-side-card-title">优秀成员</div>
+								<div class="points-dashboard-page-desktop-side-card-subtitle">总积分前32名</div>
 							</div>
-							<div v-if="topStudents.length > 0" class="unified-legend">
-								<div class="legend-section">
-									<div class="legend-item">
-										<span class="legend-dot legend-club-member"/>
-										<span class="legend-text">社团成员</span>
+							<div v-if="topStudents.length > 0" class="points-dashboard-page-desktop-unified-legend">
+								<div class="points-dashboard-page-desktop-legend-section">
+									<div class="points-dashboard-page-desktop-legend-item">
+										<span class="points-dashboard-page-desktop-legend-dot points-dashboard-page-desktop-legend-club-member"/>
+										<span class="points-dashboard-page-desktop-legend-text">社团成员</span>
 									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-normal-member"/>
-										<span class="legend-text">普通成员</span>
+									<div class="points-dashboard-page-desktop-legend-item">
+										<span class="points-dashboard-page-desktop-legend-dot points-dashboard-page-desktop-legend-normal-member"/>
+										<span class="points-dashboard-page-desktop-legend-text">普通成员</span>
 									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-core-member"/>
-										<span class="legend-text">核心成员</span>
+									<div class="points-dashboard-page-desktop-legend-item">
+										<span class="points-dashboard-page-desktop-legend-dot points-dashboard-page-desktop-legend-core-member"/>
+										<span class="points-dashboard-page-desktop-legend-text">核心成员</span>
 									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-admin"/>
-										<span class="legend-text">管理员</span>
+									<div class="points-dashboard-page-desktop-legend-item">
+										<span class="points-dashboard-page-desktop-legend-dot points-dashboard-page-desktop-legend-admin"/>
+										<span class="points-dashboard-page-desktop-legend-text">管理员</span>
 									</div>
 								</div>
-								<div class="legend-section">
-									<div class="legend-item">
-										<el-icon class="hint-icon">
+								<div class="points-dashboard-page-desktop-legend-section">
+									<div class="points-dashboard-page-desktop-legend-item">
+										<el-icon class="points-dashboard-page-desktop-hint-icon">
 											<View/>
 										</el-icon>
-										<span class="legend-text">点击眼睛图标可查看全部改分记录</span>
+										<span class="points-dashboard-page-desktop-legend-text">点击眼睛图标可查看全部改分记录</span>
 									</div>
 								</div>
-								<div class="legend-section">
-									<div class="legend-item">
-										<span class="legend-dot legend-total"/>
-										<span class="legend-text">总积分</span>
+								<div class="points-dashboard-page-desktop-legend-section">
+									<div class="points-dashboard-page-desktop-legend-item">
+										<span class="points-dashboard-page-desktop-legend-dot points-dashboard-page-desktop-legend-total"/>
+										<span class="points-dashboard-page-desktop-legend-text">总积分</span>
 									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-signin"/>
-										<span class="legend-text">总签到积分</span>
+									<div class="points-dashboard-page-desktop-legend-item">
+										<span class="points-dashboard-page-desktop-legend-dot points-dashboard-page-desktop-legend-signin"/>
+										<span class="points-dashboard-page-desktop-legend-text">总签到积分</span>
 									</div>
-									<div class="legend-item">
-										<span class="legend-dot legend-activity"/>
-										<span class="legend-text">总活动积分</span>
+									<div class="points-dashboard-page-desktop-legend-item">
+										<span class="points-dashboard-page-desktop-legend-dot points-dashboard-page-desktop-legend-activity"/>
+										<span class="points-dashboard-page-desktop-legend-text">总活动积分</span>
 									</div>
 								</div>
 							</div>
-							<div v-if="topStudents.length > 0" class="random-quote-container">
-								<div class="random-quote" :class="{ 'fade-in': showQuote }">
+							<div v-if="topStudents.length > 0" class="points-dashboard-page-desktop-random-quote-container">
+								<div class="points-dashboard-page-desktop-random-quote" :class="{ 'points-dashboard-page-desktop-fade-in': showQuote }">
 									{{ currentQuote }}
 								</div>
 							</div>
 						</div>
-						<div v-if="topStudents.length > 0" class="side-card-body">
+						<div v-if="topStudents.length > 0" class="points-dashboard-page-desktop-side-card-body">
 							<div
 								v-for="(student, index) in topStudents"
 								:key="student.studentInfoId || student.placeholderId"
 								:style="{ animationDelay: `${index * 0.05}s` }"
-								class="side-student"
+								class="points-dashboard-page-desktop-side-student"
 								:class="{
-									'is-placeholder': student.placeholder,
-									'level-club-member': !student.placeholder && student.levelCode === 0,
-									'level-normal-member': !student.placeholder && student.levelCode === 1,
-									'level-core-member': !student.placeholder && student.levelCode === 2,
-									'level-admin': !student.placeholder && student.levelCode === 3
+									'points-dashboard-page-desktop-is-placeholder': student.placeholder,
+									'points-dashboard-page-desktop-level-club-member': !student.placeholder && student.levelCode === 0,
+									'points-dashboard-page-desktop-level-normal-member': !student.placeholder && student.levelCode === 1,
+									'points-dashboard-page-desktop-level-core-member': !student.placeholder && student.levelCode === 2,
+									'points-dashboard-page-desktop-level-admin': !student.placeholder && student.levelCode === 3
 								}"
 							>
-								<div class="side-info">
-									<div class="side-avatar-section">
+								<div class="points-dashboard-page-desktop-side-info">
+									<div class="points-dashboard-page-desktop-side-avatar-section">
 										<div
-											class="side-avatar"
-											:class="{ 'has-avatar': student.hasAvatar && student.avatarUrl, 'no-avatar': !student.hasAvatar || !student.avatarUrl }">
+											class="points-dashboard-page-desktop-side-avatar"
+											:class="{ 'points-dashboard-page-desktop-has-avatar': student.hasAvatar && student.avatarUrl, 'points-dashboard-page-desktop-no-avatar': !student.hasAvatar || !student.avatarUrl }">
 											<img
 												v-if="student.hasAvatar && student.avatarUrl"
 												v-lazy="student.avatarUrl"
 												alt="头像"
-												class="avatar-image"
+												class="points-dashboard-page-desktop-avatar-image"
 												@error="handleAvatarError(student)"/>
-											<el-icon v-else size="26" class="avatar-icon">
+											<el-icon v-else size="26" class="points-dashboard-page-desktop-avatar-icon">
 												<user/>
 											</el-icon>
 										</div>
-										<div class="side-name">
+										<div class="points-dashboard-page-desktop-side-name">
 											{{
 												student.placeholder ? '待入榜' : (student.name || `学生ID: ${student.studentInfoId}`)
 											}}
 										</div>
 									</div>
-									<div class="side-content">
-										<div v-if="!student.placeholder" class="side-meta">
-											<div v-if="student.major" class="meta-line meta-line-second">
+									<div class="points-dashboard-page-desktop-side-content">
+										<div v-if="!student.placeholder" class="points-dashboard-page-desktop-side-meta">
+											<div v-if="student.major" class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">
 												{{ student.major }}
 											</div>
-											<div v-else class="meta-line meta-line-second">--</div>
-											<div v-if="student.grade" class="meta-line meta-line-second">
+											<div v-else class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">--</div>
+											<div v-if="student.grade" class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">
 												{{ formatGrade(student.grade) }}
 											</div>
-											<div v-else class="meta-line meta-line-second">--</div>
+											<div v-else class="points-dashboard-page-desktop-meta-line points-dashboard-page-desktop-meta-line-second">--</div>
 										</div>
-										<div class="side-points">
-											<div class="points-total-row">
-												<div v-if="!student.placeholder" class="points-formula">
-													<span class="points-total points-total-main">{{
+										<div class="points-dashboard-page-desktop-side-points">
+											<div class="points-dashboard-page-desktop-points-total-row">
+												<div v-if="!student.placeholder" class="points-dashboard-page-desktop-points-formula">
+													<span class="points-dashboard-page-desktop-points-total points-dashboard-page-desktop-points-total-main">{{
 														student.totalPoints
 													}}</span>
-													<span class="points-equals">=</span>
-													<span class="points-number points-signin">{{
+													<span class="points-dashboard-page-desktop-points-equals">=</span>
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-signin">{{
 														student.signInPoints
 													}}</span>
-													<span class="points-plus">+</span>
-													<span class="points-number points-activity">{{
+													<span class="points-dashboard-page-desktop-points-plus">+</span>
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity">{{
 														student.activityPoints
 													}}</span>
 												</div>
-												<div v-else class="points-formula">
+												<div v-else class="points-dashboard-page-desktop-points-formula">
 													<span class="points-placeholder">待公布</span>
 												</div>
 												<el-button
@@ -1774,7 +1775,7 @@ onUnmounted(() => {
 													size="small"
 													type="primary"
 													plain
-													class="view-records-btn"
+													class="points-dashboard-page-desktop-view-records-btn"
 													circle
 													@click="openRecordsDialog(student)"
 												>
