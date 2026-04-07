@@ -225,7 +225,7 @@ const showProfile = () => {
  * @description 点击用户头像时触发,跳转到桌面端个人资料页面
  */
 const handleAvatarClick = () => {
-	router.push('/profile/desktop')
+	router.push('/profile')
 }
 
 /**
@@ -234,7 +234,7 @@ const handleAvatarClick = () => {
  * @description 点击数据看板入口时触发,跳转到数据看板页面
  */
 const goToDashboard = () => {
-	router.push('/dashboard-desktop')
+	router.push('/dashboard')
 }
 
 /**
@@ -252,7 +252,7 @@ const goToPointsDashboard = () => {
  * @description 点击超级管理员入口时触发,跳转到超级管理系统(所有用户可见)
  */
 const goToSuperAdmin = () => {
-	router.push('/admin/desktop')
+	router.push('/admin')
 }
 
 /**
