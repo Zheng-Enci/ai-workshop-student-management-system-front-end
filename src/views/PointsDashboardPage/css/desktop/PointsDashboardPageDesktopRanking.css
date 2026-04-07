@@ -6,6 +6,7 @@
 	min-width: 0;
 	width: fit-content;
 	max-width: 550px;
+	margin-left: 16px;
 }
 
 /* 排名标签页样式 */
