@@ -1648,7 +1648,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 
 <template>
 	<!-- 学生管理页面主容器 -->
-	<div class="page_header">
+	<div class="page_header student-manager-page-desktop-enter-animation">
 		<div class="page-header">
 			<!-- 页面头部左侧块 -->
 			<div class="page-header-left">
