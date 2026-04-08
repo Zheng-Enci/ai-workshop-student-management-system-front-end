@@ -5,6 +5,20 @@
  */
 
 /**
+ * 个人信息卡片容器
+ */
+.profile-page-mobile-profile-card {
+	width: 100%;
+}
+
+/**
+ * 用户信息头部
+ */
+.profile-page-mobile-profile-header {
+	width: 100%;
+}
+
+/**
  * 用户信息区块容器
  * 横向排列头像和用户详情
  */
@@ -13,6 +27,7 @@
 	gap: 20px;
 	align-items: center;
 	justify-content: center;
+	width: 100%;
 }
 
 /**

@@ -1708,14 +1708,14 @@ onMounted(() => {
 		<!-- 主内容区域 -->
 		<div class="main-content">
 			<!-- 个人信息卡片 -->
-			<div class="profile-card">
+			<div class="profile-page-mobile-profile-card">
 				<!-- 加载遮罩 -->
 				<div v-if="isLoading" class="loading-overlay">
 					<div class="loading-spinner"/>
 				</div>
 
 				<!-- 用户信息头部 -->
-				<div class="profile-header">
+				<div class="profile-page-mobile-profile-header">
 					<div class="profile-page-mobile-user-info-section">
 						<!-- 头像上传区域 -->
 						<div class="profile-page-mobile-avatar-wrapper">
