@@ -41,6 +41,58 @@ const closeCropDialog = () => imageCropper.closeCropDialog()
 const cancelCrop = () => imageCropper.cancelCrop()
 const performCrop = (canvas, cropBox, img) => imageCropper.performCrop(canvas, cropBox, img)
 
+const confirmCrop = async () => {
+	const canvas = cropCanvasRef.value
+	const cropBox = cropBoxRef.value
+	const img = cropImage.value
+
+	if (!canvas || !cropBox || !img) {
+		return
+	}
+
+	isCropping.value = true
+
+	try {
+		const { cropCanvas, outputSize, originalFile } = performCrop(canvas, cropBox, img)
+
+		await new Promise(resolve => {
+			cropCanvas.toBlob(async blob => {
+				if (!blob) {
+					ElMessage.error('裁剪失败')
+					resolve()
+					return
+				}
+
+				const croppedFile = new File(
+					[blob],
+					originalFile?.name || 'avatar.jpg',
+					{
+						type: originalFile?.type || 'image/jpeg',
+						lastModified: Date.now()
+					}
+				)
+
+				closeCropDialog()
+
+				ElMessage.info('正在处理头像, 请稍候...')
+				const compressedFile = await ProfilePageUtils.compressImage(croppedFile)
+
+				await uploadAvatarFile(compressedFile)
+
+				await loadAvatar()
+
+				resolve()
+			}, originalFile?.type || 'image/jpeg', 0.9)
+		})
+	} catch (error) {
+		ElMessage.error(`裁剪失败：${error.message}`)
+	} finally {
+		isCropping.value = false
+		cropImage.value = null
+		originalImageFile.value = null
+	}
+}
+
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
