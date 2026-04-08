@@ -15,7 +15,7 @@
 /**
  * 区块标题头部
  */
-.profile-page-mobile-section-header {
+.profile-page-mobile-form-section-header {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
@@ -25,21 +25,21 @@
 	margin-bottom: 12px;
 }
 
-html.dark .profile-page-mobile-section-header {
+html.dark .profile-page-mobile-form-section-header {
 	background: #1d1e1f;
 }
 
 /**
  * 标题包装器（包含标题和编辑按钮）
  */
-.profile-page-mobile-section-title-wrapper {
+.profile-page-mobile-form-section-title-wrapper {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
 	width: 100%;
 }
 
-.profile-page-mobile-section-title-wrapper > div:first-child {
+.profile-page-mobile-form-section-title-wrapper > div:first-child {
 	flex: 1;
 	min-width: 0;
 }
@@ -47,7 +47,7 @@ html.dark .profile-page-mobile-section-header {
 /**
  * 标题文字
  */
-.profile-page-mobile-section-title-wrapper h3 {
+.profile-page-mobile-form-section-title-wrapper h3 {
 	margin: 0;
 	font-size: 18px;
 	font-weight: 600;
@@ -55,28 +55,28 @@ html.dark .profile-page-mobile-section-header {
 	line-height: 1.4;
 }
 
-html.dark .profile-page-mobile-section-title-wrapper h3 {
+html.dark .profile-page-mobile-form-section-title-wrapper h3 {
 	color: #e5eaf3;
 }
 
 /**
  * 标题描述
  */
-.profile-page-mobile-section-title-wrapper p {
+.profile-page-mobile-form-section-title-wrapper p {
 	margin: 4px 0 0;
 	font-size: 13px;
 	color: #909399;
 	line-height: 1.4;
 }
 
-html.dark .profile-page-mobile-section-title-wrapper p {
+html.dark .profile-page-mobile-form-section-title-wrapper p {
 	color: #8e959f;
 }
 
 /**
  * 编辑按钮
  */
-.profile-page-mobile-edit-btn {
+.profile-page-mobile-form-section-edit-btn {
 	flex-shrink: 0;
 	margin-left: 12px;
 }
@@ -84,7 +84,7 @@ html.dark .profile-page-mobile-section-title-wrapper p {
 /**
  * 安全徽章
  */
-.profile-page-mobile-security-badge {
+.profile-page-mobile-form-section-security-badge {
 	display: flex;
 	align-items: center;
 	gap: 6px;
@@ -94,45 +94,45 @@ html.dark .profile-page-mobile-section-title-wrapper p {
 	width: fit-content;
 }
 
-html.dark .profile-page-mobile-security-badge {
+html.dark .profile-page-mobile-form-section-security-badge {
 	background: #1e3a1e;
 }
 
-.profile-page-mobile-security-badge .badge-icon {
+.profile-page-mobile-form-section-security-badge .badge-icon {
 	font-size: 14px;
 	color: #67c23a;
 }
 
-html.dark .profile-page-mobile-security-badge .badge-icon {
+html.dark .profile-page-mobile-form-section-security-badge .badge-icon {
 	color: #85ce61;
 }
 
-.profile-page-mobile-security-badge span {
+.profile-page-mobile-form-section-security-badge span {
 	font-size: 12px;
 	color: #67c23a;
 }
 
-html.dark .profile-page-mobile-security-badge span {
+html.dark .profile-page-mobile-form-section-security-badge span {
 	color: #85ce61;
 }
 
 /**
  * 表单容器
  */
-.profile-page-mobile-profile-form {
+.profile-page-mobile-form-section-profile-form {
 	padding: 0 16px 16px;
 	background: #ffffff;
 	border-radius: 12px;
 }
 
-html.dark .profile-page-mobile-profile-form {
+html.dark .profile-page-mobile-form-section-profile-form {
 	background: #1d1e1f;
 }
 
 /**
  * 表单网格
  */
-.profile-page-mobile-form-grid {
+.profile-page-mobile-form-section-form-grid {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
@@ -141,7 +141,7 @@ html.dark .profile-page-mobile-profile-form {
 /**
  * 表单项
  */
-.profile-page-mobile-form-item {
+.profile-page-mobile-form-section-form-item {
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
@@ -150,19 +150,19 @@ html.dark .profile-page-mobile-profile-form {
 /**
  * 表单标签
  */
-.profile-page-mobile-form-label {
+.profile-page-mobile-form-section-form-label {
 	font-size: 14px;
 	font-weight: 500;
 	color: #606266;
 }
 
-html.dark .profile-page-mobile-form-label {
+html.dark .profile-page-mobile-form-section-form-label {
 	color: #a3a6ad;
 }
 
 /**
  * 表单输入框
  */
-.profile-page-mobile-form-input {
+.profile-page-mobile-form-section-form-input {
 	width: 100%;
 }
