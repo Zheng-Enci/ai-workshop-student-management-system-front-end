@@ -383,7 +383,7 @@ onMounted(() => {
 
 		<!-- 密码修改对话框 -->
 		<el-dialog
-			v-model="showPasswordDialog"
+			:model-value="showPasswordDialog"
 			title="修改密码"
 			width="90%"
 			:close-on-click-modal="true"
@@ -391,7 +391,7 @@ onMounted(() => {
 			destroy-on-close
 			modal-class="profile-page-mobile-change-password-dialog-overlay"
 			class="profile-page-mobile-change-password-dialog"
-			@closed="resetPasswordForm"
+			@close="showPasswordDialog = false"
 		>
 			<div class="profile-page-change-password-mobile-form-wrapper">
 				<el-form
