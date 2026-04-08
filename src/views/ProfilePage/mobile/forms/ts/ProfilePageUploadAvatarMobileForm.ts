@@ -408,6 +408,39 @@ export default class ImageCropper {
 		}
 	}
 
+	private initialPinchDistance = ref(0)
+	private initialPinchScale = ref(1)
+	private isPinching = ref(false)
+
+	/**
+	 * 计算两个触摸点之间的距离
+	 * @method getPinchDistance
+	 * @description 根据两个触摸点坐标计算它们之间的距离
+	 * @param {Touch} touch1 - 第一个触摸点
+	 * @param {Touch} touch2 - 第二个触摸点
+	 * @returns {number} 两点之间的距离
+	 */
+	private getPinchDistance(touch1: Touch, touch2: Touch): number {
+		const dx = touch1.clientX - touch2.clientX
+		const dy = touch1.clientY - touch2.clientY
+		return Math.sqrt(dx * dx + dy * dy)
+	}
+
+	/**
+	 * 计算两个触摸点的中心点
+	 * @method getPinchCenter
+	 * @description 计算两个触摸点的中心坐标，用于缩放时以中心为基准
+	 * @param {Touch} touch1 - 第一个触摸点
+	 * @param {Touch} touch2 - 第二个触摸点
+	 * @returns {{ x: number, y: number }} 中心点坐标
+	 */
+	private getPinchCenter(touch1: Touch, touch2: Touch): { x: number; y: number } {
+		return {
+			x: (touch1.clientX + touch2.clientX) / 2,
+			y: (touch1.clientY + touch2.clientY) / 2
+		}
+	}
+
 	/**
 	 * 设置裁剪相关的事件监听器
 	 * @method setupCropEvents
@@ -505,24 +538,68 @@ export default class ImageCropper {
 		canvas.style.cursor = 'move'
 
 		this.touchStartHandler.value = e => {
-			const touch = e.touches[0]
-			const { target } = e
-			if (target === canvas || target === this.cropWrapperRef.value ||
-				(this.cropWrapperRef.value && this.cropWrapperRef.value.contains(target))) {
-				if (this.cropBoxRef.value && this.cropBoxRef.value.contains(target)) {
-					return
-				}
+			if (e.touches.length === 2) {
 				e.preventDefault()
-				this.isDragging.value = true
-				this.dragStartX.value = touch.clientX
-				this.dragStartY.value = touch.clientY
+				this.isPinching.value = true
+				this.isDragging.value = false
+				const touch1 = e.touches[0]
+				const touch2 = e.touches[1]
+				this.initialPinchDistance.value = this.getPinchDistance(touch1, touch2)
+				this.initialPinchScale.value = this.scale.value
+				const center = this.getPinchCenter(touch1, touch2)
+				this.dragStartX.value = center.x
+				this.dragStartY.value = center.y
 				this.dragStartImageX.value = this.imageX.value
 				this.dragStartImageY.value = this.imageY.value
+			} else if (e.touches.length === 1) {
+				const touch = e.touches[0]
+				const { target } = e
+				if (target === canvas || target === this.cropWrapperRef.value ||
+					(this.cropWrapperRef.value && this.cropWrapperRef.value.contains(target))) {
+					if (this.cropBoxRef.value && this.cropBoxRef.value.contains(target)) {
+						return
+					}
+					e.preventDefault()
+					this.isDragging.value = true
+					this.dragStartX.value = touch.clientX
+					this.dragStartY.value = touch.clientY
+					this.dragStartImageX.value = this.imageX.value
+					this.dragStartImageY.value = this.imageY.value
+				}
 			}
 		}
 
 		this.touchMoveHandler.value = e => {
-			if (this.isDragging.value) {
+			if (e.touches.length === 2 && this.isPinching.value) {
+				e.preventDefault()
+				const touch1 = e.touches[0]
+				const touch2 = e.touches[1]
+				const currentDistance = this.getPinchDistance(touch1, touch2)
+				const scaleFactor = currentDistance / this.initialPinchDistance.value
+				const newScale = Math.max(
+					this.minScale.value,
+					Math.min(5, this.initialPinchScale.value * scaleFactor)
+				)
+
+				if (this.cropBoxRef.value && this.cropCanvasRef.value) {
+					const cropBox = this.cropBoxRef.value
+					const canvasDom = this.cropCanvasRef.value
+					const cropRect = cropBox.getBoundingClientRect()
+					const canvasRect = canvasDom.getBoundingClientRect()
+
+					const cropCenterX = (cropRect.left - canvasRect.left) + cropRect.width / 2
+					const cropCenterY = (cropRect.top - canvasRect.top) + cropRect.height / 2
+					const oldScale = this.scale.value
+					const scaleRatio = newScale / oldScale
+
+					this.imageX.value = cropCenterX - (cropCenterX - this.imageX.value) * scaleRatio
+					this.imageY.value = cropCenterY - (cropCenterY - this.imageY.value) * scaleRatio
+				}
+
+				this.scale.value = newScale
+				this.constrainImagePosition()
+				this.drawCropCanvas()
+			} else if (e.touches.length === 1 && this.isDragging.value && !this.isPinching.value) {
 				e.preventDefault()
 				const touch = e.touches[0]
 				const deltaX = touch.clientX - this.dragStartX.value
@@ -534,9 +611,24 @@ export default class ImageCropper {
 			}
 		}
 
-		this.touchEndHandler.value = () => {
-			if (this.isDragging.value) {
-				this.isDragging.value = false
+		this.touchEndHandler.value = e => {
+			if (e.touches.length === 0) {
+				if (this.isDragging.value) {
+					this.isDragging.value = false
+				}
+				if (this.isPinching.value) {
+					this.isPinching.value = false
+				}
+			} else if (e.touches.length === 1) {
+				if (this.isPinching.value) {
+					this.isPinching.value = false
+					this.isDragging.value = true
+					const touch = e.touches[0]
+					this.dragStartX.value = touch.clientX
+					this.dragStartY.value = touch.clientY
+					this.dragStartImageX.value = this.imageX.value
+					this.dragStartImageY.value = this.imageY.value
+				}
 			}
 		}
 
