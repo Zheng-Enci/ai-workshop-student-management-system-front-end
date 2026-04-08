@@ -94,7 +94,7 @@ const handlePasswordDialogClose = () => {
 	profilePageMobile.showPasswordDialog.value = false
 }
 const closePasswordDialog = () => {
-	profilePageMobile.cancelPasswordChange()
+	profilePageMobile.closePasswordDialog()
 }
 const confirmPasswordChange = () => {
 	profilePageMobile.confirmPasswordChange()
@@ -391,7 +391,7 @@ onMounted(() => {
 			destroy-on-close
 			modal-class="profile-page-mobile-change-password-dialog-overlay"
 			class="profile-page-mobile-change-password-dialog"
-			@close="showPasswordDialog = false"
+			@close="closePasswordDialog"
 		>
 			<div class="profile-page-change-password-mobile-form-wrapper">
 				<el-form
