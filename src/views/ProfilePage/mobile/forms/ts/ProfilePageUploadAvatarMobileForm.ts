@@ -131,10 +131,10 @@ export default class ImageCropper {
 
 	/**
 	 * 获取裁剪弹窗显示状态
-	 * @returns {typeof cropDialogVisible.value}
+	 * @returns {typeof cropDialogVisible}
 	 */
 	public getCropDialogVisible() {
-		return this.cropDialogVisible.value
+		return this.cropDialogVisible
 	}
 
 	/**
@@ -147,7 +147,7 @@ export default class ImageCropper {
 
 	/**
 	 * 获取裁剪画布引用
-	 * @returns {typeof cropCanvasRef.value}
+	 * @returns {typeof cropCanvasRef}
 	 */
 	public getCropCanvasRef() {
 		return this.cropCanvasRef
