@@ -49,6 +49,7 @@ import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
 import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
 import LoadingMask from '@/components/LoadingMask.vue'
 import '@/views/ProfilePage/css/mobile/profile-page-mobile-user-info.css'
+import '@/views/ProfilePage/css/mobile/profile-page-mobile-header.css'
 
 // ===================== 全局实例初始化 =====================
 /**
@@ -1684,10 +1685,10 @@ onMounted(() => {
 		<!-- 全局加载蒙版 -->
 		<LoadingMask/>
 		<!-- 页面头部 -->
-		<div class="header">
-			<div class="header-content">
+		<div class="profile-page-mobile-header">
+			<div class="profile-page-mobile-header-content">
 				<el-button
-					class="back-btn"
+					class="profile-page-mobile-header-back-btn"
 					type="primary"
 					:icon="ArrowLeft"
 					circle
@@ -1695,9 +1696,9 @@ onMounted(() => {
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
-					class="logo"
+					class="profile-page-mobile-header-logo"
 					@click="toggleTheme"/>
-				<div class="title-section">
+				<div class="profile-page-mobile-header-title-section">
 					<h1>个人信息</h1>
 					<p>Personal Profile</p>
 				</div>
