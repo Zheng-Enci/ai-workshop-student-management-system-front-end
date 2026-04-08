@@ -130,6 +130,24 @@ export default class ImageCropper {
 	private wheelHandler = ref(null)
 
 	/**
+	 * 触摸开始事件处理器
+	 * @private
+	 */
+	private touchStartHandler = ref(null)
+
+	/**
+	 * 触摸移动事件处理器
+	 * @private
+	 */
+	private touchMoveHandler = ref(null)
+
+	/**
+	 * 触摸结束事件处理器
+	 * @private
+	 */
+	private touchEndHandler = ref(null)
+
+	/**
 	 * 获取裁剪弹窗显示状态
 	 * @returns {typeof cropDialogVisible}
 	 */
@@ -379,6 +397,15 @@ export default class ImageCropper {
 		if (this.wheelHandler.value) {
 			canvas.removeEventListener('wheel', this.wheelHandler.value)
 		}
+		if (this.touchStartHandler.value) {
+			canvas.removeEventListener('touchstart', this.touchStartHandler.value)
+		}
+		if (this.touchMoveHandler.value) {
+			document.removeEventListener('touchmove', this.touchMoveHandler.value)
+		}
+		if (this.touchEndHandler.value) {
+			document.removeEventListener('touchend', this.touchEndHandler.value)
+		}
 	}
 
 	/**
@@ -476,6 +503,46 @@ export default class ImageCropper {
 		canvas.addEventListener('wheel', this.wheelHandler.value)
 
 		canvas.style.cursor = 'move'
+
+		this.touchStartHandler.value = e => {
+			const touch = e.touches[0]
+			const { target } = e
+			if (target === canvas || target === this.cropWrapperRef.value ||
+				(this.cropWrapperRef.value && this.cropWrapperRef.value.contains(target))) {
+				if (this.cropBoxRef.value && this.cropBoxRef.value.contains(target)) {
+					return
+				}
+				e.preventDefault()
+				this.isDragging.value = true
+				this.dragStartX.value = touch.clientX
+				this.dragStartY.value = touch.clientY
+				this.dragStartImageX.value = this.imageX.value
+				this.dragStartImageY.value = this.imageY.value
+			}
+		}
+
+		this.touchMoveHandler.value = e => {
+			if (this.isDragging.value) {
+				e.preventDefault()
+				const touch = e.touches[0]
+				const deltaX = touch.clientX - this.dragStartX.value
+				const deltaY = touch.clientY - this.dragStartY.value
+				this.imageX.value = this.dragStartImageX.value + deltaX
+				this.imageY.value = this.dragStartImageY.value + deltaY
+				this.constrainImagePosition()
+				this.drawCropCanvas()
+			}
+		}
+
+		this.touchEndHandler.value = () => {
+			if (this.isDragging.value) {
+				this.isDragging.value = false
+			}
+		}
+
+		canvas.addEventListener('touchstart', this.touchStartHandler.value, { passive: false })
+		document.addEventListener('touchmove', this.touchMoveHandler.value, { passive: false })
+		document.addEventListener('touchend', this.touchEndHandler.value)
 	}
 
 	/**
