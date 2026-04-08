@@ -26,9 +26,10 @@ CSS前缀：{PageName}{功能名}Desktop-{类名} | {PageName}{功能名}Mobile-
 </script>
 
 <template></template>
-<style scoped></style>
-# CSS
-BEM/kebab命名 | -desktop/-mobile后缀 | 类名前缀：{文件名}-{类名}
+# 表单CSS
+表单组件的CSS必须写在表单所在文件夹的css子文件夹中，导入时使用相对路径
+例如：forms/desktop/ProfilePageUploadAvatarDesktopForm.vue 对应 forms/desktop/css/ProfilePageUploadAvatarDesktopForm.css
+导入方式：import '@/views/ProfilePage/forms/desktop/css/ProfilePageUploadAvatarDesktopForm.css'
 # 组件模板
 <script setup>
 /** *******************************************************************
@@ -46,16 +47,5 @@ BEM/kebab命名 | -desktop/-mobile后缀 | 类名前缀：{文件名}-{类名}
 </script>
 
 <template></template>
-<style scoped></style>
-
-# 路由配置
-页面路由与组件文件对应关系：
-- /pageName → PageName.vue（入口，自动检测设备类型并跳转）
-- /pageName-desktop → PageNameDesktop.vue（桌面端）
-- /pageName-mobile → PageNameMobile.vue（移动端）
-
-# 入口文件规范
-PageName.vue 入口文件只做设备检测和跳转，不渲染实际页面内容：
-1. 检测设备类型（屏幕宽度 < 768px 为移动端）
-2. 根据设备类型使用 router.replace 跳转到对应版本
-3. 显示加载蒙版提升用户体验
+# CSS
+BEM/kebab命名 | -desktop/-mobile后缀 | 类名前缀：{文件名}-{类名}
