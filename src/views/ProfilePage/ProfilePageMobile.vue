@@ -79,6 +79,9 @@ const loadProfile = () => profilePageMobile.loadProfile()
 const handleAvatarUploadSuccess = () => profilePageMobile.handleAvatarUploadSuccess()
 const handleAvatarUploadError = () => profilePageMobile.handleAvatarUploadError()
 const toggleEditMode = () => profilePageMobile.toggleEditMode()
+const openPasswordDialog = () => {
+	profilePageMobile.openPasswordDialog()
+}
 const togglePasswordSection = () => {
 	profilePageMobile.togglePasswordSection()
 }
