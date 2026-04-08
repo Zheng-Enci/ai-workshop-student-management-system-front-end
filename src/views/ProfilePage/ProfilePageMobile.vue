@@ -6,6 +6,7 @@
  * @component ProfilePageMobile
  */
 import { onMounted } from 'vue'
+import { ElButton, ElIcon } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
