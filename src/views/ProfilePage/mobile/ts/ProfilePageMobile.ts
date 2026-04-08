@@ -467,7 +467,9 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public cancelPasswordChange() {
-		this.showPasswordDialog.value = false
+		if (this.showPasswordDialog && typeof this.showPasswordDialog === 'object' && 'value' in this.showPasswordDialog) {
+			this.showPasswordDialog.value = false
+		}
 		this.resetPasswordForm()
 	}
 
