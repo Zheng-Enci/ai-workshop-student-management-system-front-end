@@ -1,23 +1,11 @@
 <script setup>
 /**
  * 个人信息页面组件(移动端)
- * 
+ *
  * @description 提供用户个人信息的查看、编辑、密码修改和头像上传功能(移动端适配)
  * @component ProfilePageMobile
  */
-import {
-	ElMessage,
-	ElButton,
-	ElIcon,
-	ElForm,
-	ElFormItem,
-	ElInput,
-	ElSelect,
-	ElOption,
-	ElInputNumber,
-	ElDialog
-} from 'element-plus'
-import { ref, reactive, onMounted, nextTick } from 'vue'
+import { onMounted } from 'vue'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -32,245 +20,74 @@ import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import 'element-plus/theme-chalk/base.css'
 import { ArrowLeft, User, Edit, Lock, Calendar, Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router'
 
-import { getMyAttendanceCount } from '@/api/attendance'
-import {
-	getStudentProfile,
-	updateStudentInfo,
-	changePassword,
-	uploadAvatar,
-	getAvatarUrl,
-	getStudentDatabaseTableId
-} from '@/api/student'
-import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
-import ProfilePageConfig from '@/views/ProfilePage/mobile/common/js/profile-page-common-config'
-import ProfilePageUtils from '@/views/ProfilePage/mobile/common/js/profile-page-common-utils'
 import LoadingMask from '@/components/LoadingMask.vue'
 import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageUploadAvatarMobileForm.vue'
+import ProfilePageMobile from '@/views/ProfilePage/mobile/ts/ProfilePageMobile'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-user-info.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-header.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-form-section.css'
 
-// ===================== 全局实例初始化 =====================
-/**
- * 路由实例
- * @type {Router}
- * @description 用于页面跳转和路由导航
- */
-const router = useRouter()
-/**
- * 主题状态仓库实例
- * @type {Store}
- * @description 管理应用主题切换(亮色/暗色模式)
- */
-const themeStore = useThemeStore()
-/**
- * 全局加载蒙版 Store
- * @type {Store}
- * @description 管理全局加载蒙版的显示和隐藏
- */
-const loadingMaskStore = useLoadingMaskStore()
+const profilePageMobile = new ProfilePageMobile()
 
-// ===================== 表单引用区 =====================
-/**
- * 个人信息表单引用
- * @type {Ref<ElForm|null>}
- * @description Element Plus表单组件引用,用于表单验证和提交
- */
-const formRef = ref()
-/**
- * 密码修改表单引用
- * @type {Ref<ElForm|null>}
- * @description 密码修改表单组件引用,用于密码表单验证
- */
-const passwordFormRef = ref()
+const formRef = profilePageMobile.formRef
+const passwordFormRef = profilePageMobile.passwordFormRef
+const isLoading = profilePageMobile.isLoading
+const isEditing = profilePageMobile.isEditing
+const showPasswordSection = profilePageMobile.showPasswordSection
+const isPasswordLoading = profilePageMobile.isPasswordLoading
+const attendanceCount = profilePageMobile.attendanceCount
+const studentInfoId = profilePageMobile.studentInfoId
+const avatarUrl = profilePageMobile.avatarUrl
+const avatarLoading = profilePageMobile.avatarLoading
+const isUploading = profilePageMobile.isUploading
+const formData = profilePageMobile.formData
+const passwordForm = profilePageMobile.passwordForm
+const rules = profilePageMobile.rules
+const passwordRules = profilePageMobile.passwordRules
+const originalData = profilePageMobile.originalData
+const cropDialogVisible = profilePageMobile.cropDialogVisible
+const cropCanvasRef = profilePageMobile.cropCanvasRef
+const cropWrapperRef = profilePageMobile.cropWrapperRef
+const cropBoxRef = profilePageMobile.cropBoxRef
+const originalImageFile = profilePageMobile.originalImageFile
+const cropImage = profilePageMobile.cropImage
+const scale = profilePageMobile.scale
+const minScale = profilePageMobile.minScale
+const imageX = profilePageMobile.imageX
+const imageY = profilePageMobile.imageY
+const isDragging = profilePageMobile.isDragging
+const isPinching = profilePageMobile.isPinching
+const isCropping = profilePageMobile.isCropping
 
-// ===================== 加载状态变量 =====================
-/**
- * 数据加载状态
- * @type {Ref<boolean>}
- * @description 控制个人信息数据加载中的状态显示
- */
-const isLoading = ref(false)
-/**
- * 编辑模式状态
- * @type {Ref<boolean>}
- * @description 控制是否处于编辑模式,编辑模式下表单可编辑
- */
-const isEditing = ref(false)
-/**
- * 密码修改区域显示状态
- * @type {Ref<boolean>}
- * @description 控制密码修改区域的显示/隐藏
- */
-const showPasswordSection = ref(false)
-/**
- * 密码修改加载状态
- * @type {Ref<boolean>}
- * @description 控制密码修改操作加载中的状态显示
- */
-const isPasswordLoading = ref(false)
-/**
- * 考勤次数
- * @type {Ref<number|null>}
- * @description 用户累计签到次数
- */
-const attendanceCount = ref(null)
-/**
- * 学生数据库ID
- * @type {Ref<number|null>}
- * @description 学生数据库表主键ID,用于头像上传等操作
- */
-const studentInfoId = ref(null)
-/**
- * 头像URL
- * @type {Ref<string|null>}
- * @description 用户头像的URL地址
- */
-const avatarUrl = ref(null)
-/**
- * 头像加载状态
- * @type {Ref<boolean>}
- * @description 控制头像加载中的状态显示
- */
-const avatarLoading = ref(false)
-/**
- * 头像上传状态
- * @type {Ref<boolean>}
- * @description 控制头像上传操作加载中的状态显示
- */
-const isUploading = ref(false)
+const goBack = () => profilePageMobile.goBack()
+const toggleTheme = () => profilePageMobile.toggleTheme()
+const loadProfile = () => profilePageMobile.loadProfile()
+const handleAvatarUploadSuccess = () => profilePageMobile.handleAvatarUploadSuccess()
+const handleAvatarUploadError = () => profilePageMobile.handleAvatarUploadError()
+const toggleEditMode = () => profilePageMobile.toggleEditMode()
+const togglePasswordSection = () => profilePageMobile.togglePasswordSection()
+const cancelPasswordChange = () => profilePageMobile.cancelPasswordChange()
+const confirmPasswordChange = () => profilePageMobile.confirmPasswordChange()
+const saveProfile = () => profilePageMobile.saveProfile()
+const showCropDialog = (file) => profilePageMobile.showCropDialog(file)
+const initCrop = () => profilePageMobile.initCrop()
+const constrainImagePosition = () => profilePageMobile.constrainImagePosition()
+const drawCropCanvas = () => profilePageMobile.drawCropCanvas()
+const setupCropEvents = () => profilePageMobile.setupCropEvents()
+const removeCropEvents = () => profilePageMobile.removeCropEvents()
+const zoomIn = () => profilePageMobile.zoomIn()
+const zoomOut = () => profilePageMobile.zoomOut()
+const resetCrop = () => profilePageMobile.resetCrop()
+const cancelCrop = () => profilePageMobile.cancelCrop()
+const confirmCrop = () => profilePageMobile.confirmCrop()
 
-// ===================== 表单数据定义区 =====================
-/**
- * 个人信息表单数据
- * @type {Reactive<Object>}
- * @description 存储用户的个人信息,包含所有可编辑字段
- * @property {string} name - 姓名
- * @property {string} studentId - 学号
- * @property {string} gender - 性别
- * @property {string} phoneNumber - 手机号
- * @property {string} college - 学院
- * @property {string} major - 专业
- * @property {number|null} grade - 年级
- * @property {number|null} classNum - 班级
- * @property {string} password - 密码(编辑时使用)
- */
-const formData = reactive({
-	name: '',
-	studentId: '',
-	gender: '',
-	phoneNumber: '',
-	college: '',
-	major: '',
-	grade: null,
-	classNum: null,
-	password: ''
+onMounted(() => {
+	loadProfile()
 })
-
-/**
- * 密码修改表单数据
- * @type {Reactive<Object>}
- * @description 存储密码修改相关的表单数据
- * @property {string} oldPassword - 旧密码
- * @property {string} newPassword - 新密码
- * @property {string} confirmPassword - 确认新密码
- */
-const passwordForm = reactive({
-	oldPassword: '',
-	newPassword: '',
-	confirmPassword: ''
-})
-
-
-const rules = {
-	name: [
-		{ required: true, message: '请输入姓名', trigger: 'blur' },
-		{ min: 2, max: 20, message: '姓名长度在2到20个字符', trigger: 'blur' }
-	],
-	studentId: [
-		{ required: true, message: '请输入学号', trigger: 'blur' },
-		{ pattern: /^[2-3][0-9]\d{8}$/, message: '学号格式不正确（以20-30开头的10位数字）', trigger: 'blur' }
-	],
-	gender: [
-		{ required: true, message: '请选择性别', trigger: 'change' }
-	],
-	phoneNumber: [
-		{ required: true, message: '请输入手机号', trigger: 'blur' },
-		{ pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
-	],
-	college: [
-		{ required: true, message: '请输入学院', trigger: 'blur' },
-		{ min: 2, max: 50, message: '学院名称长度在2到50个字符', trigger: 'blur' }
-	],
-	major: [
-		{ required: true, message: '请输入专业', trigger: 'blur' },
-		{ min: 2, max: 50, message: '专业名称长度在2到50个字符', trigger: 'blur' }
-	],
-	grade: [
-		{ required: true, message: '请选择年级', trigger: 'change' }
-	],
-	classNum: [
-		{ required: true, message: '请输入班级', trigger: 'blur' },
-		{ type: 'number', min: 1, max: 100, message: '班级必须在1到100之间', trigger: 'blur' }
-	],
-	password: [
-		{ required: true, message: '请输入密码', trigger: 'blur' }
-	]
-}
-
-const passwordRules = {
-	oldPassword: [
-		{ required: true, message: '请输入原密码', trigger: 'blur' }
-	],
-	newPassword: [
-		{ required: true, message: '请输入新密码', trigger: 'blur' },
-		{ min: 6, max: 16, message: '密码长度在6到16个字符', trigger: 'blur' }
-	],
-	confirmPassword: [
-		{ required: true, message: '请确认新密码', trigger: 'blur' },
-		{
-			validator: (rule, value, callback) => {
-				if (value !== passwordForm.newPassword) {
-					callback(new Error('两次输入的密码不一致'))
-				} else {
-					callback()
-				}
-			},
-			trigger: 'blur'
-		}
-	]
-}
-
-
-const originalData = ref({})
-
-/**
- * 返回导航页面
- * @function goBack
- * @description 返回到导航页面
- * @returns {void}
- */
-const goBack = () => {
-	router.push('/navigation')
-}
-
-/**
- * 切换主题
- * @function toggleTheme
- * @description 切换应用的主题（亮色/暗色模式）
- * @returns {void}
- */
-const toggleTheme = () => {
-	themeStore.toggleTheme()
-}
 
 /**
  * 加载用户个人资料
- * @function loadProfile
- * @description 从服务器加载用户个人资料、考勤次数和学生ID
  * 1. 设置加载状态为true
  * 2. 验证用户登录状态
  * 3. 并行获取个人资料、考勤次数和学生ID
