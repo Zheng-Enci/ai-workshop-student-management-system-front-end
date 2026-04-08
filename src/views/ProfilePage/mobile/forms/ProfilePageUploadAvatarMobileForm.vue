@@ -7,7 +7,7 @@
  */
 
 // ======================== 导入 ========================
-import { ref, reactive, nextTick, onUnmounted, watch } from 'vue'
+import { ref, reactive, nextTick, onMounted, onUnmounted, watch } from 'vue'
 import { ElMessage, ElButton, ElIcon, ElDialog } from 'element-plus'
 import { Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
 import { uploadAvatar, getAvatarUrl } from '@/api/student'
@@ -215,6 +215,15 @@ let mouseLeaveHandler = null
 let wheelHandler = null
 
 // ======================== 生命周期 ========================
+/**
+ * 组件挂载时加载头像
+ * @function onMounted
+ * @description 组件挂载后立即加载用户头像
+ */
+onMounted(() => {
+	loadAvatar()
+})
+
 /**
  * 组件卸载时移除事件监听器
  * @function onUnmounted
