@@ -475,7 +475,7 @@ export default class ProfilePageMobile {
 	 * 关闭密码修改对话框
 	 * @public
 	 * @method closePasswordDialog
-	 * @description 关闭对话框，先执行淡出动画再清理数据
+	 * @description 关闭对话框，先关闭对话框再执行淡出动画
 	 * @returns {void}
 	 */
 	public closePasswordDialog() {
@@ -490,7 +490,7 @@ export default class ProfilePageMobile {
 
 		setTimeout(() => {
 			this.passwordForm.oldPassword = ''
-		}, 0)
+		}, 300)
 	}
 
 	/**
