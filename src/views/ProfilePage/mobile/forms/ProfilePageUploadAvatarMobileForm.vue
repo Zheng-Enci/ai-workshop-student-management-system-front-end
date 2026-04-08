@@ -882,18 +882,6 @@ watch(() => props.studentInfoId, newId => {
 		loadAvatar()
 	}
 })
-
-/**
- * 监听对话框显示状态
- * @watch modelValue
- * @description 监听 v-model 绑定的值,当为 true 时触发文件选择
- */
-watch(() => props.modelValue, newVal => {
-	if (newVal) {
-		triggerFileSelect()
-		emit('update:modelValue', false)
-	}
-})
 </script>
 
 <template>
