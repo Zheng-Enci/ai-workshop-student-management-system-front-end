@@ -394,7 +394,7 @@ onMounted(() => {
 			destroy-on-close
 			modal-class="profile-page-mobile-change-password-dialog-overlay"
 			class="profile-page-mobile-change-password-dialog"
-			@close="closePasswordDialog"
+			@closed="resetPasswordForm"
 		>
 			<div class="profile-page-change-password-mobile-form-wrapper">
 				<el-form

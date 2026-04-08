@@ -4,7 +4,7 @@
  * @class ProfilePageMobile
  * @description 封装移动端个人信息页面的所有业务逻辑，包括表单数据管理、个人信息加载保存、头像上传、密码修改等功能
  */
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getMyAttendanceCount } from '@/api/attendance'
@@ -451,8 +451,11 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public openPasswordDialog() {
-		this.showPasswordDialog.value = true
-		this.resetPasswordForm()
+		this.showPasswordDialog.value = false
+		nextTick(() => {
+			this.showPasswordDialog.value = true
+			this.resetPasswordForm()
+		})
 	}
 
 	/**
@@ -475,7 +478,7 @@ export default class ProfilePageMobile {
 	 * 关闭密码修改对话框
 	 * @public
 	 * @method closePasswordDialog
-	 * @description 关闭对话框，先执行淡出动画再清理数据
+	 * @description 关闭对话框，先执行淡出动画
 	 * @returns {void}
 	 */
 	public closePasswordDialog() {
@@ -483,14 +486,6 @@ export default class ProfilePageMobile {
 		if (dialogWrapper) {
 			dialogWrapper.style.opacity = '0'
 		}
-
-		this.passwordForm.newPassword = ''
-		this.passwordForm.confirmPassword = ''
-		this.showPasswordDialog.value = false
-
-		setTimeout(() => {
-			// 清理数据
-		}, 0)
 	}
 
 	/**
