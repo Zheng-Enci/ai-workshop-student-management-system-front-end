@@ -68,6 +68,10 @@ const isDragging = profilePageMobile.isDragging
 const isPinching = profilePageMobile.isPinching
 const isCropping = profilePageMobile.isCropping
 const showPasswordDialog = profilePageMobile.showPasswordDialog
+const passwordForm = profilePageMobile.passwordForm
+const passwordRules = profilePageMobile.passwordRules
+const isPasswordLoading = profilePageMobile.isPasswordLoading
+const passwordFormRef = profilePageMobile.passwordFormRef
 
 const goBack = () => profilePageMobile.goBack()
 const toggleTheme = () => profilePageMobile.toggleTheme()
@@ -85,6 +89,9 @@ const handlePasswordDialogClose = () => {
 }
 const closePasswordDialog = () => {
 	profilePageMobile.cancelPasswordChange()
+}
+const confirmPasswordChange = () => {
+	profilePageMobile.confirmPasswordChange()
 }
 const showCropDialog = (file) => profilePageMobile.showCropDialog(file)
 const initCrop = () => profilePageMobile.initCrop()
