@@ -149,7 +149,7 @@ onMounted(() => {
 					</div>
 				</div>
 
-				<div v-if="!showPasswordDialog" class="profile-page-mobile-form-section">
+				<div class="profile-page-mobile-form-section">
 				<div class="profile-page-mobile-form-section-header">
 					<div class="profile-page-mobile-form-section-title-wrapper">
 						<div>
@@ -351,23 +351,20 @@ onMounted(() => {
 						</el-button>
 					</div>
 				</div>
-
-				<!-- 密码修改对话框 -->
-				<el-dialog
-					v-model="showPasswordDialog"
-					v-if="showPasswordDialog"
-					title="修改密码"
-					width="90%"
-					:close-on-click-modal="false"
-					:close-on-press-escape="false"
-					class="profile-page-mobile-change-password-dialog"
-					@close="closePasswordDialog"
-				>
-					<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
-				</el-dialog>
-			</div>
 		</div>
-	</div>
+
+		<!-- 密码修改对话框 -->
+		<el-dialog
+			v-model="showPasswordDialog"
+			title="修改密码"
+			width="90%"
+			:close-on-click-modal="false"
+			:close-on-press-escape="false"
+			class="profile-page-mobile-change-password-dialog"
+			@close="closePasswordDialog"
+		>
+			<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
+		</el-dialog>
 </template>
 
 <style scoped>
