@@ -172,7 +172,7 @@ export default class ProfilePageChangePasswordMobileForm {
 	 * @returns {void}
 	 */
 	public handleCancel(emit) {
-		this.formRef.value?.resetFields()
+		this.resetForm()
 		emit('update:modelValue', false)
 	}
 }

@@ -362,7 +362,6 @@ onMounted(() => {
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
 			class="profile-page-mobile-change-password-dialog"
-			@close="closePasswordDialog"
 		>
 			<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
 		</el-dialog>
