@@ -18,7 +18,7 @@
 .profile-page-desktop-avatar {
 	width: 128px;
 	height: 128px;
-	border-radius: 0;
+	border-radius: 8px;
 	overflow: hidden;
 	position: relative;
 	background: var(--bg-secondary);
