@@ -34,7 +34,7 @@
 	min-width: 36px !important;
 	padding: 0 !important;
 	border: none !important;
-	background: rgba(255, 255, 255, 0.2) !important;
+	background: rgba(255, 255, 255, 0.4) !important;
 	backdrop-filter: blur(10px);
 	transition: all 0.3s ease;
 }
