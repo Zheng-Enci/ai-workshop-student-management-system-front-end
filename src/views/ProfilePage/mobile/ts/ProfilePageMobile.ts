@@ -77,6 +77,12 @@ export default class ProfilePageMobile {
 	public isPasswordDialogClosing = ref(false)
 
 	/**
+	 * 密码修改对话框点击次数
+	 * @private
+	 */
+	private passwordDialogClickCount = 0
+
+	/**
 	 * 密码修改加载状态
 	 * @public
 	 */
@@ -457,7 +463,9 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public openPasswordDialog() {
-		console.log('[ProfilePageMobile] openPasswordDialog - 开始')
+		// 递增点击次数
+		this.passwordDialogClickCount++
+		console.log(`[ProfilePageMobile] openPasswordDialog - 开始 (第${this.passwordDialogClickCount}次点击)`)
 		// 强制重置isPasswordDialogClosing为false，确保对话框可以正常打开
 		this.isPasswordDialogClosing.value = false
 		console.log('[ProfilePageMobile] openPasswordDialog - showPasswordDialog.value = true')
