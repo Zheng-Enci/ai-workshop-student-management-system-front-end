@@ -56,6 +56,7 @@ const imageY = profilePageMobile.imageY
 const isDragging = profilePageMobile.isDragging
 const isPinching = profilePageMobile.isPinching
 const isCropping = profilePageMobile.isCropping
+const showPasswordDialog = profilePageMobile.showPasswordDialog
 
 const goBack = () => profilePageMobile.goBack()
 const toggleTheme = () => profilePageMobile.toggleTheme()
@@ -346,7 +347,7 @@ onMounted(() => {
 							:icon="Lock"
 							class="security-btn"
 							@click="togglePasswordSection">
-							{{ profilePageMobile.showPasswordDialog ? '返回基本信息' : '修改密码' }}
+							{{ showPasswordDialog ? '返回基本信息' : '修改密码' }}
 						</el-button>
 					</div>
 				</div>
@@ -355,7 +356,7 @@ onMounted(() => {
 
 		<!-- 密码修改对话框 -->
 		<el-dialog
-			v-model="profilePageMobile.showPasswordDialog"
+			v-model="showPasswordDialog"
 			title="修改密码"
 			width="90%"
 			:close-on-click-modal="false"
@@ -363,7 +364,7 @@ onMounted(() => {
 			class="profile-page-mobile-change-password-dialog"
 			@close="closePasswordDialog"
 		>
-			<ProfilePageChangePasswordMobileForm v-model="profilePageMobile.showPasswordDialog" @success="closePasswordDialog" />
+			<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
 		</el-dialog>
 	</div>
 </template>
