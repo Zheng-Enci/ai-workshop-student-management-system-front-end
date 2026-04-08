@@ -383,7 +383,7 @@ onMounted(() => {
 
 		<!-- 密码修改对话框 -->
 		<el-dialog
-			:model-value="showPasswordDialog"
+			v-model="showPasswordDialog"
 			title="修改密码"
 			width="90%"
 			:close-on-click-modal="true"
