@@ -9,6 +9,8 @@
  */
 .profile-page-mobile-profile-card {
 	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 /**
@@ -16,6 +18,8 @@
  */
 .profile-page-mobile-profile-header {
 	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 
 /**
