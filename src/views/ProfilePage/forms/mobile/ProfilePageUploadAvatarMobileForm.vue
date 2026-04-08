@@ -889,7 +889,7 @@ watch(() => props.studentInfoId, newId => {
 		<!-- 头像上传区域 -->
 		<div class="profile-page-upload-avatar-mobile-form-wrapper">
 			<div class="profile-page-upload-avatar-mobile-form-container" @click="triggerFileSelect">
-				<div class="profile-page-upload-avatar-mobile-form" :class="{ 'profile-page-upload-avatar-mobile-form-loading': avatarLoading }">
+				<div class="profile-page-upload-avatar-mobile-form-content" :class="{ 'profile-page-upload-avatar-mobile-form-loading': avatarLoading }">
 					<img
 						v-if="avatarUrl"
 						:key="avatarUrl"
