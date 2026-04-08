@@ -91,27 +91,6 @@ onMounted(() => {
 	loadProfile()
 })
 
-/**
- * 加载用户个人资料
- * 1. 设置加载状态为true
- * 2. 验证用户登录状态
- * 3. 并行获取个人资料、考勤次数和学生ID
- * 4. 更新表单数据和相关状态
- * 5. 处理成功或失败的响应
- * 6. 重置加载状态
- * @returns {Promise<void>} 异步操作完成的Promise
- */
-
-const loadAvatar = async () => {
- * @function loadAvatar
- * @description 根据学生ID获取并验证头像URL，确保头像存在后再显示
- * 1. 验证学生ID是否存在
- * 2. 使用getAvatarUrl函数获取头像URL
- * 3. 创建Image对象验证头像是否存在
- * 4. 设置超时机制避免长时间等待
- * 5. 根据验证结果更新头像URL状态
- * @returns {Promise<void>} 异步操作完成的Promise
- */
 const loadAvatar = async () => {
 	if (!studentInfoId.value) { return }
 
