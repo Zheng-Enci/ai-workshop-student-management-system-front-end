@@ -83,6 +83,9 @@ const togglePasswordSection = () => {
 	profilePageMobile.togglePasswordSection()
 }
 const resetForm = () => profilePageMobile.resetForm()
+const cancelPasswordChange = () => {
+	profilePageMobile.cancelPasswordChange()
+}
 const saveProfile = () => profilePageMobile.saveProfile()
 const handlePasswordDialogClose = () => {
 	profilePageMobile.showPasswordDialog.value = false
