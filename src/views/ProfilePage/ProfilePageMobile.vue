@@ -1758,29 +1758,30 @@ onMounted(() => {
 						</div>
 						<!-- 用户详细信息 -->
 						<div class="profile-page-mobile-user-details">
-							<h2>{{ formData.name || '用户' }}</h2>
-							<p class="profile-page-mobile-student-id">{{ formData.studentId || '学号' }}</p>
-							<div class="profile-page-mobile-user-stats">
-								<div v-if="attendanceCount !== null" class="profile-page-mobile-stat-item">
-									<el-icon class="profile-page-mobile-stat-icon">
-										<calendar/>
-									</el-icon>
-									<span class="profile-page-mobile-stat-text">已签到 {{ attendanceCount }} 次</span>
+							<div class="profile-page-mobile-user-details-header">
+								<div>
+									<h2>{{ formData.name || '用户' }}</h2>
+									<p class="profile-page-mobile-student-id">{{ formData.studentId || '学号' }}</p>
+									<div class="profile-page-mobile-user-stats">
+										<div v-if="attendanceCount !== null" class="profile-page-mobile-stat-item">
+											<el-icon class="profile-page-mobile-stat-icon">
+												<calendar/>
+											</el-icon>
+											<span class="profile-page-mobile-stat-text">已签到 {{ attendanceCount }} 次</span>
+										</div>
+									</div>
 								</div>
+								<el-button
+									type="primary"
+									:icon="Edit"
+									:disabled="isLoading"
+									class="edit-btn"
+									@click="toggleEditMode"
+								>
+									{{ isEditing ? '取消' : '编辑' }}
+								</el-button>
 							</div>
 						</div>
-					</div>
-					<!-- 编辑按钮 -->
-					<div class="action-buttons">
-						<el-button
-							type="primary"
-							:icon="Edit"
-							:disabled="isLoading"
-							class="edit-btn"
-							@click="toggleEditMode"
-						>
-							{{ isEditing ? '取消' : '编辑' }}
-						</el-button>
 					</div>
 				</div>
 

@@ -161,6 +161,17 @@
 	gap: 8px;
 }
 
+.profile-page-mobile-user-details-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.profile-page-mobile-user-details-header .edit-btn {
+	flex-shrink: 0;
+}
+
 /**
  * 用户姓名
  */
