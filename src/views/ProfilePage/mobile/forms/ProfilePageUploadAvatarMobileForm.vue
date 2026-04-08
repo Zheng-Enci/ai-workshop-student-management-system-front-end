@@ -505,10 +505,10 @@ const initCrop = () => {
 	const img = cropImage.value
 
 	let wrapperWidth = wrapper.clientWidth
-	const wrapperHeight = 400
+	const wrapperHeight = 200
 
 	if (wrapperWidth === 0) {
-		wrapperWidth = wrapper.offsetWidth || 560
+		wrapperWidth = wrapper.offsetWidth || 320
 	}
 
 	canvas.width = wrapperWidth
@@ -941,7 +941,7 @@ watch(() => props.studentInfoId, newId => {
 		<el-dialog
 			v-model="cropDialogVisible"
 			title="裁剪头像"
-			width="600px"
+			width="90%"
 			:close-on-click-modal="true"
 			:close-on-press-escape="true"
 			destroy-on-close
