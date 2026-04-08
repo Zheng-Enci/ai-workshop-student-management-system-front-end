@@ -91,9 +91,7 @@ const resetForm = () => profilePageMobile.resetForm()
 const resetPasswordForm = () => {
 	profilePageMobile.resetPasswordForm()
 }
-const cancelPasswordChange = () => {
-	profilePageMobile.cancelPasswordChange()
-}
+
 const saveProfile = () => profilePageMobile.saveProfile()
 const handlePasswordDialogClose = () => {
 	profilePageMobile.showPasswordDialog.value = false
@@ -474,10 +472,10 @@ onMounted(() => {
 						<el-button
 							:disabled="isPasswordLoading"
 							class="profile-page-change-password-mobile-form-reset-btn"
-							@click="cancelPasswordChange"
-						>
-							取消
-						</el-button>
+							@click="closePasswordDialog"
+			>
+				取消
+			</el-button>
 						<el-button
 							type="primary"
 							:loading="isPasswordLoading"

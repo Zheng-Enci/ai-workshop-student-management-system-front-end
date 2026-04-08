@@ -521,18 +521,7 @@ export default class ProfilePageMobile {
 		console.log('[ProfilePageMobile] closePasswordDialog - 结束')
 	}
 
-	/**
-	 * 取消密码修改
-	 * @public
-	 * @method cancelPasswordChange
-	 * @description 取消密码修改操作，关闭对话框并重置表单
-	 * @returns {void}
-	 */
-	public cancelPasswordChange() {
-		console.log('[ProfilePageMobile] cancelPasswordChange - 开始')
-		this.closePasswordDialog()
-		console.log('[ProfilePageMobile] cancelPasswordChange - 结束')
-	}
+
 
 	/**
 	 * 确认密码修改
