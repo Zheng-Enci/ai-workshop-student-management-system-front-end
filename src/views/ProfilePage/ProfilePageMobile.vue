@@ -35,7 +35,6 @@ const profilePageMobile = new ProfilePageMobile()
 const formRef = profilePageMobile.formRef
 const isLoading = profilePageMobile.isLoading
 const isEditing = profilePageMobile.isEditing
-const showPasswordDialog = ref(false)
 const attendanceCount = profilePageMobile.attendanceCount
 const studentInfoId = profilePageMobile.studentInfoId
 const avatarUrl = profilePageMobile.avatarUrl
@@ -347,7 +346,7 @@ onMounted(() => {
 							:icon="Lock"
 							class="security-btn"
 							@click="togglePasswordSection">
-							{{ showPasswordDialog ? '返回基本信息' : '修改密码' }}
+							{{ profilePageMobile.showPasswordDialog ? '返回基本信息' : '修改密码' }}
 						</el-button>
 					</div>
 				</div>
@@ -356,7 +355,7 @@ onMounted(() => {
 
 		<!-- 密码修改对话框 -->
 		<el-dialog
-			v-model="showPasswordDialog"
+			v-model="profilePageMobile.showPasswordDialog"
 			title="修改密码"
 			width="90%"
 			:close-on-click-modal="false"
@@ -364,7 +363,7 @@ onMounted(() => {
 			class="profile-page-mobile-change-password-dialog"
 			@close="closePasswordDialog"
 		>
-			<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
+			<ProfilePageChangePasswordMobileForm v-model="profilePageMobile.showPasswordDialog" @success="closePasswordDialog" />
 		</el-dialog>
 	</div>
 </template>
