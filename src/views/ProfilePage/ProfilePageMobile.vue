@@ -93,9 +93,7 @@ const resetPasswordForm = () => {
 }
 
 const saveProfile = () => profilePageMobile.saveProfile()
-const handlePasswordDialogClose = () => {
-	profilePageMobile.showPasswordDialog.value = false
-}
+
 const closePasswordDialog = () => {
 	profilePageMobile.closePasswordDialog()
 }
