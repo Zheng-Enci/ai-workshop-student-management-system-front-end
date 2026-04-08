@@ -19,20 +19,22 @@ Vue文件只保留<template>，TS代码抽到ts文件夹，CSS抽到css文件夹
      │   ├── css/           # 桌面端样式
      │   ├── forms/         # 桌面端表单组件
      │   ├── ts/            # 桌面端私有TS代码
-     │   └── common/        # 桌面端公共代码
-     │       ├── js/        # 公用js文件，加前缀
-     │       ├── ts/        # 公用ts文件，加前缀
-     │       ├── css/       # 公用css文件，加前缀
-     │       └── vue/       # 公用vue组件，加前缀
+     │   └── common/        # 桌面端公共代码（表单组件间共用）
+     │       ├── js/        # 公用js文件，文件名加{page-name}-前缀
+     │       ├── ts/        # 公用ts文件，文件名加{page-name}-前缀
+     │       ├── css/       # 公用css文件，类名加{page-name}-前缀
+     │       └── vue/       # 公用vue组件，文件名加{page-name}-前缀
+     │       # 示例：desktop/common/ts/profile-page-util.ts
      └── mobile/
          ├── css/           # 移动端样式
          ├── forms/         # 移动端表单组件（含css子文件夹）
          ├── ts/            # 移动端私有TS代码
-         └── common/        # 移动端公共代码
-             ├── js/        # 公用js文件，加前缀
-             ├── ts/        # 公用ts文件，加前缀
-             ├── css/       # 公用css文件，加前缀
-             └── vue/       # 公用vue组件，加前缀
+         └── common/        # 移动端公共代码（表单组件间共用）
+             ├── js/        # 公用js文件，文件名加{page-name}-前缀
+             ├── ts/        # 公用ts文件，文件名加{page-name}-前缀
+             ├── css/       # 公用css文件，类名加{page-name}-前缀
+             └── vue/       # 公用vue组件，文件名加{page-name}-前缀
+             # 示例：mobile/common/ts/profile-page-util.ts
 # 表单
 forms/文件夹，desktop/mobile子文件夹，文件名+Form后缀
 # 表单组件命名
