@@ -215,6 +215,9 @@ const rules = {
 	classNum: [
 		{ required: true, message: '请输入班级', trigger: 'blur' },
 		{ type: 'number', min: 1, max: 100, message: '班级必须在1到100之间', trigger: 'blur' }
+	],
+	password: [
+		{ required: true, message: '请输入密码', trigger: 'blur' }
 	]
 }
 
