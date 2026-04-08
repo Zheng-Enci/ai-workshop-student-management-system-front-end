@@ -366,6 +366,7 @@ onMounted(() => {
 		>
 			<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
 		</el-dialog>
+	</div>
 </template>
 
 <style scoped>
