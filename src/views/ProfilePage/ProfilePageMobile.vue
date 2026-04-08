@@ -5,7 +5,7 @@
  * @description 提供用户个人信息的查看、编辑、密码修改和头像上传功能(移动端适配)
  * @component ProfilePageMobile
  */
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { ElButton, ElIcon, ElInput, ElSelect, ElOption, ElFormItem, ElForm, ElInputNumber, ElDialog, ElOverlay } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
