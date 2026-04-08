@@ -460,14 +460,27 @@ export default class ProfilePageMobile {
 	}
 
 	/**
+	 * 关闭密码修改对话框
+	 * @public
+	 * @method closePasswordDialog
+	 * @description 关闭对话框并清理数据
+	 * @returns {void}
+	 */
+	public closePasswordDialog() {
+		this.passwordForm.newPassword = ''
+		this.passwordForm.confirmPassword = ''
+		this.showPasswordDialog.value = false
+	}
+
+	/**
 	 * 取消密码修改
 	 * @public
 	 * @method cancelPasswordChange
-	 * @description 取消密码修改操作，隐藏密码修改对话框并重置表单
+	 * @description 取消密码修改操作，关闭对话框并重置表单
 	 * @returns {void}
 	 */
 	public cancelPasswordChange() {
-		this.showPasswordDialog.value = false
+		this.closePasswordDialog()
 		this.resetPasswordForm()
 	}
 

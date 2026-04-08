@@ -33,14 +33,20 @@ const handleCancel = emit => profilePageChangePasswordMobileForm.handleCancel(em
 
 // ======================== Props ========================
 const props = defineProps({
-	visible: {
+	modelValue: {
 		type: Boolean,
 		default: false
 	}
 })
 
 // ======================== Emits ========================
-const emit = defineEmits(['close', 'success'])
+const emit = defineEmits(['update:modelValue', 'success'])
+
+// ======================== 计算属性 ========================
+const dialogVisibleComputed = computed({
+	get: () => props.modelValue,
+	set: (val) => emit('update:modelValue', val)
+})
 
 // ======================== 生命周期 ========================
 onMounted(() => {

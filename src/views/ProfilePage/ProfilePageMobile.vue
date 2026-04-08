@@ -362,12 +362,14 @@ onMounted(() => {
 			v-model="showPasswordDialog"
 			title="修改密码"
 			width="90%"
-			:close-on-click-modal="false"
-			:close-on-press-escape="false"
+			:close-on-click-modal="true"
+			:close-on-press-escape="true"
+			destroy-on-close
+			modal-class="profile-page-mobile-change-password-dialog-overlay"
 			class="profile-page-mobile-change-password-dialog"
-			@closed="closePasswordDialog"
+			@close="closePasswordDialog"
 		>
-			<ProfilePageChangePasswordMobileForm :visible="showPasswordDialog" @close="handlePasswordDialogClose" @success="closePasswordDialog" />
+			<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
 		</el-dialog>
 	</div>
 </template>
