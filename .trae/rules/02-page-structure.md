@@ -4,6 +4,11 @@ description: 页面目录结构、入口文件规范、表单组件命名规则
 ---
 # 页面结构
 3个Vue文件：PageName.vue（入口）、PageNameDesktop.vue、PageNameMobile.vue
+# 页面代码分离（重要）
+Vue文件只保留<template>，TS代码抽到ts文件夹，CSS抽到css文件夹
+例如：views/ProfilePage/ProfilePageMobile.vue → 只保留template
+     views/ProfilePage/ts/ProfilePageMobile.ts → 抽离的TS代码
+     views/ProfilePage/css/ProfilePageMobile.css → 抽离的样式
 # 表单
 forms/文件夹，desktop/mobile子文件夹，文件名+Form后缀
 # 表单组件命名
