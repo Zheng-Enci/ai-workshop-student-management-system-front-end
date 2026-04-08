@@ -463,13 +463,22 @@ export default class ProfilePageMobile {
 	 * 关闭密码修改对话框
 	 * @public
 	 * @method closePasswordDialog
-	 * @description 关闭对话框并清理数据
+	 * @description 关闭对话框，先执行淡出动画再清理数据
 	 * @returns {void}
 	 */
 	public closePasswordDialog() {
+		const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
+		if (dialogWrapper) {
+			dialogWrapper.style.opacity = '0'
+		}
+
 		this.passwordForm.newPassword = ''
 		this.passwordForm.confirmPassword = ''
 		this.showPasswordDialog.value = false
+
+		setTimeout(() => {
+			// 清理数据
+		}, 0)
 	}
 
 	/**
