@@ -53,8 +53,8 @@
  */
 .profile-page-mobile-header-logo {
 	flex-shrink: 0;
-	width: 40px;
-	height: 40px;
+	width: 44px;
+	height: 44px;
 	object-fit: contain;
 	cursor: pointer;
 	transition: transform 0.3s ease;
