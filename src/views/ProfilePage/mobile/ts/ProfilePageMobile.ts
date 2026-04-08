@@ -466,8 +466,6 @@ export default class ProfilePageMobile {
 		// 递增点击次数
 		this.passwordDialogClickCount++
 		console.log(`[ProfilePageMobile] openPasswordDialog - 开始 (第${this.passwordDialogClickCount}次点击)`)
-		// 强制重置isPasswordDialogClosing为false，确保对话框可以正常打开
-		this.isPasswordDialogClosing.value = false
 		console.log(`[ProfilePageMobile] openPasswordDialog - 当前showPasswordDialog.value = ${this.showPasswordDialog.value}`)
 		
 		// 如果对话框已经打开，直接返回，不执行关闭逻辑
@@ -477,19 +475,25 @@ export default class ProfilePageMobile {
 			return
 		}
 		
-		console.log('[ProfilePageMobile] openPasswordDialog - showPasswordDialog.value = true')
-		this.showPasswordDialog.value = true
-		// 延迟设置透明度，确保对话框已经显示
+		// 强制重置isPasswordDialogClosing为false，确保对话框可以正常打开
+		this.isPasswordDialogClosing.value = false
+		
+		// 延迟打开对话框，确保closePasswordDialog方法执行完成
 		setTimeout(() => {
-			console.log('[ProfilePageMobile] openPasswordDialog - 重置对话框透明度')
-			const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
-			if (dialogWrapper) {
-				dialogWrapper.style.opacity = '1'
-			}
-		}, 10)
-		console.log('[ProfilePageMobile] openPasswordDialog - 调用 resetPasswordForm')
-		this.resetPasswordForm()
-		console.log('[ProfilePageMobile] openPasswordDialog - 结束')
+			console.log('[ProfilePageMobile] openPasswordDialog - showPasswordDialog.value = true')
+			this.showPasswordDialog.value = true
+			// 延迟设置透明度，确保对话框已经显示
+			setTimeout(() => {
+				console.log('[ProfilePageMobile] openPasswordDialog - 重置对话框透明度')
+				const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
+				if (dialogWrapper) {
+					dialogWrapper.style.opacity = '1'
+				}
+			}, 10)
+			console.log('[ProfilePageMobile] openPasswordDialog - 调用 resetPasswordForm')
+			this.resetPasswordForm()
+			console.log('[ProfilePageMobile] openPasswordDialog - 结束')
+		}, 50)
 	}
 
 	/**
