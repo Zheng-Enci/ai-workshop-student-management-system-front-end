@@ -6,15 +6,15 @@
  * @component ProfilePageMobile
  */
 import { onMounted } from 'vue'
-import { ElButton, ElIcon } from 'element-plus'
+import { ElButton, ElIcon, ElInput, ElSelect, ElOption, ElFormItem, ElForm, ElInputNumber, ElDialog, ElOverlay } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
-import 'element-plus/theme-chalk/el-form.css'
-import 'element-plus/theme-chalk/el-form-item.css'
 import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
+import 'element-plus/theme-chalk/el-form-item.css'
+import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-input-number.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-overlay.css'
