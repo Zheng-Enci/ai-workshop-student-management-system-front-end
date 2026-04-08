@@ -373,8 +373,8 @@ onMounted(() => {
 							type="primary"
 							:icon="Lock"
 							class="security-btn"
-							@click="togglePasswordSection">
-							{{ showPasswordDialog ? '返回基本信息' : '修改密码' }}
+							@click="openPasswordDialog">
+							修改密码
 						</el-button>
 					</div>
 				</div>

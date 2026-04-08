@@ -444,6 +444,18 @@ export default class ProfilePageMobile {
 	}
 
 	/**
+	 * 打开密码修改对话框
+	 * @public
+	 * @method openPasswordDialog
+	 * @description 打开密码修改对话框并重置表单
+	 * @returns {void}
+	 */
+	public openPasswordDialog() {
+		this.showPasswordDialog.value = true
+		this.resetPasswordForm()
+	}
+
+	/**
 	 * 重置密码表单
 	 * @public
 	 * @method resetPasswordForm
