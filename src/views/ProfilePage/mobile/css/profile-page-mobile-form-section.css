@@ -138,6 +138,7 @@ html.dark .profile-page-mobile-form-section-profile-form {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
+	padding-top: 16px;
 }
 
 /**
