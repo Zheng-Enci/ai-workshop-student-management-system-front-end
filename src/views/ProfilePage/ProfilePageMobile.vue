@@ -35,7 +35,7 @@ const profilePageMobile = new ProfilePageMobile()
 const formRef = profilePageMobile.formRef
 const isLoading = profilePageMobile.isLoading
 const isEditing = profilePageMobile.isEditing
-const showPasswordSection = profilePageMobile.showPasswordSection
+const showPasswordDialog = ref(false)
 const attendanceCount = profilePageMobile.attendanceCount
 const studentInfoId = profilePageMobile.studentInfoId
 const avatarUrl = profilePageMobile.avatarUrl
@@ -64,9 +64,14 @@ const loadProfile = () => profilePageMobile.loadProfile()
 const handleAvatarUploadSuccess = () => profilePageMobile.handleAvatarUploadSuccess()
 const handleAvatarUploadError = () => profilePageMobile.handleAvatarUploadError()
 const toggleEditMode = () => profilePageMobile.toggleEditMode()
-const togglePasswordSection = () => profilePageMobile.togglePasswordSection()
+const togglePasswordSection = () => {
+	showPasswordDialog.value = true
+}
 const resetForm = () => profilePageMobile.resetForm()
 const saveProfile = () => profilePageMobile.saveProfile()
+const closePasswordDialog = () => {
+	showPasswordDialog.value = false
+}
 const showCropDialog = (file) => profilePageMobile.showCropDialog(file)
 const initCrop = () => profilePageMobile.initCrop()
 const constrainImagePosition = () => profilePageMobile.constrainImagePosition()
@@ -78,9 +83,6 @@ const zoomOut = () => profilePageMobile.zoomOut()
 const resetCrop = () => profilePageMobile.resetCrop()
 const cancelCrop = () => profilePageMobile.cancelCrop()
 const confirmCrop = () => profilePageMobile.confirmCrop()
-const handlePasswordChangeSuccess = () => {
-	showPasswordSection.value = false
-}
 
 onMounted(() => {
 	loadProfile()
@@ -345,17 +347,24 @@ onMounted(() => {
 							:icon="Lock"
 							class="security-btn"
 							@click="togglePasswordSection">
-							{{ showPasswordSection ? '返回基本信息' : '修改密码' }}
+							{{ showPasswordDialog ? '返回基本信息' : '修改密码' }}
 						</el-button>
 					</div>
 				</div>
 
-				<div v-if="showPasswordSection" class="password-section">
-					<ProfilePageChangePasswordMobileForm
-						v-model="showPasswordSection"
-						@success="handlePasswordChangeSuccess"
-					/>
-				</div>
+				<!-- 密码修改对话框 -->
+				<el-dialog
+					v-model="showPasswordDialog"
+					v-if="showPasswordDialog"
+					title="修改密码"
+					width="90%"
+					:close-on-click-modal="false"
+					:close-on-press-escape="false"
+					class="profile-page-mobile-change-password-dialog"
+					@close="closePasswordDialog"
+				>
+					<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
+				</el-dialog>
 			</div>
 		</div>
 	</div>
