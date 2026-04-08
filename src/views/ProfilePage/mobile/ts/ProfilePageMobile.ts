@@ -458,13 +458,16 @@ export default class ProfilePageMobile {
 	 */
 	public openPasswordDialog() {
 		console.log('[ProfilePageMobile] openPasswordDialog - 开始')
-		console.log('[ProfilePageMobile] openPasswordDialog - 重置对话框透明度')
-		const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
-		if (dialogWrapper) {
-			dialogWrapper.style.opacity = '1'
-		}
 		console.log('[ProfilePageMobile] openPasswordDialog - showPasswordDialog.value = true')
 		this.showPasswordDialog.value = true
+		// 延迟设置透明度，确保对话框已经显示
+		setTimeout(() => {
+			console.log('[ProfilePageMobile] openPasswordDialog - 重置对话框透明度')
+			const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
+			if (dialogWrapper) {
+				dialogWrapper.style.opacity = '1'
+			}
+		}, 10)
 		console.log('[ProfilePageMobile] openPasswordDialog - 调用 resetPasswordForm')
 		this.resetPasswordForm()
 		console.log('[ProfilePageMobile] openPasswordDialog - 结束')
