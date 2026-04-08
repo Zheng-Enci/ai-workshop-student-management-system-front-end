@@ -20,6 +20,7 @@ const imageCropper = new ImageCropper()
 const cropDialogVisible = imageCropper.getCropDialogVisible()
 const cropCanvasRef = imageCropper.getCropCanvasRef()
 const cropWrapperRef = imageCropper.getCropWrapperRef()
+// 在模板中通过 ref 绑定使用，无需额外读取
 const cropBoxRef = imageCropper.getCropBoxRef()
 const originalImageFile = imageCropper.getOriginalImageFile()
 const cropImage = imageCropper.getCropImage()
@@ -32,13 +33,13 @@ const isDragging = imageCropper.getIsDragging()
 const removeCropEvents = () => imageCropper.removeCropEvents()
 const setupCropEvents = () => imageCropper.setupCropEvents()
 const initCrop = () => imageCropper.initCrop()
-const showCropDialog = (file: File) => imageCropper.showCropDialog(file)
+const showCropDialog = (file) => imageCropper.showCropDialog(file)
 const zoomIn = () => imageCropper.zoomIn()
 const zoomOut = () => imageCropper.zoomOut()
 const resetCrop = () => imageCropper.resetCrop()
 const closeCropDialog = () => imageCropper.closeCropDialog()
 const cancelCrop = () => imageCropper.cancelCrop()
-const performCrop = (canvas: HTMLCanvasElement, cropBox: HTMLElement, img: HTMLImageElement) => imageCropper.performCrop(canvas, cropBox, img)
+const performCrop = (canvas, cropBox, img) => imageCropper.performCrop(canvas, cropBox, img)
 
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-button.css'
