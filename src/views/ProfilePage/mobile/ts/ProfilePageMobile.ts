@@ -465,13 +465,9 @@ export default class ProfilePageMobile {
 	public openPasswordDialog() {
 		// 递增点击次数
 		this.passwordDialogClickCount++
-		console.log(`[ProfilePageMobile] openPasswordDialog - 开始 (第${this.passwordDialogClickCount}次点击)`)
-		console.log(`[ProfilePageMobile] openPasswordDialog - 当前showPasswordDialog.value = ${this.showPasswordDialog.value}`)
 		
 		// 如果对话框已经打开，直接返回，不执行关闭逻辑
 		if (this.showPasswordDialog.value) {
-			console.log('[ProfilePageMobile] openPasswordDialog - 对话框已经打开，直接返回')
-			console.log('[ProfilePageMobile] openPasswordDialog - 结束')
 			return
 		}
 		
@@ -480,19 +476,15 @@ export default class ProfilePageMobile {
 		
 		// 延迟打开对话框，确保closePasswordDialog方法执行完成
 		setTimeout(() => {
-			console.log('[ProfilePageMobile] openPasswordDialog - showPasswordDialog.value = true')
 			this.showPasswordDialog.value = true
 			// 延迟设置透明度，确保对话框已经显示
 			setTimeout(() => {
-				console.log('[ProfilePageMobile] openPasswordDialog - 重置对话框透明度')
 				const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
 				if (dialogWrapper) {
 					dialogWrapper.style.opacity = '1'
 				}
 			}, 10)
-			console.log('[ProfilePageMobile] openPasswordDialog - 调用 resetPasswordForm')
 			this.resetPasswordForm()
-			console.log('[ProfilePageMobile] openPasswordDialog - 结束')
 		}, 50)
 	}
 
@@ -504,16 +496,12 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public resetPasswordForm() {
-		console.log('[ProfilePageMobile] resetPasswordForm - 开始')
-		console.log('[ProfilePageMobile] resetPasswordForm - 重置表单数据')
 		this.passwordForm.oldPassword = ''
 		this.passwordForm.newPassword = ''
 		this.passwordForm.confirmPassword = ''
 		if (this.passwordFormRef.value) {
-			console.log('[ProfilePageMobile] resetPasswordForm - 清除表单验证')
 			this.passwordFormRef.value.clearValidate()
 		}
-		console.log('[ProfilePageMobile] resetPasswordForm - 结束')
 	}
 
 	/**
@@ -529,24 +517,17 @@ export default class ProfilePageMobile {
 		}
 
 		this.isPasswordDialogClosing.value = true
-		console.log('[ProfilePageMobile] closePasswordDialog - 开始')
 		const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
 		if (dialogWrapper) {
-			console.log('[ProfilePageMobile] closePasswordDialog - 设置淡出动画')
 			dialogWrapper.style.opacity = '0'
 		}
-		console.log('[ProfilePageMobile] closePasswordDialog - 重置表单数据')
 		this.passwordForm.newPassword = ''
 		this.passwordForm.confirmPassword = ''
-		console.log('[ProfilePageMobile] closePasswordDialog - showPasswordDialog.value = false')
 		this.showPasswordDialog.value = false
-		console.log('[ProfilePageMobile] closePasswordDialog - 设置延迟清理 oldPassword')
 		setTimeout(() => {
-			console.log('[ProfilePageMobile] closePasswordDialog - 清理 oldPassword')
 			this.passwordForm.oldPassword = ''
 			this.isPasswordDialogClosing.value = false
 		}, 300)
-		console.log('[ProfilePageMobile] closePasswordDialog - 结束')
 	}
 
 
