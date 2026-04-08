@@ -169,6 +169,10 @@
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
+	padding: 12px 16px;
+	background: rgba(255, 255, 255, 0.95);
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 /**
@@ -176,7 +180,7 @@
  */
 .profile-page-mobile-user-details h2 {
 	margin: 0;
-	font-size: 20px;
+	font-size: 18px;
 	font-weight: 600;
 	color: #303133;
 }
@@ -186,8 +190,9 @@
  */
 .profile-page-mobile-student-id {
 	margin: 0;
-	font-size: 14px;
-	color: #606266;
+	font-size: 12px;
+	color: #909399;
+	letter-spacing: 1px;
 }
 
 /**
@@ -195,7 +200,10 @@
  */
 .profile-page-mobile-user-stats {
 	display: flex;
-	gap: 16px;
+	gap: 8px;
+	margin-top: 8px;
+	padding-top: 8px;
+	border-top: 1px solid #ebeef5;
 }
 
 /**
@@ -205,16 +213,27 @@
 	display: flex;
 	align-items: center;
 	gap: 4px;
-	font-size: 13px;
+	font-size: 12px;
 	color: #606266;
+	background: #f5f7fa;
+	padding: 4px 8px;
+	border-radius: 12px;
 }
 
 /**
  * 统计图标
  */
 .profile-page-mobile-stat-icon {
-	font-size: 14px;
-	color: #409eff;
+	font-size: 12px;
+	color: #67c23a;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.profile-page-mobile-stat-icon svg {
+	width: 16px;
+	height: 16px;
 }
 
 /**
