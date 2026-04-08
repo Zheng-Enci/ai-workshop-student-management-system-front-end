@@ -71,6 +71,12 @@ export default class ProfilePageMobile {
 	public showPasswordDialog = ref(false)
 
 	/**
+	 * 密码修改对话框是否正在关闭
+	 * @public
+	 */
+	public isPasswordDialogClosing = ref(false)
+
+	/**
 	 * 密码修改加载状态
 	 * @public
 	 */
@@ -487,6 +493,11 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public closePasswordDialog() {
+		if (this.isPasswordDialogClosing.value) {
+			return
+		}
+
+		this.isPasswordDialogClosing.value = true
 		console.log('[ProfilePageMobile] closePasswordDialog - 开始')
 		const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
 		if (dialogWrapper) {
@@ -502,6 +513,7 @@ export default class ProfilePageMobile {
 		setTimeout(() => {
 			console.log('[ProfilePageMobile] closePasswordDialog - 清理 oldPassword')
 			this.passwordForm.oldPassword = ''
+			this.isPasswordDialogClosing.value = false
 		}, 300)
 		console.log('[ProfilePageMobile] closePasswordDialog - 结束')
 	}
