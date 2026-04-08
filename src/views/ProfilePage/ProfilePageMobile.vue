@@ -48,6 +48,7 @@ import { useLoadingMaskStore } from '@/stores/loading'
 import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
 import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
 import LoadingMask from '@/components/LoadingMask.vue'
+import '@/views/ProfilePage/css/mobile/profile-page-mobile-user-info.css'
 
 // ===================== 全局实例初始化 =====================
 /**
@@ -1714,29 +1715,29 @@ onMounted(() => {
 
 				<!-- 用户信息头部 -->
 				<div class="profile-header">
-					<div class="user-info-section">
+					<div class="profile-page-mobile-user-info-section">
 						<!-- 头像上传区域 -->
-						<div class="avatar-wrapper">
-							<div class="avatar-container" @click="handleAvatarClick">
-								<div class="avatar" :class="{ 'avatar-loading': avatarLoading }">
+						<div class="profile-page-mobile-avatar-wrapper">
+							<div class="profile-page-mobile-avatar-container" @click="handleAvatarClick">
+								<div class="profile-page-mobile-avatar" :class="{ 'avatar-loading': avatarLoading }">
 									<img
 										v-if="avatarUrl"
 										:src="avatarUrl"
 										alt="头像"
-										class="avatar-image"
+										class="profile-page-mobile-avatar"
 										@error="handleAvatarError"
 									/>
-									<el-icon v-else class="avatar-icon">
+									<el-icon v-else class="profile-page-mobile-avatar-icon">
 										<user/>
 									</el-icon>
-									<div v-if="avatarLoading" class="avatar-loading-spinner"/>
+									<div v-if="avatarLoading" class="profile-page-mobile-avatar-loading-spinner"/>
 								</div>
-								<div class="avatar-status"/>
-								<div class="avatar-upload-overlay">
-									<el-icon class="upload-icon">
+								<div class="profile-page-mobile-avatar-status"/>
+								<div class="profile-page-mobile-avatar-upload-overlay">
+									<el-icon class="profile-page-mobile-upload-icon">
 										<camera/>
 									</el-icon>
-									<span class="upload-text">点击上传头像</span>
+									<span class="profile-page-mobile-upload-text">点击上传头像</span>
 								</div>
 								<!-- 文件输入 -->
 								<input
@@ -1747,23 +1748,23 @@ onMounted(() => {
 									@change="handleFileSelect"
 								/>
 							</div>
-							<div class="avatar-tip">
-								<el-icon class="tip-icon">
+							<div class="profile-page-mobile-avatar-tip">
+								<el-icon class="profile-page-mobile-tip-icon">
 									<camera/>
 								</el-icon>
 								<span class="tip-text">{{ avatarUrl ? '点击头像修改头像' : '点击头像上传头像' }}</span>
 							</div>
 						</div>
 						<!-- 用户详细信息 -->
-						<div class="user-details">
+						<div class="profile-page-mobile-user-details">
 							<h2>{{ formData.name || '用户' }}</h2>
-							<p class="student-id">{{ formData.studentId || '学号' }}</p>
-							<div class="user-stats">
-								<div v-if="attendanceCount !== null" class="stat-item">
-									<el-icon class="stat-icon">
+							<p class="profile-page-mobile-student-id">{{ formData.studentId || '学号' }}</p>
+							<div class="profile-page-mobile-user-stats">
+								<div v-if="attendanceCount !== null" class="profile-page-mobile-stat-item">
+									<el-icon class="profile-page-mobile-stat-icon">
 										<calendar/>
 									</el-icon>
-									<span class="stat-text">已签到 {{ attendanceCount }} 次</span>
+									<span class="profile-page-mobile-stat-text">已签到 {{ attendanceCount }} 次</span>
 								</div>
 							</div>
 						</div>
