@@ -10,7 +10,7 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElIcon, ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
 import { Lock } from '@element-plus/icons-vue'
-import ChangePasswordApi from '@/views/ProfilePage/js/ChangePassword'
+import ChangePasswordApi from '@/views/ProfilePage/desktop/ts/ChangePassword'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'

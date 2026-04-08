@@ -39,14 +39,14 @@ import 'element-plus/theme-chalk/base.css'
 
 // Project imports
 import { getMyAttendanceCount } from '@/api/attendance'
-import '@/views/ProfilePage/css/desktop/profile-page-desktop-background.css'
-import '@/views/ProfilePage/css/desktop/profile-page-desktop-header.css'
-import '@/views/ProfilePage/css/desktop/profile-page-desktop-avatar.css'
-import '@/views/ProfilePage/css/desktop/profile-page-desktop-user-info.css'
-import '@/views/ProfilePage/css/desktop/profile-page-desktop-form.css'
-import '@/views/ProfilePage/css/desktop/profile-page-desktop-security.css'
-import ProfilePageChangePasswordDesktopForm from '@/views/ProfilePage/forms/desktop/ProfilePageChangePasswordDesktopForm.vue'
-import ProfilePageUploadAvatarDesktopForm from '@/views/ProfilePage/forms/desktop/ProfilePageUploadAvatarDesktopForm.vue'
+import '@/views/ProfilePage/desktop/css/profile-page-desktop-background.css'
+import '@/views/ProfilePage/desktop/css/profile-page-desktop-header.css'
+import '@/views/ProfilePage/desktop/css/profile-page-desktop-avatar.css'
+import '@/views/ProfilePage/desktop/css/profile-page-desktop-user-info.css'
+import '@/views/ProfilePage/desktop/css/profile-page-desktop-form.css'
+import '@/views/ProfilePage/desktop/css/profile-page-desktop-security.css'
+import ProfilePageChangePasswordDesktopForm from '@/views/ProfilePage/desktop/forms/ProfilePageChangePasswordDesktopForm.vue'
+import ProfilePageUploadAvatarDesktopForm from '@/views/ProfilePage/desktop/forms/ProfilePageUploadAvatarDesktopForm.vue'
 import {
 	getStudentProfile,
 	updateStudentInfo,

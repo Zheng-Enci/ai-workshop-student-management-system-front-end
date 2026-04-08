@@ -45,12 +45,12 @@ import {
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
 import { useLoadingMaskStore } from '@/stores/loading'
-import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
-import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
+import ProfilePageConfig from '@/views/ProfilePage/desktop/ts/ProfilePageConfig'
+import ProfilePageUtils from '@/views/ProfilePage/desktop/ts/ProfilePageUtils'
 import LoadingMask from '@/components/LoadingMask.vue'
-import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/forms/mobile/ProfilePageUploadAvatarMobileForm.vue'
-import '@/views/ProfilePage/css/mobile/profile-page-mobile-user-info.css'
-import '@/views/ProfilePage/css/mobile/profile-page-mobile-header.css'
+import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageUploadAvatarMobileForm.vue'
+import '@/views/ProfilePage/mobile/css/profile-page-mobile-user-info.css'
+import '@/views/ProfilePage/mobile/css/profile-page-mobile-header.css'
 
 // ===================== 全局实例初始化 =====================
 /**

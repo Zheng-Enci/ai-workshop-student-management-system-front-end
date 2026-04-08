@@ -1,9 +1,9 @@
 <script setup>
 /**
- * 个人信息页面-头像上传表单组件(移动端)
+ * 个人信息页面-头像上传表单组件(桌面端)
  * 
  * @description 提供用户头像上传、裁剪和预览功能，支持图片缩放和拖拽调整
- * @component ProfilePageUploadAvatarMobileForm
+ * @component ProfilePageUploadAvatarDesktopForm
  */
 
 // ======================== 导入 ========================
@@ -11,14 +11,13 @@ import { ref, reactive, nextTick, onUnmounted, watch } from 'vue'
 import { ElMessage, ElButton, ElIcon, ElDialog } from 'element-plus'
 import { Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
 import { uploadAvatar, getAvatarUrl } from '@/api/student'
-import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
-import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
+import ProfilePageConfig from '@/views/ProfilePage/desktop/ts/ProfilePageConfig'
+import ProfilePageUtils from '@/views/ProfilePage/desktop/ts/ProfilePageUtils'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-overlay.css'
-import '@/views/ProfilePage/forms/mobile/css/ProfilePageUploadAvatarMobileForm.css'
 
 // ======================== Props ========================
 const props = defineProps({
@@ -546,7 +545,7 @@ const initCrop = () => {
  */
 const showCropDialog = file => new Promise((resolve, reject) => {
 	try {
-		const dialogWrapper = document.querySelector('.profile-page-upload-avatar-mobile-form-dialog-overlay')
+		const dialogWrapper = document.querySelector('.profile-page-upload-avatar-desktop-form-dialog-overlay')
 		if (dialogWrapper) {
 			dialogWrapper.style.display = ''
 			dialogWrapper.style.visibility = ''
@@ -714,7 +713,7 @@ const resetCrop = () => {
  * @returns {void}
  */
 const closeCropDialog = () => {
-	const dialogWrapper = document.querySelector('.profile-page-upload-avatar-mobile-form-dialog-overlay')
+	const dialogWrapper = document.querySelector('.profile-page-upload-avatar-desktop-form-dialog-overlay')
 	if (dialogWrapper) {
 		dialogWrapper.style.opacity = '0'
 	}
@@ -885,29 +884,29 @@ watch(() => props.studentInfoId, newId => {
 </script>
 
 <template>
-	<div class="profile-page-upload-avatar-mobile-form">
+	<div class="profile-page-upload-avatar-desktop-form">
 		<!-- 头像上传区域 -->
-		<div class="profile-page-upload-avatar-mobile-form-wrapper">
-			<div class="profile-page-upload-avatar-mobile-form-container" @click="triggerFileSelect">
-				<div class="profile-page-upload-avatar-mobile-form-content" :class="{ 'profile-page-upload-avatar-mobile-form-loading': avatarLoading }">
+		<div class="profile-page-desktop-avatar-wrapper">
+			<div class="profile-page-desktop-avatar-container" @click="triggerFileSelect">
+				<div class="profile-page-desktop-avatar" :class="{ 'profile-page-desktop-avatar-loading': avatarLoading }">
 					<img
 						v-if="avatarUrl"
 						:key="avatarUrl"
 						v-lazy="avatarUrl"
 						alt="头像"
-						class="profile-page-upload-avatar-mobile-form-image"
+						class="profile-page-desktop-avatar-image"
 						@error="handleAvatarError"
 					/>
-					<el-icon v-else class="profile-page-upload-avatar-mobile-form-icon">
+					<el-icon v-else class="profile-page-desktop-avatar-icon">
 						<Camera/>
 					</el-icon>
-					<div v-if="avatarLoading" class="profile-page-upload-avatar-mobile-form-loading-spinner"/>
+					<div v-if="avatarLoading" class="profile-page-desktop-avatar-loading-spinner"/>
 				</div>
-				<div class="profile-page-upload-avatar-mobile-form-upload-overlay">
-					<el-icon class="profile-page-upload-avatar-mobile-form-upload-icon">
+				<div class="profile-page-desktop-avatar-upload-overlay">
+					<el-icon class="profile-page-desktop-upload-icon">
 						<Camera/>
 					</el-icon>
-					<span class="profile-page-upload-avatar-mobile-form-upload-text">点击上传头像</span>
+					<span class="profile-page-desktop-upload-text">点击上传头像</span>
 				</div>
 				<!-- 文件输入 -->
 				<input
@@ -918,8 +917,8 @@ watch(() => props.studentInfoId, newId => {
 					@change="handleFileSelect"
 				/>
 			</div>
-			<div class="profile-page-upload-avatar-mobile-form-tip">
-				<el-icon class="profile-page-upload-avatar-mobile-form-tip-icon">
+			<div class="profile-page-desktop-avatar-tip">
+				<el-icon class="profile-page-desktop-tip-icon">
 					<Camera/>
 				</el-icon>
 				<span class="tip-text">{{
@@ -936,20 +935,20 @@ watch(() => props.studentInfoId, newId => {
 			:close-on-click-modal="true"
 			:close-on-press-escape="true"
 			destroy-on-close
-			modal-class="profile-page-upload-avatar-mobile-form-dialog-overlay"
-			class="profile-page-upload-avatar-mobile-form-dialog"
+			modal-class="profile-page-upload-avatar-desktop-form-dialog-overlay"
+			class="profile-page-upload-avatar-desktop-form-dialog"
 			@close="closeCropDialog"
 		>
-			<div class="profile-page-upload-avatar-mobile-form-canvas-container">
+			<div class="profile-page-upload-avatar-desktop-form-container">
 				<!-- 裁剪画布包装器 -->
-				<div ref="cropWrapperRef" class="profile-page-upload-avatar-mobile-form-canvas-wrapper">
-					<canvas ref="cropCanvasRef" class="profile-page-upload-avatar-mobile-form-canvas"/>
-					<div ref="cropBoxRef" class="profile-page-upload-avatar-mobile-form-box"/>
+				<div ref="cropWrapperRef" class="profile-page-upload-avatar-desktop-form-wrapper">
+					<canvas ref="cropCanvasRef" class="profile-page-upload-avatar-desktop-form-canvas"/>
+					<div ref="cropBoxRef" class="profile-page-upload-avatar-desktop-form-box"/>
 				</div>
 				<!-- 裁剪控制按钮 -->
-				<div class="profile-page-upload-avatar-mobile-form-controls">
+				<div class="profile-page-upload-avatar-desktop-form-controls">
 					<el-button :icon="ZoomOut" circle @click="zoomOut"/>
-					<span class="profile-page-upload-avatar-mobile-form-zoom-info">{{ Math.round(scale * 100) }}%</span>
+					<span class="profile-page-upload-avatar-desktop-form-zoom-info">{{ Math.round(scale * 100) }}%</span>
 					<el-button :icon="ZoomIn" circle @click="zoomIn"/>
 					<el-button style="margin-left: 20px;" @click="resetCrop">重置</el-button>
 				</div>
@@ -961,3 +960,61 @@ watch(() => props.studentInfoId, newId => {
 		</el-dialog>
 	</div>
 </template>
+
+<style scoped>
+@import '@/views/ProfilePage/desktop/css/profile-page-desktop-avatar.css';
+
+.profile-page-upload-avatar-desktop-form-container {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.profile-page-upload-avatar-desktop-form-wrapper {
+	position: relative;
+	width: 100%;
+	height: 400px;
+	background: transparent;
+	border-radius: 8px;
+	overflow: visible;
+}
+
+html.dark .profile-page-upload-avatar-desktop-form-wrapper {
+	background: transparent;
+}
+
+.profile-page-upload-avatar-desktop-form-canvas {
+	display: block;
+}
+
+.profile-page-upload-avatar-desktop-form-box {
+	position: absolute;
+	overflow: visible;
+	z-index: 5;
+	outline: none;
+	cursor: move;
+	box-sizing: border-box;
+}
+
+html.dark .profile-page-upload-avatar-desktop-form-box {
+	overflow: visible;
+	z-index: 5;
+	outline: none;
+	cursor: move;
+	box-sizing: border-box;
+}
+
+.profile-page-upload-avatar-desktop-form-controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+}
+
+.profile-page-upload-avatar-desktop-form-zoom-info {
+	min-width: 60px;
+	text-align: center;
+	font-size: 14px;
+	color: #666;
+}
+</style>
