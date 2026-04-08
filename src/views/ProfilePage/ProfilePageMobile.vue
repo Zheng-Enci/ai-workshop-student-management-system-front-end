@@ -143,13 +143,6 @@ const avatarLoading = ref(false)
  */
 const isUploading = ref(false)
 
-/**
- * 头像上传对话框显示状态
- * @type {Ref<boolean>}
- * @description 控制头像上传对话框的显示/隐藏
- */
-const showAvatarUploadDialog = ref(false)
-
 // ===================== 表单数据定义区 =====================
 /**
  * 个人信息表单数据
@@ -1505,36 +1498,12 @@ onMounted(() => {
 				<!-- 用户信息头部 -->
 				<div class="profile-page-mobile-profile-header">
 					<div class="profile-page-mobile-user-info-section">
-						<!-- 头像上传区域 -->
-						<div class="profile-page-mobile-avatar-wrapper">
-							<div class="profile-page-mobile-avatar-container" @click="showAvatarUploadDialog = true">
-								<div class="profile-page-mobile-avatar" :class="{ 'avatar-loading': avatarLoading }">
-									<img
-										v-if="avatarUrl"
-										:src="avatarUrl"
-										alt="头像"
-										class="profile-page-mobile-avatar"
-									/>
-									<el-icon v-else class="profile-page-mobile-avatar-icon">
-										<user/>
-									</el-icon>
-									<div v-if="avatarLoading" class="profile-page-mobile-avatar-loading-spinner"/>
-								</div>
-								<div class="profile-page-mobile-avatar-status"/>
-								<div class="profile-page-mobile-avatar-upload-overlay">
-									<el-icon class="profile-page-mobile-upload-icon">
-										<camera/>
-									</el-icon>
-									<span class="profile-page-mobile-upload-text">点击上传头像</span>
-								</div>
-							</div>
-							<div class="profile-page-mobile-avatar-tip">
-								<el-icon class="profile-page-mobile-tip-icon">
-									<camera/>
-								</el-icon>
-								<span class="tip-text">{{ avatarUrl ? '点击头像修改头像' : '点击头像上传头像' }}</span>
-							</div>
-						</div>
+						<!-- 头像上传组件 -->
+						<ProfilePageUploadAvatarMobileForm
+							:student-info-id="studentInfoId"
+							@upload-success="handleAvatarUploadSuccess"
+							@upload-error="handleAvatarUploadError"
+						/>
 						<!-- 用户详细信息 -->
 						<div class="profile-page-mobile-user-details">
 							<h2>{{ formData.name || '用户' }}</h2>
@@ -1859,14 +1828,6 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
-
-		<!-- 头像上传表单组件 -->
-		<ProfilePageUploadAvatarMobileForm
-			v-model="showAvatarUploadDialog"
-			:student-info-id="studentInfoId"
-			@upload-success="handleAvatarUploadSuccess"
-			@upload-error="handleAvatarUploadError"
-		/>
 	</div>
 </template>
 
