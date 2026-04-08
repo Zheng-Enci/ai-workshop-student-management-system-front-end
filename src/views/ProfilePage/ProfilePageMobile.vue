@@ -69,6 +69,9 @@ const togglePasswordSection = () => {
 }
 const resetForm = () => profilePageMobile.resetForm()
 const saveProfile = () => profilePageMobile.saveProfile()
+const handlePasswordDialogClose = () => {
+	profilePageMobile.showPasswordDialog.value = false
+}
 const closePasswordDialog = () => {
 	profilePageMobile.cancelPasswordChange()
 }
@@ -362,8 +365,9 @@ onMounted(() => {
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
 			class="profile-page-mobile-change-password-dialog"
+			@closed="closePasswordDialog"
 		>
-			<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
+			<ProfilePageChangePasswordMobileForm :visible="showPasswordDialog" @close="handlePasswordDialogClose" @success="closePasswordDialog" />
 		</el-dialog>
 	</div>
 </template>
