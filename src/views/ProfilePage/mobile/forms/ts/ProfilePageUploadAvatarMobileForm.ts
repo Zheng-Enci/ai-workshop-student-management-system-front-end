@@ -668,6 +668,7 @@ export default class ImageCropper {
 		}
 
 		this.cropImage.value = null
+		this.cropDialogVisible.value = false
 
 		setTimeout(() => {
 			this.originalImageFile.value = null
