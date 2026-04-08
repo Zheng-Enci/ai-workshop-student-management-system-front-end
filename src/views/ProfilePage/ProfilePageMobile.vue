@@ -48,6 +48,7 @@ import { useLoadingMaskStore } from '@/stores/loading'
 import ProfilePageConfig from '@/views/ProfilePage/js/ProfilePageConfig'
 import ProfilePageUtils from '@/views/ProfilePage/js/ProfilePageUtils'
 import LoadingMask from '@/components/LoadingMask.vue'
+import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/forms/mobile/ProfilePageUploadAvatarMobileForm.vue'
 import '@/views/ProfilePage/css/mobile/profile-page-mobile-user-info.css'
 import '@/views/ProfilePage/css/mobile/profile-page-mobile-header.css'
 
@@ -141,190 +142,12 @@ const avatarLoading = ref(false)
  */
 const isUploading = ref(false)
 
-// ===================== 文件输入引用 =====================
 /**
- * 文件输入框引用
- * @type {Ref<HTMLInputElement|null>}
- * @description 隐藏的文件输入框引用,用于触发文件选择
- */
-const fileInputRef = ref(null)
-
-// ===================== 头像裁剪相关引用 =====================
-/**
- * 裁剪弹窗显示状态
+ * 头像上传对话框显示状态
  * @type {Ref<boolean>}
- * @description 控制头像裁剪弹窗的显示/隐藏
+ * @description 控制头像上传对话框的显示/隐藏
  */
-const cropDialogVisible = ref(false)
-/**
- * 裁剪画布引用
- * @type {Ref<HTMLCanvasElement|null>}
- * @description Canvas元素引用,用于绘制裁剪后的头像
- */
-const cropCanvasRef = ref(null)
-/**
- * 裁剪容器引用
- * @type {Ref<HTMLElement|null>}
- * @description 裁剪区域的容器元素引用
- */
-const cropWrapperRef = ref(null)
-/**
- * 裁剪框引用
- * @type {Ref<HTMLElement|null>}
- * @description 裁剪框元素引用,用于定义裁剪区域
- */
-const cropBoxRef = ref(null)
-
-// ===================== 头像裁剪状态变量 =====================
-/**
- * 原始图片文件
- * @type {Ref<File|null>}
- * @description 用户选择的原始图片文件对象
- */
-const originalImageFile = ref(null)
-/**
- * 裁剪图片对象
- * @type {Ref<HTMLImageElement|null>}
- * @description 用于裁剪的图片对象引用
- */
-const cropImage = ref(null)
-/**
- * 图片缩放比例
- * @type {Ref<number>}
- * @description 图片的当前缩放比例,初始值为1(100%)
- */
-const scale = ref(1)
-/**
- * 最小缩放比例
- * @type {Ref<number>}
- * @description 动态最小缩放比例,根据图片和裁剪框尺寸计算
- * 防止图片过度缩小,确保裁剪框始终被图片覆盖
- */
-const minScale = ref(0.1)
-/**
- * 图片X轴偏移量
- * @type {Ref<number>}
- * @description 图片在裁剪区域中的X轴位置偏移
- */
-const imageX = ref(0)
-/**
- * 图片Y轴偏移量
- * @type {Ref<number>}
- * @description 图片在裁剪区域中的Y轴位置偏移
- */
-const imageY = ref(0)
-/**
- * 头像裁剪状态
- * @type {Ref<boolean>}
- * @description 控制头像裁剪操作进行中的状态显示
- */
-const isCropping = ref(false)
-/**
- * 是否正在拖拽
- * @type {Ref<boolean>}
- * @description 标记用户是否正在拖拽图片
- */
-const isDragging = ref(false)
-/**
- * 拖拽起始X坐标
- * @type {Ref<number>}
- * @description 记录鼠标/触摸按下时的X坐标
- */
-const dragStartX = ref(0)
-/**
- * 拖拽起始Y坐标
- * @type {Ref<number>}
- * @description 记录鼠标/触摸按下时的Y坐标
- */
-const dragStartY = ref(0)
-/**
- * 拖拽起始图片X偏移
- * @type {Ref<number>}
- * @description 记录拖拽开始时的图片X轴偏移量
- */
-const dragStartImageX = ref(0)
-/**
- * 拖拽起始图片Y偏移
- * @type {Ref<number>}
- * @description 记录拖拽开始时的图片Y轴偏移量
- */
-const dragStartImageY = ref(0)
-
-// ===================== 触摸捏合缩放相关变量 =====================
-/**
- * 是否正在捏合缩放
- * @type {Ref<boolean>}
- * @description 标记用户是否正在使用双指捏合缩放图片(移动端)
- */
-const isPinching = ref(false)
-/**
- * 初始捏合距离
- * @type {Ref<number>}
- * @description 记录捏合开始时的两指间距离
- */
-const initialPinchDistance = ref(0)
-/**
- * 初始捏合缩放比例
- * @type {Ref<number>}
- * @description 记录捏合开始时的图片缩放比例
- */
-const initialPinchScale = ref(1)
-/**
- * 初始捏合中心X坐标
- * @type {Ref<number>}
- * @description 记录捏合开始时的中心点X坐标
- */
-const initialPinchCenterX = ref(0)
-/**
- * 初始捏合中心Y坐标
- * @type {Ref<number>}
- * @description 记录捏合开始时的中心点Y坐标
- */
-const initialPinchCenterY = ref(0)
-
-// ===================== 事件处理器引用 =====================
-/**
- * 鼠标按下事件处理器
- * @type {Function|null}
- * @description 用于移除事件监听器
- */
-let mouseDownHandler = null
-/**
- * 鼠标移动事件处理器
- * @type {Function|null}
- * @description 用于移除事件监听器
- */
-let mouseMoveHandler = null
-/**
- * 鼠标抬起事件处理器
- * @type {Function|null}
- * @description 用于移除事件监听器
- */
-let mouseUpHandler = null
-/**
- * 鼠标滚轮事件处理器
- * @type {Function|null}
- * @description 用于移除事件监听器
- */
-let wheelHandler = null
-/**
- * 触摸开始事件处理器
- * @type {Function|null}
- * @description 用于移除事件监听器(移动端)
- */
-let touchStartHandler = null
-/**
- * 触摸移动事件处理器
- * @type {Function|null}
- * @description 用于移除事件监听器(移动端)
- */
-let touchMoveHandler = null
-/**
- * 触摸结束事件处理器
- * @type {Function|null}
- * @description 用于移除事件监听器(移动端)
- */
-let touchEndHandler = null
+const showAvatarUploadDialog = ref(false)
 
 // ===================== 表单数据定义区 =====================
 /**
@@ -564,59 +387,23 @@ const loadAvatar = async () => {
 }
 
 /**
- * 处理头像加载错误
- * @function handleAvatarError
- * @description 当头像图片加载失败时，将头像URL设置为null
- * @returns {void}
- */
-const handleAvatarError = () => {
-	avatarUrl.value = null
-}
-
-/**
- * 处理头像点击事件
- * @function handleAvatarClick
- * @description 触发文件输入框的点击事件，打开文件选择对话框
- * @returns {void}
- */
-const handleAvatarClick = () => {
-	fileInputRef.value?.click()
-}
-
-/**
- * 处理文件选择
- * @function handleFileSelect
- * @description 处理用户选择的头像文件
- * 1. 验证文件是否存在
- * 2. 验证文件类型是否为图片
- * 3. 保存原始文件并显示裁剪对话框
- * 4. 清空文件选择以允许重复选择同一文件
- * @param {Event} event - 文件输入框的change事件
+ * 处理头像上传成功事件
+ * @function handleAvatarUploadSuccess
+ * @description 当头像上传成功后，重新加载头像以显示新上传的头像
  * @returns {Promise<void>} 异步操作完成的Promise
  */
-const handleFileSelect = async event => {
-	const file = event.target.files?.[0]
-	if (!file) { return }
+const handleAvatarUploadSuccess = async () => {
+	await loadAvatar()
+}
 
-	// 文件类型验证
-	if (!file.type.startsWith('image/')) {
-		ElMessage.error('请选择图片文件')
-		return
-	}
-
-	try {
-		// 保存原始文件，显示裁剪对话框
-		originalImageFile.value = file
-		await showCropDialog(file)
-	} catch (error) {
-		console.error('显示裁剪对话框失败:', error)
-		ElMessage.error(`图片加载失败：${error.message}`)
-	} finally {
-		// 清空文件选择，允许重复选择同一文件
-		if (event.target) {
-			event.target.value = ''
-		}
-	}
+/**
+ * 处理头像上传错误事件
+ * @function handleAvatarUploadError
+ * @description 当头像上传失败后，重新加载头像以恢复之前的状态
+ * @returns {Promise<void>} 异步操作完成的Promise
+ */
+const handleAvatarUploadError = async () => {
+	await loadAvatar()
 }
 
 /**
@@ -1719,14 +1506,13 @@ onMounted(() => {
 					<div class="profile-page-mobile-user-info-section">
 						<!-- 头像上传区域 -->
 						<div class="profile-page-mobile-avatar-wrapper">
-							<div class="profile-page-mobile-avatar-container" @click="handleAvatarClick">
+							<div class="profile-page-mobile-avatar-container" @click="showAvatarUploadDialog = true">
 								<div class="profile-page-mobile-avatar" :class="{ 'avatar-loading': avatarLoading }">
 									<img
 										v-if="avatarUrl"
 										:src="avatarUrl"
 										alt="头像"
 										class="profile-page-mobile-avatar"
-										@error="handleAvatarError"
 									/>
 									<el-icon v-else class="profile-page-mobile-avatar-icon">
 										<user/>
@@ -1740,14 +1526,6 @@ onMounted(() => {
 									</el-icon>
 									<span class="profile-page-mobile-upload-text">点击上传头像</span>
 								</div>
-								<!-- 文件输入 -->
-								<input
-									ref="fileInputRef"
-									type="file"
-									accept="image/*"
-									style="display: none"
-									@change="handleFileSelect"
-								/>
 							</div>
 							<div class="profile-page-mobile-avatar-tip">
 								<el-icon class="profile-page-mobile-tip-icon">
@@ -2081,43 +1859,13 @@ onMounted(() => {
 			</div>
 		</div>
 
-		<!-- 头像裁剪对话框 -->
-		<el-dialog
-			v-model="cropDialogVisible"
-			title="裁剪头像"
-			width="90%"
-			:close-on-click-modal="false"
-			:close-on-press-escape="false"
-			modal-class="crop-dialog-overlay"
-			class="crop-dialog"
-		>
-			<div class="crop-container">
-				<!-- 裁剪画布包装器 -->
-				<div ref="cropWrapperRef" class="crop-wrapper">
-					<canvas ref="cropCanvasRef" class="crop-canvas"/>
-					<div ref="cropBoxRef" class="crop-box"/>
-				</div>
-				<!-- 裁剪控制按钮 -->
-				<div class="crop-controls">
-					<el-button
-						:icon="ZoomOut"
-						circle
-						size="small"
-						@click="zoomOut"/>
-					<span class="zoom-info">{{ Math.round(scale * 100) }}%</span>
-					<el-button
-						:icon="ZoomIn"
-						circle
-						size="small"
-						@click="zoomIn"/>
-					<el-button size="small" style="margin-left: 12px;" @click="resetCrop">重置</el-button>
-				</div>
-			</div>
-			<template #footer>
-				<el-button @click="cancelCrop">取消</el-button>
-				<el-button type="primary" :loading="isCropping" @click="confirmCrop">确认裁剪</el-button>
-			</template>
-		</el-dialog>
+		<!-- 头像上传表单组件 -->
+		<ProfilePageUploadAvatarMobileForm
+			v-model="showAvatarUploadDialog"
+			:student-info-id="studentInfoId"
+			@upload-success="handleAvatarUploadSuccess"
+			@upload-error="handleAvatarUploadError"
+		/>
 	</div>
 </template>
 
