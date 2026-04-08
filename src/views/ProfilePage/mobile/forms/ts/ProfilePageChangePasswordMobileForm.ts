@@ -60,12 +60,6 @@ export default class ProfilePageChangePasswordMobileForm {
 	private isLoading = ref(false)
 
 	/**
-	 * 对话框可见性
-	 * @private
-	 */
-	private dialogVisible = ref(false)
-
-	/**
 	 * 获取密码验证规则
 	 * @returns {Object} 验证规则对象
 	 */
@@ -98,24 +92,9 @@ export default class ProfilePageChangePasswordMobileForm {
 	}
 
 	/**
-	 * 获取对话框可见性
-	 * @returns {Ref<boolean>} 对话框可见性
-	 */
-	public getdialogVisible() {
-		return this.dialogVisible
-	}
-
-	/**
-	 * 设置对话框可见性
-	 * @param {boolean} value - 对话框可见性值
-	 */
-	public setdialogVisible(value: boolean) {
-		this.dialogVisible.value = value
-	}
-
-	/**
 	 * 重置表单
-	 * @function resetForm
+	 * @public
+	 * @method resetForm
 	 * @description 清空表单数据并清除验证状态
 	 * @returns {void}
 	 */
@@ -130,7 +109,8 @@ export default class ProfilePageChangePasswordMobileForm {
 
 	/**
 	 * 提交密码修改
-	 * @function handleSubmit
+	 * @public
+	 * @method handleSubmit
 	 * @description 验证表单并提交密码修改请求
 	 * @param {Function} emit - Vue emit 函数，用于触发事件
 	 * @returns {Promise<void>}
@@ -166,8 +146,9 @@ export default class ProfilePageChangePasswordMobileForm {
 			if (response.code === 200) {
 				ElMessage.success('密码修改成功')
 				this.resetForm()
-				// 通知父组件密码修改成功
+				// 通知父组件密码修改成功并关闭对话框
 				emit('success')
+				emit('update:modelValue', false)
 			} else {
 				ElMessage.error(response.message || '修改密码失败')
 			}
@@ -185,14 +166,13 @@ export default class ProfilePageChangePasswordMobileForm {
 
 	/**
 	 * 取消密码修改
-	 * @function handleCancel
-	 * @description 取消密码修改操作
+	 * @public
+	 * @method handleCancel
 	 * @param {Function} emit - Vue emit 函数，用于触发事件
 	 * @returns {void}
 	 */
 	public handleCancel(emit) {
 		this.formRef.value?.resetFields()
-		this.dialogVisible.value = false
 		emit('update:modelValue', false)
 	}
 }

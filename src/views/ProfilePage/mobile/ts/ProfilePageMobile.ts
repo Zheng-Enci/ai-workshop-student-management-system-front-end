@@ -65,10 +65,10 @@ export default class ProfilePageMobile {
 	public isEditing = ref(false)
 
 	/**
-	 * 密码修改区域显示状态
+	 * 密码修改对话框显示状态
 	 * @public
 	 */
-	public showPasswordSection = ref(false)
+	public showPasswordDialog = ref(false)
 
 	/**
 	 * 密码修改加载状态
@@ -430,15 +430,15 @@ export default class ProfilePageMobile {
 	}
 
 	/**
-	 * 切换密码修改区域显示状态
+	 * 切换密码修改对话框显示状态
 	 * @public
 	 * @method togglePasswordSection
-	 * @description 切换密码修改区域的显示/隐藏状态
+	 * @description 切换密码修改对话框的显示/隐藏状态
 	 * @returns {void}
 	 */
 	public togglePasswordSection() {
-		this.showPasswordSection.value = !this.showPasswordSection.value
-		if (this.showPasswordSection.value) {
+		this.showPasswordDialog.value = !this.showPasswordDialog.value
+		if (this.showPasswordDialog.value) {
 			this.resetPasswordForm()
 		}
 	}
@@ -463,11 +463,11 @@ export default class ProfilePageMobile {
 	 * 取消密码修改
 	 * @public
 	 * @method cancelPasswordChange
-	 * @description 取消密码修改操作，隐藏密码修改区域并重置表单
+	 * @description 取消密码修改操作，隐藏密码修改对话框并重置表单
 	 * @returns {void}
 	 */
 	public cancelPasswordChange() {
-		this.showPasswordSection.value = false
+		this.showPasswordDialog.value = false
 		this.resetPasswordForm()
 	}
 
@@ -506,7 +506,7 @@ export default class ProfilePageMobile {
 
 				if (response.code === 200) {
 					ElMessage.success('密码修改成功')
-					this.showPasswordSection.value = false
+					this.showPasswordDialog.value = false
 					this.resetPasswordForm()
 				} else {
 					ElMessage.error(response.message || '修改密码失败')

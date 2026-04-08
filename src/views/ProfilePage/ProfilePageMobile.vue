@@ -65,12 +65,12 @@ const handleAvatarUploadSuccess = () => profilePageMobile.handleAvatarUploadSucc
 const handleAvatarUploadError = () => profilePageMobile.handleAvatarUploadError()
 const toggleEditMode = () => profilePageMobile.toggleEditMode()
 const togglePasswordSection = () => {
-	showPasswordDialog.value = true
+	profilePageMobile.togglePasswordSection()
 }
 const resetForm = () => profilePageMobile.resetForm()
 const saveProfile = () => profilePageMobile.saveProfile()
 const closePasswordDialog = () => {
-	showPasswordDialog.value = false
+	profilePageMobile.cancelPasswordChange()
 }
 const showCropDialog = (file) => profilePageMobile.showCropDialog(file)
 const initCrop = () => profilePageMobile.initCrop()

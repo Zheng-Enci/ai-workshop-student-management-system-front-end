@@ -26,7 +26,6 @@ const PASSWORD_RULES = profilePageChangePasswordMobileForm.getPASSWORD_RULES()
 const passwordForm = profilePageChangePasswordMobileForm.getpasswordForm()
 const formRef = profilePageChangePasswordMobileForm.getformRef()
 const isLoading = profilePageChangePasswordMobileForm.getisLoading()
-const dialogVisible = profilePageChangePasswordMobileForm.getdialogVisible()
 
 const resetForm = () => profilePageChangePasswordMobileForm.resetForm()
 const handleSubmit = emit => profilePageChangePasswordMobileForm.handleSubmit(emit)
