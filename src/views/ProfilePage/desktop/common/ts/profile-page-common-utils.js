@@ -2,11 +2,11 @@
  * 个人信息页面工具模块
  * 提供个人信息页面相关的工具函数
  *
- * @module views/ProfilePage/desktop/ts/ProfilePageUtils
+ * @module views/ProfilePage/desktop/common/ts/profile-page-common-utils
  * @description 提供图片压缩、文件处理等工具函数
  */
 
-import ProfilePageConfig from '@/views/ProfilePage/desktop/ts/ProfilePageConfig'
+import ProfilePageConfig from '@/views/ProfilePage/desktop/common/ts/profile-page-common-config'
 
 /**
  * 个人信息页面工具类
