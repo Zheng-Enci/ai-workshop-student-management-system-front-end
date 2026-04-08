@@ -24,6 +24,7 @@ import { ArrowLeft, User, Edit, Lock, Calendar, Camera, ZoomIn, ZoomOut } from '
 
 import LoadingMask from '@/components/LoadingMask.vue'
 import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageUploadAvatarMobileForm.vue'
+import ProfilePageChangePasswordMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageChangePasswordMobileForm.vue'
 import ProfilePageMobile from '@/views/ProfilePage/mobile/ts/ProfilePageMobile'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-user-info.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-header.css'
@@ -32,20 +33,16 @@ import '@/views/ProfilePage/mobile/css/profile-page-mobile-form-section.css'
 const profilePageMobile = new ProfilePageMobile()
 
 const formRef = profilePageMobile.formRef
-const passwordFormRef = profilePageMobile.passwordFormRef
 const isLoading = profilePageMobile.isLoading
 const isEditing = profilePageMobile.isEditing
 const showPasswordSection = profilePageMobile.showPasswordSection
-const isPasswordLoading = profilePageMobile.isPasswordLoading
 const attendanceCount = profilePageMobile.attendanceCount
 const studentInfoId = profilePageMobile.studentInfoId
 const avatarUrl = profilePageMobile.avatarUrl
 const avatarLoading = profilePageMobile.avatarLoading
 const isUploading = profilePageMobile.isUploading
 const formData = profilePageMobile.formData
-const passwordForm = profilePageMobile.passwordForm
 const rules = profilePageMobile.rules
-const passwordRules = profilePageMobile.passwordRules
 const originalData = profilePageMobile.originalData
 const cropDialogVisible = profilePageMobile.cropDialogVisible
 const cropCanvasRef = profilePageMobile.cropCanvasRef
@@ -69,8 +66,6 @@ const handleAvatarUploadError = () => profilePageMobile.handleAvatarUploadError(
 const toggleEditMode = () => profilePageMobile.toggleEditMode()
 const togglePasswordSection = () => profilePageMobile.togglePasswordSection()
 const resetForm = () => profilePageMobile.resetForm()
-const cancelPasswordChange = () => profilePageMobile.cancelPasswordChange()
-const confirmPasswordChange = () => profilePageMobile.confirmPasswordChange()
 const saveProfile = () => profilePageMobile.saveProfile()
 const showCropDialog = (file) => profilePageMobile.showCropDialog(file)
 const initCrop = () => profilePageMobile.initCrop()
@@ -83,6 +78,9 @@ const zoomOut = () => profilePageMobile.zoomOut()
 const resetCrop = () => profilePageMobile.resetCrop()
 const cancelCrop = () => profilePageMobile.cancelCrop()
 const confirmCrop = () => profilePageMobile.confirmCrop()
+const handlePasswordChangeSuccess = () => {
+	showPasswordSection.value = false
+}
 
 onMounted(() => {
 	loadProfile()
@@ -353,107 +351,10 @@ onMounted(() => {
 				</div>
 
 				<div v-if="showPasswordSection" class="password-section">
-					<div class="section-header security-header">
-						<div class="section-title-wrapper">
-							<el-icon class="section-icon security-icon-large">
-								<lock/>
-							</el-icon>
-							<div>
-								<h3>修改密码</h3>
-								<p>为了账户安全，请设置新密码</p>
-							</div>
-						</div>
-						<div class="security-tip">
-							<el-icon class="tip-icon">
-								<lock/>
-							</el-icon>
-							<span>您的密码将被加密存储</span>
-						</div>
-					</div>
-
-					<el-form
-						ref="passwordFormRef"
-						:model="passwordForm"
-						:rules="passwordRules"
-						class="profile-form"
-					>
-						<div class="profile-page-mobile-form-section-form-item">
-							<label class="profile-page-mobile-form-section-form-label">
-								<el-icon class="label-icon">
-									<lock/>
-								</el-icon>
-								原密码
-							</label>
-							<el-form-item prop="oldPassword">
-								<el-input
-									v-model="passwordForm.oldPassword"
-									type="password"
-									placeholder="请输入原密码"
-									maxlength="16"
-									show-password
-									class="form-input security-input"
-								/>
-							</el-form-item>
-						</div>
-
-						<div class="profile-page-mobile-form-section-form-item">
-							<label class="profile-page-mobile-form-section-form-label">
-								<el-icon class="label-icon">
-									<lock/>
-								</el-icon>
-								新密码
-							</label>
-							<el-form-item prop="newPassword">
-								<el-input
-									v-model="passwordForm.newPassword"
-									type="password"
-									placeholder="请输入新密码（6-16位字符）"
-									maxlength="16"
-									show-password
-									class="form-input security-input"
-								/>
-							</el-form-item>
-							<div class="security-hint">
-								<el-icon class="hint-icon">
-									<lock/>
-								</el-icon>
-								<span>建议使用字母、数字和特殊字符组合</span>
-							</div>
-						</div>
-
-						<div class="profile-page-mobile-form-section-form-item">
-							<label class="profile-page-mobile-form-section-form-label">
-								<el-icon class="label-icon">
-									<lock/>
-								</el-icon>
-								确认新密码
-							</label>
-							<el-form-item prop="confirmPassword">
-								<el-input
-									v-model="passwordForm.confirmPassword"
-									type="password"
-									placeholder="请再次输入新密码"
-									maxlength="16"
-									show-password
-									class="form-input security-input"
-								/>
-							</el-form-item>
-						</div>
-
-						<div class="form-actions">
-							<el-button :disabled="isPasswordLoading" class="reset-btn" @click="cancelPasswordChange">
-								取消
-							</el-button>
-							<el-button
-								type="primary"
-								:loading="isPasswordLoading"
-								class="save-btn"
-								@click="confirmPasswordChange"
-							>
-								确认修改
-							</el-button>
-						</div>
-					</el-form>
+					<ProfilePageChangePasswordMobileForm
+						v-model="showPasswordSection"
+						@success="handlePasswordChangeSuccess"
+					/>
 				</div>
 			</div>
 		</div>
