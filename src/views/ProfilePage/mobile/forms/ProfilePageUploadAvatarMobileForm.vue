@@ -13,41 +13,33 @@ import { Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
 import { uploadAvatar, getAvatarUrl } from '@/api/student'
 import ProfilePageConfig from '@/views/ProfilePage/mobile/common/js/profile-page-common-config'
 import ProfilePageUtils from '@/views/ProfilePage/mobile/common/js/profile-page-common-utils'
-import {
-	cropDialogVisible,
-	cropCanvasRef,
-	cropWrapperRef,
-	cropBoxRef,
-	originalImageFile,
-	cropImage,
-	scale,
-	minScale,
-	imageX,
-	imageY,
-	isDragging,
-	dragStartX,
-	dragStartY,
-	dragStartImageX,
-	dragStartImageY,
-	mouseDownHandler,
-	mouseMoveHandler,
-	mouseUpHandler,
-	mouseLeaveHandler,
-	wheelHandler,
-	constrainImagePosition,
-	drawCropCanvas,
-	removeCropEvents,
-	setupCropEvents,
-	initCrop,
-	showCropDialog,
-	zoomIn,
-	zoomOut,
-	resetCrop,
-	closeCropDialog,
-	cancelCrop,
-	performCrop,
-	resetCropState
-} from '@/views/ProfilePage/mobile/forms/ts/ProfilePageUploadAvatarMobileForm.ts'
+import ImageCropper from '@/views/ProfilePage/mobile/forms/ts/ProfilePageUploadAvatarMobileForm.ts'
+
+const imageCropper = new ImageCropper()
+
+const cropDialogVisible = imageCropper.getCropDialogVisible()
+const cropCanvasRef = imageCropper.getCropCanvasRef()
+const cropWrapperRef = imageCropper.getCropWrapperRef()
+const cropBoxRef = imageCropper.getCropBoxRef()
+const originalImageFile = imageCropper.getOriginalImageFile()
+const cropImage = imageCropper.getCropImage()
+const scale = imageCropper.getScale()
+const minScale = imageCropper.getMinScale()
+const imageX = imageCropper.getImageX()
+const imageY = imageCropper.getImageY()
+const isDragging = imageCropper.getIsDragging()
+
+const removeCropEvents = () => imageCropper.removeCropEvents()
+const setupCropEvents = () => imageCropper.setupCropEvents()
+const initCrop = () => imageCropper.initCrop()
+const showCropDialog = (file: File) => imageCropper.showCropDialog(file)
+const zoomIn = () => imageCropper.zoomIn()
+const zoomOut = () => imageCropper.zoomOut()
+const resetCrop = () => imageCropper.resetCrop()
+const closeCropDialog = () => imageCropper.closeCropDialog()
+const cancelCrop = () => imageCropper.cancelCrop()
+const performCrop = (canvas: HTMLCanvasElement, cropBox: HTMLElement, img: HTMLImageElement) => imageCropper.performCrop(canvas, cropBox, img)
+
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
