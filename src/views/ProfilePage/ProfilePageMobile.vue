@@ -393,6 +393,7 @@ onMounted(() => {
 			width="90%"
 			:close-on-click-modal="true"
 			:close-on-press-escape="true"
+			@close="closePasswordDialog"
 			modal-class="profile-page-mobile-change-password-dialog-overlay"
 			class="profile-page-mobile-change-password-dialog"
 		>
