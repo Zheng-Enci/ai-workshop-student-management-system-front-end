@@ -451,8 +451,12 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public openPasswordDialog() {
+		console.log('[ProfilePageMobile] openPasswordDialog - 开始')
+		console.log('[ProfilePageMobile] openPasswordDialog - showPasswordDialog.value = true')
 		this.showPasswordDialog.value = true
+		console.log('[ProfilePageMobile] openPasswordDialog - 调用 resetPasswordForm')
 		this.resetPasswordForm()
+		console.log('[ProfilePageMobile] openPasswordDialog - 结束')
 	}
 
 	/**
@@ -463,12 +467,16 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public resetPasswordForm() {
+		console.log('[ProfilePageMobile] resetPasswordForm - 开始')
+		console.log('[ProfilePageMobile] resetPasswordForm - 重置表单数据')
 		this.passwordForm.oldPassword = ''
 		this.passwordForm.newPassword = ''
 		this.passwordForm.confirmPassword = ''
 		if (this.passwordFormRef.value) {
+			console.log('[ProfilePageMobile] resetPasswordForm - 清除表单验证')
 			this.passwordFormRef.value.clearValidate()
 		}
+		console.log('[ProfilePageMobile] resetPasswordForm - 结束')
 	}
 
 	/**
@@ -479,18 +487,23 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public closePasswordDialog() {
+		console.log('[ProfilePageMobile] closePasswordDialog - 开始')
 		const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
 		if (dialogWrapper) {
+			console.log('[ProfilePageMobile] closePasswordDialog - 设置淡出动画')
 			dialogWrapper.style.opacity = '0'
 		}
-
+		console.log('[ProfilePageMobile] closePasswordDialog - 重置表单数据')
 		this.passwordForm.newPassword = ''
 		this.passwordForm.confirmPassword = ''
+		console.log('[ProfilePageMobile] closePasswordDialog - showPasswordDialog.value = false')
 		this.showPasswordDialog.value = false
-
+		console.log('[ProfilePageMobile] closePasswordDialog - 设置延迟清理 oldPassword')
 		setTimeout(() => {
+			console.log('[ProfilePageMobile] closePasswordDialog - 清理 oldPassword')
 			this.passwordForm.oldPassword = ''
 		}, 300)
+		console.log('[ProfilePageMobile] closePasswordDialog - 结束')
 	}
 
 	/**
@@ -501,7 +514,9 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public cancelPasswordChange() {
+		console.log('[ProfilePageMobile] cancelPasswordChange - 开始')
 		this.closePasswordDialog()
+		console.log('[ProfilePageMobile] cancelPasswordChange - 结束')
 	}
 
 	/**

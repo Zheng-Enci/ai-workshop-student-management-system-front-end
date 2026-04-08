@@ -80,7 +80,9 @@ const handleAvatarUploadSuccess = () => profilePageMobile.handleAvatarUploadSucc
 const handleAvatarUploadError = () => profilePageMobile.handleAvatarUploadError()
 const toggleEditMode = () => profilePageMobile.toggleEditMode()
 const openPasswordDialog = () => {
+	console.log('[ProfilePageMobile.vue] openPasswordDialog - 开始')
 	profilePageMobile.openPasswordDialog()
+	console.log('[ProfilePageMobile.vue] openPasswordDialog - 结束')
 }
 const togglePasswordSection = () => {
 	profilePageMobile.togglePasswordSection()
