@@ -59,6 +59,11 @@ const imageY = profilePageMobile.imageY
 const isDragging = profilePageMobile.isDragging
 const isPinching = profilePageMobile.isPinching
 const isCropping = profilePageMobile.isCropping
+const initialPinchDistance = profilePageMobile.initialPinchDistance
+const dragStartX = profilePageMobile.dragStartX
+const dragStartY = profilePageMobile.dragStartY
+const dragStartImageX = profilePageMobile.dragStartImageX
+const dragStartImageY = profilePageMobile.dragStartImageY
 
 const goBack = () => profilePageMobile.goBack()
 const toggleTheme = () => profilePageMobile.toggleTheme()
@@ -96,60 +101,8 @@ onMounted(() => {
  * 6. 重置加载状态
  * @returns {Promise<void>} 异步操作完成的Promise
  */
-const loadProfile = async () => {
-	try {
-		// 显示全局加载蒙版
-		loadingMaskStore.showLoadingMask('正在加载个人信息...')
-		isLoading.value = true
-		try {
-			const token = localStorage.getItem('token')
-			if (!token) {
-				ElMessage.error('请先登录')
-				router.push('/login')
-				return
-			}
 
-			const [profileResponse, attendanceResponse, studentIdResponse] = await Promise.all([
-				getStudentProfile(token),
-				getMyAttendanceCount(token),
-				getStudentDatabaseTableId(token)
-			])
-
-			if (profileResponse.code === 200) {
-				Object.assign(formData, profileResponse.data)
-				originalData.value = { ...profileResponse.data }
-			} else {
-				ElMessage.error(profileResponse.message || '获取个人信息失败')
-			}
-
-			if (attendanceResponse.code === 200) {
-				attendanceCount.value = attendanceResponse.data.count
-			}
-
-			if (studentIdResponse.code === 200) {
-				studentInfoId.value = studentIdResponse.data
-				await loadAvatar()
-			}
-		} catch (error) {
-			ElMessage.error(`获取个人信息失败：${error.message}`)
-			if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
-				localStorage.removeItem('token')
-				localStorage.removeItem('userInfo')
-				router.push('/login')
-			}
-		} finally {
-			isLoading.value = false
-		}
-	} catch (error) {
-		console.error('加载个人信息失败：', error)
-	} finally {
-		// 隐藏全局加载蒙版
-		loadingMaskStore.hideLoadingMask()
-	}
-}
-
-/**
- * 加载用户头像
+const loadAvatar = async () => {
  * @function loadAvatar
  * @description 根据学生ID获取并验证头像URL，确保头像存在后再显示
  * 1. 验证学生ID是否存在
