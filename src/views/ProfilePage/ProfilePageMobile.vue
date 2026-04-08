@@ -149,7 +149,7 @@ onMounted(() => {
 					</div>
 				</div>
 
-				<div v-if="!showPasswordSection" class="profile-page-mobile-form-section">
+				<div v-if="!showPasswordDialog" class="profile-page-mobile-form-section">
 				<div class="profile-page-mobile-form-section-header">
 					<div class="profile-page-mobile-form-section-title-wrapper">
 						<div>
