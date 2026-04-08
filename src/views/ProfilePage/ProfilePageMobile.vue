@@ -24,11 +24,22 @@ import { ArrowLeft, User, Edit, Lock, Calendar, Camera, ZoomIn, ZoomOut } from '
 
 import LoadingMask from '@/components/LoadingMask.vue'
 import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageUploadAvatarMobileForm.vue'
-import ProfilePageChangePasswordMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageChangePasswordMobileForm.vue'
+import ProfilePageChangePasswordMobileForm from '@/views/ProfilePage/mobile/forms/ts/ProfilePageChangePasswordMobileForm'
 import ProfilePageMobile from '@/views/ProfilePage/mobile/ts/ProfilePageMobile'
+import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/el-form.css'
+import 'element-plus/theme-chalk/el-form-item.css'
+import 'element-plus/theme-chalk/el-input.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-dialog.css'
+import 'element-plus/theme-chalk/el-overlay.css'
+import 'element-plus/theme-chalk/el-scrollbar.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-user-info.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-header.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-form-section.css'
+import '@/views/ProfilePage/mobile/forms/css/ProfilePageChangePasswordMobileForm.css'
 
 const profilePageMobile = new ProfilePageMobile()
 
@@ -369,7 +380,99 @@ onMounted(() => {
 			class="profile-page-mobile-change-password-dialog"
 			@close="closePasswordDialog"
 		>
-			<ProfilePageChangePasswordMobileForm v-model="showPasswordDialog" @success="closePasswordDialog" />
+			<div class="profile-page-change-password-mobile-form-wrapper">
+				<el-form
+					ref="passwordFormRef"
+					:model="passwordForm"
+					:rules="passwordRules"
+					class="profile-page-change-password-mobile-form"
+					label-position="top"
+				>
+					<div class="profile-page-change-password-mobile-form-grid">
+						<div class="profile-page-change-password-mobile-form-item">
+							<label class="profile-page-change-password-mobile-form-label">
+								<el-icon class="profile-page-change-password-mobile-form-label-icon">
+									<lock/>
+								</el-icon>
+								原密码
+							</label>
+							<el-form-item prop="oldPassword">
+								<el-input
+									v-model="passwordForm.oldPassword"
+									type="password"
+									placeholder="请输入原密码"
+									maxlength="16"
+									show-password
+									class="profile-page-change-password-mobile-form-input"
+								/>
+							</el-form-item>
+						</div>
+
+						<div class="profile-page-change-password-mobile-form-item">
+							<label class="profile-page-change-password-mobile-form-label">
+								<el-icon class="profile-page-change-password-mobile-form-label-icon">
+									<lock/>
+								</el-icon>
+								新密码
+							</label>
+							<el-form-item prop="newPassword">
+								<el-input
+									v-model="passwordForm.newPassword"
+									type="password"
+									placeholder="请输入新密码（6-16位字符）"
+									maxlength="16"
+									show-password
+									class="profile-page-change-password-mobile-form-input"
+								/>
+							</el-form-item>
+							<div class="profile-page-change-password-mobile-form-security-hint">
+								<el-icon class="profile-page-change-password-mobile-form-hint-icon">
+									<lock/>
+								</el-icon>
+								<span>建议使用字母、数字和特殊字符组合</span>
+							</div>
+						</div>
+
+						<div class="profile-page-change-password-mobile-form-item">
+							<label class="profile-page-change-password-mobile-form-label">
+								<el-icon class="profile-page-change-password-mobile-form-label-icon">
+									<lock/>
+								</el-icon>
+								确认新密码
+							</label>
+							<el-form-item prop="confirmPassword">
+								<el-input
+									v-model="passwordForm.confirmPassword"
+									type="password"
+									placeholder="请再次输入新密码"
+									maxlength="16"
+									show-password
+									class="profile-page-change-password-mobile-form-input"
+								/>
+							</el-form-item>
+						</div>
+					</div>
+
+					<div class="profile-page-change-password-mobile-form-actions">
+						<el-button
+							:disabled="isPasswordLoading"
+							class="profile-page-change-password-mobile-form-reset-btn"
+							@click="cancelPasswordChange"
+						>
+							取消
+						</el-button>
+						<el-button
+							type="primary"
+							:loading="isPasswordLoading"
+							:disabled="isPasswordLoading"
+							class="profile-page-change-password-mobile-form-save-btn"
+							@click="confirmPasswordChange"
+						>
+							确认修改
+						</el-button>
+					</div>
+				</el-form>
+			</div>
 		</el-dialog>
 	</div>
 </template>
