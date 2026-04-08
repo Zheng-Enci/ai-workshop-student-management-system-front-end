@@ -566,8 +566,7 @@ export default class ProfilePageMobile {
 
 				if (response.code === 200) {
 					ElMessage.success('密码修改成功')
-					this.showPasswordDialog.value = false
-					this.resetPasswordForm()
+					this.closePasswordDialog()
 				} else {
 					ElMessage.error(response.message || '修改密码失败')
 				}
