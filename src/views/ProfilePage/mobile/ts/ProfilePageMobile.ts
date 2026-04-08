@@ -538,6 +538,8 @@ export default class ProfilePageMobile {
 		console.log('[ProfilePageMobile] closePasswordDialog - 重置表单数据')
 		this.passwordForm.newPassword = ''
 		this.passwordForm.confirmPassword = ''
+		console.log('[ProfilePageMobile] closePasswordDialog - showPasswordDialog.value = false')
+		this.showPasswordDialog.value = false
 		console.log('[ProfilePageMobile] closePasswordDialog - 设置延迟清理 oldPassword')
 		setTimeout(() => {
 			console.log('[ProfilePageMobile] closePasswordDialog - 清理 oldPassword')
