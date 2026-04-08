@@ -468,6 +468,7 @@ export default class ProfilePageMobile {
 		console.log(`[ProfilePageMobile] openPasswordDialog - 开始 (第${this.passwordDialogClickCount}次点击)`)
 		// 强制重置isPasswordDialogClosing为false，确保对话框可以正常打开
 		this.isPasswordDialogClosing.value = false
+		console.log(`[ProfilePageMobile] openPasswordDialog - 当前showPasswordDialog.value = ${this.showPasswordDialog.value}`)
 		console.log('[ProfilePageMobile] openPasswordDialog - showPasswordDialog.value = true')
 		this.showPasswordDialog.value = true
 		// 延迟设置透明度，确保对话框已经显示
