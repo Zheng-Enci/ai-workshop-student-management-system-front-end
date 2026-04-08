@@ -51,6 +51,7 @@ import LoadingMask from '@/components/LoadingMask.vue'
 import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageUploadAvatarMobileForm.vue'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-user-info.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-header.css'
+import '@/views/ProfilePage/mobile/css/profile-page-mobile-form-section.css'
 
 // ===================== 全局实例初始化 =====================
 /**
@@ -1550,72 +1551,72 @@ onMounted(() => {
 					</div>
 				</div>
 
-				<div v-if="!showPasswordSection" class="form-section">
-					<div class="section-header">
-						<div class="section-title-wrapper">
-							<div>
-								<h3>基本信息</h3>
-								<p>管理您的个人资料信息</p>
-							</div>
-							<el-button
-								type="primary"
-								:icon="Edit"
-								:disabled="isLoading"
-								class="edit-btn"
-								@click="toggleEditMode"
-							>
-								{{ isEditing ? '取消' : '编辑' }}
-							</el-button>
+				<div v-if="!showPasswordSection" class="profile-page-mobile-form-section">
+				<div class="profile-page-mobile-section-header">
+					<div class="profile-page-mobile-section-title-wrapper">
+						<div>
+							<h3>基本信息</h3>
+							<p>管理您的个人资料信息</p>
 						</div>
-						<div class="security-badge">
-							<el-icon class="badge-icon">
-								<lock/>
-							</el-icon>
-							<span>安全保护</span>
-						</div>
+						<el-button
+							type="primary"
+							:icon="Edit"
+							:disabled="isLoading"
+							class="profile-page-mobile-edit-btn"
+							@click="toggleEditMode"
+						>
+							{{ isEditing ? '取消' : '编辑' }}
+						</el-button>
 					</div>
+					<div class="profile-page-mobile-security-badge">
+						<el-icon class="badge-icon">
+							<lock/>
+						</el-icon>
+						<span>安全保护</span>
+					</div>
+				</div>
 
-					<el-form
-						ref="formRef"
-						:model="formData"
-						:rules="rules"
-						class="profile-form"
-					>
-						<div class="form-grid">
-							<div class="form-item">
-								<label class="form-label">姓名</label>
+				<el-form
+					ref="formRef"
+					:model="formData"
+					:rules="rules"
+					class="profile-page-mobile-profile-form"
+				>
+					<div class="profile-page-mobile-form-grid">
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">姓名</label>
 								<el-form-item prop="name">
 									<el-input
 										v-model="formData.name"
 										:disabled="!isEditing"
 										placeholder="请输入姓名"
 										maxlength="20"
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									/>
 								</el-form-item>
 							</div>
 
-							<div class="form-item">
-								<label class="form-label">学号</label>
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">学号</label>
 								<el-form-item prop="studentId">
 									<el-input
 										v-model="formData.studentId"
 										:disabled="!isEditing"
 										placeholder="请输入学号"
 										maxlength="10"
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									/>
 								</el-form-item>
 							</div>
 
-							<div class="form-item">
-								<label class="form-label">性别</label>
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">性别</label>
 								<el-form-item prop="gender">
 									<el-select
 										v-model="formData.gender"
 										:disabled="!isEditing"
 										placeholder="请选择性别"
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									>
 										<el-option label="男" value="男"/>
 										<el-option label="女" value="女"/>
@@ -1623,53 +1624,53 @@ onMounted(() => {
 								</el-form-item>
 							</div>
 
-							<div class="form-item">
-								<label class="form-label">手机号</label>
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">手机号</label>
 								<el-form-item prop="phoneNumber">
 									<el-input
 										v-model="formData.phoneNumber"
 										:disabled="!isEditing"
 										placeholder="请输入手机号"
 										maxlength="11"
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									/>
 								</el-form-item>
 							</div>
 
-							<div class="form-item">
-								<label class="form-label">学院</label>
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">学院</label>
 								<el-form-item prop="college">
 									<el-input
 										v-model="formData.college"
 										:disabled="!isEditing"
 										placeholder="请输入学院"
 										maxlength="50"
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									/>
 								</el-form-item>
 							</div>
 
-							<div class="form-item">
-								<label class="form-label">专业</label>
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">专业</label>
 								<el-form-item prop="major">
 									<el-input
 										v-model="formData.major"
 										:disabled="!isEditing"
 										placeholder="请输入专业"
 										maxlength="50"
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									/>
 								</el-form-item>
 							</div>
 
-							<div class="form-item">
-								<label class="form-label">年级</label>
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">年级</label>
 								<el-form-item prop="grade">
 									<el-select
 										v-model="formData.grade"
 										:disabled="!isEditing"
 										placeholder="请选择年级"
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									>
 										<el-option label="1年级" :value="1"/>
 										<el-option label="2年级" :value="2"/>
@@ -1680,8 +1681,8 @@ onMounted(() => {
 								</el-form-item>
 							</div>
 
-							<div class="form-item">
-								<label class="form-label">班级</label>
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">班级</label>
 								<el-form-item prop="classNum">
 									<el-input-number
 										v-model="formData.classNum"
@@ -1689,13 +1690,13 @@ onMounted(() => {
 										:min="1"
 										:max="100"
 										placeholder="请输入班级"
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									/>
 								</el-form-item>
 							</div>
 
-							<div class="form-item">
-								<label class="form-label">当前密码</label>
+							<div class="profile-page-mobile-form-item">
+								<label class="profile-page-mobile-form-label">当前密码</label>
 								<el-form-item prop="password">
 									<el-input
 										v-model="formData.password"
@@ -1704,7 +1705,7 @@ onMounted(() => {
 										placeholder="请输入当前密码以确认身份"
 										maxlength="16"
 										show-password
-										class="form-input"
+										class="profile-page-mobile-form-input"
 									/>
 								</el-form-item>
 							</div>
@@ -1778,8 +1779,8 @@ onMounted(() => {
 						:rules="passwordRules"
 						class="profile-form"
 					>
-						<div class="form-item">
-							<label class="form-label">
+						<div class="profile-page-mobile-form-item">
+							<label class="profile-page-mobile-form-label">
 								<el-icon class="label-icon">
 									<lock/>
 								</el-icon>
@@ -1797,8 +1798,8 @@ onMounted(() => {
 							</el-form-item>
 						</div>
 
-						<div class="form-item">
-							<label class="form-label">
+						<div class="profile-page-mobile-form-item">
+							<label class="profile-page-mobile-form-label">
 								<el-icon class="label-icon">
 									<lock/>
 								</el-icon>
@@ -1822,8 +1823,8 @@ onMounted(() => {
 							</div>
 						</div>
 
-						<div class="form-item">
-							<label class="form-label">
+						<div class="profile-page-mobile-form-item">
+							<label class="profile-page-mobile-form-label">
 								<el-icon class="label-icon">
 									<lock/>
 								</el-icon>
@@ -1871,3 +1872,4 @@ onMounted(() => {
 
 <style scoped>
 </style>
+
