@@ -940,9 +940,9 @@ watch(() => props.studentInfoId, newId => {
 			class="profile-page-upload-avatar-mobile-form-dialog"
 			@close="closeCropDialog"
 		>
-			<div class="profile-page-upload-avatar-mobile-form-container">
+			<div class="profile-page-upload-avatar-mobile-form-canvas-container">
 				<!-- 裁剪画布包装器 -->
-				<div ref="cropWrapperRef" class="profile-page-upload-avatar-mobile-form-wrapper">
+				<div ref="cropWrapperRef" class="profile-page-upload-avatar-mobile-form-canvas-wrapper">
 					<canvas ref="cropCanvasRef" class="profile-page-upload-avatar-mobile-form-canvas"/>
 					<div ref="cropBoxRef" class="profile-page-upload-avatar-mobile-form-box"/>
 				</div>
