@@ -16,13 +16,13 @@
 
 // ===================== 依赖导入区 =====================
 // Element Plus 图标组件导入
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, ArrowRight, Trophy, Coin, Document, TrendCharts, Setting } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, Trophy, Coin, Document, TrendCharts, Setting } from '@element-plus/icons-vue'
 // Element Plus 核心组件导入
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
 // Vue3 核心API导入
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, type Ref } from 'vue'
 // Vue Router 路由功能导入
-import { useRouter } from 'vue-router'
+import { useRouter, type Router } from 'vue-router'
 
 // 业务API导入
 import { getMyAttendanceCount } from '@/api/attendance'
