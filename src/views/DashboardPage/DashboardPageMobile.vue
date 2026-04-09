@@ -149,6 +149,23 @@ const selectedTopN = 16
  * @description 存储排行榜的学生数据列表
  */
 const rankingData = ref([])
+
+let cachedGradeData = null
+let cachedMajorData = null
+let cachedAttendanceData = null
+
+const initCharts = () => {
+	if (cachedGradeData) {
+		initGradeChart(cachedGradeData)
+	}
+	if (cachedMajorData) {
+		initMajorChart(cachedMajorData)
+	}
+	if (cachedAttendanceData) {
+		initAttendanceChart(cachedAttendanceData)
+	}
+}
+
 /**
  * 考勤图表DOM引用
  * @type {Ref<HTMLElement|null>}
@@ -511,11 +528,13 @@ const loadData = async () => {
 
 		if (gradeData.code === 200 && gradeData.data) {
 			await nextTick()
+			cachedGradeData = gradeData.data
 			initGradeChart(gradeData.data)
 		}
 
 		if (majorData.code === 200 && majorData.data) {
 			await nextTick()
+			cachedMajorData = majorData.data
 			initMajorChart(majorData.data)
 		}
 
@@ -731,6 +750,7 @@ const loadRankingData = async () => {
 
 			rankingData.value = processedData
 			saveUserPreferences()
+			cachedAttendanceData = processedData
 			await nextTick()
 			initAttendanceChart(processedData)
 		} else {
