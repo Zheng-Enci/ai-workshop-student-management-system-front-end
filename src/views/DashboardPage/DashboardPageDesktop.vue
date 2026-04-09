@@ -41,10 +41,10 @@ import {useRouter} from 'vue-router'
 import 'echarts-wordcloud'
 
 // ======================== 导入验证码管理类 ========================
-import VerificationCode from './ts/verificationCode'
+import VerificationCode from './desktop/ts/verificationCode'
 
 // ======================== 数据加载器 ========================
-import DashboardDataLoader from './ts/DashboardDataLoader'
+import DashboardDataLoader from './common/ts/DashboardDataLoader'
 
 // ======================== API 接口导入区 ========================
 // 考勤相关接口
@@ -1198,15 +1198,15 @@ echarts.use([
 
 <!-- 全局样式：头部区域 -->
 <style>
-@import './css/desktop/dashboard-desktop-header.css';
-@import './css/desktop/dashboard-desktop-ranking.css';
-@import './css/desktop/dashboard-desktop-overview.css';
-@import './css/desktop/dashboard-desktop-verification.css';
-@import './css/desktop/dashboard-desktop-qrcode.css';
-@import './css/desktop/dashboard-desktop-qrcode-switch.css';
-@import './css/desktop/dashboard-desktop-phone-display.css';
-@import './css/desktop/dashboard-desktop-footer.css';
-@import './css/DashboardPageDesktop.css';
+@import './desktop/css/desktop/dashboard-desktop-header.css';
+@import './desktop/css/desktop/dashboard-desktop-ranking.css';
+@import './desktop/css/desktop/dashboard-desktop-overview.css';
+@import './desktop/css/desktop/dashboard-desktop-verification.css';
+@import './desktop/css/desktop/dashboard-desktop-qrcode.css';
+@import './desktop/css/desktop/dashboard-desktop-qrcode-switch.css';
+@import './desktop/css/desktop/dashboard-desktop-phone-display.css';
+@import './desktop/css/desktop/dashboard-desktop-footer.css';
+@import './desktop/css/DashboardPageDesktop.css';
 </style>
 
 <!-- 全局样式：时间筛选器和单选按钮样式 -->

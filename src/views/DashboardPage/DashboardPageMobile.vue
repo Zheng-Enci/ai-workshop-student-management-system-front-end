@@ -71,7 +71,7 @@ const themeStore = useThemeStore()
 
 // ===================== 样式导入 ====================
 // 导入移动端CSS样式
-import '@/views/DashboardPage/css/DashboardPageMobile.css'
+import '@/views/DashboardPage/mobile/css/DashboardPageMobile.css'
 
 // ===================== 响应式变量定义区 =====================
 /**
