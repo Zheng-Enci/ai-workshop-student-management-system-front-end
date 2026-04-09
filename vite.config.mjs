@@ -230,6 +230,7 @@ export default defineConfig(({ mode }) => {
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
         manualChunks: {

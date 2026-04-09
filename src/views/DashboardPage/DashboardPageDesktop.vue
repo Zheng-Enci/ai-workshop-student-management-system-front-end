@@ -339,38 +339,6 @@ onUnmounted(() => {
 
 <!-- 全局样式：头部区域 -->
 <style>
-/* 直接内联关键样式，确保生产环境也能生效 */
-.dashboard-desktop-header-back-btn {
-    width: 40px !important;
-    height: 40px !important;
-    margin-left: 10px !important;
-    background: var(--primary-color) !important;
-    border: none !important;
-    border-radius: 50% !important;
-    box-shadow: 0 4px 12px rgb(102 126 234 / 0.3) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.dashboard-desktop-ranking-time-select {
-    width: 120px !important;
-}
-
-.dashboard-desktop-ranking-time-select .el-input__wrapper {
-    border-radius: 8px !important;
-    padding: 0 12px !important;
-}
-
-.dashboard-desktop-ranking-time-select .el-input__inner {
-    color: var(--text-primary) !important;
-}
-
-.dashboard-desktop-ranking-time-select .el-select__caret {
-    color: var(--text-primary) !important;
-}
-
-/* 导入其他样式文件 */
 @import './desktop/css/dashboard-desktop-header.css';
 @import './desktop/css/dashboard-desktop-ranking.css';
 @import './desktop/css/dashboard-desktop-overview.css';
