@@ -5,8 +5,8 @@
  * @description 提供用户个人信息的查看、编辑、密码修改和头像上传功能(移动端适配)
  * @component ProfilePageMobile
  */
-import { onMounted, ref } from 'vue'
-import { ElButton, ElIcon, ElInput, ElSelect, ElOption, ElFormItem, ElForm, ElInputNumber, ElDialog, ElOverlay } from 'element-plus'
+import { onMounted } from 'vue'
+import { ElButton, ElIcon, ElInput, ElSelect, ElOption, ElFormItem, ElForm, ElInputNumber } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -20,7 +20,7 @@ import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
 import 'element-plus/theme-chalk/base.css'
-import { ArrowLeft, User, Edit, Lock, Calendar, Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
+import { ArrowLeft, Edit, Lock, Calendar } from '@element-plus/icons-vue'
 
 import LoadingMask from '@/components/LoadingMask.vue'
 import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageUploadAvatarMobileForm.vue'
@@ -50,29 +50,9 @@ const isEditing = profilePageMobile.isEditing
 const attendanceCount = profilePageMobile.attendanceCount
 const studentInfoId = profilePageMobile.studentInfoId
 const avatarUrl = profilePageMobile.avatarUrl
-const avatarLoading = profilePageMobile.avatarLoading
-const isUploading = profilePageMobile.isUploading
 const formData = profilePageMobile.formData
 const rules = profilePageMobile.rules
-const originalData = profilePageMobile.originalData
-const cropDialogVisible = profilePageMobile.cropDialogVisible
-const cropCanvasRef = profilePageMobile.cropCanvasRef
-const cropWrapperRef = profilePageMobile.cropWrapperRef
-const cropBoxRef = profilePageMobile.cropBoxRef
-const originalImageFile = profilePageMobile.originalImageFile
-const cropImage = profilePageMobile.cropImage
-const scale = profilePageMobile.scale
-const minScale = profilePageMobile.minScale
-const imageX = profilePageMobile.imageX
-const imageY = profilePageMobile.imageY
-const isDragging = profilePageMobile.isDragging
-const isPinching = profilePageMobile.isPinching
-const isCropping = profilePageMobile.isCropping
 const showPasswordDialog = profilePageMobile.showPasswordDialog
-const passwordForm = profilePageMobile.passwordForm
-const passwordRules = profilePageMobile.passwordRules
-const isPasswordLoading = profilePageMobile.isPasswordLoading
-const passwordFormRef = profilePageMobile.passwordFormRef
 
 const goBack = () => profilePageMobile.goBack()
 const toggleTheme = () => profilePageMobile.toggleTheme()
@@ -83,33 +63,11 @@ const toggleEditMode = () => profilePageMobile.toggleEditMode()
 const openPasswordDialog = () => {
 	profilePageMobile.openPasswordDialog()
 }
-const togglePasswordSection = () => {
-	profilePageMobile.togglePasswordSection()
-}
 const resetForm = () => profilePageMobile.resetForm()
-const resetPasswordForm = () => {
-	profilePageMobile.resetPasswordForm()
-}
-
 const saveProfile = () => profilePageMobile.saveProfile()
-
 const closePasswordDialog = () => {
 	profilePageMobile.closePasswordDialog()
 }
-const confirmPasswordChange = () => {
-	profilePageMobile.confirmPasswordChange()
-}
-const showCropDialog = (file) => profilePageMobile.showCropDialog(file)
-const initCrop = () => profilePageMobile.initCrop()
-const constrainImagePosition = () => profilePageMobile.constrainImagePosition()
-const drawCropCanvas = () => profilePageMobile.drawCropCanvas()
-const setupCropEvents = () => profilePageMobile.setupCropEvents()
-const removeCropEvents = () => profilePageMobile.removeCropEvents()
-const zoomIn = () => profilePageMobile.zoomIn()
-const zoomOut = () => profilePageMobile.zoomOut()
-const resetCrop = () => profilePageMobile.resetCrop()
-const cancelCrop = () => profilePageMobile.cancelCrop()
-const confirmCrop = () => profilePageMobile.confirmCrop()
 
 onMounted(() => {
 	loadProfile()
