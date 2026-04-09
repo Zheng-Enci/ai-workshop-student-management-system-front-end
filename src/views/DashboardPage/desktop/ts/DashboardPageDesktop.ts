@@ -8,12 +8,14 @@ import { ref, reactive, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar } from '@element-plus/icons-vue'
-import { PieChart, BarChart } from 'echarts/charts'
+import { PieChart, BarChart, WordCloudChart } from 'echarts/charts'
 import {
 	TitleComponent,
 	TooltipComponent,
 	GridComponent,
-	LegendComponent
+	LegendComponent,
+	TooltipComponent as EchartsTooltipComponent,
+	LegendComponent as EchartsLegendComponent
 } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
@@ -148,6 +150,17 @@ export default class DashboardPageDesktop {
 		this.router = useRouter()
 		this.themeStore = useThemeStore()
 		this.loadingMaskStore = useLoadingMaskStore()
+
+		// 注册 ECharts 组件和图表
+		echarts.use([
+			PieChart,
+			BarChart,
+			WordCloudChart,
+			TitleComponent,
+			TooltipComponent,
+			GridComponent,
+			LegendComponent
+		])
 
 		this.dataLoader = new DashboardDataLoader(
 			this.topStudents,
