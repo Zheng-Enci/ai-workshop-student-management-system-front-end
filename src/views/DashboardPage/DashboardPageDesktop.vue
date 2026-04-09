@@ -785,6 +785,7 @@ const loadData = async () => {
 		}
 
 		await dataLoader.loadRankingData(selectedTopN)
+		initAttendanceChart(topStudents.value)
 		await dataLoader.loadLevelStats()
 
 		dataLoader.updateClubMembers()
