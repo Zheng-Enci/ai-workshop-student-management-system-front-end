@@ -719,18 +719,15 @@ export default class DashboardPageDesktop {
 	public async handleTimeRangeChange(): Promise<void> {
 		try {
 			this.loadingMaskStore.showLoadingMask('正在加载数据...')
-			
+
 			await this.dataLoader.loadRankingData()
-			
+
 			await nextTick()
-			if (this.attendanceChartInstance) {
-				this.attendanceChartInstance.setOption({
-					series: [{
-						data: this.dataLoader.getRankingData().map(item => item.attendanceCount)
-					}]
-				})
-			}
-			
+
+			const rankingData = this.dataLoader.getRankingData()
+
+			this.initAttendanceChart(rankingData)
+
 			this.saveUserPreferences()
 			this.loadingMaskStore.hideLoadingMask()
 		} catch (error) {
