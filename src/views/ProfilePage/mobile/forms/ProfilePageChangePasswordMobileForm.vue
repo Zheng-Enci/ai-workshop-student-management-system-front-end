@@ -49,7 +49,7 @@ const props = defineProps({
 })
 
 // ======================== Emits ========================
-const emit = defineEmits(['update:modelValue', 'success'])
+const emit = defineEmits(['update:modelValue', 'success', 'close'])
 
 // ======================== 计算属性 ========================
 const dialogVisibleComputed = computed({

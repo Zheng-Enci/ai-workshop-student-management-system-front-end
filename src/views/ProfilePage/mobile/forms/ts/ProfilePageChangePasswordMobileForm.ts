@@ -148,7 +148,7 @@ export default class ProfilePageChangePasswordMobileForm {
 				this.resetForm()
 				// 通知父组件密码修改成功并关闭对话框
 				emit('success')
-				emit('update:modelValue', false)
+				emit('close')
 			} else {
 				ElMessage.error(response.message || '修改密码失败')
 			}
