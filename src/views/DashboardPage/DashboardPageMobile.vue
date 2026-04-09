@@ -54,6 +54,7 @@ import {
 	getStudentCountByLevel
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
+import { useLoadingMaskStore } from '@/stores/loading'
 
 // ===================== 全局实例初始化 =====================
 /**
@@ -68,6 +69,12 @@ const router = useRouter()
  * @description 管理应用主题切换(亮色/暗色模式)
  */
 const themeStore = useThemeStore()
+/**
+ * 全局加载蒙版状态仓库实例
+ * @type {Store}
+ * @description 管理全局加载蒙版的显示和隐藏
+ */
+const loadingMaskStore = useLoadingMaskStore()
 
 // ===================== 样式导入 ====================
 // 导入移动端CSS样式
@@ -512,6 +519,8 @@ const initMajorChart = data => {
 
 const loadData = async () => {
 	try {
+		loadingMaskStore.showLoadingMask('正在加载数据...')
+
 		const [
 			gradeData,
 			majorData,
@@ -558,7 +567,10 @@ const loadData = async () => {
 
 		// 重新计算社团成员数量
 		calculateClubMembers()
+
+		loadingMaskStore.hideLoadingMask()
 	} catch (error) {
+		loadingMaskStore.hideLoadingMask()
 		ElMessage.error(`数据加载失败: ${error.message || '未知错误'}`)
 	}
 }
