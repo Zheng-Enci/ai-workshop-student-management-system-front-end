@@ -68,6 +68,8 @@ import {
 } from '@/api/student'
 // 主题状态管理
 import {useThemeStore} from '@/stores/theme'
+// 全局加载蒙版状态管理
+import {useLoadingMaskStore} from '@/stores/loading'
 
 // ======================== 全局实例与状态初始化 ========================
 // 路由实例
@@ -75,6 +77,8 @@ const router = useRouter()
 // 主题仓库实例
 const themeStore = useThemeStore()
 const {toggleTheme} = themeStore
+// 全局加载蒙版实例
+const loadingMaskStore = useLoadingMaskStore()
 
 // ECharts DOM容器引用（模板ref绑定）
 const gradeChart = ref(null) // 年级分布图表容器
@@ -759,6 +763,7 @@ const loadLevelStats = async () => {
  * 并行加载：年级统计、专业统计、学生总数、月度签到、今日签到
  */
 const loadData = async () => {
+	loadingMaskStore.showLoadingMask('正在加载数据看板...')
 	try {
 		const { gradeData, majorData, totalData, monthlyData, dailyData } = await dataLoader.loadData()
 
@@ -796,6 +801,8 @@ const loadData = async () => {
 		})
 	} catch (error) {
 		ElMessage.error(`数据加载失败：${error.message}`)
+	} finally {
+		loadingMaskStore.hideLoadingMask()
 	}
 }
 
