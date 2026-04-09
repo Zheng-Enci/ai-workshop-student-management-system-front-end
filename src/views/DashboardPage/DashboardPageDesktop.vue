@@ -586,6 +586,7 @@ const initAttendanceChart = data => {
 				barWidth: '60%', // 柱子宽度
 				animationDuration: 1000, // 动画时长1秒
 				animationEasing: 'cubicOut', // 缓动函数
+				universalTransition: true, // 启用通用过渡动画
 				itemStyle: {
 					// 动态颜色（区分不同排名）
 					color(params) {
