@@ -843,8 +843,8 @@ onBeforeUnmount(() => {
 					</div>
 				</div>
 
-				<!-- 管理功能分组（管理员可见） -->
-				<div v-if="isAdmin" class="navigation-page-mobile-nav-sections-item">
+				<!-- 管理功能分组（所有用户可见） -->
+				<div class="navigation-page-mobile-nav-sections-item">
 					<div class="navigation-page-mobile-nav-sections-header">
 						<div class="navigation-page-mobile-nav-sections-title">
 							<el-icon class="navigation-page-mobile-nav-sections-icon"><user-filled /></el-icon>
