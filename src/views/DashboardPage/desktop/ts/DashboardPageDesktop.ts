@@ -550,6 +550,9 @@ export default class DashboardPageDesktop {
 		const sortedData = [...data].sort((a, b) => b.attendanceCount - a.attendanceCount)
 		const isDark = this.themeStore.isDarkMode
 
+		// 缓存 sortedData 以供 ECharts formatter 使用
+		const cachedSortedData = sortedData
+
 		const option = {
 			animation: true,
 			animationDuration: 3000,
@@ -567,7 +570,7 @@ export default class DashboardPageDesktop {
 					color: isDark ? '#ffffff' : '#2c3e50'
 				},
 				formatter(params) {
-					const itemData = sortedData[params[0].dataIndex]
+					const itemData = cachedSortedData[params[0].dataIndex]
 					return `${itemData.name} (${itemData.levelName})\n${itemData.grade}年级 - ${itemData.major}\n签到次数: ${itemData.attendanceCount}次`
 				}
 			},
@@ -580,7 +583,7 @@ export default class DashboardPageDesktop {
 			},
 			xAxis: {
 				type: 'value',
-				max: sortedData.length > 0 ? sortedData[0].attendanceCount : null,
+				max: cachedSortedData.length > 0 ? cachedSortedData[0].attendanceCount : null,
 				axisLabel: {
 					fontSize: 11,
 					formatter: '{value}次',
@@ -595,7 +598,7 @@ export default class DashboardPageDesktop {
 			yAxis: {
 				type: 'category',
 				inverse: true,
-				data: sortedData.map(item => `${item.name} (${item.levelName})`),
+				data: cachedSortedData.map(item => `${item.name} (${item.levelName})`),
 				axisLabel: {
 					interval: 0,
 					fontSize: 11,
@@ -610,7 +613,7 @@ export default class DashboardPageDesktop {
 			series: [{
 				name: '签到次数',
 				type: 'bar',
-				data: sortedData.map(item => item.attendanceCount),
+				data: cachedSortedData.map(item => item.attendanceCount),
 				barWidth: '60%',
 				animation: true,
 				animationDuration: 3000,
