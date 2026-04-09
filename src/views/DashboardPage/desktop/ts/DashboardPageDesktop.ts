@@ -8,21 +8,19 @@ import { ref, reactive, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar } from '@element-plus/icons-vue'
-import { PieChart, BarChart, WordCloudChart } from 'echarts/charts'
+import { PieChart, BarChart } from 'echarts/charts'
 import {
 	TitleComponent,
 	TooltipComponent,
 	GridComponent,
-	LegendComponent,
-	TooltipComponent as EchartsTooltipComponent,
-	LegendComponent as EchartsLegendComponent
+	LegendComponent
 } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
+import 'echarts-wordcloud'
 import { ElProgress } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-progress.css'
-import 'echarts-wordcloud'
 import VerificationCode from './verificationCode'
 import DashboardDataLoader from '@/views/DashboardPage/common/ts/DashboardDataLoader'
 import {
@@ -155,11 +153,11 @@ export default class DashboardPageDesktop {
 		echarts.use([
 			PieChart,
 			BarChart,
-			WordCloudChart,
 			TitleComponent,
 			TooltipComponent,
 			GridComponent,
-			LegendComponent
+			LegendComponent,
+			CanvasRenderer
 		])
 
 		this.dataLoader = new DashboardDataLoader(
