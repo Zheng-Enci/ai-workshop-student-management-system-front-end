@@ -42,9 +42,14 @@ class verificationCode {
 	 */
 	static async checkVerificationCodePermission() {
 		try {
-			await AttendanceApi.getVerificationCode()
+			console.log('[验证码权限检查] 开始检查...')
+			const result = await AttendanceApi.getVerificationCode()
+			console.log('[验证码权限检查] API返回结果:', result)
 			return true
 		} catch (error: any) {
+			console.log('[验证码权限检查] API调用失败:', error)
+			console.log('[验证码权限检查] error.message:', error?.message)
+			console.log('[验证码权限检查] error.response:', error?.response)
 			const errorMessage = error?.message || ''
 			if (errorMessage.includes('403') || errorMessage.includes('不允许访问') || errorMessage.includes('无权')) {
 				verificationCodeStatus = "没有权限获取验证码"
@@ -117,12 +122,14 @@ class verificationCode {
 	 * 启动自动刷新（按配置文件的时间间隔）
 	 */
 	static async startAutoRefresh() {
+		console.log('[验证码] startAutoRefresh 开始执行')
 		const refresh = async () => {
 			await this.refreshVerificationCode()
 		}
 
 		// 首先检查是否有权获取验证码
 		const hasPermission = await this.checkVerificationCodePermission()
+		console.log('[验证码] 权限检查结果:', hasPermission)
 		if (!hasPermission) {
 			// 无权获取验证码，设置状态并返回
 			verificationCodeStatus = "本机无权获取验证码"
@@ -131,7 +138,9 @@ class verificationCode {
 
 		// 有权获取验证码，继续执行后续逻辑
 		try {
+			console.log('[验证码] 开始获取验证码...')
 			const response = await AttendanceApi.getVerificationCode()
+			console.log('[验证码] getVerificationCode 返回:', response)
 			firstVerificationCode = response.data
 			firstVerificationTime = Date.now()
 			// 设置状态为正在申请获取验证码
