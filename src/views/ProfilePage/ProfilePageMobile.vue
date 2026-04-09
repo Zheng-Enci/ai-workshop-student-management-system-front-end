@@ -388,10 +388,11 @@ onMounted(() => {
 }
 
 .password-section {
-	animation: fadeInUp 0.6s ease-out 0.4s forwards;
-	opacity: 0;
-	transform: translateY(20px);
-}
+				animation: fadeInUp 0.6s ease-out 0.4s forwards;
+				opacity: 0;
+				transform: translateY(20px);
+				margin: 0 20px;
+			}
 </style>
 
 
