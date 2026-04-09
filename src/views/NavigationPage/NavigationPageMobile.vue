@@ -630,9 +630,10 @@ onBeforeUnmount(() => {
 				<el-button
 					class="navigation-page-mobile-header-home-btn"
 					type="primary"
-					:icon="House"
 					circle
-					@click="goToHome"/>
+					@click="goToHome">
+					<el-icon><House /></el-icon>
+				</el-button>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
