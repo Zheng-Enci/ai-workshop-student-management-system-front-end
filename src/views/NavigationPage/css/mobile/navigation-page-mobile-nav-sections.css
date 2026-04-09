@@ -226,6 +226,12 @@
 	background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 }
 
+/* ==================== 超级管理员卡片 ==================== */
+
+.navigation-page-mobile-nav-sections-card.super-admin-card .navigation-page-mobile-nav-sections-card-icon {
+	background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+}
+
 /* ==================== 签到卡片 ==================== */
 
 .navigation-page-mobile-nav-sections-card.primary-card .navigation-page-mobile-nav-sections-card-icon {
