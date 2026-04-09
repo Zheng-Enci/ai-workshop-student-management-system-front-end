@@ -39,6 +39,7 @@ import 'element-plus/theme-chalk/el-scrollbar.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-user-info.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-header.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-form-section.css'
+import '@/views/ProfilePage/mobile/css/profile-page-mobile-security.css'
 import '@/views/ProfilePage/mobile/forms/css/ProfilePageChangePasswordMobileForm.css'
 
 const profilePageMobile = new ProfilePageMobile()

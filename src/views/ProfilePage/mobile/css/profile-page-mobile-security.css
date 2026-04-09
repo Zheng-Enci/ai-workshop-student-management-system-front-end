@@ -1,0 +1,122 @@
+/* 安全设置部分样式 */
+.password-section {
+    margin: 20px 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.section-header {
+    padding: 20px;
+    border-bottom: 1px solid #ebeef5;
+}
+
+.section-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #303133;
+}
+
+.section-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #909399;
+}
+
+.security-card {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.security-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.security-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ecf5ff;
+    border-radius: 24px;
+    margin-right: 16px;
+}
+
+.security-icon i {
+    font-size: 24px;
+    color: #409eff;
+}
+
+.security-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #303133;
+}
+
+.security-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #909399;
+}
+
+.security-btn {
+    margin-left: 16px;
+}
+
+/* 响应式调整 */
+@media (max-width: 375px) {
+    .section-header,
+    .security-card {
+        padding: 16px;
+    }
+
+    .security-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+    }
+
+    .security-icon i {
+        font-size: 20px;
+    }
+
+    .section-header h3 {
+        font-size: 15px;
+    }
+
+    .section-header p {
+        font-size: 13px;
+    }
+
+    .security-content h4 {
+        font-size: 14px;
+    }
+
+    .security-content p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 320px) {
+    .section-header,
+    .security-card {
+        padding: 12px;
+    }
+
+    .security-info {
+        flex: 1;
+    }
+
+    .security-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
