@@ -288,6 +288,74 @@ class DashboardDataLoader {
 	}
 
 	/**
+	 * 加载排行榜数据（异步版本，用于并行加载）
+	 * @returns 排行榜数据数组
+	 */
+	private async loadRankingDataAsync(): Promise<any[]> {
+		try {
+			let response
+
+			switch (this.selectedTimeRangeRef.value) {
+				case 'week': {
+					const weekStart = getCurrentWeekStart()
+					response = await getWeeklyRanking(weekStart, 16)
+					break
+				}
+				case 'month': {
+					const now = new Date()
+					response = await getMonthlyRanking(now.getFullYear(), now.getMonth() + 1, 16)
+					break
+				}
+				case 'today': {
+					const today = new Date().toLocaleDateString('en-CA')
+					const startTime = `${today}T00:00:00`
+					const endTime = `${today}T23:59:59`
+					response = await getTopStudentsByTimeRange(startTime, endTime, 16)
+					break
+				}
+				case 'last7days':
+					response = await getLast7DaysRanking(16)
+					break
+				case 'last30days':
+					response = await getLast30DaysRanking(16)
+					break
+				case 'all': {
+					const PROJECT_LAUNCH_DATE = new Date('2024-09-09T00:00:00')
+					const now = new Date()
+					const startDate = PROJECT_LAUNCH_DATE.toLocaleDateString('en-CA')
+					const endDate = now.toLocaleDateString('en-CA')
+					const startTime = `${startDate}T00:00:00`
+					const endTime = `${endDate}T23:59:59`
+					response = await getTopStudentsByTimeRange(startTime, endTime, 16)
+					break
+				}
+				default:
+					response = await getCurrentMonthTop10Students()
+					break
+			}
+
+			if (response.code === 200) {
+				const { data } = response
+				const processedData = data.map((item: any) => ({
+					name: item.studentName,
+					grade: item.studentGrade,
+					major: item.studentMajor,
+					attendanceCount: item.attendanceCount,
+					levelName: getLevelName(item.studentLevel)
+				}))
+
+				this.topStudentsRef.value = processedData
+				return processedData
+			}
+
+			return []
+		} catch (error) {
+			console.error('获取排行榜数据失败:', error)
+			return []
+		}
+	}
+
+	/**
 	 * 加载学生等级统计
 	 * @returns 等级统计数据
 	 */
@@ -317,7 +385,7 @@ class DashboardDataLoader {
 
 	/**
 	 * 加载页面核心数据（主入口）
-	 * 并行加载：年级统计、专业统计、学生总数、月度签到、今日签到
+	 * 并行加载：年级统计、专业统计、学生总数、月度签到、今日签到、排行榜数据
 	 * @returns 包含所有加载数据的对象
 	 */
 	public async loadData(): Promise<{
@@ -328,12 +396,13 @@ class DashboardDataLoader {
 		dailyData: any
 	}> {
 		try {
-			const [gradeData, majorData, totalData, monthlyData, dailyData] = await Promise.all([
+			const [gradeData, majorData, totalData, monthlyData, dailyData, rankingData] = await Promise.all([
 				getGradeStatistics(),
 				getMajorStatistics(),
 				getTotalStudentCount(),
 				getMonthlyAttendanceCount(),
-				AttendanceApi.getTodayAttendanceCount()
+				AttendanceApi.getTodayAttendanceCount(),
+				this.loadRankingDataAsync()
 			])
 
 			if (gradeData.code === 200 && gradeData.data) {
