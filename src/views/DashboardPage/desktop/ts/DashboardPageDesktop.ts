@@ -641,7 +641,7 @@ export default class DashboardPageDesktop {
 					show: true,
 					position: 'right',
 					formatter(params) {
-						const itemData = sortedData[params.dataIndex]
+						const itemData = cachedSortedData[params.dataIndex]
 						return `${itemData.grade}年级\n${itemData.major}`
 					},
 					fontSize: 11,
