@@ -87,6 +87,10 @@
   align-items: center;
 }
 
+.dashboard-desktop-ranking-time-range-selector .time-button-group .el-button {
+  font-size: 14px;
+}
+
 .dashboard-desktop-ranking-attendance-chart {
   width: 100%;
   height: 550px;
