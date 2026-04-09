@@ -539,8 +539,7 @@ const initAttendanceChart = data => {
 			// 自定义提示框内容
 			formatter(params) {
 				const itemData = sortedData[params[0].dataIndex]
-				const major = itemData.major.replace(/(.{6})/g, '$1\n')
-				return `${itemData.name} (${itemData.levelName})\n${itemData.grade}年级 - ${major}\n签到次数: ${itemData.attendanceCount}次`
+				return `${itemData.name} (${itemData.levelName})\n${itemData.grade}年级 - ${itemData.major}\n签到次数: ${itemData.attendanceCount}次`
 			}
 		},
 		grid: {
@@ -610,8 +609,7 @@ const initAttendanceChart = data => {
 					// 自定义标签内容（年级+专业）
 					formatter(params) {
 						const itemData = sortedData[params.dataIndex]
-						const major = itemData.major.replace(/(.{6})/g, '$1\n')
-						return `${itemData.grade}年级\n${major}`
+						return `${itemData.grade}年级\n${itemData.major}`
 					},
 					fontSize: 11,
 					color: isDark ? '#ffffff' : '#666',
