@@ -565,6 +565,7 @@ const initAttendanceChart = data => {
 		},
 		yAxis: {
 			type: 'category', // 分类轴
+			inverse: true, // 反转Y轴，让第一名在顶部
 			data: sortedData.map(item => `${item.name} (${item.levelName})`), // Y轴标签
 			axisLabel: {
 				interval: 0, // 显示所有标签
