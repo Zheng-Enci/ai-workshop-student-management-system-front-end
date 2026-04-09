@@ -477,4 +477,14 @@ html.dark .time-select-dropdown .el-select-dropdown__item {
 	border-color: #667eea !important;
 	box-shadow: 0 2px 8px rgb(102 126 234 / 0.4) !important;
 }
+
+.dashboard-desktop .el-radio-button__inner {
+	padding-left: 0 !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+
+.dashboard-desktop .el-radio-button__original-radio {
+	display: none;
+}
 </style>
