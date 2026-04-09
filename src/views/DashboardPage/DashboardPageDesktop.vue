@@ -1198,14 +1198,14 @@ echarts.use([
 
 <!-- 全局样式：头部区域 -->
 <style>
-@import './desktop/css/desktop/dashboard-desktop-header.css';
-@import './desktop/css/desktop/dashboard-desktop-ranking.css';
-@import './desktop/css/desktop/dashboard-desktop-overview.css';
-@import './desktop/css/desktop/dashboard-desktop-verification.css';
-@import './desktop/css/desktop/dashboard-desktop-qrcode.css';
-@import './desktop/css/desktop/dashboard-desktop-qrcode-switch.css';
-@import './desktop/css/desktop/dashboard-desktop-phone-display.css';
-@import './desktop/css/desktop/dashboard-desktop-footer.css';
+@import './desktop/css/dashboard-desktop-header.css';
+@import './desktop/css/dashboard-desktop-ranking.css';
+@import './desktop/css/dashboard-desktop-overview.css';
+@import './desktop/css/dashboard-desktop-verification.css';
+@import './desktop/css/dashboard-desktop-qrcode.css';
+@import './desktop/css/dashboard-desktop-qrcode-switch.css';
+@import './desktop/css/dashboard-desktop-phone-display.css';
+@import './desktop/css/dashboard-desktop-footer.css';
 @import './desktop/css/DashboardPageDesktop.css';
 </style>
 
