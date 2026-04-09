@@ -551,6 +551,7 @@ const initAttendanceChart = data => {
 		},
 		xAxis: {
 			type: 'value', // 数值轴
+			max: sortedData.length > 0 ? sortedData[0].attendanceCount : null, // 最大值为第一名的签到次数
 			axisLabel: {
 				fontSize: 11,
 				formatter: '{value}次', // 单位：次
