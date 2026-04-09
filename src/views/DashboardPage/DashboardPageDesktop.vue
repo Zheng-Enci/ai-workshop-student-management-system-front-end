@@ -553,7 +553,7 @@ const initAttendanceChart = data => {
 		xAxis: {
 			type: 'value', // 数值轴
 			axisLabel: {
-				fontSize: 10,
+				fontSize: 11,
 				formatter: '{value}次', // 单位：次
 				color: isDark ? '#ffffff' : '#2c3e50'
 			},
@@ -571,7 +571,7 @@ const initAttendanceChart = data => {
 			}), // Y轴标签
 			axisLabel: {
 				interval: 0, // 显示所有标签
-				fontSize: 10,
+				fontSize: 11,
 				color: isDark ? '#ffffff' : '#2c3e50'
 			},
 			axisLine: {
