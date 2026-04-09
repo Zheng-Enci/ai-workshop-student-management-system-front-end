@@ -581,7 +581,7 @@ const initAttendanceChart = data => {
 				type: 'bar', // 柱状图类型
 				data: sortedData.map(item => item.attendanceCount), // 签到数
 				barWidth: '60%', // 柱子宽度
-				animationDuration: 1000, // 动画时长1秒
+				animationDuration: 2000, // 动画时长2秒
 				animationEasing: 'cubicOut', // 缓动函数
 				universalTransition: true, // 启用通用过渡动画
 				itemStyle: {
