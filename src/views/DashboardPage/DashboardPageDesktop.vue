@@ -20,6 +20,7 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/base.css'
 import { ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar } from '@element-plus/icons-vue'
 import DashboardPageDesktopClass from './desktop/ts/DashboardPageDesktop'
+import LoadingMask from '@/components/LoadingMask.vue'
 
 const dashboardPageDesktop = new DashboardPageDesktopClass()
 
@@ -331,6 +332,8 @@ onUnmounted(() => {
 			<!-- 手机背景图 -->
 			<img src="@/assets/Phone.png" alt="手机展示" class="dashboard-desktop-qrcode-phone-image"/>
 		</div>
+
+		<LoadingMask/>
 	</div>
 </template>
 
