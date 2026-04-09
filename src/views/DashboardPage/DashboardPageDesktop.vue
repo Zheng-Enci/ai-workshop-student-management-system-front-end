@@ -6,8 +6,9 @@
  * @component DashboardPageDesktop
  */
 import { onMounted, onUnmounted } from 'vue'
-import { ElButton, ElIcon, ElProgress, ElRadioGroup, ElRadioButton } from 'element-plus'
+import { ElButton, ElIcon, ElProgress, ElButtonGroup } from 'element-plus'
 import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-button-group.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-progress.css'
 import 'element-plus/theme-chalk/el-radio.css'
@@ -90,20 +91,19 @@ onUnmounted(() => {
 							<div class="dashboard-desktop-ranking-controls-section">
 								<!-- 时间范围筛选器 -->
 								<div class="dashboard-desktop-ranking-time-range-selector">
-									<el-radio-group
-										v-model="selectedTimeRange"
+									<el-button-group
 										size="small"
-										class="time-radio-group"
-										@change="handleTimeRangeChange"
+										class="time-button-group"
 									>
-										<el-radio-button
+										<el-button
 											v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
 											:key="option.value"
-											:label="option.value"
+											:type="selectedTimeRange === option.value ? 'primary' : 'default'"
+											@click="selectedTimeRange = option.value; handleTimeRangeChange()"
 										>
 											{{ option.label }}
-										</el-radio-button>
-									</el-radio-group>
+										</el-button>
+									</el-button-group>
 								</div>
 							</div>
 						</div>
@@ -478,19 +478,4 @@ html.dark .time-select-dropdown .el-select-dropdown__item {
 	box-shadow: 0 2px 8px rgb(102 126 234 / 0.4) !important;
 }
 
-.dashboard-desktop .el-radio-button__inner {
-	padding-left: 0 !important;
-	border: none !important;
-	box-shadow: none !important;
-}
-
-.dashboard-desktop .el-radio-button__original-radio {
-	opacity: 0;
-	width: 0;
-	height: 0;
-}
-
-.dashboard-desktop .el-radio-button__inner::before {
-	display: none !important;
-}
 </style>
