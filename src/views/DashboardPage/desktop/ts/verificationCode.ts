@@ -1,4 +1,5 @@
 import AttendanceApi from '@/api/AttendanceApi'
+import {getVerificationCode} from '@/api/attendance'
 import {ElMessage} from 'element-plus'
 import {verificationCodeConfig} from './verificationCodeConfig'
 
@@ -43,7 +44,7 @@ class verificationCode {
 	static async checkVerificationCodePermission() {
 		try {
 			console.log('[验证码权限检查] 开始检查...')
-			const result = await AttendanceApi.getVerificationCode()
+			const result = await getVerificationCode()
 			console.log('[验证码权限检查] API返回结果:', result)
 			return true
 		} catch (error: any) {
@@ -98,7 +99,7 @@ class verificationCode {
 	 */
 	static async refreshVerificationCode() {
 		try {
-			const response = await AttendanceApi.getVerificationCode()
+			const response = await getVerificationCode()
 			
 			// 只有当获取到的验证码与第一次获取的不同时，才显示真实验证码
 			if (response.data !== verificationCodeData) {
@@ -139,7 +140,7 @@ class verificationCode {
 		// 有权获取验证码，继续执行后续逻辑
 		try {
 			console.log('[验证码] 开始获取验证码...')
-			const response = await AttendanceApi.getVerificationCode()
+			const response = await getVerificationCode()
 			console.log('[验证码] getVerificationCode 返回:', response)
 			firstVerificationCode = response.data
 			firstVerificationTime = Date.now()
@@ -152,7 +153,7 @@ class verificationCode {
 				fastRefreshCount++
 				
 				try {
-					const fastResponse = await AttendanceApi.getVerificationCode()
+					const fastResponse = await getVerificationCode()
 					
 					// 如果验证码与第一次不同，开始正常刷新流程
 					if (fastResponse.data !== firstVerificationCode) {
