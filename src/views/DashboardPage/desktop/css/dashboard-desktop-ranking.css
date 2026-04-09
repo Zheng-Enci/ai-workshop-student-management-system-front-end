@@ -12,6 +12,7 @@
 	flex-direction: column;
 	height: 100%;
 	padding: 30px;
+	padding-left: 10px;
 	background: #fff;
 	border: 1px solid #f0f0f0;
 	border-radius: 16px;
@@ -148,7 +149,6 @@
 @media (width <= 768px) {
   .dashboard-desktop-ranking-punch-card {
     padding: 20px;
-    padding-left: 10px;
   }
 
   .dashboard-desktop-ranking-punch-card h2 {
