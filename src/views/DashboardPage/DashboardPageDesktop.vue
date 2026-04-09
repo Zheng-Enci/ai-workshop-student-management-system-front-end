@@ -581,9 +581,12 @@ const initAttendanceChart = data => {
 				type: 'bar', // 柱状图类型
 				data: sortedData.map(item => item.attendanceCount), // 签到数
 				barWidth: '60%', // 柱子宽度
-				animationDuration: 1000, // 动画时长1秒
+				animationDuration: 1500, // 动画时长1.5秒
 				animationEasing: 'cubicOut', // 缓动函数
-				universalTransition: true, // 启用通用过渡动画
+				universalTransition: {
+					enable: true, // 启用通用过渡动画
+					transitionDuration: 1500 // 过渡动画时长
+				},
 				itemStyle: {
 					// 动态颜色（区分不同排名）
 					color(params) {
