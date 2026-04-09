@@ -738,6 +738,8 @@ export default class DashboardPageDesktop {
 		}
 	}
 
+	private static readonly DATA_REFRESH_INTERVAL = 128
+
 	/**
 	 * 加载进度条动画
 	 * @private
@@ -747,10 +749,10 @@ export default class DashboardPageDesktop {
 	private startProgressAnimation(): void {
 		this.progressWidth.value = 0
 		this.progressInterval = setInterval(() => {
-			if (this.progressWidth.value < 100) {
-				this.progressWidth.value += 10
-			} else {
+			this.progressWidth.value += 100 / (DashboardPageDesktop.DATA_REFRESH_INTERVAL * 10)
+			if (this.progressWidth.value >= 100) {
 				this.progressWidth.value = 0
+				this.loadData()
 			}
 		}, 100)
 	}
