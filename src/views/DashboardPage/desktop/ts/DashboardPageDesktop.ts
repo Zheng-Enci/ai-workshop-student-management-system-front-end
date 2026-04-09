@@ -711,7 +711,7 @@ export default class DashboardPageDesktop {
 		try {
 			this.loadingMaskStore.showLoadingMask('正在加载数据...')
 			
-			await this.dataLoader.loadRankingData(this.selectedTimeRange.value)
+			await this.dataLoader.loadRankingData()
 			
 			await nextTick()
 			if (this.attendanceChartInstance) {
