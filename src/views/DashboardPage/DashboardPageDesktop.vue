@@ -520,8 +520,8 @@ const initAttendanceChart = data => {
 	// 初始化ECharts实例
 	attendanceChartInstance = echarts.init(attendanceChart.value)
 
-	// 数据按签到数升序排序（柱状图从下到上递增）
-	const sortedData = [...data].sort((a, b) => a.attendanceCount - b.attendanceCount)
+	// 数据按签到数降序排序（柱状图从下到上递减）
+	const sortedData = [...data].sort((a, b) => b.attendanceCount - a.attendanceCount)
 	const isDark = themeStore.isDarkMode // 当前主题模式
 
 	// 柱状图配置项
