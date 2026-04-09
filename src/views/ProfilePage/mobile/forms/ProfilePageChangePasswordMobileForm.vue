@@ -31,7 +31,14 @@ const isLoading = profilePageChangePasswordMobileForm.getisLoading()
 
 const resetForm = () => profilePageChangePasswordMobileForm.resetForm()
 const handleSubmit = emit => profilePageChangePasswordMobileForm.handleSubmit(emit)
-const handleCancel = emit => profilePageChangePasswordMobileForm.handleCancel(emit)
+const handleCancel = emit => {
+	console.log('[DEBUG] 点击取消按钮')
+	emit('close')
+}
+const handleDialogClose = () => {
+	console.log('[DEBUG] 点击对话框关闭按钮')
+	emit('close')
+}
 
 // ======================== Props ========================
 const props = defineProps({
@@ -76,6 +83,7 @@ defineExpose({
 		width="90%"
 		:close-on-click-modal="false"
 		:close-on-press-escape="true"
+		@close="handleDialogClose"
 		modal-class="profile-page-mobile-change-password-dialog-overlay"
 		class="profile-page-mobile-change-password-dialog"
 	>

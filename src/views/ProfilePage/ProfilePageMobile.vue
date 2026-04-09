@@ -385,6 +385,7 @@ onMounted(() => {
 		<ProfilePageChangePasswordMobileForm
 			v-model="showPasswordDialog"
 			@success="loadProfile"
+			@close="closePasswordDialog"
 		/>
 	</div>
 </template>
