@@ -149,6 +149,11 @@ export default class DashboardPageDesktop {
 		this.themeStore = useThemeStore()
 		this.loadingMaskStore = useLoadingMaskStore()
 
+		// 监听主题变化，重新渲染图表
+		watch(() => this.themeStore.isDarkMode, () => {
+			this.initCharts()
+		})
+
 		// 注册 ECharts 组件和图表
 		echarts.use([
 			PieChart,
