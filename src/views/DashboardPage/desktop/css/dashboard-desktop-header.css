@@ -19,10 +19,13 @@
 	width: 40px;
 	height: 40px;
 	margin-left: 10px;
-	background: var(--primary-color);
-	border: none;
-	border-radius: 50%;
-	box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
+	background: var(--primary-color) !important;
+	border: none !important;
+	border-radius: 50% !important;
+	box-shadow: 0 4px 12px rgb(102 126 234 / 0.3) !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
 }
 
 .dashboard-desktop-header-logo {

@@ -112,6 +112,15 @@
 
 .dashboard-desktop-ranking-time-select .el-input__wrapper {
   border-radius: 8px;
+  padding: 0 12px;
+}
+
+.dashboard-desktop-ranking-time-select .el-input__inner {
+  color: var(--text-primary) !important;
+}
+
+.dashboard-desktop-ranking-time-select .el-select__caret {
+  color: var(--text-primary) !important;
 }
 
 .dashboard-desktop-ranking-attendance-chart {
