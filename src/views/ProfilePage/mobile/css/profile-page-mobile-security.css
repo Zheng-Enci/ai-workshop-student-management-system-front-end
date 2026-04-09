@@ -71,6 +71,40 @@
     margin-left: 16px;
 }
 
+/* 夜间模式样式 */
+html.dark .password-section {
+    background: #1d1e1f;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
+}
+
+html.dark .section-header {
+    border-bottom: 1px solid #303133;
+}
+
+html.dark .section-header h3 {
+    color: #e5eaf3;
+}
+
+html.dark .section-header p {
+    color: #8e959f;
+}
+
+html.dark .security-icon {
+    background: #1e3a5f;
+}
+
+html.dark .security-icon i {
+    color: #66b1ff;
+}
+
+html.dark .security-content h4 {
+    color: #e5eaf3;
+}
+
+html.dark .security-content p {
+    color: #8e959f;
+}
+
 /* 响应式调整 */
 @media (max-width: 375px) {
     .section-header,
