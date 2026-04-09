@@ -230,7 +230,7 @@ export default defineConfig(({ mode }) => {
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    cssCodeSplit: true,
+    cssCodeSplit: false,
     minify: 'terser',
     rollupOptions: {
       output: {
