@@ -68,97 +68,107 @@ defineExpose({
 </script>
 
 <template>
-	<div class="profile-page-change-password-mobile-form-wrapper">
-		<el-form
-			ref="formRef"
-			:model="passwordForm"
-			:rules="PASSWORD_RULES"
-			class="profile-page-change-password-mobile-form"
-			label-position="top"
-		>
-			<div class="profile-page-change-password-mobile-form-grid">
-				<div class="profile-page-change-password-mobile-form-item">
-					<label class="profile-page-change-password-mobile-form-label">
-						<el-icon class="profile-page-change-password-mobile-form-label-icon">
-							<lock/>
-						</el-icon>
-						原密码
-					</label>
-					<el-form-item prop="oldPassword">
-						<el-input
-							v-model="passwordForm.oldPassword"
-							type="password"
-							placeholder="请输入原密码"
-							maxlength="16"
-							show-password
-							class="profile-page-change-password-mobile-form-input"
-						/>
-					</el-form-item>
-				</div>
+	<el-dialog
+		v-model="dialogVisibleComputed"
+		title="修改密码"
+		width="90%"
+		:close-on-click-modal="false"
+		:close-on-press-escape="true"
+		modal-class="profile-page-mobile-change-password-dialog-overlay"
+		class="profile-page-mobile-change-password-dialog"
+	>
+		<div class="profile-page-change-password-mobile-form-wrapper">
+			<el-form
+				ref="formRef"
+				:model="passwordForm"
+				:rules="PASSWORD_RULES"
+				class="profile-page-change-password-mobile-form"
+				label-position="top"
+			>
+				<div class="profile-page-change-password-mobile-form-grid">
+					<div class="profile-page-change-password-mobile-form-item">
+						<label class="profile-page-change-password-mobile-form-label">
+							<el-icon class="profile-page-change-password-mobile-form-label-icon">
+								<lock/>
+							</el-icon>
+							原密码
+						</label>
+						<el-form-item prop="oldPassword">
+							<el-input
+								v-model="passwordForm.oldPassword"
+								type="password"
+								placeholder="请输入原密码"
+								maxlength="16"
+								show-password
+								class="profile-page-change-password-mobile-form-input"
+							/>
+						</el-form-item>
+					</div>
 
-				<div class="profile-page-change-password-mobile-form-item">
-					<label class="profile-page-change-password-mobile-form-label">
-						<el-icon class="profile-page-change-password-mobile-form-label-icon">
-							<lock/>
-						</el-icon>
-						新密码
-					</label>
-					<el-form-item prop="newPassword">
-						<el-input
-							v-model="passwordForm.newPassword"
-							type="password"
-							placeholder="请输入新密码（6-16位字符）"
-							maxlength="16"
-							show-password
-							class="profile-page-change-password-mobile-form-input"
-						/>
-					</el-form-item>
-					<div class="profile-page-change-password-mobile-form-security-hint">
-						<el-icon class="profile-page-change-password-mobile-form-hint-icon">
-							<lock/>
-						</el-icon>
-						<span>建议使用字母、数字和特殊字符组合</span>
+					<div class="profile-page-change-password-mobile-form-item">
+						<label class="profile-page-change-password-mobile-form-label">
+							<el-icon class="profile-page-change-password-mobile-form-label-icon">
+								<lock/>
+							</el-icon>
+							新密码
+						</label>
+						<el-form-item prop="newPassword">
+							<el-input
+								v-model="passwordForm.newPassword"
+								type="password"
+								placeholder="请输入新密码（6-16位字符）"
+								maxlength="16"
+								show-password
+								class="profile-page-change-password-mobile-form-input"
+							/>
+						</el-form-item>
+						<div class="profile-page-change-password-mobile-form-security-hint">
+							<el-icon class="profile-page-change-password-mobile-form-hint-icon">
+								<lock/>
+							</el-icon>
+							<span>建议使用字母、数字和特殊字符组合</span>
+						</div>
+					</div>
+
+					<div class="profile-page-change-password-mobile-form-item">
+						<label class="profile-page-change-password-mobile-form-label">
+							<el-icon class="profile-page-change-password-mobile-form-label-icon">
+								<lock/>
+							</el-icon>
+							确认新密码
+						</label>
+						<el-form-item prop="confirmPassword">
+							<el-input
+								v-model="passwordForm.confirmPassword"
+								type="password"
+								placeholder="请再次输入新密码"
+								maxlength="16"
+								show-password
+								class="profile-page-change-password-mobile-form-input"
+							/>
+						</el-form-item>
 					</div>
 				</div>
 
-				<div class="profile-page-change-password-mobile-form-item">
-					<label class="profile-page-change-password-mobile-form-label">
-						<el-icon class="profile-page-change-password-mobile-form-label-icon">
-							<lock/>
-						</el-icon>
-						确认新密码
-					</label>
-					<el-form-item prop="confirmPassword">
-						<el-input
-							v-model="passwordForm.confirmPassword"
-							type="password"
-							placeholder="请再次输入新密码"
-							maxlength="16"
-							show-password
-							class="profile-page-change-password-mobile-form-input"
-						/>
-					</el-form-item>
+				<div class="profile-page-change-password-mobile-form-actions">
+					<el-button
+						:disabled="isLoading"
+						class="profile-page-change-password-mobile-form-reset-btn"
+						@click="handleCancel(emit)"
+					>
+						取消
+					</el-button>
+					<el-button
+						type="primary"
+						:loading="isLoading"
+						:disabled="isLoading"
+						class="profile-page-change-password-mobile-form-save-btn"
+						@click="handleSubmit(emit)"
+					>
+						确认修改
+					</el-button>
 				</div>
-			</div>
-
-			<div class="profile-page-change-password-mobile-form-actions">
-				<el-button
-					:disabled="isLoading"
-					class="profile-page-change-password-mobile-form-reset-btn"
-					@click="handleCancel(emit)"
-				>
-					取消
-				</el-button>
-				<el-button
-					type="primary"
-					:loading="isLoading"
-					:disabled="isLoading"
-					class="profile-page-change-password-mobile-form-save-btn"
-					@click="handleSubmit(emit)"
-				>
-					确认修改
-				</el-button>
-			</div>
-		</el-form>
-	</div>
+			</el-form>
+		</div>
+	</el-dialog>
 </template>

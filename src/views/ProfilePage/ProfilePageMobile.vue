@@ -69,6 +69,10 @@ const isDragging = profilePageMobile.isDragging
 const isPinching = profilePageMobile.isPinching
 const isCropping = profilePageMobile.isCropping
 const showPasswordDialog = profilePageMobile.showPasswordDialog
+const passwordForm = profilePageMobile.passwordForm
+const passwordRules = profilePageMobile.passwordRules
+const isPasswordLoading = profilePageMobile.isPasswordLoading
+const passwordFormRef = profilePageMobile.passwordFormRef
 
 const goBack = () => profilePageMobile.goBack()
 const toggleTheme = () => profilePageMobile.toggleTheme()
@@ -83,11 +87,17 @@ const togglePasswordSection = () => {
 	profilePageMobile.togglePasswordSection()
 }
 const resetForm = () => profilePageMobile.resetForm()
+const resetPasswordForm = () => {
+	profilePageMobile.resetPasswordForm()
+}
 
 const saveProfile = () => profilePageMobile.saveProfile()
 
 const closePasswordDialog = () => {
 	profilePageMobile.closePasswordDialog()
+}
+const confirmPasswordChange = () => {
+	profilePageMobile.confirmPasswordChange()
 }
 const showCropDialog = (file) => profilePageMobile.showCropDialog(file)
 const initCrop = () => profilePageMobile.initCrop()
@@ -371,22 +381,11 @@ onMounted(() => {
 			</div>
 		</div>
 
-		<!-- 密码修改对话框 -->
-		<el-dialog
+		<!-- 密码修改对话框组件 -->
+		<ProfilePageChangePasswordMobileForm
 			v-model="showPasswordDialog"
-			title="修改密码"
-			width="90%"
-			:close-on-click-modal="false"
-			:close-on-press-escape="true"
-			@close="closePasswordDialog"
-			modal-class="profile-page-mobile-change-password-dialog-overlay"
-			class="profile-page-mobile-change-password-dialog"
-		>
-			<ProfilePageChangePasswordMobileForm 
-				v-model="showPasswordDialog"
-				@success="closePasswordDialog"
-			/>
-		</el-dialog>
+			@success="loadProfile"
+		/>
 	</div>
 </template>
 
