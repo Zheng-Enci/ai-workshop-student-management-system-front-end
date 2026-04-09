@@ -655,6 +655,7 @@ onBeforeUnmount(() => {
 					<img
 						v-if="hasAvatar && avatarUrl"
 						v-lazy="avatarUrl"
+						:src="avatarUrl"
 						alt="用户头像"
 						class="navigation-page-mobile-user-card-avatar-image" />
 					<el-icon v-else size="28" class="navigation-page-mobile-user-card-avatar-icon"><user /></el-icon>
