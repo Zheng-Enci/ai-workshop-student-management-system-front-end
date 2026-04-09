@@ -391,7 +391,7 @@ onMounted(() => {
 				animation: fadeInUp 0.6s ease-out 0.4s forwards;
 				opacity: 0;
 				transform: translateY(20px);
-				margin: 0 20px;
+				margin: 20px 20px 0;
 			}
 </style>
 
