@@ -89,28 +89,30 @@ onUnmounted(() => {
 			<!-- 左侧区域：签到排行榜 -->
 			<div class="dashboard-desktop-ranking-left-section">
 				<div class="dashboard-desktop-ranking-punch-card">
-					<h2>排行榜</h2>
-
+					<div class="dashboard-desktop-ranking-header">
+						<h2 class="dashboard-desktop-ranking-title">排行榜</h2>
+						<div class="dashboard-desktop-ranking-time-range-selector">
+							<el-select
+								v-model="selectedTimeRange"
+								size="small"
+								class="dashboard-desktop-ranking-time-select"
+								@change="handleTimeRangeChange"
+							>
+								<el-option
+									v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
+									:key="option.value"
+									:label="option.label"
+									:value="option.value"
+								/>
+							</el-select>
+						</div>
+					</div>
 					<!-- 排行榜图表区域 -->
 					<div class="dashboard-desktop-ranking-top-students">
 						<div class="dashboard-desktop-ranking-chart-header">
 							<div class="dashboard-desktop-ranking-controls-section">
 								<!-- 时间范围筛选器 -->
-								<div class="dashboard-desktop-ranking-time-range-selector">
-									<el-select
-										v-model="selectedTimeRange"
-										size="small"
-										class="dashboard-desktop-ranking-time-select"
-										@change="handleTimeRangeChange"
-									>
-										<el-option
-											v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
-											:key="option.value"
-											:label="option.label"
-											:value="option.value"
-										/>
-									</el-select>
-								</div>
+							
 							</div>
 						</div>
 						<!-- 签到排行榜图表容器 -->

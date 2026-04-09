@@ -35,6 +35,20 @@
   color: #2c3e50;
 }
 
+.dashboard-desktop-ranking-title {
+    flex-shrink: 0;
+    margin-right: 20px;
+}
+
+.dashboard-desktop-ranking-header {
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-desktop-ranking-time-range-selector {
+    margin-left: auto;
+}
+
 .dark .dashboard-desktop-ranking-punch-card h2,
 .dark .dashboard-desktop-ranking-overview-card h2 {
   color: #fff;
