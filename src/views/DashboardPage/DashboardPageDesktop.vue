@@ -512,10 +512,12 @@ const initAttendanceChart = data => {
 		return
 	}
 
-	// 如果实例不存在则初始化
-	if (!attendanceChartInstance) {
-		attendanceChartInstance = echarts.init(attendanceChart.value)
+	// 销毁旧实例并重建
+	if (attendanceChartInstance) {
+		attendanceChartInstance.dispose()
+		attendanceChartInstance = null
 	}
+	attendanceChartInstance = echarts.init(attendanceChart.value)
 
 	// 数据按签到数降序排序（柱状图从下到上递减）
 	const sortedData = [...data].sort((a, b) => b.attendanceCount - a.attendanceCount)
@@ -523,6 +525,11 @@ const initAttendanceChart = data => {
 
 	// 柱状图配置项
 	const option = {
+		animation: true, // 开启动画
+		animationDuration: 3000, // 初始加载动画时长3秒
+		animationDurationUpdate: 3000, // 数据更新动画时长3秒
+		animationEasing: 'cubicOut', // 缓动函数
+		animationEasingUpdate: 'cubicOut', // 数据更新缓动函数
 		tooltip: {
 			trigger: 'axis', // 坐标轴触发
 			axisPointer: {
@@ -581,11 +588,12 @@ const initAttendanceChart = data => {
 				type: 'bar', // 柱状图类型
 				data: sortedData.map(item => item.attendanceCount), // 签到数
 				barWidth: '60%', // 柱子宽度
-				animationDuration: 1500, // 动画时长1.5秒
+				animation: true,
+				animationDuration: 3000, // 动画时长3秒
 				animationEasing: 'cubicOut', // 缓动函数
-				universalTransition: {
-					enable: true, // 启用通用过渡动画
-					transitionDuration: 1500 // 过渡动画时长
+				animationDelay: function(idx) {
+					// 每个柱子有不同的延迟，创建错落有致的效果
+					return idx * 100
 				},
 				itemStyle: {
 					// 动态颜色（区分不同排名）
@@ -631,7 +639,47 @@ const initAttendanceChart = data => {
 	}
 
 	// 应用配置项
-	attendanceChartInstance.setOption(option)
+	console.log('[排行榜图表] ====== 开始设置配置 ======')
+	console.log('[排行榜图表] 当前实例状态:', attendanceChartInstance ? '已初始化' : '未初始化')
+	console.log('[排行榜图表] 请求的animationDurationUpdate:', 3000)
+	console.log('[排行榜图表] 数据长度:', sortedData.length)
+	console.log('[排行榜图表] 数据样本:', sortedData.slice(0, 3).map(d => ({ name: d.name, count: d.attendanceCount })))
+	
+	const startTime = Date.now()
+	attendanceChartInstance.setOption(option, {
+		notMerge: false, // 改为默认的合并模式
+		lazyUpdate: false
+	})
+	
+	console.log('[排行榜图表] setOption完成，耗时:', Date.now() - startTime, 'ms')
+	console.log('[排行榜图表] 开始监听动画帧...')
+	
+	let lastFrameTime = Date.now()
+	let frameCount = 0
+	let animationEnded = false
+	
+	const monitorAnimation = () => {
+		if (animationEnded) return
+		frameCount++
+		const now = Date.now()
+		if (now - lastFrameTime >= 100) {
+			console.log('[排行榜图表] 帧监测:', frameCount, '帧, 耗时:', now - startTime, 'ms')
+			lastFrameTime = now
+		}
+		if (frameCount > 120 || now - startTime > 3000) {
+			animationEnded = true
+			console.log('[排行榜图表] ====== 动画结束 ======')
+			console.log('[排行榜图表] 总帧数:', frameCount)
+			console.log('[排行榜图表] 总耗时:', Date.now() - startTime, 'ms')
+			const actualOption = attendanceChartInstance.getOption()
+			console.log('[排行榜图表] 实例中的animationDurationUpdate:', actualOption.animationDurationUpdate)
+			console.log('[排行榜图表] series配置:', actualOption.series ? actualOption.series[0].universalTransition : '无')
+			return
+		}
+		requestAnimationFrame(monitorAnimation)
+	}
+	
+	requestAnimationFrame(monitorAnimation)
 }
 
 // ======================== 数据加载/更新函数 ========================
