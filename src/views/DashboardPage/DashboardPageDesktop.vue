@@ -716,6 +716,10 @@ const loadRankingData = async () => {
 const handleTimeRangeChange = async () => {
 	saveUserPreferences()
 	await dataLoader.loadRankingData(selectedTopN)
+	// 强制图表 resize 触发重绘，解决长时间不操作后图表卡顿问题
+	if (attendanceChartInstance) {
+		attendanceChartInstance.resize()
+	}
 	initAttendanceChart(topStudents.value)
 }
 
