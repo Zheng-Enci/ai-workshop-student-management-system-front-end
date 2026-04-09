@@ -13,9 +13,9 @@ import { Camera, ZoomIn, ZoomOut } from '@element-plus/icons-vue'
 import { uploadAvatar, getAvatarUrl } from '@/api/student'
 import ProfilePageConfig from '@/views/ProfilePage/mobile/common/js/profile-page-common-config'
 import ProfilePageUtils from '@/views/ProfilePage/mobile/common/js/profile-page-common-utils'
-import ImageCropper from '@/views/ProfilePage/mobile/forms/ts/ProfilePageUploadAvatarMobileForm.ts'
+import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/mobile/forms/ts/ProfilePageUploadAvatarMobileForm.ts'
 
-const imageCropper = new ImageCropper()
+const imageCropper = new ProfilePageUploadAvatarMobileForm()
 
 const cropDialogVisible = imageCropper.getCropDialogVisible()
 const cropCanvasRef = imageCropper.getCropCanvasRef()

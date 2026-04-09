@@ -2,13 +2,13 @@
  * 头像裁剪器类
  * 提供头像裁剪、缩放、拖拽等核心逻辑
  *
- * @class ImageCropper
+ * @class ProfilePageUploadAvatarMobileForm
  * @description 封装头像裁剪功能的所有核心逻辑，包括Canvas绘制、事件处理、图片缩放等
  */
 
 import { ref, nextTick } from 'vue'
 
-export default class ImageCropper {
+export default class ProfilePageUploadAvatarMobileForm {
 	/**
 	 * 裁剪弹窗显示状态
 	 * @private
