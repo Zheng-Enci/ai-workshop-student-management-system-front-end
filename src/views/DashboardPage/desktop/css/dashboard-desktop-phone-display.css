@@ -3,7 +3,7 @@
 .dashboard-desktop-phone-display-container {
   position: fixed;
   right: 40px;
-  bottom: 60px;
+  bottom: 100px;
   z-index: 999;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@
 .dashboard-desktop-phone-display {
   position: fixed;
   right: 40px;
-  bottom: 60px;
+  bottom: 100px;
   z-index: 999;
   display: flex;
   flex-direction: column;
