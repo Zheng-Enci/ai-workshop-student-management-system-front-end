@@ -570,6 +570,9 @@ export default class DashboardPageDesktop {
 					color: isDark ? '#ffffff' : '#2c3e50'
 				},
 				formatter(params) {
+					if (!params || !params[0] || !cachedSortedData[params[0].dataIndex]) {
+						return ''
+					}
 					const itemData = cachedSortedData[params[0].dataIndex]
 					return `${itemData.name} (${itemData.levelName})\n${itemData.grade}年级 - ${itemData.major}\n签到次数: ${itemData.attendanceCount}次`
 				}
@@ -641,7 +644,7 @@ export default class DashboardPageDesktop {
 					show: true,
 					position: 'right',
 					formatter(params) {
-						if (!cachedSortedData || !cachedSortedData[params.dataIndex]) {
+						if (!params || !cachedSortedData || !cachedSortedData[params.dataIndex]) {
 							return ''
 						}
 						const itemData = cachedSortedData[params.dataIndex]
