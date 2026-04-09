@@ -295,10 +295,6 @@ const handleAdminClick = () => {
 	}
 }
 
-const goToAdmin = () => {
-	router.push('/student-manager')
-}
-
 // ===================== 数据加载方法区 =====================
 /**
  * 加载考勤次数
@@ -441,7 +437,6 @@ const loadStudentLevel = async () => {
 		}
 	} catch (error) {
 		// 加载失败时不做处理,静默失败
-		return
 	}
 }
 
