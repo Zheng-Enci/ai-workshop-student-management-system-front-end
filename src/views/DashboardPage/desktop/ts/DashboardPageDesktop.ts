@@ -450,11 +450,32 @@ export default class DashboardPageDesktop {
 		const sortedData = [...data].sort((a, b) => b.count - a.count)
 		const isDark = this.themeStore.isDarkMode
 
+		// 缓存颜色方法，避免在ECharts配置中使用this
+		const getStableColor = (index: number): string => {
+			const colors: string[] = [
+				'#667eea', '#764ba2', '#f093fb', '#f5576c',
+				'#4facfe', '#00f2fe', '#a8edea', '#fed6e3',
+				'#ff9a9e', '#fecfef', '#fecfef', '#a8edea',
+				'#d299c2', '#fad0c4', '#ffd1ff', '#a8e6cf'
+			]
+			return colors[index % colors.length]
+		}
+
+		const getDarkStableColor = (index: number): string => {
+			const colors: string[] = [
+				'#00d4ff', '#ff6b6b', '#4ecdc4', '#45b7d1',
+				'#96ceb4', '#feca57', '#ff9ff3', '#54a0ff',
+				'#5f27cd', '#00d2d3', '#ff9f43', '#10ac84',
+				'#ee5a24', '#0984e3', '#6c5ce7', '#a29bfe'
+			]
+			return colors[index % colors.length]
+		}
+
 		const wordCloudData = sortedData.map((item, index) => ({
 			name: item.major,
 			value: item.count,
 			textStyle: {
-				color: isDark ? this.getDarkStableColor(index) : this.getStableColor(index)
+				color: isDark ? getDarkStableColor(index) : getStableColor(index)
 			}
 		}))
 
@@ -492,7 +513,7 @@ export default class DashboardPageDesktop {
 					fontFamily: 'Microsoft YaHei, sans-serif',
 					fontWeight: 'bold',
 					color(params) {
-						return isDark ? this.getDarkStableColor(params.dataIndex) : this.getStableColor(params.dataIndex)
+						return isDark ? getDarkStableColor(params.dataIndex) : getStableColor(params.dataIndex)
 					}
 				},
 				emphasis: {
