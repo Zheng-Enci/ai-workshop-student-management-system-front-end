@@ -641,6 +641,9 @@ export default class DashboardPageDesktop {
 					show: true,
 					position: 'right',
 					formatter(params) {
+						if (!cachedSortedData || !cachedSortedData[params.dataIndex]) {
+							return ''
+						}
 						const itemData = cachedSortedData[params.dataIndex]
 						return `${itemData.grade}年级\n${itemData.major}`
 					},
