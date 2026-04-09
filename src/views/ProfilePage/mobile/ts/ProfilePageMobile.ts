@@ -463,29 +463,46 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public openPasswordDialog() {
+		console.log('[DEBUG] 开始打开密码对话框，当前状态:', {
+			showPasswordDialog: this.showPasswordDialog.value,
+			isPasswordDialogClosing: this.isPasswordDialogClosing.value,
+			passwordDialogClickCount: this.passwordDialogClickCount
+		})
+		
 		// 递增点击次数
 		this.passwordDialogClickCount++
+		console.log('[DEBUG] 递增点击次数后:', this.passwordDialogClickCount)
 		
 		// 如果对话框已经打开，直接返回，不执行关闭逻辑
 		if (this.showPasswordDialog.value) {
+			console.log('[DEBUG] 对话框已经打开，直接返回')
 			return
 		}
 		
 		// 强制重置isPasswordDialogClosing为false，确保对话框可以正常打开
 		this.isPasswordDialogClosing.value = false
+		console.log('[DEBUG] 重置isPasswordDialogClosing为false')
 		
 		// 延迟打开对话框，确保closePasswordDialog方法执行完成
 		setTimeout(() => {
+			console.log('[DEBUG] 执行setTimeout回调，准备设置showPasswordDialog为true')
 			this.showPasswordDialog.value = true
+			console.log('[DEBUG] 设置showPasswordDialog为true后:', this.showPasswordDialog.value)
+			
 			// 延迟设置透明度，确保对话框已经显示
 			setTimeout(() => {
 				const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
+				console.log('[DEBUG] 查找对话框元素:', dialogWrapper)
 				if (dialogWrapper) {
 					dialogWrapper.style.opacity = '1'
+					console.log('[DEBUG] 设置对话框透明度为1')
 				}
 			}, 10)
+			
 			this.resetPasswordForm()
+			console.log('[DEBUG] 调用resetPasswordForm重置表单')
 		}, 50)
+		console.log('[DEBUG] 注册setTimeout回调，50ms后执行')
 	}
 
 	/**
@@ -512,22 +529,41 @@ export default class ProfilePageMobile {
 	 * @returns {void}
 	 */
 	public closePasswordDialog() {
+		console.log('[DEBUG] 开始关闭密码对话框，当前状态:', {
+			showPasswordDialog: this.showPasswordDialog.value,
+			isPasswordDialogClosing: this.isPasswordDialogClosing.value
+		})
+		
 		if (this.isPasswordDialogClosing.value) {
+			console.log('[DEBUG] 对话框正在关闭，直接返回')
 			return
 		}
 
 		this.isPasswordDialogClosing.value = true
+		console.log('[DEBUG] 设置isPasswordDialogClosing为true')
+		
 		const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
+		console.log('[DEBUG] 查找对话框元素:', dialogWrapper)
 		if (dialogWrapper) {
 			dialogWrapper.style.opacity = '0'
+			console.log('[DEBUG] 设置对话框透明度为0')
 		}
+		
 		this.passwordForm.newPassword = ''
 		this.passwordForm.confirmPassword = ''
+		console.log('[DEBUG] 清空密码表单的新密码和确认密码字段')
+		
 		this.showPasswordDialog.value = false
+		console.log('[DEBUG] 设置showPasswordDialog为false')
+		
 		setTimeout(() => {
+			console.log('[DEBUG] 执行300ms超时回调')
 			this.passwordForm.oldPassword = ''
+			console.log('[DEBUG] 清空密码表单的旧密码字段')
 			this.isPasswordDialogClosing.value = false
+			console.log('[DEBUG] 设置isPasswordDialogClosing为false')
 		}, 300)
+		console.log('[DEBUG] 注册300ms超时回调')
 	}
 
 
