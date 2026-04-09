@@ -231,6 +231,7 @@ export default defineConfig(({ mode }) => {
     outDir: 'dist',
     assetsDir: 'assets',
     cssCodeSplit: true,
+    minify: 'terser',
     rollupOptions: {
       output: {
         manualChunks: {
