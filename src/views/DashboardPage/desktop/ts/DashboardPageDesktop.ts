@@ -555,8 +555,8 @@ export default class DashboardPageDesktop {
 
 		const option = {
 			animation: true,
-			animationDuration: 3000,
-			animationDurationUpdate: 3000,
+			animationDuration: 750,
+			animationDurationUpdate: 750,
 			animationEasing: 'cubicOut',
 			animationEasingUpdate: 'cubicOut',
 			tooltip: {
@@ -619,10 +619,10 @@ export default class DashboardPageDesktop {
 				data: cachedSortedData.map(item => item.attendanceCount),
 				barWidth: '60%',
 				animation: true,
-				animationDuration: 3000,
+				animationDuration: 750,
 				animationEasing: 'cubicOut',
 				animationDelay: function(idx) {
-					return idx * 100
+					return idx * 30
 				},
 				itemStyle: {
 					color(params) {
