@@ -91,6 +91,14 @@
   font-size: 14px;
 }
 
+.dashboard-desktop-ranking-time-select {
+  width: 120px;
+}
+
+.dashboard-desktop-ranking-time-select .el-input__wrapper {
+  border-radius: 8px;
+}
+
 .dashboard-desktop-ranking-attendance-chart {
   width: 100%;
   height: 550px;

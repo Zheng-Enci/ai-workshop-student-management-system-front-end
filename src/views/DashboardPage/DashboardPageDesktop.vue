@@ -6,9 +6,10 @@
  * @component DashboardPageDesktop
  */
 import { onMounted, onUnmounted } from 'vue'
-import { ElButton, ElIcon, ElProgress, ElButtonGroup } from 'element-plus'
+import { ElButton, ElIcon, ElProgress, ElSelect, ElOption } from 'element-plus'
 import 'element-plus/theme-chalk/el-button.css'
-import 'element-plus/theme-chalk/el-button-group.css'
+import 'element-plus/theme-chalk/el-select.css'
+import 'element-plus/theme-chalk/el-option.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-progress.css'
 import { ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar } from '@element-plus/icons-vue'
@@ -90,19 +91,19 @@ onUnmounted(() => {
 							<div class="dashboard-desktop-ranking-controls-section">
 								<!-- 时间范围筛选器 -->
 								<div class="dashboard-desktop-ranking-time-range-selector">
-									<el-button-group
+									<el-select
+										v-model="selectedTimeRange"
 										size="small"
-										class="time-button-group"
+										class="dashboard-desktop-ranking-time-select"
+										@change="handleTimeRangeChange"
 									>
-										<el-button
+										<el-option
 											v-for="option in timeRangeOptions.filter(opt => opt.value !== 'custom')"
 											:key="option.value"
-											:type="selectedTimeRange === option.value ? 'primary' : 'default'"
-											@click="selectedTimeRange = option.value; handleTimeRangeChange()"
-										>
-											{{ option.label }}
-										</el-button>
-									</el-button-group>
+											:label="option.label"
+											:value="option.value"
+										/>
+									</el-select>
 								</div>
 							</div>
 						</div>
