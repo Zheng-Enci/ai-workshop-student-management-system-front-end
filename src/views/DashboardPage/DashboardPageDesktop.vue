@@ -512,13 +512,10 @@ const initAttendanceChart = data => {
 		return
 	}
 
-	// 销毁旧实例（避免内存泄漏）
-	if (attendanceChartInstance) {
-		attendanceChartInstance.dispose()
+	// 如果实例不存在则初始化
+	if (!attendanceChartInstance) {
+		attendanceChartInstance = echarts.init(attendanceChart.value)
 	}
-
-	// 初始化ECharts实例
-	attendanceChartInstance = echarts.init(attendanceChart.value)
 
 	// 数据按签到数降序排序（柱状图从下到上递减）
 	const sortedData = [...data].sort((a, b) => b.attendanceCount - a.attendanceCount)
