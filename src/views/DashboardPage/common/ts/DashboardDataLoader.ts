@@ -405,6 +405,8 @@ class DashboardDataLoader {
 				this.loadRankingDataAsync()
 			])
 
+			await this.loadLevelStats()
+
 			if (gradeData.code === 200 && gradeData.data) {
 				this.gradeData = gradeData.data.map((item: any) => ({
 					grade: item.grade,
@@ -432,6 +434,8 @@ class DashboardDataLoader {
 			if (dailyData.code === 200 && dailyData.data != null) {
 				this.todayCountRef.value = dailyData.data
 			}
+
+			this.updateClubMembers()
 
 			return { gradeData, majorData, totalData, monthlyData, dailyData }
 		} catch (error) {
