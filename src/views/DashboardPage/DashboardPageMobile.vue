@@ -72,6 +72,7 @@ const themeStore = useThemeStore()
 // ===================== 样式导入 ====================
 // 导入移动端CSS样式
 import '@/views/DashboardPage/mobile/css/DashboardPageMobile.css'
+import LoadingMask from '@/components/LoadingMask.vue'
 
 // ===================== 响应式变量定义区 =====================
 /**
@@ -755,7 +756,7 @@ const handleResize = () => {
 
 watch(() => themeStore.isDarkMode, () => {
 	setTimeout(() => {
-		loadData()
+		initCharts()
 	}, 100)
 })
 
@@ -910,6 +911,8 @@ onUnmounted(() => {
 				</div>
 			</div>
 		</div>
+
+		<LoadingMask/>
 	</div>
 </template>
 
