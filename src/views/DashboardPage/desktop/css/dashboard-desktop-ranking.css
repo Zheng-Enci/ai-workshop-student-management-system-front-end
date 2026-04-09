@@ -104,6 +104,7 @@
   display: flex;
   gap: 20px;
   justify-content: space-between;
+  padding: 0 10px;
 }
 
 .dashboard-desktop-ranking-summary-stats .dashboard-desktop-ranking-stats-row {
