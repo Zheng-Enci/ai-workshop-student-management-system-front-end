@@ -49,7 +49,6 @@ const isLoading = profilePageMobile.isLoading
 const isEditing = profilePageMobile.isEditing
 const attendanceCount = profilePageMobile.attendanceCount
 const studentInfoId = profilePageMobile.studentInfoId
-const avatarUrl = profilePageMobile.avatarUrl
 const formData = profilePageMobile.formData
 const rules = profilePageMobile.rules
 const showPasswordDialog = profilePageMobile.showPasswordDialog
