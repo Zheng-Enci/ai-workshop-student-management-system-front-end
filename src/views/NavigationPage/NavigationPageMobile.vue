@@ -268,8 +268,21 @@ const goToScoreChangeRecords = () => {
  * @function goToAdmin
  * @description 点击管理员入口时触发,跳转到学生管理页面(仅管理员可见)
  */
-const goToAdmin = () => {
-	router.push('/student-manager')
+const handleAdminClick = () => {
+	if (isAdmin.value) {
+		router.push('/student-manager')
+	} else {
+		ElMessage.warning('您不是学生管理员，没有权限访问学生管理页面')
+	}
+}
+
+/**
+ * 跳转到超级管理员系统
+ * @function goToSuperAdmin
+ * @description 点击超级管理员入口时触发,跳转到超级管理系统(所有用户可见)
+ */
+const goToSuperAdmin = () => {
+	router.push('/admin')
 }
 
 /**
@@ -849,7 +862,7 @@ onBeforeUnmount(() => {
 						<div class="navigation-page-mobile-nav-sections-divider"/>
 					</div>
 					<div class="navigation-page-mobile-nav-sections-grid">
-						<div class="navigation-page-mobile-nav-sections-card admin-card" @click="goToAdmin">
+						<div class="navigation-page-mobile-nav-sections-card admin-card" @click="handleAdminClick">
 							<div class="navigation-page-mobile-nav-sections-card-bg"/>
 							<div class="navigation-page-mobile-nav-sections-card-content">
 								<div class="navigation-page-mobile-nav-sections-card-icon">
@@ -858,6 +871,18 @@ onBeforeUnmount(() => {
 								<div class="navigation-page-mobile-nav-sections-card-text">
 									<h3>学生管理</h3>
 									<p>管理学生信息</p>
+								</div>
+							</div>
+						</div>
+						<div class="navigation-page-mobile-nav-sections-card super-admin-card" @click="goToSuperAdmin">
+							<div class="navigation-page-mobile-nav-sections-card-bg"/>
+							<div class="navigation-page-mobile-nav-sections-card-content">
+								<div class="navigation-page-mobile-nav-sections-card-icon">
+									<el-icon size="28"><setting /></el-icon>
+								</div>
+								<div class="navigation-page-mobile-nav-sections-card-text">
+									<h3>超级管理员</h3>
+									<p>前往超级管理系统</p>
 								</div>
 							</div>
 						</div>
