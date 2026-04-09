@@ -25,7 +25,7 @@ import { ArrowLeft, Edit, Lock, Calendar } from '@element-plus/icons-vue'
 import LoadingMask from '@/components/LoadingMask.vue'
 import ProfilePageUploadAvatarMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageUploadAvatarMobileForm.vue'
 import ProfilePageChangePasswordMobileForm from '@/views/ProfilePage/mobile/forms/ProfilePageChangePasswordMobileForm.vue'
-import ProfilePageMobile from '@/views/ProfilePage/mobile/ts/ProfilePageMobile'
+import ProfilePageMobileClass from '@/views/ProfilePage/mobile/ts/ProfilePageMobile'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
@@ -42,7 +42,7 @@ import '@/views/ProfilePage/mobile/css/profile-page-mobile-form-section.css'
 import '@/views/ProfilePage/mobile/css/profile-page-mobile-security.css'
 import '@/views/ProfilePage/mobile/forms/css/ProfilePageChangePasswordMobileForm.css'
 
-const profilePageMobile = new ProfilePageMobile()
+const profilePageMobile = new ProfilePageMobileClass()
 
 const formRef = profilePageMobile.formRef
 const isLoading = profilePageMobile.isLoading
