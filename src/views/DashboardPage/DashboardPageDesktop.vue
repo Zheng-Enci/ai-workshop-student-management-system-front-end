@@ -485,6 +485,12 @@ html.dark .time-select-dropdown .el-select-dropdown__item {
 }
 
 .dashboard-desktop .el-radio-button__original-radio {
-	display: none;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.dashboard-desktop .el-radio-button__inner::before {
+	display: none !important;
 }
 </style>
