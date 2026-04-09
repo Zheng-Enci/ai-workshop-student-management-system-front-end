@@ -628,7 +628,7 @@ const initAttendanceChart = data => {
 	}
 
 	// 应用配置项
-	attendanceChartInstance.setOption(option, true)
+	attendanceChartInstance.setOption(option)
 }
 
 // ======================== 数据加载/更新函数 ========================
