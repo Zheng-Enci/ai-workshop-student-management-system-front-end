@@ -550,9 +550,10 @@ onMounted(() => {
 				<el-button
 					class="profile-page-desktop-back-btn"
 					type="primary"
-					:icon="ArrowLeft"
 					circle
-					@click="goBack"/>
+					@click="goBack">
+					<el-icon><ArrowLeft /></el-icon>
+				</el-button>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊"
@@ -613,14 +614,14 @@ onMounted(() => {
 							</div>
 							<div class="profile-page-desktop-form-actions">
 								<el-button
-									type="primary"
-									:icon="Edit"
-									:disabled="isLoading"
-									class="profile-page-desktop-edit-btn"
-									@click="toggleEditMode"
-								>
-									{{ isEditing ? '取消' : '编辑' }}
-								</el-button>
+								type="primary"
+								:disabled="isLoading"
+								class="profile-page-desktop-edit-btn"
+								@click="toggleEditMode"
+							>
+								<el-icon><Edit /></el-icon>
+								{{ isEditing ? '取消' : '编辑' }}
+							</el-button>
 							</div>
 						</div>
 
@@ -814,12 +815,12 @@ onMounted(() => {
 								</div>
 							</div>
 							<el-button
-								type="primary"
-								:icon="Lock"
-								class="security-btn"
-								@click="openPasswordDialog">
-								{{ showPasswordDialog ? '返回基本信息' : '修改密码' }}
-							</el-button>
+							type="primary"
+							class="security-btn"
+							@click="openPasswordDialog">
+							<el-icon><Lock /></el-icon>
+							{{ showPasswordDialog ? '返回基本信息' : '修改密码' }}
+						</el-button>
 						</div>
 					</div>
 

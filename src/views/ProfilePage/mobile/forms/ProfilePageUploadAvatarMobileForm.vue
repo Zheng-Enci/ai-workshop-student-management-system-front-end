@@ -370,9 +370,13 @@ watch(() => props.studentInfoId, newId => {
 				</div>
 				<!-- 裁剪控制按钮 -->
 				<div class="profile-page-upload-avatar-mobile-form-controls">
-					<el-button :icon="ZoomOut" circle @click="zoomOut"/>
+					<el-button circle @click="zoomOut">
+						<el-icon><ZoomOut /></el-icon>
+					</el-button>
 					<span class="profile-page-upload-avatar-mobile-form-zoom-info">{{ Math.round(scale * 100) }}%</span>
-					<el-button :icon="ZoomIn" circle @click="zoomIn"/>
+					<el-button circle @click="zoomIn">
+						<el-icon><ZoomIn /></el-icon>
+					</el-button>
 					<el-button style="margin-left: 20px;" @click="resetCrop">重置</el-button>
 				</div>
 			</div>
