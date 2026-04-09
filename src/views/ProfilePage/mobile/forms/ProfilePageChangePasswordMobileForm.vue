@@ -8,7 +8,7 @@
 
 // ======================== 导入 ========================
 import { ref, reactive, onMounted, computed } from 'vue'
-import { ElMessage, ElIcon, ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
+import { ElMessage, ElIcon, ElForm, ElFormItem, ElInput, ElButton, ElDialog } from 'element-plus'
 import { Lock } from '@element-plus/icons-vue'
 import ProfilePageChangePasswordMobileForm from '@/views/ProfilePage/mobile/forms/ts/ProfilePageChangePasswordMobileForm'
 import 'element-plus/theme-chalk/base.css'
@@ -18,6 +18,8 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-dialog.css'
+import 'element-plus/theme-chalk/el-overlay.css'
 import '@/views/ProfilePage/mobile/forms/css/ProfilePageChangePasswordMobileForm.css'
 
 const profilePageChangePasswordMobileForm = new ProfilePageChangePasswordMobileForm()
