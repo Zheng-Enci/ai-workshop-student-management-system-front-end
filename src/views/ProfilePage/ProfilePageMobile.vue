@@ -391,6 +391,49 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* 入场动画 */
+.profile-container {
+	animation: fadeInUp 0.8s ease-out forwards;
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+/* 淡入上移动画 */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 为不同区块添加延迟动画，增强层次感 */
+.profile-page-mobile-header {
+	animation: fadeInUp 0.6s ease-out 0.1s forwards;
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+.profile-page-mobile-profile-card {
+	animation: fadeInUp 0.6s ease-out 0.2s forwards;
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+.profile-page-mobile-form-section {
+	animation: fadeInUp 0.6s ease-out 0.3s forwards;
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+.password-section {
+	animation: fadeInUp 0.6s ease-out 0.4s forwards;
+	opacity: 0;
+	transform: translateY(20px);
+}
 </style>
 
 
