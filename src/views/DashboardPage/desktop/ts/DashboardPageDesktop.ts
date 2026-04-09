@@ -685,6 +685,8 @@ export default class DashboardPageDesktop {
 			await nextTick()
 			this.initCharts()
 			
+			VerificationCode.startAutoRefresh()
+			
 			this.loadingMaskStore.hideLoadingMask()
 		} catch (error) {
 			console.error('加载数据失败:', error)
