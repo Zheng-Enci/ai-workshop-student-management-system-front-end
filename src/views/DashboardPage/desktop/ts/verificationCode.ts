@@ -1,4 +1,4 @@
-import AttendanceApi from '../../../api/ts/AttendanceApi'
+import AttendanceApi from '@/api/AttendanceApi'
 import {ElMessage} from 'element-plus'
 import {verificationCodeConfig} from './verificationCodeConfig'
 
