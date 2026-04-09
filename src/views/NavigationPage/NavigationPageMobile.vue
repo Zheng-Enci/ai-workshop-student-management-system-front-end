@@ -72,55 +72,46 @@ const { toggleTheme } = themeStore
 // ===================== 响应式变量定义区 =====================
 /**
  * 考勤次数
- * @type {Ref<number|null>}
  * @description 用户累计签到次数
  */
 const attendanceCount = ref(null)
 /**
  * 签到积分
- * @type {Ref<number|null>}
  * @description 通过签到获得的积分
  */
 const signInPoints = ref(null)
 /**
  * 活动积分
- * @type {Ref<number|null>}
  * @description 通过参与活动获得的积分
  */
 const activityPoints = ref(null)
 /**
  * 总积分
- * @type {Ref<number|null>}
  * @description 用户累计总积分
  */
 const totalPoints = ref(null)
 /**
  * 积分加载状态
- * @type {Ref<boolean>}
  * @description 控制积分数据加载中的状态显示
  */
 const pointsLoading = ref(false)
 /**
  * 用户头像URL
- * @type {Ref<string|null>}
  * @description 用户自定义头像的URL地址
  */
 const avatarUrl = ref(null)
 /**
  * 是否有头像
- * @type {Ref<boolean>}
  * @description 标记用户是否已上传自定义头像
  */
 const hasAvatar = ref(false)
 /**
  * 头像加载状态
- * @type {Ref<boolean>}
  * @description 控制头像加载中的状态显示
  */
 const avatarLoading = ref(false)
 /**
  * 头像提示是否已显示
- * @type {Ref<boolean>}
  * @description 控制"上传头像"提示只显示一次
  */
 const avatarTipShown = ref(false)
