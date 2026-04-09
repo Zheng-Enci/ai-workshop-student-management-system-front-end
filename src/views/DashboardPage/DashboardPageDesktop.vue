@@ -10,7 +10,7 @@ import { ElButton, ElIcon, ElProgress } from 'element-plus'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-progress.css'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar } from '@element-plus/icons-vue'
 import DashboardPageDesktopClass from './desktop/ts/DashboardPageDesktop'
 
 const dashboardPageDesktop = new DashboardPageDesktopClass()
