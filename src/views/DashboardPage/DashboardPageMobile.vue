@@ -589,8 +589,8 @@ const initAttendanceChart = data => {
 			}
 		},
 		grid: {
-			left: '15%',
-			right: '15%',
+			left: '0%',
+			right: '25%',
 			bottom: '3%',
 			top: '0%',
 			containLabel: true
