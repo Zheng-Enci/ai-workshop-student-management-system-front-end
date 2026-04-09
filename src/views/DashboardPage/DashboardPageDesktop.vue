@@ -590,7 +590,7 @@ const initAttendanceChart = data => {
 					// 动态颜色（区分不同排名）
 					color(params) {
 						const totalCount = sortedData.length
-						const index = params.dataIndex
+						const index = totalCount - 1 - params.dataIndex // 调整索引以匹配反转后的排名
 
 						// TOP10使用固定渐变色系
 						if (totalCount <= 10) {
