@@ -164,6 +164,9 @@ class DashboardDataLoader {
 	private clubMembersRef: any
 	private workshopMembersCountRef: any
 
+	private gradeData: Array<{ grade: number; count: number }> | null = null
+	private majorData: Array<{ major: string; count: number }> | null = null
+
 	constructor(
 		topStudentsRef: any,
 		totalStudentsRef: any,
@@ -186,6 +189,36 @@ class DashboardDataLoader {
 		this.selectedTimeRangeRef = selectedTimeRangeRef
 		this.clubMembersRef = clubMembersRef
 		this.workshopMembersCountRef = workshopMembersCountRef
+	}
+
+	/**
+	 * 加载年级和专业统计数据
+	 * @private
+	 * @returns 包含年级和专业数据的对象
+	 */
+	private async loadGradeAndMajorData(): Promise<void> {
+		try {
+			const [gradeData, majorData] = await Promise.all([
+				getGradeStatistics(),
+				getMajorStatistics()
+			])
+
+			if (gradeData.code === 200 && gradeData.data) {
+				this.gradeData = gradeData.data.map((item: any) => ({
+					grade: item.grade,
+					count: item.count
+				}))
+			}
+
+			if (majorData.code === 200 && majorData.data) {
+				this.majorData = majorData.data.map((item: any) => ({
+					major: item.major,
+					count: item.count
+				}))
+			}
+		} catch (error) {
+			throw new Error(`获取年级和专业数据失败：${error.message}`)
+		}
 	}
 
 	/**
@@ -304,11 +337,17 @@ class DashboardDataLoader {
 			])
 
 			if (gradeData.code === 200 && gradeData.data) {
-				// 图表初始化在组件内处理
+				this.gradeData = gradeData.data.map((item: any) => ({
+					grade: item.grade,
+					count: item.count
+				}))
 			}
 
 			if (majorData.code === 200 && majorData.data) {
-				// 图表初始化在组件内处理
+				this.majorData = majorData.data.map((item: any) => ({
+					major: item.major,
+					count: item.count
+				}))
 			}
 
 			if (totalData.code === 200 && totalData.data) {
@@ -379,6 +418,30 @@ class DashboardDataLoader {
 			}
 		}
 		return { timeRange: 'week' }
+	}
+
+	/**
+	 * 获取年级分布数据
+	 * @returns 年级分布数据
+	 */
+	public getGradeData(): Array<{ grade: number; count: number }> {
+		return this.gradeData || []
+	}
+
+	/**
+	 * 获取专业分布数据
+	 * @returns 专业分布数据
+	 */
+	public getMajorData(): Array<{ major: string; count: number }> {
+		return this.majorData || []
+	}
+
+	/**
+	 * 获取排行榜数据
+	 * @returns 排行榜数据
+	 */
+	public getRankingData(): Array<{ name: string; grade: number; major: string; attendanceCount: number; levelName: string }> {
+		return this.topStudentsRef.value || []
 	}
 }
 
