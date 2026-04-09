@@ -42,19 +42,15 @@ class verificationCode {
 	 */
 	static async checkVerificationCodePermission() {
 		try {
-			const response = await AttendanceApi.getVerificationCode()
-            if (response.code === 403) {
-                verificationCodeStatus = "没有权限获取验证码"
-                return false
-            }
-			// 如果能够成功获取验证码，说明有权访问
+			await AttendanceApi.getVerificationCode()
 			return true
 		} catch (error: any) {
-			// 如果是403错误，说明无权访问
-			if (error.response && error.response.status === 403) {
-				return false
+			const errorMessage = error?.message || ''
+			if (errorMessage.includes('403') || errorMessage.includes('不允许访问') || errorMessage.includes('无权')) {
+				verificationCodeStatus = "没有权限获取验证码"
+			} else {
+				verificationCodeStatus = "验证码获取失败"
 			}
-			// 其他错误也视为无权访问
 			return false
 		}
 	}
