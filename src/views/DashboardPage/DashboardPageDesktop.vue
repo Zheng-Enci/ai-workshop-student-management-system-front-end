@@ -544,7 +544,7 @@ const initAttendanceChart = data => {
 			}
 		},
 		grid: {
-			left: '12%', // 左内边距
+			left: '0%', // 左内边距
 			right: '20%', // 右内边距（预留标签空间）
 			bottom: '3%', // 下内边距
 			top: '0%', // 上内边距
