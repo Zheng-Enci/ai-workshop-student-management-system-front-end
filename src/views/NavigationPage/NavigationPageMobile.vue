@@ -118,14 +118,12 @@ const avatarTipShown = ref(false)
 
 /**
  * 邀请码表单显示状态
- * @type {Ref<boolean>}
  * @description 控制邀请码表单的显示与隐藏
  */
 const invitationFormVisible = ref(false)
 
 /**
  * 是否为管理员
- * @type {ComputedRef<boolean>}
  * @description 根据用户等级判断是否为管理员(等级码为3)
  */
 const isAdmin = computed(() => userStore.studentLevel?.levelCode === 3)
