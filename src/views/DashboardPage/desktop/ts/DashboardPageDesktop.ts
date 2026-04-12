@@ -743,7 +743,7 @@ export default class DashboardPageDesktop {
 		}
 	}
 
-	private static readonly DATA_REFRESH_INTERVAL = 128
+	private static readonly DATA_REFRESH_INTERVAL = 512
 
 	/**
 	 * 加载进度条动画
