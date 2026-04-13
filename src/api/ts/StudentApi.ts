@@ -1,63 +1,87 @@
 /**
- * StudentApi.ts
- * 学生API接口模块 - TypeScript版本
+ * 学生API接口模块
  * 提供学生相关的API调用方法
  *
- * @module api/ts/StudentApi
+ * @module api/StudentApi
  * @description 封装学生信息查询、头像获取、等级查询等API接口
  */
 
-import ApiInterceptor from '@/composables/ApiInterceptor'
-import config from '@/config'
+import ApiInterceptor from '../../composables/ApiInterceptor'
+import type { AxiosInstance, AxiosError } from 'axios'
+import config from '../../config'
+
+/**
+ * API响应类型
+ */
+export interface ApiResponse<T> {
+	data: T
+}
+
+/**
+ * 学生等级响应类型
+ */
+export interface StudentLevelResponse {
+	data: number
+}
+
+/**
+ * 学生数据库表ID响应类型
+ */
+export interface StudentDatabaseIdResponse {
+	data: number
+}
+
+/**
+ * 学生公开字段值响应类型
+ */
+export interface StudentPublicFieldResponse {
+	data: string
+}
 
 /**
  * 学生API类
  * 提供学生相关的API调用方法
+ *
+ * @class StudentApi
+ * @description 使用ApiInterceptor创建的axios实例进行HTTP请求
  */
-export default class StudentApi {
+class StudentApi {
 	/**
-	 * API拦截器实例
-	 * 使用ApiInterceptor创建axios实例，包含统一的请求拦截和错误处理
+	 * axios实例
+	 * 使用ApiInterceptor创建的带拦截器的axios实例
+	 *
+	 * @static
 	 */
-	private static api = ApiInterceptor.createInstance()
+	static api: AxiosInstance = ApiInterceptor.createInstance()
 
 	/**
-	 * 根据学生ID获取学生公开字段值
-	 * 获取指定学生的某个公开字段的值（如姓名、头像等）
+	 * 根据学生数据库表主键ID获取学生公开字段值
+	 * 获取指定学生的某个公开字段的值（如姓名、性别、学院、年级、专业等）
 	 *
-	 * @param studentInfoId - 学生信息ID
-	 * @param fieldName - 字段名称（如'name'、'avatar'等）
-	 * @returns 响应数据对象
-	 * @throws Error 如果请求失败，抛出错误
+	 * @static
+	 * @param {string|number} studentInfoId - 学生数据库表主键ID
+	 * @param {string} fieldName - 字段名称（支持的字段：name, gender, college, grade, major）
+	 * @returns {Promise<ApiResponse<string>>} 响应数据对象，data字段为字段值
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * // 获取ID为1的学生姓名
+	 * const result = await StudentApi.getStudentPublicFieldValueById(1, 'name')
+	 * console.log(result.data) // 输出：张三
 	 */
-	public static async getStudentPublicFieldValueById(
+	static async getStudentPublicFieldValueById(
 		studentInfoId: string | number,
 		fieldName: string
-	): Promise<any> {
-		try {
-			const response = await this.api.get('/api/v1/students/public-field-value-by-id', {
-				params: {
-					'student-info-id': studentInfoId,
-					'field-name': fieldName
-				}
-			})
-			return response.data
-		} catch (error: any) {
-			// 处理HTTP响应错误
-			if (error.response) {
-				const { status } = error.response
-				// 服务器错误（5xx）
-				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试或联系管理员')
-				} else {
-					// 其他HTTP错误，使用服务器返回的错误消息
-					throw new Error(error.response.data.message)
-				}
-			} else {
-				// 网络错误或其他错误
-				throw new Error('网络错误，获取学生信息失败, 请检查网络连接')
+	): Promise<ApiResponse<string>> {
+		const response = await this.api.get('/api/v1/students/public-field-value-by-id', {
+			params: {
+				'student-info-id': studentInfoId,
+				'field-name': fieldName
 			}
-		}
+		}).catch((error: AxiosError<{ message: string }>) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试或联系管理员' : msg)
+		})
+		return response.data
 	}
 
 	/**
@@ -65,11 +89,16 @@ export default class StudentApi {
 	 * 根据学生数据库表主键ID和头像尺寸生成头像URL地址
 	 * 这是一个静态辅助方法，不发起网络请求，仅生成URL
 	 *
-	 * @param studentInfoId - 学生数据库表主键ID
-	 * @param avatarSize - 头像尺寸，默认64像素
-	 * @returns 头像URL地址，如果studentInfoId无效则返回null
+	 * @static
+	 * @param {string|number} studentInfoId - 学生数据库表主键ID
+	 * @param {number} [avatarSize=64] - 头像尺寸，默认64像素
+	 * @returns {string|null} 头像URL地址，如果studentInfoId无效则返回null
+	 * @example
+	 * // 获取ID为1的学生头像URL
+	 * const avatarUrl = StudentApi.getAvatarUrl(1, 128)
+	 * console.log(avatarUrl) // 输出：http://<server>:7001/api/v1/students/avatar/1?avatarSize=128
 	 */
-	public static getAvatarUrl(studentInfoId: string | number, avatarSize: number = 64): string | null {
+	static getAvatarUrl(studentInfoId: string | number, avatarSize: number = 64): string | null {
 		// 验证学生ID是否有效
 		if (!studentInfoId) {
 			return null
@@ -83,11 +112,16 @@ export default class StudentApi {
 	 * 根据学号和头像尺寸生成头像URL地址
 	 * 这是一个静态辅助方法，不发起网络请求，仅生成URL
 	 *
-	 * @param studentId - 学生学号
-	 * @param avatarSize - 头像尺寸，默认64像素
-	 * @returns 头像URL地址，如果studentId无效则返回null
+	 * @static
+	 * @param {string|number} studentId - 学生学号
+	 * @param {number} [avatarSize=64] - 头像尺寸，默认64像素
+	 * @returns {string|null} 头像URL地址，如果studentId无效则返回null
+	 * @example
+	 * // 获取学号为2021001001的学生头像URL
+	 * const avatarUrl = StudentApi.getAvatarUrlByStudentId('2021001001', 128)
+	 * console.log(avatarUrl) // 输出：http://<server>:7001/api/v1/students/avatar/by-student-id/2021001001?avatarSize=128
 	 */
-	public static getAvatarUrlByStudentId(studentId: string | number, avatarSize: number = 64): string | null {
+	static getAvatarUrlByStudentId(studentId: string | number, avatarSize: number = 64): string | null {
 		// 验证学号是否有效
 		if (!studentId) {
 			return null
@@ -100,102 +134,87 @@ export default class StudentApi {
 	 * 通过数据库表主键ID获取学生等级
 	 * 获取指定学生的等级信息（等级代码：0-3）
 	 *
-	 * @param studentInfoId - 学生数据库表主键ID
-	 * @returns 响应数据对象，data字段为等级代码(0-3)
-	 * @throws Error 如果请求失败，抛出错误
+	 * @static
+	 * @param {string|number} studentInfoId - 学生数据库表主键ID
+	 * @returns {Promise<ApiResponse<number>>} 响应数据对象，data字段为等级代码(0-3)
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * // 获取ID为1的学生等级
+	 * const result = await StudentApi.getStudentLevelByInfoId(1)
+	 * console.log(result.data) // 输出：1（普通成员）
+	 *
+	 * // 等级代码说明：
+	 * // 0 = 社团成员（默认）
+	 * // 1 = 普通成员
+	 * // 2 = 核心成员
+	 * // 3 = 管理员
 	 */
-	public static async getStudentLevelByInfoId(studentInfoId: string | number): Promise<any> {
-		try {
-			const response = await this.api.get('/api/v1/students/get-student-level-by-info-id', {
-				params: { 'student-info-id': studentInfoId }
-			})
-			return response.data
-		} catch (error: any) {
-			// 处理HTTP响应错误
-			if (error.response) {
-				const { status } = error.response
-				// 服务器错误（5xx）
-				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试')
-				} else {
-					// 其他HTTP错误
-					throw new Error(error.response.data.message)
-				}
-			} else {
-				// 网络错误
-				throw new Error('网络错误，获取学生等级失败，请检查网络连接')
-			}
-		}
+	static async getStudentLevelByInfoId(studentInfoId: string | number): Promise<ApiResponse<number>> {
+		const response = await this.api.get('/api/v1/students/get-student-level-by-info-id', {
+			params: { 'student-info-id': studentInfoId }
+		}).catch((error: AxiosError<{ message: string }>) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
 	}
 
 	/**
 	 * 通过token获取学生数据库表主键ID
 	 * 根据用户登录凭证获取学生的数据库表主键ID
 	 *
-	 * @param token - 用户登录凭证
-	 * @returns 响应数据对象，data字段为学生数据库表主键ID
-	 * @throws Error 如果请求失败，抛出错误
+	 * @static
+	 * @param {string} token - 用户登录凭证（JWT Token）
+	 * @returns {Promise<ApiResponse<number>>} 响应数据对象，data字段为学生数据库表主键ID
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * // 使用token获取学生数据库表ID
+	 * const result = await StudentApi.getStudentDatabaseTableId('your-jwt-token')
+	 * console.log(result.data) // 输出：123
 	 */
-	public static async getStudentDatabaseTableId(token: string): Promise<any> {
-		try {
-			const response = await this.api.get('/api/v1/students/get-student-database-table-id', {
-				params: { token }
-			})
-			return response.data
-		} catch (error: any) {
-			// 处理HTTP响应错误
-			if (error.response) {
-				const { status } = error.response
-				// 服务器错误（5xx）
-				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试')
-				} else {
-					// 其他HTTP错误
-					throw new Error(error.response.data.message)
-				}
-			} else {
-				// 网络错误
-				throw new Error('网络错误，获取学生数据库表主键 ID 失败，请检查网络连接')
-			}
-		}
+	static async getStudentDatabaseTableId(token: string): Promise<ApiResponse<number>> {
+		const response = await this.api.get('/api/v1/students/get-student-database-table-id', {
+			params: { token }
+		}).catch((error: AxiosError<{ message: string }>) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
 	}
 
 	/**
 	 * 修改学生等级
-	 * 通过学号修改学生等级
+	 * 通过学号修改学生等级（需要特殊密码认证）
 	 *
-	 * @param studentId - 学生学号
-	 * @param newLevel - 新的等级（0-3）
-	 * @param specialPassword - 特殊密码（用于认证）
-	 * @returns 响应数据对象
-	 * @throws Error 如果请求失败，抛出错误
+	 * @static
+	 * @param {string} studentId - 学生学号
+	 * @param {number} newLevel - 新的等级（0-3）
+	 * @param {string} specialPassword - 特殊密码（用于认证）
+	 * @returns {Promise<ApiResponse<string>>} 响应数据对象
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * // 将学号为2021001001的学生等级修改为2（核心成员）
+	 * const result = await StudentApi.updateStudentLevel('2021001001', 2, 'your-special-password')
+	 * console.log(result.data) // 输出：等级修改成功
 	 */
-	public static async updateStudentLevel(
+	static async updateStudentLevel(
 		studentId: string,
 		newLevel: number,
 		specialPassword: string
-	): Promise<any> {
-		try {
-			const response = await this.api.post('/api/v1/students/set-level', {
-				'studentId': studentId,
-				'levelCode': newLevel
-			}, {
-				params: {
-					'special-password': specialPassword
-				}
-			})
-			return response.data
-		} catch (error: any) {
-			if (error.response) {
-				const { status } = error.response
-				if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试或联系管理员')
-				} else {
-					throw new Error(error.response.data.message)
-				}
-			} else {
-				throw new Error('网络错误，修改学生等级失败，请检查网络连接')
+	): Promise<ApiResponse<string>> {
+		const response = await this.api.post('/api/v1/students/set-level', {
+			'studentId': studentId,
+			'levelCode': newLevel
+		}, {
+			params: {
+				'special-password': specialPassword
 			}
-		}
+		}).catch((error: AxiosError<{ message: string }>) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试或联系管理员' : msg)
+		})
+		return response.data
 	}
 }
+
+export default StudentApi
