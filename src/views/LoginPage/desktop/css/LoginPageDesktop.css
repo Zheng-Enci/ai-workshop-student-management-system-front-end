@@ -15,9 +15,9 @@
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	/* 日间模式：蓝青科技调，专业冷静 */
-	/* Day mode: blue-cyan tech tone, professional and calm */
-	background: linear-gradient(-45deg, #0ea5e9, #06b6d4, #14b8a6, #0891b2, #2563eb, #0ea5e9);
+	/* 日间模式：简洁蓝青调 */
+	/* Day mode: concise blue-cyan tone */
+	background: linear-gradient(-45deg, #0ea5e9, #06b6d4, #0ea5e9);
 	background-size: 400% 400%;
 	animation: gradientShift 15s ease infinite;
 	transition: background 0.8s ease;
