@@ -92,7 +92,7 @@ const isLoading = ref(false)
  * @type {Ref<string|null>}
  * @description 根据学号获取的学生头像URL
  */
-const studentAvatarUrl = ref<string | null>(null)
+const studentAvatarUrl = ref(null)
 
 /**
  * 表单验证规则配置
