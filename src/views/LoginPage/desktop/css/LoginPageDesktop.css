@@ -1,0 +1,321 @@
+/**
+ * LoginPageDesktop 样式文件
+ * 桌面端登录页面样式
+ *
+ * @file LoginPageDesktop.css
+ * @description 桌面端登录页面的样式定义
+ */
+
+/* 登录页面容器 */
+/* Login page container */
+.login-page-desktop-container {
+	position: relative;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* 背景装饰效果 */
+/* Background decoration effects */
+.login-page-desktop-background-effects {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+/* 渐变光球 */
+/* Gradient orbs */
+.login-page-desktop-gradient-orb {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(80px);
+	opacity: 0.6;
+	animation: float 20s infinite ease-in-out;
+}
+
+.login-page-desktop-gradient-orb.orb-1 {
+	width: 400px;
+	height: 400px;
+	background: rgba(255, 255, 255, 0.2);
+	top: -100px;
+	right: -100px;
+	animation-delay: 0s;
+}
+
+.login-page-desktop-gradient-orb.orb-2 {
+	width: 300px;
+	height: 300px;
+	background: rgba(255, 255, 255, 0.15);
+	bottom: -50px;
+	left: -50px;
+	animation-delay: -5s;
+}
+
+.login-page-desktop-gradient-orb.orb-3 {
+	width: 250px;
+	height: 250px;
+	background: rgba(255, 255, 255, 0.1);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation-delay: -10s;
+}
+
+@keyframes float {
+	0%, 100% {
+		transform: translate(0, 0) scale(1);
+	}
+	33% {
+		transform: translate(30px, -30px) scale(1.1);
+	}
+	66% {
+		transform: translate(-20px, 20px) scale(0.9);
+	}
+}
+
+/* 返回首页按钮 */
+/* Home button */
+.login-page-desktop-home-btn {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	z-index: 10;
+}
+
+/* 登录内容区域 */
+/* Login content area */
+.login-page-desktop-content {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: 420px;
+	padding: 20px;
+}
+
+/* 登录卡片 */
+/* Login card */
+.login-page-desktop-card {
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(20px);
+	border-radius: 24px;
+	padding: 40px;
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+	animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 卡片头部 */
+/* Card header */
+.login-page-desktop-card-header {
+	text-align: center;
+	margin-bottom: 32px;
+}
+
+.login-page-desktop-card-header .logo {
+	width: 80px;
+	height: 80px;
+	margin-bottom: 16px;
+	cursor: pointer;
+	transition: transform 0.3s ease;
+}
+
+.login-page-desktop-card-header .logo:hover {
+	transform: scale(1.05);
+}
+
+.login-page-desktop-card-header h1 {
+	font-size: 24px;
+	font-weight: 700;
+	color: #1f2937;
+	margin: 0 0 8px 0;
+}
+
+.login-page-desktop-subtitle {
+	font-size: 14px;
+	color: #6b7280;
+	margin: 0;
+}
+
+/* 登录表单 */
+/* Login form */
+.login-page-desktop-form {
+	margin-top: 24px;
+}
+
+.login-page-desktop-form .form-item {
+	margin-bottom: 20px;
+}
+
+.login-page-desktop-form .form-item:last-child {
+	margin-bottom: 0;
+}
+
+/* 输入框组 */
+/* Input group */
+.login-page-desktop-input-group {
+	display: flex;
+	align-items: center;
+	background: #f3f4f6;
+	border-radius: 12px;
+	padding: 4px;
+	transition: all 0.3s ease;
+}
+
+.login-page-desktop-input-group:focus-within {
+	background: #e5e7eb;
+	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* 输入框图标 */
+/* Input icon */
+.login-page-desktop-input-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	color: #6b7280;
+	font-size: 18px;
+}
+
+/* 自定义输入框 */
+/* Custom input */
+.login-page-desktop-custom-input {
+	flex: 1;
+}
+
+.login-page-desktop-custom-input :deep(.el-input__wrapper) {
+	background: transparent;
+	box-shadow: none;
+	padding: 0 12px 0 0;
+}
+
+.login-page-desktop-custom-input :deep(.el-input__inner) {
+	height: 44px;
+	font-size: 15px;
+	color: #1f2937;
+}
+
+.login-page-desktop-custom-input :deep(.el-input__inner::placeholder) {
+	color: #9ca3af;
+}
+
+/* 表单选项 */
+/* Form options */
+.login-page-desktop-form-options {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 16px 0 24px 0;
+}
+
+/* 记住我复选框 */
+/* Remember me checkbox */
+.login-page-desktop-remember-checkbox {
+	--el-checkbox-text-color: #6b7280;
+	--el-checkbox-font-size: 14px;
+}
+
+.login-page-desktop-remember-checkbox :deep(.el-checkbox__input.is-checked + .el-checkbox__label) {
+	color: #6366f1;
+}
+
+.login-page-desktop-remember-checkbox :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+	background-color: #6366f1;
+	border-color: #6366f1;
+}
+
+/* 登录按钮 */
+/* Login button */
+.login-page-desktop-login-button {
+	width: 100%;
+	height: 48px;
+	font-size: 16px;
+	font-weight: 600;
+	border-radius: 12px;
+	background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+	border: none;
+	transition: all 0.3s ease;
+}
+
+.login-page-desktop-login-button:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+}
+
+.login-page-desktop-login-button:active {
+	transform: translateY(0);
+}
+
+.login-page-desktop-login-button.is-loading,
+.login-page-desktop-login-button.is-disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+/* 卡片底部 */
+/* Card footer */
+.login-page-desktop-card-footer {
+	text-align: center;
+	margin-top: 24px;
+	padding-top: 24px;
+	border-top: 1px solid #e5e7eb;
+}
+
+/* 注册链接 */
+/* Register link */
+.login-page-desktop-register-link {
+	font-size: 14px;
+	color: #6b7280;
+	margin: 0;
+}
+
+.login-page-desktop-register-link .link {
+	color: #6366f1;
+	font-weight: 600;
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+
+.login-page-desktop-register-link .link:hover {
+	color: #4f46e5;
+	text-decoration: underline;
+}
+
+/* 响应式适配 */
+/* Responsive design */
+@media (max-width: 480px) {
+	.login-page-desktop-content {
+		padding: 16px;
+	}
+
+	.login-page-desktop-card {
+		padding: 24px;
+	}
+
+	.login-page-desktop-card-header .logo {
+		width: 60px;
+		height: 60px;
+	}
+
+	.login-page-desktop-card-header h1 {
+		font-size: 20px;
+	}
+}

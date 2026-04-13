@@ -23,6 +23,10 @@ import 'element-plus/theme-chalk/el-icon.css'
 // Vue Router 路由功能导入
 import { useRouter } from 'vue-router'
 
+// ===================== 样式导入 =====================
+// 桌面端登录页面样式
+import '@/views/LoginPage/desktop/css/LoginPageDesktop.css'
+
 // ===================== 业务模块导入区 =====================
 // 学生相关API:登录接口
 import { login } from '@/api/student'
@@ -214,27 +218,27 @@ onMounted(() => {
 
 <template>
 	<!-- 登录页面容器 -->
-	<div class="login-container">
+	<div class="login-page-desktop-container">
 		<!-- 背景装饰效果 -->
-		<div class="background-effects">
-			<div class="gradient-orb orb-1"/>
-			<div class="gradient-orb orb-2"/>
-			<div class="gradient-orb orb-3"/>
+		<div class="login-page-desktop-background-effects">
+			<div class="login-page-desktop-gradient-orb orb-1"/>
+			<div class="login-page-desktop-gradient-orb orb-2"/>
+			<div class="login-page-desktop-gradient-orb orb-3"/>
 		</div>
 
 		<!-- 返回首页按钮 -->
 		<el-button
-			class="home-btn"
+			class="login-page-desktop-home-btn"
 			type="primary"
 			:icon="House"
 			circle
 			@click="goToHome"/>
 
 		<!-- 登录卡片内容 -->
-		<div class="login-content">
-			<div class="login-card">
+		<div class="login-page-desktop-content">
+			<div class="login-page-desktop-card">
 				<!-- 卡片头部:Logo和标题 -->
-				<div class="card-header">
+				<div class="login-page-desktop-card-header">
 					<img
 						src="@/assets/AiWorkShop_icon.png"
 						alt="AI坊学生管理系统"
@@ -242,7 +246,7 @@ onMounted(() => {
 						title="切换主题模式"
 						@click="toggleTheme"/>
 					<h1>AI坊学生管理系统</h1>
-					<p class="subtitle">人工智能创作坊</p>
+					<p class="login-page-desktop-subtitle">人工智能创作坊</p>
 				</div>
 
 				<!-- 登录表单 -->
@@ -250,10 +254,10 @@ onMounted(() => {
 					:model="form"
 					:rules="rules"
 					label-width="0px"
-					class="login-form">
+					class="login-page-desktop-form">
 					<el-form-item prop="studentId" class="form-item">
-						<div class="input-group">
-							<div class="input-icon">
+						<div class="login-page-desktop-input-group">
+							<div class="login-page-desktop-input-icon">
 								<el-icon>
 									<user/>
 								</el-icon>
@@ -261,15 +265,15 @@ onMounted(() => {
 							<el-input
 								v-model="form.studentId"
 								placeholder="请输入学号"
-								class="custom-input"
+								class="login-page-desktop-custom-input"
 								size="large"
 							/>
 						</div>
 					</el-form-item>
 
 					<el-form-item prop="password" class="form-item">
-						<div class="input-group">
-							<div class="input-icon">
+						<div class="login-page-desktop-input-group">
+							<div class="login-page-desktop-input-icon">
 								<el-icon>
 									<lock/>
 								</el-icon>
@@ -278,7 +282,7 @@ onMounted(() => {
 								v-model="form.password"
 								type="password"
 								placeholder="请输入密码"
-								class="custom-input"
+								class="login-page-desktop-custom-input"
 								size="large"
 								show-password
 							/>
@@ -286,8 +290,8 @@ onMounted(() => {
 					</el-form-item>
 
 					<!-- 记住我选项 -->
-					<div class="form-options">
-						<el-checkbox v-model="rememberMe" class="remember-checkbox">
+					<div class="login-page-desktop-form-options">
+						<el-checkbox v-model="rememberMe" class="login-page-desktop-remember-checkbox">
 							记住我
 						</el-checkbox>
 					</div>
@@ -295,7 +299,7 @@ onMounted(() => {
 					<!-- 登录按钮 -->
 					<el-button
 						type="primary"
-						class="login-button"
+						class="login-page-desktop-login-button"
 						size="large"
 						:loading="isLoading"
 						:disabled="isLoading"
@@ -306,8 +310,8 @@ onMounted(() => {
 				</el-form>
 
 				<!-- 卡片底部:注册链接 -->
-				<div class="card-footer">
-					<p class="register-link">
+				<div class="login-page-desktop-card-footer">
+					<p class="login-page-desktop-register-link">
 						还没有账号？
 						<router-link to="/register" class="link">立即注册</router-link>
 					</p>
@@ -316,6 +320,3 @@ onMounted(() => {
 		</div>
 	</div>
 </template>
-
-<style scoped>
-</style>
