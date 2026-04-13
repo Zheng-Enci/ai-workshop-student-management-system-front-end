@@ -15,9 +15,9 @@
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	/* 日间模式：清新蓝绿渐变背景 */
-	/* Day mode: fresh blue-green gradient background */
-	background: linear-gradient(-45deg, #a8edea, #fed6e3, #d299c2, #89f7fe, #66a6ff, #a1c4fd);
+	/* 日间模式：蓝紫色调，比夜间模式稍亮 */
+	/* Day mode: blue-purple tones, slightly brighter than night mode */
+	background: linear-gradient(-45deg, #3b82f6, #6366f1, #8b5cf6, #a855f7, #3b82f6, #4f46e5);
 	background-size: 400% 400%;
 	animation: gradientShift 15s ease infinite;
 	transition: background 0.8s ease;
