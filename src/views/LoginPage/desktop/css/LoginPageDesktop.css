@@ -15,20 +15,19 @@
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	/* 日间模式：简洁蓝青调 */
-	/* Day mode: concise blue-cyan tone */
-	background: linear-gradient(-45deg, #0ea5e9, #06b6d4, #0ea5e9);
-	background-size: 400% 400%;
-	animation: gradientShift 15s ease infinite;
+	/* 使用成员合照作为背景图片 */
+	/* Use members group photo as background */
+	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 	transition: background 0.8s ease;
 }
 
-/* 深色模式下的背景 - 夜间模式：深邃神秘的渐变 */
-/* Dark mode background - Night mode: deep and mysterious gradient */
+/* 深色模式下的背景 - 夜间模式同样使用背景图片并添加暗色遮罩 */
+/* Dark mode background - use same background image with dark overlay */
 html.dark .login-page-desktop-container {
-	background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #1e293b, #0f172a, #020617);
-	background-size: 400% 400%;
-	animation: gradientShift 20s ease infinite;
+	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
 }
 
 /* 渐变背景动画 */
