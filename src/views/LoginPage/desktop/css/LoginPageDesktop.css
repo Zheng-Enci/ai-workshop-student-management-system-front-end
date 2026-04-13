@@ -459,10 +459,10 @@ html.dark .login-page-desktop-card {
 	/* 输入框玻璃模态背景 */
 	/* Input box glassmorphism background */
 	background: rgba(255, 255, 255, 0.15);
-	/* 轻微模糊效果 - 更轻的玻璃模态 */
-	/* Slight blur effect - lighter glassmorphism */
-	backdrop-filter: blur(2px);
-	-webkit-backdrop-filter: blur(2px);
+	/* 极轻微模糊效果 - 极简玻璃模态 */
+	/* Minimal blur effect - minimal glassmorphism */
+	backdrop-filter: blur(1px);
+	-webkit-backdrop-filter: blur(1px);
 	border-radius: 12px;
 	padding: 4px;
 	transition: all 0.3s ease;
@@ -552,10 +552,10 @@ html.dark .login-page-desktop-card {
 	/* 玻璃模态背景 */
 	/* Glassmorphism background */
 	background: rgba(255, 255, 255, 0.2);
-	/* 轻微模糊效果 - 更轻的玻璃模态 */
-	/* Slight blur effect - lighter glassmorphism */
-	backdrop-filter: blur(2px);
-	-webkit-backdrop-filter: blur(2px);
+	/* 极轻微模糊效果 - 极简玻璃模态 */
+	/* Minimal blur effect - minimal glassmorphism */
+	backdrop-filter: blur(1px);
+	-webkit-backdrop-filter: blur(1px);
 	/* 白色边框 */
 	/* White border */
 	border: 1px solid rgba(255, 255, 255, 0.5);
