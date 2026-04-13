@@ -3,7 +3,7 @@
  * 桌面端登录页面样式
  *
  * @file LoginPageDesktop.css
- * @description 桌面端登录页面的样式定义
+ * @description 桌面端登录页面的样式定义，支持深色/浅色主题切换
  */
 
 /* 登录页面容器 */
@@ -15,7 +15,8 @@
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: var(--bg-primary);
+	transition: background 0.4s ease;
 }
 
 /* 背景装饰效果 */
@@ -43,7 +44,7 @@
 .login-page-desktop-gradient-orb.orb-1 {
 	width: 400px;
 	height: 400px;
-	background: rgba(255, 255, 255, 0.2);
+	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 	top: -100px;
 	right: -100px;
 	animation-delay: 0s;
@@ -52,7 +53,7 @@
 .login-page-desktop-gradient-orb.orb-2 {
 	width: 300px;
 	height: 300px;
-	background: rgba(255, 255, 255, 0.15);
+	background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
 	bottom: -50px;
 	left: -50px;
 	animation-delay: -5s;
@@ -61,7 +62,7 @@
 .login-page-desktop-gradient-orb.orb-3 {
 	width: 250px;
 	height: 250px;
-	background: rgba(255, 255, 255, 0.1);
+	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
@@ -102,12 +103,14 @@
 /* 登录卡片 */
 /* Login card */
 .login-page-desktop-card {
-	background: rgba(255, 255, 255, 0.95);
+	background: var(--glass-bg);
 	backdrop-filter: blur(20px);
+	border: 1px solid var(--glass-border);
 	border-radius: 24px;
 	padding: 40px;
-	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 25px 50px -12px var(--shadow-color);
 	animation: slideUp 0.6s ease-out;
+	transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 @keyframes slideUp {
@@ -143,14 +146,16 @@
 .login-page-desktop-card-header h1 {
 	font-size: 24px;
 	font-weight: 700;
-	color: #1f2937;
+	color: var(--text-primary);
 	margin: 0 0 8px 0;
+	transition: color 0.4s ease;
 }
 
 .login-page-desktop-subtitle {
 	font-size: 14px;
-	color: #6b7280;
+	color: var(--text-tertiary);
 	margin: 0;
+	transition: color 0.4s ease;
 }
 
 /* 登录表单 */
@@ -172,14 +177,14 @@
 .login-page-desktop-input-group {
 	display: flex;
 	align-items: center;
-	background: #f3f4f6;
+	background: var(--bg-secondary);
 	border-radius: 12px;
 	padding: 4px;
 	transition: all 0.3s ease;
 }
 
 .login-page-desktop-input-group:focus-within {
-	background: #e5e7eb;
+	background: var(--bg-tertiary);
 	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
@@ -191,8 +196,9 @@
 	justify-content: center;
 	width: 44px;
 	height: 44px;
-	color: #6b7280;
+	color: var(--text-tertiary);
 	font-size: 18px;
+	transition: color 0.4s ease;
 }
 
 /* 自定义输入框 */
@@ -210,11 +216,13 @@
 .login-page-desktop-custom-input :deep(.el-input__inner) {
 	height: 44px;
 	font-size: 15px;
-	color: #1f2937;
+	color: var(--text-primary);
+	transition: color 0.4s ease;
 }
 
 .login-page-desktop-custom-input :deep(.el-input__inner::placeholder) {
-	color: #9ca3af;
+	color: var(--text-tertiary);
+	transition: color 0.4s ease;
 }
 
 /* 表单选项 */
@@ -229,17 +237,17 @@
 /* 记住我复选框 */
 /* Remember me checkbox */
 .login-page-desktop-remember-checkbox {
-	--el-checkbox-text-color: #6b7280;
+	--el-checkbox-text-color: var(--text-secondary);
 	--el-checkbox-font-size: 14px;
 }
 
 .login-page-desktop-remember-checkbox :deep(.el-checkbox__input.is-checked + .el-checkbox__label) {
-	color: #6366f1;
+	color: var(--primary-color);
 }
 
 .login-page-desktop-remember-checkbox :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
-	background-color: #6366f1;
-	border-color: #6366f1;
+	background-color: var(--primary-color);
+	border-color: var(--primary-color);
 }
 
 /* 登录按钮 */
@@ -250,7 +258,7 @@
 	font-size: 16px;
 	font-weight: 600;
 	border-radius: 12px;
-	background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+	background: var(--primary-gradient);
 	border: none;
 	transition: all 0.3s ease;
 }
@@ -276,26 +284,28 @@
 	text-align: center;
 	margin-top: 24px;
 	padding-top: 24px;
-	border-top: 1px solid #e5e7eb;
+	border-top: 1px solid var(--border-color);
+	transition: border-color 0.4s ease;
 }
 
 /* 注册链接 */
 /* Register link */
 .login-page-desktop-register-link {
 	font-size: 14px;
-	color: #6b7280;
+	color: var(--text-secondary);
 	margin: 0;
+	transition: color 0.4s ease;
 }
 
 .login-page-desktop-register-link .link {
-	color: #6366f1;
+	color: var(--primary-color);
 	font-weight: 600;
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
 
 .login-page-desktop-register-link .link:hover {
-	color: #4f46e5;
+	color: var(--secondary-color);
 	text-decoration: underline;
 }
 
