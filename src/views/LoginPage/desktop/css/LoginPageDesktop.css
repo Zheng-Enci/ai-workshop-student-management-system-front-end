@@ -217,6 +217,28 @@ html.dark .login-page-desktop-card {
 	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
+/* 默认头像占位符 */
+/* Default avatar placeholder */
+.login-page-desktop-default-avatar {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.2);
+	border: 3px solid rgba(255, 255, 255, 0.5);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	color: rgba(255, 255, 255, 0.8);
+	transition: all 0.3s ease;
+}
+
+.login-page-desktop-default-avatar:hover {
+	transform: scale(1.05);
+	background: rgba(255, 255, 255, 0.3);
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
 /* 登录表单 */
 /* Login form */
 .login-page-desktop-form {
