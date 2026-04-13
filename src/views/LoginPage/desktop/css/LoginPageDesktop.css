@@ -330,17 +330,21 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 /* 登录卡片 */
 /* Login card */
 .login-page-desktop-card {
-	/* 全透明背景，保留模糊效果 */
-	/* Fully transparent background with blur effect retained */
+	/* 卡片完全不可见，只显示表单内容在背景上 */
+	/* Card completely invisible, only form content displayed on background */
 	background: transparent;
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
+	/* 去除模糊效果 */
+	/* Remove blur effect */
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
 	/* 去除边框 */
 	/* Remove border */
 	border: none;
 	border-radius: 24px;
 	padding: 40px;
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+	/* 去除阴影 */
+	/* Remove shadow */
+	box-shadow: none;
 	animation: slideUp 0.6s ease-out;
 	transition: all 0.4s ease;
 }
@@ -351,10 +355,16 @@ html.dark .login-page-desktop-card {
 	/* 深色模式下同样使用全透明背景 */
 	/* Also use fully transparent background in dark mode */
 	background: transparent;
+	/* 深色模式下同样去除模糊效果 */
+	/* Also remove blur effect in dark mode */
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
 	/* 深色模式下同样去除边框 */
 	/* Also remove border in dark mode */
 	border: none;
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+	/* 深色模式下同样去除阴影 */
+	/* Also remove shadow in dark mode */
+	box-shadow: none;
 }
 
 @keyframes slideUp {
