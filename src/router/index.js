@@ -74,6 +74,32 @@ const routes = [
 			description: '厦工AI坊学生管理系统登录页面，输入账号密码登录系统，访问成员管理、积分查询、考勤统计等功能'
 		}
 	},
+	/**
+	 * 登录页面路由（移动端）
+	 * 移动设备专用登录页面
+	 */
+	{
+		path: '/login/mobile',
+		name: 'LoginMobile',
+		component: () => import('../views/LoginPage/LoginPageMobile.vue'),
+		meta: {
+			title: '登录 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统登录页面，输入账号密码登录系统，访问成员管理、积分查询、考勤统计等功能'
+		}
+	},
+	/**
+	 * 登录页面路由（桌面端）
+	 * 桌面设备专用登录页面
+	 */
+	{
+		path: '/login/desktop',
+		name: 'LoginDesktop',
+		component: () => import('../views/LoginPage/LoginPageDesktop.vue'),
+		meta: {
+			title: '登录 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统登录页面，输入账号密码登录系统，访问成员管理、积分查询、考勤统计等功能'
+		}
+	},
 
 	/**
 	 * 注册页面路由
