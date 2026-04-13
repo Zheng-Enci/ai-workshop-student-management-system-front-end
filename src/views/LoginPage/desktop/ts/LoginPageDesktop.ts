@@ -136,7 +136,9 @@ export default class LoginPageDesktop {
 		}
 
 		try {
-			const avatarUrl = StudentApi.getAvatarUrlByStudentId(this.form.value.studentId, 128)
+			// 获取256x256像素的头像，确保在100px显示尺寸下有清晰的视觉效果
+			// Fetch 256x256 pixel avatar to ensure clear visual quality at 100px display size
+			const avatarUrl = StudentApi.getAvatarUrlByStudentId(this.form.value.studentId, 256)
 			if (avatarUrl) {
 				this.studentAvatarUrl.value = avatarUrl
 			}
