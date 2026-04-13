@@ -5,10 +5,17 @@ description: 页面目录结构、入口文件规范、表单组件命名规则
 # 页面结构
 3个Vue文件：PageName.vue（入口）、PageNameDesktop.vue、PageNameMobile.vue
 # 页面代码分离（重要）
-Vue文件只保留<template>，TS代码抽到ts文件夹，CSS抽到css文件夹
-例如：views/ProfilePage/ProfilePageMobile.vue → 只保留template
-     views/ProfilePage/ts/ProfilePageMobile.ts → 抽离的TS代码
-     views/ProfilePage/css/ProfilePageMobile.css → 抽离的样式
+## 入口页面（PageName.vue）
+作为设备检测和路由跳转的入口页面，允许将TS代码、CSS样式与Template写在同一个Vue文件中
+要求：
+1. CSS类名必须使用文件名作为前缀（kebab-case）
+2. 例如：LoginPage.vue 的类名前缀为 login-page-*
+3. 例如：ProfilePage.vue 的类名前缀为 profile-page-*
+## 路由目标页面（PageNameDesktop.vue / PageNameMobile.vue）
+作为路由跳转目标的页面，TS代码、CSS样式必须分离到对应文件夹
+例如：views/ProfilePage/ProfilePageDesktop.vue → 只保留template
+     views/ProfilePage/desktop/ts/ProfilePageDesktop.ts → 抽离的TS代码
+     views/ProfilePage/desktop/css/ProfilePageDesktop.css → 抽离的样式
 # 页面资源文件夹
 除3个Vue文件外，其他资源放在desktop和mobile两个文件夹中
 例如：views/ProfilePage/

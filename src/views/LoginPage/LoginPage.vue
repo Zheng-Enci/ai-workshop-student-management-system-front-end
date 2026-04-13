@@ -1,323 +1,127 @@
+<!--
+  登录页面设备检测组件
+  检测设备类型并自动跳转到对应的登录页面版本
+
+  @component LoginPage
+  @description 作为登录页面的入口，结合屏幕宽度和UserAgent检测设备类型后重定向
+-->
 <script setup>
-/**
- * 登录页面组件
- * 
- * @description 提供用户登录功能,支持记住密码、验证输入等
- * @component LoginPage
- */
-// ===================== 第三方依赖导入区 =====================
-// Element Plus 图标组件:用户、锁、首页图标
-import { User, Lock, House } from '@element-plus/icons-vue'
-// Element Plus 核心组件:表单、表单项、输入框、按钮、消息提示、复选框、图标
-import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElCheckbox, ElIcon } from 'element-plus'
-// Vue3 核心API:响应式变量、组件挂载生命周期
-import { ref, onMounted } from 'vue'
-// Element Plus 基础样式文件(按需导入,减小打包体积)
-import 'element-plus/theme-chalk/el-form.css'
-import 'element-plus/theme-chalk/el-form-item.css'
-import 'element-plus/theme-chalk/el-input.css'
-import 'element-plus/theme-chalk/el-button.css'
-import 'element-plus/theme-chalk/el-message.css'
-import 'element-plus/theme-chalk/el-checkbox.css'
-import 'element-plus/theme-chalk/el-icon.css'
-// Vue Router 路由功能导入
+/** *******************************************************************
+ * LoginPage - 登录页面入口
+ * 1. 检测设备类型
+ * 2. 重定向到对应设备的登录页面
+ ********************************************************************/
+
+// ======================== 导入 ========================
+import { onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
+import { useLoadingMaskStore } from '@/stores/loading'
+import LoadingMask from '@/components/LoadingMask.vue'
 
-// ===================== 业务模块导入区 =====================
-// 学生相关API:登录接口
-import { login } from '@/api/student'
-// 学生API封装类:获取学生数据库主键ID
-import StudentApi from '@/api/StudentApi'
-// Pinia状态管理:主题切换功能
-import { useThemeStore } from '@/stores/theme'
-// Pinia状态管理:用户信息存储
-import { useUserStore } from '@/stores/user'
-
-// ===================== 全局实例初始化 =====================
+// ======================== 状态 ========================
 /**
  * 路由实例
- * @type {Router}
- * @description 用于页面跳转和路由导航
+ * Router instance
  */
 const router = useRouter()
-/**
- * 用户状态仓库实例
- * @type {Store}
- * @description 管理用户登录态、用户信息存储和获取
- */
-const userStore = useUserStore()
-/**
- * 主题状态仓库实例
- * @type {Store}
- * @description 管理应用主题切换(亮色/暗色模式)
- */
-const themeStore = useThemeStore()
-/**
- * 主题切换方法
- * @type {Function}
- * @description 解构自主题Store,用于切换明暗主题
- */
-const { toggleTheme } = themeStore
-
-// ===================== 响应式变量定义区 =====================
-/**
- * 登录表单数据模型
- * @type {Ref<Object>}
- * @property {string} studentId - 学生学号(10位数字)
- * @property {string} password - 登录密码(6-16位字符)
- */
-const form = ref({
-	studentId: '',
-	password: ''
-})
-/**
- * 记住我复选框状态
- * @type {Ref<boolean>}
- * @description 控制是否保存用户登录信息到本地存储
- */
-const rememberMe = ref(false)
-/**
- * 登录按钮加载状态
- * @type {Ref<boolean>}
- * @description 控制登录按钮的loading状态,防止重复提交
- */
-const isLoading = ref(false)
 
 /**
- * 表单验证规则配置
- * @type {Object}
- * @description Element Plus表单验证规则,包含必填、格式、长度等校验
- * @property {Array} studentId - 学号验证规则数组
- * @property {Array} password - 密码验证规则数组
+ * 全局加载蒙版 Store
+ * Global loading mask store
  */
-const rules = {
-	/**
-	 * 学号验证规则
-	 * @description 包含必填校验和格式校验(10位数字)
-	 */
-	studentId: [
-		{ required: true, message: '请输入学号', trigger: 'blur' },
-		{ pattern: /^\d{10}$/, message: '学号必须为 10 位数字', trigger: 'blur' }
-	],
-	/**
-	 * 密码验证规则
-	 * @description 包含必填校验和长度校验(6-16位)
-	 */
-	password: [
-		{ required: true, message: '请输入密码', trigger: 'blur' },
-		{ min: 6, message: '密码长度至少 6 位', trigger: 'blur' },
-		{ max: 16, message: '密码长度不能超过 16 位', trigger: 'blur' }
-	]
+const loadingMaskStore = useLoadingMaskStore()
+
+// ======================== 方法 ========================
+/**
+ * 检测设备类型
+ * 结合屏幕宽度和UserAgent进行更准确的设备类型判断
+ *
+ * @description Detect device type by combining screen width and UserAgent
+ * @returns {string} 'mobile' | 'desktop'
+ */
+const detectDeviceType = () => {
+	const screenWidth = window.innerWidth
+	const userAgent = navigator.userAgent.toLowerCase()
+
+	// 结合屏幕宽度和 userAgent 进行更准确的检测
+	// 屏幕宽度小于768px或UserAgent包含移动设备标识，则判定为移动设备
+	// Combine screen width and userAgent for more accurate detection
+	// Screen width < 768px or userAgent contains mobile device identifier = mobile
+	const isMobile = screenWidth < 768 ||
+		/android.*mobile|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
+
+	return isMobile ? 'mobile' : 'desktop'
 }
 
 /**
- * 处理登录操作
- * 
- * @function handleLogin
- * @description 执行登录流程的核心方法,包含以下步骤:
- * 1. 开启加载状态,防止重复提交
- * 2. 调用登录API接口,获取token和用户基础信息
- * 3. 根据token获取学生数据库主键ID
- * 4. 构建完整的用户信息对象并存储到状态管理
- * 5. 根据"记住我"选项决定是否保存登录信息到本地存储
- * 6. 显示成功提示并跳转到导航页面
- * 
- * @async
- * @returns {Promise<void>}
+ * 重定向到对应设备的登录页面
+ * 根据检测到的设备类型跳转到对应的路由
+ *
+ * Redirect to login page for corresponding device
+ * Jump to corresponding route based on detected device type
  */
-const handleLogin = async () => {
-	// 开启加载状态,禁用登录按钮
-	isLoading.value = true
-	try {
-		// 第一步:调用登录API,传入学号和密码
-		const response = await login(form.value)
-		
-		// 第二步:使用返回的token获取学生数据库表主键ID
-		// 这个ID用于后续的用户信息关联和头像获取等操作
-		const studentDbIdResponse = await StudentApi.getStudentDatabaseTableId(response.data.token)
-		const studentDbId = studentDbIdResponse.data
+const redirectToDevicePage = () => {
+	// 执行设备检测（符合项目要求,入口文件需要做设备检测）
+	// Perform device detection (per project requirements, entry file needs device detection)
+	const deviceType = detectDeviceType()
 
-		// 第三步:构建完整的用户信息对象
-		// 合并登录接口返回的数据、学号和数据库主键ID
-		const userInfo = {
-			...response.data,
-			studentId: form.value.studentId,
-			studentDatabaseTableId: studentDbId
-		}
-		// 将用户信息和token存储到Pinia状态管理中
-		userStore.setUserInfo(userInfo, response.data.token)
-
-		// 第四步:处理"记住我"功能
-		// 如果用户勾选了记住我,将学号和密码保存到本地存储
-		// 否则清除本地存储中的记住信息
-		if (rememberMe.value) {
-			localStorage.setItem('rememberedUser', JSON.stringify({
-				studentId: form.value.studentId,
-				password: form.value.password
-			}))
-		} else {
-			localStorage.removeItem('rememberedUser')
-		}
-
-		// 第五步:显示成功提示并跳转到导航页面
-		ElMessage.success('登录成功')
-		router.push('/navigation')
-	} catch (error) {
-		// 异常处理:显示错误提示信息
-		ElMessage.error(error.message || '登录失败，请检查您的学号和密码')
-	} finally {
-		// 无论成功或失败,都要关闭加载状态
-		isLoading.value = false
+	// 根据设备类型重定向到对应的登录页面
+	// Redirect to corresponding login page based on device type
+	if (deviceType === 'mobile') {
+		router.replace('/login/mobile')
+	} else {
+		router.replace('/login/desktop')
 	}
+
+	// 在跳转后关闭加载蒙版
+	// Close loading mask after redirect
+	nextTick(() => {
+		loadingMaskStore.hideLoadingMask()
+	})
 }
 
+// ======================== 生命周期 ========================
 /**
- * 返回首页
- * 
- * @function goToHome
- * @description 点击首页按钮时触发,跳转到系统首页
- */
-const goToHome = () => {
-	router.push('/')
-}
-
-/**
- * 组件挂载生命周期钩子
- * 
- * @description 组件挂载完成后自动执行,用于恢复"记住我"功能保存的用户信息
- * 流程:
- * 1. 从本地存储读取保存的用户信息
- * 2. 如果存在,解析JSON数据并填充到表单
- * 3. 自动勾选"记住我"复选框
- * 4. 如果数据解析失败,清除本地存储中的无效数据
+ * 组件挂载时立即执行设备检测和页面跳转
+ * Execute device detection and page redirect when component is mounted
  */
 onMounted(() => {
-	// 从本地存储获取保存的用户信息
-	const rememberedUser = localStorage.getItem('rememberedUser')
-	if (rememberedUser) {
-		try {
-			// 解析JSON字符串为对象
-			const userData = JSON.parse(rememberedUser)
-			// 填充学号和密码到表单
-			form.value.studentId = userData.studentId
-			form.value.password = userData.password
-			// 自动勾选"记住我"复选框
-			rememberMe.value = true
-		} catch (error) {
-			// 如果数据解析失败(可能是数据损坏),清除本地存储
-			// 避免下次加载时再次尝试解析无效数据
-			localStorage.removeItem('rememberedUser')
-		}
-	}
+	nextTick(() => {
+		// 显示全局加载蒙版
+		// Show global loading mask
+		loadingMaskStore.showLoadingMask('正在检测设备类型...')
+		// 执行设备检测和重定向
+		// Execute device detection and redirect
+		redirectToDevicePage()
+	})
 })
 </script>
 
 <template>
-	<!-- 登录页面容器 -->
-	<div class="login-container">
-		<!-- 背景装饰效果 -->
-		<div class="background-effects">
-			<div class="gradient-orb orb-1"/>
-			<div class="gradient-orb orb-2"/>
-			<div class="gradient-orb orb-3"/>
-		</div>
-
-		<!-- 返回首页按钮 -->
-		<el-button
-			class="home-btn"
-			type="primary"
-			:icon="House"
-			circle
-			@click="goToHome"/>
-
-		<!-- 登录卡片内容 -->
-		<div class="login-content">
-			<div class="login-card">
-				<!-- 卡片头部:Logo和标题 -->
-				<div class="card-header">
-					<img
-						src="@/assets/AiWorkShop_icon.png"
-						alt="AI坊学生管理系统"
-						class="logo"
-						title="切换主题模式"
-						@click="toggleTheme"/>
-					<h1>AI坊学生管理系统</h1>
-					<p class="subtitle">人工智能创作坊</p>
-				</div>
-
-				<!-- 登录表单 -->
-				<el-form
-					:model="form"
-					:rules="rules"
-					label-width="0px"
-					class="login-form">
-					<el-form-item prop="studentId" class="form-item">
-						<div class="input-group">
-							<div class="input-icon">
-								<el-icon>
-									<user/>
-								</el-icon>
-							</div>
-							<el-input
-								v-model="form.studentId"
-								placeholder="请输入学号"
-								class="custom-input"
-								size="large"
-							/>
-						</div>
-					</el-form-item>
-
-					<el-form-item prop="password" class="form-item">
-						<div class="input-group">
-							<div class="input-icon">
-								<el-icon>
-									<lock/>
-								</el-icon>
-							</div>
-							<el-input
-								v-model="form.password"
-								type="password"
-								placeholder="请输入密码"
-								class="custom-input"
-								size="large"
-								show-password
-							/>
-						</div>
-					</el-form-item>
-
-					<!-- 记住我选项 -->
-					<div class="form-options">
-						<el-checkbox v-model="rememberMe" class="remember-checkbox">
-							记住我
-						</el-checkbox>
-					</div>
-
-					<!-- 登录按钮 -->
-					<el-button
-						type="primary"
-						class="login-button"
-						size="large"
-						:loading="isLoading"
-						:disabled="isLoading"
-						@click="handleLogin"
-					>
-						{{ isLoading ? '登录中...' : '登录' }}
-					</el-button>
-				</el-form>
-
-				<!-- 卡片底部:注册链接 -->
-				<div class="card-footer">
-					<p class="register-link">
-						还没有账号？
-						<router-link to="/register" class="link">立即注册</router-link>
-					</p>
-				</div>
-			</div>
-		</div>
+	<!-- 设备检测页面容器 -->
+	<!-- Device detection page container -->
+	<div class="login-page-device-detection-container">
+		<LoadingMask/>
 	</div>
 </template>
 
 <style scoped>
-/* 导入外部样式文件 */
-@import './css/LoginPage.css';
+/* 设备检测页面容器样式 */
+/* Device detection page container styles */
+.login-page-device-detection-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	/* 渐变背景 */
+	/* Gradient background */
+	background: linear-gradient(
+		135deg,
+		rgba(99, 102, 241, 0.1) 0%,
+		rgba(168, 85, 247, 0.08) 25%,
+		rgba(236, 72, 153, 0.06) 50%,
+		rgba(251, 146, 60, 0.08) 75%,
+		rgba(34, 197, 94, 0.1) 100%
+	);
+}
 </style>
