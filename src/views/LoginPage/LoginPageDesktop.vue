@@ -30,8 +30,8 @@ import '@/views/LoginPage/desktop/css/LoginPageDesktop.css'
 // ===================== 业务模块导入区 =====================
 // 学生相关API:登录接口
 import { login } from '@/api/student'
-// 学生API封装类:获取学生数据库主键ID
-import StudentApi from '@/api/StudentApi'
+// 学生API封装类:获取学生数据库主键ID和头像URL
+import StudentApi from '@/api/ts/StudentApi'
 // Pinia状态管理:主题切换功能
 import { useThemeStore } from '@/stores/theme'
 // Pinia状态管理:用户信息存储
@@ -86,6 +86,13 @@ const rememberMe = ref(false)
  * @description 控制登录按钮的loading状态,防止重复提交
  */
 const isLoading = ref(false)
+
+/**
+ * 学生头像URL
+ * @type {Ref<string|null>}
+ * @description 根据学号获取的学生头像URL
+ */
+const studentAvatarUrl = ref<string | null>(null)
 
 /**
  * 表单验证规则配置
@@ -186,6 +193,33 @@ const goToHome = () => {
 }
 
 /**
+ * 根据学号获取学生头像
+ * 
+ * @function fetchStudentAvatar
+ * @description 当学号输入框失去焦点时触发,根据学号获取头像URL
+ * @async
+ * @returns {Promise<void>}
+ */
+const fetchStudentAvatar = async () => {
+	// 验证学号格式(10位数字)
+	if (!form.value.studentId || !/^\d{10}$/.test(form.value.studentId)) {
+		studentAvatarUrl.value = null
+		return
+	}
+	
+	try {
+		// 使用StudentApi获取头像URL
+		const avatarUrl = StudentApi.getAvatarUrlByStudentId(form.value.studentId, 128)
+		if (avatarUrl) {
+			studentAvatarUrl.value = avatarUrl
+		}
+	} catch (error) {
+		// 获取头像失败时不显示错误,只是不显示头像
+		studentAvatarUrl.value = null
+	}
+}
+
+/**
  * 组件挂载生命周期钩子
  * 
  * @description 组件挂载完成后自动执行,用于恢复"记住我"功能保存的用户信息
@@ -256,6 +290,16 @@ onMounted(() => {
 					<p class="login-page-desktop-welcome-text">欢迎登录</p>
 				</div>
 
+				<!-- 学生头像显示区域 -->
+				<div v-if="studentAvatarUrl" class="login-page-desktop-avatar-container">
+					<img
+						:src="studentAvatarUrl"
+						alt="学生头像"
+						class="login-page-desktop-student-avatar"
+						@error="studentAvatarUrl = null"
+					/>
+				</div>
+
 				<!-- 登录表单 -->
 				<el-form
 					:model="form"
@@ -274,6 +318,7 @@ onMounted(() => {
 								placeholder="请输入学号"
 								class="login-page-desktop-custom-input"
 								size="large"
+								@blur="fetchStudentAvatar"
 							/>
 						</div>
 					</el-form-item>
