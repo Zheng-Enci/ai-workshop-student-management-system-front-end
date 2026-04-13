@@ -44,9 +44,21 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 	<div class="login-page-desktop-container">
 		<!-- 背景装饰效果 -->
 		<div class="login-page-desktop-background-effects">
+			<!-- 科技感网格背景 -->
+			<div class="login-page-desktop-grid-pattern"/>
+			<!-- 浮动粒子 -->
+			<div class="login-page-desktop-particle"/>
+			<div class="login-page-desktop-particle"/>
+			<div class="login-page-desktop-particle"/>
+			<div class="login-page-desktop-particle"/>
+			<div class="login-page-desktop-particle"/>
+			<div class="login-page-desktop-particle"/>
+			<div class="login-page-desktop-particle"/>
+			<!-- 渐变光球 -->
 			<div class="login-page-desktop-gradient-orb orb-1"/>
 			<div class="login-page-desktop-gradient-orb orb-2"/>
 			<div class="login-page-desktop-gradient-orb orb-3"/>
+			<div class="login-page-desktop-gradient-orb orb-4"/>
 		</div>
 
 		<!-- 返回首页按钮 -->
