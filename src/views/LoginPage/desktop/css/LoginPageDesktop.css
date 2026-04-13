@@ -15,10 +15,7 @@
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 /* 背景装饰效果 */
