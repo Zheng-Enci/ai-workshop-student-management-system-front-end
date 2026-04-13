@@ -463,6 +463,10 @@ html.dark .login-page-desktop-card {
 	border-radius: 12px;
 	padding: 4px;
 	transition: all 0.3s ease;
+	/* 确保输入框组宽度与按钮一致 */
+	/* Ensure input group width matches button */
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .login-page-desktop-input-group:focus-within {
