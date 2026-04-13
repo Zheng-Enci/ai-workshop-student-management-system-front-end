@@ -8,7 +8,7 @@
 
 // ===================== 第三方依赖导入 =====================
 import { User, Lock, House } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElButton, ElIcon, ElInput, ElForm, ElFormItem, ElCheckbox } from 'element-plus'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
 import 'element-plus/theme-chalk/el-input.css'
