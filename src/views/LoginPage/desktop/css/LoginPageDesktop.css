@@ -456,9 +456,13 @@ html.dark .login-page-desktop-card {
 .login-page-desktop-input-group {
 	display: flex;
 	align-items: center;
-	/* 输入框透明背景 */
-	/* Input box transparent background */
+	/* 输入框玻璃模态背景 */
+	/* Input box glassmorphism background */
 	background: rgba(255, 255, 255, 0.15);
+	/* 轻微模糊效果 */
+	/* Slight blur effect */
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
 	border-radius: 12px;
 	padding: 4px;
 	transition: all 0.3s ease;
@@ -545,9 +549,13 @@ html.dark .login-page-desktop-card {
 	font-size: 16px;
 	font-weight: 600;
 	border-radius: 12px;
-	/* 透明背景 */
-	/* Transparent background */
+	/* 玻璃模态背景 */
+	/* Glassmorphism background */
 	background: rgba(255, 255, 255, 0.2);
+	/* 轻微模糊效果 */
+	/* Slight blur effect */
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
 	/* 白色边框 */
 	/* White border */
 	border: 1px solid rgba(255, 255, 255, 0.5);
