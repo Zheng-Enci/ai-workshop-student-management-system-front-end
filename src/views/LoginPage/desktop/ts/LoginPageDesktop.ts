@@ -147,10 +147,10 @@ export default class LoginPageDesktop {
 
 	/**
 	 * 初始化方法
-	 * 组件挂载时恢复记住的用户信息
+	 * 组件挂载时恢复记住的用户信息，并尝试加载头像
 	 */
 	public init(): void {
-		onMounted(() => {
+		onMounted(async () => {
 			const rememberedUser = localStorage.getItem('rememberedUser')
 			if (rememberedUser) {
 				try {
@@ -158,6 +158,8 @@ export default class LoginPageDesktop {
 					this.form.value.studentId = userData.studentId
 					this.form.value.password = userData.password
 					this.rememberMe.value = true
+					// 自动加载头像
+					await this.fetchStudentAvatar()
 				} catch (error) {
 					localStorage.removeItem('rememberedUser')
 				}
