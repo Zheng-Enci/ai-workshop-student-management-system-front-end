@@ -86,11 +86,6 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 		<!-- 登录卡片内容 -->
 		<div class="login-page-desktop-content">
 			<div class="login-page-desktop-card">
-				<!-- 卡片头部:副标题 -->
-				<div class="login-page-desktop-card-header">
-					<p class="login-page-desktop-welcome-text">欢迎登录</p>
-				</div>
-
 				<!-- 学生头像显示区域 -->
 				<div class="login-page-desktop-avatar-container">
 					<!-- 有头像时显示头像（使用v-lazy懒加载） -->
