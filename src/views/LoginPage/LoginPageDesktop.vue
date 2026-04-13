@@ -292,12 +292,13 @@ onMounted(() => {
 
 				<!-- 学生头像显示区域 -->
 				<div class="login-page-desktop-avatar-container">
-					<!-- 有头像时显示头像 -->
+					<!-- 有头像时显示头像（使用原生懒加载） -->
 					<img
 						v-if="studentAvatarUrl"
 						:src="studentAvatarUrl"
 						alt="学生头像"
 						class="login-page-desktop-student-avatar"
+						loading="lazy"
 						@error="studentAvatarUrl = null"
 					/>
 					<!-- 无头像时显示默认图标 -->
