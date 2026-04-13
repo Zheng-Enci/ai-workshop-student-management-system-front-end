@@ -28,17 +28,15 @@ const loginPage = new LoginPageDesktop()
 loginPage.init()
 
 // ===================== 导出模板使用的变量和方法 =====================
-const {
-	form,
-	rememberMe,
-	isLoading,
-	studentAvatarUrl,
-	rules,
-	toggleTheme,
-	handleLogin,
-	goToHome,
-	fetchStudentAvatar
-} = loginPage
+const form = loginPage.form
+const rememberMe = loginPage.rememberMe
+const isLoading = loginPage.isLoading
+const studentAvatarUrl = loginPage.studentAvatarUrl
+const rules = loginPage.rules
+const toggleTheme = loginPage.toggleTheme.bind(loginPage)
+const handleLogin = loginPage.handleLogin.bind(loginPage)
+const goToHome = loginPage.goToHome.bind(loginPage)
+const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 </script>
 
 <template>
