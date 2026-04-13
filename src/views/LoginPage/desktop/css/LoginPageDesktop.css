@@ -457,14 +457,18 @@ html.dark .login-page-desktop-card {
 .login-page-desktop-input-group {
 	display: flex;
 	align-items: center;
-	background: var(--bg-secondary);
+	/* 输入框透明背景 */
+	/* Input box transparent background */
+	background: rgba(255, 255, 255, 0.15);
 	border-radius: 12px;
 	padding: 4px;
 	transition: all 0.3s ease;
 }
 
 .login-page-desktop-input-group:focus-within {
-	background: var(--bg-tertiary);
+	/* 聚焦时稍微增加背景不透明度 */
+	/* Slightly increase background opacity on focus */
+	background: rgba(255, 255, 255, 0.25);
 	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
