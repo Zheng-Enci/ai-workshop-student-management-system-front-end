@@ -234,19 +234,26 @@ onMounted(() => {
 			circle
 			@click="goToHome"/>
 
+		<!-- Logo - 右上角 -->
+		<img
+			src="@/assets/AiWorkShop_icon.png"
+			alt="AI坊学生管理系统"
+			class="login-page-desktop-logo"
+			title="切换主题模式"
+			@click="toggleTheme"/>
+
+		<!-- 页面标题 - 顶部居中 -->
+		<div class="login-page-desktop-page-title">
+			<h1>AI坊学生管理系统</h1>
+			<p class="login-page-desktop-subtitle">人工智能创作坊</p>
+		</div>
+
 		<!-- 登录卡片内容 -->
 		<div class="login-page-desktop-content">
 			<div class="login-page-desktop-card">
-				<!-- 卡片头部:Logo和标题 -->
+				<!-- 卡片头部:副标题 -->
 				<div class="login-page-desktop-card-header">
-					<img
-						src="@/assets/AiWorkShop_icon.png"
-						alt="AI坊学生管理系统"
-						class="logo"
-						title="切换主题模式"
-						@click="toggleTheme"/>
-					<h1>AI坊学生管理系统</h1>
-					<p class="login-page-desktop-subtitle">人工智能创作坊</p>
+					<p class="login-page-desktop-welcome-text">欢迎登录</p>
 				</div>
 
 				<!-- 登录表单 -->

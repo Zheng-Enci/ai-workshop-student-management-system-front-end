@@ -86,10 +86,54 @@
 /* 返回首页按钮 */
 /* Home button */
 .login-page-desktop-home-btn {
-	position: absolute;
+	position: fixed;
 	top: 20px;
 	left: 20px;
-	z-index: 10;
+	z-index: 100;
+}
+
+/* Logo - 右上角 */
+/* Logo - top right corner */
+.login-page-desktop-logo {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+	z-index: 100;
+	transition: transform 0.3s ease;
+	filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.login-page-desktop-logo:hover {
+	transform: scale(1.1);
+}
+
+/* 页面标题 - 顶部居中 */
+/* Page title - top center */
+.login-page-desktop-page-title {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	z-index: 100;
+}
+
+.login-page-desktop-page-title h1 {
+	font-size: 28px;
+	font-weight: 700;
+	color: #fff;
+	margin: 0;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.login-page-desktop-page-title .login-page-desktop-subtitle {
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.9);
+	margin: 4px 0 0 0;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* 登录内容区域 */
@@ -139,32 +183,13 @@ html.dark .login-page-desktop-card {
 /* Card header */
 .login-page-desktop-card-header {
 	text-align: center;
-	margin-bottom: 32px;
+	margin-bottom: 24px;
 }
 
-.login-page-desktop-card-header .logo {
-	width: 80px;
-	height: 80px;
-	margin-bottom: 16px;
-	cursor: pointer;
-	transition: transform 0.3s ease;
-}
-
-.login-page-desktop-card-header .logo:hover {
-	transform: scale(1.05);
-}
-
-.login-page-desktop-card-header h1 {
-	font-size: 24px;
-	font-weight: 700;
+.login-page-desktop-welcome-text {
+	font-size: 20px;
+	font-weight: 600;
 	color: var(--text-primary);
-	margin: 0 0 8px 0;
-	transition: color 0.4s ease;
-}
-
-.login-page-desktop-subtitle {
-	font-size: 14px;
-	color: var(--text-tertiary);
 	margin: 0;
 	transition: color 0.4s ease;
 }
