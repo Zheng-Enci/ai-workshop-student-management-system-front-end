@@ -21,7 +21,7 @@ import 'element-plus/theme-chalk/el-icon.css'
 import '@/views/LoginPage/desktop/css/LoginPageDesktop.css'
 
 // ===================== 业务逻辑导入 =====================
-import LoginPageDesktop from './ts/LoginPageDesktop'
+import LoginPageDesktop from './desktop/ts/LoginPageDesktop'
 
 // ===================== 初始化 =====================
 const loginPage = new LoginPageDesktop()
