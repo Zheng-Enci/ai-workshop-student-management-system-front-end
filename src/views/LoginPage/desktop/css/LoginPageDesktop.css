@@ -438,11 +438,10 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* 右侧使用暖米色渐变背景，与左侧照片色调协调 */
-	/* Right side uses warm beige gradient background to coordinate with left photo tones */
-	background: linear-gradient(-45deg, #8B7355, #A0826D, #8B7355);
-	background-size: 400% 400%;
-	animation: gradientShift 20s ease infinite;
+	/* 右侧使用纯白背景（日间模式） */
+	/* Right side uses pure white background (light mode) */
+	background: #ffffff;
+	transition: background 0.8s ease;
 	/* 顶部内边距，为页面标题留出空间 */
 	/* Top padding to leave space for page title */
 	padding-top: 1%;
@@ -450,6 +449,12 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 
 /* 右侧登录卡片 */
 /* Right login card */
+/* 夜间模式（深色模式）下右侧区域使用纯黑背景 */
+/* Right panel uses pure black background in dark mode */
+html.dark .login-page-desktop-right-panel {
+	background: #000000;
+}
+
 .login-page-desktop-right-panel .login-page-desktop-card {
 	width: 90%;
 	max-width: 400px;
