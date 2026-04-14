@@ -336,20 +336,20 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	gap: 40px;
 }
 
-/* 左侧区域 - 黄金比例 38.2% */
-/* Left panel - golden ratio 38.2% */
+/* 左侧区域 - 黄金比例 61.8% */
+/* Left panel - golden ratio 61.8% */
 .login-page-desktop-left-panel {
-	width: 38.2%;
+	width: 61.8%;
 	min-height: 500px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-/* 右侧登录卡片 - 黄金比例 61.8% */
-/* Right login card - golden ratio 61.8% */
+/* 右侧登录卡片 - 黄金比例 38.2% */
+/* Right login card - golden ratio 38.2% */
 .login-page-desktop-golden-layout .login-page-desktop-card {
-	width: 61.8%;
+	width: 38.2%;
 	max-width: 480px;
 }
 
