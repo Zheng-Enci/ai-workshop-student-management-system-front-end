@@ -438,9 +438,9 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* 右侧使用暖灰渐变背景，与左侧照片色调协调 */
-	/* Right side uses warm gray gradient background to coordinate with left photo tones */
-	background: linear-gradient(-45deg, #5C5A56, #7A7874, #5C5A56);
+	/* 右侧使用暖米色渐变背景，与左侧照片色调协调 */
+	/* Right side uses warm beige gradient background to coordinate with left photo tones */
+	background: linear-gradient(-45deg, #8B7355, #A0826D, #8B7355);
 	background-size: 400% 400%;
 	animation: gradientShift 20s ease infinite;
 	/* 顶部内边距，为页面标题留出空间 */
