@@ -198,6 +198,8 @@ html.dark .login-card {
 /* 卡片头部 - 登录表单内顶部居中 */
 /* Card header - centered at top inside login form */
 .card-header {
+	position: relative;
+	z-index: 10;
 	margin-bottom: 28px;
 	text-align: center;
 }
