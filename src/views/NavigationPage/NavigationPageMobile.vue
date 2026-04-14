@@ -628,12 +628,13 @@ onBeforeUnmount(() => {
 		<div class="navigation-page-mobile-header-container">
 			<div class="navigation-page-mobile-header-content">
 				<el-button
-					class="navigation-page-mobile-header-home-btn"
-					type="primary"
-					circle
-					@click="goToHome">
-					<el-icon><House /></el-icon>
-				</el-button>
+				class="navigation-page-mobile-header-home-btn"
+				type="primary"
+				@click="goToHome"
+			>
+				<el-icon><House /></el-icon>
+				首页
+			</el-button>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"

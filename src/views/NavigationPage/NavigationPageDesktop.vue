@@ -639,11 +639,13 @@ onBeforeUnmount(() => {
 				<!-- 头部左侧:首页按钮和Logo -->
 				<div class="navigation-desktop-header-left">
 					<el-button
-						class="navigation-desktop-header-home-btn"
-						type="primary"
-						:icon="House"
-						@click="goToHome"
-					/>
+					class="navigation-desktop-header-home-btn"
+					type="primary"
+					:icon="House"
+					@click="goToHome"
+				>
+					首页
+				</el-button>
 
 					<img
 						src="@/assets/AiWorkShop_icon.png"
