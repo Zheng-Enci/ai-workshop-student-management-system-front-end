@@ -20,6 +20,21 @@
 	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
 	background-size: cover;
 	background-position: center;
+
+	/* 入场动画 */
+	/* Entry animation */
+	animation: login-page-desktop-fade-in 0.6s ease-out;
+}
+
+/* 入场动画关键帧 */
+/* Entry animation keyframes */
+@keyframes login-page-desktop-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 /* 毛玻璃效果遮罩层 */
@@ -467,6 +482,22 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 .login-page-desktop-right-title {
 	text-align: center;
 	color: #fff;
+	/* 入场动画 */
+	/* Entry animation */
+	animation: login-page-desktop-fade-in-down 0.5s ease-out 0.1s both;
+}
+
+/* 标题入场动画关键帧 */
+/* Title entry animation keyframes */
+@keyframes login-page-desktop-fade-in-down {
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .login-page-desktop-right-title h1 {
@@ -501,8 +532,23 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	/* 去除阴影 */
 	/* Remove shadow */
 	box-shadow: none;
-	animation: slideUp 0.6s ease-out;
+	/* 入场动画 */
+	/* Entry animation */
+	animation: login-page-desktop-slide-up 0.6s ease-out 0.2s both;
 	transition: all 0.4s ease;
+}
+
+/* 登录卡片入场动画关键帧 */
+/* Login card entry animation keyframes */
+@keyframes login-page-desktop-slide-up {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 /* 深色模式下的登录卡片 */
