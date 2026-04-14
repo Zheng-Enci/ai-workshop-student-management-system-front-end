@@ -436,6 +436,7 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	width: 38.2%;
 	height: 100%;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	/* 右侧使用渐变背景 */
