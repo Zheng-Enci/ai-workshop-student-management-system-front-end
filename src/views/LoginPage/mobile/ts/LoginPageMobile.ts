@@ -255,6 +255,10 @@ export default class LoginPageMobile {
 		this.isAvatarLoading.value = true
 		this.studentAvatarUrl.value = null
 
+		// 延迟3秒用于测试加载动画效果
+		// Delay 3 seconds for testing loading animation effect
+		await new Promise(resolve => setTimeout(resolve, 3000))
+
 		try {
 			// 获取256x256像素的头像，确保在100px显示尺寸下有清晰的视觉效果
 			// Fetch 256x256 pixel avatar to ensure clear visual quality at 100px display size
