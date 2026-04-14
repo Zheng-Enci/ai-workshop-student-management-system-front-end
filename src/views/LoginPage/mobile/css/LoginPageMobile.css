@@ -750,14 +750,14 @@ html.dark .login-page-mobile-register-link {
 	color: rgb(255 255 255 / 0.8);
 }
 
-html.dark .login-page-mobile-register-link .login-page-mobile-link {
-	color: #3E9EAC;
-}
-
-/* 使用 :where() 降低特异性到 0,2,0 */
-/* Using :where() to reduce specificity to 0,2,0 */
+/* 使用 :where() 降低特异性到 0,2,0 - 必须放在高特异性选择器之前 */
+/* Using :where() to reduce specificity to 0,2,0 - must be placed before higher specificity selectors */
 :where(html.dark) .login-page-mobile-register-link .login-page-mobile-link:hover {
 	color: #FFF;
+}
+
+html.dark .login-page-mobile-register-link .login-page-mobile-link {
+	color: #3E9EAC;
 }
 
 /* 响应式适配 - 小屏幕手机 */
