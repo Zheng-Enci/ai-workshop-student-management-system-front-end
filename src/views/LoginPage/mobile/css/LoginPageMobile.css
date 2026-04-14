@@ -161,13 +161,12 @@ html.dark .gradient-orb.orb-3 {
 }
 
 /* 登录卡片 */
-
 /* Login card */
 .login-card {
 	padding: 32px 24px;
+	margin-top: 120px;
 
 	/* 玻璃模态背景 */
-
 	/* Glassmorphism background */
 	background: rgb(255 255 255 / 0.15);
 	border: 1px solid rgb(255 255 255 / 0.2);
@@ -197,19 +196,26 @@ html.dark .login-card {
 	}
 }
 
-/* 卡片头部 */
-
-/* Card header */
+/* 卡片头部 - 页面中心上方 */
+/* Card header - above center of page */
 .card-header {
-	margin-bottom: 28px;
+	position: fixed;
+	top: 80px;
+	left: 50%;
+	z-index: 10;
+	transform: translateX(-50%);
 	text-align: center;
 }
 
-/* Logo */
+/* Logo - 固定在页面右上角 */
+/* Logo - fixed at top right corner of page */
 .logo {
-	width: 72px;
-	height: 72px;
-	margin-bottom: 16px;
+	position: fixed;
+	top: 16px;
+	right: 16px;
+	z-index: 100;
+	width: 48px;
+	height: 48px;
 	cursor: pointer;
 	object-fit: contain;
 	filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.3));
@@ -217,7 +223,7 @@ html.dark .login-card {
 }
 
 .logo:hover {
-	transform: scale(1.05);
+	transform: scale(1.1);
 }
 
 .card-header h1 {
