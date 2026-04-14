@@ -262,15 +262,6 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	}
 }
 
-/* 返回首页按钮 */
-/* Home button */
-.login-page-desktop-home-btn {
-	position: fixed;
-	top: 20px;
-	left: 20px;
-	z-index: 100;
-}
-
 /* 主题切换 Logo - 右上角 */
 /* Theme toggle logo - top right corner */
 .login-page-desktop-theme-logo {
@@ -374,11 +365,12 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 }
 
 .login-page-desktop-logo img {
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	object-fit: contain;
 	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
 	border-radius: 8px;
+	display: block;
 }
 
 /* 返回首页按钮样式 */
