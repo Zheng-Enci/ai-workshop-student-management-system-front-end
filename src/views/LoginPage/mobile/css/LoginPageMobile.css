@@ -39,14 +39,12 @@
 	content: '';
 
 	/* 半透明遮罩增强可读性 */
-
 	/* Semi-transparent overlay enhances readability */
-	background: rgb(255 255 255 / 0.15);
+	background: rgb(255 255 255 / 0.1);
 
-	/* 强烈的模糊效果创造毛玻璃质感 */
-
-	/* Strong blur effect creates frosted glass texture */
-	backdrop-filter: blur(20px);
+	/* 轻微模糊效果，保持背景图片清晰可见 */
+	/* Light blur effect to keep background image clearly visible */
+	backdrop-filter: blur(8px);
 }
 
 /* 深色模式下的毛玻璃遮罩 */
