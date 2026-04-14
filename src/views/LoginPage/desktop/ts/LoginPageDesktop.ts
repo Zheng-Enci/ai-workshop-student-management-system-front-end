@@ -141,8 +141,14 @@ export default class LoginPageDesktop {
 			const avatarUrl = StudentApi.getAvatarUrlByStudentId(this.form.value.studentId, 256)
 			if (avatarUrl) {
 				this.studentAvatarUrl.value = avatarUrl
+			} else {
+				// 如果获取不到头像URL，清空头像显示
+				// Clear avatar display if avatar URL cannot be fetched
+				this.studentAvatarUrl.value = null
 			}
 		} catch (error) {
+			// 获取失败时清空头像
+			// Clear avatar when fetch fails
 			this.studentAvatarUrl.value = null
 		}
 	}
