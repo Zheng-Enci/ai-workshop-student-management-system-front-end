@@ -628,23 +628,23 @@ onBeforeUnmount(() => {
 		<div class="navigation-page-mobile-header-container">
 			<div class="navigation-page-mobile-header-content">
 				<el-button
-				class="navigation-page-mobile-header-home-btn"
-				type="primary"
-				@click="goToHome"
-			>
-				<el-icon><House /></el-icon>
-				首页
-			</el-button>
+					class="navigation-page-mobile-header-home-btn"
+					type="primary"
+					@click="goToHome"
+				>
+					<el-icon><House /></el-icon>
+					首页
+				</el-button>
+				<div class="navigation-page-mobile-header-title-section">
+					<h1>AI坊学生管理系统</h1>
+					<p>人工智能创作坊</p>
+				</div>
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
 					class="navigation-page-mobile-header-logo"
 					title="切换主题模式"
 					@click="toggleTheme"/>
-				<div class="navigation-page-mobile-header-title-section">
-					<h1>AI坊学生管理系统</h1>
-					<p>人工智能创作坊</p>
-				</div>
 			</div>
 
 			<div class="navigation-page-mobile-user-card-profile">
