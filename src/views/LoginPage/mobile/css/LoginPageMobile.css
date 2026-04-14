@@ -7,9 +7,8 @@
  */
 
 /* 登录页面容器 */
-
 /* Login page container */
-.login-container {
+.login-page-mobile-container {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -27,9 +26,8 @@
 }
 
 /* 毛玻璃效果遮罩层 */
-
 /* Frosted glass effect overlay */
-.login-container::before {
+.login-page-mobile-container::before {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -48,16 +46,14 @@
 }
 
 /* 深色模式下的毛玻璃遮罩 */
-
 /* Dark mode frosted glass overlay */
-html.dark .login-container::before {
+html.dark .login-page-mobile-container::before {
 	background: rgb(0 0 0 / 0.5);
 }
 
 /* 背景装饰效果 */
-
 /* Background decoration effects */
-.background-effects {
+.login-page-mobile-background-effects {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -69,17 +65,16 @@ html.dark .login-container::before {
 }
 
 /* 渐变光球 */
-
 /* Gradient orbs */
-.gradient-orb {
+.login-page-mobile-gradient-orb {
 	position: absolute;
 	border-radius: 50%;
 	opacity: 0.5;
 	filter: blur(60px);
-	animation: float 15s infinite ease-in-out;
+	animation: login-page-mobile-float 15s infinite ease-in-out;
 }
 
-.gradient-orb.orb-1 {
+.login-page-mobile-gradient-orb.login-page-mobile-orb-1 {
 	top: 10%;
 	right: -50px;
 	width: 200px;
@@ -88,7 +83,7 @@ html.dark .login-container::before {
 	animation-delay: 0s;
 }
 
-.gradient-orb.orb-2 {
+.login-page-mobile-gradient-orb.login-page-mobile-orb-2 {
 	bottom: 20%;
 	left: -30px;
 	width: 150px;
@@ -97,7 +92,7 @@ html.dark .login-container::before {
 	animation-delay: -5s;
 }
 
-.gradient-orb.orb-3 {
+.login-page-mobile-gradient-orb.login-page-mobile-orb-3 {
 	top: 50%;
 	right: 10%;
 	width: 120px;
@@ -107,21 +102,20 @@ html.dark .login-container::before {
 }
 
 /* 深色模式下的光球 */
-
 /* Dark mode orbs */
-html.dark .gradient-orb.orb-1 {
+html.dark .login-page-mobile-gradient-orb.login-page-mobile-orb-1 {
 	background: radial-gradient(circle, rgb(99 102 241 / 0.4) 0%, rgb(99 102 241 / 0) 70%);
 }
 
-html.dark .gradient-orb.orb-2 {
+html.dark .login-page-mobile-gradient-orb.login-page-mobile-orb-2 {
 	background: radial-gradient(circle, rgb(139 92 246 / 0.35) 0%, rgb(139 92 246 / 0) 70%);
 }
 
-html.dark .gradient-orb.orb-3 {
+html.dark .login-page-mobile-gradient-orb.login-page-mobile-orb-3 {
 	background: radial-gradient(circle, rgb(59 130 246 / 0.3) 0%, rgb(59 130 246 / 0) 70%);
 }
 
-@keyframes float {
+@keyframes login-page-mobile-float {
 	0%, 100% {
 		transform: translate(0, 0) scale(1);
 	}
@@ -132,9 +126,8 @@ html.dark .gradient-orb.orb-3 {
 }
 
 /* 返回首页按钮 */
-
 /* Home button */
-.home-btn {
+.login-page-mobile-home-btn {
 	position: fixed;
 	top: 16px;
 	left: 16px;
@@ -145,68 +138,14 @@ html.dark .gradient-orb.orb-3 {
 	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.home-btn:hover {
+.login-page-mobile-home-btn:hover {
 	opacity: 0.8;
 	transform: scale(1.1);
 }
 
-/* 登录内容区域 */
-
-/* Login content area */
-.login-content {
-	position: relative;
-	z-index: 2;
-	width: 100%;
-	max-width: 400px;
-}
-
-/* 登录卡片 */
-/* Login card */
-.login-card {
-	padding: 32px 24px;
-
-	/* 玻璃模态背景 */
-	/* Glassmorphism background */
-	background: rgb(255 255 255 / 0.15);
-	border: 1px solid rgb(255 255 255 / 0.2);
-	border-radius: 20px;
-	box-shadow: 0 8px 32px rgb(0 0 0 / 0.2);
-	backdrop-filter: blur(10px);
-	animation: slideUp 0.5s ease-out;
-}
-
-/* 深色模式下的登录卡片 */
-
-/* Login card in dark mode */
-html.dark .login-card {
-	background: rgb(0 0 0 / 0.25);
-	border: 1px solid rgb(255 255 255 / 0.1);
-}
-
-@keyframes slideUp {
-	from {
-		opacity: 0;
-		transform: translateY(20px);
-	}
-
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-/* 卡片头部 - 登录表单内顶部居中 */
-/* Card header - centered at top inside login form */
-.card-header {
-	position: relative;
-	z-index: 10;
-	margin-bottom: 28px;
-	text-align: center;
-}
-
 /* Logo - 固定在页面右上角（登录表单外） */
 /* Logo - fixed at top right corner of page (outside login form) */
-.logo {
+.login-page-mobile-logo {
 	position: fixed;
 	top: 16px;
 	right: 16px;
@@ -219,44 +158,97 @@ html.dark .login-card {
 	transition: transform 0.3s ease;
 }
 
-.logo:hover {
+.login-page-mobile-logo:hover {
 	transform: scale(1.1);
 }
 
-.card-header h1 {
-	margin: 0 0 8px;
-	font-size: 22px;
+/* 页面标题 - 顶部居中 */
+/* Page title - top center */
+.login-page-mobile-page-title {
+	position: fixed;
+	top: 16px;
+	left: 50%;
+	z-index: 10;
+	transform: translateX(-50%);
+	text-align: center;
+}
+
+.login-page-mobile-page-title h1 {
+	margin: 0 0 4px;
+	font-size: 18px;
 	font-weight: 700;
 	color: #fff;
 	text-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
 }
 
-.card-header .subtitle {
+.login-page-mobile-page-title .login-page-mobile-subtitle {
 	margin: 0;
-	font-size: 14px;
+	font-size: 12px;
 	color: rgb(255 255 255 / 0.85);
 	letter-spacing: 1px;
 }
 
-/* 登录表单 */
+/* 登录内容区域 */
+/* Login content area */
+.login-page-mobile-login-content {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: 400px;
+	margin-top: 80px;
+}
 
+/* 登录卡片 */
+/* Login card */
+.login-page-mobile-login-card {
+	padding: 32px 24px;
+
+	/* 玻璃模态背景 */
+	/* Glassmorphism background */
+	background: rgb(255 255 255 / 0.15);
+	border: 1px solid rgb(255 255 255 / 0.2);
+	border-radius: 20px;
+	box-shadow: 0 8px 32px rgb(0 0 0 / 0.2);
+	backdrop-filter: blur(10px);
+	animation: login-page-mobile-slide-up 0.5s ease-out;
+}
+
+/* 深色模式下的登录卡片 */
+/* Login card in dark mode */
+html.dark .login-page-mobile-login-card {
+	background: rgb(0 0 0 / 0.25);
+	border: 1px solid rgb(255 255 255 / 0.1);
+}
+
+@keyframes login-page-mobile-slide-up {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 登录表单 */
 /* Login form */
-.login-form {
+.login-page-mobile-login-form {
 	margin-top: 8px;
 }
 
-.login-form .form-item {
+.login-page-mobile-login-form .login-page-mobile-form-item {
 	margin-bottom: 16px;
 }
 
-.login-form .form-item:last-child {
+.login-page-mobile-login-form .login-page-mobile-form-item:last-child {
 	margin-bottom: 0;
 }
 
 /* 输入框组 */
-
 /* Input group */
-.input-group {
+.login-page-mobile-input-group {
 	display: flex;
 	align-items: center;
 	width: 100%;
@@ -271,7 +263,7 @@ html.dark .login-card {
 	transition: transform 0.3s ease;
 }
 
-.input-group:focus-within {
+.login-page-mobile-input-group:focus-within {
 	background: rgb(255 255 255 / 0.25);
 	border-color: rgb(255 255 255 / 0.3);
 	box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1);
@@ -279,22 +271,20 @@ html.dark .login-card {
 }
 
 /* 深色模式下的输入框组 */
-
 /* Input group in dark mode */
-html.dark .input-group {
+html.dark .login-page-mobile-input-group {
 	background: rgb(0 0 0 / 0.2);
 	border-color: rgb(255 255 255 / 0.05);
 }
 
-html.dark .input-group:focus-within {
+html.dark .login-page-mobile-input-group:focus-within {
 	background: rgb(0 0 0 / 0.3);
 	border-color: rgb(255 255 255 / 0.15);
 }
 
 /* 输入框图标 */
-
 /* Input icon */
-.input-icon {
+.login-page-mobile-input-icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -305,32 +295,30 @@ html.dark .input-group:focus-within {
 }
 
 /* 自定义输入框 */
-
 /* Custom input */
-.custom-input {
+.login-page-mobile-custom-input {
 	flex: 1;
 }
 
-.custom-input :deep(.el-input__wrapper) {
+.login-page-mobile-custom-input :deep(.el-input__wrapper) {
 	padding: 0 12px 0 0;
 	background: transparent;
 	box-shadow: none;
 }
 
-.custom-input :deep(.el-input__inner) {
+.login-page-mobile-custom-input :deep(.el-input__inner) {
 	height: 44px;
 	font-size: 15px;
 	color: #fff;
 }
 
-.custom-input :deep(.el-input__inner::placeholder) {
+.login-page-mobile-custom-input :deep(.el-input__inner::placeholder) {
 	color: rgb(255 255 255 / 0.6);
 }
 
 /* 表单选项 */
-
 /* Form options */
-.form-options {
+.login-page-mobile-form-options {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -338,26 +326,24 @@ html.dark .input-group:focus-within {
 }
 
 /* 记住我复选框 */
-
 /* Remember me checkbox */
-.remember-checkbox {
+.login-page-mobile-remember-checkbox {
 	--el-checkbox-text-color: rgb(255 255 255 / 0.9);
 	--el-checkbox-font-size: 14px;
 }
 
-.remember-checkbox :deep(.el-checkbox__input.is-checked + .el-checkbox__label) {
+.login-page-mobile-remember-checkbox :deep(.el-checkbox__input.is-checked + .el-checkbox__label) {
 	color: #fff;
 }
 
-.remember-checkbox :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+.login-page-mobile-remember-checkbox :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
 	background-color: var(--primary-color);
 	border-color: var(--primary-color);
 }
 
 /* 登录按钮 */
-
 /* Login button */
-.login-button {
+.login-page-mobile-login-button {
 	width: 100%;
 	height: 48px;
 	font-size: 16px;
@@ -365,7 +351,6 @@ html.dark .input-group:focus-within {
 	color: #fff;
 
 	/* 玻璃模态背景 */
-
 	/* Glassmorphism background */
 	background: rgb(255 255 255 / 0.2);
 	border: 1px solid rgb(255 255 255 / 0.3);
@@ -374,26 +359,25 @@ html.dark .input-group:focus-within {
 	transition: transform 0.3s ease;
 }
 
-.login-button:hover {
+.login-page-mobile-login-button:hover {
 	background: rgb(255 255 255 / 0.3);
 	box-shadow: 0 10px 20px -5px rgb(0 0 0 / 0.3);
 	transform: translateY(-2px);
 }
 
-.login-button:active {
+.login-page-mobile-login-button:active {
 	transform: translateY(0);
 }
 
-.login-button.is-loading,
-.login-button.is-disabled {
+.login-page-mobile-login-button.is-loading,
+.login-page-mobile-login-button.is-disabled {
 	cursor: not-allowed;
 	opacity: 0.7;
 }
 
 /* 卡片底部 */
-
 /* Card footer */
-.card-footer {
+.login-page-mobile-card-footer {
 	padding-top: 20px;
 	margin-top: 24px;
 	text-align: center;
@@ -401,64 +385,65 @@ html.dark .input-group:focus-within {
 }
 
 /* 注册链接 */
-
 /* Register link */
-.register-link {
+.login-page-mobile-register-link {
 	margin: 0;
 	font-size: 14px;
 	color: rgb(255 255 255 / 0.8);
 }
 
-.register-link .link {
+.login-page-mobile-register-link .login-page-mobile-link {
 	font-weight: 600;
 	color: #fff;
 	text-decoration: none;
 }
 
-.register-link .link:hover {
+.login-page-mobile-register-link .login-page-mobile-link:hover {
 	text-decoration: underline;
 }
 
 /* 响应式适配 - 小屏幕手机 */
-
 /* Responsive design - small screen phones */
 @media (width <= 375px) {
-	.login-container {
+	.login-page-mobile-container {
 		padding: 16px;
 	}
 
-	.login-card {
+	.login-page-mobile-login-card {
 		padding: 24px 20px;
 	}
 
-	.logo {
-		width: 64px;
-		height: 64px;
+	.login-page-mobile-logo {
+		width: 40px;
+		height: 40px;
 	}
 
-	.card-header h1 {
-		font-size: 20px;
+	.login-page-mobile-page-title h1 {
+		font-size: 16px;
 	}
 
-	.card-header .subtitle {
-		font-size: 13px;
+	.login-page-mobile-page-title .login-page-mobile-subtitle {
+		font-size: 11px;
 	}
 }
 
 /* 响应式适配 - 大屏幕手机 */
-
 /* Responsive design - large screen phones */
 @media (width >= 414px) {
-	.login-card {
+	.login-page-mobile-login-card {
 		padding: 36px 28px;
 	}
 
-	.logo {
-		width: 80px;
-		height: 80px;
+	.login-page-mobile-logo {
+		width: 56px;
+		height: 56px;
 	}
 
-	.card-header h1 {
-		font-size: 24px;
+	.login-page-mobile-page-title h1 {
+		font-size: 20px;
+	}
+
+	.login-page-mobile-page-title .login-page-mobile-subtitle {
+		font-size: 13px;
 	}
 }

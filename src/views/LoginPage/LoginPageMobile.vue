@@ -164,7 +164,7 @@ const handleLogin = async () => {
 
 		// 第五步:显示成功提示并跳转到导航页面
 		ElMessage.success('登录成功')
-		router.push('/navigation')
+		await router.push('/navigation')
 	} catch (error) {
 		// 异常处理:显示错误提示信息
 		ElMessage.error(error.message || '登录失败，请检查您的学号和密码')
@@ -217,52 +217,48 @@ onMounted(() => {
 
 <template>
 	<!-- 登录页面容器 -->
-	<div class="login-container">
+	<div class="login-page-mobile-container">
 		<!-- 背景装饰效果 -->
-		<div class="background-effects">
-			<div class="gradient-orb orb-1"/>
-			<div class="gradient-orb orb-2"/>
-			<div class="gradient-orb orb-3"/>
+		<div class="login-page-mobile-background-effects">
+			<div class="login-page-mobile-gradient-orb login-page-mobile-orb-1"/>
+			<div class="login-page-mobile-gradient-orb login-page-mobile-orb-2"/>
+			<div class="login-page-mobile-gradient-orb login-page-mobile-orb-3"/>
 		</div>
-		<!-- 页面头部区域：包含返回按钮、标题和Logo -->
-		<!-- Page header area: contains home button, title and logo -->
-		<div class="card-header">
-			<!-- 返回首页按钮 - 点击返回系统首页 -->
-			<!-- Home button - click to return to system home page -->
-			<el-button
-				class="home-btn"
-				type="primary"
-				:icon="House"
-				circle
-				@click="goToHome"/>
-			<!-- 标题区域 - 系统名称和副标题 -->
-			<!-- Title area - system name and subtitle -->
-			<div>
-				<h1>AI坊学生管理系统</h1>
-				<p class="subtitle">人工智能创作坊</p>
-			</div>
-			<!-- Logo图标 - 点击切换主题模式 -->
-			<!-- Logo icon - click to toggle theme mode -->
-			<img
-				src="@/assets/AiWorkShop_icon.png"
-				alt="AI坊学生管理系统"
-				class="logo"
-				title="切换主题模式"
-				@click="toggleTheme"/>
+		<!-- 返回首页按钮 - 点击返回系统首页 -->
+		<!-- Home button - click to return to system home page -->
+		<el-button
+			class="login-page-mobile-home-btn"
+			type="primary"
+			:icon="House"
+			circle
+			@click="goToHome"/>
+		<!-- Logo图标 - 点击切换主题模式 -->
+		<!-- Logo icon - click to toggle theme mode -->
+		<img
+			src="@/assets/AiWorkShop_icon.png"
+			alt="AI坊学生管理系统"
+			class="login-page-mobile-logo"
+			title="切换主题模式"
+			@click="toggleTheme"/>
+		<!-- 页面标题 - 顶部居中显示 -->
+		<!-- Page title - displayed at top center -->
+		<div class="login-page-mobile-page-title">
+			<h1>AI坊学生管理系统</h1>
+			<p class="login-page-mobile-subtitle">人工智能创作坊</p>
 		</div>
 
 		<!-- 登录卡片内容 -->
-		<div class="login-content">
-			<div class="login-card">
+		<div class="login-page-mobile-login-content">
+			<div class="login-page-mobile-login-card">
 				<!-- 登录表单 -->
 				<el-form
 					:model="form"
 					:rules="rules"
 					label-width="0px"
-					class="login-form">
-					<el-form-item prop="studentId" class="form-item">
-						<div class="input-group">
-							<div class="input-icon">
+					class="login-page-mobile-login-form">
+					<el-form-item prop="studentId" class="login-page-mobile-form-item">
+						<div class="login-page-mobile-input-group">
+							<div class="login-page-mobile-input-icon">
 								<el-icon>
 									<user/>
 								</el-icon>
@@ -270,15 +266,15 @@ onMounted(() => {
 							<el-input
 								v-model="form.studentId"
 								placeholder="请输入学号"
-								class="custom-input"
+								class="login-page-mobile-custom-input"
 								size="large"
 							/>
 						</div>
 					</el-form-item>
 
-					<el-form-item prop="password" class="form-item">
-						<div class="input-group">
-							<div class="input-icon">
+					<el-form-item prop="password" class="login-page-mobile-form-item">
+						<div class="login-page-mobile-input-group">
+							<div class="login-page-mobile-input-icon">
 								<el-icon>
 									<lock/>
 								</el-icon>
@@ -287,7 +283,7 @@ onMounted(() => {
 								v-model="form.password"
 								type="password"
 								placeholder="请输入密码"
-								class="custom-input"
+								class="login-page-mobile-custom-input"
 								size="large"
 								show-password
 							/>
@@ -295,8 +291,8 @@ onMounted(() => {
 					</el-form-item>
 
 					<!-- 记住我选项 -->
-					<div class="form-options">
-						<el-checkbox v-model="rememberMe" class="remember-checkbox">
+					<div class="login-page-mobile-form-options">
+						<el-checkbox v-model="rememberMe" class="login-page-mobile-remember-checkbox">
 							记住我
 						</el-checkbox>
 					</div>
@@ -304,7 +300,7 @@ onMounted(() => {
 					<!-- 登录按钮 -->
 					<el-button
 						type="primary"
-						class="login-button"
+						class="login-page-mobile-login-button"
 						size="large"
 						:loading="isLoading"
 						:disabled="isLoading"
@@ -315,10 +311,10 @@ onMounted(() => {
 				</el-form>
 
 				<!-- 卡片底部:注册链接 -->
-				<div class="card-footer">
-					<p class="register-link">
+				<div class="login-page-mobile-card-footer">
+					<p class="login-page-mobile-register-link">
 						还没有账号？
-						<router-link to="/register" class="link">立即注册</router-link>
+						<router-link to="/register" class="login-page-mobile-link">立即注册</router-link>
 					</p>
 				</div>
 			</div>
