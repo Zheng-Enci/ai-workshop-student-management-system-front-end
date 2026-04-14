@@ -106,22 +106,26 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
 /* 设备检测页面容器样式 */
+
 /* Device detection page container styles */
 .login-page-device-detection-container {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
+
 	/* 渐变背景 */
+
 	/* Gradient background */
 	background: linear-gradient(
 		135deg,
-		rgba(99, 102, 241, 0.1) 0%,
-		rgba(168, 85, 247, 0.08) 25%,
-		rgba(236, 72, 153, 0.06) 50%,
-		rgba(251, 146, 60, 0.08) 75%,
-		rgba(34, 197, 94, 0.1) 100%
+		rgb(99 102 241 / 0.1) 0%,
+		rgb(168 85 247 / 0.08) 25%,
+		rgb(236 72 153 / 0.06) 50%,
+		rgb(251 146 60 / 0.08) 75%,
+		rgb(34 197 94 / 0.1) 100%
 	);
 }
 </style>
