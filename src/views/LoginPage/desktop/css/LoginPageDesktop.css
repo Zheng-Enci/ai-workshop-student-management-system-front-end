@@ -453,6 +453,9 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 .login-page-desktop-right-panel .login-page-desktop-card {
 	width: 90%;
 	max-width: 400px;
+	/* 顶部外边距，使登录卡片在垂直方向居中偏上位置 */
+	/* Top margin to position login card slightly above vertical center */
+	margin-top: 14%;
 }
 
 /* 右侧区域标题 */
@@ -465,7 +468,7 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 .login-page-desktop-right-title h1 {
 	font-size: 32px;
 	font-weight: 700;
-	margin: 0 0 12px 0;
+	margin: 0;
 	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
