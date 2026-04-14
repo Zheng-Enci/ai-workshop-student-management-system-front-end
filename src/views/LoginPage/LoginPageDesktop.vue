@@ -88,7 +88,12 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 			<div class="login-page-desktop-golden-layout">
 				<!-- 左侧区域 - 黄金比例 61.8%，占满左侧 -->
 				<div class="login-page-desktop-left-panel">
-					<!-- 左侧内容区域，显示成员合照 -->
+					<!-- 左侧内容区域，使用 img 标签显示成员合照 -->
+					<img
+						src="@/assets/AiWorkShop-Members-Group-Photo.jpg"
+						alt="AI创作坊成员合照"
+						class="login-page-desktop-group-photo"
+					/>
 				</div>
 				<!-- 右侧区域 - 黄金比例 38.2%，占满右侧 -->
 				<div class="login-page-desktop-right-panel">

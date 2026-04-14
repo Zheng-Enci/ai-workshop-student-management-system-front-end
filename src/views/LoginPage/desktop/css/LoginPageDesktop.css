@@ -346,14 +346,28 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	/* 使用成员合照作为左侧区域背景 */
-	/* Use members group photo as left panel background */
-	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
-	/* 背景图显示小一点，使用 contain 并设置固定大小 */
-	/* Background image smaller, using contain with fixed size */
-	background-size: 80% auto;
-	background-position: center;
-	background-repeat: no-repeat;
+	/* 使用渐变背景作为底色 */
+	/* Use gradient background as base color */
+	background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #1e3a5f 100%);
+	overflow: hidden;
+}
+
+/* 成员合照图片样式 */
+/* Group photo image style */
+.login-page-desktop-group-photo {
+	/* 图片宽度为容器的 80% */
+	/* Image width is 80% of container */
+	width: 80%;
+	height: auto;
+	/* 保持图片比例 */
+	/* Maintain image aspect ratio */
+	object-fit: contain;
+	/* 圆角效果 */
+	/* Rounded corners */
+	border-radius: 12px;
+	/* 阴影效果 */
+	/* Shadow effect */
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* 右侧区域 - 黄金比例 38.2%，占满右侧 */
