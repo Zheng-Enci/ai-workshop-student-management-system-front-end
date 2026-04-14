@@ -261,7 +261,9 @@ html.dark .login-page-mobile-login-card {
 .login-page-mobile-avatar {
 	width: 80px;
 	height: 80px;
-	border-radius: 50%;
+	/* 圆角减小为 16px，从圆形变为圆角矩形 */
+	/* Reduced border radius to 16px, changed from circle to rounded rectangle */
+	border-radius: 16px;
 	object-fit: cover;
 	/* 冰川青边框 */
 	/* Glacier cyan border */
@@ -285,7 +287,9 @@ html.dark .login-page-mobile-login-card {
 	/* 冰川青边框 */
 	/* Glacier cyan border */
 	border: 3px solid #3E9EAC;
-	border-radius: 50%;
+	/* 圆角减小为 16px，与头像保持一致 */
+	/* Reduced border radius to 16px to match avatar */
+	border-radius: 16px;
 }
 
 /* 深色模式下的头像占位符 */
