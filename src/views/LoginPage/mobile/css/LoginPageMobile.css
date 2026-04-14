@@ -300,6 +300,29 @@ html.dark .login-page-mobile-avatar-placeholder {
 	border-color: #3E9EAC;
 }
 
+/* 欢迎文本 */
+/* Welcome text */
+.login-page-mobile-welcome-text {
+	text-align: center;
+	margin-bottom: 16px;
+}
+
+.login-page-mobile-welcome-text p {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	/* 深空蓝文字 */
+	/* Deep space blue text */
+	color: #1F4277;
+	letter-spacing: 0.5px;
+}
+
+/* 深色模式下的欢迎文本 */
+/* Welcome text in dark mode */
+html.dark .login-page-mobile-welcome-text p {
+	color: #FFFFFF;
+}
+
 /* 登录表单 */
 /* Login form */
 .login-page-mobile-login-form {

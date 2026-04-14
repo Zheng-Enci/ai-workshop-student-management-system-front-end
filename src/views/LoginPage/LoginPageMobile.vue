@@ -88,6 +88,12 @@ const loginPage = new LoginPageMobile()
 					</div>
 				</div>
 
+				<!-- 欢迎文本 -->
+				<!-- Welcome text -->
+				<div class="login-page-mobile-welcome-text">
+					<p>欢迎登录 / Welcome Back</p>
+				</div>
+
 				<!-- 登录表单 -->
 				<el-form
 					:model="loginPage.form.value"
