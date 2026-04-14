@@ -213,6 +213,41 @@ html.dark .login-page-mobile-gradient-orb.login-page-mobile-orb-3 {
 	animation: login-page-mobile-slide-up 0.5s ease-out;
 }
 
+/* 学生头像容器 */
+/* Student avatar container */
+.login-page-mobile-avatar-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+/* 学生头像 */
+/* Student avatar */
+.login-page-mobile-avatar {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid rgb(255 255 255 / 0.3);
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
+}
+
+/* 头像占位符 */
+/* Avatar placeholder */
+.login-page-mobile-avatar-placeholder {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	height: 80px;
+	font-size: 32px;
+	color: rgb(255 255 255 / 0.6);
+	background: rgb(255 255 255 / 0.1);
+	border: 2px solid rgb(255 255 255 / 0.2);
+	border-radius: 50%;
+}
+
 /* 深色模式下的登录卡片 */
 /* Login card in dark mode */
 html.dark .login-page-mobile-login-card {

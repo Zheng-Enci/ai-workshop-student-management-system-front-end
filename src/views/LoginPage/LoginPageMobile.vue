@@ -69,6 +69,20 @@ const loginPage = new LoginPageMobile()
 		<!-- 登录卡片内容 -->
 		<div class="login-page-mobile-login-content">
 			<div class="login-page-mobile-login-card">
+				<!-- 学生头像显示区域 -->
+				<!-- Student avatar display area -->
+				<div class="login-page-mobile-avatar-container">
+					<img
+						v-if="loginPage.studentAvatarUrl.value"
+						:src="loginPage.studentAvatarUrl.value"
+						alt="学生头像"
+						class="login-page-mobile-avatar"
+					/>
+					<div v-else class="login-page-mobile-avatar-placeholder">
+						<el-icon><user/></el-icon>
+					</div>
+				</div>
+
 				<!-- 登录表单 -->
 				<el-form
 					:model="loginPage.form.value"
@@ -87,6 +101,7 @@ const loginPage = new LoginPageMobile()
 								placeholder="请输入学号"
 								class="login-page-mobile-custom-input"
 								size="large"
+								@blur="loginPage.fetchStudentAvatar()"
 							/>
 						</div>
 					</el-form-item>

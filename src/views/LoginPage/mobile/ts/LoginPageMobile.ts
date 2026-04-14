@@ -86,6 +86,13 @@ export default class LoginPageMobile {
 	public isLoading: Ref<boolean>
 
 	/**
+	 * 学生头像URL
+	 * @type {Ref<string | null>}
+	 * @description 存储学生头像的URL地址
+	 */
+	public studentAvatarUrl: Ref<string | null>
+
+	/**
 	 * 表单验证规则配置
 	 * @type {Object}
 	 * @description Element Plus表单验证规则，包含必填、格式、长度等校验
@@ -131,9 +138,10 @@ export default class LoginPageMobile {
 		})
 		this.rememberMe = ref<boolean>(false)
 		this.isLoading = ref<boolean>(false)
+		this.studentAvatarUrl = ref<string | null>(null)
 
 		// 组件挂载时恢复记住的用户信息
-		this.restoreRememberedUser()
+		this.init()
 	}
 
 	// ===================== 公开方法 =====================
@@ -207,6 +215,37 @@ export default class LoginPageMobile {
 
 	// ===================== 私有方法 =====================
 	/**
+	 * 根据学号获取学生头像
+	 * @method fetchStudentAvatar
+	 * @description 当学号输入框失去焦点时触发，根据学号获取对应的学生头像
+	 * @async
+	 * @returns {Promise<void>}
+	 */
+	public async fetchStudentAvatar(): Promise<void> {
+		if (!this.form.value.studentId || !/^\d{10}$/.test(this.form.value.studentId)) {
+			this.studentAvatarUrl.value = null
+			return
+		}
+
+		try {
+			// 获取256x256像素的头像，确保在100px显示尺寸下有清晰的视觉效果
+			// Fetch 256x256 pixel avatar to ensure clear visual quality at 100px display size
+			const avatarUrl = StudentApi.getAvatarUrlByStudentId(this.form.value.studentId, 256)
+			if (avatarUrl) {
+				this.studentAvatarUrl.value = avatarUrl
+			} else {
+				// 如果获取不到头像URL，清空头像显示
+				// Clear avatar display if avatar URL cannot be fetched
+				this.studentAvatarUrl.value = null
+			}
+		} catch (error) {
+			// 获取失败时清空头像
+			// Clear avatar when fetch fails
+			this.studentAvatarUrl.value = null
+		}
+	}
+
+	/**
 	 * 处理"记住我"功能
 	 * @method handleRememberMe
 	 * @description 如果用户勾选了记住我，将学号和密码保存到本地存储；否则清除本地存储中的记住信息
@@ -224,33 +263,26 @@ export default class LoginPageMobile {
 	}
 
 	/**
-	 * 恢复记住的用户信息
-	 * @method restoreRememberedUser
-	 * @description 组件挂载时自动执行，用于恢复"记住我"功能保存的用户信息
-	 * 流程：
-	 * 1. 从本地存储读取保存的用户信息
-	 * 2. 如果存在，解析JSON数据并填充到表单
-	 * 3. 自动勾选"记住我"复选框
-	 * 4. 如果数据解析失败，清除本地存储中的无效数据
+	 * 初始化方法
+	 * @method init
+	 * @description 组件挂载时恢复记住的用户信息，并尝试加载头像
 	 * @private
 	 */
-	private restoreRememberedUser(): void {
-		// 从本地存储获取保存的用户信息
-		const rememberedUser = localStorage.getItem('rememberedUser')
-		if (rememberedUser) {
-			try {
-				// 解析JSON字符串为对象
-				const userData = JSON.parse(rememberedUser)
-				// 填充学号和密码到表单
-				this.form.value.studentId = userData.studentId
-				this.form.value.password = userData.password
-				// 自动勾选"记住我"复选框
-				this.rememberMe.value = true
-			} catch (error) {
-				// 如果数据解析失败（可能是数据损坏），清除本地存储
-				// 避免下次加载时再次尝试解析无效数据
-				localStorage.removeItem('rememberedUser')
+	private init(): void {
+		onMounted(async () => {
+			const rememberedUser = localStorage.getItem('rememberedUser')
+			if (rememberedUser) {
+				try {
+					const userData = JSON.parse(rememberedUser)
+					this.form.value.studentId = userData.studentId
+					this.form.value.password = userData.password
+					this.rememberMe.value = true
+					// 自动加载头像
+					await this.fetchStudentAvatar()
+				} catch (error) {
+					localStorage.removeItem('rememberedUser')
+				}
 			}
-		}
+		})
 	}
 }
