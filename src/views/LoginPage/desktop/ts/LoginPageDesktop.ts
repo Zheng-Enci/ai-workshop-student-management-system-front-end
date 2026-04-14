@@ -108,7 +108,7 @@ export default class LoginPageDesktop {
 			}
 
 			ElMessage.success('登录成功')
-			this.router.push('/navigation')
+			await this.router.push('/navigation')
 		} catch (error: any) {
 			ElMessage.error(error.message || '登录失败，请检查您的学号和密码')
 		} finally {
