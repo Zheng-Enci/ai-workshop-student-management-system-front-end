@@ -111,7 +111,7 @@ const loginPage = new LoginPageMobile()
 						</div>
 					</el-form-item>
 
-					<el-form-item prop="password" class="login-page-mobile-form-item">
+					<el-form-item prop="password" class="login-page-mobile-form-item login-page-mobile-password-item">
 						<div class="login-page-mobile-input-group">
 							<div class="login-page-mobile-input-icon">
 								<el-icon>
@@ -130,11 +130,12 @@ const loginPage = new LoginPageMobile()
 					</el-form-item>
 
 					<!-- 记住我选项 -->
-					<div class="login-page-mobile-form-options">
+					<!-- Remember me option -->
+					<el-form-item class="login-page-mobile-form-item login-page-mobile-remember-item">
 						<el-checkbox v-model="loginPage.rememberMe.value" class="login-page-mobile-remember-checkbox">
 							记住我
 						</el-checkbox>
-					</div>
+					</el-form-item>
 
 					<!-- 登录按钮 -->
 					<el-button

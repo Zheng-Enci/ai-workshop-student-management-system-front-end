@@ -277,6 +277,23 @@ html.dark .login-page-mobile-login-card {
 	margin-bottom: 16px;
 }
 
+/* 密码输入框表单项 - 减小下边距使其更靠近记住我选项 */
+/* Password input form item - reduce bottom margin to be closer to remember me option */
+.login-page-mobile-login-form .login-page-mobile-form-item.login-page-mobile-password-item {
+	margin-bottom: 4px;
+}
+
+/* 记住我表单项 - 减小上下边距并左对齐 */
+/* Remember me form item - reduce margins and align left */
+.login-page-mobile-login-form .login-page-mobile-form-item.login-page-mobile-remember-item {
+	margin-top: 0;
+	margin-bottom: 16px;
+}
+
+.login-page-mobile-login-form .login-page-mobile-form-item.login-page-mobile-remember-item :deep(.el-form-item__content) {
+	justify-content: flex-start;
+}
+
 .login-page-mobile-login-form .login-page-mobile-form-item:last-child {
 	margin-bottom: 0;
 }
@@ -349,15 +366,6 @@ html.dark .login-page-mobile-input-group:focus-within {
 
 .login-page-mobile-custom-input :deep(.el-input__inner::placeholder) {
 	color: rgb(255 255 255 / 0.6);
-}
-
-/* 表单选项 */
-/* Form options */
-.login-page-mobile-form-options {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	margin: 4px 0 24px;
 }
 
 /* 记住我复选框 */
