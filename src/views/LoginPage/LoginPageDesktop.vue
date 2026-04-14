@@ -8,7 +8,7 @@
 
 // ===================== 第三方依赖导入 =====================
 import { User, Lock, House } from '@element-plus/icons-vue'
-import { ElMessage, ElButton, ElIcon, ElInput, ElForm, ElFormItem, ElCheckbox } from 'element-plus'
+import {ElButton, ElIcon, ElInput, ElForm, ElFormItem, ElCheckbox } from 'element-plus'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -78,7 +78,8 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 							type="primary"
 							:icon="House"
 							circle
-							@click="goToHome"/>
+							@click="goToHome"
+						/>
 					</div>
 					<!-- 左侧内容区域，使用 img 标签显示成员合照 -->
 					<img
