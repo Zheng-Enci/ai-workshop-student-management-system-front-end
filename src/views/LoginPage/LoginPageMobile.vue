@@ -20,6 +20,9 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-checkbox.css'
 import 'element-plus/theme-chalk/el-icon.css'
+// 移动端登录页面样式导入
+// Mobile login page styles import
+import '@/views/LoginPage/mobile/css/LoginPageMobile.css'
 // Vue Router 路由功能导入
 import { useRouter } from 'vue-router'
 
