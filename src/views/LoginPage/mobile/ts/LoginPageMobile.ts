@@ -149,8 +149,9 @@ export default class LoginPageMobile {
 					this.form.value.studentId = userData.studentId
 					this.form.value.password = userData.password
 					this.rememberMe.value = true
-					// 自动加载头像
-					await this.fetchStudentAvatar()
+					// 自动加载头像（使用 bind 确保 this 上下文正确）
+					// Auto load avatar with bind to ensure correct this context
+					await this.fetchStudentAvatar.bind(this)()
 				} catch (error) {
 					localStorage.removeItem('rememberedUser')
 				}

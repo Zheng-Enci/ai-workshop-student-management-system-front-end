@@ -33,7 +33,13 @@ import LoginPageMobile from '@/views/LoginPage/mobile/ts/LoginPageMobile'
  */
 const loginPage = new LoginPageMobile()
 
-// ===================== 绑定方法上下文 =====================
+// ===================== 导出模板使用的响应式变量和方法 =====================
+/**
+ * 学生头像URL
+ * @description 从 loginPage 实例中解构出的响应式头像URL变量，用于模板绑定
+ */
+const studentAvatarUrl = loginPage.studentAvatarUrl
+
 /**
  * 获取学生头像方法（已绑定上下文）
  * @description 将 fetchStudentAvatar 方法绑定到 loginPage 实例，确保 this 指向正确
@@ -83,11 +89,11 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 					<!-- 有头像时显示头像（使用v-lazy懒加载） -->
 					<!-- Show avatar when available (using v-lazy for lazy loading) -->
 					<img
-						v-if="loginPage.studentAvatarUrl.value"
-						v-lazy="loginPage.studentAvatarUrl.value"
+						v-if="studentAvatarUrl.value"
+						v-lazy="studentAvatarUrl.value"
 						alt="学生头像"
 						class="login-page-mobile-avatar"
-						@error="loginPage.studentAvatarUrl.value = null"
+						@error="studentAvatarUrl.value = null"
 					/>
 					<!-- 无头像时显示默认图标 -->
 					<!-- Show default icon when no avatar -->
