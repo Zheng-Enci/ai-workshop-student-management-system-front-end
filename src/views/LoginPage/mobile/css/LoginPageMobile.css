@@ -42,9 +42,9 @@
 	/* Semi-transparent overlay enhances readability */
 	background: rgb(255 255 255 / 0.1);
 
-	/* 轻微模糊效果，保持背景图片清晰可见 */
-	/* Light blur effect to keep background image clearly visible */
-	backdrop-filter: blur(8px);
+	/* 极轻微模糊效果，背景图片几乎完全清晰 */
+	/* Very light blur effect, background image almost fully clear */
+	backdrop-filter: blur(1px);
 }
 
 /* 深色模式下的毛玻璃遮罩 */
