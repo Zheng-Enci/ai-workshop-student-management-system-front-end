@@ -457,21 +457,23 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 /* Right panel title */
 .login-page-desktop-right-title {
 	text-align: center;
-	margin-bottom: 30px;
+	margin-bottom: 40px;
+	margin-top: -60px;
 	color: #fff;
 }
 
 .login-page-desktop-right-title h1 {
-	font-size: 24px;
-	font-weight: 600;
-	margin: 0 0 8px 0;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+	font-size: 32px;
+	font-weight: 700;
+	margin: 0 0 12px 0;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .login-page-desktop-right-title .login-page-desktop-subtitle {
-	font-size: 14px;
-	opacity: 0.8;
+	font-size: 16px;
+	opacity: 0.9;
 	margin: 0;
+	letter-spacing: 1px;
 }
 
 /* 登录卡片 */
