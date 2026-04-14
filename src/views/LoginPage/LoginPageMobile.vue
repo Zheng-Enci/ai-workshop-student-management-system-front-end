@@ -86,23 +86,31 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 		<div class="login-page-mobile-login-content">
 			<div class="login-page-mobile-login-card">
 				<!-- 学生头像显示区域 -->
-				<!-- Student avatar display area -->
-				<div class="login-page-mobile-avatar-container">
-					<!-- 有头像时显示头像 -->
-					<!-- Show avatar when available -->
-					<img
-						v-if="loginPage.studentAvatarUrl?.value"
-						:src="loginPage.studentAvatarUrl.value"
-						alt="学生头像"
-						class="login-page-mobile-avatar"
-						@error="loginPage.studentAvatarUrl && (loginPage.studentAvatarUrl.value = null)"
-					/>
-					<!-- 无头像时显示默认图标 -->
-					<!-- Show default icon when no avatar -->
-					<div v-else class="login-page-mobile-avatar-placeholder">
-						<el-icon><user/></el-icon>
-					</div>
+			<!-- Student avatar display area -->
+			<div class="login-page-mobile-avatar-container">
+				<!-- 加载动画 -->
+				<!-- Loading animation -->
+				<img
+					v-if="loginPage.isAvatarLoading?.value"
+					src="@/assets/loading.gif"
+					alt="加载中"
+					class="login-page-mobile-avatar-loading"
+				/>
+				<!-- 有头像时显示头像 -->
+				<!-- Show avatar when available -->
+				<img
+					v-else-if="loginPage.studentAvatarUrl?.value"
+					:src="loginPage.studentAvatarUrl.value"
+					alt="学生头像"
+					class="login-page-mobile-avatar"
+					@error="loginPage.studentAvatarUrl && (loginPage.studentAvatarUrl.value = null)"
+				/>
+				<!-- 无头像时显示默认图标 -->
+				<!-- Show default icon when no avatar -->
+				<div v-else class="login-page-mobile-avatar-placeholder">
+					<el-icon><user/></el-icon>
 				</div>
+			</div>
 
 				<!-- 欢迎文本 -->
 				<!-- Welcome text -->

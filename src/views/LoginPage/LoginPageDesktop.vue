@@ -101,22 +101,30 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 							<p class="login-page-desktop-welcome-text">欢迎登录 / Welcome Back</p>
 						</div>
 						<!-- 学生头像显示区域 -->
-					<div class="login-page-desktop-avatar-container">
-						<!-- 有头像时显示头像 -->
-						<img
-							v-if="studentAvatarUrl"
-							:src="studentAvatarUrl"
-							alt="学生头像"
-							class="login-page-desktop-student-avatar"
-							@error="studentAvatarUrl = null"
-						/>
-						<!-- 无头像时显示默认图标 -->
-						<div v-else class="login-page-desktop-default-avatar">
-							<el-icon :size="40">
-								<User />
-							</el-icon>
-						</div>
+				<div class="login-page-desktop-avatar-container">
+					<!-- 加载动画 -->
+					<!-- Loading animation -->
+					<img
+						v-if="isAvatarLoading"
+						src="@/assets/loading.gif"
+						alt="加载中"
+						class="login-page-desktop-avatar-loading"
+					/>
+					<!-- 有头像时显示头像 -->
+					<img
+						v-else-if="studentAvatarUrl"
+						:src="studentAvatarUrl"
+						alt="学生头像"
+						class="login-page-desktop-student-avatar"
+						@error="studentAvatarUrl = null"
+					/>
+					<!-- 无头像时显示默认图标 -->
+					<div v-else class="login-page-desktop-default-avatar">
+						<el-icon :size="40">
+							<User />
+						</el-icon>
 					</div>
+				</div>
 
 				<!-- 登录表单 -->
 				<el-form

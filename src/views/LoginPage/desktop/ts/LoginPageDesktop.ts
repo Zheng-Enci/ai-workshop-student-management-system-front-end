@@ -64,6 +64,12 @@ export default class LoginPageDesktop {
 	public studentAvatarUrl = ref(null)
 
 	/**
+	 * 头像加载状态
+	 * @description 控制头像加载动画的显示状态
+	 */
+	public isAvatarLoading = ref(false)
+
+	/**
 	 * 表单验证规则配置
 	 */
 	public rules = {
@@ -135,6 +141,11 @@ export default class LoginPageDesktop {
 			return
 		}
 
+		// 开始加载头像，显示加载动画
+		// Start loading avatar, show loading animation
+		this.isAvatarLoading.value = true
+		this.studentAvatarUrl.value = null
+
 		try {
 			// 获取256x256像素的头像，确保在100px显示尺寸下有清晰的视觉效果
 			// Fetch 256x256 pixel avatar to ensure clear visual quality at 100px display size
@@ -154,6 +165,10 @@ export default class LoginPageDesktop {
 			// 获取失败时清空头像
 			// Clear avatar when fetch fails
 			this.studentAvatarUrl.value = null
+		} finally {
+			// 加载完成，隐藏加载动画
+			// Loading complete, hide loading animation
+			this.isAvatarLoading.value = false
 		}
 	}
 

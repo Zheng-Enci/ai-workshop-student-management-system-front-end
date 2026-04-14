@@ -281,6 +281,19 @@ html.dark .login-page-mobile-login-card {
 	box-shadow: 0 4px 12px rgb(31 66 119 / 0.2);
 }
 
+/* 头像加载动画 */
+/* Avatar loading animation */
+.login-page-mobile-avatar-loading {
+	width: 80px;
+	height: 80px;
+	border-radius: 16px;
+	object-fit: contain;
+	/* 冰川青边框 */
+	/* Glacier cyan border */
+	border: 3px solid #3E9EAC;
+	background: rgb(62 158 172 / 0.1);
+}
+
 /* 头像占位符 */
 /* Avatar placeholder */
 .login-page-mobile-avatar-placeholder {

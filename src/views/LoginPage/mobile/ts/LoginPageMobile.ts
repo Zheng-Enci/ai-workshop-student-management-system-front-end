@@ -93,6 +93,13 @@ export default class LoginPageMobile {
 	public studentAvatarUrl: Ref<string | null>
 
 	/**
+	 * 头像加载状态
+	 * @type {Ref<boolean>}
+	 * @description 控制头像加载动画的显示状态
+	 */
+	public isAvatarLoading: Ref<boolean>
+
+	/**
 	 * 表单验证规则配置
 	 * @type {Object}
 	 * @description Element Plus表单验证规则，包含必填、格式、长度等校验
@@ -139,6 +146,7 @@ export default class LoginPageMobile {
 		this.rememberMe = ref<boolean>(false)
 		this.isLoading = ref<boolean>(false)
 		this.studentAvatarUrl = ref<string | null>(null)
+		this.isAvatarLoading = ref<boolean>(false)
 
 		// 组件挂载时恢复记住的用户信息，并尝试加载头像
 		onMounted(async () => {
@@ -242,6 +250,11 @@ export default class LoginPageMobile {
 			return
 		}
 
+		// 开始加载头像，显示加载动画
+		// Start loading avatar, show loading animation
+		this.isAvatarLoading.value = true
+		this.studentAvatarUrl.value = null
+
 		try {
 			// 获取256x256像素的头像，确保在100px显示尺寸下有清晰的视觉效果
 			// Fetch 256x256 pixel avatar to ensure clear visual quality at 100px display size
@@ -261,6 +274,10 @@ export default class LoginPageMobile {
 			// 获取失败时清空头像
 			// Clear avatar when fetch fails
 			this.studentAvatarUrl.value = null
+		} finally {
+			// 加载完成，隐藏加载动画
+			// Loading complete, hide loading animation
+			this.isAvatarLoading.value = false
 		}
 	}
 
