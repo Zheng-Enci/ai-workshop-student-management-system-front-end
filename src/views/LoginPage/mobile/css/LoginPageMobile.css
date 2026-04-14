@@ -19,10 +19,9 @@
 	padding: 20px;
 	overflow: hidden;
 
-	/* 页面使用毛玻璃背景图片 */
-
-	/* Page uses frosted glass background image */
-	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
+	/* 页面使用智能汽车研究图片作为背景 */
+	/* Page uses smart car research image as background */
+	background-image: url('@/assets/AiWorkShop-SmartCar-Research.jpg');
 	background-position: center;
 	background-size: cover;
 }
