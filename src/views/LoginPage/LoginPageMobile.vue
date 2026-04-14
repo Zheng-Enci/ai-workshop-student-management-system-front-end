@@ -17,6 +17,8 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-checkbox.css'
 import 'element-plus/theme-chalk/el-icon.css'
+// Vue 3 组合式 API
+import { ref } from 'vue'
 // 移动端登录页面样式导入
 // Mobile login page styles import
 import '@/views/LoginPage/mobile/css/LoginPageMobile.css'
@@ -36,15 +38,19 @@ const loginPage = new LoginPageMobile()
 // ===================== 导出模板使用的响应式变量和方法 =====================
 /**
  * 学生头像URL
- * @description 从 loginPage 实例中解构出的响应式头像URL变量，用于模板绑定
+ * @description 创建独立的响应式头像URL变量，与 loginPage 中的变量同步
  */
-const studentAvatarUrl = loginPage.studentAvatarUrl
+const studentAvatarUrl = ref(loginPage.studentAvatarUrl.value)
 
 /**
  * 获取学生头像方法（已绑定上下文）
  * @description 将 fetchStudentAvatar 方法绑定到 loginPage 实例，确保 this 指向正确
+ * 同时更新本地 studentAvatarUrl 变量
  */
-const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
+const fetchStudentAvatar = async () => {
+	await loginPage.fetchStudentAvatar()
+	studentAvatarUrl.value = loginPage.studentAvatarUrl.value
+}
 </script>
 
 <template>
