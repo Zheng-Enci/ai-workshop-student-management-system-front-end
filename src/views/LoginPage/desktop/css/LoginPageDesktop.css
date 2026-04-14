@@ -452,6 +452,27 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	max-width: 400px;
 }
 
+/* 右侧区域标题 */
+/* Right panel title */
+.login-page-desktop-right-title {
+	text-align: center;
+	margin-bottom: 30px;
+	color: #fff;
+}
+
+.login-page-desktop-right-title h1 {
+	font-size: 24px;
+	font-weight: 600;
+	margin: 0 0 8px 0;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.login-page-desktop-right-title .login-page-desktop-subtitle {
+	font-size: 14px;
+	opacity: 0.8;
+	margin: 0;
+}
+
 /* 登录卡片 */
 /* Login card */
 .login-page-desktop-card {

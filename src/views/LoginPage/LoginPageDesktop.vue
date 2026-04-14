@@ -61,12 +61,6 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 			<div class="login-page-desktop-gradient-orb orb-4"/>
 		</div>
 
-		<!-- 页面标题 - 顶部居中 -->
-		<div class="login-page-desktop-page-title">
-			<h1>AI坊学生管理系统 / AI Workshop Student System</h1>
-			<p class="login-page-desktop-subtitle">欢迎登录 / Welcome Back</p>
-		</div>
-
 		<!-- 登录卡片内容 - 黄金比例布局 -->
 		<div class="login-page-desktop-content">
 			<div class="login-page-desktop-golden-layout">
@@ -95,7 +89,16 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 				</div>
 				<!-- 右侧区域 - 黄金比例 38.2%，占满右侧 -->
 				<div class="login-page-desktop-right-panel">
+					<!-- 右侧区域标题 -->
+					<div class="login-page-desktop-right-title">
+						<h1>AI坊学生管理系统</h1>
+						<p class="login-page-desktop-subtitle">AI Workshop Student System</p>
+					</div>
 					<div class="login-page-desktop-card">
+						<!-- 卡片标题 -->
+						<div class="login-page-desktop-card-header">
+							<p class="login-page-desktop-welcome-text">欢迎登录 / Welcome Back</p>
+						</div>
 				<!-- 学生头像显示区域 -->
 				<div class="login-page-desktop-avatar-container">
 					<!-- 有头像时显示头像（使用v-lazy懒加载） -->
