@@ -225,13 +225,15 @@ html:not(.dark) .navigation-page-mobile-user-card-attendance .attendance-icon {
  * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
  */
 html.light .navigation-page-mobile-user-card-level,
-html.light .navigation-page-mobile-user-card-level .level-icon,
+html.light .navigation-page-mobile-user-card-level *,
+html:not(.dark) .navigation-page-mobile-user-card-level,
+html:not(.dark) .navigation-page-mobile-user-card-level * {
+	color: white !important;
+}
+
 html.light .navigation-page-mobile-user-card-level .level-icon svg,
 html.light .navigation-page-mobile-user-card-level .level-icon path,
-html:not(.dark) .navigation-page-mobile-user-card-level,
-html:not(.dark) .navigation-page-mobile-user-card-level .level-icon,
 html:not(.dark) .navigation-page-mobile-user-card-level .level-icon svg,
 html:not(.dark) .navigation-page-mobile-user-card-level .level-icon path {
-	color: white !important;
 	fill: white !important;
 }
