@@ -256,10 +256,10 @@ html.dark .login-card {
 .input-group {
 	display: flex;
 	align-items: center;
+	width: 100%;
 	padding: 4px;
 
 	/* 玻璃模态背景 */
-
 	/* Glassmorphism background */
 	background: rgb(255 255 255 / 0.15);
 	border: 1px solid rgb(255 255 255 / 0.1);
