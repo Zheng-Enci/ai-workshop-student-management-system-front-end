@@ -15,18 +15,36 @@
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	/* 页面默认背景色 */
-	/* Page default background color */
-	background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f172a);
-	background-size: 400% 400%;
-	animation: gradientShift 20s ease infinite;
-	transition: background 0.8s ease;
+	/* 页面使用毛玻璃背景图片 */
+	/* Page uses frosted glass background image */
+	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
+	background-size: cover;
+	background-position: center;
 }
 
-/* 深色模式下的背景 */
-/* Dark mode background */
-html.dark .login-page-desktop-container {
-	background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f172a);
+/* 毛玻璃效果遮罩层 */
+/* Frosted glass effect overlay */
+.login-page-desktop-container::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	/* 强烈的模糊效果创造毛玻璃质感 */
+	/* Strong blur effect creates frosted glass texture */
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	/* 半透明遮罩增强可读性 */
+	/* Semi-transparent overlay enhances readability */
+	background: rgba(255, 255, 255, 0.1);
+	z-index: 0;
+}
+
+/* 深色模式下的毛玻璃遮罩 */
+/* Dark mode frosted glass overlay */
+html.dark .login-page-desktop-container::before {
+	background: rgba(0, 0, 0, 0.4);
 }
 
 /* 渐变背景动画 */
@@ -441,49 +459,13 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	/* 设置相对定位，使伪元素相对于此元素定位 */
 	/* Set relative positioning for pseudo-element positioning */
 	position: relative;
-	/* 右侧使用纯白背景（日间模式） */
-	/* Right side uses pure white background (light mode) */
-	background: #ffffff;
-	transition: background 0.8s ease;
 	/* 顶部内边距，为页面标题留出空间 */
 	/* Top padding to leave space for page title */
 	padding-top: 1%;
 }
 
-/* 右侧区域左边缘渐变过渡效果，与左侧区域融合 */
-/* Left edge gradient transition effect for right panel to blend with left panel */
-.login-page-desktop-right-panel::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	/* 加宽渐变宽度，使过渡更明显 */
-	/* Widen gradient width for more noticeable transition */
-	width: 120px;
-	height: 100%;
-	/* 从白色过渡到透明（日间模式），使用多色停止点使过渡更柔和 */
-	/* Transition from white to transparent (light mode) with multiple stops for softer effect */
-	background: linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.8) 50%, #ffffff 100%);
-	pointer-events: none;
-	/* 提高z-index确保渐变层显示在左侧区域内容之上 */
-	/* Increase z-index to ensure gradient layer appears above left panel content */
-	z-index: 10;
-	transition: background 0.8s ease;
-}
-
-/* 夜间模式下从黑色过渡到透明 */
-/* Transition from black to transparent in dark mode */
-html.dark .login-page-desktop-right-panel::before {
-	background: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.8) 50%, #000000 100%);
-}
-
 /* 右侧登录卡片 */
 /* Right login card */
-/* 夜间模式（深色模式）下右侧区域使用纯黑背景 */
-/* Right panel uses pure black background in dark mode */
-html.dark .login-page-desktop-right-panel {
-	background: #000000;
-}
 
 .login-page-desktop-right-panel .login-page-desktop-card {
 	width: 90%;
