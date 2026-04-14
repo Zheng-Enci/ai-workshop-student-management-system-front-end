@@ -9,8 +9,8 @@
 // ===================== 第三方依赖导入区 =====================
 // Element Plus 消息提示组件
 import { ElMessage } from 'element-plus'
-// Vue3 核心API:响应式变量
-import { ref, type Ref } from 'vue'
+// Vue3 核心API:响应式变量、组件挂载生命周期
+import { ref, onMounted, type Ref } from 'vue'
 // Vue Router 路由功能
 import { useRouter, type Router } from 'vue-router'
 
