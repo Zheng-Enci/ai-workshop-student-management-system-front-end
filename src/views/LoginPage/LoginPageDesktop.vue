@@ -61,14 +61,6 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 			<div class="login-page-desktop-gradient-orb orb-4"/>
 		</div>
 
-		<!-- Logo - 右上角（主题切换） -->
-		<img
-			src="@/assets/AiWorkShop_icon.png"
-			alt="AI坊学生管理系统"
-			class="login-page-desktop-theme-logo"
-			title="切换主题模式"
-			@click="toggleTheme"/>
-
 		<!-- 页面标题 - 顶部居中 -->
 		<div class="login-page-desktop-page-title">
 			<h1>AI坊学生管理系统</h1>
@@ -82,8 +74,8 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 				<div class="login-page-desktop-left-panel">
 					<!-- 左上角按钮组 -->
 					<div class="login-page-desktop-left-header">
-						<!-- Logo -->
-						<div class="login-page-desktop-logo">
+						<!-- Logo - 点击切换主题 -->
+						<div class="login-page-desktop-logo" title="切换主题模式" @click="toggleTheme">
 							<img src="@/assets/AiWorkShop_icon.png" alt="AI创作坊 Logo"/>
 						</div>
 						<!-- 返回首页按钮 -->
