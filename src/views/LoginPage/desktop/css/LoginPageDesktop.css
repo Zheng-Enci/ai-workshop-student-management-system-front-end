@@ -405,27 +405,6 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	transform: translateY(-2px);
 }
 
-/* 左侧区域模糊背景层 */
-/* Left panel blurred background layer */
-.login-page-desktop-left-panel::before {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	/* 使用模糊的背景图 */
-	/* Use blurred background image */
-	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
-	background-size: cover;
-	background-position: center;
-	/* 强烈的模糊效果 */
-	/* Strong blur effect */
-	filter: blur(20px);
-	transform: scale(1.1);
-	z-index: 0;
-}
-
 /* 成员合照图片样式 */
 /* Group photo image style */
 .login-page-desktop-group-photo {
