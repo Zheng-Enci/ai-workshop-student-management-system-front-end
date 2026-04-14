@@ -148,3 +148,19 @@ html:not(.dark) .navigation-page-mobile-points-card-value {
 	color: var(--text-primary);
 	text-shadow: none;
 }
+
+/**
+ * 日间模式下的积分图标
+ * 保持白色以确保在彩色背景上可见
+ * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
+ */
+html.light .navigation-page-mobile-points-card-icon .el-icon,
+html.light .navigation-page-mobile-points-card-icon svg,
+html.light .navigation-page-mobile-points-card-icon path,
+html:not(.dark) .navigation-page-mobile-points-card-icon .el-icon,
+html:not(.dark) .navigation-page-mobile-points-card-icon svg,
+html:not(.dark) .navigation-page-mobile-points-card-icon path {
+	color: white !important;
+	fill: white !important;
+}

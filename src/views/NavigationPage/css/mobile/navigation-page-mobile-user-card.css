@@ -226,7 +226,12 @@ html:not(.dark) .navigation-page-mobile-user-card-attendance .attendance-icon {
  */
 html.light .navigation-page-mobile-user-card-level,
 html.light .navigation-page-mobile-user-card-level .level-icon,
+html.light .navigation-page-mobile-user-card-level .level-icon svg,
+html.light .navigation-page-mobile-user-card-level .level-icon path,
 html:not(.dark) .navigation-page-mobile-user-card-level,
-html:not(.dark) .navigation-page-mobile-user-card-level .level-icon {
+html:not(.dark) .navigation-page-mobile-user-card-level .level-icon,
+html:not(.dark) .navigation-page-mobile-user-card-level .level-icon svg,
+html:not(.dark) .navigation-page-mobile-user-card-level .level-icon path {
 	color: white !important;
+	fill: white !important;
 }
