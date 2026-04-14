@@ -364,10 +364,21 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 
 /* Logo 样式 */
 /* Logo style */
+.login-page-desktop-logo {
+	cursor: pointer;
+	transition: transform 0.3s ease;
+}
+
+.login-page-desktop-logo:hover {
+	transform: scale(1.05);
+}
+
 .login-page-desktop-logo img {
-	width: 120px;
-	height: auto;
+	width: 50px;
+	height: 50px;
+	object-fit: contain;
 	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+	border-radius: 8px;
 }
 
 /* 返回首页按钮样式 */
