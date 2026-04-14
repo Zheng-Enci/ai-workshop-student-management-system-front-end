@@ -1,7 +1,7 @@
 <script setup>
 /**
  * 登录页面组件
- * 
+ *
  * @description 提供用户登录功能,支持记住密码、验证输入等
  * @component LoginPage
  */
@@ -115,7 +115,7 @@ const rules = {
 
 /**
  * 处理登录操作
- * 
+ *
  * @function handleLogin
  * @description 执行登录流程的核心方法,包含以下步骤:
  * 1. 开启加载状态,防止重复提交
@@ -124,7 +124,7 @@ const rules = {
  * 4. 构建完整的用户信息对象并存储到状态管理
  * 5. 根据"记住我"选项决定是否保存登录信息到本地存储
  * 6. 显示成功提示并跳转到导航页面
- * 
+ *
  * @async
  * @returns {Promise<void>}
  */
@@ -134,7 +134,7 @@ const handleLogin = async () => {
 	try {
 		// 第一步:调用登录API,传入学号和密码
 		const response = await login(form.value)
-		
+
 		// 第二步:使用返回的token获取学生数据库表主键ID
 		// 这个ID用于后续的用户信息关联和头像获取等操作
 		const studentDbIdResponse = await StudentApi.getStudentDatabaseTableId(response.data.token)
@@ -176,7 +176,7 @@ const handleLogin = async () => {
 
 /**
  * 返回首页
- * 
+ *
  * @function goToHome
  * @description 点击首页按钮时触发,跳转到系统首页
  */
@@ -186,7 +186,7 @@ const goToHome = () => {
 
 /**
  * 组件挂载生命周期钩子
- * 
+ *
  * @description 组件挂载完成后自动执行,用于恢复"记住我"功能保存的用户信息
  * 流程:
  * 1. 从本地存储读取保存的用户信息
@@ -224,30 +224,36 @@ onMounted(() => {
 			<div class="gradient-orb orb-2"/>
 			<div class="gradient-orb orb-3"/>
 		</div>
-
-		<!-- 返回首页按钮 -->
-		<el-button
-			class="home-btn"
-			type="primary"
-			:icon="House"
-			circle
-			@click="goToHome"/>
+		<!-- 页面头部区域：包含返回按钮、标题和Logo -->
+		<!-- Page header area: contains home button, title and logo -->
+		<div class="card-header">
+			<!-- 返回首页按钮 - 点击返回系统首页 -->
+			<!-- Home button - click to return to system home page -->
+			<el-button
+				class="home-btn"
+				type="primary"
+				:icon="House"
+				circle
+				@click="goToHome"/>
+			<!-- 标题区域 - 系统名称和副标题 -->
+			<!-- Title area - system name and subtitle -->
+			<div>
+				<h1>AI坊学生管理系统</h1>
+				<p class="subtitle">人工智能创作坊</p>
+			</div>
+			<!-- Logo图标 - 点击切换主题模式 -->
+			<!-- Logo icon - click to toggle theme mode -->
+			<img
+				src="@/assets/AiWorkShop_icon.png"
+				alt="AI坊学生管理系统"
+				class="logo"
+				title="切换主题模式"
+				@click="toggleTheme"/>
+		</div>
 
 		<!-- 登录卡片内容 -->
 		<div class="login-content">
 			<div class="login-card">
-				<!-- 卡片头部:Logo和标题 -->
-				<div class="card-header">
-					<img
-						src="@/assets/AiWorkShop_icon.png"
-						alt="AI坊学生管理系统"
-						class="logo"
-						title="切换主题模式"
-						@click="toggleTheme"/>
-					<h1>AI坊学生管理系统</h1>
-					<p class="subtitle">人工智能创作坊</p>
-				</div>
-
 				<!-- 登录表单 -->
 				<el-form
 					:model="form"
