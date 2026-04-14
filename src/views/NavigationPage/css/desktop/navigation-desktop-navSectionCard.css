@@ -201,7 +201,12 @@ html:not(.dark) .navigation-desktop-navSectionCard-card::before {
 /**
  * 日间模式下的图标颜色
  * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
  */
+html.light .navigation-desktop-navSectionCard-card-icon,
+html.light .navigation-desktop-navSectionCard-card-icon .el-icon,
+html.light .navigation-desktop-navSectionCard-card-icon svg,
+html.light .navigation-desktop-navSectionCard-card-icon path,
 html:not(.dark) .navigation-desktop-navSectionCard-card-icon,
 html:not(.dark) .navigation-desktop-navSectionCard-card-icon .el-icon,
 html:not(.dark) .navigation-desktop-navSectionCard-card-icon svg,

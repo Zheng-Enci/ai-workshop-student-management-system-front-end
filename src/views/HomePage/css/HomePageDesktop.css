@@ -942,7 +942,12 @@
  * 日间模式下的功能图标
  * 保持白色以确保在彩色背景上可见
  * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
  */
+html.light .home-page-desktop-feature-icon,
+html.light .home-page-desktop-feature-icon .el-icon,
+html.light .home-page-desktop-feature-icon svg,
+html.light .home-page-desktop-feature-icon path,
 html:not(.dark) .home-page-desktop-feature-icon,
 html:not(.dark) .home-page-desktop-feature-icon .el-icon,
 html:not(.dark) .home-page-desktop-feature-icon svg,
@@ -1225,7 +1230,12 @@ html:not(.dark) .home-page-desktop-feature-icon path {
  * 日间模式下的更新日志图标
  * 保持白色以确保在彩色背景上可见
  * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
  */
+html.light .home-page-desktop-update-icon,
+html.light .home-page-desktop-update-icon .el-icon,
+html.light .home-page-desktop-update-icon svg,
+html.light .home-page-desktop-update-icon path,
 html:not(.dark) .home-page-desktop-update-icon,
 html:not(.dark) .home-page-desktop-update-icon .el-icon,
 html:not(.dark) .home-page-desktop-update-icon svg,
