@@ -678,7 +678,7 @@ html.dark .login-page-desktop-card {
 	border: 3px solid rgb(255 255 255 / 0.5);
 	border-radius: 20px;
 	box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
-	transition: box-shadow 0.3s ease, transform 0.3s ease;
+	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .login-page-desktop-student-avatar:hover {
@@ -713,7 +713,7 @@ html.dark .login-page-desktop-card {
 	border: 3px solid rgb(255 255 255 / 0.5);
 	border-radius: 20px;
 	box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
-	transition: box-shadow 0.3s ease, transform 0.3s ease;
+	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .login-page-desktop-default-avatar:hover {
@@ -761,7 +761,6 @@ html.dark .login-page-desktop-card {
 
 	/* Slight blur effect */
 	backdrop-filter: blur(2px);
-	transition: box-shadow 0.3s ease;
 }
 
 .login-page-desktop-input-group:focus-within {
@@ -864,7 +863,7 @@ html.dark .login-page-desktop-card {
 
 	/* Minimal blur effect - minimal glassmorphism */
 	backdrop-filter: blur(1px);
-	transition: box-shadow 0.3s ease, transform 0.3s ease;
+	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .login-page-desktop-login-button:hover {
