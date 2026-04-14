@@ -141,7 +141,9 @@ html.dark .login-page-mobile-gradient-orb.login-page-mobile-orb-3 {
 /* Logo - fixed at top right corner of page (outside login form) */
 .login-page-mobile-logo {
 	position: fixed;
-	top: 16px;
+	/* 调整 top 值使 Logo 中心与首页按钮中心对齐 */
+	/* Adjust top value to align logo center with home button center */
+	top: 12px;
 	right: 16px;
 	z-index: 100;
 	width: 48px;
