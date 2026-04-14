@@ -140,7 +140,11 @@ export default class LoginPageDesktop {
 			// Fetch 256x256 pixel avatar to ensure clear visual quality at 100px display size
 			const avatarUrl = StudentApi.getAvatarUrlByStudentId(this.form.value.studentId, 256)
 			if (avatarUrl) {
-				this.studentAvatarUrl.value = avatarUrl
+				// 添加时间戳参数强制刷新头像，避免浏览器缓存导致修改学号后头像不更新
+				// 使用 & 连接符，因为 avatarUrl 已经包含 ?avatarSize=256 参数
+				// Add timestamp parameter using & connector since avatarUrl already contains query params
+				const separator = avatarUrl.includes('?') ? '&' : '?'
+				this.studentAvatarUrl.value = `${avatarUrl}${separator}t=${Date.now()}`
 			} else {
 				// 如果获取不到头像URL，清空头像显示
 				// Clear avatar display if avatar URL cannot be fetched
