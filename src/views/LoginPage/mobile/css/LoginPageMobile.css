@@ -356,7 +356,7 @@ html.dark .login-page-mobile-input-group:focus-within {
 .login-page-mobile-form-options {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	margin: 20px 0 24px;
 }
 
