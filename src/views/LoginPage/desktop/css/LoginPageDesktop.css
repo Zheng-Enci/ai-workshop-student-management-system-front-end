@@ -91,12 +91,12 @@ html.dark .login-page-desktop-container::before {
 	transition: background-image 0.8s ease;
 }
 
-/* 深色模式下的网格 - 夜间模式：更明显的蓝色调网格 */
-/* Dark mode grid - Night mode: more prominent blue-tinted grid */
+/* 深色模式下的网格 - 夜间模式：使用冰川青色调网格 */
+/* Dark mode grid - Night mode: using glacier cyan tinted grid */
 html.dark .login-page-desktop-grid-pattern {
 	background-image:
-		linear-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+		linear-gradient(rgba(62, 158, 172, 0.12) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(62, 158, 172, 0.12) 1px, transparent 1px);
 }
 
 @keyframes gridMove {
@@ -122,11 +122,11 @@ html.dark .login-page-desktop-grid-pattern {
 	transition: background 0.8s ease, box-shadow 0.8s ease;
 }
 
-/* 深色模式下的粒子 - 夜间模式：发光效果的蓝色粒子 */
-/* Dark mode particles - Night mode: glowing blue particles */
+/* 深色模式下的粒子 - 夜间模式：使用冰川青发光效果 */
+/* Dark mode particles - Night mode: using glacier cyan glow effect */
 html.dark .login-page-desktop-particle {
-	background: rgba(99, 102, 241, 0.8);
-	box-shadow: 0 0 10px rgba(99, 102, 241, 0.5), 0 0 20px rgba(99, 102, 241, 0.3);
+	background: rgba(62, 158, 172, 0.8);
+	box-shadow: 0 0 10px rgba(62, 158, 172, 0.5), 0 0 20px rgba(62, 158, 172, 0.3);
 }
 
 .login-page-desktop-particle:nth-child(1) {
@@ -243,25 +243,33 @@ html.dark .login-page-desktop-particle {
 	animation-delay: -15s;
 }
 
-/* 深色模式光球 - 夜间模式：神秘的蓝紫色光晕 */
-/* Dark mode orbs - Night mode: mysterious blue-purple glow */
+/* 深色模式光球 - 夜间模式：使用项目配色冰川青和深空蓝 */
+/* Dark mode orbs - Night mode: using project colors glacier cyan and deep space blue */
 html.dark .login-page-desktop-gradient-orb.orb-1 {
-	background: radial-gradient(circle, rgba(99, 102, 241, 0.5) 0%, rgba(99, 102, 241, 0) 70%);
+	/* 冰川青主色 */
+	/* Glacier cyan primary color */
+	background: radial-gradient(circle, rgba(62, 158, 172, 0.5) 0%, rgba(62, 158, 172, 0) 70%);
 	opacity: 0.8;
 }
 
 html.dark .login-page-desktop-gradient-orb.orb-2 {
-	background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(139, 92, 246, 0) 70%);
+	/* 深空蓝主色 */
+	/* Deep space blue primary color */
+	background: radial-gradient(circle, rgba(31, 66, 119, 0.5) 0%, rgba(31, 66, 119, 0) 70%);
 	opacity: 0.7;
 }
 
 html.dark .login-page-desktop-gradient-orb.orb-3 {
-	background: radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(59, 130, 246, 0) 70%);
+	/* 冰川青浅色 */
+	/* Glacier cyan light color */
+	background: radial-gradient(circle, rgba(111, 183, 196, 0.4) 0%, rgba(111, 183, 196, 0) 70%);
 	opacity: 0.6;
 }
 
 html.dark .login-page-desktop-gradient-orb.orb-4 {
-	background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(168, 85, 247, 0) 70%);
+	/* 深空蓝浅色 */
+	/* Deep space blue light color */
+	background: radial-gradient(circle, rgba(74, 107, 156, 0.35) 0%, rgba(74, 107, 156, 0) 70%);
 	opacity: 0.5;
 }
 
@@ -625,7 +633,9 @@ html.dark .login-page-desktop-card {
 	/* 聚焦时稍微增加背景不透明度 */
 	/* Slightly increase background opacity on focus */
 	background: rgba(255, 255, 255, 0.25);
-	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+	/* 使用冰川青光晕效果 */
+	/* Using glacier cyan glow effect */
+	box-shadow: 0 0 0 3px rgba(62, 158, 172, 0.2);
 }
 
 /* 输入框图标 */
@@ -717,7 +727,9 @@ html.dark .login-page-desktop-card {
 	/* 悬停时增加背景不透明度 */
 	/* Increase background opacity on hover */
 	background: rgba(255, 255, 255, 0.3);
-	box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+	/* 使用深空蓝阴影效果 */
+	/* Using deep space blue shadow effect */
+	box-shadow: 0 10px 20px -5px rgba(31, 66, 119, 0.4);
 }
 
 .login-page-desktop-login-button:active {
