@@ -357,7 +357,7 @@ html.dark .login-page-mobile-input-group:focus-within {
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	margin: 8px 0 24px;
+	margin: 4px 0 24px;
 }
 
 /* 记住我复选框 */
