@@ -61,19 +61,11 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 			<div class="login-page-desktop-gradient-orb orb-4"/>
 		</div>
 
-		<!-- 返回首页按钮 -->
-		<el-button
-			class="login-page-desktop-home-btn"
-			type="primary"
-			:icon="House"
-			circle
-			@click="goToHome"/>
-
-		<!-- Logo - 右上角 -->
+		<!-- Logo - 右上角（主题切换） -->
 		<img
 			src="@/assets/AiWorkShop_icon.png"
 			alt="AI坊学生管理系统"
-			class="login-page-desktop-logo"
+			class="login-page-desktop-theme-logo"
 			title="切换主题模式"
 			@click="toggleTheme"/>
 
@@ -88,9 +80,19 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 			<div class="login-page-desktop-golden-layout">
 				<!-- 左侧区域 - 黄金比例 61.8%，占满左侧 -->
 				<div class="login-page-desktop-left-panel">
-					<!-- Logo - 左上角 -->
-					<div class="login-page-desktop-logo">
-						<img src="@/assets/Logo.png" alt="AI创作坊 Logo"/>
+					<!-- 左上角按钮组 -->
+					<div class="login-page-desktop-left-header">
+						<!-- Logo -->
+						<div class="login-page-desktop-logo">
+							<img src="@/assets/Logo.png" alt="AI创作坊 Logo"/>
+						</div>
+						<!-- 返回首页按钮 -->
+						<el-button
+							class="login-page-desktop-home-btn"
+							type="primary"
+							:icon="House"
+							circle
+							@click="goToHome"/>
 					</div>
 					<!-- 左侧内容区域，使用 img 标签显示成员合照 -->
 					<img

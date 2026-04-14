@@ -350,19 +350,38 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	overflow: hidden;
 }
 
-/* Logo 样式 - 左上角 */
-/* Logo style - top left corner */
-.login-page-desktop-logo {
+/* 左侧区域头部 - 左上角 */
+/* Left panel header - top left corner */
+.login-page-desktop-left-header {
 	position: absolute;
 	top: 30px;
 	left: 30px;
 	z-index: 2;
+	display: flex;
+	align-items: center;
+	gap: 16px;
 }
 
+/* Logo 样式 */
+/* Logo style */
 .login-page-desktop-logo img {
 	width: 120px;
 	height: auto;
 	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* 返回首页按钮样式 */
+/* Home button style */
+.login-page-desktop-home-btn {
+	background: rgba(255, 255, 255, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(4px);
+	transition: all 0.3s ease;
+}
+
+.login-page-desktop-home-btn:hover {
+	background: rgba(255, 255, 255, 0.3);
+	transform: translateY(-2px);
 }
 
 /* 左侧区域模糊背景层 */
