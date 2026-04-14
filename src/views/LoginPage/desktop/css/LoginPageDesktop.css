@@ -346,9 +346,15 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	/* 使用渐变背景作为底色 */
-	/* Use gradient background as base color */
-	background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #1e3a5f 100%);
+	/* 使用模糊的背景图作为底色 */
+	/* Use blurred background image as base */
+	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
+	background-size: cover;
+	background-position: center;
+	/* 强烈的模糊效果 */
+	/* Strong blur effect */
+	filter: blur(20px);
+	transform: scale(1.1);
 	overflow: hidden;
 }
 
@@ -368,6 +374,10 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	/* 阴影效果 */
 	/* Shadow effect */
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+	/* 确保图片在模糊背景之上清晰显示 */
+	/* Ensure image displays clearly above blurred background */
+	position: relative;
+	z-index: 1;
 }
 
 /* 右侧区域 - 黄金比例 38.2%，占满右侧 */
