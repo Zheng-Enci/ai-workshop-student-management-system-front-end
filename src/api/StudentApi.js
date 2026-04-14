@@ -59,8 +59,8 @@ class StudentApi {
 	}
 
 	/**
-	 * 获取头像URL（辅助函数）
-	 * 根据学生ID和头像尺寸生成头像URL地址
+	 * 获取头像URL（根据数据库主键ID）
+	 * 根据学生数据库表主键ID和头像尺寸生成头像URL地址
 	 * 这是一个静态辅助方法，不发起网络请求，仅生成URL
 	 *
 	 * @param {string|number} studentInfoId - 学生数据库表主键ID
@@ -74,6 +74,24 @@ class StudentApi {
 		}
 		// 拼接头像URL，包含学生ID和尺寸参数
 		return `${config.API_BASE_URL}/api/v1/students/avatar/${studentInfoId}?avatarSize=${avatarSize}`
+	}
+
+	/**
+	 * 获取头像URL（根据学号）
+	 * 根据学号和头像尺寸生成头像URL地址
+	 * 这是一个静态辅助方法，不发起网络请求，仅生成URL
+	 *
+	 * @param {string|number} studentId - 学生学号
+	 * @param {number} [avatarSize=64] - 头像尺寸，默认64像素
+	 * @returns {string|null} 头像URL地址，如果studentId无效则返回null
+	 */
+	static getAvatarUrlByStudentId(studentId, avatarSize = 64) {
+		// 验证学号是否有效
+		if (!studentId) {
+			return null
+		}
+		// 拼接头像URL，包含学号和尺寸参数
+		return `${config.API_BASE_URL}/api/v1/students/avatar/by-student-id/${studentId}?avatarSize=${avatarSize}`
 	}
 
 	/**
