@@ -165,9 +165,12 @@
 	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
-.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon .el-icon {
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon .el-icon,
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon svg,
+.navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon path {
 	font-size: 20px;
 	color: white;
+	fill: white;
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-content {
@@ -395,4 +398,15 @@ html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobil
 
 html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text p {
 	color: var(--text-secondary);
+}
+
+/**
+ * 日间模式下的图标颜色
+ * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ */
+html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon .el-icon,
+html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon svg,
+html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon path {
+	color: white !important;
+	fill: white !important;
 }

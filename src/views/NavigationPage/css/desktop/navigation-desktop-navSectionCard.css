@@ -103,11 +103,22 @@
 	justify-content: center;
 	width: 64px;
 	height: 64px;
-	color: var(--primary-color);
+	color: white;
 	border-radius: 50%;
 	box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
 	will-change: transform;
+}
+
+/**
+ * 图标内的 SVG 元素
+ * 确保图标颜色正确应用
+ */
+.navigation-desktop-navSectionCard-card-icon .el-icon,
+.navigation-desktop-navSectionCard-card-icon svg,
+.navigation-desktop-navSectionCard-card-icon path {
+	color: white;
+	fill: white;
 }
 
 .navigation-desktop-navSectionCard-card:hover .navigation-desktop-navSectionCard-card-icon {
@@ -185,4 +196,16 @@ html:not(.dark) .navigation-desktop-navSectionCard-card:hover {
 
 html:not(.dark) .navigation-desktop-navSectionCard-card::before {
 	background: linear-gradient(135deg, rgb(62 158 172 / 0.05), rgb(31 66 119 / 0.05));
+}
+
+/**
+ * 日间模式下的图标颜色
+ * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ */
+html:not(.dark) .navigation-desktop-navSectionCard-card-icon,
+html:not(.dark) .navigation-desktop-navSectionCard-card-icon .el-icon,
+html:not(.dark) .navigation-desktop-navSectionCard-card-icon svg,
+html:not(.dark) .navigation-desktop-navSectionCard-card-icon path {
+	color: white !important;
+	fill: white !important;
 }

@@ -174,9 +174,12 @@
 	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
-.navigation-page-mobile-nav-section-card-card-icon .el-icon {
+.navigation-page-mobile-nav-section-card-card-icon .el-icon,
+.navigation-page-mobile-nav-section-card-card-icon svg,
+.navigation-page-mobile-nav-section-card-card-icon path {
 	font-size: 24px;
 	color: white;
+	fill: white;
 }
 
 /* ==================== 卡片内容 ==================== */
@@ -438,4 +441,15 @@ html:not(.dark) .navigation-page-mobile-nav-section-card-card-arrow {
 html:not(.dark) .navigation-page-mobile-nav-section-card-card:hover .navigation-page-mobile-nav-section-card-card-arrow {
 	color: var(--primary-color);
 	background: var(--glass-bg);
+}
+
+/**
+ * 日间模式下的图标颜色
+ * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ */
+html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon .el-icon,
+html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon svg,
+html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon path {
+	color: white !important;
+	fill: white !important;
 }

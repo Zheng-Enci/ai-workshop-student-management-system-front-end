@@ -941,9 +941,14 @@
 /**
  * 日间模式下的功能图标
  * 保持白色以确保在彩色背景上可见
+ * 使用 !important 覆盖主题 CSS 的强制文字颜色
  */
-html:not(.dark) .home-page-desktop-feature-icon {
-	color: white;
+html:not(.dark) .home-page-desktop-feature-icon,
+html:not(.dark) .home-page-desktop-feature-icon .el-icon,
+html:not(.dark) .home-page-desktop-feature-icon svg,
+html:not(.dark) .home-page-desktop-feature-icon path {
+	color: white !important;
+	fill: white !important;
 }
 
 /* 主要功能卡片图标背景 */
