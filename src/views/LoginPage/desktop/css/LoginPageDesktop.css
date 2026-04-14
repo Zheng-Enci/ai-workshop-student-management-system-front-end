@@ -465,7 +465,9 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	/* Transition from white to transparent (light mode) with multiple stops for softer effect */
 	background: linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.8) 50%, #ffffff 100%);
 	pointer-events: none;
-	z-index: 2;
+	/* 提高z-index确保渐变层显示在左侧区域内容之上 */
+	/* Increase z-index to ensure gradient layer appears above left panel content */
+	z-index: 10;
 	transition: background 0.8s ease;
 }
 
