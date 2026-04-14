@@ -32,6 +32,13 @@ import LoginPageMobile from '@/views/LoginPage/mobile/ts/LoginPageMobile'
  * @description 封装移动端登录页面的所有业务逻辑
  */
 const loginPage = new LoginPageMobile()
+
+// ===================== 绑定方法上下文 =====================
+/**
+ * 获取学生头像方法（已绑定上下文）
+ * @description 将 fetchStudentAvatar 方法绑定到 loginPage 实例，确保 this 指向正确
+ */
+const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 </script>
 
 <template>
@@ -109,12 +116,12 @@ const loginPage = new LoginPageMobile()
 								</el-icon>
 							</div>
 							<el-input
-								v-model="loginPage.form.value.studentId"
-								placeholder="请输入学号"
-								class="login-page-mobile-custom-input"
-								size="large"
-								@blur="loginPage.fetchStudentAvatar()"
-							/>
+							v-model="loginPage.form.value.studentId"
+							placeholder="请输入学号"
+							class="login-page-mobile-custom-input"
+							size="large"
+							@blur="fetchStudentAvatar"
+						/>
 						</div>
 					</el-form-item>
 
