@@ -72,12 +72,17 @@ const loginPage = new LoginPageMobile()
 				<!-- 学生头像显示区域 -->
 				<!-- Student avatar display area -->
 				<div class="login-page-mobile-avatar-container">
+					<!-- 有头像时显示头像（使用v-lazy懒加载） -->
+					<!-- Show avatar when available (using v-lazy for lazy loading) -->
 					<img
 						v-if="loginPage.studentAvatarUrl.value"
-						:src="loginPage.studentAvatarUrl.value"
+						v-lazy="loginPage.studentAvatarUrl.value"
 						alt="学生头像"
 						class="login-page-mobile-avatar"
+						@error="loginPage.studentAvatarUrl.value = null"
 					/>
+					<!-- 无头像时显示默认图标 -->
+					<!-- Show default icon when no avatar -->
 					<div v-else class="login-page-mobile-avatar-placeholder">
 						<el-icon><user/></el-icon>
 					</div>
