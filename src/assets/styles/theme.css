@@ -12,9 +12,9 @@
  */
 :root {
   /* 主色调 */
-  --primary-color: #667eea; /* 主色：蓝紫色 */
-  --primary-gradient: linear-gradient(135deg, #667eea, #764ba2); /* 主色渐变 */
-  --secondary-color: #764ba2; /* 次色：紫色 */
+  --primary-color: #3E9EAC; /* 主色：冰川青 */
+  --primary-gradient: linear-gradient(135deg, #3E9EAC, #1F4277); /* 主色渐变：冰川青到深空蓝 */
+  --secondary-color: #1F4277; /* 次色：深空蓝 */
   
   /* 功能色 */
   --success-color: #67c23a; /* 成功色：绿色 */

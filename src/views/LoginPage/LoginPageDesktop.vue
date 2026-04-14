@@ -74,16 +74,16 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 							<img src="@/assets/AiWorkShop_icon.png" alt="AI创作坊 Logo"/>
 						</div>
 						<!-- 返回首页按钮 -->
-					<el-button
-						class="login-page-desktop-home-btn"
-						type="primary"
-						circle
-						@click="goToHome"
-					>
-						<el-icon>
-							<House />
-						</el-icon>
-					</el-button>
+				<el-button
+					class="login-page-desktop-home-btn"
+					type="primary"
+					@click="goToHome"
+				>
+					<el-icon>
+						<House />
+					</el-icon>
+					首页
+				</el-button>
 					</div>
 					<!-- 左侧内容区域，使用 img 标签显示成员合照 -->
 					<img
