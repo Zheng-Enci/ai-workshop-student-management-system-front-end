@@ -91,11 +91,11 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 					<!-- 有头像时显示头像（使用v-lazy懒加载） -->
 					<!-- Show avatar when available (using v-lazy for lazy loading) -->
 					<img
-						v-if="studentAvatarUrl.value"
+						v-if="studentAvatarUrl?.value"
 						v-lazy="studentAvatarUrl.value"
 						alt="学生头像"
 						class="login-page-mobile-avatar"
-						@error="studentAvatarUrl.value = null"
+						@error="studentAvatarUrl && (studentAvatarUrl.value = null)"
 					/>
 					<!-- 无头像时显示默认图标 -->
 					<!-- Show default icon when no avatar -->
