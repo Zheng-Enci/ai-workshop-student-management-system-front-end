@@ -64,7 +64,7 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 		<!-- 页面标题 - 顶部居中 -->
 		<div class="login-page-desktop-page-title">
 			<h1>AI坊学生管理系统</h1>
-			<p class="login-page-desktop-subtitle">欢迎登录</p>
+			<p class="login-page-desktop-subtitle">欢迎登录 / Welcome Back</p>
 		</div>
 
 		<!-- 登录卡片内容 - 黄金比例布局 -->
