@@ -323,3 +323,35 @@
 		padding: 10px 14px;
 	}
 }
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的积分区域
+ * 使用主题边框颜色替代固定白色
+ */
+html:not(.dark) .navigation-desktop-user-card-points-section {
+	border-left: 1px solid var(--glass-border);
+}
+
+html:not(.dark) .navigation-desktop-user-card-point-item {
+	background: var(--glass-bg);
+}
+
+html:not(.dark) .navigation-desktop-user-card-point-item:hover {
+	background: var(--glass-bg);
+}
+
+html:not(.dark) .navigation-desktop-user-card-point-icon {
+	background: var(--glass-bg);
+}
+
+html:not(.dark) .navigation-desktop-user-card-user-level {
+	background: var(--glass-bg);
+}
+
+@media (width <= 768px) {
+	html:not(.dark) .navigation-desktop-user-card-points-section {
+		border-top: 1px solid var(--glass-border);
+	}
+}

@@ -124,3 +124,27 @@
 	color: white;
 	text-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
 }
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的积分卡片
+ * 使用主题变量替代固定白色
+ */
+html:not(.dark) .navigation-page-mobile-points-card-item {
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+}
+
+/**
+ * 日间模式下的积分标签和数值
+ * 使用主题文字颜色
+ */
+html:not(.dark) .navigation-page-mobile-points-card-label {
+	color: var(--text-secondary);
+}
+
+html:not(.dark) .navigation-page-mobile-points-card-value {
+	color: var(--text-primary);
+	text-shadow: none;
+}

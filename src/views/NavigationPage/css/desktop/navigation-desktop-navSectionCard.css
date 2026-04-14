@@ -164,3 +164,25 @@
 		height: 56px;
 	}
 }
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的导航卡片
+ * 使用主题变量替代固定白色透明背景
+ */
+html:not(.dark) .navigation-desktop-navSectionCard-card {
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+html:not(.dark) .navigation-desktop-navSectionCard-card:hover {
+	background: var(--glass-bg);
+	border-color: var(--primary-color);
+	box-shadow: 0 16px 40px var(--shadow-hover);
+}
+
+html:not(.dark) .navigation-desktop-navSectionCard-card::before {
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.05), rgb(31 66 119 / 0.05));
+}

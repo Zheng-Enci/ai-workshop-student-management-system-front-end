@@ -355,3 +355,44 @@
 .navigation-page-mobile-nav-sections-card.invitation-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的区域标题
+ * 使用主题文字颜色
+ */
+html:not(.dark) .navigation-page-mobile-nav-sections-title {
+	color: var(--text-primary);
+}
+
+html:not(.dark) .navigation-page-mobile-nav-sections-title .navigation-page-mobile-nav-sections-icon {
+	color: var(--primary-color);
+}
+
+html:not(.dark) .navigation-page-mobile-nav-sections-divider {
+	background: linear-gradient(90deg, rgb(62 158 172 / 0.3) 0%, rgb(62 158 172 / 0.1) 50%, transparent 100%);
+}
+
+/**
+ * 日间模式下的功能卡片
+ * 使用主题变量替代固定白色
+ */
+html:not(.dark) .navigation-page-mobile-nav-sections-card {
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+}
+
+html:not(.dark) .navigation-page-mobile-nav-sections-card:hover {
+	background: var(--glass-bg);
+	border-color: var(--primary-color);
+}
+
+html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text h3 {
+	color: var(--text-primary);
+	text-shadow: none;
+}
+
+html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text p {
+	color: var(--text-secondary);
+}

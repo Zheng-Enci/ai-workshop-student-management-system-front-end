@@ -54,3 +54,28 @@
 	box-shadow: 0 0 12px rgb(102 126 234 / 0.6);
 	transform: translateY(-50%);
 }
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的区域标题
+ * 使用项目主色替代紫色渐变
+ */
+html:not(.dark) .navigation-desktop-navSectionData-title {
+	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+html:not(.dark) .navigation-desktop-navSectionData-icon {
+	color: var(--primary-color);
+}
+
+html:not(.dark) .navigation-desktop-navSectionData-divider {
+	background: linear-gradient(90deg, rgb(62 158 172 / 0.3) 0%, rgb(62 158 172 / 0.1) 50%, transparent 100%);
+}
+
+html:not(.dark) .navigation-desktop-navSectionData-divider::after {
+	background: rgb(62 158 172 / 0.4);
+	box-shadow: 0 0 12px rgb(62 158 172 / 0.6);
+}

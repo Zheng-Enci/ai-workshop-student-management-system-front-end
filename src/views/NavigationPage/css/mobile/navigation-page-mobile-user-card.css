@@ -194,3 +194,26 @@
 	font-size: 13px;
 	color: rgb(255 255 255 / 0.85);
 }
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的用户名
+ * 使用主题文字颜色
+ */
+html:not(.dark) .navigation-page-mobile-user-card-name {
+	color: var(--text-primary);
+	text-shadow: none;
+}
+
+/**
+ * 日间模式下的考勤信息
+ * 使用主题文字颜色
+ */
+html:not(.dark) .navigation-page-mobile-user-card-attendance {
+	color: var(--text-secondary);
+}
+
+html:not(.dark) .navigation-page-mobile-user-card-attendance .attendance-icon {
+	color: var(--text-secondary);
+}

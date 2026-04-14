@@ -53,8 +53,35 @@
 }
 
 .navigation-footer-logout-btn:active {
-  color: white !important;
-  background-color: var(--danger-color) !important;
-  box-shadow: 0 4px 12px rgb(245 108 108 / 0.3);
-  transform: scale(0.98);
+	color: white !important;
+	background-color: var(--danger-color) !important;
+	box-shadow: 0 4px 12px rgb(245 108 108 / 0.3);
+	transform: scale(0.98);
+}
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的页脚容器
+ * 使用主题变量替代固定白色
+ */
+html:not(.dark) .navigation-footer-container {
+	background: var(--glass-bg);
+	border-top: 1px solid var(--glass-border);
+}
+
+/**
+ * 日间模式下的登出按钮
+ * 使用主题颜色
+ */
+html:not(.dark) .navigation-footer-logout-btn {
+	color: var(--danger-color);
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+}
+
+html:not(.dark) .navigation-footer-logout-btn:hover {
+	color: var(--danger-color);
+	background: var(--glass-bg);
+	border-color: var(--danger-color);
 }

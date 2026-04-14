@@ -94,9 +94,46 @@
 }
 
 .navigation-page-mobile-header-title-section p {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 400;
-  color: rgb(255 255 255 / 0.7);
-  letter-spacing: 1px;
+	margin: 0;
+	font-size: 13px;
+	font-weight: 400;
+	color: rgb(255 255 255 / 0.7);
+	letter-spacing: 1px;
+}
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的头部容器
+ * 使用主题变量替代固定白色透明背景
+ */
+html:not(.dark) .navigation-page-mobile-header-container {
+	background: var(--glass-bg);
+	border-bottom: 1px solid var(--glass-border);
+}
+
+/**
+ * 日间模式下的首页按钮
+ * 使用主题颜色
+ */
+html:not(.dark) .navigation-page-mobile-header-home-btn {
+	background: var(--glass-bg) !important;
+	border: 1px solid var(--glass-border) !important;
+}
+
+html:not(.dark) .navigation-page-mobile-header-home-btn .el-icon {
+	color: var(--primary-color);
+}
+
+/**
+ * 日间模式下的标题区域
+ * 使用主题文字颜色
+ */
+html:not(.dark) .navigation-page-mobile-header-title-section h1 {
+	color: var(--text-primary);
+	text-shadow: none;
+}
+
+html:not(.dark) .navigation-page-mobile-header-title-section p {
+	color: var(--text-secondary);
 }

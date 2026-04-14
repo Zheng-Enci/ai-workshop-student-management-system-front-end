@@ -303,3 +303,44 @@
 	transform: translateY(-2px);
 	box-shadow: 0 8px 24px rgb(0 0 0 / 0.15);
 }
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的头部容器样式
+ * 使用深色边框和浅色背景以提高对比度
+ */
+html:not(.dark) .navigation-desktop-header-container {
+	background: var(--glass-bg);
+	border-bottom: 1px solid var(--glass-border);
+}
+
+/**
+ * 日间模式下的页面标题包装器
+ * 使用主题变量替代固定白色
+ */
+html:not(.dark) .navigation-desktop-header-page-title-wrapper {
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	box-shadow: 0 8px 32px var(--shadow-color);
+}
+
+html:not(.dark) .navigation-desktop-header-page-title-wrapper:hover {
+	background: var(--glass-bg);
+	border-color: var(--primary-color);
+}
+
+/**
+ * 日间模式下的退出按钮
+ * 使用主题文字和边框颜色
+ */
+html:not(.dark) .navigation-desktop-header-logout-btn {
+	color: var(--danger-color);
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+}
+
+html:not(.dark) .navigation-desktop-header-logout-btn:hover {
+	background: var(--glass-bg);
+	border-color: var(--danger-color);
+}
