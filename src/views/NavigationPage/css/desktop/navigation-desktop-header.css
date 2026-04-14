@@ -132,16 +132,24 @@
 
 /* ==================== 首页按钮 ==================== */
 
+/**
+ * 首页按钮样式
+ * 圆角矩形，包含图标和文字
+ */
 .navigation-desktop-header-home-btn {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 44px;
-	height: 44px;
-	padding: 0;
+	gap: 6px;
+	width: auto;
+	height: 40px;
+	padding: 0 16px;
+	font-size: 14px;
+	font-weight: 500;
+	color: white;
 	background: var(--primary-color);
 	border: none;
-	border-radius: 50% !important;
+	border-radius: 20px !important;
 }
 
 /* ==================== Logo ==================== */
