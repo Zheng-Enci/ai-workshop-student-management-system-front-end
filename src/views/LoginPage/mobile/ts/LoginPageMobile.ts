@@ -246,7 +246,9 @@ export default class LoginPageMobile {
 			// Fetch 256x256 pixel avatar to ensure clear visual quality at 100px display size
 			const avatarUrl = StudentApi.getAvatarUrlByStudentId(this.form.value.studentId, 256)
 			if (avatarUrl) {
-				this.studentAvatarUrl.value = avatarUrl
+				// 添加时间戳参数强制刷新头像，避免浏览器缓存导致修改学号后头像不更新
+				// Add timestamp parameter to force avatar refresh and avoid browser cache issues
+				this.studentAvatarUrl.value = `${avatarUrl}?t=${Date.now()}`
 			} else {
 				// 如果获取不到头像URL，清空头像显示
 				// Clear avatar display if avatar URL cannot be fetched
