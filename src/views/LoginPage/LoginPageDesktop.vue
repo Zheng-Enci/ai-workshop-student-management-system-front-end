@@ -84,7 +84,7 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 					<div class="login-page-desktop-left-header">
 						<!-- Logo -->
 						<div class="login-page-desktop-logo">
-							<img src="@/assets/Logo.png" alt="AI创作坊 Logo"/>
+							<img src="@/assets/AiWorkShop_icon.png" alt="AI创作坊 Logo"/>
 						</div>
 						<!-- 返回首页按钮 -->
 						<el-button
