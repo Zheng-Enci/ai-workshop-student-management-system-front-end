@@ -18,7 +18,6 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-checkbox.css'
 import 'element-plus/theme-chalk/el-icon.css'
 // Vue 3 组合式 API
-import { ref } from 'vue'
 // 移动端登录页面样式导入
 // Mobile login page styles import
 import '@/views/LoginPage/mobile/css/LoginPageMobile.css'
@@ -36,12 +35,6 @@ import LoginPageMobile from '@/views/LoginPage/mobile/ts/LoginPageMobile'
 const loginPage = new LoginPageMobile()
 
 // ===================== 导出模板使用的响应式变量和方法 =====================
-/**
- * 学生头像URL
- * @description 直接使用 loginPage 中的响应式头像URL变量
- */
-const studentAvatarUrl = loginPage.studentAvatarUrl
-
 /**
  * 获取学生头像方法（已绑定上下文）
  * @description 将 fetchStudentAvatar 方法绑定到 loginPage 实例，确保 this 指向正确
@@ -63,8 +56,10 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 		<el-button
 			class="login-page-mobile-home-btn"
 			type="primary"
-			:icon="House"
 			@click="loginPage.goToHome()">
+			<el-icon>
+				<House />
+			</el-icon>
 			首页
 		</el-button>
 		<!-- Logo图标 - 点击切换主题模式 -->
