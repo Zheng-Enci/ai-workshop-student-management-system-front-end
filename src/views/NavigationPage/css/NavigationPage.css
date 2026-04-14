@@ -74,3 +74,20 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* ==================== 日夜间模式过渡效果 ==================== */
+
+/**
+ * 全局过渡效果
+ * 为所有元素添加平滑的颜色、背景、边框过渡动画
+ * 过渡时间：300ms，缓动函数：ease
+ */
+.navigation-desktop-header-navigation-container,
+.navigation-container {
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navigation-desktop-header-navigation-container *,
+.navigation-container * {
+	transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
