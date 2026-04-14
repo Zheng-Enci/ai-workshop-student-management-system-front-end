@@ -217,3 +217,13 @@ html:not(.dark) .navigation-page-mobile-user-card-attendance {
 html:not(.dark) .navigation-page-mobile-user-card-attendance .attendance-icon {
 	color: var(--text-secondary);
 }
+
+/**
+ * 日间模式下的用户等级
+ * 保持白色文字以确保在彩色背景上可见
+ * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ */
+html:not(.dark) .navigation-page-mobile-user-card-level,
+html:not(.dark) .navigation-page-mobile-user-card-level .level-icon {
+	color: white !important;
+}
