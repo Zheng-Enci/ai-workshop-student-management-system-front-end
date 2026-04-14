@@ -349,7 +349,9 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	/* 使用成员合照作为左侧区域背景 */
 	/* Use members group photo as left panel background */
 	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
-	background-size: cover;
+	/* 背景图显示小一点，使用 contain 并设置固定大小 */
+	/* Background image smaller, using contain with fixed size */
+	background-size: 80% auto;
 	background-position: center;
 	background-repeat: no-repeat;
 }
