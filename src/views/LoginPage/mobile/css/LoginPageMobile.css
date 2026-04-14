@@ -126,6 +126,9 @@ html.dark .login-page-mobile-gradient-orb.login-page-mobile-orb-3 {
 	/* Glacier cyan background */
 	background: #3E9EAC;
 	border: none;
+	/* 轻微圆角 */
+	/* Slight border radius */
+	border-radius: 4px;
 	box-shadow: 0 4px 12px rgb(62 158 172 / 0.3);
 	transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
 	/* 调整内边距以适应文字显示 */
