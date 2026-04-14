@@ -350,6 +350,21 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	overflow: hidden;
 }
 
+/* Logo 样式 - 左上角 */
+/* Logo style - top left corner */
+.login-page-desktop-logo {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	z-index: 2;
+}
+
+.login-page-desktop-logo img {
+	width: 120px;
+	height: auto;
+	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
 /* 左侧区域模糊背景层 */
 /* Left panel blurred background layer */
 .login-page-desktop-left-panel::before {
