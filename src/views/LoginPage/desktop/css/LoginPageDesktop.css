@@ -7,76 +7,74 @@
  */
 
 /* 登录页面容器 */
+
 /* Login page container */
 .login-page-desktop-container {
 	position: relative;
-	min-height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	min-height: 100vh;
 	overflow: hidden;
+
 	/* 页面使用毛玻璃背景图片 */
+
 	/* Page uses frosted glass background image */
 	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
-	background-size: cover;
 	background-position: center;
+	background-size: cover;
 
 	/* 入场动画 */
+
 	/* Entry animation */
 	animation: login-page-desktop-fade-in 0.6s ease-out;
 }
 
 /* 入场动画关键帧 */
+
 /* Entry animation keyframes */
 @keyframes login-page-desktop-fade-in {
 	from {
 		opacity: 0;
 	}
+
 	to {
 		opacity: 1;
 	}
 }
 
 /* 毛玻璃效果遮罩层 */
+
 /* Frosted glass effect overlay */
 .login-page-desktop-container::before {
-	content: '';
 	position: absolute;
 	top: 0;
 	left: 0;
+	z-index: 0;
 	width: 100%;
 	height: 100%;
+	content: '';
+
+	/* 半透明遮罩增强可读性 */
+
+	/* Semi-transparent overlay enhances readability */
+	background: rgb(255 255 255 / 0.1);
+
 	/* 强烈的模糊效果创造毛玻璃质感 */
+
 	/* Strong blur effect creates frosted glass texture */
 	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
-	/* 半透明遮罩增强可读性 */
-	/* Semi-transparent overlay enhances readability */
-	background: rgba(255, 255, 255, 0.1);
-	z-index: 0;
 }
 
 /* 深色模式下的毛玻璃遮罩 */
+
 /* Dark mode frosted glass overlay */
 html.dark .login-page-desktop-container::before {
-	background: rgba(0, 0, 0, 0.4);
-}
-
-/* 渐变背景动画 */
-/* Gradient background animation */
-@keyframes gradientShift {
-	0% {
-		background-position: 0 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0 50%;
-	}
+	background: rgb(0 0 0 / 0.4);
 }
 
 /* 背景装饰效果 */
+
 /* Background decoration effects */
 .login-page-desktop-background-effects {
 	position: absolute;
@@ -89,6 +87,7 @@ html.dark .login-page-desktop-container::before {
 }
 
 /* 科技感网格背景 */
+
 /* Tech-style grid background */
 .login-page-desktop-grid-pattern {
 	position: absolute;
@@ -96,195 +95,211 @@ html.dark .login-page-desktop-container::before {
 	left: 0;
 	width: 100%;
 	height: 100%;
+
 	/* 日间模式：浅色网格线 */
+
 	/* Day mode: light grid lines */
 	background-image:
-		linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+		linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px),
+		linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px);
 	background-size: 50px 50px;
 	animation: gridMove 20s linear infinite;
-	transition: background-image 0.8s ease;
 }
 
 /* 深色模式下的网格 - 夜间模式：使用冰川青色调网格 */
+
 /* Dark mode grid - Night mode: using glacier cyan tinted grid */
 html.dark .login-page-desktop-grid-pattern {
 	background-image:
-		linear-gradient(rgba(62, 158, 172, 0.12) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(62, 158, 172, 0.12) 1px, transparent 1px);
+		linear-gradient(rgb(62 158 172 / 0.12) 1px, transparent 1px),
+		linear-gradient(90deg, rgb(62 158 172 / 0.12) 1px, transparent 1px);
 }
 
 @keyframes gridMove {
 	0% {
 		transform: perspective(500px) rotateX(60deg) translateY(0);
 	}
+
 	100% {
 		transform: perspective(500px) rotateX(60deg) translateY(50px);
 	}
 }
 
 /* 浮动粒子 */
+
 /* Floating particles */
 .login-page-desktop-particle {
 	position: absolute;
 	width: 4px;
 	height: 4px;
+
 	/* 日间模式：白色粒子 */
+
 	/* Day mode: white particles */
-	background: rgba(255, 255, 255, 0.6);
+	background: rgb(255 255 255 / 0.6);
 	border-radius: 50%;
 	animation: particleFloat 15s infinite ease-in-out;
-	transition: background 0.8s ease, box-shadow 0.8s ease;
 }
 
 /* 深色模式下的粒子 - 夜间模式：使用冰川青发光效果 */
-/* Dark mode particles - Night mode: using glacier cyan glow effect */
-html.dark .login-page-desktop-particle {
-	background: rgba(62, 158, 172, 0.8);
-	box-shadow: 0 0 10px rgba(62, 158, 172, 0.5), 0 0 20px rgba(62, 158, 172, 0.3);
-}
 
 .login-page-desktop-particle:nth-child(1) {
-	left: 10%;
 	top: 20%;
-	animation-delay: 0s;
+	left: 10%;
 	animation-duration: 12s;
+	animation-delay: 0s;
 }
 
 .login-page-desktop-particle:nth-child(2) {
-	left: 20%;
 	top: 80%;
-	animation-delay: 2s;
+	left: 20%;
 	animation-duration: 15s;
+	animation-delay: 2s;
 }
 
 .login-page-desktop-particle:nth-child(3) {
-	left: 30%;
 	top: 40%;
-	animation-delay: 4s;
+	left: 30%;
 	animation-duration: 18s;
+	animation-delay: 4s;
 }
 
 .login-page-desktop-particle:nth-child(4) {
-	left: 50%;
 	top: 10%;
-	animation-delay: 6s;
+	left: 50%;
 	animation-duration: 14s;
+	animation-delay: 6s;
 }
 
 .login-page-desktop-particle:nth-child(5) {
-	left: 70%;
 	top: 60%;
-	animation-delay: 8s;
+	left: 70%;
 	animation-duration: 16s;
+	animation-delay: 8s;
 }
 
 .login-page-desktop-particle:nth-child(6) {
-	left: 80%;
 	top: 30%;
-	animation-delay: 10s;
+	left: 80%;
 	animation-duration: 13s;
+	animation-delay: 10s;
 }
 
 .login-page-desktop-particle:nth-child(7) {
-	left: 90%;
 	top: 70%;
-	animation-delay: 12s;
+	left: 90%;
 	animation-duration: 17s;
+	animation-delay: 12s;
+}
+
+/* Dark mode particles - Night mode: using glacier cyan glow effect */
+html.dark .login-page-desktop-particle {
+	background: rgb(62 158 172 / 0.8);
+	box-shadow: 0 0 10px rgb(62 158 172 / 0.5), 0 0 20px rgb(62 158 172 / 0.3);
 }
 
 @keyframes particleFloat {
 	0%, 100% {
-		transform: translateY(0) translateX(0);
 		opacity: 0;
+		transform: translateY(0) translateX(0);
 	}
+
 	10% {
 		opacity: 1;
 	}
+
 	90% {
 		opacity: 1;
 	}
+
 	50% {
 		transform: translateY(-100px) translateX(50px);
 	}
 }
 
 /* 渐变光球 */
+
 /* Gradient orbs */
 .login-page-desktop-gradient-orb {
 	position: absolute;
 	border-radius: 50%;
-	filter: blur(80px);
 	opacity: 0.7;
+	filter: blur(80px);
+	transition: opacity 0.8s ease;
 	animation: float 20s infinite ease-in-out;
-	transition: background 0.8s ease, opacity 0.8s ease;
 }
 
 /* 日间模式光球 - 柔和的白色光晕 */
+
 /* Day mode orbs - Soft white glow */
 .login-page-desktop-gradient-orb.orb-1 {
-	width: 500px;
-	height: 500px;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
 	top: -150px;
 	right: -100px;
+	width: 500px;
+	height: 500px;
+	background: radial-gradient(circle, rgb(255 255 255 / 0.4) 0%, rgb(255 255 255 / 0) 70%);
 	animation-delay: 0s;
 }
 
 .login-page-desktop-gradient-orb.orb-2 {
-	width: 400px;
-	height: 400px;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
 	bottom: -100px;
 	left: -100px;
+	width: 400px;
+	height: 400px;
+	background: radial-gradient(circle, rgb(255 255 255 / 0.3) 0%, rgb(255 255 255 / 0) 70%);
 	animation-delay: -5s;
 }
 
 .login-page-desktop-gradient-orb.orb-3 {
-	width: 350px;
-	height: 350px;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
 	top: 40%;
 	right: 20%;
+	width: 350px;
+	height: 350px;
+	background: radial-gradient(circle, rgb(255 255 255 / 0.25) 0%, rgb(255 255 255 / 0) 70%);
 	animation-delay: -10s;
 }
 
 .login-page-desktop-gradient-orb.orb-4 {
+	right: 10%;
+	bottom: 30%;
 	width: 300px;
 	height: 300px;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
-	bottom: 30%;
-	right: 10%;
+	background: radial-gradient(circle, rgb(255 255 255 / 0.2) 0%, rgb(255 255 255 / 0) 70%);
 	animation-delay: -15s;
 }
 
 /* 深色模式光球 - 夜间模式：使用项目配色冰川青和深空蓝 */
+
 /* Dark mode orbs - Night mode: using project colors glacier cyan and deep space blue */
 html.dark .login-page-desktop-gradient-orb.orb-1 {
 	/* 冰川青主色 */
+
 	/* Glacier cyan primary color */
-	background: radial-gradient(circle, rgba(62, 158, 172, 0.5) 0%, rgba(62, 158, 172, 0) 70%);
+	background: radial-gradient(circle, rgb(62 158 172 / 0.5) 0%, rgb(62 158 172 / 0) 70%);
 	opacity: 0.8;
 }
 
 html.dark .login-page-desktop-gradient-orb.orb-2 {
 	/* 深空蓝主色 */
+
 	/* Deep space blue primary color */
-	background: radial-gradient(circle, rgba(31, 66, 119, 0.5) 0%, rgba(31, 66, 119, 0) 70%);
+	background: radial-gradient(circle, rgb(31 66 119 / 0.5) 0%, rgb(31 66 119 / 0) 70%);
 	opacity: 0.7;
 }
 
 html.dark .login-page-desktop-gradient-orb.orb-3 {
 	/* 冰川青浅色 */
+
 	/* Glacier cyan light color */
-	background: radial-gradient(circle, rgba(111, 183, 196, 0.4) 0%, rgba(111, 183, 196, 0) 70%);
+	background: radial-gradient(circle, rgb(111 183 196 / 0.4) 0%, rgb(111 183 196 / 0) 70%);
 	opacity: 0.6;
 }
 
 html.dark .login-page-desktop-gradient-orb.orb-4 {
 	/* 深空蓝浅色 */
+
 	/* Deep space blue light color */
-	background: radial-gradient(circle, rgba(74, 107, 156, 0.35) 0%, rgba(74, 107, 156, 0) 70%);
+	background: radial-gradient(circle, rgb(74 107 156 / 0.35) 0%, rgb(74 107 156 / 0) 70%);
 	opacity: 0.5;
 }
 
@@ -292,29 +307,33 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	0%, 100% {
 		transform: translate(0, 0) scale(1);
 	}
+
 	25% {
 		transform: translate(40px, -40px) scale(1.1);
 	}
+
 	50% {
 		transform: translate(-30px, 20px) scale(0.95);
 	}
+
 	75% {
 		transform: translate(20px, 30px) scale(1.05);
 	}
 }
 
 /* 主题切换 Logo - 右上角 */
+
 /* Theme toggle logo - top right corner */
 .login-page-desktop-theme-logo {
 	position: fixed;
 	top: 20px;
 	right: 20px;
+	z-index: 100;
 	width: 60px;
 	height: 60px;
 	cursor: pointer;
-	z-index: 100;
+	filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.3));
 	transition: transform 0.3s ease;
-	filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .login-page-desktop-theme-logo:hover {
@@ -322,32 +341,34 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 }
 
 /* 页面标题 - 顶部居中 */
+
 /* Page title - top center */
 .login-page-desktop-page-title {
 	position: fixed;
 	top: 20px;
 	left: 50%;
-	transform: translateX(-50%);
-	text-align: center;
 	z-index: 100;
+	text-align: center;
+	transform: translateX(-50%);
 }
 
 .login-page-desktop-page-title h1 {
+	margin: 0;
 	font-size: 28px;
 	font-weight: 700;
 	color: #fff;
-	margin: 0;
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+	text-shadow: 0 2px 8px rgb(0 0 0 / 0.5);
 }
 
 .login-page-desktop-page-title .login-page-desktop-subtitle {
+	margin: 4px 0 0;
 	font-size: 14px;
-	color: rgba(255, 255, 255, 0.9);
-	margin: 4px 0 0 0;
-	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+	color: rgb(255 255 255 / 0.9);
+	text-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
 }
 
 /* 登录内容区域 */
+
 /* Login content area */
 .login-page-desktop-content {
 	position: relative;
@@ -358,31 +379,34 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 }
 
 /* 黄金比例布局容器 - 占满整个视口 */
+
 /* Golden ratio layout container - fill entire viewport */
 .login-page-desktop-golden-layout {
+	position: fixed;
+	top: 0;
+	left: 0;
 	display: flex;
 	align-items: stretch;
 	justify-content: flex-start;
 	width: 100vw;
 	height: 100vh;
-	position: fixed;
-	top: 0;
-	left: 0;
 }
 
 /* 左侧区域 - 黄金比例 61.8%，占满左侧 */
+
 /* Left panel - golden ratio 61.8%, fill left side */
 .login-page-desktop-left-panel {
-	width: 61.8%;
-	height: 100%;
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: relative;
+	width: 61.8%;
+	height: 100%;
 	overflow: hidden;
 }
 
 /* 左侧区域头部 - 左上角 */
+
 /* Left panel header - top left corner */
 .login-page-desktop-left-header {
 	position: absolute;
@@ -390,11 +414,12 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	left: 30px;
 	z-index: 2;
 	display: flex;
-	align-items: center;
 	gap: 16px;
+	align-items: center;
 }
 
 /* Logo 样式 */
+
 /* Logo style */
 .login-page-desktop-logo {
 	cursor: pointer;
@@ -406,82 +431,87 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 }
 
 .login-page-desktop-logo img {
+	display: block;
 	width: 56px;
 	height: 56px;
 	object-fit: contain;
-	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
 	border-radius: 8px;
-	display: block;
+	filter: drop-shadow(0 2px 8px rgb(0 0 0 / 0.3));
 }
 
 /* 返回首页按钮样式 */
+
 /* Home button style */
 .login-page-desktop-home-btn {
-	background: rgba(255, 255, 255, 0.2);
-	border: 1px solid rgba(255, 255, 255, 0.5);
+	background: rgb(255 255 255 / 0.2);
+	border: 1px solid rgb(255 255 255 / 0.5);
 	backdrop-filter: blur(4px);
 	transition: all 0.3s ease;
 }
 
 .login-page-desktop-home-btn:hover {
-	background: rgba(255, 255, 255, 0.3);
+	background: rgb(255 255 255 / 0.3);
 	transform: translateY(-2px);
 }
 
 /* 成员合照图片样式 */
+
 /* Group photo image style */
 .login-page-desktop-group-photo {
-	/* 图片宽度为容器的 80% */
-	/* Image width is 80% of container */
-	width: 80%;
-	height: auto;
-	/* 保持图片比例 */
-	/* Maintain image aspect ratio */
-	object-fit: contain;
-	/* 圆角效果 */
-	/* Rounded corners */
-	border-radius: 12px;
-	/* 阴影效果 */
-	/* Shadow effect */
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 	/* 确保图片在模糊背景之上清晰显示 */
+
 	/* Ensure image displays clearly above blurred background */
 	position: relative;
 	z-index: 1;
+
+	/* 图片宽度为容器的 80% */
+
+	/* Image width is 80% of container */
+	width: 80%;
+	height: auto;
+
+	/* 保持图片比例 */
+
+	/* Maintain image aspect ratio */
+	object-fit: contain;
+
+	/* 圆角效果 */
+
+	/* Rounded corners */
+	border-radius: 12px;
+
+	/* 阴影效果 */
+
+	/* Shadow effect */
+	box-shadow: 0 8px 32px rgb(0 0 0 / 0.4);
 }
 
 /* 右侧区域 - 黄金比例 38.2%，占满右侧 */
+
 /* Right panel - golden ratio 38.2%, fill right side */
 .login-page-desktop-right-panel {
-	width: 38.2%;
-	height: 100%;
+	/* 设置相对定位，使伪元素相对于此元素定位 */
+
+	/* Set relative positioning for pseudo-element positioning */
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* 设置相对定位，使伪元素相对于此元素定位 */
-	/* Set relative positioning for pseudo-element positioning */
-	position: relative;
+	width: 38.2%;
+	height: 100%;
+
 	/* 顶部内边距，为页面标题留出空间 */
+
 	/* Top padding to leave space for page title */
 	padding-top: 1%;
 }
 
-/* 右侧登录卡片 */
-/* Right login card */
-
-.login-page-desktop-right-panel .login-page-desktop-card {
-	width: 90%;
-	max-width: 400px;
-	/* 顶部外边距，使登录卡片在垂直方向居中偏上位置 */
-	/* Top margin to position login card slightly above vertical center */
-	margin-top: 14%;
-}
-
 /* 右侧区域标题 */
+
 /* Right panel title */
 .login-page-desktop-right-title {
-	text-align: center;
 	color: #fff;
+	text-align: center;
 	/* 入场动画 */
 	/* Entry animation */
 	animation: login-page-desktop-fade-in-down 0.5s ease-out 0.1s both;
@@ -501,50 +531,75 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 }
 
 .login-page-desktop-right-title h1 {
+	margin: 0;
 	font-size: 32px;
 	font-weight: 700;
-	margin: 0;
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+	text-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
 }
 
 .login-page-desktop-right-title .login-page-desktop-subtitle {
-	font-size: 16px;
-	opacity: 0.9;
 	margin: 0;
+	font-size: 16px;
 	letter-spacing: 1px;
+	opacity: 0.9;
 }
 
 /* 登录卡片 */
+
 /* Login card */
 .login-page-desktop-card {
+	padding: 40px;
+
 	/* 卡片完全不可见，只显示表单内容在背景上 */
+
 	/* Card completely invisible, only form content displayed on background */
 	background: transparent;
-	/* 去除模糊效果 */
-	/* Remove blur effect */
-	backdrop-filter: none;
-	-webkit-backdrop-filter: none;
+
 	/* 去除边框 */
+
 	/* Remove border */
 	border: none;
 	border-radius: 24px;
-	padding: 40px;
+
 	/* 去除阴影 */
+
 	/* Remove shadow */
 	box-shadow: none;
+
+	/* 去除模糊效果 */
+
+	/* Remove blur effect */
+	backdrop-filter: none;
+	transition: all 0.4s ease;
+
 	/* 入场动画 */
+
 	/* Entry animation */
 	animation: login-page-desktop-slide-up 0.6s ease-out 0.2s both;
-	transition: all 0.4s ease;
+}
+
+/* 右侧登录卡片 */
+
+/* Right login card */
+.login-page-desktop-right-panel .login-page-desktop-card {
+	width: 90%;
+	max-width: 400px;
+
+	/* 顶部外边距，使登录卡片在垂直方向居中偏上位置 */
+
+	/* Top margin to position login card slightly above vertical center */
+	margin-top: 14%;
 }
 
 /* 登录卡片入场动画关键帧 */
+
 /* Login card entry animation keyframes */
 @keyframes login-page-desktop-slide-up {
 	from {
 		opacity: 0;
 		transform: translateY(30px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -552,21 +607,28 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 }
 
 /* 深色模式下的登录卡片 */
+
 /* Login card in dark mode */
 html.dark .login-page-desktop-card {
 	/* 深色模式下同样使用全透明背景 */
+
 	/* Also use fully transparent background in dark mode */
 	background: transparent;
-	/* 深色模式下同样去除模糊效果 */
-	/* Also remove blur effect in dark mode */
-	backdrop-filter: none;
-	-webkit-backdrop-filter: none;
+
 	/* 深色模式下同样去除边框 */
+
 	/* Also remove border in dark mode */
 	border: none;
+
 	/* 深色模式下同样去除阴影 */
+
 	/* Also remove shadow in dark mode */
 	box-shadow: none;
+
+	/* 深色模式下同样去除模糊效果 */
+
+	/* Also remove blur effect in dark mode */
+	backdrop-filter: none;
 }
 
 @keyframes slideUp {
@@ -574,6 +636,7 @@ html.dark .login-page-desktop-card {
 		opacity: 0;
 		transform: translateY(30px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -581,21 +644,23 @@ html.dark .login-page-desktop-card {
 }
 
 /* 卡片头部 */
+
 /* Card header */
 .login-page-desktop-card-header {
-	text-align: center;
 	margin-bottom: 24px;
+	text-align: center;
 }
 
 .login-page-desktop-welcome-text {
+	margin: 0;
 	font-size: 20px;
 	font-weight: 600;
 	color: var(--text-primary);
-	margin: 0;
 	transition: color 0.4s ease;
 }
 
 /* 学生头像显示区域 */
+
 /* Student avatar display area */
 .login-page-desktop-avatar-container {
 	display: flex;
@@ -606,53 +671,56 @@ html.dark .login-page-desktop-card {
 .login-page-desktop-student-avatar {
 	width: 100px;
 	height: 100px;
-	border-radius: 20px;
 	object-fit: cover;
-	border: 3px solid rgba(255, 255, 255, 0.5);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	border: 3px solid rgb(255 255 255 / 0.5);
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
 	transition: all 0.3s ease;
 }
 
 .login-page-desktop-student-avatar:hover {
+	box-shadow: 0 6px 16px rgb(0 0 0 / 0.3);
 	transform: scale(1.05);
-	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* 头像加载动画 */
+
 /* Avatar loading animation */
 .login-page-desktop-avatar-loading {
 	width: 100px;
 	height: 100px;
-	border-radius: 20px;
 	object-fit: contain;
-	border: 3px solid rgba(255, 255, 255, 0.5);
-	background: rgba(255, 255, 255, 0.2);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	background: rgb(255 255 255 / 0.2);
+	border: 3px solid rgb(255 255 255 / 0.5);
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
 }
 
 /* 默认头像占位符 */
+
 /* Default avatar placeholder */
 .login-page-desktop-default-avatar {
-	width: 100px;
-	height: 100px;
-	border-radius: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: rgba(255, 255, 255, 0.2);
-	border: 3px solid rgba(255, 255, 255, 0.5);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-	color: rgba(255, 255, 255, 0.8);
+	width: 100px;
+	height: 100px;
+	color: rgb(255 255 255 / 0.8);
+	background: rgb(255 255 255 / 0.2);
+	border: 3px solid rgb(255 255 255 / 0.5);
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
 	transition: all 0.3s ease;
 }
 
 .login-page-desktop-default-avatar:hover {
+	background: rgb(255 255 255 / 0.3);
+	box-shadow: 0 6px 16px rgb(0 0 0 / 0.3);
 	transform: scale(1.05);
-	background: rgba(255, 255, 255, 0.3);
-	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* 登录表单 */
+
 /* Login form */
 .login-page-desktop-form {
 	margin-top: 24px;
@@ -667,36 +735,46 @@ html.dark .login-page-desktop-card {
 }
 
 /* 输入框组 */
+
 /* Input group */
 .login-page-desktop-input-group {
+	box-sizing: border-box;
 	display: flex;
 	align-items: center;
-	/* 输入框玻璃模态背景 */
-	/* Input box glassmorphism background */
-	background: rgba(255, 255, 255, 0.15);
-	/* 轻微模糊效果 */
-	/* Slight blur effect */
-	backdrop-filter: blur(2px);
-	-webkit-backdrop-filter: blur(2px);
-	border-radius: 12px;
-	padding: 4px;
-	transition: all 0.3s ease;
+
 	/* 确保输入框组宽度与按钮一致 */
+
 	/* Ensure input group width matches button */
 	width: 100%;
-	box-sizing: border-box;
+	padding: 4px;
+
+	/* 输入框玻璃模态背景 */
+
+	/* Input box glassmorphism background */
+	background: rgb(255 255 255 / 0.15);
+	border-radius: 12px;
+
+	/* 轻微模糊效果 */
+
+	/* Slight blur effect */
+	backdrop-filter: blur(2px);
+	transition: all 0.3s ease;
 }
 
 .login-page-desktop-input-group:focus-within {
 	/* 聚焦时稍微增加背景不透明度 */
+
 	/* Slightly increase background opacity on focus */
-	background: rgba(255, 255, 255, 0.25);
+	background: rgb(255 255 255 / 0.25);
+
 	/* 使用冰川青光晕效果 */
+
 	/* Using glacier cyan glow effect */
-	box-shadow: 0 0 0 3px rgba(62, 158, 172, 0.2);
+	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.2);
 }
 
 /* 输入框图标 */
+
 /* Input icon */
 .login-page-desktop-input-icon {
 	display: flex;
@@ -704,21 +782,22 @@ html.dark .login-page-desktop-card {
 	justify-content: center;
 	width: 44px;
 	height: 44px;
-	color: var(--text-tertiary);
 	font-size: 18px;
+	color: var(--text-tertiary);
 	transition: color 0.4s ease;
 }
 
 /* 自定义输入框 */
+
 /* Custom input */
 .login-page-desktop-custom-input {
 	flex: 1;
 }
 
 .login-page-desktop-custom-input :deep(.el-input__wrapper) {
+	padding: 0 12px 0 0;
 	background: transparent;
 	box-shadow: none;
-	padding: 0 12px 0 0;
 }
 
 .login-page-desktop-custom-input :deep(.el-input__inner) {
@@ -734,15 +813,17 @@ html.dark .login-page-desktop-card {
 }
 
 /* 表单选项 */
+
 /* Form options */
 .login-page-desktop-form-options {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin: 16px 0 24px 0;
+	margin: 16px 0 24px;
 }
 
 /* 记住我复选框 */
+
 /* Remember me checkbox */
 .login-page-desktop-remember-checkbox {
 	--el-checkbox-text-color: var(--text-secondary);
@@ -759,35 +840,44 @@ html.dark .login-page-desktop-card {
 }
 
 /* 登录按钮 */
+
 /* Login button */
 .login-page-desktop-login-button {
 	width: 100%;
 	height: 48px;
 	font-size: 16px;
 	font-weight: 600;
-	border-radius: 12px;
+	color: #fff;
+
 	/* 玻璃模态背景 */
+
 	/* Glassmorphism background */
-	background: rgba(255, 255, 255, 0.2);
+	background: rgb(255 255 255 / 0.2);
+
+	/* 白色边框 */
+
+	/* White border */
+	border: 1px solid rgb(255 255 255 / 0.5);
+	border-radius: 12px;
+
 	/* 极轻微模糊效果 - 极简玻璃模态 */
+
 	/* Minimal blur effect - minimal glassmorphism */
 	backdrop-filter: blur(1px);
-	-webkit-backdrop-filter: blur(1px);
-	/* 白色边框 */
-	/* White border */
-	border: 1px solid rgba(255, 255, 255, 0.5);
-	color: #fff;
 	transition: all 0.3s ease;
 }
 
 .login-page-desktop-login-button:hover {
-	transform: translateY(-2px);
 	/* 悬停时增加背景不透明度 */
+
 	/* Increase background opacity on hover */
-	background: rgba(255, 255, 255, 0.3);
+	background: rgb(255 255 255 / 0.3);
+
 	/* 使用深空蓝阴影效果 */
+
 	/* Using deep space blue shadow effect */
-	box-shadow: 0 10px 20px -5px rgba(31, 66, 119, 0.4);
+	box-shadow: 0 10px 20px -5px rgb(31 66 119 / 0.4);
+	transform: translateY(-2px);
 }
 
 .login-page-desktop-login-button:active {
@@ -796,32 +886,34 @@ html.dark .login-page-desktop-card {
 
 .login-page-desktop-login-button.is-loading,
 .login-page-desktop-login-button.is-disabled {
-	opacity: 0.7;
 	cursor: not-allowed;
+	opacity: 0.7;
 }
 
 /* 卡片底部 */
+
 /* Card footer */
 .login-page-desktop-card-footer {
-	text-align: center;
-	margin-top: 24px;
 	padding-top: 24px;
+	margin-top: 24px;
+	text-align: center;
 	border-top: 1px solid var(--border-color);
 	transition: border-color 0.4s ease;
 }
 
 /* 注册链接 */
+
 /* Register link */
 .login-page-desktop-register-link {
+	margin: 0;
 	font-size: 14px;
 	color: var(--text-secondary);
-	margin: 0;
 	transition: color 0.4s ease;
 }
 
 .login-page-desktop-register-link .link {
-	color: var(--primary-color);
 	font-weight: 600;
+	color: var(--primary-color);
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
@@ -832,8 +924,9 @@ html.dark .login-page-desktop-card {
 }
 
 /* 响应式适配 */
+
 /* Responsive design */
-@media (max-width: 480px) {
+@media (width <= 480px) {
 	.login-page-desktop-content {
 		padding: 16px;
 	}
