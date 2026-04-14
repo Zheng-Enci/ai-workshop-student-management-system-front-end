@@ -413,7 +413,6 @@ html.dark .input-group:focus-within {
 	font-weight: 600;
 	color: #fff;
 	text-decoration: none;
-	transition: color 0.3s ease;
 }
 
 .register-link .link:hover {
