@@ -457,11 +457,13 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 80px;
+	/* 加宽渐变宽度，使过渡更明显 */
+	/* Widen gradient width for more noticeable transition */
+	width: 120px;
 	height: 100%;
-	/* 从白色过渡到透明（日间模式） */
-	/* Transition from white to transparent (light mode) */
-	background: linear-gradient(to left, transparent, #ffffff);
+	/* 从白色过渡到透明（日间模式），使用多色停止点使过渡更柔和 */
+	/* Transition from white to transparent (light mode) with multiple stops for softer effect */
+	background: linear-gradient(to left, transparent 0%, rgba(255, 255, 255, 0.8) 50%, #ffffff 100%);
 	pointer-events: none;
 	z-index: 2;
 	transition: background 0.8s ease;
@@ -470,7 +472,7 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 /* 夜间模式下从黑色过渡到透明 */
 /* Transition from black to transparent in dark mode */
 html.dark .login-page-desktop-right-panel::before {
-	background: linear-gradient(to left, transparent, #000000);
+	background: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.8) 50%, #000000 100%);
 }
 
 /* 右侧登录卡片 */
