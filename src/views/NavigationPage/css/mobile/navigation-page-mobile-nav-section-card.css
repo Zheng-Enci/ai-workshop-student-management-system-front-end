@@ -102,11 +102,15 @@
 		border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/**
+ * 卡片悬停前伪元素
+ * 使用项目主色冰川青的透明渐变
+ */
 .navigation-page-mobile-nav-section-card-card::before {
 	position: absolute;
 	inset: 0;
 	content: '';
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.1), rgb(118 75 162 / 0.1));
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.1), rgb(31 66 119 / 0.1));
 	opacity: 0;
 	transition: opacity 0.3s ease;
 }
@@ -128,6 +132,10 @@
 
 /* ==================== 卡片背景（仅主卡片） ==================== */
 
+/**
+ * 主卡片背景光效
+ * 使用项目主色冰川青
+ */
 .navigation-page-mobile-nav-section-card-card.primary-card::after {
 	position: absolute;
 	top: 0;
@@ -135,13 +143,17 @@
 	width: 80px;
 	height: 80px;
 	content: '';
-	background: radial-gradient(circle, rgb(102 126 234 / 0.25), transparent 70%);
+	background: radial-gradient(circle, rgb(62 158 172 / 0.25), transparent 70%);
 	border-radius: 50%;
 	pointer-events: none;
 }
 
 /* ==================== 卡片图标 ==================== */
 
+/**
+ * 卡片图标默认样式
+ * 使用项目主色渐变：冰川青到深空蓝
+ */
 .navigation-page-mobile-nav-section-card-card-icon {
 	position: relative;
 	z-index: 1;
@@ -151,15 +163,15 @@
 	width: 50px;
 	height: 50px;
 	flex-shrink: 0;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	border-radius: 14px;
-	box-shadow: 0 6px 16px rgb(102 126 234 / 0.35);
+	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navigation-page-mobile-nav-section-card-card:hover .navigation-page-mobile-nav-section-card-card-icon {
 	transform: scale(1.08);
-	box-shadow: 0 8px 24px rgb(102 126 234 / 0.45);
+	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
 .navigation-page-mobile-nav-section-card-card-icon .el-icon {
@@ -236,112 +248,140 @@
 
 /* ==================== 卡片背景（通用） ==================== */
 
+/**
+ * 卡片通用背景光效
+ * 使用项目主色冰川青
+ */
 .navigation-page-mobile-nav-section-card-card-bg {
 	position: absolute;
 	top: 0;
 	right: 0;
 	width: 100px;
 	height: 100px;
-	background: radial-gradient(circle, rgb(102 126 234 / 0.15), transparent 70%);
+	background: radial-gradient(circle, rgb(62 158 172 / 0.15), transparent 70%);
 	pointer-events: none;
 }
 
-/* ==================== 签到卡片（紫蓝色渐变） ==================== */
+/* ==================== 签到卡片（主色渐变） ==================== */
 
+/**
+ * 签到卡片图标 - 使用项目主色冰川青到深空蓝
+ */
 .navigation-page-mobile-nav-section-card-card.primary-card .navigation-page-mobile-nav-section-card-card-icon {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	box-shadow: 0 6px 16px rgb(102 126 234 / 0.35);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
+	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
 }
 
 .navigation-page-mobile-nav-section-card-card.primary-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(102 126 234 / 0.45);
+	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
-/* ==================== 数据看板卡片（蓝色渐变） ==================== */
+/* ==================== 数据看板卡片（主色变体） ==================== */
 
+/**
+ * 数据看板卡片图标 - 使用浅冰川青到冰川青
+ */
 .navigation-page-mobile-nav-section-card-card.data-card .navigation-page-mobile-nav-section-card-card-icon {
-	background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-	box-shadow: 0 6px 16px rgb(79 172 254 / 0.35);
+	background: linear-gradient(135deg, #4DB6C4 0%, #3E9EAC 100%);
+	box-shadow: 0 6px 16px rgb(77 182 196 / 0.35);
 }
 
 .navigation-page-mobile-nav-section-card-card.data-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(79 172 254 / 0.45);
+	box-shadow: 0 8px 24px rgb(77 182 196 / 0.45);
 }
 
-/* ==================== 积分看板卡片（粉红色渐变） ==================== */
+/* ==================== 积分看板卡片（辅色变体） ==================== */
 
+/**
+ * 积分看板卡片图标 - 使用深空蓝到深海蓝
+ */
 .navigation-page-mobile-nav-section-card-card.points-card-nav .navigation-page-mobile-nav-section-card-card-icon {
-	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-	box-shadow: 0 6px 16px rgb(240 147 251 / 0.35);
+	background: linear-gradient(135deg, #1F4277 0%, #2A5A8C 100%);
+	box-shadow: 0 6px 16px rgb(31 66 119 / 0.35);
 }
 
 .navigation-page-mobile-nav-section-card-card.points-card-nav:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(240 147 251 / 0.45);
+	box-shadow: 0 8px 24px rgb(31 66 119 / 0.45);
 }
 
-/* ==================== 成员管理卡片（绿色渐变） ==================== */
+/* ==================== 成员管理卡片（主色渐变变体） ==================== */
 
+/**
+ * 成员管理卡片图标 - 使用冰川青变体
+ */
 .navigation-page-mobile-nav-section-card-card.members-card .navigation-page-mobile-nav-section-card-card-icon {
-	background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-	box-shadow: 0 6px 16px rgb(67 233 123 / 0.35);
+	background: linear-gradient(135deg, #2A8A9A 0%, #3E9EAC 100%);
+	box-shadow: 0 6px 16px rgb(42 138 154 / 0.35);
 }
 
 .navigation-page-mobile-nav-section-card-card.members-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(67 233 123 / 0.45);
+	box-shadow: 0 8px 24px rgb(42 138 154 / 0.45);
 }
 
-/* ==================== 考勤分析卡片（青色渐变） ==================== */
+/* ==================== 考勤分析卡片（辅色到主色） ==================== */
 
+/**
+ * 考勤分析卡片图标 - 使用深海蓝到冰川青
+ */
 .navigation-page-mobile-nav-section-card-card.analysis-card .navigation-page-mobile-nav-section-card-card-icon {
-	background: linear-gradient(135deg, #00d4ff 0%, #5b86e5 100%);
-	box-shadow: 0 6px 16px rgb(0 212 255 / 0.35);
+	background: linear-gradient(135deg, #2A5A8C 0%, #3E9EAC 100%);
+	box-shadow: 0 6px 16px rgb(42 90 140 / 0.35);
 }
 
 .navigation-page-mobile-nav-section-card-card.analysis-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(0 212 255 / 0.45);
+	box-shadow: 0 8px 24px rgb(42 90 140 / 0.45);
 }
 
 /* ==================== 考勤分析卡片背景 ==================== */
 
 .navigation-page-mobile-nav-section-card-card.analysis-card .navigation-page-mobile-nav-section-card-card-bg {
-	background: radial-gradient(circle, rgb(0 212 255 / 0.15), transparent 70%);
+	background: radial-gradient(circle, rgb(42 90 140 / 0.15), transparent 70%);
 }
 
-/* ==================== 积分记录卡片（橙黄色渐变） ==================== */
+/* ==================== 积分记录卡片（主色渐变） ==================== */
 
+/**
+ * 积分记录卡片图标 - 使用浅冰川青到深海蓝
+ */
 .navigation-page-mobile-nav-section-card-card.records-card .navigation-page-mobile-nav-section-card-card-icon {
-	background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-	box-shadow: 0 6px 16px rgb(250 112 154 / 0.35);
+	background: linear-gradient(135deg, #4DB6C4 0%, #2A5A8C 100%);
+	box-shadow: 0 6px 16px rgb(77 182 196 / 0.35);
 }
 
 .navigation-page-mobile-nav-section-card-card.records-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(250 112 154 / 0.45);
+	box-shadow: 0 8px 24px rgb(77 182 196 / 0.45);
 }
 
-/* ==================== 邀请码卡片（淡蓝粉渐变） ==================== */
+/* ==================== 邀请码卡片（主色渐变） ==================== */
 
+/**
+ * 邀请码卡片图标 - 使用冰川青到深空蓝
+ */
 .navigation-page-mobile-nav-section-card-card.invite-card .navigation-page-mobile-nav-section-card-card-icon {
-	background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-	box-shadow: 0 6px 16px rgb(161 140 209 / 0.35);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
+	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
 }
 
 .navigation-page-mobile-nav-section-card-card.invite-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(161 140 209 / 0.45);
+	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
 .navigation-page-mobile-nav-section-card-card.invite-card .navigation-page-mobile-nav-section-card-card-icon .el-icon {
 	color: white;
 }
 
-/* ==================== 管理员卡片（金色渐变） ==================== */
+/* ==================== 管理员卡片（辅色渐变） ==================== */
 
+/**
+ * 管理员卡片图标 - 使用深空蓝到深海蓝
+ */
 .navigation-page-mobile-nav-section-card-card.admin-card .navigation-page-mobile-nav-section-card-card-icon {
-	background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-	box-shadow: 0 6px 16px rgb(240 147 251 / 0.35);
+	background: linear-gradient(135deg, #1F4277 0%, #2A5A8C 100%);
+	box-shadow: 0 6px 16px rgb(31 66 119 / 0.35);
 }
 
 .navigation-page-mobile-nav-section-card-card.admin-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(240 147 251 / 0.45);
+	box-shadow: 0 8px 24px rgb(31 66 119 / 0.45);
 }
 
 .navigation-page-mobile-nav-section-card-card.admin-card .navigation-page-mobile-nav-section-card-card-icon .el-icon {

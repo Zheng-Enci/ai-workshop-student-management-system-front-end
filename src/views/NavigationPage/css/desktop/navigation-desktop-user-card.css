@@ -42,6 +42,10 @@
 
 /* ==================== 用户头像 ==================== */
 
+/**
+ * 用户头像
+ * 使用项目主色渐变：冰川青到深空蓝
+ */
 .navigation-desktop-user-card-avatar {
 	position: relative;
 	display: flex;
@@ -53,15 +57,15 @@
 	overflow: hidden;
 	color: white;
 	cursor: pointer;
-	background: linear-gradient(135deg, #667eea, #764ba2);
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 	border-radius: 12px;
-	box-shadow: 0 8px 24px rgb(102 126 234 / 0.4);
+	box-shadow: 0 8px 24px rgb(62 158 172 / 0.4);
 	transition: transform 0.3s ease;
 	will-change: transform;
 }
 
 .navigation-desktop-user-card-avatar:hover {
-	box-shadow: 0 12px 32px rgb(102 126 234 / 0.5);
+	box-shadow: 0 12px 32px rgb(62 158 172 / 0.5);
 	transform: scale(1.05);
 }
 
@@ -70,7 +74,7 @@
 }
 
 .navigation-desktop-user-card-avatar.no-avatar {
-	background: linear-gradient(135deg, #667eea, #764ba2);
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 }
 
 /* ==================== 头像图片 ==================== */
@@ -196,16 +200,25 @@
 	transform: translateY(-4px);
 }
 
+/**
+ * 总积分项 - 使用项目主色冰川青
+ */
 .navigation-desktop-user-card-point-item.total-points {
-	border-top: 3px solid #667eea;
+	border-top: 3px solid #3E9EAC;
 }
 
+/**
+ * 活动积分项 - 使用项目主色的变体
+ */
 .navigation-desktop-user-card-point-item.activity-points {
-	border-top: 3px solid #ffc107;
+	border-top: 3px solid #4DB6C4;
 }
 
+/**
+ * 签到积分项 - 使用项目辅色深空蓝
+ */
 .navigation-desktop-user-card-point-item.signin-points {
-	border-top: 3px solid #4caf50;
+	border-top: 3px solid #1F4277;
 }
 
 /* ==================== 积分图标 ==================== */
@@ -221,19 +234,28 @@
 	border-radius: 8px;
 }
 
+/**
+ * 总积分图标 - 使用项目主色冰川青
+ */
 .navigation-desktop-user-card-point-item.total-points .navigation-desktop-user-card-point-icon {
-	color: #667eea;
-	background: rgb(102 126 234 / 0.2);
+	color: #3E9EAC;
+	background: rgb(62 158 172 / 0.2);
 }
 
+/**
+ * 活动积分图标 - 使用项目主色的变体
+ */
 .navigation-desktop-user-card-point-item.activity-points .navigation-desktop-user-card-point-icon {
-	color: #ffc107;
-	background: rgb(255 193 7 / 0.2);
+	color: #4DB6C4;
+	background: rgb(77 182 196 / 0.2);
 }
 
+/**
+ * 签到积分图标 - 使用项目辅色深空蓝
+ */
 .navigation-desktop-user-card-point-item.signin-points .navigation-desktop-user-card-point-icon {
-	color: #4caf50;
-	background: rgb(76 175 80 / 0.2);
+	color: #1F4277;
+	background: rgb(31 66 119 / 0.2);
 }
 
 /* ==================== 积分信息 ==================== */

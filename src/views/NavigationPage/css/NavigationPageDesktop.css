@@ -1,177 +1,177 @@
 /**
  * 导航页面 - 桌面端样式
  * @file NavigationPageDesktop.css
- * @description 定义导航页面桌面端的样式，仅包含正在使用的导航图标渐变样式
+ * @description 定义导航页面桌面端的样式，使用项目配色方案：冰川青/深空蓝
  */
 
 /* ==================== 导航图标渐变样式 ==================== */
 
 /**
- * 导航图标渐变色1 - 蓝紫色
+ * 导航图标渐变色1 - 冰川青到深空蓝（主色渐变）
  * 签到记录图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-1 {
-	color: #667eea;
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.2), rgb(118 75 162 / 0.2));
+	color: #3E9EAC;
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.2), rgb(31 66 119 / 0.2));
 }
 
 /**
- * 导航图标渐变色2 - 粉红色
+ * 导航图标渐变色2 - 浅冰川青到冰川青
  * 个人信息图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-2 {
-	color: #f093fb;
-	background: linear-gradient(135deg, rgb(240 147 251 / 0.2), rgb(245 87 108 / 0.2));
+	color: #4DB6C4;
+	background: linear-gradient(135deg, rgb(77 182 196 / 0.2), rgb(62 158 172 / 0.2));
 }
 
 /**
- * 导航图标渐变色3 - 青绿色
+ * 导航图标渐变色3 - 深空蓝到深海蓝
  * 改分记录图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-3 {
-	color: #4facfe;
-	background: linear-gradient(135deg, rgb(79 172 254 / 0.2), rgb(0 242 254 / 0.2));
+	color: #1F4277;
+	background: linear-gradient(135deg, rgb(31 66 119 / 0.2), rgb(42 90 140 / 0.2));
 }
 
 /**
- * 导航图标渐变色4 - 金黄色
+ * 导航图标渐变色4 - 冰川青变体
  * 邀请码图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-4 {
-	color: #ffc107;
-	background: linear-gradient(135deg, rgb(255 193 7 / 0.2), rgb(255 152 0 / 0.2));
+	color: #2A8A9A;
+	background: linear-gradient(135deg, rgb(42 138 154 / 0.2), rgb(62 158 172 / 0.2));
 }
 
 /**
- * 导航图标渐变色5 - 绿色
+ * 导航图标渐变色5 - 深海蓝到冰川青
  * 考勤分析图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-5 {
-	color: #10b981;
-	background: linear-gradient(135deg, rgb(16 185 129 / 0.2), rgb(34 197 94 / 0.2));
+	color: #2A5A8C;
+	background: linear-gradient(135deg, rgb(42 90 140 / 0.2), rgb(62 158 172 / 0.2));
 }
 
 /**
- * 导航图标渐变色6 - 橙色
+ * 导航图标渐变色6 - 深空蓝变体
  * 数据看板图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-6 {
-	color: #ff6b6b;
-	background: linear-gradient(135deg, rgb(255 107 107 / 0.2), rgb(255 159 67 / 0.2));
+	color: #1F4277;
+	background: linear-gradient(135deg, rgb(31 66 119 / 0.2), rgb(77 182 196 / 0.2));
 }
 
 /**
- * 导航图标渐变色7 - 紫色
+ * 导航图标渐变色7 - 冰川青到浅冰川青
  * 积分看板图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-7 {
-	color: #a855f7;
-	background: linear-gradient(135deg, rgb(168 85 247 / 0.2), rgb(192 132 252 / 0.2));
+	color: #3E9EAC;
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.2), rgb(77 182 196 / 0.2));
 }
 
 /**
- * 导航图标渐变色8 - 青色
+ * 导航图标渐变色8 - 浅蓝到冰川青
  * 所有成员图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-8 {
-	color: #06b6d4;
-	background: linear-gradient(135deg, rgb(6 182 212 / 0.2), rgb(34 211 238 / 0.2));
+	color: #4DB6C4;
+	background: linear-gradient(135deg, rgb(77 182 196 / 0.2), rgb(42 138 154 / 0.2));
 }
 
 /**
- * 导航图标渐变色9 - 玫瑰色
+ * 导航图标渐变色9 - 深海蓝到深空蓝
  * 超级管理员图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-9 {
-	color: #f43f5e;
-	background: linear-gradient(135deg, rgb(244 63 94 / 0.2), rgb(251 146 60 / 0.2));
+	color: #2A5A8C;
+	background: linear-gradient(135deg, rgb(42 90 140 / 0.2), rgb(31 66 119 / 0.2));
 }
 
 /**
- * 导航图标渐变色10 - 紫色
+ * 导航图标渐变色10 - 冰川青到深海蓝
  * 学生管理图标使用
  */
 .navigation-page-desktop-nav-icon-gradient-10 {
-	color: #a855f7;
-	background: linear-gradient(135deg, rgb(168 85 247 / 0.2), rgb(236 72 153 / 0.2));
+	color: #3E9EAC;
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.2), rgb(42 90 140 / 0.2));
 }
 
 /**
- * 导航卡片悬停时图标的样式 - 渐变色1
+ * 导航卡片悬停时图标的样式 - 渐变色1（主色增强）
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-1 {
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.35), rgb(118 75 162 / 0.35));
-	box-shadow: 0 6px 16px rgb(102 126 234 / 0.4);
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.35), rgb(31 66 119 / 0.35));
+	box-shadow: 0 6px 16px rgb(62 158 172 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色2
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-2 {
-	background: linear-gradient(135deg, rgb(240 147 251 / 0.35), rgb(245 87 108 / 0.35));
-	box-shadow: 0 6px 16px rgb(240 147 251 / 0.4);
+	background: linear-gradient(135deg, rgb(77 182 196 / 0.35), rgb(62 158 172 / 0.35));
+	box-shadow: 0 6px 16px rgb(77 182 196 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色3
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-3 {
-	background: linear-gradient(135deg, rgb(79 172 254 / 0.35), rgb(0 242 254 / 0.35));
-	box-shadow: 0 6px 16px rgb(79 172 254 / 0.4);
+	background: linear-gradient(135deg, rgb(31 66 119 / 0.35), rgb(42 90 140 / 0.35));
+	box-shadow: 0 6px 16px rgb(31 66 119 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色4
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-4 {
-	background: linear-gradient(135deg, rgb(255 193 7 / 0.35), rgb(255 152 0 / 0.35));
-	box-shadow: 0 6px 16px rgb(255 193 7 / 0.4);
+	background: linear-gradient(135deg, rgb(42 138 154 / 0.35), rgb(62 158 172 / 0.35));
+	box-shadow: 0 6px 16px rgb(42 138 154 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色5
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-5 {
-	background: linear-gradient(135deg, rgb(16 185 129 / 0.35), rgb(34 197 94 / 0.35));
-	box-shadow: 0 6px 16px rgb(16 185 129 / 0.4);
+	background: linear-gradient(135deg, rgb(42 90 140 / 0.35), rgb(62 158 172 / 0.35));
+	box-shadow: 0 6px 16px rgb(42 90 140 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色6
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-6 {
-	background: linear-gradient(135deg, rgb(255 107 107 / 0.35), rgb(255 159 67 / 0.35));
-	box-shadow: 0 6px 16px rgb(255 107 107 / 0.4);
+	background: linear-gradient(135deg, rgb(31 66 119 / 0.35), rgb(77 182 196 / 0.35));
+	box-shadow: 0 6px 16px rgb(31 66 119 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色7
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-7 {
-	background: linear-gradient(135deg, rgb(168 85 247 / 0.35), rgb(192 132 252 / 0.35));
-	box-shadow: 0 6px 16px rgb(168 85 247 / 0.4);
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.35), rgb(77 182 196 / 0.35));
+	box-shadow: 0 6px 16px rgb(62 158 172 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色8
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-8 {
-	background: linear-gradient(135deg, rgb(6 182 212 / 0.35), rgb(34 211 238 / 0.35));
-	box-shadow: 0 6px 16px rgb(6 182 212 / 0.4);
+	background: linear-gradient(135deg, rgb(77 182 196 / 0.35), rgb(42 138 154 / 0.35));
+	box-shadow: 0 6px 16px rgb(77 182 196 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色9
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-9 {
-	background: linear-gradient(135deg, rgb(244 63 94 / 0.35), rgb(251 146 60 / 0.35));
-	box-shadow: 0 6px 16px rgb(244 63 94 / 0.4);
+	background: linear-gradient(135deg, rgb(42 90 140 / 0.35), rgb(31 66 119 / 0.35));
+	box-shadow: 0 6px 16px rgb(42 90 140 / 0.4);
 }
 
 /**
  * 导航卡片悬停时图标的样式 - 渐变色10
  */
 .navigation-desktop-navSectionCard-card:hover .navigation-page-desktop-nav-icon-gradient-10 {
-	background: linear-gradient(135deg, rgb(168 85 247 / 0.35), rgb(236 72 153 / 0.35));
-	box-shadow: 0 6px 16px rgb(168 85 247 / 0.4);
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.35), rgb(42 90 140 / 0.35));
+	box-shadow: 0 6px 16px rgb(62 158 172 / 0.4);
 }

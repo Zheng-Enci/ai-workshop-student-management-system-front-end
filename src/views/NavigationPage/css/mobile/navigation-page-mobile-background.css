@@ -28,7 +28,11 @@
 
 /**
  * 渐变球体
- * 与电脑端保持一致的样式：低透明度 + 强烈模糊
+ * 使用项目配色方案：冰川青/深空蓝
+ */
+
+/**
+ * 渐变球体1 - 使用项目主色冰川青
  */
 .navigation-page-mobile-background-orb-1 {
 	position: fixed;
@@ -36,33 +40,39 @@
 	left: 10%;
 	width: 300px;
 	height: 300px;
-	background: linear-gradient(135deg, #667eea, #764ba2);
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 	opacity: 0.3;
 	filter: blur(100px);
 	animation: navigation-page-mobile-background-float 20s ease-in-out infinite;
 	animation-delay: 0s;
 }
 
+/**
+ * 渐变球体2 - 使用项目主色冰川青的变体
+ */
 .navigation-page-mobile-background-orb-2 {
 	position: fixed;
 	top: 60%;
 	right: 10%;
 	width: 200px;
 	height: 200px;
-	background: linear-gradient(135deg, #f093fb, #f5576c);
+	background: linear-gradient(135deg, #4DB6C4, #2A5A8C);
 	opacity: 0.3;
 	filter: blur(100px);
 	animation: navigation-page-mobile-background-float 20s ease-in-out infinite;
 	animation-delay: -7s;
 }
 
+/**
+ * 渐变球体3 - 使用项目辅色深空蓝的变体
+ */
 .navigation-page-mobile-background-orb-3 {
 	position: fixed;
 	bottom: 20%;
 	left: 50%;
 	width: 250px;
 	height: 250px;
-	background: linear-gradient(135deg, #4facfe, #00f2fe);
+	background: linear-gradient(135deg, #2A8A9A, #3E9EAC);
 	opacity: 0.3;
 	filter: blur(100px);
 	animation: navigation-page-mobile-background-float 20s ease-in-out infinite;
