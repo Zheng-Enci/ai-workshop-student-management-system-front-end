@@ -63,7 +63,7 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 
 		<!-- 页面标题 - 顶部居中 -->
 		<div class="login-page-desktop-page-title">
-			<h1>AI坊学生管理系统</h1>
+			<h1>AI坊学生管理系统 / AI Workshop Student System</h1>
 			<p class="login-page-desktop-subtitle">欢迎登录 / Welcome Back</p>
 		</div>
 
