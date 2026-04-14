@@ -32,6 +32,7 @@ const form = loginPage.form
 const rememberMe = loginPage.rememberMe
 const isLoading = loginPage.isLoading
 const studentAvatarUrl = loginPage.studentAvatarUrl
+const isAvatarLoading = loginPage.isAvatarLoading
 const rules = loginPage.rules
 const toggleTheme = loginPage.toggleTheme.bind(loginPage)
 const handleLogin = loginPage.handleLogin.bind(loginPage)
