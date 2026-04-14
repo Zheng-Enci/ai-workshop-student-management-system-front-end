@@ -408,9 +408,9 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 /* 成员合照图片样式 */
 /* Group photo image style */
 .login-page-desktop-group-photo {
-	/* 图片宽度为容器的 70% */
-	/* Image width is 70% of container */
-	width: 70%;
+	/* 图片宽度为容器的 80% */
+	/* Image width is 80% of container */
+	width: 80%;
 	height: auto;
 	/* 保持图片比例 */
 	/* Maintain image aspect ratio */
