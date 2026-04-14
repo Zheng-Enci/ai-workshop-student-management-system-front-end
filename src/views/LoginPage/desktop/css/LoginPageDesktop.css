@@ -341,29 +341,6 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	overflow: hidden;
 }
 
-/* 左侧区域右侧渐变过渡效果，与右侧背景融合 */
-/* Right edge gradient transition effect for left panel to blend with right panel background */
-.login-page-desktop-left-panel::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 80px;
-	height: 100%;
-	/* 从透明过渡到白色（日间模式） */
-	/* Transition from transparent to white (light mode) */
-	background: linear-gradient(to right, transparent, #ffffff);
-	pointer-events: none;
-	z-index: 2;
-	transition: background 0.8s ease;
-}
-
-/* 夜间模式下渐变过渡到黑色 */
-/* Gradient transition to black in dark mode */
-html.dark .login-page-desktop-left-panel::after {
-	background: linear-gradient(to right, transparent, #000000);
-}
-
 /* 左侧区域头部 - 左上角 */
 /* Left panel header - top left corner */
 .login-page-desktop-left-header {
@@ -468,6 +445,29 @@ html.dark .login-page-desktop-left-panel::after {
 	/* 顶部内边距，为页面标题留出空间 */
 	/* Top padding to leave space for page title */
 	padding-top: 1%;
+}
+
+/* 右侧区域左边缘渐变过渡效果，与左侧区域融合 */
+/* Left edge gradient transition effect for right panel to blend with left panel */
+.login-page-desktop-right-panel::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 80px;
+	height: 100%;
+	/* 从白色过渡到透明（日间模式） */
+	/* Transition from white to transparent (light mode) */
+	background: linear-gradient(to left, transparent, #ffffff);
+	pointer-events: none;
+	z-index: 2;
+	transition: background 0.8s ease;
+}
+
+/* 夜间模式下从黑色过渡到透明 */
+/* Transition from black to transparent in dark mode */
+html.dark .login-page-desktop-right-panel::before {
+	background: linear-gradient(to left, transparent, #000000);
 }
 
 /* 右侧登录卡片 */
