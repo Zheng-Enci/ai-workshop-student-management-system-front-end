@@ -80,14 +80,14 @@
 /**
  * 全局过渡效果
  * 为所有元素添加平滑的颜色、背景、边框过渡动画
- * 过渡时间：800ms，缓动函数：ease-in-out
+ * 过渡时间：1.6s，缓动函数：ease-in-out
  */
 .navigation-desktop-header-navigation-container,
 .navigation-container {
-	transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out;
+	transition: background-color 1.6s ease-in-out, color 1.6s ease-in-out;
 }
 
 .navigation-desktop-header-navigation-container *,
 .navigation-container * {
-	transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
+	transition: background-color 1.6s ease-in-out, color 1.6s ease-in-out, border-color 1.6s ease-in-out, box-shadow 1.6s ease-in-out;
 }
