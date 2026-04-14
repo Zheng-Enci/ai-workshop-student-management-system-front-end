@@ -49,8 +49,9 @@ const loginPage = new LoginPageMobile()
 			class="login-page-mobile-home-btn"
 			type="primary"
 			:icon="House"
-			circle
-			@click="loginPage.goToHome()"/>
+			@click="loginPage.goToHome()">
+			首页
+		</el-button>
 		<!-- Logo图标 - 点击切换主题模式 -->
 		<!-- Logo icon - click to toggle theme mode -->
 		<img

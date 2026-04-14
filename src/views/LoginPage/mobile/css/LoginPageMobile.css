@@ -128,6 +128,9 @@ html.dark .login-page-mobile-gradient-orb.login-page-mobile-orb-3 {
 	border: none;
 	box-shadow: 0 4px 12px rgb(62 158 172 / 0.3);
 	transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+	/* 调整内边距以适应文字显示 */
+	/* Adjust padding to accommodate text */
+	padding: 8px 12px;
 }
 
 .login-page-mobile-home-btn:hover {
@@ -143,11 +146,13 @@ html.dark .login-page-mobile-gradient-orb.login-page-mobile-orb-3 {
 	position: fixed;
 	/* 调整 top 值使 Logo 中心与首页按钮中心对齐 */
 	/* Adjust top value to align logo center with home button center */
-	top: 12px;
+	top: 10px;
 	right: 16px;
 	z-index: 100;
-	width: 48px;
-	height: 48px;
+	/* 增大 Logo 尺寸 */
+	/* Increased logo size */
+	width: 52px;
+	height: 52px;
 	cursor: pointer;
 	object-fit: contain;
 	/* 深空蓝阴影 */
