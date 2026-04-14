@@ -27,6 +27,14 @@
 	background: linear-gradient(135deg, #F5F7FA 0%, #FFFFFF 100%);
 }
 
+/* 深色模式下的登录页面容器 */
+/* Login page container in dark mode */
+html.dark .login-page-mobile-container {
+	/* 深空黑蓝背景 - 基于深空蓝加深 */
+	/* Deep space black-blue background - based on deep space blue darkened */
+	background: linear-gradient(135deg, #0F1A2A 0%, #1A2D47 100%);
+}
+
 /* 背景装饰效果 */
 /* Background decoration effects */
 .login-page-mobile-background-effects {
@@ -352,12 +360,16 @@ html.dark .login-page-mobile-avatar-placeholder {
 /* 深色模式下的输入框组 */
 /* Input group in dark mode */
 html.dark .login-page-mobile-input-group {
-	background: rgb(255 255 255 / 0.1);
+	/* 中深灰蓝背景 - 基于深空蓝调整 */
+	/* Medium deep gray-blue background - based on deep space blue adjusted */
+	background: #243551;
 	border-color: rgb(62 158 172 / 0.3);
 }
 
 html.dark .login-page-mobile-input-group:focus-within {
-	background: rgb(255 255 255 / 0.15);
+	/* 输入框背景色 - 深蓝灰 */
+	/* Input background color - deep blue-gray */
+	background: #1A2D47;
 	border-color: #3E9EAC;
 	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.3);
 }
@@ -470,9 +482,9 @@ html.dark .login-page-mobile-remember-checkbox :deep(.el-checkbox__input.is-chec
 }
 
 .login-page-mobile-login-button:hover {
-	/* 悬停时加深 */
-	/* Darken on hover */
-	background: linear-gradient(135deg, #358A99 0%, #16355F 100%);
+	/* 悬停时加深 - 使用冰川青-深和深空蓝-深 */
+	/* Darken on hover - using glacier cyan deep and deep space blue deep */
+	background: linear-gradient(135deg, #2A7A85 0%, #142A4D 100%);
 	box-shadow: 0 6px 20px rgb(31 66 119 / 0.4);
 	transform: translateY(-2px);
 }
