@@ -942,17 +942,29 @@
  * 日间模式下的功能图标
  * 保持白色以确保在彩色背景上可见
  * 使用 !important 覆盖主题 CSS 的强制文字颜色
- * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
+ * 注意：theme.css 使用 html.light * { color: ... !important }，我们需要更高优先级
  */
-html.light .home-page-desktop-feature-icon,
-html.light .home-page-desktop-feature-icon .el-icon,
-html.light .home-page-desktop-feature-icon svg,
-html.light .home-page-desktop-feature-icon path,
-html:not(.dark) .home-page-desktop-feature-icon,
-html:not(.dark) .home-page-desktop-feature-icon .el-icon,
-html:not(.dark) .home-page-desktop-feature-icon svg,
-html:not(.dark) .home-page-desktop-feature-icon path {
+
+/* 针对 i 标签内的 SVG */
+html.light .home-page-desktop-feature-icon i svg,
+html:not(.dark) .home-page-desktop-feature-icon i svg {
 	color: white !important;
+}
+
+/* 针对 path 元素 */
+html.light .home-page-desktop-feature-icon i svg path,
+html:not(.dark) .home-page-desktop-feature-icon i svg path {
+	fill: white !important;
+}
+
+/* 备用：使用更深层的选择器 */
+html.light .home-page-desktop-feature-icon *,
+html:not(.dark) .home-page-desktop-feature-icon * {
+	color: white !important;
+}
+
+html.light .home-page-desktop-feature-icon * path,
+html:not(.dark) .home-page-desktop-feature-icon * path {
 	fill: white !important;
 }
 
@@ -1230,17 +1242,29 @@ html:not(.dark) .home-page-desktop-feature-icon path {
  * 日间模式下的更新日志图标
  * 保持白色以确保在彩色背景上可见
  * 使用 !important 覆盖主题 CSS 的强制文字颜色
- * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
+ * 注意：theme.css 使用 html.light * { color: ... !important }，我们需要更高优先级
  */
-html.light .home-page-desktop-update-icon,
-html.light .home-page-desktop-update-icon .el-icon,
-html.light .home-page-desktop-update-icon svg,
-html.light .home-page-desktop-update-icon path,
-html:not(.dark) .home-page-desktop-update-icon,
-html:not(.dark) .home-page-desktop-update-icon .el-icon,
-html:not(.dark) .home-page-desktop-update-icon svg,
-html:not(.dark) .home-page-desktop-update-icon path {
+
+/* 针对 i 标签内的 SVG */
+html.light .home-page-desktop-update-icon i svg,
+html:not(.dark) .home-page-desktop-update-icon i svg {
 	color: white !important;
+}
+
+/* 针对 path 元素 */
+html.light .home-page-desktop-update-icon i svg path,
+html:not(.dark) .home-page-desktop-update-icon i svg path {
+	fill: white !important;
+}
+
+/* 备用：使用更深层的选择器 */
+html.light .home-page-desktop-update-icon *,
+html:not(.dark) .home-page-desktop-update-icon * {
+	color: white !important;
+}
+
+html.light .home-page-desktop-update-icon * path,
+html:not(.dark) .home-page-desktop-update-icon * path {
 	fill: white !important;
 }
 
