@@ -1221,8 +1221,17 @@ html:not(.dark) .home-page-desktop-feature-icon path {
  * 日间模式下的更新日志图标
  * 保持白色以确保在彩色背景上可见
  */
-html:not(.dark) .home-page-desktop-update-icon {
-	color: white;
+/**
+ * 日间模式下的更新日志图标
+ * 保持白色以确保在彩色背景上可见
+ * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ */
+html:not(.dark) .home-page-desktop-update-icon,
+html:not(.dark) .home-page-desktop-update-icon .el-icon,
+html:not(.dark) .home-page-desktop-update-icon svg,
+html:not(.dark) .home-page-desktop-update-icon path {
+	color: white !important;
+	fill: white !important;
 }
 
 /* 主要更新图标背景 */
