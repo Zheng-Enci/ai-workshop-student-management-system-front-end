@@ -86,12 +86,13 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 		<!-- 登录卡片内容 - 黄金比例布局 -->
 		<div class="login-page-desktop-content">
 			<div class="login-page-desktop-golden-layout">
-				<!-- 左侧区域 - 黄金比例 38.2% -->
+				<!-- 左侧区域 - 黄金比例 61.8%，占满左侧 -->
 				<div class="login-page-desktop-left-panel">
-					<!-- 左侧内容区域，可用于展示图片或介绍 -->
+					<!-- 左侧内容区域，显示成员合照 -->
 				</div>
-				<!-- 右侧区域 - 黄金比例 61.8% -->
-				<div class="login-page-desktop-card">
+				<!-- 右侧区域 - 黄金比例 38.2%，占满右侧 -->
+				<div class="login-page-desktop-right-panel">
+					<div class="login-page-desktop-card">
 				<!-- 学生头像显示区域 -->
 				<div class="login-page-desktop-avatar-container">
 					<!-- 有头像时显示头像（使用v-lazy懒加载） -->
@@ -177,6 +178,7 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 						还没有账号？
 						<router-link to="/register" class="link">立即注册</router-link>
 					</p>
+				</div>
 				</div>
 			</div>
 		</div>

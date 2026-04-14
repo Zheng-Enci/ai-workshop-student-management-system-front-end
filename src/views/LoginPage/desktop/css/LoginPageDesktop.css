@@ -325,21 +325,24 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	padding: 20px;
 }
 
-/* 黄金比例布局容器 */
-/* Golden ratio layout container */
+/* 黄金比例布局容器 - 占满整个视口 */
+/* Golden ratio layout container - fill entire viewport */
 .login-page-desktop-golden-layout {
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	gap: 40px;
+	align-items: stretch;
+	justify-content: flex-start;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
 }
 
-/* 左侧区域 - 黄金比例 61.8% */
-/* Left panel - golden ratio 61.8% */
+/* 左侧区域 - 黄金比例 61.8%，占满左侧 */
+/* Left panel - golden ratio 61.8%, fill left side */
 .login-page-desktop-left-panel {
 	width: 61.8%;
-	min-height: 500px;
+	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -349,14 +352,28 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-	border-radius: 16px;
 }
 
-/* 右侧登录卡片 - 黄金比例 38.2% */
-/* Right login card - golden ratio 38.2% */
-.login-page-desktop-golden-layout .login-page-desktop-card {
+/* 右侧区域 - 黄金比例 38.2%，占满右侧 */
+/* Right panel - golden ratio 38.2%, fill right side */
+.login-page-desktop-right-panel {
 	width: 38.2%;
-	max-width: 480px;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* 右侧使用渐变背景 */
+	/* Right side uses gradient background */
+	background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f172a);
+	background-size: 400% 400%;
+	animation: gradientShift 20s ease infinite;
+}
+
+/* 右侧登录卡片 */
+/* Right login card */
+.login-page-desktop-right-panel .login-page-desktop-card {
+	width: 90%;
+	max-width: 400px;
 }
 
 /* 登录卡片 */
