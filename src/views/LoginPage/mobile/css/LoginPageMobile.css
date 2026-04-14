@@ -669,7 +669,7 @@ html.dark .login-page-mobile-remember-checkbox :deep(.el-checkbox__input.is-chec
 
 	/* Deep space blue shadow */
 	box-shadow: 0 4px 16px rgb(31 66 119 / 0.3);
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	transition: transform 0.3s ease;
 }
 
 .login-page-mobile-login-button:hover {
