@@ -7,140 +7,154 @@
  */
 
 /* 登录页面容器 */
+
 /* Login page container */
 .login-container {
 	position: relative;
-	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	min-height: 100vh;
+	padding: 20px;
 	overflow: hidden;
+
 	/* 页面使用毛玻璃背景图片 */
+
 	/* Page uses frosted glass background image */
 	background-image: url('@/assets/AiWorkShop-Members-Group-Photo.jpg');
-	background-size: cover;
 	background-position: center;
-	padding: 20px;
+	background-size: cover;
 }
 
 /* 毛玻璃效果遮罩层 */
+
 /* Frosted glass effect overlay */
 .login-container::before {
-	content: '';
 	position: absolute;
 	top: 0;
 	left: 0;
+	z-index: 0;
 	width: 100%;
 	height: 100%;
+	content: '';
+
+	/* 半透明遮罩增强可读性 */
+
+	/* Semi-transparent overlay enhances readability */
+	background: rgb(255 255 255 / 0.15);
+
 	/* 强烈的模糊效果创造毛玻璃质感 */
+
 	/* Strong blur effect creates frosted glass texture */
 	backdrop-filter: blur(20px);
-	-webkit-backdrop-filter: blur(20px);
-	/* 半透明遮罩增强可读性 */
-	/* Semi-transparent overlay enhances readability */
-	background: rgba(255, 255, 255, 0.15);
-	z-index: 0;
 }
 
 /* 深色模式下的毛玻璃遮罩 */
+
 /* Dark mode frosted glass overlay */
 html.dark .login-container::before {
-	background: rgba(0, 0, 0, 0.5);
+	background: rgb(0 0 0 / 0.5);
 }
 
 /* 背景装饰效果 */
+
 /* Background decoration effects */
 .background-effects {
 	position: absolute;
 	top: 0;
 	left: 0;
+	z-index: 1;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 	pointer-events: none;
-	z-index: 1;
 }
 
 /* 渐变光球 */
+
 /* Gradient orbs */
 .gradient-orb {
 	position: absolute;
 	border-radius: 50%;
-	filter: blur(60px);
 	opacity: 0.5;
+	filter: blur(60px);
 	animation: float 15s infinite ease-in-out;
 }
 
 .gradient-orb.orb-1 {
-	width: 200px;
-	height: 200px;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
 	top: 10%;
 	right: -50px;
+	width: 200px;
+	height: 200px;
+	background: radial-gradient(circle, rgb(255 255 255 / 0.3) 0%, rgb(255 255 255 / 0) 70%);
 	animation-delay: 0s;
 }
 
 .gradient-orb.orb-2 {
-	width: 150px;
-	height: 150px;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
 	bottom: 20%;
 	left: -30px;
+	width: 150px;
+	height: 150px;
+	background: radial-gradient(circle, rgb(255 255 255 / 0.25) 0%, rgb(255 255 255 / 0) 70%);
 	animation-delay: -5s;
 }
 
 .gradient-orb.orb-3 {
-	width: 120px;
-	height: 120px;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
 	top: 50%;
 	right: 10%;
+	width: 120px;
+	height: 120px;
+	background: radial-gradient(circle, rgb(255 255 255 / 0.2) 0%, rgb(255 255 255 / 0) 70%);
 	animation-delay: -10s;
 }
 
 /* 深色模式下的光球 */
+
 /* Dark mode orbs */
 html.dark .gradient-orb.orb-1 {
-	background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0) 70%);
+	background: radial-gradient(circle, rgb(99 102 241 / 0.4) 0%, rgb(99 102 241 / 0) 70%);
 }
 
 html.dark .gradient-orb.orb-2 {
-	background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(139, 92, 246, 0) 70%);
+	background: radial-gradient(circle, rgb(139 92 246 / 0.35) 0%, rgb(139 92 246 / 0) 70%);
 }
 
 html.dark .gradient-orb.orb-3 {
-	background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0) 70%);
+	background: radial-gradient(circle, rgb(59 130 246 / 0.3) 0%, rgb(59 130 246 / 0) 70%);
 }
 
 @keyframes float {
 	0%, 100% {
 		transform: translate(0, 0) scale(1);
 	}
+
 	50% {
 		transform: translate(-20px, -20px) scale(1.05);
 	}
 }
 
 /* 返回首页按钮 */
+
 /* Home button */
 .home-btn {
 	position: fixed;
 	top: 16px;
 	left: 16px;
 	z-index: 100;
-	background: rgba(255, 255, 255, 0.2);
-	border: 1px solid rgba(255, 255, 255, 0.3);
+	background: rgb(255 255 255 / 0.2);
+	border: 1px solid rgb(255 255 255 / 0.3);
 	backdrop-filter: blur(4px);
-	transition: all 0.3s ease;
+	transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .home-btn:hover {
-	background: rgba(255, 255, 255, 0.3);
+	background: rgb(255 255 255 / 0.3);
 	transform: scale(1.1);
 }
 
 /* 登录内容区域 */
+
 /* Login content area */
 .login-content {
 	position: relative;
@@ -150,25 +164,28 @@ html.dark .gradient-orb.orb-3 {
 }
 
 /* 登录卡片 */
+
 /* Login card */
 .login-card {
-	/* 玻璃模态背景 */
-	/* Glassmorphism background */
-	background: rgba(255, 255, 255, 0.15);
-	backdrop-filter: blur(10px);
-	-webkit-backdrop-filter: blur(10px);
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	border-radius: 20px;
 	padding: 32px 24px;
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+	/* 玻璃模态背景 */
+
+	/* Glassmorphism background */
+	background: rgb(255 255 255 / 0.15);
+	border: 1px solid rgb(255 255 255 / 0.2);
+	border-radius: 20px;
+	box-shadow: 0 8px 32px rgb(0 0 0 / 0.2);
+	backdrop-filter: blur(10px);
 	animation: slideUp 0.5s ease-out;
 }
 
 /* 深色模式下的登录卡片 */
+
 /* Login card in dark mode */
 html.dark .login-card {
-	background: rgba(0, 0, 0, 0.25);
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: rgb(0 0 0 / 0.25);
+	border: 1px solid rgb(255 255 255 / 0.1);
 }
 
 @keyframes slideUp {
@@ -176,6 +193,7 @@ html.dark .login-card {
 		opacity: 0;
 		transform: translateY(20px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -183,20 +201,21 @@ html.dark .login-card {
 }
 
 /* 卡片头部 */
+
 /* Card header */
 .card-header {
-	text-align: center;
 	margin-bottom: 28px;
+	text-align: center;
 }
 
 /* Logo */
 .logo {
 	width: 72px;
 	height: 72px;
-	object-fit: contain;
 	margin-bottom: 16px;
-	filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 	cursor: pointer;
+	object-fit: contain;
+	filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.3));
 	transition: transform 0.3s ease;
 }
 
@@ -205,21 +224,22 @@ html.dark .login-card {
 }
 
 .card-header h1 {
+	margin: 0 0 8px;
 	font-size: 22px;
 	font-weight: 700;
 	color: #fff;
-	margin: 0 0 8px 0;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+	text-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
 }
 
 .card-header .subtitle {
-	font-size: 14px;
-	color: rgba(255, 255, 255, 0.85);
 	margin: 0;
+	font-size: 14px;
+	color: rgb(255 255 255 / 0.85);
 	letter-spacing: 1px;
 }
 
 /* 登录表单 */
+
 /* Login form */
 .login-form {
 	margin-top: 8px;
@@ -234,40 +254,44 @@ html.dark .login-card {
 }
 
 /* 输入框组 */
+
 /* Input group */
 .input-group {
 	display: flex;
 	align-items: center;
-	/* 玻璃模态背景 */
-	/* Glassmorphism background */
-	background: rgba(255, 255, 255, 0.15);
-	backdrop-filter: blur(4px);
-	-webkit-backdrop-filter: blur(4px);
-	border-radius: 12px;
 	padding: 4px;
-	transition: all 0.3s ease;
-	border: 1px solid rgba(255, 255, 255, 0.1);
+
+	/* 玻璃模态背景 */
+
+	/* Glassmorphism background */
+	background: rgb(255 255 255 / 0.15);
+	border: 1px solid rgb(255 255 255 / 0.1);
+	border-radius: 12px;
+	backdrop-filter: blur(4px);
+	transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input-group:focus-within {
-	background: rgba(255, 255, 255, 0.25);
-	border-color: rgba(255, 255, 255, 0.3);
-	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+	background: rgb(255 255 255 / 0.25);
+	border-color: rgb(255 255 255 / 0.3);
+	box-shadow: 0 0 0 3px rgb(99 102 241 / 0.1);
 }
 
 /* 深色模式下的输入框组 */
+
 /* Input group in dark mode */
 html.dark .input-group {
-	background: rgba(0, 0, 0, 0.2);
-	border-color: rgba(255, 255, 255, 0.05);
+	background: rgb(0 0 0 / 0.2);
+	border-color: rgb(255 255 255 / 0.05);
 }
 
 html.dark .input-group:focus-within {
-	background: rgba(0, 0, 0, 0.3);
-	border-color: rgba(255, 255, 255, 0.15);
+	background: rgb(0 0 0 / 0.3);
+	border-color: rgb(255 255 255 / 0.15);
 }
 
 /* 输入框图标 */
+
 /* Input icon */
 .input-icon {
 	display: flex;
@@ -275,20 +299,21 @@ html.dark .input-group:focus-within {
 	justify-content: center;
 	width: 44px;
 	height: 44px;
-	color: rgba(255, 255, 255, 0.8);
 	font-size: 18px;
+	color: rgb(255 255 255 / 0.8);
 }
 
 /* 自定义输入框 */
+
 /* Custom input */
 .custom-input {
 	flex: 1;
 }
 
 .custom-input :deep(.el-input__wrapper) {
+	padding: 0 12px 0 0;
 	background: transparent;
 	box-shadow: none;
-	padding: 0 12px 0 0;
 }
 
 .custom-input :deep(.el-input__inner) {
@@ -298,22 +323,24 @@ html.dark .input-group:focus-within {
 }
 
 .custom-input :deep(.el-input__inner::placeholder) {
-	color: rgba(255, 255, 255, 0.6);
+	color: rgb(255 255 255 / 0.6);
 }
 
 /* 表单选项 */
+
 /* Form options */
 .form-options {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: 20px 0 24px 0;
+	margin: 20px 0 24px;
 }
 
 /* 记住我复选框 */
+
 /* Remember me checkbox */
 .remember-checkbox {
-	--el-checkbox-text-color: rgba(255, 255, 255, 0.9);
+	--el-checkbox-text-color: rgb(255 255 255 / 0.9);
 	--el-checkbox-font-size: 14px;
 }
 
@@ -327,27 +354,29 @@ html.dark .input-group:focus-within {
 }
 
 /* 登录按钮 */
+
 /* Login button */
 .login-button {
 	width: 100%;
 	height: 48px;
 	font-size: 16px;
 	font-weight: 600;
-	border-radius: 12px;
-	/* 玻璃模态背景 */
-	/* Glassmorphism background */
-	background: rgba(255, 255, 255, 0.2);
-	backdrop-filter: blur(4px);
-	-webkit-backdrop-filter: blur(4px);
-	border: 1px solid rgba(255, 255, 255, 0.3);
 	color: #fff;
-	transition: all 0.3s ease;
+
+	/* 玻璃模态背景 */
+
+	/* Glassmorphism background */
+	background: rgb(255 255 255 / 0.2);
+	border: 1px solid rgb(255 255 255 / 0.3);
+	border-radius: 12px;
+	backdrop-filter: blur(4px);
+	transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .login-button:hover {
+	background: rgb(255 255 255 / 0.3);
+	box-shadow: 0 10px 20px -5px rgb(0 0 0 / 0.3);
 	transform: translateY(-2px);
-	background: rgba(255, 255, 255, 0.3);
-	box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
 }
 
 .login-button:active {
@@ -356,30 +385,32 @@ html.dark .input-group:focus-within {
 
 .login-button.is-loading,
 .login-button.is-disabled {
-	opacity: 0.7;
 	cursor: not-allowed;
+	opacity: 0.7;
 }
 
 /* 卡片底部 */
+
 /* Card footer */
 .card-footer {
-	text-align: center;
-	margin-top: 24px;
 	padding-top: 20px;
-	border-top: 1px solid rgba(255, 255, 255, 0.15);
+	margin-top: 24px;
+	text-align: center;
+	border-top: 1px solid rgb(255 255 255 / 0.15);
 }
 
 /* 注册链接 */
+
 /* Register link */
 .register-link {
-	font-size: 14px;
-	color: rgba(255, 255, 255, 0.8);
 	margin: 0;
+	font-size: 14px;
+	color: rgb(255 255 255 / 0.8);
 }
 
 .register-link .link {
-	color: #fff;
 	font-weight: 600;
+	color: #fff;
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
@@ -389,8 +420,9 @@ html.dark .input-group:focus-within {
 }
 
 /* 响应式适配 - 小屏幕手机 */
+
 /* Responsive design - small screen phones */
-@media (max-width: 375px) {
+@media (width <= 375px) {
 	.login-container {
 		padding: 16px;
 	}
@@ -414,8 +446,9 @@ html.dark .input-group:focus-within {
 }
 
 /* 响应式适配 - 大屏幕手机 */
+
 /* Responsive design - large screen phones */
-@media (min-width: 414px) {
+@media (width >= 414px) {
 	.login-card {
 		padding: 36px 28px;
 	}
