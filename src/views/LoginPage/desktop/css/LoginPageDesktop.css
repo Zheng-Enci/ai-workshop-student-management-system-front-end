@@ -438,6 +438,9 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	/* 设置相对定位，使伪元素相对于此元素定位 */
+	/* Set relative positioning for pseudo-element positioning */
+	position: relative;
 	/* 右侧使用纯白背景（日间模式） */
 	/* Right side uses pure white background (light mode) */
 	background: #ffffff;
