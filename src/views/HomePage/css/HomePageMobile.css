@@ -1,6 +1,6 @@
 /* 首页容器样式 - 移动版 */
 /* 定义整个首页的基础布局和样式，针对移动设备优化 */
-.home-container {
+.home-page-mobile-container {
 	/* 相对定位，作为子元素的定位参考 */
 	position: relative;
 	/* 最小高度为视口高度，确保页面占满屏幕 */
@@ -17,7 +17,7 @@
 
 /* 主题切换按钮容器 */
 /* 固定在页面右上角，方便用户切换主题，移动版位置更紧凑 */
-.theme-toggle-container {
+.home-page-mobile-theme-toggle-container {
 	/* 固定定位，不随页面滚动 */
 	position: fixed;
 	/* 距离顶部16px，移动版使用较小的间距 */
@@ -30,7 +30,7 @@
 
 /* 主题切换图标样式 */
 /* 提供主题切换的视觉反馈和交互效果，移动版尺寸更小 */
-.theme-toggle-icon {
+.home-page-mobile-theme-toggle-icon {
 	/* 图标尺寸为40x40px，移动版使用较小的尺寸 */
 	width: 40px;
 	height: 40px;
@@ -54,21 +54,21 @@
 
 /* 主题切换图标悬停效果 */
 /* 鼠标悬停时放大图标，提供视觉反馈 */
-.theme-toggle-icon:hover {
+.home-page-mobile-theme-toggle-icon:hover {
 	/* 放大到1.15倍 */
 	transform: scale(1.15);
 }
 
 /* 主题切换图标激活效果 */
 /* 点击时稍微缩小，提供按压反馈 */
-.theme-toggle-icon:active {
+.home-page-mobile-theme-toggle-icon:active {
 	/* 放大到1.1倍 */
 	transform: scale(1.1);
 }
 
 /* 英雄区域样式 */
 /* 首页的主要展示区域，移动版使用顶部对齐布局 */
-.hero-section {
+.home-page-mobile-hero-section {
 	/* 使用弹性布局 */
 	display: flex;
 	/* 顶部对齐，移动版内容从顶部开始 */
@@ -83,7 +83,7 @@
 
 /* 英雄内容区域 */
 /* 移动版使用单列布局 */
-.hero-content {
+.home-page-mobile-hero-content {
 	/* 使用网格布局 */
 	display: grid;
 	/* 单列布局，移动版不进行分栏 */
@@ -100,14 +100,14 @@
 
 /* 英雄区域左侧内容 */
 /* 移动版内容居中显示 */
-.hero-left {
+.home-page-mobile-hero-left {
 	/* 文本居中对齐，移动版内容居中 */
 	text-align: center;
 }
 
 /* 英雄区域右侧内容 */
 /* 包含功能展示卡片 */
-.hero-right {
+.home-page-mobile-hero-right {
 	/* 块级显示 */
 	display: block;
 	/* 顶部外边距30px，与左侧内容保持间距 */
@@ -116,14 +116,14 @@
 
 /* Logo区域 */
 /* 包含Logo和标题 */
-.logo-section {
+.home-page-mobile-logo-section {
 	/* 底部外边距30px，移动版使用较小的间距 */
 	margin-bottom: 30px;
 }
 
 /* Logo容器 */
 /* 相对定位，用于放置Logo和光晕效果 */
-.logo-container {
+.home-page-mobile-logo-container {
 	/* 相对定位 */
 	position: relative;
 	/* 行内块级显示 */
@@ -134,7 +134,7 @@
 
 /* Logo光晕效果 */
 /* 在Logo周围添加脉冲动画光晕，增强视觉效果，移动版尺寸更小 */
-.logo-glow {
+.home-page-mobile-logo-glow {
 	/* 绝对定位，相对于logo-container */
 	position: absolute;
 	/* 垂直居中 */
@@ -144,8 +144,8 @@
 	/* 光晕尺寸100x100px，移动版使用较小的尺寸 */
 	width: 100px;
 	height: 100px;
-	/* 径向渐变，从中心向外扩散，颜色为半透明紫色 */
-	background: radial-gradient(circle, rgb(102 126 234 / 0.2) 0%, transparent 70%);
+	/* 径向渐变，从中心向外扩散，颜色为半透明主色（冰川青） */
+	background: radial-gradient(circle, rgb(62 158 172 / 0.3) 0%, transparent 70%);
 	/* 圆形 */
 	border-radius: 50%;
 	/* 居中定位 */
@@ -176,15 +176,15 @@
 
 /* 主标题样式 */
 /* 首页的主要标题，使用渐变文字效果，移动版字体更小 */
-.main-title {
+.home-page-mobile-main-title {
 	/* 外边距：上下0，底部8px，移动版使用较小的间距 */
 	margin: 0 0 8px;
 	/* 字体大小24px，移动版使用较小的字体 */
 	font-size: 24px;
 	/* 字体粗细700，加粗 */
 	font-weight: 700;
-	/* 渐变背景，从紫色到深紫色 */
-	background: linear-gradient(135deg, #667eea, #764ba2);
+	/* 渐变背景，使用项目主色渐变（冰川青到深空蓝） */
+	background: var(--primary-gradient);
 	/* 将背景裁剪到文字形状 */
 	background-clip: text;
 	/* WebKit浏览器中使文字透明，显示背景渐变 */
@@ -193,7 +193,7 @@
 
 /* 副标题样式 */
 /* 首页的副标题，提供补充信息，移动版添加左右边距 */
-.main-subtitle {
+.home-page-mobile-main-subtitle {
 	/* 外边距：上下0，左右10px，底部8px */
 	margin: 0 10px 8px;
 	/* 字体大小18px，移动版使用较小的字体 */
@@ -208,7 +208,7 @@
 
 /* 标语样式 */
 /* 首页的标语文字，使用斜体，移动版添加左右边距 */
-.tagline {
+.home-page-mobile-tagline {
 	/* 外边距：上下0，左右10px */
 	margin: 0 10px;
 	/* 字体大小12px，移动版使用较小的字体 */
@@ -225,7 +225,7 @@
 
 /* 描述区域 */
 /* 包含系统功能描述，移动版占满宽度 */
-.description-section {
+.home-page-mobile-description-section {
 	/* 最大宽度100%，移动版占满屏幕 */
 	max-width: 100%;
 	/* 左右内边距20px，移动版添加内边距 */
@@ -240,7 +240,7 @@
 
 /* 区域标题样式 */
 /* 用于各个功能区域的标题，移动版字体更小 */
-.section-title {
+.home-page-mobile-section-title {
 	/* 弹性布局 */
 	display: flex;
 	/* 元素间距10px，移动版使用较小的间距 */
@@ -263,7 +263,7 @@
 
 /* 区域标题中的图标 */
 /* Element Plus图标样式，移动版尺寸更小 */
-.section-title .el-icon {
+.home-page-mobile-section-title .el-icon {
 	/* 图标大小20px，移动版使用较小的尺寸 */
 	font-size: 20px;
 	/* 使用主色 */
@@ -272,7 +272,7 @@
 
 /* 描述文字样式 */
 /* 功能描述文本，移动版字体更小 */
-.description {
+.home-page-mobile-description {
 	/* 外边距0 */
 	margin: 0;
 	/* 字体大小14px，移动版使用较小的字体 */
@@ -287,8 +287,8 @@
 
 /* 操作按钮样式 */
 /* 主要操作按钮和环境保障机制按钮，移动版合并样式 */
-.action-button,
-.environment-policy-button {
+.home-page-mobile-action-button,
+.home-page-mobile-environment-policy-button {
 	/* 相对定位，用于伪元素定位 */
 	position: relative;
 	/* 弹性布局 */
@@ -317,15 +317,15 @@
 	border: none;
 	/* 圆角30px，移动版使用较大的圆角 */
 	border-radius: 30px;
-	/* 阴影效果，使用半透明紫色 */
-	box-shadow: 0 10px 28px rgb(102 126 234 / 0.3);
+	/* 阴影效果，使用半透明主色（冰川青） */
+	box-shadow: 0 10px 28px rgb(62 158 172 / 0.35);
 	/* 变换动画，使用缓动函数 */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 操作按钮光泽效果 */
 /* 主要操作按钮的光泽效果 */
-.action-button::before {
+.home-page-mobile-action-button::before {
 	/* 绝对定位 */
 	position: absolute;
 	/* 顶部对齐 */
@@ -348,7 +348,7 @@
 
 /* 功能展示区域 */
 /* 使用网格布局展示功能卡片，移动版两列布局 */
-.features-showcase {
+.home-page-mobile-features-showcase {
 	/* 网格布局 */
 	display: grid;
 	/* 两列等宽 */
@@ -359,7 +359,7 @@
 
 /* 功能卡片样式 */
 /* 单个功能展示卡片，移动版尺寸更紧凑 */
-.feature-card {
+.home-page-mobile-feature-card {
 	/* 相对定位，用于伪元素定位 */
 	position: relative;
 	/* 内边距：上下24px，左右20px，移动版使用较小的内边距 */
@@ -383,7 +383,7 @@
 
 /* 功能卡片顶部装饰条 */
 /* 悬停时显示的渐变装饰条，移动版高度更小 */
-.feature-card::before {
+.home-page-mobile-feature-card::before {
 	/* 绝对定位 */
 	position: absolute;
 	/* 顶部对齐 */
@@ -405,14 +405,14 @@
 }
 
 /* 功能卡片悬停时，装饰条展开 */
-.feature-card:hover::before {
+.home-page-mobile-feature-card:hover::before {
 	/* 横向缩放为1，完全显示 */
 	transform: scaleX(1);
 }
 
 /* 功能卡片悬停效果 */
 /* 鼠标悬停时提升卡片，增强阴影，移动版移动距离更小 */
-.feature-card:hover {
+.home-page-mobile-feature-card:hover {
 	/* 保持玻璃背景 */
 	background: var(--glass-bg);
 	/* 增强阴影效果 */
@@ -423,7 +423,7 @@
 
 /* 功能图标样式 */
 /* 功能卡片中的图标，移动版尺寸更小 */
-.feature-icon {
+.home-page-mobile-feature-icon {
 	/* 弹性布局 */
 	display: flex;
 	/* 垂直居中对齐 */
@@ -444,43 +444,43 @@
 }
 
 /* 主要功能卡片图标背景 */
-/* 使用紫色渐变 */
-.feature-card.primary .feature-icon {
-	/* 渐变背景，从浅紫色到深紫色 */
-	background: linear-gradient(135deg, #667eea, #764ba2);
+/* 使用项目主色渐变（冰川青到深空蓝） */
+.home-page-mobile-feature-card.primary .home-page-mobile-feature-icon {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 }
 
 /* 次要功能卡片图标背景 */
-/* 使用粉红色渐变 */
-.feature-card.secondary .feature-icon {
-	/* 渐变背景，从粉红色到红色 */
-	background: linear-gradient(135deg, #f093fb, #f5576c);
+/* 使用项目主色浅色渐变 */
+.home-page-mobile-feature-card.secondary .home-page-mobile-feature-icon {
+	/* 渐变背景，从浅冰川青到冰川青 */
+	background: linear-gradient(135deg, #5CB8C5, #3E9EAC);
 }
 
 /* 第三功能卡片图标背景 */
-/* 使用蓝色渐变 */
-.feature-card.tertiary .feature-icon {
-	/* 渐变背景，从蓝色到青色 */
-	background: linear-gradient(135deg, #4facfe, #00f2fe);
+/* 使用项目辅色渐变 */
+.home-page-mobile-feature-card.tertiary .home-page-mobile-feature-icon {
+	/* 渐变背景，从中深空蓝到深空蓝 */
+	background: linear-gradient(135deg, #2E5A8C, #1F4277);
 }
 
 /* 第四功能卡片图标背景 */
-/* 使用绿色渐变 */
-.feature-card.quaternary .feature-icon {
-	/* 渐变背景，从绿色到青色 */
-	background: linear-gradient(135deg, #43e97b, #38f9d7);
+/* 使用项目主色和辅色混合渐变 */
+.home-page-mobile-feature-card.quaternary .home-page-mobile-feature-icon {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #2E5A8C);
 }
 
 /* 第五功能卡片图标背景 */
-/* 使用青色渐变 */
-.feature-card.quinary .feature-icon {
-	/* 渐变背景，从青色到蓝色 */
-	background: linear-gradient(135deg, #00d4ff, #5b86e5);
+/* 使用项目辅色深色渐变 */
+.home-page-mobile-feature-card.quinary .home-page-mobile-feature-icon {
+	/* 渐变背景，从深空蓝到更深蓝色 */
+	background: linear-gradient(135deg, #1F4277, #0F2A4D);
 }
 
 /* 功能卡片标题 */
 /* 功能卡片中的标题，移动版字体更小 */
-.feature-card h3 {
+.home-page-mobile-feature-card h3 {
 	/* 外边距：上下0，底部10px，移动版使用较小的间距 */
 	margin: 0 0 10px;
 	/* 字体大小18px，移动版使用较小的字体 */
@@ -495,7 +495,7 @@
 
 /* 功能卡片段落 */
 /* 功能卡片中的描述文字，移动版字体更小 */
-.feature-card p {
+.home-page-mobile-feature-card p {
 	/* 外边距0 */
 	margin: 0;
 	/* 字体大小13px，移动版使用较小的字体 */
@@ -511,7 +511,7 @@
 
 /* 页脚样式 */
 /* 页面底部信息区域，移动版内边距更小 */
-.footer {
+.home-page-mobile-footer {
 	/* 内边距：上下24px，左右15px，移动版使用较小的内边距 */
 	padding: 24px 15px;
 	/* 白色文字 */
@@ -524,7 +524,7 @@
 
 /* 页脚内容容器 */
 /* 页脚内容的容器，移动版占满宽度 */
-.footer-content {
+.home-page-mobile-footer-content {
 	/* 最大宽度100%，移动版占满屏幕 */
 	max-width: 100%;
 	/* 左右自动外边距，实现居中 */
@@ -533,7 +533,7 @@
 
 /* 页脚内容段落 */
 /* 页脚中的文字，移动版使用较小的间距 */
-.footer-content p {
+.home-page-mobile-footer-content p {
 	/* 外边距：上下4px，左右0，移动版使用较小的间距 */
 	margin: 4px 0;
 	/* 透明度0.8 */
@@ -542,7 +542,7 @@
 
 /* 更新日志内容段落 */
 /* 更新日志对话框中的文字，移动版字体更小 */
-.update-content p {
+.home-page-mobile-update-content p {
 	/* 外边距0 */
 	margin: 0;
 	/* 字体大小13px，移动版使用较小的字体 */
@@ -555,7 +555,7 @@
 
 /* 摘要卡片段落 */
 /* 更新摘要中的文字，移动版字体更小 */
-.summary-card p {
+.home-page-mobile-summary-card p {
 	/* 外边距0 */
 	margin: 0;
 	/* 字体大小14px，移动版使用较小的字体 */
@@ -568,7 +568,7 @@
 
 /* 作者信息段落 */
 /* 更新日志中的作者信息，移动版字体更小 */
-.author-info p {
+.home-page-mobile-author-info p {
 	/* 外边距：上下5px，左右0 */
 	margin: 5px 0;
 	/* 字体大小14px */
@@ -581,7 +581,7 @@
 
 /* 政策内容段落 */
 /* 环境保障机制对话框中的文字，移动版字体更小 */
-.policy-content p {
+.home-page-mobile-policy-content p {
 	/* 外边距：上下0，底部14px，移动版使用较小的间距 */
 	margin: 0 0 14px;
 	/* 字体大小15px，移动版使用较小的字体 */
@@ -595,14 +595,14 @@
 
 /* 页脚内容第一段 */
 /* 较小的字体，移动版字体更小 */
-.footer-content p:first-child {
+.home-page-mobile-footer-content p:first-child {
 	/* 字体大小11px，移动版使用较小的字体 */
 	font-size: 11px;
 }
 
 /* 页脚内容最后一段 */
 /* 标准字体，移动版字体更小 */
-.footer-content p:last-child {
+.home-page-mobile-footer-content p:last-child {
 	/* 字体大小13px，移动版使用较小的字体 */
 	font-size: 13px;
 	/* 字体粗细600，半粗 */
@@ -611,7 +611,7 @@
 
 /* 更新日志对话框容器 */
 /* 更新日志对话框，移动版圆角更小 */
-.update-log-dialog {
+.home-page-mobile-update-log-dialog {
 	/* 隐藏溢出内容 */
 	overflow: hidden;
 	/* 圆角20px，移动版使用较小的圆角 */
@@ -620,7 +620,7 @@
 
 /* Element Plus对话框样式覆盖 */
 /* 移动版对话框宽度占满屏幕 */
-.update-log-dialog :deep(.el-dialog) {
+.home-page-mobile-update-log-dialog :deep(.el-dialog) {
 	/* 宽度95%，移动版对话框几乎占满屏幕 */
 	width: 95% !important;
 	/* 左右自动外边距，实现居中 */
@@ -635,7 +635,7 @@
 
 /* Element Plus对话框头部样式 */
 /* 移动版对话框头部内边距更小 */
-.update-log-dialog :deep(.el-dialog__header) {
+.home-page-mobile-update-log-dialog :deep(.el-dialog__header) {
 	/* 内边距：上下20px，左右24px，移动版使用较小的内边距 */
 	padding: 20px 24px;
 	/* 使用CSS变量设置玻璃背景 */
@@ -648,7 +648,7 @@
 
 /* Element Plus对话框标题样式 */
 /* 移动版对话框标题字体更小 */
-.update-log-dialog :deep(.el-dialog__title) {
+.home-page-mobile-update-log-dialog :deep(.el-dialog__title) {
 	/* 字体大小20px，移动版使用较小的字体 */
 	font-size: 20px;
 	/* 字体粗细600，半粗 */
@@ -664,7 +664,7 @@
 }
 
 /* Element Plus对话框主体样式 */
-.update-log-dialog :deep(.el-dialog__body) {
+.home-page-mobile-update-log-dialog :deep(.el-dialog__body) {
 	/* 无内边距 */
 	padding: 0;
 	/* 使用CSS变量设置背景色 */
@@ -673,7 +673,7 @@
 
 /* 更新日志内容区域 */
 /* 可滚动的更新日志列表，移动版内边距更小 */
-.update-log-content {
+.home-page-mobile-update-log-content {
 	/* 最大高度为视口高度的70% */
 	max-height: 70vh;
 	/* 内边距20px，移动版使用较小的内边距 */
@@ -684,21 +684,21 @@
 
 /* 更新日志区域 */
 /* 单个更新版本的区域，移动版间距更小 */
-.update-section {
+.home-page-mobile-update-section {
 	/* 底部外边距32px，移动版使用较小的间距 */
 	margin-bottom: 32px;
 }
 
 /* 最后一个更新日志区域 */
 /* 移除底部外边距 */
-.update-section:last-child {
+.home-page-mobile-update-section:last-child {
 	/* 底部外边距0 */
 	margin-bottom: 0;
 }
 
 /* 更新日志项目列表 */
 /* 使用网格布局，移动版间距更小 */
-.update-items {
+.home-page-mobile-update-items {
 	/* 网格布局 */
 	display: grid;
 	/* 单列布局 */
@@ -709,7 +709,7 @@
 
 /* 更新日志项目 */
 /* 单个更新日志条目，移动版尺寸更紧凑 */
-.update-item {
+.home-page-mobile-update-item {
 	/* 弹性布局 */
 	display: flex;
 	/* 元素间距14px，移动版使用较小的间距 */
@@ -732,7 +732,7 @@
 
 /* 更新日志项目悬停效果 */
 /* 鼠标悬停时提升项目，改变边框颜色，移动版移动距离更小 */
-.update-item:hover {
+.home-page-mobile-update-item:hover {
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color);
 	/* 增强阴影效果 */
@@ -743,7 +743,7 @@
 
 /* 更新日志图标 */
 /* 更新日志项目中的图标，移动版尺寸更小 */
-.update-icon {
+.home-page-mobile-update-icon {
 	/* 弹性布局 */
 	display: flex;
 	/* 不收缩 */
@@ -764,43 +764,43 @@
 }
 
 /* 主要更新图标背景 */
-/* 使用紫色渐变 */
-.update-icon.primary {
-	/* 渐变背景，从浅紫色到深紫色 */
-	background: linear-gradient(135deg, #667eea, #764ba2);
+/* 使用项目主色渐变（冰川青到深空蓝） */
+.home-page-mobile-update-icon.primary {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 }
 
 /* 次要更新图标背景 */
-/* 使用粉红色渐变 */
-.update-icon.secondary {
-	/* 渐变背景，从粉红色到红色 */
-	background: linear-gradient(135deg, #f093fb, #f5576c);
+/* 使用项目主色浅色渐变 */
+.home-page-mobile-update-icon.secondary {
+	/* 渐变背景，从浅冰川青到冰川青 */
+	background: linear-gradient(135deg, #5CB8C5, #3E9EAC);
 }
 
 /* 第三更新图标背景 */
-/* 使用蓝色渐变 */
-.update-icon.tertiary {
-	/* 渐变背景，从蓝色到青色 */
-	background: linear-gradient(135deg, #4facfe, #00f2fe);
+/* 使用项目辅色渐变 */
+.home-page-mobile-update-icon.tertiary {
+	/* 渐变背景，从中深空蓝到深空蓝 */
+	background: linear-gradient(135deg, #2E5A8C, #1F4277);
 }
 
 /* 第四更新图标背景 */
-/* 使用绿色渐变 */
-.update-icon.quaternary {
-	/* 渐变背景，从绿色到青色 */
-	background: linear-gradient(135deg, #43e97b, #38f9d7);
+/* 使用项目主色和辅色混合渐变 */
+.home-page-mobile-update-icon.quaternary {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #2E5A8C);
 }
 
 /* 更新日志内容区域 */
 /* 更新日志项目的文本内容 */
-.update-content {
+.home-page-mobile-update-content {
 	/* 弹性增长，占据剩余空间 */
 	flex: 1;
 }
 
 /* 更新日志内容标题 */
 /* 更新日志项目中的标题，移动版字体更小 */
-.update-content h4 {
+.home-page-mobile-update-content h4 {
 	/* 外边距：上下0，底部6px，移动版使用较小的间距 */
 	margin: 0 0 6px;
 	/* 字体大小16px，移动版使用较小的字体 */
@@ -813,7 +813,7 @@
 
 /* 更新摘要区域 */
 /* 更新日志的摘要部分，移动版间距更小 */
-.update-summary {
+.home-page-mobile-update-summary {
 	/* 顶部内边距28px，移动版使用较小的间距 */
 	padding-top: 28px;
 	/* 顶部外边距32px，移动版使用较小的间距 */
@@ -824,7 +824,7 @@
 
 /* 摘要卡片样式 */
 /* 更新摘要的卡片容器，移动版尺寸更紧凑 */
-.summary-card {
+.home-page-mobile-summary-card {
 	/* 内边距24px，移动版使用较小的内边距 */
 	padding: 24px;
 	/* 文本居中对齐 */
@@ -843,7 +843,7 @@
 
 /* 摘要卡片悬停效果 */
 /* 鼠标悬停时提升卡片，改变边框颜色，移动版移动距离更小 */
-.summary-card:hover {
+.home-page-mobile-summary-card:hover {
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color);
 	/* 增强阴影效果 */
@@ -854,7 +854,7 @@
 
 /* 摘要卡片标题 */
 /* 摘要卡片的标题，移动版字体更小 */
-.summary-card h3 {
+.home-page-mobile-summary-card h3 {
 	/* 弹性布局 */
 	display: flex;
 	/* 元素间距10px，移动版使用较小的间距 */
@@ -881,7 +881,7 @@
 
 /* 摘要卡片标题中的图标 */
 /* Element Plus图标样式，移动版尺寸更小 */
-.summary-card h3 .el-icon {
+.home-page-mobile-summary-card h3 .el-icon {
 	/* 图标大小20px，移动版使用较小的尺寸 */
 	font-size: 20px;
 	/* 使用主色 */
@@ -890,7 +890,7 @@
 
 /* 快速访问标签 */
 /* 快速访问功能的标签文字 */
-.quick-access-label {
+.home-page-mobile-quick-access-label {
 	/* 底部外边距8px */
 	margin-bottom: 8px;
 	/* 字体大小12px */
@@ -903,7 +903,7 @@
 
 /* 作者信息区域 */
 /* 更新日志中的作者信息 */
-.author-info {
+.home-page-mobile-author-info {
 	/* 顶部内边距15px */
 	padding-top: 15px;
 	/* 顶部外边距20px */
@@ -914,9 +914,9 @@
 
 /* 作者联系方式链接 */
 /* 作者联系信息的链接 */
-.author-contact {
-	/* 紫色文字 */
-	color: #667eea;
+.home-page-mobile-author-contact {
+	/* 使用项目主色（冰川青） */
+	color: var(--primary-color);
 	/* 无下划线 */
 	text-decoration: none;
 	/* 透明度动画 */
@@ -925,7 +925,7 @@
 
 /* 作者联系方式链接悬停效果 */
 /* 鼠标悬停时显示下划线，降低透明度 */
-.author-contact:hover {
+.home-page-mobile-author-contact:hover {
 	/* 显示下划线 */
 	text-decoration: underline;
 	/* 透明度0.8 */
@@ -934,7 +934,7 @@
 
 /* 作者链接列表 */
 /* 作者相关链接的容器 */
-.author-links {
+.home-page-mobile-author-links {
 	/* 弹性布局 */
 	display: flex;
 	/* 允许换行 */
@@ -948,9 +948,9 @@
 }
 
 /* 第一行链接 */
-.author-links a:nth-child(1),
-.author-links a:nth-child(2),
-.author-links a:nth-child(3) {
+.home-page-mobile-author-links a:nth-child(1),
+.home-page-mobile-author-links a:nth-child(2),
+.home-page-mobile-author-links a:nth-child(3) {
 	/* 第一行底部分割线 */
 	padding-bottom: 8px;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
@@ -958,11 +958,11 @@
 
 /* 作者链接 */
 /* 单个作者相关链接 */
-.author-link {
+.home-page-mobile-author-link {
 	/* 字体粗细500，中等 */
 	font-weight: 500;
-	/* 紫色文字 */
-	color: #667eea;
+	/* 使用项目主色（冰川青） */
+	color: var(--primary-color);
 	/* 无下划线 */
 	text-decoration: none;
 	/* 透明度动画 */
@@ -971,7 +971,7 @@
 
 /* 作者链接悬停效果 */
 /* 鼠标悬停时显示下划线，降低透明度 */
-.author-link:hover {
+.home-page-mobile-author-link:hover {
 	/* 显示下划线 */
 	text-decoration: underline;
 	/* 透明度0.8 */
@@ -980,7 +980,7 @@
 
 /* 日间模式下的footer样式调整 */
 /* 非暗色主题下的页脚样式 */
-html:not(.dark) .footer {
+html:not(.dark) .home-page-mobile-footer {
 	/* 深灰色文字 */
 	color: #333;
 	/* 浅灰色背景 */
@@ -989,7 +989,7 @@ html:not(.dark) .footer {
 
 /* 日间模式下的作者信息段落 */
 /* 非暗色主题下的作者信息文字 */
-html:not(.dark) .author-info p {
+html:not(.dark) .home-page-mobile-author-info p {
 	/* 深灰色文字 */
 	color: #333;
 	/* 完全不透明 */
@@ -998,15 +998,15 @@ html:not(.dark) .author-info p {
 
 /* 日间模式下的作者联系链接 */
 /* 非暗色主题下的作者链接颜色 */
-html:not(.dark) .author-contact,
-html:not(.dark) .author-link {
-	/* 保持紫色 */
-	color: #667eea;
+html:not(.dark) .home-page-mobile-author-contact,
+html:not(.dark) .home-page-mobile-author-link {
+	/* 使用项目主色（冰川青） */
+	color: var(--primary-color);
 }
 
 /* 环境保障机制对话框样式 */
 /* 环境保障机制说明对话框，移动版圆角更小 */
-.environment-policy-dialog {
+.home-page-mobile-environment-policy-dialog {
 	/* 隐藏溢出内容 */
 	overflow: hidden;
 	/* 圆角24px */
@@ -1015,7 +1015,7 @@ html:not(.dark) .author-link {
 
 /* 禁用环境保障机制弹窗过渡动画，避免闪烁 */
 /* Element Plus对话框包装器样式覆盖 */
-.environment-policy-dialog :deep(.el-dialog__wrapper) {
+.home-page-mobile-environment-policy-dialog :deep(.el-dialog__wrapper) {
 	/* 禁用过渡动画 */
 	transition: none !important;
 	/* 禁用动画 */
@@ -1023,7 +1023,7 @@ html:not(.dark) .author-link {
 }
 
 /* Element Plus对话框样式覆盖 */
-.environment-policy-dialog :deep(.el-dialog) {
+.home-page-mobile-environment-policy-dialog :deep(.el-dialog) {
 	/* 使用CSS变量设置背景色 */
 	background: var(--bg-primary);
 	/* 使用CSS变量设置玻璃边框 */
@@ -1039,7 +1039,7 @@ html:not(.dark) .author-link {
 }
 
 /* Element Plus对话框头部样式 */
-.environment-policy-dialog :deep(.el-dialog__header) {
+.home-page-mobile-environment-policy-dialog :deep(.el-dialog__header) {
 	/* 内边距：上下24px，左右32px */
 	padding: 24px 32px;
 	/* 使用CSS变量设置玻璃背景 */
@@ -1051,7 +1051,7 @@ html:not(.dark) .author-link {
 }
 
 /* Element Plus对话框标题样式 */
-.environment-policy-dialog :deep(.el-dialog__title) {
+.home-page-mobile-environment-policy-dialog :deep(.el-dialog__title) {
 	/* 字体大小24px */
 	font-size: 24px;
 	/* 字体粗细600，半粗 */
@@ -1067,7 +1067,7 @@ html:not(.dark) .author-link {
 }
 
 /* Element Plus对话框主体样式 */
-.environment-policy-dialog :deep(.el-dialog__body) {
+.home-page-mobile-environment-policy-dialog :deep(.el-dialog__body) {
 	/* 无内边距 */
 	padding: 0;
 	/* 使用CSS变量设置背景色 */
@@ -1076,7 +1076,7 @@ html:not(.dark) .author-link {
 
 /* 环境保障机制内容区域 */
 /* 可滚动的政策内容，移动版内边距更小 */
-.environment-policy-content {
+.home-page-mobile-environment-policy-content {
 	/* 最大高度为视口高度的75% */
 	max-height: 75vh;
 	/* 内边距24px，移动版使用较小的内边距 */
@@ -1087,28 +1087,28 @@ html:not(.dark) .author-link {
 
 /* 政策区域 */
 /* 单个政策条款的区域 */
-.policy-section {
+.home-page-mobile-policy-section {
 	/* 底部外边距40px */
 	margin-bottom: 40px;
 }
 
 /* 最后一个政策区域 */
 /* 移除底部外边距 */
-.policy-section:last-child {
+.home-page-mobile-policy-section:last-child {
 	/* 底部外边距0 */
 	margin-bottom: 0;
 }
 
 /* 政策内容区域 */
 /* 政策文本的容器，移动版内边距更小 */
-.policy-content {
+.home-page-mobile-policy-content {
 	/* 左侧内边距20px，用于缩进，移动版使用较小的内边距 */
 	padding-left: 20px;
 }
 
 /* 政策内容有序列表 */
 /* 编号列表样式，移动版字体更小 */
-.policy-content ol {
+.home-page-mobile-policy-content ol {
 	/* 左侧内边距20px，移动版使用较小的内边距 */
 	padding-left: 20px;
 	/* 外边距：上下0，底部14px，移动版使用较小的间距 */
@@ -1123,7 +1123,7 @@ html:not(.dark) .author-link {
 
 /* 政策内容无序列表 */
 /* 项目符号列表样式，移动版字体更小 */
-.policy-content ul {
+.home-page-mobile-policy-content ul {
 	/* 左侧内边距20px，移动版使用较小的内边距 */
 	padding-left: 20px;
 	/* 外边距：上下6px，底部14px，移动版使用较小的间距 */
@@ -1138,14 +1138,14 @@ html:not(.dark) .author-link {
 
 /* 政策内容列表项 */
 /* 列表中的单个项目，移动版间距更小 */
-.policy-content li {
+.home-page-mobile-policy-content li {
 	/* 底部外边距6px，移动版使用较小的间距 */
 	margin-bottom: 6px;
 }
 
 /* 政策内容嵌套无序列表 */
 /* 嵌套列表的样式，移动版内边距更小 */
-.policy-content ul ul {
+.home-page-mobile-policy-content ul ul {
 	/* 左侧内边距15px，移动版使用较小的内边距 */
 	padding-left: 15px;
 	/* 外边距：上下4px，左右0 */
@@ -1154,14 +1154,14 @@ html:not(.dark) .author-link {
 
 /* 政策内容加粗文字 */
 /* 强调文本 */
-.policy-content strong {
+.home-page-mobile-policy-content strong {
 	/* 使用CSS变量设置文本主色 */
 	color: var(--text-primary);
 }
 
 /* 环境保障机制按钮样式 */
 /* 用于打开环境保障机制对话框的按钮，移动版样式 */
-.environment-policy-button {
+.home-page-mobile-environment-policy-button {
 	/* 弹性布局 */
 	display: flex !important;
 	/* 元素间距6px */
@@ -1205,11 +1205,11 @@ html:not(.dark) .author-link {
 
 /* 环境保障机制按钮悬停效果 */
 /* 鼠标悬停时改变颜色和背景 */
-.environment-policy-button:hover {
+.home-page-mobile-environment-policy-button:hover {
 	/* 使用主色 */
 	color: var(--primary-color) !important;
-	/* 半透明紫色背景 */
-	background: rgb(102 126 234 / 0.15) !important;
+	/* 半透明主色背景（冰川青） */
+	background: rgb(62 158 172 / 0.15) !important;
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color) !important;
 	/* 增强阴影效果 */
@@ -1220,7 +1220,7 @@ html:not(.dark) .author-link {
 
 /* 环境保障机制按钮激活效果 */
 /* 点击时恢复原位置 */
-.environment-policy-button:active {
+.home-page-mobile-environment-policy-button:active {
 	/* 恢复阴影 */
 	box-shadow: 0 4px 20px var(--shadow-color) !important;
 	/* 恢复原位置 */
@@ -1232,15 +1232,15 @@ html:not(.dark) .author-link {
 @media screen and (width <= 480px) {
 	/* 操作按钮区域 */
 	/* 小屏幕下按钮垂直排列 */
-	.action-section {
+	.home-page-mobile-action-section {
 		/* 垂直方向排列 */
 		flex-direction: column;
 	}
 
 	/* 操作按钮和环境保障机制按钮 */
 	/* 小屏幕下按钮占满宽度 */
-	.action-button,
-	.environment-policy-button {
+	.home-page-mobile-action-button,
+	.home-page-mobile-environment-policy-button {
 		/* 宽度100%，占满容器 */
 		width: 100%;
 		/* 无最大宽度限制 */
@@ -1287,62 +1287,61 @@ html:not(.dark) .author-link {
 }
 
 /* 应用动画到主题切换按钮 */
-.theme-toggle-container {
+.home-page-mobile-theme-toggle-container {
 	animation: fadeInDown 0.6s ease-out;
 }
 
 /* 应用动画到英雄区域 */
-.hero-section {
+.home-page-mobile-hero-section {
 	animation: fadeInUp 0.8s ease-out;
 }
 
 /* 应用动画到标题 */
-.hero-title {
+.home-page-mobile-hero-title {
 	animation: fadeInDown 0.6s ease-out 0.2s both;
 }
 
 /* 应用动画到副标题 */
-.hero-subtitle {
+.home-page-mobile-hero-subtitle {
 	animation: fadeInDown 0.6s ease-out 0.3s both;
 }
 
 /* 应用动画到快捷入口标签 */
-.hero-right .quick-access-label {
+.home-page-mobile-hero-right .home-page-mobile-quick-access-label {
 	animation: fadeInUp 0.6s ease-out 0.4s both;
 }
 
 /* 应用动画到功能卡片 - 数据看板 */
-.hero-right .feature-card.primary {
+.home-page-mobile-hero-right .home-page-mobile-feature-card.primary {
 	animation: fadeInUp 0.5s ease-out 0.5s both;
 }
 
 /* 应用动画到功能卡片 - 超级管理员系统 */
-.hero-right .feature-card.secondary {
+.home-page-mobile-hero-right .home-page-mobile-feature-card.secondary {
 	animation: fadeInUp 0.5s ease-out 0.6s both;
 }
 
 /* 应用动画到功能卡片 - 积分看板 */
-.hero-right .feature-card.tertiary {
+.home-page-mobile-hero-right .home-page-mobile-feature-card.tertiary {
 	animation: fadeInUp 0.5s ease-out 0.7s both;
 }
 
 /* 应用动画到功能卡片 - 全部成员 */
-.hero-right .feature-card.quaternary {
+.home-page-mobile-hero-right .home-page-mobile-feature-card.quaternary {
 	animation: fadeInUp 0.5s ease-out 0.8s both;
 }
 
 /* 应用动画到功能卡片 - 考勤分析 */
-.hero-right .feature-card.quinary {
+.home-page-mobile-hero-right .home-page-mobile-feature-card.quinary {
 	animation: fadeInUp 0.5s ease-out 0.9s both;
 }
 
 /* 应用动画到操作按钮 */
-.action-section {
+.home-page-mobile-action-section {
 	animation: fadeInUp 0.6s ease-out 0.9s both;
 }
 
 /* 应用动画到页脚 */
-.footer {
+.home-page-mobile-footer {
 	animation: fadeInUp 0.8s ease-out 1s both;
 }
-

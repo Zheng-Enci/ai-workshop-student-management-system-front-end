@@ -181,35 +181,35 @@ onMounted(() => {
 
 <template>
 	<!-- 移动端首页容器 -->
-	<div class="home-container">
+	<div class="home-page-mobile-container">
 		<!-- 主题切换按钮区域 -->
-		<div class="theme-toggle-container">
+		<div class="home-page-mobile-theme-toggle-container">
 			<img
 				src="@/assets/AiWorkShop_icon.png"
 				alt="AI坊"
-				class="theme-toggle-icon"
+				class="home-page-mobile-theme-toggle-icon"
 				title="切换主题模式"
 				@click="toggleTheme"
 			/>
 		</div>
 
 		<!-- 主内容区域 -->
-		<div class="hero-section">
-			<div class="hero-content">
+		<div class="home-page-mobile-hero-section">
+			<div class="home-page-mobile-hero-content">
 				<!-- 左侧:Logo和系统介绍 -->
-				<div class="hero-left">
-					<div class="logo-section">
-						<div class="logo-container">
-							<div class="logo-glow"/>
+				<div class="home-page-mobile-hero-left">
+					<div class="home-page-mobile-logo-section">
+						<div class="home-page-mobile-logo-container">
+							<div class="home-page-mobile-logo-glow"/>
 						</div>
-						<h1 class="main-title">厦门工学院人工智能创作坊</h1>
-						<p class="main-subtitle">学生管理系统</p>
-						<p class="tagline">-- 世界很大 AI无限</p>
+						<h1 class="home-page-mobile-main-title">厦门工学院人工智能创作坊</h1>
+						<p class="home-page-mobile-main-subtitle">学生管理系统</p>
+						<p class="home-page-mobile-tagline">-- 世界很大 AI无限</p>
 					</div>
 
-					<div class="description-section">
-						<h2 class="section-title">欢迎使用AI坊学生管理系统</h2>
-						<p class="description">
+					<div class="home-page-mobile-description-section">
+						<h2 class="home-page-mobile-section-title">欢迎使用AI坊学生管理系统</h2>
+						<p class="home-page-mobile-description">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;厦门工学院人工智能创作坊（
 							<strong style="color: #ff6b6b;">AI坊</strong>）是学校根据智能学科发展特点，结合社会实际需求，
 							依托人工智能学院雄厚师资力量而成立的实践创作基地。
@@ -217,7 +217,7 @@ onMounted(() => {
 							<strong style="color: #4ecdc4;">学习</strong>、<strong style="color: #45b7d1;">研发</strong>、
 							<strong style="color: #96ceb4;">展示推广</strong>于一体的创新平台。
 						</p>
-						<p class="description">
+						<p class="home-page-mobile-description">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们以前沿特色项目实践为导向，着重培养学生的
 							<strong style="color: #f39c12;">AI实践应用能力</strong>与
 							<strong style="color: #9b59b6;">学科综合素养</strong>。同时，
@@ -230,7 +230,7 @@ onMounted(() => {
 					</div>
 
 					<!-- 操作按钮区域 -->
-					<div class="action-section">
+					<div class="home-page-mobile-action-section">
 						<el-button
 							type="primary"
 							size="large"
@@ -246,12 +246,12 @@ onMounted(() => {
 				</div>
 
 				<!-- 右侧:快捷入口功能卡片 -->
-				<div class="hero-right">
-					<div class="quick-access-label">快捷入口</div>
-					<div class="features-showcase">
+				<div class="home-page-mobile-hero-right">
+					<div class="home-page-mobile-quick-access-label">快捷入口</div>
+					<div class="home-page-mobile-features-showcase">
 						<!-- 数据看板入口 -->
-						<div class="feature-card primary" @click="goToDashboard">
-							<div class="feature-icon">
+						<div class="home-page-mobile-feature-card primary" @click="goToDashboard">
+							<div class="home-page-mobile-feature-icon">
 								<el-icon><trend-charts /></el-icon>
 							</div>
 							<h3>数据看板</h3>
@@ -259,8 +259,8 @@ onMounted(() => {
 						</div>
 
 						<!-- 超级管理员系统入口 -->
-						<div class="feature-card secondary" @click="goToAdminSystem">
-							<div class="feature-icon">
+						<div class="home-page-mobile-feature-card secondary" @click="goToAdminSystem">
+							<div class="home-page-mobile-feature-icon">
 								<el-icon><lock /></el-icon>
 							</div>
 							<h3>超级管理员系统</h3>
@@ -268,8 +268,8 @@ onMounted(() => {
 						</div>
 
 						<!-- 积分看板入口 -->
-						<div class="feature-card tertiary" @click="goToPointsDashboard">
-							<div class="feature-icon">
+						<div class="home-page-mobile-feature-card tertiary" @click="goToPointsDashboard">
+							<div class="home-page-mobile-feature-icon">
 								<el-icon><star /></el-icon>
 							</div>
 							<h3>积分看板</h3>
@@ -277,8 +277,8 @@ onMounted(() => {
 						</div>
 
 						<!-- 全部成员入口 -->
-						<div class="feature-card quaternary" @click="goToAllMembers">
-							<div class="feature-icon">
+						<div class="home-page-mobile-feature-card quaternary" @click="goToAllMembers">
+							<div class="home-page-mobile-feature-icon">
 								<el-icon><user /></el-icon>
 							</div>
 							<h3>全部成员</h3>
@@ -286,8 +286,8 @@ onMounted(() => {
 						</div>
 
 						<!-- 考勤分析入口 -->
-						<div class="feature-card quinary" @click="goToAttendanceAnalysis">
-							<div class="feature-icon">
+						<div class="home-page-mobile-feature-card quinary" @click="goToAttendanceAnalysis">
+							<div class="home-page-mobile-feature-icon">
 								<el-icon><trend-charts /></el-icon>
 							</div>
 							<h3>考勤分析</h3>
@@ -299,17 +299,17 @@ onMounted(() => {
 		</div>
 
 		<!-- 页脚信息 -->
-		<div class="footer">
-			<div class="footer-content">
-				<div class="author-info">
+		<div class="home-page-mobile-footer">
+			<div class="home-page-mobile-footer-content">
+				<div class="home-page-mobile-author-info">
 					<p>项目作者：郑恩赐</p>
-					<div class="author-links">
-						<span class="author-contact">📧 zheng_enci@qq.com</span>
-						<a href="https://gitee.com/zheng-enci050704" target="_blank" class="author-link">🔗 Gitee</a>
-						<a href="https://juejin.cn/user/2883382090934252" target="_blank" class="author-link">📝 掘金</a>
-						<a href="https://blog.csdn.net/2301_79239314" target="_blank" class="author-link">📄 CSDN</a>
-						<a href="https://github.com/Zheng-Enci" target="_blank" class="author-link">🌐 GitHub</a>
-						<a href="https://gitcode.com/ZhengEnCi" target="_blank" class="author-link">💻 GitCode</a>
+					<div class="home-page-mobile-author-links">
+						<span class="home-page-mobile-author-contact">📧 zheng_enci@qq.com</span>
+						<a href="https://gitee.com/zheng-enci050704" target="_blank" class="home-page-mobile-author-link">🔗 Gitee</a>
+						<a href="https://juejin.cn/user/2883382090934252" target="_blank" class="home-page-mobile-author-link">📝 掘金</a>
+						<a href="https://blog.csdn.net/2301_79239314" target="_blank" class="home-page-mobile-author-link">📄 CSDN</a>
+						<a href="https://github.com/Zheng-Enci" target="_blank" class="home-page-mobile-author-link">🌐 GitHub</a>
+						<a href="https://gitcode.com/ZhengEnCi" target="_blank" class="home-page-mobile-author-link">💻 GitCode</a>
 					</div>
 				</div>
 			</div>
@@ -322,29 +322,29 @@ onMounted(() => {
 			title="系统更新日志"
 			width="95%"
 			:before-close="handleClose"
-			class="update-log-dialog"
+			class="home-page-mobile-update-log-dialog"
 		>
-			<div class="update-log-content">
-				<div class="update-section">
-					<h3 class="section-title">
+			<div class="home-page-mobile-update-log-content">
+				<div class="home-page-mobile-update-section">
+					<h3 class="home-page-mobile-section-title">
 						<el-icon><trophy /></el-icon>
 						积分看板功能
 					</h3>
-					<div class="update-items">
-						<div class="update-item">
-							<div class="update-icon primary">
+					<div class="home-page-mobile-update-items">
+						<div class="home-page-mobile-update-item">
+							<div class="home-page-mobile-update-icon primary">
 								<el-icon><trend-charts /></el-icon>
 							</div>
-							<div class="update-content">
+							<div class="home-page-mobile-update-content">
 								<h4>增加了积分看板页面</h4>
 								<p>新增积分看板页面,展示学生积分排行榜和优秀成员信息,支持签到积分、活动积分和总积分三种排行榜查看,提供数据可视化图表展示</p>
 							</div>
 						</div>
-						<div class="update-item">
-							<div class="update-icon secondary">
+						<div class="home-page-mobile-update-item">
+							<div class="home-page-mobile-update-icon secondary">
 								<el-icon><star /></el-icon>
 							</div>
-							<div class="update-content">
+							<div class="home-page-mobile-update-content">
 								<h4>增加积分功能</h4>
 								<p>实现完整的积分系统,包括签到积分计算、活动积分记录、总积分统计等功能,支持积分排行榜展示和优秀成员展示</p>
 							</div>
@@ -352,8 +352,8 @@ onMounted(() => {
 					</div>
 				</div>
 
-				<div class="update-summary">
-					<div class="summary-card">
+				<div class="home-page-mobile-update-summary">
+					<div class="home-page-mobile-summary-card">
 						<h3>
 							<el-icon><trophy /></el-icon>
 							更新总结
@@ -385,20 +385,20 @@ onMounted(() => {
 			:append-to-body="true"
 			:teleported="true"
 			modal-class="environment-policy-overlay"
-			class="environment-policy-dialog"
+			class="home-page-mobile-environment-policy-dialog"
 	>
 			<!-- 环境保障机制内容容器 -->
-			<div class="environment-policy-content">
+			<div class="home-page-mobile-environment-policy-content">
 				<!-- ======================== 第一章：总则 ======================== -->
-				<div class="policy-section">
+				<div class="home-page-mobile-policy-section">
 					<!-- 章节标题 -->
-					<h3 class="section-title">
+					<h3 class="home-page-mobile-section-title">
 						<!-- 办公楼图标：表示规章制度 -->
 						<el-icon><office-building /></el-icon>
 						第一章 总则
 					</h3>
 					<!-- 章节内容 -->
-					<div class="policy-content">
+					<div class="home-page-mobile-policy-content">
 						<!-- 第一条：制定目的 -->
 						<p>
 							<strong>第一条 目的：</strong>为保障厦门工学院人工智能创作坊（以下简称"创作坊"）拥有整洁、舒适、安全、高效的工作与学习环境，
@@ -412,15 +412,15 @@ onMounted(() => {
 				</div>
 
 				<!-- ======================== 第二章：日常行为规范 ======================== -->
-				<div class="policy-section">
+				<div class="home-page-mobile-policy-section">
 					<!-- 章节标题 -->
-					<h3 class="section-title">
+					<h3 class="home-page-mobile-section-title">
 						<!-- 办公楼图标：表示规章制度 -->
 						<el-icon><office-building /></el-icon>
 						第二章 日常行为规范
 					</h3>
 					<!-- 章节内容 -->
-					<div class="policy-content">
+					<div class="home-page-mobile-policy-content">
 						<!-- 第四条：个人工位区域管理 -->
 						<p><strong>第四条 个人工位区域（桌椅）管理：</strong></p>
 						<!-- 有序列表：说明具体规范 -->
@@ -506,15 +506,15 @@ onMounted(() => {
 				</div>
 
 				<!-- ======================== 第三章：责任分工与监督机制 ======================== -->
-				<div class="policy-section">
+				<div class="home-page-mobile-policy-section">
 					<!-- 章节标题 -->
-					<h3 class="section-title">
+					<h3 class="home-page-mobile-section-title">
 						<!-- 办公楼图标：表示规章制度 -->
 						<el-icon><office-building /></el-icon>
 						第三章 责任分工与监督机制
 					</h3>
 					<!-- 章节内容 -->
-					<div class="policy-content">
+					<div class="home-page-mobile-policy-content">
 						<!-- 第七条：使用者责任 -->
 						<p>
 							<strong>第七条 使用者责任：</strong>每位使用者是自身使用区域（工位及周边）和所使用公共设备的第一卫生责任人，必须严格遵守第二章各项规范。
@@ -542,4 +542,3 @@ onMounted(() => {
 		</el-dialog>
 	</div>
 </template>
-

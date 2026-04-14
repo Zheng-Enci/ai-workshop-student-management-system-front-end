@@ -1,7 +1,7 @@
 /* 首页容器样式 - 桌面版 */
 
 /* 定义整个首页的基础布局和样式 */
-.home-container {
+.home-page-desktop-container {
 	/* 相对定位，作为子元素的定位参考 */
 	position: relative;
 
@@ -24,7 +24,7 @@
 /* 主题切换按钮容器 */
 
 /* 固定在页面右上角，方便用户切换主题 */
-.theme-toggle-container {
+.home-page-desktop-theme-toggle-container {
 	/* 固定定位，不随页面滚动 */
 	position: fixed;
 
@@ -41,7 +41,7 @@
 /* 主题切换图标样式 */
 
 /* 提供主题切换的视觉反馈和交互效果 */
-.theme-toggle-icon {
+.home-page-desktop-theme-toggle-icon {
 	/* 图标尺寸为56x56px */
 	width: 56px;
 	height: 56px;
@@ -77,7 +77,7 @@
 /* 主题切换图标悬停效果 */
 
 /* 鼠标悬停时放大图标，提供视觉反馈 */
-.theme-toggle-icon:hover {
+.home-page-desktop-theme-toggle-icon:hover {
 	/* 放大到1.15倍 */
 	transform: scale(1.15);
 }
@@ -85,7 +85,7 @@
 /* 主题切换图标激活效果 */
 
 /* 点击时稍微缩小，提供按压反馈 */
-.theme-toggle-icon:active {
+.home-page-desktop-theme-toggle-icon:active {
 	/* 放大到1.1倍 */
 	transform: scale(1.1);
 }
@@ -93,7 +93,7 @@
 /* 英雄区域样式 */
 
 /* 首页的主要展示区域，包含标题、描述和操作按钮 */
-.hero-section {
+.home-page-desktop-hero-section {
 	/* 使用弹性布局 */
 	display: flex;
 
@@ -113,7 +113,7 @@
 /* 英雄内容区域 */
 
 /* 使用网格布局，左右分栏显示内容 */
-.hero-content {
+.home-page-desktop-hero-content {
 	/* 使用网格布局 */
 	display: grid;
 
@@ -136,7 +136,7 @@
 /* 英雄区域左侧内容 */
 
 /* 包含标题、副标题和描述文字 */
-.hero-left {
+.home-page-desktop-hero-left {
 	/* 文本左对齐 */
 	text-align: left;
 }
@@ -144,7 +144,7 @@
 /* 英雄区域右侧内容 */
 
 /* 包含功能展示卡片 */
-.hero-right {
+.home-page-desktop-hero-right {
 	/* 块级显示 */
 	display: block;
 }
@@ -152,7 +152,7 @@
 /* Logo区域 */
 
 /* 包含Logo和标题 */
-.logo-section {
+.home-page-desktop-logo-section {
 	/* 底部外边距40px */
 	margin-bottom: 40px;
 }
@@ -160,7 +160,7 @@
 /* Logo容器 */
 
 /* 相对定位，用于放置Logo和光晕效果 */
-.logo-container {
+.home-page-desktop-logo-container {
 	/* 相对定位 */
 	position: relative;
 
@@ -174,7 +174,7 @@
 /* Logo光晕效果 */
 
 /* 在Logo周围添加脉冲动画光晕，增强视觉效果 */
-.logo-glow {
+.home-page-desktop-logo-glow {
 	/* 绝对定位，相对于logo-container */
 	position: absolute;
 
@@ -188,8 +188,8 @@
 	width: 140px;
 	height: 140px;
 
-	/* 径向渐变，从中心向外扩散，颜色为半透明紫色 */
-	background: radial-gradient(circle, rgb(102 126 234 / 0.2) 0%, transparent 70%);
+	/* 径向渐变，从中心向外扩散，颜色为半透明主色（冰川青） */
+	background: radial-gradient(circle, rgb(62 158 172 / 0.3) 0%, transparent 70%);
 
 	/* 圆形 */
 	border-radius: 50%;
@@ -227,7 +227,7 @@
 /* 主标题样式 */
 
 /* 首页的主要标题，使用渐变文字效果 */
-.main-title {
+.home-page-desktop-main-title {
 	/* 外边距：上下0，底部10px */
 	margin: 0 0 10px;
 
@@ -237,8 +237,8 @@
 	/* 字体粗细700，加粗 */
 	font-weight: 700;
 
-	/* 渐变背景，从紫色到深紫色 */
-	background: linear-gradient(135deg, #667eea, #764ba2);
+	/* 渐变背景，使用项目主色渐变（冰川青到深空蓝） */
+	background: var(--primary-gradient);
 
 	/* 将背景裁剪到文字形状 */
 	background-clip: text;
@@ -250,7 +250,7 @@
 /* 副标题样式 */
 
 /* 首页的副标题，提供补充信息 */
-.main-subtitle {
+.home-page-desktop-main-subtitle {
 	/* 外边距：上下0，底部15px */
 	margin: 0 0 15px;
 
@@ -267,7 +267,7 @@
 /* 标语样式 */
 
 /* 首页的标语文字，使用斜体 */
-.tagline {
+.home-page-desktop-tagline {
 	/* 外边距0 */
 	margin: 0;
 
@@ -284,7 +284,7 @@
 /* 描述区域 */
 
 /* 包含系统功能描述 */
-.description-section {
+.home-page-desktop-description-section {
 	/* 最大宽度600px，限制文本宽度以提高可读性 */
 	max-width: 600px;
 
@@ -297,7 +297,7 @@
 /* 区域标题样式 */
 
 /* 用于各个功能区域的标题 */
-.section-title {
+.home-page-desktop-section-title {
 	/* 弹性布局 */
 	display: flex;
 
@@ -329,7 +329,7 @@
 /* 区域标题中的图标 */
 
 /* Element Plus图标样式 */
-.section-title .el-icon {
+.home-page-desktop-section-title .el-icon {
 	/* 图标大小24px */
 	font-size: 24px;
 
@@ -340,7 +340,7 @@
 /* 描述文字样式 */
 
 /* 功能描述文本 */
-.description {
+.home-page-desktop-description {
 	/* 外边距0 */
 	margin: 0;
 
@@ -357,7 +357,7 @@
 /* 操作按钮区域 */
 
 /* 包含主要操作按钮 */
-.action-section {
+.home-page-desktop-action-section {
 	/* 弹性布局 */
 	display: flex;
 
@@ -403,7 +403,7 @@
 /* 基础按钮样式（低优先级，先声明） */
 
 /* 主要操作按钮的基础样式 */
-.action-button {
+.home-page-desktop-action-button {
 	/* 相对定位，用于伪元素定位 */
 	position: relative !important;
 
@@ -458,8 +458,8 @@
 	/* 圆角20px */
 	border-radius: 20px !important;
 
-	/* 阴影效果，使用半透明紫色 */
-	box-shadow: 0 4px 14px rgb(102 126 234 / 0.25) !important;
+	/* 阴影效果，使用半透明主色（冰川青） */
+	box-shadow: 0 4px 14px rgb(62 158 172 / 0.3) !important;
 
 	/* 变换动画，使用缓动函数 */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -474,7 +474,7 @@
 /* 环境保障机制按钮样式 */
 
 /* 用于打开环境保障机制对话框的按钮 */
-.environment-policy-button {
+.home-page-desktop-environment-policy-button {
 	/* 弹性布局 */
 	display: flex !important;
 
@@ -543,7 +543,7 @@
 /* 按钮伪元素/hover 样式（高优先级，后声明） */
 
 /* 主要操作按钮的光泽效果 */
-.action-button::before {
+.home-page-desktop-action-button::before {
 	/* 绝对定位 */
 	position: absolute;
 
@@ -573,7 +573,7 @@
 }
 
 /* 按钮悬停时，光泽效果从左到右移动 */
-.action-button:hover::before {
+.home-page-desktop-action-button:hover::before {
 	/* 移动到右侧外部 */
 	transform: translateX(100%);
 }
@@ -581,9 +581,9 @@
 /* 主要操作按钮悬停效果 */
 
 /* 鼠标悬停时提升按钮，增强阴影 */
-.action-button:hover {
-	/* 增强阴影效果 */
-	box-shadow: 0 6px 18px rgb(102 126 234 / 0.35) !important;
+.home-page-desktop-action-button:hover {
+	/* 增强阴影效果，使用主色（冰川青） */
+	box-shadow: 0 6px 18px rgb(62 158 172 / 0.4) !important;
 
 	/* 向上移动1px，提供提升感 */
 	transform: translateY(-1px) !important;
@@ -593,12 +593,12 @@
 /* 环境保障机制按钮悬停效果 */
 
 /* 鼠标悬停时改变颜色和背景 */
-.environment-policy-button:hover {
+.home-page-desktop-environment-policy-button:hover {
 	/* 使用主色 */
 	color: var(--primary-color) !important;
 
-	/* 半透明紫色背景 */
-	background: rgb(102 126 234 / 0.15) !important;
+	/* 半透明主色背景（冰川青） */
+	background: rgb(62 158 172 / 0.15) !important;
 
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color) !important;
@@ -613,7 +613,7 @@
 /* 环境保障机制按钮激活效果 */
 
 /* 点击时恢复原位置 */
-.environment-policy-button:active {
+.home-page-desktop-environment-policy-button:active {
 	/* 恢复阴影 */
 	box-shadow: 0 4px 20px var(--shadow-color) !important;
 
@@ -625,7 +625,7 @@
 /* 普通文本/卡片样式（低优先级，先声明） */
 
 /* 更新日志内容标题 */
-.update-content h4 {
+.home-page-desktop-update-content h4 {
 	/* 外边距：上下0，底部8px */
 	margin: 0 0 8px;
 
@@ -640,7 +640,7 @@
 }
 
 /* 更新日志内容段落 */
-.update-content p {
+.home-page-desktop-update-content p {
 	/* 外边距0 */
 	margin: 0;
 
@@ -655,7 +655,7 @@
 }
 
 /* 摘要卡片标题 */
-.summary-card h3 {
+.home-page-desktop-summary-card h3 {
 	/* 弹性布局 */
 	display: flex;
 
@@ -691,7 +691,7 @@
 }
 
 /* 摘要卡片段落 */
-.summary-card p {
+.home-page-desktop-summary-card p {
 	/* 外边距0 */
 	margin: 0;
 
@@ -706,7 +706,7 @@
 }
 
 /* 政策内容段落 */
-.policy-content p {
+.home-page-desktop-policy-content p {
 	/* 外边距：上下0，底部16px */
 	margin: 0 0 16px;
 
@@ -722,7 +722,7 @@
 
 
 /* 作者信息段落 */
-.author-info p {
+.home-page-desktop-author-info p {
 	/* 外边距：上下5px，左右0 */
 	margin: 5px 0;
 
@@ -737,7 +737,7 @@
 }
 
 /* 功能卡片标题 */
-.feature-card h3 {
+.home-page-desktop-feature-card h3 {
 	/* 外边距：上下0，底部12px */
 	margin: 0 0 12px;
 
@@ -755,7 +755,7 @@
 }
 
 /* 功能卡片段落 */
-.feature-card p {
+.home-page-desktop-feature-card p {
 	/* 外边距0 */
 	margin: 0;
 
@@ -774,7 +774,7 @@
 
 
 /* 页脚内容段落 */
-.footer-content p {
+.home-page-desktop-footer-content p {
 	/* 外边距：上下5px，左右0 */
 	margin: 5px 0;
 
@@ -788,15 +788,15 @@
 /* 按钮内图标样式（统一优先级） */
 
 /* Element Plus图标在按钮中的样式 */
-.action-button .el-icon,
-.environment-policy-button .el-icon {
+.home-page-desktop-action-button .el-icon,
+.home-page-desktop-environment-policy-button .el-icon {
 	font-size: 18px;
 }
 
 /* 功能展示区域 */
 
 /* 使用网格布局展示功能卡片 */
-.features-showcase {
+.home-page-desktop-features-showcase {
 	/* 网格布局 */
 	display: grid;
 
@@ -810,7 +810,7 @@
 /* 功能卡片样式 */
 
 /* 单个功能展示卡片 */
-.feature-card {
+.home-page-desktop-feature-card {
 	/* 相对定位，用于伪元素定位 */
 	position: relative;
 
@@ -845,7 +845,7 @@
 /* 功能卡片激活效果 */
 
 /* 点击时提供按压反馈 */
-.feature-card:active {
+.home-page-desktop-feature-card:active {
 	/* 向上移动8px并稍微缩小 */
 	transform: translateY(-8px) scale(0.98);
 
@@ -859,7 +859,7 @@
 /* 功能卡片顶部装饰条 */
 
 /* 悬停时显示的渐变装饰条 */
-.feature-card::before {
+.home-page-desktop-feature-card::before {
 	/* 绝对定位 */
 	position: absolute;
 
@@ -889,7 +889,7 @@
 }
 
 /* 功能卡片悬停时，装饰条展开 */
-.feature-card:hover::before {
+.home-page-desktop-feature-card:hover::before {
 	/* 横向缩放为1，完全显示 */
 	transform: scaleX(1);
 }
@@ -897,7 +897,7 @@
 /* 功能卡片悬停效果 */
 
 /* 鼠标悬停时提升卡片，增强阴影 */
-.feature-card:hover {
+.home-page-desktop-feature-card:hover {
 	/* 保持玻璃背景 */
 	background: var(--glass-bg);
 
@@ -911,7 +911,7 @@
 /* 功能图标样式 */
 
 /* 功能卡片中的图标 */
-.feature-icon {
+.home-page-desktop-feature-icon {
 	/* 弹性布局 */
 	display: flex;
 
@@ -940,49 +940,49 @@
 
 /* 主要功能卡片图标背景 */
 
-/* 使用紫色渐变 */
-.feature-card.primary .feature-icon {
-	/* 渐变背景，从浅紫色到深紫色 */
-	background: linear-gradient(135deg, #667eea, #764ba2);
+/* 使用项目主色渐变（冰川青到深空蓝） */
+.home-page-desktop-feature-card.primary .home-page-desktop-feature-icon {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 }
 
 /* 次要功能卡片图标背景 */
 
-/* 使用粉红色渐变 */
-.feature-card.secondary .feature-icon {
-	/* 渐变背景，从粉红色到红色 */
-	background: linear-gradient(135deg, #f093fb, #f5576c);
+/* 使用项目主色浅色渐变 */
+.home-page-desktop-feature-card.secondary .home-page-desktop-feature-icon {
+	/* 渐变背景，从浅冰川青到冰川青 */
+	background: linear-gradient(135deg, #5CB8C5, #3E9EAC);
 }
 
 /* 第三功能卡片图标背景 */
 
-/* 使用蓝色渐变 */
-.feature-card.tertiary .feature-icon {
-	/* 渐变背景，从蓝色到青色 */
-	background: linear-gradient(135deg, #4facfe, #00f2fe);
+/* 使用项目辅色渐变 */
+.home-page-desktop-feature-card.tertiary .home-page-desktop-feature-icon {
+	/* 渐变背景，从中深空蓝到深空蓝 */
+	background: linear-gradient(135deg, #2E5A8C, #1F4277);
 }
 
 /* 第四功能卡片图标背景 */
 
-/* 使用绿色渐变 */
-.feature-card.quaternary .feature-icon {
-	/* 渐变背景，从绿色到青色 */
-	background: linear-gradient(135deg, #43e97b, #38f9d7);
+/* 使用项目主色和辅色混合渐变 */
+.home-page-desktop-feature-card.quaternary .home-page-desktop-feature-icon {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #2E5A8C);
 }
 
 /* 第五功能卡片图标背景 */
 
-/* 使用橙色渐变 */
-.feature-card.quinary .feature-icon {
-	/* 渐变背景，从橙色到黄色 */
-	background: linear-gradient(135deg, #fa709a, #fee140);
+/* 使用项目辅色深色渐变 */
+.home-page-desktop-feature-card.quinary .home-page-desktop-feature-icon {
+	/* 渐变背景，从深空蓝到更深蓝色 */
+	background: linear-gradient(135deg, #1F4277, #0F2A4D);
 }
 
 
 /* 页脚内容第一段 */
 
 /* 较小的字体 */
-.footer-content p:first-child {
+.home-page-desktop-footer-content p:first-child {
 	/* 字体大小12px */
 	font-size: 12px;
 }
@@ -990,7 +990,7 @@
 /* 页脚内容最后一段 */
 
 /* 标准字体 */
-.footer-content p:last-child {
+.home-page-desktop-footer-content p:last-child {
 	/* 字体大小14px */
 	font-size: 14px;
 }
@@ -998,7 +998,7 @@
 /* 页脚样式 */
 
 /* 页面底部信息区域 */
-.footer {
+.home-page-desktop-footer {
 	/* 内边距：上下30px，左右20px */
 	padding: 30px 20px;
 
@@ -1016,7 +1016,7 @@
 /* 弹窗/对话框样式（最后声明，不影响优先级顺序） */
 
 /* 更新日志对话框容器 */
-.update-log-dialog {
+.home-page-desktop-update-log-dialog {
 	/* 隐藏溢出内容 */
 	overflow: hidden;
 
@@ -1025,7 +1025,7 @@
 }
 
 /* Element Plus对话框样式覆盖 */
-.update-log-dialog :deep(.el-dialog) {
+.home-page-desktop-update-log-dialog :deep(.el-dialog) {
 	/* 使用CSS变量设置背景色 */
 	background: var(--bg-primary);
 
@@ -1037,7 +1037,7 @@
 }
 
 /* Element Plus对话框头部样式 */
-.update-log-dialog :deep(.el-dialog__header) {
+.home-page-desktop-update-log-dialog :deep(.el-dialog__header) {
 	/* 内边距：上下24px，左右32px */
 	padding: 24px 32px;
 
@@ -1052,7 +1052,7 @@
 }
 
 /* Element Plus对话框标题样式 */
-.update-log-dialog :deep(.el-dialog__title) {
+.home-page-desktop-update-log-dialog :deep(.el-dialog__title) {
 	/* 字体大小24px */
 	font-size: 24px;
 
@@ -1073,7 +1073,7 @@
 }
 
 /* Element Plus对话框主体样式 */
-.update-log-dialog :deep(.el-dialog__body) {
+.home-page-desktop-update-log-dialog :deep(.el-dialog__body) {
 	/* 无内边距 */
 	padding: 0;
 
@@ -1084,7 +1084,7 @@
 /* 更新日志内容区域 */
 
 /* 可滚动的更新日志列表 */
-.update-log-content {
+.home-page-desktop-update-log-content {
 	/* 最大高度为视口高度的70% */
 	max-height: 70vh;
 
@@ -1098,7 +1098,7 @@
 /* 更新日志区域 */
 
 /* 单个更新版本的区域 */
-.update-section {
+.home-page-desktop-update-section {
 	/* 底部外边距40px */
 	margin-bottom: 40px;
 }
@@ -1106,7 +1106,7 @@
 /* 最后一个更新日志区域 */
 
 /* 移除底部外边距 */
-.update-section:last-child {
+.home-page-desktop-update-section:last-child {
 	/* 底部外边距0 */
 	margin-bottom: 0;
 }
@@ -1114,7 +1114,7 @@
 /* 更新日志项目列表 */
 
 /* 使用网格布局 */
-.update-items {
+.home-page-desktop-update-items {
 	/* 网格布局 */
 	display: grid;
 
@@ -1128,7 +1128,7 @@
 /* 更新日志项目 */
 
 /* 单个更新日志条目 */
-.update-item {
+.home-page-desktop-update-item {
 	/* 弹性布局 */
 	display: flex;
 
@@ -1163,7 +1163,7 @@
 /* 更新日志项目悬停效果 */
 
 /* 鼠标悬停时提升项目，改变边框颜色 */
-.update-item:hover {
+.home-page-desktop-update-item:hover {
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color);
 
@@ -1177,7 +1177,7 @@
 /* 更新日志图标 */
 
 /* 更新日志项目中的图标 */
-.update-icon {
+.home-page-desktop-update-icon {
 	/* 弹性布局 */
 	display: flex;
 
@@ -1206,40 +1206,40 @@
 
 /* 主要更新图标背景 */
 
-/* 使用紫色渐变 */
-.update-icon.primary {
-	/* 渐变背景，从浅紫色到深紫色 */
-	background: linear-gradient(135deg, #667eea, #764ba2);
+/* 使用项目主色渐变（冰川青到深空蓝） */
+.home-page-desktop-update-icon.primary {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 }
 
 /* 次要更新图标背景 */
 
-/* 使用粉红色渐变 */
-.update-icon.secondary {
-	/* 渐变背景，从粉红色到红色 */
-	background: linear-gradient(135deg, #f093fb, #f5576c);
+/* 使用项目主色浅色渐变 */
+.home-page-desktop-update-icon.secondary {
+	/* 渐变背景，从浅冰川青到冰川青 */
+	background: linear-gradient(135deg, #5CB8C5, #3E9EAC);
 }
 
 /* 第三更新图标背景 */
 
-/* 使用蓝色渐变 */
-.update-icon.tertiary {
-	/* 渐变背景，从蓝色到青色 */
-	background: linear-gradient(135deg, #4facfe, #00f2fe);
+/* 使用项目辅色渐变 */
+.home-page-desktop-update-icon.tertiary {
+	/* 渐变背景，从中深空蓝到深空蓝 */
+	background: linear-gradient(135deg, #2E5A8C, #1F4277);
 }
 
 /* 第四更新图标背景 */
 
-/* 使用绿色渐变 */
-.update-icon.quaternary {
-	/* 渐变背景，从绿色到青色 */
-	background: linear-gradient(135deg, #43e97b, #38f9d7);
+/* 使用项目主色和辅色混合渐变 */
+.home-page-desktop-update-icon.quaternary {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #2E5A8C);
 }
 
 /* 更新摘要区域 */
 
 /* 更新日志的摘要部分 */
-.update-summary {
+.home-page-desktop-update-summary {
 	/* 顶部内边距32px */
 	padding-top: 32px;
 
@@ -1253,7 +1253,7 @@
 /* 摘要卡片样式 */
 
 /* 更新摘要的卡片容器 */
-.summary-card {
+.home-page-desktop-summary-card {
 	/* 内边距32px */
 	padding: 32px;
 
@@ -1282,7 +1282,7 @@
 /* 摘要卡片悬停效果 */
 
 /* 鼠标悬停时提升卡片，改变边框颜色 */
-.summary-card:hover {
+.home-page-desktop-summary-card:hover {
 	/* 边框颜色为主色 */
 	border-color: var(--primary-color);
 
@@ -1296,7 +1296,7 @@
 /* 摘要卡片标题中的图标 */
 
 /* Element Plus图标样式 */
-.summary-card h3 .el-icon {
+.home-page-desktop-summary-card h3 .el-icon {
 	/* 图标大小24px */
 	font-size: 24px;
 
@@ -1307,7 +1307,7 @@
 /* 环境保障机制对话框容器 */
 
 /* 环境保障机制说明对话框 */
-.environment-policy-dialog {
+.home-page-desktop-environment-policy-dialog {
 	/* 隐藏溢出内容 */
 	overflow: hidden;
 
@@ -1318,7 +1318,7 @@
 /* 禁用环境保障机制弹窗过渡动画，避免闪烁 */
 
 /* Element Plus对话框包装器样式覆盖 */
-.environment-policy-dialog :deep(.el-dialog__wrapper) {
+.home-page-desktop-environment-policy-dialog :deep(.el-dialog__wrapper) {
 	/* 禁用过渡动画 */
 	transition: none !important;
 
@@ -1327,7 +1327,7 @@
 }
 
 /* Element Plus对话框样式覆盖 */
-.environment-policy-dialog :deep(.el-dialog) {
+.home-page-desktop-environment-policy-dialog :deep(.el-dialog) {
 	/* 使用CSS变量设置背景色 */
 	background: var(--bg-primary);
 
@@ -1348,7 +1348,7 @@
 }
 
 /* Element Plus对话框头部样式 */
-.environment-policy-dialog :deep(.el-dialog__header) {
+.home-page-desktop-environment-policy-dialog :deep(.el-dialog__header) {
 	/* 内边距：上下24px，左右32px */
 	padding: 24px 32px;
 
@@ -1363,7 +1363,7 @@
 }
 
 /* Element Plus对话框标题样式 */
-.environment-policy-dialog :deep(.el-dialog__title) {
+.home-page-desktop-environment-policy-dialog :deep(.el-dialog__title) {
 	/* 字体大小24px */
 	font-size: 24px;
 
@@ -1384,7 +1384,7 @@
 }
 
 /* Element Plus对话框主体样式 */
-.environment-policy-dialog :deep(.el-dialog__body) {
+.home-page-desktop-environment-policy-dialog :deep(.el-dialog__body) {
 	/* 无内边距 */
 	padding: 0;
 
@@ -1395,7 +1395,7 @@
 /* 环境保障机制内容区域 */
 
 /* 可滚动的政策内容 */
-.environment-policy-content {
+.home-page-desktop-environment-policy-content {
 	/* 最大高度为视口高度的70% */
 	max-height: 70vh;
 
@@ -1409,7 +1409,7 @@
 /* 政策区域 */
 
 /* 单个政策条款的区域 */
-.policy-section {
+.home-page-desktop-policy-section {
 	/* 底部外边距40px */
 	margin-bottom: 40px;
 }
@@ -1417,7 +1417,7 @@
 /* 最后一个政策区域 */
 
 /* 移除底部外边距 */
-.policy-section:last-child {
+.home-page-desktop-policy-section:last-child {
 	/* 底部外边距0 */
 	margin-bottom: 0;
 }
@@ -1425,7 +1425,7 @@
 /* 政策内容区域 */
 
 /* 政策文本的容器 */
-.policy-content {
+.home-page-desktop-policy-content {
 	/* 左侧内边距24px，用于缩进 */
 	padding-left: 24px;
 }
@@ -1433,7 +1433,7 @@
 /* 政策内容有序列表 */
 
 /* 编号列表样式 */
-.policy-content ol {
+.home-page-desktop-policy-content ol {
 	/* 左侧内边距24px */
 	padding-left: 24px;
 
@@ -1453,7 +1453,7 @@
 /* 政策内容无序列表 */
 
 /* 项目符号列表样式 */
-.policy-content ul {
+.home-page-desktop-policy-content ul {
 	/* 左侧内边距24px */
 	padding-left: 24px;
 
@@ -1473,7 +1473,7 @@
 /* 政策内容列表项 */
 
 /* 列表中的单个项目 */
-.policy-content li {
+.home-page-desktop-policy-content li {
 	/* 底部外边距8px */
 	margin-bottom: 8px;
 }
@@ -1481,7 +1481,7 @@
 /* 政策内容加粗文字 */
 
 /* 强调文本 */
-.policy-content strong {
+.home-page-desktop-policy-content strong {
 	/* 使用CSS变量设置文本主色 */
 	color: var(--text-primary);
 }
@@ -1490,13 +1490,13 @@
 /* 按钮 focus 样式 */
 
 /* 按钮获得焦点时的样式（当前为空） */
-.action-button:focus,
-.environment-policy-button:focus,
+.home-page-desktop-action-button:focus,
+.home-page-desktop-environment-policy-button:focus,
 
 
 /* 作者信息区域 */
 /* 更新日志中的作者信息 */
-.author-info {
+.home-page-desktop-author-info {
 	/* 顶部内边距15px */
 	padding-top: 15px;
 
@@ -1510,9 +1510,9 @@
 /* 作者联系方式链接 */
 
 /* 作者联系信息的链接 */
-.author-contact {
-	/* 紫色文字 */
-	color: #667eea;
+.home-page-desktop-author-contact {
+	/* 使用项目主色（冰川青） */
+	color: var(--primary-color);
 
 	/* 无下划线 */
 	text-decoration: none;
@@ -1527,7 +1527,7 @@
 /* 作者联系方式链接悬停效果 */
 
 /* 鼠标悬停时显示下划线，降低透明度 */
-.author-contact:hover {
+.home-page-desktop-author-contact:hover {
 	/* 显示下划线 */
 	text-decoration: underline;
 
@@ -1538,7 +1538,7 @@
 /* 作者链接列表 */
 
 /* 作者相关链接的容器 */
-.author-links {
+.home-page-desktop-author-links {
 	/* 弹性布局 */
 	display: flex;
 
@@ -1555,12 +1555,12 @@
 /* 作者链接 */
 
 /* 单个作者相关链接 */
-.author-link {
+.home-page-desktop-author-link {
 	/* 字体粗细500，中等 */
 	font-weight: 500;
 
-	/* 紫色文字 */
-	color: #667eea;
+	/* 使用项目主色（冰川青） */
+	color: var(--primary-color);
 
 	/* 无下划线 */
 	text-decoration: none;
@@ -1575,7 +1575,7 @@
 /* 作者链接悬停效果 */
 
 /* 鼠标悬停时显示下划线，降低透明度 */
-.author-link:hover {
+.home-page-desktop-author-link:hover {
 	/* 显示下划线 */
 	text-decoration: underline;
 
@@ -1586,7 +1586,7 @@
 /* 日间模式下的footer样式调整 */
 
 /* 非暗色主题下的页脚样式 */
-html:not(.dark) .footer {
+html:not(.dark) .home-page-desktop-footer {
 	/* 深灰色文字 */
 	color: #333;
 
@@ -1597,7 +1597,7 @@ html:not(.dark) .footer {
 /* 日间模式下的作者信息段落 */
 
 /* 非暗色主题下的作者信息文字 */
-html:not(.dark) .author-info p {
+html:not(.dark) .home-page-desktop-author-info p {
 	/* 深灰色文字 */
 	color: #333;
 
@@ -1608,10 +1608,10 @@ html:not(.dark) .author-info p {
 /* 日间模式下的作者联系链接 */
 
 /* 非暗色主题下的作者链接颜色 */
-html:not(.dark) .author-contact,
-html:not(.dark) .author-link {
-	/* 保持紫色 */
-	color: #667eea;
+html:not(.dark) .home-page-desktop-author-contact,
+html:not(.dark) .home-page-desktop-author-link {
+	/* 使用项目主色（冰川青） */
+	color: var(--primary-color);
 }
 
 /* ==================== 首页入场动画 ==================== */
@@ -1677,47 +1677,46 @@ html:not(.dark) .author-link {
 }
 
 /* 应用动画到主题切换按钮 */
-.theme-toggle-container {
+.home-page-desktop-theme-toggle-container {
 	animation: fadeInDown 0.6s ease-out;
 }
 
 /* 应用动画到英雄区域左侧内容 */
-.hero-left {
+.home-page-desktop-hero-left {
 	animation: fadeInLeft 0.8s ease-out;
 }
 
 /* 应用动画到英雄区域右侧标题 */
-.hero-right .quick-access-label {
+.home-page-desktop-hero-right .quick-access-label {
 	animation: fadeInRight 0.6s ease-out 0.3s both;
 }
 
 /* 应用动画到功能卡片 - 数据看板 */
-.hero-right .feature-card.primary {
+.home-page-desktop-hero-right .home-page-desktop-feature-card.primary {
 	animation: fadeInUp 0.6s ease-out 0.4s both;
 }
 
 /* 应用动画到功能卡片 - 超级管理员系统 */
-.hero-right .feature-card.secondary {
+.home-page-desktop-hero-right .home-page-desktop-feature-card.secondary {
 	animation: fadeInUp 0.6s ease-out 0.5s both;
 }
 
 /* 应用动画到功能卡片 - 积分看板 */
-.hero-right .feature-card.tertiary {
+.home-page-desktop-hero-right .home-page-desktop-feature-card.tertiary {
 	animation: fadeInUp 0.6s ease-out 0.6s both;
 }
 
 /* 应用动画到功能卡片 - 全部成员 */
-.hero-right .feature-card.quaternary {
+.home-page-desktop-hero-right .home-page-desktop-feature-card.quaternary {
 	animation: fadeInUp 0.6s ease-out 0.7s both;
 }
 
 /* 应用动画到功能卡片 - 考勤分析 */
-.hero-right .feature-card.quinary {
+.home-page-desktop-hero-right .home-page-desktop-feature-card.quinary {
 	animation: fadeInUp 0.6s ease-out 0.8s both;
 }
 
 /* 应用动画到页脚 */
-.footer {
+.home-page-desktop-footer {
 	animation: fadeInUp 0.8s ease-out 0.8s both;
 }
-

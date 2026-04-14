@@ -62,44 +62,44 @@ const showEnvironmentPolicy = () => {
 -->
 <template>
 	<!-- 首页根容器 -->
-	<div class="home-container">
+	<div class="home-page-desktop-container">
 		<!-- 主题切换容器:固定在页面右上角 -->
-		<div class="theme-toggle-container">
+		<div class="home-page-desktop-theme-toggle-container">
 			<!-- 系统Logo:点击切换明暗主题 -->
 			<img
 				src="@/assets/AiWorkShop_icon.png"
 				alt="AI坊"
-				class="theme-toggle-icon"
+				class="home-page-desktop-theme-toggle-icon"
 				title="切换主题模式"
 				@click="toggleTheme"
 			/>
 		</div>
 
 		<!-- 主要内容区域:包含系统介绍和功能入口 -->
-		<div class="hero-section">
-			<div class="hero-content">
+		<div class="home-page-desktop-hero-section">
+			<div class="home-page-desktop-hero-content">
 				<!-- 左侧内容区:系统介绍和操作按钮 -->
-				<div class="hero-left">
+				<div class="home-page-desktop-hero-left">
 					<!-- Logo和标题区域 -->
-					<div class="logo-section">
+					<div class="home-page-desktop-logo-section">
 						<!-- Logo容器:带发光效果 -->
-						<div class="logo-container">
-							<div class="logo-glow"/>
+						<div class="home-page-desktop-logo-container">
+							<div class="home-page-desktop-logo-glow"/>
 						</div>
 						<!-- 主标题:系统名称 -->
-						<h1 class="main-title">厦门工学院人工智能创作坊</h1>
+						<h1 class="home-page-desktop-main-title">厦门工学院人工智能创作坊</h1>
 						<!-- 副标题:系统类型 -->
-						<p class="main-subtitle">学生管理系统</p>
+						<p class="home-page-desktop-main-subtitle">学生管理系统</p>
 						<!-- 标语:品牌口号 -->
-						<p class="tagline">世界很大 AI无限</p>
+						<p class="home-page-desktop-tagline">世界很大 AI无限</p>
 					</div>
 
 					<!-- 系统介绍区域 -->
-					<div class="description-section">
+					<div class="home-page-desktop-description-section">
 						<!-- 介绍标题 -->
-						<h2 class="section-title">欢迎使用AI坊学生管理系统</h2>
+						<h2 class="home-page-desktop-section-title">欢迎使用AI坊学生管理系统</h2>
 						<!-- 第一段介绍:AI坊的定位和功能 -->
-						<p class="description">
+						<p class="home-page-desktop-description">
 							&nbsp;&nbsp;&nbsp;&nbsp;厦门工学院人工智能创作坊（
 							<strong style="color: #ff6b6b;">AI坊</strong>）是学校根据智能学科发展特点，
 							结合社会实际需求，依托人工智能学院雄厚师资力量而成立的实践创作基地。
@@ -109,7 +109,7 @@ const showEnvironmentPolicy = () => {
 							<strong style="color: #96ceb4;">展示推广</strong>于一体的创新平台。
 						</p>
 						<!-- 第二段介绍:AI坊的培养目标和愿景 -->
-						<p class="description">
+						<p class="home-page-desktop-description">
 							&nbsp;&nbsp;&nbsp;&nbsp;我们以前沿特色项目实践为导向，
 							着重培养学生的<strong style="color: #f39c12;">AI实践应用能力</strong>与
 							<strong style="color: #9b59b6;">学科综合素养</strong>。同时，
@@ -122,15 +122,15 @@ const showEnvironmentPolicy = () => {
 					</div>
 
 					<!-- 操作按钮区域 -->
-					<div class="action-section">
+					<div class="home-page-desktop-action-section">
 						<!-- 立即体验按钮:跳转到登录页 -->
-						<el-button type="primary" class="action-button" @click="goToLogin">
+						<el-button type="primary" class="home-page-desktop-action-button" @click="goToLogin">
 							<el-icon><arrow-right /></el-icon>
 							&nbsp;立即体验
 						</el-button>
 
 						<!-- 环境保障机制按钮:显示政策说明弹窗 -->
-						<el-button class="environment-policy-button" @click="showEnvironmentPolicy">
+						<el-button class="home-page-desktop-environment-policy-button" @click="showEnvironmentPolicy">
 							<el-icon><office-building /></el-icon>
 							&nbsp;环境保障机制
 						</el-button>
@@ -138,11 +138,11 @@ const showEnvironmentPolicy = () => {
 				</div>
 
 				<!-- 右侧内容区:功能卡片展示 -->
-				<div class="hero-right">
-					<div class="features-showcase">
+				<div class="home-page-desktop-hero-right">
+					<div class="home-page-desktop-features-showcase">
 						<!-- 数据看板功能卡片:点击跳转到数据看板页面 -->
-						<div class="feature-card primary" title="点击查看数据看板" @click="goToDashboard">
-							<div class="feature-icon">
+						<div class="home-page-desktop-feature-card primary" title="点击查看数据看板" @click="goToDashboard">
+							<div class="home-page-desktop-feature-icon">
 								<el-icon><trend-charts /></el-icon>
 							</div>
 							<h3>数据看板</h3>
@@ -150,8 +150,8 @@ const showEnvironmentPolicy = () => {
 						</div>
 
 						<!-- 超级管理员系统功能卡片:点击跳转到超级管理员身份验证页面 -->
-						<div class="feature-card secondary" title="点击进入超级管理员系统" @click="goToAdminSystem">
-							<div class="feature-icon">
+						<div class="home-page-desktop-feature-card secondary" title="点击进入超级管理员系统" @click="goToAdminSystem">
+							<div class="home-page-desktop-feature-icon">
 								<el-icon><lock /></el-icon>
 							</div>
 							<h3>超级管理员系统</h3>
@@ -159,8 +159,8 @@ const showEnvironmentPolicy = () => {
 						</div>
 
 						<!-- 积分看板功能卡片:点击跳转到积分看板页面 -->
-						<div class="feature-card tertiary" title = "点击查看积分看板" @click="goToPointsDashboard">
-							<div class="feature-icon">
+						<div class="home-page-desktop-feature-card tertiary" title = "点击查看积分看板" @click="goToPointsDashboard">
+							<div class="home-page-desktop-feature-icon">
 								<el-icon><star /></el-icon>
 							</div>
 							<h3>积分看板</h3>
@@ -168,8 +168,8 @@ const showEnvironmentPolicy = () => {
 						</div>
 
 						<!-- 全部成员功能卡片:点击跳转到所有成员页面 -->
-						<div class="feature-card quaternary" title = "点击查看全部成员" @click="goToAllMembers">
-							<div class="feature-icon">
+						<div class="home-page-desktop-feature-card quaternary" title = "点击查看全部成员" @click="goToAllMembers">
+							<div class="home-page-desktop-feature-icon">
 								<el-icon><user /></el-icon>
 							</div>
 							<h3>全部成员</h3>
@@ -177,8 +177,8 @@ const showEnvironmentPolicy = () => {
 						</div>
 
 						<!-- 考勤分析功能卡片:点击跳转到考勤分析页面 -->
-						<div class="feature-card quinary" title = "点击查看考勤趋势" @click="goToAttendanceAnalysis">
-							<div class="feature-icon">
+						<div class="home-page-desktop-feature-card quinary" title = "点击查看考勤趋势" @click="goToAttendanceAnalysis">
+							<div class="home-page-desktop-feature-icon">
 								<el-icon><trend-charts /></el-icon>
 							</div>
 							<h3>考勤分析</h3>
@@ -191,17 +191,17 @@ const showEnvironmentPolicy = () => {
 
 
 		<!-- 页脚区域:作者信息和联系方式 -->
-		<div class="footer">
-			<div class="footer-content">
-				<div class="author-info">
+		<div class="home-page-desktop-footer">
+			<div class="home-page-desktop-footer-content">
+				<div class="home-page-desktop-author-info">
 					<p>项目作者：郑恩赐</p>
-					<div class="author-links">
-						<span class="author-contact">📧 zheng_enci@qq.com</span>
-						<a href="https://gitee.com/zheng-enci050704" target="_blank" class="author-link">🔗 Gitee</a>
-						<a href="https://juejin.cn/user/2883382090934252" target="_blank" class="author-link">📝 掘金</a>
-						<a href="https://blog.csdn.net/2301_79239314" target="_blank" class="author-link">📄 CSDN</a>
-						<a href="https://github.com/Zheng-Enci" target="_blank" class="author-link">🌐 GitHub</a>
-						<a href="https://gitcode.com/ZhengEnCi" target="_blank" class="author-link">💻 GitCode</a>
+					<div class="home-page-desktop-author-links">
+						<span class="home-page-desktop-author-contact">📧 zheng_enci@qq.com</span>
+						<a href="https://gitee.com/zheng-enci050704" target="_blank" class="home-page-desktop-author-link">🔗 Gitee</a>
+						<a href="https://juejin.cn/user/2883382090934252" target="_blank" class="home-page-desktop-author-link">📝 掘金</a>
+						<a href="https://blog.csdn.net/2301_79239314" target="_blank" class="home-page-desktop-author-link">📄 CSDN</a>
+						<a href="https://github.com/Zheng-Enci" target="_blank" class="home-page-desktop-author-link">🌐 GitHub</a>
+						<a href="https://gitcode.com/ZhengEnCi" target="_blank" class="home-page-desktop-author-link">💻 GitCode</a>
 					</div>
 				</div>
 			</div>
@@ -223,4 +223,3 @@ const showEnvironmentPolicy = () => {
 
 /* 但由于我们已经在script中导入了CSS文件，这里可以保持为空或者添加一些组件特有的样式 */
 </style>
-
