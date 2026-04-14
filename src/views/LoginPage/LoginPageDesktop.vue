@@ -83,9 +83,15 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 			<p class="login-page-desktop-subtitle">人工智能创作坊</p>
 		</div>
 
-		<!-- 登录卡片内容 -->
+		<!-- 登录卡片内容 - 黄金比例布局 -->
 		<div class="login-page-desktop-content">
-			<div class="login-page-desktop-card">
+			<div class="login-page-desktop-golden-layout">
+				<!-- 左侧区域 - 黄金比例 38.2% -->
+				<div class="login-page-desktop-left-panel">
+					<!-- 左侧内容区域，可用于展示图片或介绍 -->
+				</div>
+				<!-- 右侧区域 - 黄金比例 61.8% -->
+				<div class="login-page-desktop-card">
 				<!-- 学生头像显示区域 -->
 				<div class="login-page-desktop-avatar-container">
 					<!-- 有头像时显示头像（使用v-lazy懒加载） -->
@@ -173,6 +179,7 @@ const fetchStudentAvatar = loginPage.fetchStudentAvatar.bind(loginPage)
 					</p>
 				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 </template>
