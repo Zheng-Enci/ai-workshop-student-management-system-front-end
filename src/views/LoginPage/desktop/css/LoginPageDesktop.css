@@ -341,6 +341,29 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	overflow: hidden;
 }
 
+/* 左侧区域右侧渐变过渡效果，与右侧背景融合 */
+/* Right edge gradient transition effect for left panel to blend with right panel background */
+.login-page-desktop-left-panel::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 80px;
+	height: 100%;
+	/* 从透明过渡到白色（日间模式） */
+	/* Transition from transparent to white (light mode) */
+	background: linear-gradient(to right, transparent, #ffffff);
+	pointer-events: none;
+	z-index: 2;
+	transition: background 0.8s ease;
+}
+
+/* 夜间模式下渐变过渡到黑色 */
+/* Gradient transition to black in dark mode */
+html.dark .login-page-desktop-left-panel::after {
+	background: linear-gradient(to right, transparent, #000000);
+}
+
 /* 左侧区域头部 - 左上角 */
 /* Left panel header - top left corner */
 .login-page-desktop-left-header {
