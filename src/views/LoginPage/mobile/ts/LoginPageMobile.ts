@@ -140,8 +140,22 @@ export default class LoginPageMobile {
 		this.isLoading = ref<boolean>(false)
 		this.studentAvatarUrl = ref<string | null>(null)
 
-		// 组件挂载时恢复记住的用户信息
-		this.init()
+		// 组件挂载时恢复记住的用户信息，并尝试加载头像
+		onMounted(async () => {
+			const rememberedUser = localStorage.getItem('rememberedUser')
+			if (rememberedUser) {
+				try {
+					const userData = JSON.parse(rememberedUser)
+					this.form.value.studentId = userData.studentId
+					this.form.value.password = userData.password
+					this.rememberMe.value = true
+					// 自动加载头像
+					await this.fetchStudentAvatar()
+				} catch (error) {
+					localStorage.removeItem('rememberedUser')
+				}
+			}
+		})
 	}
 
 	// ===================== 公开方法 =====================
@@ -262,27 +276,4 @@ export default class LoginPageMobile {
 		}
 	}
 
-	/**
-	 * 初始化方法
-	 * @method init
-	 * @description 组件挂载时恢复记住的用户信息，并尝试加载头像
-	 * @private
-	 */
-	private init(): void {
-		onMounted(async () => {
-			const rememberedUser = localStorage.getItem('rememberedUser')
-			if (rememberedUser) {
-				try {
-					const userData = JSON.parse(rememberedUser)
-					this.form.value.studentId = userData.studentId
-					this.form.value.password = userData.password
-					this.rememberMe.value = true
-					// 自动加载头像
-					await this.fetchStudentAvatar()
-				} catch (error) {
-					localStorage.removeItem('rememberedUser')
-				}
-			}
-		})
-	}
 }
