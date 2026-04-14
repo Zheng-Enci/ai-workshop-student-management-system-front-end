@@ -271,9 +271,9 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	z-index: 100;
 }
 
-/* Logo - 右上角 */
-/* Logo - top right corner */
-.login-page-desktop-logo {
+/* 主题切换 Logo - 右上角 */
+/* Theme toggle logo - top right corner */
+.login-page-desktop-theme-logo {
 	position: fixed;
 	top: 20px;
 	right: 20px;
@@ -285,7 +285,7 @@ html.dark .login-page-desktop-gradient-orb.orb-4 {
 	filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
-.login-page-desktop-logo:hover {
+.login-page-desktop-theme-logo:hover {
 	transform: scale(1.1);
 }
 
