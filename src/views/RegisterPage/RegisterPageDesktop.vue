@@ -120,7 +120,7 @@ const initialFormData = {
  * 注册表单数据模型
  * @type {Ref<RegisterForm>}
  */
-const form = ref(initialFormData)
+const form = /** @type {Ref<RegisterForm>} */(ref(initialFormData))
 
 /**
  * 表单引用实例（用于表单校验）
