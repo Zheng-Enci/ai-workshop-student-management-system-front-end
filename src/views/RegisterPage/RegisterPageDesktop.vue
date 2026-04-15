@@ -93,12 +93,10 @@ const collegeOptions = [
  * @property {string} invitationCode - 邀请码
  */
 
-// ===================== 响应式变量定义区 =====================
 /**
- * 注册表单数据模型
- * @type {Ref<RegisterForm>}
+ * @type {RegisterForm}
  */
-const form = /** @type {Ref<RegisterForm>} */(ref({
+const initialFormData = {
 	name: '',
 	studentId: '',
 	gender: '',
@@ -110,7 +108,14 @@ const form = /** @type {Ref<RegisterForm>} */(ref({
 	password: '',
 	confirmPassword: '',
 	invitationCode: ''
-}))
+}
+
+// ===================== 响应式变量定义区 =====================
+/**
+ * 注册表单数据模型
+ * @type {Ref<RegisterForm>}
+ */
+const form = ref(initialFormData)
 
 /**
  * 表单引用实例（用于表单校验）
