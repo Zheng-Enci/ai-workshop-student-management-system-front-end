@@ -195,12 +195,12 @@ html.dark .register-page-desktop-container::before {
 
 /**
  * 主布局容器（黄金比例）
- * 注册表单区域 61.8%，展示图片区域 38.2%
+ * 注册表单区域 38.2%，展示图片区域 61.8%
  */
 .register-page-desktop-main-layout {
 	display: flex;
 	flex-direction: row;
-	width: 61.8%;
+	width: 38.2%;
 	gap: 40px;
 	align-items: flex-start;
 	justify-content: center;
@@ -210,7 +210,7 @@ html.dark .register-page-desktop-container::before {
  * 展示图片区域容器
  */
 .register-page-desktop-showcase {
-	width: 38.2%;
+	width: 61.8%;
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
