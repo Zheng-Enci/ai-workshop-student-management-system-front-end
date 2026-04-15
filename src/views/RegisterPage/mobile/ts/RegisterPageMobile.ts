@@ -282,8 +282,8 @@ export default class RegisterPageMobile {
 			// 第六步：跳转到导航主页面
 			void this._router.push('/navigation')
 		} catch (error: any) {
-			// 异常处理：优先显示后端返回的 message，否则显示默认错误信息
-			const errorMessage = error.response?.data?.message || error.message || '注册失败，请检查您的信息'
+			// 异常处理：显示错误信息（StudentApi 已经将服务器返回的 message 设置到 error.message 中）
+			const errorMessage = error.message || '注册失败，请检查您的信息'
 			this.message.error(errorMessage)
 		} finally {
 			// 最终：关闭加载状态（无论成功/失败）
