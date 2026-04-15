@@ -1,0 +1,539 @@
+/**
+ * AttendancePageMobile 控制器类
+ * @file AttendancePageMobileController.ts
+ * @description 签到页面移动端控制器，封装所有业务逻辑和状态管理
+ * @author 开发人员
+ * @version 1.0.0
+ */
+
+// ======================== 依赖导入 ========================
+import {ElMessage} from 'element-plus'
+import {ref, type Ref} from 'vue'
+import {useRouter} from 'vue-router'
+import {signIn} from '@/api/attendance'
+import {getAvatarUrl, getStudentDatabaseTableId} from '@/api/student'
+import AttendanceApi from '@/api/ts/AttendanceApi'
+import {useThemeStore} from '@/stores/theme'
+import {useUserStore} from '@/stores/user'
+import {useLoadingMaskStore} from '@/stores/ts/loading.ts'
+import AttendancePageConfig from '@/views/AttendancePage/mobile/common/js/AttendancePageConfig'
+import {flameController} from '@/views/AttendancePage/mobile/ts/FlameDisplayController'
+
+/**
+ * 签到页面移动端控制器类
+ * 遵循项目 OOP 规范，使用类封装所有业务逻辑
+ */
+export default class AttendancePageMobileController {
+	// ======================== 私有属性 ========================
+	/** Vue Router 实例 */
+	private router: ReturnType<typeof useRouter>
+	/** 用户状态仓库 */
+	private userStore: ReturnType<typeof useUserStore>
+	/** 主题状态仓库 */
+	private themeStore: ReturnType<typeof useThemeStore>
+	/** 加载蒙版状态仓库 */
+	private loadingMaskStore: ReturnType<typeof useLoadingMaskStore>
+	/** 定时器实例 - 用于实时更新时间 */
+	private timeInterval: Ref<ReturnType<typeof setInterval> | null> = ref(null)
+
+	// ======================== 公共响应式状态 ========================
+	/** 通用加载状态 - 用于按钮/接口请求加载中展示 */
+	public loading: Ref<boolean> = ref(false)
+	/** 学生等级 - 预留扩展字段，暂未使用 */
+	public studentLevel: Ref<number> = ref(0)
+	/** 是否处于签到时间段内 - 控制签到按钮可点击状态 */
+	public isInSignTime: Ref<boolean> = ref(false)
+	/** 当前时间字符串 - 格式：HH:MM:SS，实时更新 */
+	public currentTime: Ref<string> = ref('')
+	/** 当前日期字符串 - 格式：YYYY年MM月DD日，实时更新 */
+	public currentDate: Ref<string> = ref('')
+	/** 下次签到时间提示文本 - 非签到时段展示 */
+	public nextSignTime: Ref<string> = ref('')
+	/** 验证码弹窗显示状态 - 控制弹窗显隐 */
+	public showVerificationCodeDialog: Ref<boolean> = ref(false)
+	/** 用户输入的验证码 - 双向绑定输入框 */
+	public inputVerificationCode: Ref<string> = ref('')
+	/** 当日签到状态对象 - 存储早中晚三个时段的签到时间 */
+	public attendanceStatus: Ref<{morning: string | null, afternoon: string | null, evening: string | null}> = ref({
+		morning: null,
+		afternoon: null,
+		evening: null
+	})
+	/** 是否有用户头像 - 控制默认头像/自定义头像展示 */
+	public hasAvatar: Ref<boolean> = ref(false)
+	/** 用户头像URL - 成功获取后赋值 */
+	public avatarUrl: Ref<string | null> = ref(null)
+	/** 头像提示是否已显示 - 控制"上传头像"提示只显示一次 */
+	public avatarTipShown: Ref<boolean> = ref(false)
+	/** 本周每天的签到数据 */
+	public weeklyAttendanceData: Ref<Array<{date: string, dayName: string, slots: {morning: boolean, afternoon: boolean, evening: boolean}}>> = ref([
+		{date: '', dayName: '周一', slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周二', slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周三', slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周四', slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周五', slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周六', slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周日', slots: {morning: false, afternoon: false, evening: false}}
+	])
+	/** 本周签到数据加载状态 */
+	public weeklyAttendanceLoading: Ref<boolean> = ref(false)
+	/** 是否显示圆圈入场动画 */
+	public showCircleAnimation: Ref<boolean> = ref(false)
+	/** 学生数据库表主键ID */
+	public studentInfoId: Ref<number | null> = ref(null)
+	/** 今日签到状态（从服务器获取） */
+	public todayAttendanceSlots: Ref<{morning: boolean, afternoon: boolean, evening: boolean}> = ref({
+		morning: false,
+		afternoon: false,
+		evening: false
+	})
+	/** 火焰控制器实例 */
+	public flameController = flameController
+
+	// ======================== 构造函数 ========================
+	/**
+	 * 构造函数
+	 * 初始化所有依赖和状态
+	 */
+	constructor() {
+		this.router = useRouter()
+		this.userStore = useUserStore()
+		this.themeStore = useThemeStore()
+		this.loadingMaskStore = useLoadingMaskStore()
+	}
+
+	// ======================== Getter 方法 ========================
+	/**
+	 * 获取主题切换方法
+	 */
+	public get toggleTheme(): () => void {
+		return this.themeStore.toggleTheme
+	}
+
+	// ======================== 头像相关方法 ========================
+	/**
+	 * 展示默认头像并提示上传
+	 */
+	public showDefaultAvatar(): void {
+		this.hasAvatar.value = false
+		this.avatarUrl.value = null
+		if (!this.avatarTipShown.value) {
+			ElMessage.info({
+				message: '您还没有上传头像，点击头像即可上传',
+				duration: 4000,
+				showClose: true
+			})
+			this.avatarTipShown.value = true
+		}
+	}
+
+	/**
+	 * 处理头像点击事件
+	 */
+	public handleAvatarClick(): void {
+		this.router.push('/profile')
+	}
+
+	/**
+	 * 加载用户头像
+	 */
+	public async loadUserAvatar(): Promise<void> {
+		try {
+			const token = localStorage.getItem('token')
+			if (!token) {
+				this.showDefaultAvatar()
+				return
+			}
+
+			const idResponse = await getStudentDatabaseTableId(token)
+			if (idResponse.code !== 200 || !idResponse.data) {
+				this.showDefaultAvatar()
+				return
+			}
+
+			const studentInfoId = idResponse.data
+			const avatarUrlString = getAvatarUrl(studentInfoId, AttendancePageConfig.AVATAR_SIZE)
+
+			if (!avatarUrlString) {
+				this.showDefaultAvatar()
+				return
+			}
+
+			this.avatarUrl.value = avatarUrlString
+			this.hasAvatar.value = true
+		} catch (error) {
+			console.error('加载用户头像失败:', error)
+			this.showDefaultAvatar()
+		}
+	}
+
+	// ======================== 导航方法 ========================
+	/**
+	 * 返回导航页面
+	 */
+	public goToNavigation(): void {
+		this.router.push('/navigation')
+	}
+
+	// ======================== 时段相关方法 ========================
+	/**
+	 * 获取当前所处的签到时段
+	 * @returns 时段标识：morning/afternoon/evening 或 null
+	 */
+	public getCurrentTimeSlot(): string | null {
+		const now = new Date()
+		const hour = now.getHours()
+
+		if (hour >= 8 && hour < 11) {
+			return 'morning'
+		}
+		if (hour >= 14 && hour < 17) {
+			return 'afternoon'
+		}
+		if (hour >= 19 && hour < 22) {
+			return 'evening'
+		}
+		return null
+	}
+
+	/**
+	 * 判断当前时段是否已签到
+	 * @returns true=已签到，false=未签到/非签到时段
+	 */
+	public isCurrentSlotSigned(): boolean {
+		try {
+			const currentSlot = this.getCurrentTimeSlot()
+			if (!currentSlot) {
+				return false
+			}
+			return this.isSlotSigned(currentSlot)
+		} catch (error) {
+			console.error('判断当前时段签到状态失败:', error)
+			return false
+		}
+	}
+
+	/**
+	 * 检查指定时段是否已签到
+	 * @param slot - 时段标识：morning/afternoon/evening
+	 * @returns true=已签到，false=未签到
+	 */
+	public isSlotSigned(slot: string): boolean {
+		try {
+			return this.todayAttendanceSlots.value[slot as keyof typeof this.todayAttendanceSlots.value] || false
+		} catch (error) {
+			console.error(`检查${slot}时段签到状态失败:`, error)
+			return false
+		}
+	}
+
+	// ======================== 本地存储相关方法 ========================
+	/**
+	 * 加载本地存储的签到状态
+	 */
+	public loadAttendanceStatus(): void {
+		const today = new Date().toDateString()
+		const saved = localStorage.getItem(`attendance_${today}`)
+		if (saved) {
+			try {
+				const parsed = JSON.parse(saved)
+				if (parsed && typeof parsed === 'object' &&
+					'morning' in parsed && 'afternoon' in parsed && 'evening' in parsed) {
+					this.attendanceStatus.value = parsed
+				} else {
+					this.attendanceStatus.value = {morning: null, afternoon: null, evening: null}
+				}
+			} catch (e) {
+				console.error('解析本地签到状态失败:', e)
+				this.attendanceStatus.value = {morning: null, afternoon: null, evening: null}
+			}
+		} else {
+			this.attendanceStatus.value = {morning: null, afternoon: null, evening: null}
+		}
+	}
+
+	/**
+	 * 同步本地签到状态
+	 */
+	public async syncAllAttendanceStatus(): Promise<void> {
+		try {
+			const today = new Date().toDateString()
+			const saved = localStorage.getItem(`attendance_${today}`)
+
+			if (saved) {
+				try {
+					const status = JSON.parse(saved)
+					if (status && typeof status === 'object') {
+						this.attendanceStatus.value = {
+							morning: status.morning || null,
+							afternoon: status.afternoon || null,
+							evening: status.evening || null
+						}
+					}
+				} catch (e) {
+					console.error('同步本地签到状态失败:', e)
+					this.attendanceStatus.value = {morning: null, afternoon: null, evening: null}
+				}
+			}
+		} catch (error) {
+			console.error('同步签到状态异常:', error)
+			this.attendanceStatus.value = {morning: null, afternoon: null, evening: null}
+		}
+	}
+
+	/**
+	 * 保存签到状态到本地存储
+	 */
+	public saveAttendanceStatus(): void {
+		const today = new Date().toDateString()
+		if (this.attendanceStatus.value && typeof this.attendanceStatus.value === 'object') {
+			localStorage.setItem(`attendance_${today}`, JSON.stringify(this.attendanceStatus.value))
+		} else {
+			const defaultStatus = {morning: null, afternoon: null, evening: null}
+			localStorage.setItem(`attendance_${today}`, JSON.stringify(defaultStatus))
+		}
+	}
+
+	// ======================== 时间检查方法 ========================
+	/**
+	 * 检查当前是否在签到时间内
+	 */
+	public checkSignTime(): void {
+		const now = new Date()
+		const hour = now.getHours()
+		const minute = now.getMinutes()
+		const second = now.getSeconds()
+
+		this.currentTime.value = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+
+		const year = now.getFullYear()
+		const month = (now.getMonth() + 1).toString().padStart(2, '0')
+		const day = now.getDate().toString().padStart(2, '0')
+		this.currentDate.value = `${year}年${month}月${day}日`
+
+		const signTimeRanges = [
+			{start: 8, end: 11, name: '上午'},
+			{start: 14, end: 17, name: '下午'},
+			{start: 19, end: 22, name: '晚上'}
+		]
+
+		let inTime = false
+		let nextTime = ''
+
+		for (const range of signTimeRanges) {
+			if (hour >= range.start && hour < range.end) {
+				inTime = true
+				break
+			} else if (hour < range.start) {
+				nextTime = `${range.start}:00`
+				break
+			}
+		}
+
+		this.isInSignTime.value = inTime
+		this.nextSignTime.value = nextTime
+
+		if (minute === 0 && second === 0) {
+			this.syncAllAttendanceStatus()
+		}
+	}
+
+	// ======================== 生命周期方法 ========================
+	/**
+	 * 组件挂载时初始化
+	 */
+	public onMounted(): void {
+		this.loadAttendanceStatus()
+		this.loadUserAvatar()
+		this.checkSignTime()
+		this.timeInterval.value = setInterval(() => this.checkSignTime(), 1000)
+		this.loadWeeklyAttendance()
+	}
+
+	/**
+	 * 组件卸载时清理
+	 */
+	public onUnmounted(): void {
+		if (this.timeInterval.value) {
+			clearInterval(this.timeInterval.value)
+			this.timeInterval.value = null
+		}
+	}
+
+	// ======================== 本周签到数据加载 ========================
+	/**
+	 * 加载本周签到概览数据
+	 */
+	public async loadWeeklyAttendance(): Promise<void> {
+		this.weeklyAttendanceLoading.value = true
+		try {
+			const token = this.userStore.token || localStorage.getItem('token')
+			if (!token) {
+				return
+			}
+
+			const response = await AttendanceApi.getWeeklyAttendance(token)
+			if (response.code === 200 && response.data) {
+				this.processWeeklyData(response.data)
+				this.updateFlameController()
+			}
+		} catch (error) {
+			console.error('加载本周签到数据失败:', error)
+		} finally {
+			this.weeklyAttendanceLoading.value = false
+			setTimeout(() => {
+				this.showCircleAnimation.value = true
+			}, 100)
+		}
+	}
+
+	/**
+	 * 处理本周签到数据
+	 * @param data - 服务器返回的签到数据
+	 */
+	private processWeeklyData(data: any[]): void {
+		const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+		const today = new Date()
+		const currentDayIndex = today.getDay()
+
+		this.weeklyAttendanceData.value = data.map((item, index) => {
+			const date = new Date(item.date)
+			const dayIndex = date.getDay()
+			return {
+				date: item.date,
+				dayName: weekDays[dayIndex],
+				slots: {
+					morning: item.morning || false,
+					afternoon: item.afternoon || false,
+					evening: item.evening || false
+				}
+			}
+		})
+
+		const todayData = this.weeklyAttendanceData.value.find(item => {
+			const itemDate = new Date(item.date)
+			return itemDate.toDateString() === today.toDateString()
+		})
+
+		if (todayData) {
+			this.todayAttendanceSlots.value = {
+				morning: todayData.slots.morning,
+				afternoon: todayData.slots.afternoon,
+				evening: todayData.slots.evening
+			}
+		}
+	}
+
+	/**
+	 * 更新火焰控制器
+	 */
+	private updateFlameController(): void {
+		const today = new Date().toDateString()
+		const todayData = this.weeklyAttendanceData.value.find(item => {
+			const itemDate = new Date(item.date)
+			return itemDate.toDateString() === today
+		})
+
+		if (todayData) {
+			const count = Object.values(todayData.slots).filter(Boolean).length
+			this.flameController.updateCount(count)
+		}
+	}
+
+	// ======================== 签到提交方法 ========================
+	/**
+	 * 提交签到
+	 */
+	public async submitAttendance(): Promise<void> {
+		if (!this.isInSignTime.value) {
+			ElMessage.warning('当前不在签到时间段内')
+			return
+		}
+
+		if (this.isCurrentSlotSigned()) {
+			ElMessage.info('您已经签到过了，无需重复签到')
+			return
+		}
+
+		this.showVerificationCodeDialog.value = true
+	}
+
+	/**
+	 * 提交验证码
+	 */
+	public async submitVerificationCode(): Promise<void> {
+		if (!this.inputVerificationCode.value || this.inputVerificationCode.value.length !== 6) {
+			ElMessage.warning('请输入6位验证码')
+			return
+		}
+
+		this.loading.value = true
+
+		try {
+			const token = this.userStore.token || localStorage.getItem('token')
+			if (!token) {
+				ElMessage.error('请先登录')
+				await this.router.push('/login')
+				this.loading.value = false
+				this.showVerificationCodeDialog.value = false
+				return
+			}
+
+			const res = await signIn(token, this.inputVerificationCode.value)
+
+			if (res.code === 200) {
+				const currentSlot = this.getCurrentTimeSlot()
+				if (currentSlot) {
+					this.todayAttendanceSlots.value = {
+						...this.todayAttendanceSlots.value,
+						[currentSlot]: true
+					}
+					this.attendanceStatus.value = {
+						...this.attendanceStatus.value,
+						[currentSlot]: new Date().toISOString()
+					}
+					this.saveAttendanceStatus()
+				}
+				await this.loadWeeklyAttendance()
+				this.showVerificationCodeDialog.value = false
+				this.inputVerificationCode.value = ''
+				ElMessage.success('签到成功！')
+			} else if (res.code === 400 && res.message && res.message.includes('已签到')) {
+				const currentSlot = this.getCurrentTimeSlot()
+				if (currentSlot) {
+					this.todayAttendanceSlots.value = {
+						...this.todayAttendanceSlots.value,
+						[currentSlot]: true
+					}
+					this.attendanceStatus.value = {
+						...this.attendanceStatus.value,
+						[currentSlot]: new Date().toISOString()
+					}
+					this.saveAttendanceStatus()
+				}
+				await this.loadWeeklyAttendance()
+				this.showVerificationCodeDialog.value = false
+				this.inputVerificationCode.value = ''
+				ElMessage.success('您已签到，无需重复签到')
+			} else if (res.message && (res.message.includes('验证码错误') || res.message.includes('验证码已过期'))) {
+				ElMessage.error(res.message)
+				this.inputVerificationCode.value = ''
+			} else {
+				ElMessage.error(res.message || '签到失败，请重试')
+			}
+		} catch (error) {
+			console.error('签到失败:', error)
+			ElMessage.error('签到失败，请检查网络后重试')
+		} finally {
+			this.loading.value = false
+		}
+	}
+
+	/**
+	 * 取消验证码输入
+	 */
+	public cancelVerificationCode(): void {
+		this.showVerificationCodeDialog.value = false
+		this.inputVerificationCode.value = ''
+	}
+}
