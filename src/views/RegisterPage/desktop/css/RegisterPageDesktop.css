@@ -175,9 +175,9 @@ html.dark .register-page-desktop-container::before {
 	z-index: 100;
 	background: rgb(255 255 255 / 0.2) !important;
 	border: 1px solid rgb(255 255 255 / 0.5) !important;
+	border-radius: 8px;
 	backdrop-filter: blur(4px);
 	transition: opacity 0.3s ease, transform 0.3s ease;
-	border-radius: 8px;
 
 	/* 返回首页按钮入场动画 */
 	animation: register-page-desktop-home-btn-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
@@ -218,13 +218,13 @@ html.dark .register-page-desktop-container::before {
 .register-page-desktop-content {
 	position: relative;
 	z-index: 1;
-	width: 38.2%;
-	margin-left: 61.8%;
-	padding: 20px;
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
 	justify-content: center;
+	width: 38.2%;
+	padding: 20px;
+	margin-left: 61.8%;
 }
 
 /**
@@ -232,29 +232,30 @@ html.dark .register-page-desktop-container::before {
  * 注册表单区域占右侧 38.2%
  */
 .register-page-desktop-main-layout {
+	position: relative;
+	z-index: 1;
 	display: flex;
 	flex-direction: row;
+
 	/* width: 38.2%; */
 	gap: 40px;
 	align-items: flex-start;
 	justify-content: center;
-	position: relative;
-	z-index: 1;
 }
 
 /**
  * 展示图片区域容器（占满左边 61.8% 区域）
  */
 .register-page-desktop-showcase {
-	width: 61.8%;
-	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: fixed;
-	left: 0;
-	top: 0;
-	z-index: 0;
+	width: 61.8%;
+	height: 100vh;
 }
 
 /**
@@ -306,8 +307,10 @@ html.dark .register-page-desktop-container::before {
 html.dark .register-page-desktop-card {
 	/* 深空蓝背景带透明度 */
 	background: rgb(30 58 138 / 0.95);
+
 	/* 冰川青边框 */
 	border: 1px solid rgb(56 189 248 / 0.3);
+
 	/* 深蓝色阴影 */
 	box-shadow: 0 8px 32px rgb(0 0 0 / 0.3);
 	backdrop-filter: blur(4px);
@@ -318,10 +321,15 @@ html.dark .register-page-desktop-card {
 /**
  * 卡片头部区域
  * 包含Logo和系统名称
+ * 添加半透明背景层，确保文字在深色背景上清晰可见
  */
 .register-page-desktop-card-header {
+	padding: 16px 24px;
 	margin-bottom: 30px;
 	text-align: center;
+	background: rgb(255 255 255 / 0.85);
+	border-radius: 12px;
+	backdrop-filter: blur(8px);
 
 	/* 头部入场动画 */
 	animation: register-page-desktop-header-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
@@ -356,12 +364,12 @@ html.dark .register-page-desktop-card {
 	position: fixed;
 	top: 20px;
 	right: 20px;
+	z-index: 100;
 	width: 60px;
 	height: 60px;
 	cursor: pointer;
 	filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.3));
 	transition: transform 0.3s ease;
-	z-index: 100;
 
 	/* Logo入场动画 */
 	animation: register-page-desktop-logo-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
@@ -400,9 +408,9 @@ html.dark .register-page-desktop-card {
 	position: fixed;
 	top: 20px;
 	left: 50%;
-	transform: translateX(-50%);
-	text-align: center;
 	z-index: 100;
+	text-align: center;
+	transform: translateX(-50%);
 
 	/* 页面标题入场动画 */
 	animation: register-page-desktop-page-title-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
@@ -451,19 +459,6 @@ html.dark .register-page-desktop-card {
 	font-weight: 600;
 	color: rgb(255 255 255 / 0.9);
 	letter-spacing: 1px;
-}
-
-/**
- * 欢迎语容器
- * 添加半透明背景层，确保文字在深色背景上清晰可见
- */
-.register-page-desktop-card-header {
-	margin-bottom: 30px;
-	text-align: center;
-	padding: 16px 24px;
-	background: rgb(255 255 255 / 0.85);
-	border-radius: 12px;
-	backdrop-filter: blur(8px);
 }
 
 /**
@@ -647,8 +642,8 @@ html.dark .register-page-desktop-welcome-en {
 
 	/* 浅灰背景，与白色卡片协调 */
 	background: rgb(243 244 246 / 0.8);
-	border-radius: 12px;
 	border: 1px solid rgb(56 189 248 / 0.2);
+	border-radius: 12px;
 
 	/* 轻微模糊效果 */
 	backdrop-filter: blur(2px);
@@ -672,6 +667,7 @@ html.dark .register-page-desktop-welcome-en {
 	width: 44px;
 	height: 44px;
 	font-size: 18px;
+
 	/* 冰川青色图标 */
 	color: #38bdf8;
 }
@@ -686,17 +682,21 @@ html.dark .register-page-desktop-welcome-en {
 /* 使用属性选择器提高特异性，覆盖 Element Plus 默认样式 */
 .register-page-desktop-custom-input [class*='el-input__wrapper'] {
 	padding: 0 12px 0 0 !important;
+
 	/* 覆盖 Element Plus 默认背景色 */
 	background: transparent !important;
+
 	/* 覆盖 CSS 变量 */
 	--el-input-bg-color: transparent !important;
 	--el-fill-color-blank: transparent !important;
+
 	box-shadow: none !important;
 }
 
 .register-page-desktop-custom-input :deep(.el-input__inner) {
 	height: 44px;
 	font-size: 15px;
+
 	/* 深灰色文字，在浅背景上清晰可见 */
 	color: #1f2937;
 }
@@ -716,18 +716,22 @@ html.dark .register-page-desktop-welcome-en {
 .register-page-desktop-custom-select [class*='el-input__wrapper'],
 .register-page-desktop-custom-select .el-select__wrapper {
 	padding: 0 12px 0 0 !important;
+
 	/* 覆盖 Element Plus 默认背景色 */
 	background: transparent !important;
+
 	/* 覆盖 CSS 变量 */
 	--el-input-bg-color: transparent !important;
 	--el-fill-color-blank: transparent !important;
 	--el-select-input-color: transparent !important;
+
 	box-shadow: none !important;
 }
 
 .register-page-desktop-custom-select :deep(.el-input__inner) {
 	height: 44px;
 	font-size: 15px;
+
 	/* 深灰色文字，在浅背景上清晰可见 */
 	color: #1f2937;
 }
@@ -948,13 +952,13 @@ html.dark .register-page-desktop-card-footer {
  * 图片相对于容器大小为 80%
  */
 .register-page-desktop-showcase-image {
+	position: relative;
+	z-index: 10;
 	width: 80%;
 	height: 80%;
 	object-fit: cover;
 	border-radius: 12px;
 	box-shadow: 0 4px 20px rgb(0 0 0 / 0.15);
-	z-index: 10;
-	position: relative;
 
 	/* 展示图片入场动画 */
 	animation: register-page-desktop-showcase-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
