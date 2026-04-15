@@ -59,9 +59,9 @@
  */
 .register-page-mobile-header-home-btn {
 	width: auto;
-	height: 36px;
-	padding: 0 12px !important;
-	font-size: 13px;
+	height: 32px;
+	padding: 0 8px !important;
+	font-size: 12px;
 
 	/* 玻璃模态背景 */
 	background: rgb(255 255 255 / 0.2) !important;
