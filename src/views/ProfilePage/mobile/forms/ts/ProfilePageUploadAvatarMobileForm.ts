@@ -329,6 +329,9 @@ export default class ProfilePageUploadAvatarMobileForm {
 
 		const canvas = this.cropCanvasRef.value
 		const ctx = canvas.getContext('2d')
+		if (!ctx) {
+			return
+		}
 		const img = this.cropImage.value
 
 		ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -458,9 +461,10 @@ export default class ProfilePageUploadAvatarMobileForm {
 
 		this.mouseDownHandler.value = e => {
 			const { target } = e
+			const targetNode = target as Node | null
 			if (target === canvas || target === this.cropWrapperRef.value ||
-				(this.cropWrapperRef.value && this.cropWrapperRef.value.contains(target))) {
-				if (this.cropBoxRef.value && this.cropBoxRef.value.contains(target)) {
+				(this.cropWrapperRef.value && targetNode && this.cropWrapperRef.value.contains(targetNode))) {
+				if (this.cropBoxRef.value && targetNode && this.cropBoxRef.value.contains(targetNode)) {
 					return
 				}
 				e.preventDefault()
@@ -554,9 +558,10 @@ export default class ProfilePageUploadAvatarMobileForm {
 			} else if (e.touches.length === 1) {
 				const touch = e.touches[0]
 				const { target } = e
+				const targetNode = target as Node | null
 				if (target === canvas || target === this.cropWrapperRef.value ||
-					(this.cropWrapperRef.value && this.cropWrapperRef.value.contains(target))) {
-					if (this.cropBoxRef.value && this.cropBoxRef.value.contains(target)) {
+					(this.cropWrapperRef.value && targetNode && this.cropWrapperRef.value.contains(targetNode))) {
+					if (this.cropBoxRef.value && targetNode && this.cropBoxRef.value.contains(targetNode)) {
 						return
 					}
 					e.preventDefault()
