@@ -41,25 +41,25 @@
 /* 上午签到按钮 - 冰川青渐变 */
 .attendance-mobile-sign-button-button-mobile.morning {
 	background: linear-gradient(135deg, #87CEEB 0%, #5DADE2 100%);
-	box-shadow: 0 8px 28px rgb(135 206 235 / 0.4),
-	0 0 0 1px rgb(255 255 255 / 0.1),
-	inset 0 1px 0 rgb(255 255 255 / 0.2);
+	box-shadow: 0 4px 16px rgb(135 206 235 / 0.25),
+	0 2px 6px rgb(135 206 235 / 0.15),
+	inset 0 1px 0 rgb(255 255 255 / 0.25);
 }
 
 /* 下午签到按钮 - 冰川青到深空蓝渐变 */
 .attendance-mobile-sign-button-button-mobile.afternoon {
 	background: linear-gradient(135deg, #6495ED 0%, #4682B4 100%);
-	box-shadow: 0 8px 28px rgb(100 149 237 / 0.4),
-	0 0 0 1px rgb(255 255 255 / 0.1),
-	inset 0 1px 0 rgb(255 255 255 / 0.2);
+	box-shadow: 0 4px 16px rgb(100 149 237 / 0.25),
+	0 2px 6px rgb(100 149 237 / 0.15),
+	inset 0 1px 0 rgb(255 255 255 / 0.25);
 }
 
 /* 晚上签到按钮 - 深空蓝渐变 */
 .attendance-mobile-sign-button-button-mobile.evening {
 	background: linear-gradient(135deg, #4682B4 0%, #191970 100%);
-	box-shadow: 0 8px 28px rgb(70 130 180 / 0.4),
-	0 0 0 1px rgb(255 255 255 / 0.1),
-	inset 0 1px 0 rgb(255 255 255 / 0.2);
+	box-shadow: 0 4px 16px rgb(70 130 180 / 0.25),
+	0 2px 6px rgb(70 130 180 / 0.15),
+	inset 0 1px 0 rgb(255 255 255 / 0.25);
 }
 
 .attendance-mobile-sign-button-button-mobile.disabled,
@@ -69,29 +69,29 @@
 	transform: scale(0.95);
 }
 
-.attendance-mobile-sign-button-button-mobile:hover:not(.disabled):not([aria-disabled="true"]) {
+.attendance-mobile-sign-button-button-mobile:hover:not(.disabled, [aria-disabled="true"]) {
 	transform: translateY(-2px) scale(1.02);
 }
 
-.attendance-mobile-sign-button-button-mobile.morning:hover:not(.disabled):not([aria-disabled="true"]) {
-	box-shadow: 0 12px 36px rgb(135 206 235 / 0.5),
-	0 0 0 1px rgb(255 255 255 / 0.2),
-	inset 0 1px 0 rgb(255 255 255 / 0.3);
+.attendance-mobile-sign-button-button-mobile.morning:hover:not(.disabled, [aria-disabled="true"]) {
+	box-shadow: 0 6px 20px rgb(135 206 235 / 0.35),
+	0 3px 8px rgb(135 206 235 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.35);
 }
 
-.attendance-mobile-sign-button-button-mobile.afternoon:hover:not(.disabled):not([aria-disabled="true"]) {
-	box-shadow: 0 12px 36px rgb(100 149 237 / 0.5),
-	0 0 0 1px rgb(255 255 255 / 0.2),
-	inset 0 1px 0 rgb(255 255 255 / 0.3);
+.attendance-mobile-sign-button-button-mobile.afternoon:hover:not(.disabled, [aria-disabled="true"]) {
+	box-shadow: 0 6px 20px rgb(100 149 237 / 0.35),
+	0 3px 8px rgb(100 149 237 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.35);
 }
 
-.attendance-mobile-sign-button-button-mobile.evening:hover:not(.disabled):not([aria-disabled="true"]) {
-	box-shadow: 0 12px 36px rgb(70 130 180 / 0.5),
-	0 0 0 1px rgb(255 255 255 / 0.2),
-	inset 0 1px 0 rgb(255 255 255 / 0.3);
+.attendance-mobile-sign-button-button-mobile.evening:hover:not(.disabled, [aria-disabled="true"]) {
+	box-shadow: 0 6px 20px rgb(70 130 180 / 0.35),
+	0 3px 8px rgb(70 130 180 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.35);
 }
 
-.attendance-mobile-sign-button-button-mobile:active:not(.disabled):not([aria-disabled="true"]) {
+.attendance-mobile-sign-button-button-mobile:active:not(.disabled, [aria-disabled="true"]) {
 	transform: translateY(-1px) scale(0.98);
 }
 
@@ -256,7 +256,7 @@
 	transition: transform 0.6s ease;
 }
 
-.attendance-mobile-sign-button-button-mobile:active:not(.disabled):not([aria-disabled="true"]) .attendance-mobile-sign-button-ripple-mobile {
+.attendance-mobile-sign-button-button-mobile:active:not(.disabled, [aria-disabled="true"]) .attendance-mobile-sign-button-ripple-mobile {
 	/* 使用 scale 实现波纹扩散效果，性能更好 */
 
 	/* Use scale for ripple spread effect, better performance */
