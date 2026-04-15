@@ -48,8 +48,11 @@
 	backdrop-filter: blur(20px); /* 毛玻璃效果 */
 
 	/* 明确指定过渡属性以提升性能，避免使用 all */
+
 	/* Explicitly specify transition properties for better performance, avoid using all */
+
 	/* 注意：background-color 过渡性能较低，如需背景变化请考虑使用 opacity 或伪元素 */
+
 	/* Note: background-color transition has low performance, consider using opacity or pseudo-elements for background changes */
 	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -95,7 +98,7 @@
 	font-size: 20px;
 	font-weight: 700;
 	color: var(--text-primary);
-	letter-spacing: 0.5px; /* 字间距优化 */
+	letter-spacing: 1px; /* 字间距优化 - 使用整数值避免浏览器渲染差异 */
 	text-shadow: 0 2px 6px var(--shadow-color); /* 文本阴影增强可读性 */
 }
 
@@ -148,8 +151,11 @@
 	backdrop-filter: blur(20px);
 
 	/* 明确指定过渡属性以提升性能，避免使用 all */
+
 	/* Explicitly specify transition properties for better performance, avoid using all */
+
 	/* 注意：border-color 过渡性能较低，已移除 */
+
 	/* Note: border-color transition has low performance, removed */
 }
 
