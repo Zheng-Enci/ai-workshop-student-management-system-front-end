@@ -525,13 +525,15 @@ html.dark .register-page-desktop-welcome-en {
 }
 
 /* 使用属性选择器提高特异性，覆盖 Element Plus 默认样式 */
-.register-page-desktop-custom-select [class*='el-input__wrapper'] {
+.register-page-desktop-custom-select [class*='el-input__wrapper'],
+.register-page-desktop-custom-select .el-select__wrapper {
 	padding: 0 12px 0 0 !important;
 	/* 覆盖 Element Plus 默认背景色 */
 	background: transparent !important;
 	/* 覆盖 CSS 变量 */
 	--el-input-bg-color: transparent !important;
 	--el-fill-color-blank: transparent !important;
+	--el-select-input-color: transparent !important;
 	box-shadow: none !important;
 }
 
