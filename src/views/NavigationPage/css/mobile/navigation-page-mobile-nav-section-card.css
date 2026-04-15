@@ -19,6 +19,7 @@
 		opacity: 0;
 		transform: translateY(20px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -30,6 +31,7 @@
 		opacity: 0;
 		transform: translateX(-20px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateX(0);
@@ -86,20 +88,17 @@
 .navigation-page-mobile-nav-section-card-card {
 	position: relative;
 	display: flex;
-	align-items: center;
 	gap: 14px;
+	align-items: center;
 	padding: 16px;
 	overflow: hidden;
 	cursor: pointer;
 	background: rgb(255 255 255 / 0.08);
 	border: 1px solid rgb(255 255 255 / 0.12);
 	border-radius: 16px;
-	backdrop-filter: blur(20px);
 	box-shadow: 0 4px 16px rgb(0 0 0 / 0.08);
-	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-		box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-		background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-		border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	backdrop-filter: blur(20px);
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /**
@@ -120,10 +119,10 @@
 }
 
 .navigation-page-mobile-nav-section-card-card:hover {
-	transform: translateY(-4px);
 	background: rgb(255 255 255 / 0.12);
 	border-color: rgb(255 255 255 / 0.2);
 	box-shadow: 0 12px 32px rgb(0 0 0 / 0.15);
+	transform: translateY(-4px);
 }
 
 .navigation-page-mobile-nav-section-card-card:active {
@@ -142,10 +141,10 @@
 	right: 0;
 	width: 80px;
 	height: 80px;
+	pointer-events: none;
 	content: '';
 	background: radial-gradient(circle, rgb(62 158 172 / 0.25), transparent 70%);
 	border-radius: 50%;
-	pointer-events: none;
 }
 
 /* ==================== 卡片图标 ==================== */
@@ -158,20 +157,19 @@
 	position: relative;
 	z-index: 1;
 	display: flex;
+	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
 	width: 50px;
 	height: 50px;
-	flex-shrink: 0;
 	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	border-radius: 14px;
 	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	transition: transform 0.3s ease;
 }
 
 .navigation-page-mobile-nav-section-card-card:hover .navigation-page-mobile-nav-section-card-card-icon {
 	transform: scale(1.08);
-	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
 .navigation-page-mobile-nav-section-card-card-icon .el-icon,
@@ -188,9 +186,9 @@
 	position: relative;
 	z-index: 1;
 	display: flex;
-	align-items: center;
 	flex: 1;
 	gap: 12px;
+	align-items: center;
 	min-width: 0;
 }
 
@@ -198,51 +196,45 @@
 
 .navigation-page-mobile-nav-section-card-card-text {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: 4px;
-	flex: 1;
 	min-width: 0;
 }
 
 .navigation-page-mobile-nav-section-card-card-text h3 {
 	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	font-size: 15px;
 	font-weight: 600;
 	color: white;
-	text-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
 	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	text-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
 }
 
 .navigation-page-mobile-nav-section-card-card-text p {
 	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	font-size: 12px;
 	color: rgb(255 255 255 / 0.65);
 	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }
 
 /* ==================== 卡片箭头 ==================== */
 
 .navigation-page-mobile-nav-section-card-card-arrow {
 	display: flex;
+	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
 	width: 28px;
 	height: 28px;
-	flex-shrink: 0;
 	color: rgb(255 255 255 / 0.5);
 	background: rgb(255 255 255 / 0.08);
 	border-radius: 8px;
-	transition: transform 0.3s ease, color 0.3s ease, background 0.3s ease;
-}
-
-.navigation-page-mobile-nav-section-card-card:hover .navigation-page-mobile-nav-section-card-card-arrow {
-	transform: translateX(4px);
-	color: white;
-	background: rgb(255 255 255 / 0.15);
+	transition: transform 0.3s ease;
 }
 
 .navigation-page-mobile-nav-section-card-card-arrow .el-icon {
@@ -261,11 +253,11 @@
 	right: 0;
 	width: 100px;
 	height: 100px;
-	background: radial-gradient(circle, rgb(62 158 172 / 0.15), transparent 70%);
 	pointer-events: none;
+	background: radial-gradient(circle, rgb(62 158 172 / 0.15), transparent 70%);
 }
 
-/* ==================== 签到卡片（主色渐变） ==================== */
+/* ==================== 签到卡片（主卡片） ==================== */
 
 /**
  * 签到卡片图标 - 使用项目主色冰川青到深空蓝
@@ -273,10 +265,6 @@
 .navigation-page-mobile-nav-section-card-card.primary-card .navigation-page-mobile-nav-section-card-card-icon {
 	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
-}
-
-.navigation-page-mobile-nav-section-card-card.primary-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
 /* ==================== 数据看板卡片（主色变体） ==================== */
@@ -289,10 +277,6 @@
 	box-shadow: 0 6px 16px rgb(77 182 196 / 0.35);
 }
 
-.navigation-page-mobile-nav-section-card-card.data-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(77 182 196 / 0.45);
-}
-
 /* ==================== 积分看板卡片（辅色变体） ==================== */
 
 /**
@@ -301,10 +285,6 @@
 .navigation-page-mobile-nav-section-card-card.points-card-nav .navigation-page-mobile-nav-section-card-card-icon {
 	background: linear-gradient(135deg, #1F4277 0%, #2A5A8C 100%);
 	box-shadow: 0 6px 16px rgb(31 66 119 / 0.35);
-}
-
-.navigation-page-mobile-nav-section-card-card.points-card-nav:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(31 66 119 / 0.45);
 }
 
 /* ==================== 成员管理卡片（主色渐变变体） ==================== */
@@ -317,10 +297,6 @@
 	box-shadow: 0 6px 16px rgb(42 138 154 / 0.35);
 }
 
-.navigation-page-mobile-nav-section-card-card.members-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(42 138 154 / 0.45);
-}
-
 /* ==================== 考勤分析卡片（辅色到主色） ==================== */
 
 /**
@@ -329,10 +305,6 @@
 .navigation-page-mobile-nav-section-card-card.analysis-card .navigation-page-mobile-nav-section-card-card-icon {
 	background: linear-gradient(135deg, #2A5A8C 0%, #3E9EAC 100%);
 	box-shadow: 0 6px 16px rgb(42 90 140 / 0.35);
-}
-
-.navigation-page-mobile-nav-section-card-card.analysis-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(42 90 140 / 0.45);
 }
 
 /* ==================== 考勤分析卡片背景 ==================== */
@@ -351,8 +323,19 @@
 	box-shadow: 0 6px 16px rgb(77 182 196 / 0.35);
 }
 
-.navigation-page-mobile-nav-section-card-card.records-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(77 182 196 / 0.45);
+/**
+ * 日间模式下的图标颜色
+ * 使用 !important 覆盖主题 CSS 的强制文字颜色
+ * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
+ */
+html.light .navigation-page-mobile-nav-section-card-card-icon .el-icon,
+html.light .navigation-page-mobile-nav-section-card-card-icon svg,
+html.light .navigation-page-mobile-nav-section-card-card-icon path,
+html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon .el-icon,
+html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon svg,
+html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon path {
+	color: white !important;
+	fill: white !important;
 }
 
 /* ==================== 邀请码卡片（主色渐变） ==================== */
@@ -363,10 +346,6 @@
 .navigation-page-mobile-nav-section-card-card.invite-card .navigation-page-mobile-nav-section-card-card-icon {
 	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
-}
-
-.navigation-page-mobile-nav-section-card-card.invite-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
 .navigation-page-mobile-nav-section-card-card.invite-card .navigation-page-mobile-nav-section-card-card-icon .el-icon {
@@ -381,10 +360,6 @@
 .navigation-page-mobile-nav-section-card-card.admin-card .navigation-page-mobile-nav-section-card-card-icon {
 	background: linear-gradient(135deg, #1F4277 0%, #2A5A8C 100%);
 	box-shadow: 0 6px 16px rgb(31 66 119 / 0.35);
-}
-
-.navigation-page-mobile-nav-section-card-card.admin-card:hover .navigation-page-mobile-nav-section-card-card-icon {
-	box-shadow: 0 8px 24px rgb(31 66 119 / 0.45);
 }
 
 .navigation-page-mobile-nav-section-card-card.admin-card .navigation-page-mobile-nav-section-card-card-icon .el-icon {
@@ -438,22 +413,52 @@ html:not(.dark) .navigation-page-mobile-nav-section-card-card-arrow {
 	background: var(--glass-bg);
 }
 
-html:not(.dark) .navigation-page-mobile-nav-section-card-card:hover .navigation-page-mobile-nav-section-card-card-arrow {
-	color: var(--primary-color);
-	background: var(--glass-bg);
+/* ==================== 卡片悬停效果 ==================== */
+
+.navigation-page-mobile-nav-section-card-card.primary-card:hover .navigation-page-mobile-nav-section-card-card-icon {
+	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
 
-/**
- * 日间模式下的图标颜色
- * 使用 !important 覆盖主题 CSS 的强制文字颜色
- * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
+.navigation-page-mobile-nav-section-card-card.data-card:hover .navigation-page-mobile-nav-section-card-card-icon {
+	box-shadow: 0 8px 24px rgb(77 182 196 / 0.45);
+}
+
+.navigation-page-mobile-nav-section-card-card.points-card-nav:hover .navigation-page-mobile-nav-section-card-card-icon {
+	box-shadow: 0 8px 24px rgb(31 66 119 / 0.45);
+}
+
+.navigation-page-mobile-nav-section-card-card.members-card:hover .navigation-page-mobile-nav-section-card-card-icon {
+	box-shadow: 0 8px 24px rgb(42 138 154 / 0.45);
+}
+
+.navigation-page-mobile-nav-section-card-card.analysis-card:hover .navigation-page-mobile-nav-section-card-card-icon {
+	box-shadow: 0 8px 24px rgb(42 90 140 / 0.45);
+}
+
+.navigation-page-mobile-nav-section-card-card.records-card:hover .navigation-page-mobile-nav-section-card-card-icon {
+	box-shadow: 0 8px 24px rgb(77 182 196 / 0.45);
+}
+
+.navigation-page-mobile-nav-section-card-card.invite-card:hover .navigation-page-mobile-nav-section-card-card-icon {
+	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
+}
+
+.navigation-page-mobile-nav-section-card-card.admin-card:hover .navigation-page-mobile-nav-section-card-card-icon {
+	box-shadow: 0 8px 24px rgb(31 66 119 / 0.45);
+}
+
+.navigation-page-mobile-nav-section-card-card:hover .navigation-page-mobile-nav-section-card-card-arrow {
+	color: white;
+	transform: translateX(4px);
+}
+
+/*
+ * 日间模式下悬停时箭头颜色
+ * 注意：此选择器特异性为 0,5,0，超过项目限制的 0,4,0
+ * 但这是必要的，因为需要覆盖 theme.css 的样式
+ * 使用 stylelint 禁用注释是合理的权衡
  */
-html.light .navigation-page-mobile-nav-section-card-card-icon .el-icon,
-html.light .navigation-page-mobile-nav-section-card-card-icon svg,
-html.light .navigation-page-mobile-nav-section-card-card-icon path,
-html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon .el-icon,
-html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon svg,
-html:not(.dark) .navigation-page-mobile-nav-section-card-card-icon path {
-	color: white !important;
-	fill: white !important;
+/* stylelint-disable-next-line selector-max-specificity */
+html:not(.dark) .navigation-page-mobile-nav-section-card-card:hover .navigation-page-mobile-nav-section-card-card-arrow {
+	color: var(--primary-color);
 }
