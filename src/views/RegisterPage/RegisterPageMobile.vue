@@ -8,7 +8,7 @@
 
 // ======================== 导入 ========================
 // Element Plus 核心组件
-import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElSelect, ElOption } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElSelect, ElOption, ElMessage } from 'element-plus'
 // Element Plus 基础样式（按需引入，减小打包体积）
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
