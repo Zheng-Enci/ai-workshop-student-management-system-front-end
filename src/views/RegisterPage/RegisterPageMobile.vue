@@ -19,6 +19,8 @@ import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
 // Element Plus 图标组件
 import { User, Lock, Phone, School, Collection, House } from '@element-plus/icons-vue'
+// 顶栏样式
+import './mobile/css/RegisterPageMobileHeader.css'
 // Vue3 核心 API
 import { onMounted } from 'vue'
 // Vue Router
@@ -66,7 +68,7 @@ onMounted(() => {
 
 		<!-- 返回首页按钮（圆形悬浮按钮） -->
 		<el-button
-			class="register-page-mobile-home-btn"
+			class="register-page-mobile-header-home-btn"
 			type="primary"
 			:icon="House"
 			circle
@@ -77,16 +79,16 @@ onMounted(() => {
 			<!-- 注册卡片容器（带圆角/阴影/半透明） -->
 			<div class="register-page-mobile-card">
 				<!-- 卡片头部（logo+系统名称） -->
-				<div class="register-page-mobile-card-header">
+				<div class="register-page-mobile-header-card-header">
 					<!-- 系统logo（点击切换主题） -->
 					<img
 						src="@/assets/AiWorkShop_icon.png"
 						alt="AI坊学生管理系统"
-						class="register-page-mobile-logo"
+						class="register-page-mobile-header-logo"
 						title="切换主题模式"
 						@click="pageLogic.toggleTheme"/>
 					<h1>AI坊学生管理系统</h1>
-					<p class="register-page-mobile-subtitle">人工智能创作坊</p>
+					<p class="register-page-mobile-header-subtitle">人工智能创作坊</p>
 				</div>
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
