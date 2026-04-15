@@ -117,7 +117,7 @@ onMounted(() => {
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
 				<el-form
-					:ref="formRef"
+					:ref="(el) => { if (el) formRef.value = el as FormInstance }"
 					:model="pageLogic.form"
 					:rules="pageLogic.rules"
 					label-width="0px"
