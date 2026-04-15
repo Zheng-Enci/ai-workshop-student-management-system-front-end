@@ -331,6 +331,15 @@ onMounted(() => {
 			<el-icon><House/></el-icon>
 		</el-button>
 
+		<!-- 展示图片区域 -->
+		<div class="register-page-desktop-showcase">
+			<img
+				src="@/assets/ai-workshop-exhibition.jpg"
+				alt="AI坊活动展示"
+				class="register-page-desktop-showcase-image"
+			/>
+		</div>
+
 		<!-- 注册表单核心内容区 -->
 		<div class="register-page-desktop-content">
 			<!-- 注册表单与展示图布局容器（黄金比例） -->
@@ -604,13 +613,6 @@ onMounted(() => {
 				</div>
 			</div>
 		</div>
-		<!-- 展示图片区域 -->
-		<div class="register-page-desktop-showcase">
-			<img
-				src="@/assets/ai-workshop-exhibition.jpg"
-				alt="AI坊活动展示"
-				class="register-page-desktop-showcase-image"
-			/>
-		</div>
+
 	</div>
 </template>
