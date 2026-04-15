@@ -16,6 +16,7 @@
 		opacity: 0;
 		transform: translateY(30px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -37,12 +38,12 @@
 	border: 1px solid rgb(255 255 255 / 0.15);
 	border-radius: 20px;
 	box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
+	opacity: 0;
 	backdrop-filter: blur(20px);
 	transition: backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
 		transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-	will-change: transform, backdrop-filter;
-	opacity: 0;
 	animation: navigation-desktop-navSectionCard-fadeInUp 0.5s ease-out forwards;
+	will-change: transform, backdrop-filter;
 }
 
 .navigation-desktop-navSectionCard-card:nth-child(1) {
@@ -106,6 +107,7 @@
 	color: white;
 	border-radius: 50%;
 	box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+	/* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
 	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
 	will-change: transform;
 }
@@ -121,9 +123,13 @@
 	fill: white;
 }
 
+/* stylelint-disable no-descending-specificity */
+
 .navigation-desktop-navSectionCard-card:hover .navigation-desktop-navSectionCard-card-icon {
 	transform: scale(1.1) rotate(5deg);
 }
+
+/* stylelint-enable no-descending-specificity */
 
 /* ==================== 导航内容 ==================== */
 
@@ -203,6 +209,8 @@ html:not(.dark) .navigation-desktop-navSectionCard-card::before {
  * 使用 !important 覆盖主题 CSS 的强制文字颜色
  * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
  */
+
+/* stylelint-disable selector-max-combinators, selector-max-compound-selectors, selector-max-type, no-descending-specificity */
 html.light .navigation-desktop-navSectionCard-card-icon,
 html.light .navigation-desktop-navSectionCard-card-icon .el-icon,
 html.light .navigation-desktop-navSectionCard-card-icon svg,
@@ -214,3 +222,5 @@ html:not(.dark) .navigation-desktop-navSectionCard-card-icon path {
 	color: white !important;
 	fill: white !important;
 }
+
+/* stylelint-enable selector-max-combinators, selector-max-compound-selectors, selector-max-type, no-descending-specificity */
