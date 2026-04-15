@@ -210,7 +210,7 @@ const rules = {
  * 注册按钮加载状态（防止重复提交）
  * @type {Ref<boolean>}
  */
-const isLoading = ref(false)
+const isLoading = /** @type {Ref<boolean>} */(ref(false))
 
 // ===================== 核心业务逻辑区 =====================
 /**
