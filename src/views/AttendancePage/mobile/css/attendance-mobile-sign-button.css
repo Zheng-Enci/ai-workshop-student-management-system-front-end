@@ -27,10 +27,12 @@
 	box-shadow: 0 8px 28px rgb(102 126 234 / 0.3),
 	0 0 0 1px rgb(255 255 255 / 0.1),
 	inset 0 1px 0 rgb(255 255 255 / 0.2);
+
 	/* 明确指定过渡属性以提升性能，避免使用 all */
 	/* Explicitly specify transition properties for better performance, avoid using all */
-	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-				box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	/* 注意：box-shadow 过渡性能较低，如需阴影动画请考虑使用伪元素替代 */
+	/* Note: box-shadow transition has low performance, consider using pseudo-elements for shadow animation */
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 上午签到按钮 - 冰川青渐变 */
@@ -138,6 +140,7 @@
 /* ==================== 渐变流动动画 ==================== */
 
 /* 使用 transform 替代 background-position 以提升性能 */
+
 /* Using transform instead of background-position for better performance */
 @keyframes attendance-mobile-sign-button-gradient-flow {
 	0% {
@@ -174,7 +177,9 @@
 
 .attendance-mobile-sign-button-main-icon-mobile {
 	filter: drop-shadow(0 3px 6px rgb(0 0 0 / 0.3));
+
 	/* 明确指定过渡属性以提升性能，避免使用 all */
+
 	/* Explicitly specify transition properties for better performance, avoid using all */
 	transition: transform 0.3s ease,
 				filter 0.3s ease;
@@ -202,7 +207,9 @@
 	color: white;
 	letter-spacing: 1px;
 	text-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
+
 	/* 明确指定过渡属性以提升性能，避免使用 all */
+
 	/* Explicitly specify transition properties for better performance, avoid using all */
 	transition: opacity 0.3s ease,
 				transform 0.3s ease;
@@ -221,20 +228,27 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	width: 0;
-	height: 0;
+	/* 使用固定尺寸配合 scale 实现高性能波纹效果 */
+	/* Use fixed size with scale for high-performance ripple effect */
+	width: 200px;
+	height: 200px;
 	background: rgb(255 255 255 / 0.3);
 	border-radius: 50%;
-	transform: translate(-50%, -50%);
+	/* 初始状态为缩放0，使用transform实现动画 */
+	/* Initial state is scale(0), use transform for animation */
+	transform: translate(-50%, -50%) scale(0);
+
 	/* 明确指定过渡属性以提升性能，避免使用 all */
 	/* Explicitly specify transition properties for better performance, avoid using all */
-	transition: width 0.6s ease,
-				height 0.6s ease;
+	/* 使用 transform 替代 width/height 以获得更好的性能 */
+	/* Use transform instead of width/height for better performance */
+	transition: transform 0.6s ease;
 }
 
 .attendance-mobile-sign-button-button-mobile:active:not(:disabled) .attendance-mobile-sign-button-ripple-mobile {
-	width: 200px;
-	height: 200px;
+	/* 使用 scale 实现波纹扩散效果，性能更好 */
+	/* Use scale for ripple spread effect, better performance */
+	transform: translate(-50%, -50%) scale(1);
 }
 
 /* ==================== 动画 ==================== */
