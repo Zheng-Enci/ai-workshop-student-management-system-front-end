@@ -66,27 +66,31 @@ onMounted(() => {
 			<div class="register-page-mobile-gradient-orb register-page-mobile-orb-3"/>
 		</div>
 
-		<!-- 返回首页按钮（圆角矩形按钮，仅包含文字） -->
-		<el-button
-			class="register-page-mobile-header-home-btn"
-			type="primary"
-			@click="pageLogic.goToHome()">
-			首页
-		</el-button>
+		<!-- 顶栏容器（包含首页按钮和Logo，使用flex布局自动对齐） -->
+		<div class="register-page-mobile-header-top-bar">
+			<!-- 返回首页按钮（圆角矩形按钮，仅包含文字） -->
+			<el-button
+				class="register-page-mobile-header-home-btn"
+				type="primary"
+				@click="pageLogic.goToHome()">
+				首页
+			</el-button>
+
+			<!-- 系统logo（点击切换主题） -->
+			<img
+				src="@/assets/AiWorkShop_icon.png"
+				alt="AI坊学生管理系统"
+				class="register-page-mobile-header-logo"
+				title="切换主题模式"
+				@click="pageLogic.toggleTheme"/>
+		</div>
 
 		<!-- 注册表单核心内容区 -->
 		<div class="register-page-mobile-content">
 			<!-- 注册卡片容器（带圆角/阴影/半透明） -->
 			<div class="register-page-mobile-card">
-				<!-- 卡片头部（logo+系统名称） -->
+				<!-- 卡片头部（系统名称+副标题） -->
 				<div class="register-page-mobile-header-card-header">
-					<!-- 系统logo（点击切换主题） -->
-					<img
-						src="@/assets/AiWorkShop_icon.png"
-						alt="AI坊学生管理系统"
-						class="register-page-mobile-header-logo"
-						title="切换主题模式"
-						@click="pageLogic.toggleTheme"/>
 					<h1>AI坊学生管理系统</h1>
 					<p class="register-page-mobile-header-subtitle">AI Workshop Student Management System</p>
 				</div>
