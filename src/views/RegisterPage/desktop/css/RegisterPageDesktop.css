@@ -340,26 +340,39 @@ html.dark .register-page-desktop-card {
 }
 
 /**
+ * 欢迎语容器
+ * 添加半透明背景层，确保文字在深色背景上清晰可见
+ */
+.register-page-desktop-card-header {
+	margin-bottom: 30px;
+	text-align: center;
+	padding: 16px 24px;
+	background: rgb(255 255 255 / 0.85);
+	border-radius: 12px;
+	backdrop-filter: blur(8px);
+}
+
+/**
  * 欢迎语（中文）
- * 日间模式：白色文字
+ * 日间模式：深色文字，在白色半透明背景上清晰显示
  */
 .register-page-desktop-welcome {
-	margin: 12px 0 0;
+	margin: 0;
 	font-size: 18px;
 	font-weight: 700;
-	color: #fff;
+	color: #1a1a2e;
 	letter-spacing: 4px;
 }
 
 /**
  * 欢迎语（英文）
- * 日间模式：白色文字
+ * 日间模式：深色文字，在白色半透明背景上清晰显示
  */
 .register-page-desktop-welcome-en {
-	margin: 4px 0 0;
+	margin: 8px 0 0;
 	font-size: 14px;
 	font-weight: 600;
-	color: rgb(255 255 255 / 0.9);
+	color: #2d2d44;
 	letter-spacing: 2px;
 }
 
