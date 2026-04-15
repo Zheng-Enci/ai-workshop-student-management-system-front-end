@@ -834,6 +834,7 @@ onUnmounted(() => {
 					<!-- 自定义头像：懒加载 -->
 				<img
 					v-if="hasAvatar && avatarUrl"
+					v-lazy="avatarUrl"
 					:src="avatarUrl"
 					alt="用户头像"
 					class="attendance-mobile-header-avatar-image-mobile"/>
