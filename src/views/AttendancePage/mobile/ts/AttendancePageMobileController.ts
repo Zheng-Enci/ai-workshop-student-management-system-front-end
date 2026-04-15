@@ -503,18 +503,15 @@ export default class AttendancePageMobileController {
 
 	/**
 	 * 更新火焰控制器
+	 * 计算本周总签到次数（所有日期的 morning + afternoon + evening）
 	 */
 	private updateFlameController(): void {
-		const today = new Date().toDateString()
-		const todayData = this.weeklyAttendanceData.value.find(item => {
-			const itemDate = new Date(item.date)
-			return itemDate.toDateString() === today
+		// 计算本周总签到次数（所有日期的签到时段总和）
+		let totalCount = 0
+		this.weeklyAttendanceData.value.forEach(dayData => {
+			totalCount += Object.values(dayData.slots).filter(Boolean).length
 		})
-
-		if (todayData) {
-			const count = Object.values(todayData.slots).filter(Boolean).length
-			this.flameController.updateCount(count)
-		}
+		this.flameController.updateCount(totalCount)
 	}
 
 	// ======================== 签到提交方法 ========================
