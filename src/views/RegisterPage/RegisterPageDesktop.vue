@@ -267,7 +267,7 @@ const handleRegister = async () => {
 		userStore.setUserInfo(userInfo, response.data.token)
 
 		// 第六步：跳转到导航主页面
-		router.push('/navigation')
+		await router.push('/navigation')
 	} catch (error) {
 		// 异常处理：提示错误信息
 		ElMessage.error(error.message || '注册失败，请检查您的信息')
