@@ -40,7 +40,7 @@ import {
 	getStudentCountByLevel
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading.ts'
 
 export default class DashboardPageDesktop {
 	/**
@@ -684,14 +684,14 @@ export default class DashboardPageDesktop {
 	public async loadData(): Promise<void> {
 		try {
 			this.loadingMaskStore.showLoadingMask('正在加载数据...')
-			
+
 			await this.dataLoader.loadData()
-			
+
 			await nextTick()
 			this.initCharts()
-			
+
 			VerificationCode.startAutoRefresh()
-			
+
 			this.loadingMaskStore.hideLoadingMask()
 		} catch (error) {
 			console.error('加载数据失败:', error)
@@ -797,7 +797,7 @@ export default class DashboardPageDesktop {
 	 */
 	public onUnmounted(): void {
 		this.stopProgressAnimation()
-		
+
 		if (this.gradeChartInstance) {
 			this.gradeChartInstance.dispose()
 			this.gradeChartInstance = null

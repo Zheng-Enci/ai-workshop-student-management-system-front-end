@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading.ts'
 import LoadingMask from '@/components/LoadingMask.vue'
 import DateRangeSelector from './forms/desktop/DateRangeSelector.vue'
 import { ElButton, ElIcon } from 'element-plus'

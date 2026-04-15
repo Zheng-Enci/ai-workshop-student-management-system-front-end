@@ -52,7 +52,7 @@ import { useThemeStore } from '@/stores/theme'
 // 状态管理：用户信息
 import { useUserStore } from '@/stores/user'
 // 状态管理：全局加载蒙版
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading'
 // 全局加载蒙版组件
 import LoadingMask from '@/components/LoadingMask.vue'
 
@@ -232,13 +232,13 @@ const formatCalendarTitle = date => {
 	const month = dateObj.getMonth() + 1
 	// 月份中文名映射
 	const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
-	
+
 	// 检查日期是否有效
 	if (isNaN(year) || isNaN(month)) {
 		const today = new Date()
 		return `${today.getFullYear()}年 ${monthNames[today.getMonth()]}`
 	}
-	
+
 	return `${year}年 ${monthNames[month - 1]}`
 }
 

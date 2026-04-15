@@ -9,7 +9,7 @@ import {ref, computed} from 'vue'
 import {ElDialog, ElButton, ElMessage} from 'element-plus'
 import SpecialPasswordApi from '../../../../api/ts/SpecialPasswordApi.ts'
 import {specialPassword, updateStudentAdmin} from '../../ts/AdminPage.ts'
-import {useLoadingMaskStore} from '../../../../stores/loading'
+import {useLoadingMaskStore} from '../../../../stores/ts/loading'
 import {nextTick} from 'vue'
 import {allStudentInfos} from '../../ts/AdminPage.ts'
 

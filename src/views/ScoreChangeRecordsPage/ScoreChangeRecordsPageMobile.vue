@@ -10,7 +10,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading'
 import LoadingMask from '@/components/LoadingMask.vue'
 
 import 'element-plus/theme-chalk/el-button.css'

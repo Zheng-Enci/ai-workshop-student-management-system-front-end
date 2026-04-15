@@ -9,7 +9,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { ElDialog, ElTable, ElTableColumn, ElButton, ElMessage, ElTag, ElIcon, ElPopover } from 'element-plus'
 import { Document } from '@element-plus/icons-vue'
 import PointsApi from '../../../../api/ts/PointsApi.ts'
-import { useLoadingMaskStore } from '../../../../stores/loading'
+import { useLoadingMaskStore } from '../../../../stores/ts/loading'
 
 // Props
 const props = defineProps({

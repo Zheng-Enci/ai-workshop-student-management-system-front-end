@@ -11,7 +11,7 @@
  */
 import { onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading.ts'
 import LoadingMask from '@/components/LoadingMask.vue'
 
 /**

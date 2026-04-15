@@ -13,7 +13,7 @@ import {nextTick, ref} from "vue";
 // 导入主题 Store
 import {useThemeStore} from '../../../stores/theme'
 // 导入加载蒙版 Store
-import {useLoadingMaskStore} from '../../../stores/loading'
+import {useLoadingMaskStore} from '../../../stores/ts/loading.ts'
 import {adminPageConfig} from "./AdminPageConfig";
 import StudentApi from "../../../api/StudentApi.js";
 
@@ -525,7 +525,7 @@ export function sortStudents(sortBy: string): void {
 		toShowStudentInfos.value.sort((a, b) => b.attendanceCount - a.attendanceCount)
 	} else if (sortBy === 'activity_count') {
 		toShowStudentInfos.value.sort((a, b) => b.totalPoints - a.totalPoints)
-	} 
+	}
 }
 
 

@@ -54,7 +54,7 @@ import {
 	getStudentCountByLevel
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading'
 
 // ===================== 全局实例初始化 =====================
 /**

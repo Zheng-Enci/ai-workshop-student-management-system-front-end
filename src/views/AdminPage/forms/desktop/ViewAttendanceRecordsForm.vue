@@ -10,7 +10,7 @@ import {computed, nextTick, ref, watch} from 'vue'
 import {ElButton, ElCalendar, ElDialog, ElIcon, ElMessage} from 'element-plus'
 import {Calendar} from '@element-plus/icons-vue'
 import AttendanceApi from '../../../../api/ts/AttendanceApi.ts'
-import {useLoadingMaskStore} from '../../../../stores/loading'
+import {useLoadingMaskStore} from '../../../../stores/ts/loading'
 
 
 // Props

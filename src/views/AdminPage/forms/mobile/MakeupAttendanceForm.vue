@@ -9,7 +9,7 @@ import { ref, computed } from 'vue'
 import { ElDialog, ElForm, ElFormItem, ElButton, ElMessage } from 'element-plus'
 import SpecialPasswordApi from '../../../../api/ts/SpecialPasswordApi'
 import { specialPassword } from '../../ts/AdminPage'
-import { useLoadingMaskStore } from '../../../../stores/loading'
+import { useLoadingMaskStore } from '../../../../stores/ts/loading'
 
 // 时间按钮配置
 const timeButtons = [

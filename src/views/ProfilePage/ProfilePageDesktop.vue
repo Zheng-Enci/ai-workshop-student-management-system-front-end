@@ -1,7 +1,7 @@
 <script setup>
 /**
  * 个人信息页面组件(桌面端)
- * 
+ *
  * @description 提供用户个人信息的查看、编辑、密码修改和头像上传功能
  * @component ProfilePageDesktop
  */
@@ -54,7 +54,7 @@ import {
 	getStudentDatabaseTableId
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading'
 import LoadingMask from '@/components/LoadingMask.vue'
 
 // ===================== 全局实例初始化 =====================

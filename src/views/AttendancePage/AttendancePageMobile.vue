@@ -36,7 +36,7 @@ import AttendanceApi from '@/api/ts/AttendanceApi' // 签到相关API接口
 // Pinia 状态管理
 import {useThemeStore} from '@/stores/theme' // 主题切换状态
 import {useUserStore} from '@/stores/user' // 用户信息状态
-import {useLoadingMaskStore} from '@/stores/loading' // 加载蒙版状态
+import {useLoadingMaskStore} from '@/stores/ts/loading.ts' // 加载蒙版状态
 // 页面组件
 import LoadingMask from '@/components/LoadingMask.vue'
 // 页面配置常量
@@ -859,10 +859,10 @@ onUnmounted(() => {
 					<div class="attendance-mobile-weekly-overview-grid-mobile">
 						<div v-for="(day, index) in weeklyAttendanceData" :key="day.date"
 								 class="attendance-mobile-weekly-overview-day-mobile"
-								 :class="{ 
-									 'today': day.isToday, 
+								 :class="{
+									 'today': day.isToday,
 									 'future': day.isFuture,
-									 'circle-animate': showCircleAnimation 
+									 'circle-animate': showCircleAnimation
 								 }"
 								 :style="{ animationDelay: `${index * 0.15}s` }">
 								<div class="attendance-mobile-weekly-overview-circle-mobile"

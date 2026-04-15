@@ -9,7 +9,7 @@ import { ref, computed, watch } from 'vue'
 import { ElDialog, ElForm, ElFormItem, ElInput, ElInputNumber, ElSelect, ElOption, ElButton, ElMessage } from 'element-plus'
 import SpecialPasswordApi from '../../../../api/ts/SpecialPasswordApi'
 import { specialPassword } from '../../ts/AdminPage'
-import { useLoadingMaskStore } from '../../../../stores/loading'
+import { useLoadingMaskStore } from '../../../../stores/ts/loading'
 import { nextTick } from 'vue'
 
 // Props

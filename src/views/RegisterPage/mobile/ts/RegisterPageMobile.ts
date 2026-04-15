@@ -17,9 +17,9 @@ import type { Router } from 'vue-router'
 // 学生 API 封装类：注册、登录、获取学生数据库主键 ID
 import StudentApi from '@/api/ts/StudentApi'
 // 状态管理：用户信息（登录态存储）
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/ts/user'
 // 状态管理：主题（暗黑/亮色）
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/ts/theme'
 // 表单数据类
 import RegisterFormData from './RegisterFormData'
 

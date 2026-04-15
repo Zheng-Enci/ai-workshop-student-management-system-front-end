@@ -9,7 +9,7 @@ import { ref, computed } from 'vue'
 import { ElDialog, ElButton, ElMessage } from 'element-plus'
 import StudentApi from '../../../../api/StudentApi.js'
 import { specialPassword, updateStudentLevel } from '../../ts/AdminPage'
-import { useLoadingMaskStore } from '../../../../stores/loading'
+import { useLoadingMaskStore } from '../../../../stores/ts/loading'
 import { nextTick } from 'vue'
 
 // Props

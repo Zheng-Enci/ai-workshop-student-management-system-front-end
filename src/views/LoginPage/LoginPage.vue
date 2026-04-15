@@ -15,7 +15,7 @@
 // ======================== 导入 ========================
 import { onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading'
 import LoadingMask from '@/components/LoadingMask.vue'
 
 // ======================== 状态 ========================

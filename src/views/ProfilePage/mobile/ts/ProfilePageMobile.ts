@@ -17,7 +17,7 @@ import {
 	getStudentDatabaseTableId
 } from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading.ts'
 import ProfilePageConfig from '@/views/ProfilePage/mobile/common/js/profile-page-common-config'
 import ProfilePageUtils from '@/views/ProfilePage/mobile/common/js/profile-page-common-utils'
 
@@ -465,19 +465,19 @@ export default class ProfilePageMobile {
 	public openPasswordDialog() {
 		// 递增点击次数
 		this.passwordDialogClickCount++
-		
+
 		// 如果对话框已经打开，直接返回，不执行关闭逻辑
 		if (this.showPasswordDialog.value) {
 			return
 		}
-		
+
 		// 强制重置isPasswordDialogClosing为false，确保对话框可以正常打开
 		this.isPasswordDialogClosing.value = false
-		
+
 		// 延迟打开对话框，确保closePasswordDialog方法执行完成
 		setTimeout(() => {
 			this.showPasswordDialog.value = true
-			
+
 			// 延迟设置透明度，确保对话框已经显示
 			setTimeout(() => {
 				const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
@@ -485,7 +485,7 @@ export default class ProfilePageMobile {
 					dialogWrapper.style.opacity = '1'
 				}
 			}, 10)
-			
+
 			this.resetPasswordForm()
 		}, 50)
 	}
@@ -519,17 +519,17 @@ export default class ProfilePageMobile {
 		}
 
 		this.isPasswordDialogClosing.value = true
-		
+
 		const dialogWrapper = document.querySelector('.profile-page-mobile-change-password-dialog-overlay')
 		if (dialogWrapper) {
 			dialogWrapper.style.opacity = '0'
 		}
-		
+
 		this.passwordForm.newPassword = ''
 		this.passwordForm.confirmPassword = ''
-		
+
 		this.showPasswordDialog.value = false
-		
+
 		setTimeout(() => {
 			this.passwordForm.oldPassword = ''
 			this.isPasswordDialogClosing.value = false

@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import {useLoadingMaskStore} from '../stores/loading'
-import type {LoadingMaskStore} from '../stores/loading'
+import {useLoadingMaskStore} from '../stores/ts/loading.ts'
+import type {LoadingMaskStore} from '../stores/ts/loading.ts'
 
 const loadingMaskStore: LoadingMaskStore = useLoadingMaskStore()
 </script>

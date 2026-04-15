@@ -23,7 +23,7 @@
 import { onMounted, nextTick } from 'vue'
 // Vue Router 路由功能导入
 import { useRouter } from 'vue-router'
-import { useLoadingMaskStore } from '@/stores/loading'
+import { useLoadingMaskStore } from '@/stores/ts/loading.ts'
 import LoadingMask from '@/components/LoadingMask.vue'
 
 // ===================== 全局实例初始化 =====================
