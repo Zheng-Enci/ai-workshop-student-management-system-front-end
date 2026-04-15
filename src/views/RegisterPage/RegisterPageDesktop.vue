@@ -322,7 +322,15 @@ onMounted(() => {
 			<div class="register-page-desktop-gradient-orb orb-3"/>
 		</div>
 
-		<!-- 返回首页按钮（圆形悬浮按钮） -->
+		<!-- 系统logo（右上角，点击切换主题） -->
+		<img
+			src="@/assets/AiWorkShop_icon.png"
+			alt="AI坊学生管理系统"
+			class="register-page-desktop-logo"
+			title="切换主题模式"
+			@click="toggleTheme"/>
+
+		<!-- 返回首页按钮 -->
 		<el-button
 			class="register-page-desktop-home-btn"
 			type="primary"
@@ -346,15 +354,8 @@ onMounted(() => {
 			<div class="register-page-desktop-main-layout">
 				<!-- 注册卡片容器（带圆角/阴影/半透明） -->
 				<div class="register-page-desktop-card">
-				<!-- 卡片头部（logo+系统名称） -->
+				<!-- 卡片头部（系统名称） -->
 				<div class="register-page-desktop-card-header">
-					<!-- 系统logo（点击切换主题） -->
-					<img
-						src="@/assets/AiWorkShop_icon.png"
-						alt="AI坊学生管理系统"
-						class="register-page-desktop-logo"
-						title="切换主题模式"
-						@click="toggleTheme"/>
 					<h1>AI坊学生管理系统</h1>
 					<p class="register-page-desktop-subtitle">人工智能创作坊</p>
 				</div>
