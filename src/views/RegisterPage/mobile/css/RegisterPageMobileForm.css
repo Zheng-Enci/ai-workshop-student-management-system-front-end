@@ -430,8 +430,12 @@
 	background: transparent !important;
 	--el-input-bg-color: transparent !important;
 	--el-fill-color-blank: transparent !important;
-	--el-select-input-color: transparent !important;
 	box-shadow: none !important;
+}
+
+/* 确保下拉框文字颜色可见 */
+.register-page-mobile-form-custom-select .el-input__inner {
+	color: #1f2937 !important;
 }
 
 .register-page-mobile-form-custom-select :deep(.el-input__inner) {
@@ -562,6 +566,7 @@
  */
 .register-page-mobile-form-gender-select-dropdown {
 	border-radius: 8px;
+	z-index: 9999 !important;
 }
 
 /**
@@ -569,6 +574,7 @@
  */
 .register-page-mobile-form-college-select-dropdown {
 	border-radius: 8px;
+	z-index: 9999 !important;
 }
 
 /**
@@ -576,6 +582,36 @@
  */
 .register-page-mobile-form-grade-select-dropdown {
 	border-radius: 8px;
+	z-index: 9999 !important;
+}
+
+/**
+ * 下拉菜单选项样式
+ */
+.register-page-mobile-form-gender-select-dropdown .el-select-dropdown__item,
+.register-page-mobile-form-college-select-dropdown .el-select-dropdown__item,
+.register-page-mobile-form-grade-select-dropdown .el-select-dropdown__item {
+	font-size: 14px;
+	color: #1f2937;
+}
+
+/**
+ * 下拉菜单选项悬停样式
+ */
+.register-page-mobile-form-gender-select-dropdown .el-select-dropdown__item:hover,
+.register-page-mobile-form-college-select-dropdown .el-select-dropdown__item:hover,
+.register-page-mobile-form-grade-select-dropdown .el-select-dropdown__item:hover {
+	background-color: rgb(243 244 246);
+}
+
+/**
+ * 下拉菜单选中选项样式
+ */
+.register-page-mobile-form-gender-select-dropdown .el-select-dropdown__item.selected,
+.register-page-mobile-form-college-select-dropdown .el-select-dropdown__item.selected,
+.register-page-mobile-form-grade-select-dropdown .el-select-dropdown__item.selected {
+	color: rgb(62 158 172);
+	font-weight: 600;
 }
 
 /* ===================== 深色模式适配 ===================== */
