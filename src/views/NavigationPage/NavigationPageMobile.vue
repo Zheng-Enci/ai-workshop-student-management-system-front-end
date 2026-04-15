@@ -120,7 +120,7 @@ const hasAvatar = ref(false)
 const avatarLoading = ref(false)
 /**
  * 头像提示是否已显示
- * @description 控制"上传头像"提示只显示一次
+ * @description 控制"上传头像"提示仅显示一次
  */
 const avatarTipShown = ref(false)
 
@@ -549,9 +549,9 @@ const loadUserAvatar = async () => {
 					img.src = avatarUrlString
 				} else {
 					/**
-					 * 返回的不是图片(可能是JSON错误信息),头像不存在
-					 * @description 服务器返回了非图片内容,判定头像不存在
-					 */
+				 * 返回的不是图片(可能是JSON错误信息),头像不存在
+				 * @description 服务器返回了非图片类内容,判定头像不存在
+				 */
 					showDefaultAvatar()
 					avatarLoading.value = false
 				}
