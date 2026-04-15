@@ -665,7 +665,8 @@ html.dark .register-page-desktop-input-group:focus-within {
  * 深色模式下的输入框文字颜色
  * 强制为白色，与下拉框保持一致
  */
-html.dark .register-page-desktop-custom-input .el-input__inner {
+html.dark .register-page-desktop-custom-input .el-input__inner,
+html.dark .register-page-desktop-custom-input .el-input__inner input {
 	color: #fff !important;
 }
 
@@ -673,7 +674,8 @@ html.dark .register-page-desktop-custom-input .el-input__inner {
  * 深色模式下的下拉框文字颜色
  * 保持白色
  */
-html.dark .register-page-desktop-custom-select .el-input__inner {
+html.dark .register-page-desktop-custom-select .el-input__inner,
+html.dark .register-page-desktop-custom-select .el-input__inner input {
 	color: #fff !important;
 }
 
