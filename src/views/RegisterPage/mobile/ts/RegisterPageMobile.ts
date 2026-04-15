@@ -48,15 +48,16 @@ export default class RegisterPageMobile {
 	/**
 	 * 表单数据实例
 	 * @private
+	 * @readonly
 	 */
-	private _formData: RegisterFormData
+	private readonly _formData: RegisterFormData
 
 	// ===================== 公共响应式属性 =====================
 	/**
 	 * 表单引用实例（用于表单校验）
 	 * @public
 	 */
-	public formRef: Ref<unknown | null>
+	public formRef: Ref<{ validate: () => Promise<void> } | null>
 
 	/**
 	 * 注册按钮加载状态（防止重复提交）
