@@ -303,10 +303,10 @@ onUnmounted(() => {
 				/>
 				<!-- 弹窗操作按钮：取消/确认 -->
 				<div class="attendance-page-mobile-verification-code-actions-mobile">
-					<el-button @click.stop="controller.cancelVerificationCode()">取消</el-button>
-					<el-button type="primary" 
-							   :loading="controller.loading.value" 
-							   @click.stop="controller.submitVerificationCode()">
+					<el-button @click="controller.cancelVerificationCode()">取消</el-button>
+					<el-button type="primary"
+							   :loading="controller.loading.value"
+							   @click="controller.submitVerificationCode()">
 						确认
 					</el-button>
 				</div>
