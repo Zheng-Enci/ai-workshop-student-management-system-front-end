@@ -296,37 +296,37 @@ onMounted(() => {
 
 <template>
 	<!-- 注册页面根容器 -->
-	<div class="register-container">
+	<div class="register-page-desktop-container">
 		<!-- 背景装饰效果（渐变球体） -->
-		<div class="background-effects">
-			<div class="gradient-orb orb-1"/>
-			<div class="gradient-orb orb-2"/>
-			<div class="gradient-orb orb-3"/>
+		<div class="register-page-desktop-background-effects">
+			<div class="register-page-desktop-gradient-orb orb-1"/>
+			<div class="register-page-desktop-gradient-orb orb-2"/>
+			<div class="register-page-desktop-gradient-orb orb-3"/>
 		</div>
 
 		<!-- 返回首页按钮（圆形悬浮按钮） -->
 		<el-button
-			class="home-btn"
+			class="register-page-desktop-home-btn"
 			type="primary"
 			:icon="House"
 			circle
 			@click="goToHome"/>
 
 		<!-- 注册表单核心内容区 -->
-		<div class="register-content">
+		<div class="register-page-desktop-content">
 			<!-- 注册卡片容器（带圆角/阴影/半透明） -->
-			<div class="register-card">
+			<div class="register-page-desktop-card">
 				<!-- 卡片头部（logo+系统名称） -->
-				<div class="card-header">
+				<div class="register-page-desktop-card-header">
 					<!-- 系统logo（点击切换主题） -->
 					<img
 						src="@/assets/AiWorkShop_icon.png"
 						alt="AI坊学生管理系统"
-						class="logo"
+						class="register-page-desktop-logo"
 						title="切换主题模式"
 						@click="toggleTheme"/>
 					<h1>AI坊学生管理系统</h1>
-					<p class="subtitle">人工智能创作坊</p>
+					<p class="register-page-desktop-subtitle">人工智能创作坊</p>
 				</div>
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
@@ -335,13 +335,13 @@ onMounted(() => {
 					:model="form"
 					:rules="rules"
 					label-width="0px"
-					class="register-form">
+					class="register-page-desktop-form">
 					<!-- 第一行：姓名 + 学号 -->
-					<div class="form-row">
+					<div class="register-page-desktop-form-row">
 						<!-- 姓名字段 -->
-						<el-form-item prop="name" class="form-item-half form-item">
-							<div class="input-group">
-								<div class="input-icon">
+						<el-form-item prop="name" class="register-page-desktop-form-item-half register-page-desktop-form-item">
+							<div class="register-page-desktop-input-group">
+								<div class="register-page-desktop-input-icon">
 									<el-icon>
 										<user/>
 									</el-icon>
@@ -349,16 +349,16 @@ onMounted(() => {
 								<el-input
 									v-model="form.name"
 									placeholder="请输入姓名"
-									class="custom-input"
+									class="register-page-desktop-custom-input"
 									size="large"
 								/>
 							</div>
 						</el-form-item>
 
 						<!-- 学号字段 -->
-						<el-form-item prop="studentId" class="form-item-half form-item">
-							<div class="input-group">
-								<div class="input-icon">
+						<el-form-item prop="studentId" class="register-page-desktop-form-item-half register-page-desktop-form-item">
+							<div class="register-page-desktop-input-group">
+								<div class="register-page-desktop-input-icon">
 									<el-icon>
 										<collection/>
 									</el-icon>
@@ -366,7 +366,7 @@ onMounted(() => {
 								<el-input
 									v-model="form.studentId"
 									placeholder="请输入学号"
-									class="custom-input"
+									class="register-page-desktop-custom-input"
 									size="large"
 								/>
 							</div>
@@ -374,11 +374,11 @@ onMounted(() => {
 					</div>
 
 					<!-- 第二行：性别 + 手机号 -->
-					<div class="form-row">
+					<div class="register-page-desktop-form-row">
 						<!-- 性别字段（下拉选择） -->
-						<el-form-item prop="gender" class="form-item-half form-item">
-							<div class="input-group">
-								<div class="input-icon">
+						<el-form-item prop="gender" class="register-page-desktop-form-item-half register-page-desktop-form-item">
+							<div class="register-page-desktop-input-group">
+								<div class="register-page-desktop-input-icon">
 									<el-icon>
 										<user/>
 									</el-icon>
@@ -386,9 +386,9 @@ onMounted(() => {
 								<el-select
 									v-model="form.gender"
 									placeholder="请选择性别"
-									class="custom-select"
+									class="register-page-desktop-custom-select"
 									size="large"
-									popper-class="gender-select-dropdown"
+									popper-class="register-page-desktop-gender-select-dropdown"
 								>
 									<el-option label="男" value="男"/>
 									<el-option label="女" value="女"/>
@@ -397,9 +397,9 @@ onMounted(() => {
 						</el-form-item>
 
 						<!-- 手机号字段 -->
-						<el-form-item prop="phoneNumber" class="form-item-half form-item">
-							<div class="input-group">
-								<div class="input-icon">
+						<el-form-item prop="phoneNumber" class="register-page-desktop-form-item-half register-page-desktop-form-item">
+							<div class="register-page-desktop-input-group">
+								<div class="register-page-desktop-input-icon">
 									<el-icon>
 										<phone/>
 									</el-icon>
@@ -407,7 +407,7 @@ onMounted(() => {
 								<el-input
 									v-model="form.phoneNumber"
 									placeholder="请输入手机号"
-									class="custom-input"
+									class="register-page-desktop-custom-input"
 									size="large"
 								/>
 							</div>
@@ -415,11 +415,11 @@ onMounted(() => {
 					</div>
 
 					<!-- 第三行：学院 + 专业 -->
-					<div class="form-row">
+					<div class="register-page-desktop-form-row">
 						<!-- 学院字段（下拉选择） -->
-						<el-form-item prop="college" class="form-item-half form-item">
-							<div class="input-group">
-								<div class="input-icon">
+						<el-form-item prop="college" class="register-page-desktop-form-item-half register-page-desktop-form-item">
+							<div class="register-page-desktop-input-group">
+								<div class="register-page-desktop-input-icon">
 									<el-icon>
 										<school/>
 									</el-icon>
@@ -427,9 +427,9 @@ onMounted(() => {
 								<el-select
 									v-model="form.college"
 									placeholder="请选择学院"
-									class="custom-select"
+									class="register-page-desktop-custom-select"
 									size="large"
-									popper-class="college-select-dropdown"
+									popper-class="register-page-desktop-college-select-dropdown"
 								>
 									<el-option
 										v-for="college in collegeOptions"
@@ -442,9 +442,9 @@ onMounted(() => {
 						</el-form-item>
 
 						<!-- 专业字段 -->
-						<el-form-item prop="major" class="form-item-half form-item">
-							<div class="input-group">
-								<div class="input-icon">
+						<el-form-item prop="major" class="register-page-desktop-form-item-half register-page-desktop-form-item">
+							<div class="register-page-desktop-input-group">
+								<div class="register-page-desktop-input-icon">
 									<el-icon>
 										<school/>
 									</el-icon>
@@ -452,7 +452,7 @@ onMounted(() => {
 								<el-input
 									v-model="form.major"
 									placeholder="请输入专业"
-									class="custom-input"
+									class="register-page-desktop-custom-input"
 									size="large"
 								/>
 							</div>
@@ -460,11 +460,11 @@ onMounted(() => {
 					</div>
 
 					<!-- 第四行：年级 + 班级 -->
-					<div class="form-row">
+					<div class="register-page-desktop-form-row">
 						<!-- 年级字段（下拉选择） -->
-						<el-form-item prop="grade" class="form-item-half form-item">
-							<div class="input-group">
-								<div class="input-icon">
+						<el-form-item prop="grade" class="register-page-desktop-form-item-half register-page-desktop-form-item">
+							<div class="register-page-desktop-input-group">
+								<div class="register-page-desktop-input-icon">
 									<el-icon>
 										<school/>
 									</el-icon>
@@ -472,9 +472,9 @@ onMounted(() => {
 								<el-select
 									v-model="form.grade"
 									placeholder="请选择年级"
-									class="custom-select"
+									class="register-page-desktop-custom-select"
 									size="large"
-									popper-class="grade-select-dropdown"
+									popper-class="register-page-desktop-grade-select-dropdown"
 								>
 									<el-option label="1年级" value="1"/>
 									<el-option label="2年级" value="2"/>
@@ -486,9 +486,9 @@ onMounted(() => {
 						</el-form-item>
 
 						<!-- 班级字段（数字输入） -->
-						<el-form-item prop="classNum" class="form-item-half form-item">
-							<div class="input-group">
-								<div class="input-icon">
+						<el-form-item prop="classNum" class="register-page-desktop-form-item-half register-page-desktop-form-item">
+							<div class="register-page-desktop-input-group">
+								<div class="register-page-desktop-input-icon">
 									<el-icon>
 										<school/>
 									</el-icon>
@@ -496,7 +496,7 @@ onMounted(() => {
 								<el-input
 									v-model.number="form.classNum"
 									placeholder="请输入班级"
-									class="custom-input"
+									class="register-page-desktop-custom-input"
 									size="large"
 									type="number"
 									:min="1"
@@ -507,9 +507,9 @@ onMounted(() => {
 					</div>
 
 					<!-- 密码字段 -->
-					<el-form-item prop="password" class="form-item password-form-item">
-						<div class="input-group">
-							<div class="input-icon">
+					<el-form-item prop="password" class="register-page-desktop-form-item register-page-desktop-password-form-item">
+						<div class="register-page-desktop-input-group">
+							<div class="register-page-desktop-input-icon">
 								<el-icon>
 									<lock/>
 								</el-icon>
@@ -518,7 +518,7 @@ onMounted(() => {
 								v-model="form.password"
 								type="password"
 								placeholder="请输入密码"
-								class="custom-input"
+								class="register-page-desktop-custom-input"
 								size="large"
 								show-password
 							/>
@@ -526,9 +526,9 @@ onMounted(() => {
 					</el-form-item>
 
 					<!-- 确认密码字段 -->
-					<el-form-item prop="confirmPassword" class="form-item password-form-item">
-						<div class="input-group">
-							<div class="input-icon">
+					<el-form-item prop="confirmPassword" class="register-page-desktop-form-item register-page-desktop-password-form-item">
+						<div class="register-page-desktop-input-group">
+							<div class="register-page-desktop-input-icon">
 								<el-icon>
 									<lock/>
 								</el-icon>
@@ -537,7 +537,7 @@ onMounted(() => {
 								v-model="form.confirmPassword"
 								type="password"
 								placeholder="请确认密码"
-								class="custom-input"
+								class="register-page-desktop-custom-input"
 								size="large"
 								show-password
 							/>
@@ -545,9 +545,9 @@ onMounted(() => {
 					</el-form-item>
 
 					<!-- 邀请码字段 -->
-					<el-form-item prop="invitationCode" class="form-item last-input-form-item">
-						<div class="input-group">
-							<div class="input-icon">
+					<el-form-item prop="invitationCode" class="register-page-desktop-form-item register-page-desktop-last-input-form-item">
+						<div class="register-page-desktop-input-group">
+							<div class="register-page-desktop-input-icon">
 								<el-icon>
 									<collection/>
 								</el-icon>
@@ -555,7 +555,7 @@ onMounted(() => {
 							<el-input
 								v-model="form.invitationCode"
 								placeholder="请输入邀请码"
-								class="custom-input"
+								class="register-page-desktop-custom-input"
 								size="large"
 							/>
 						</div>
@@ -564,7 +564,7 @@ onMounted(() => {
 					<!-- 注册按钮（带加载状态/禁用） -->
 					<el-button
 						type="primary"
-						class="register-button"
+						class="register-page-desktop-register-button"
 						size="large"
 						:loading="isLoading"
 						:disabled="isLoading"
@@ -575,8 +575,8 @@ onMounted(() => {
 				</el-form>
 
 				<!-- 卡片底部（登录链接） -->
-				<div class="card-footer">
-					<p class="login-link">
+				<div class="register-page-desktop-card-footer">
+					<p class="register-page-desktop-login-link">
 						已有账号？
 						<router-link to="/login" class="link">立即登录</router-link>
 					</p>
@@ -585,4 +585,3 @@ onMounted(() => {
 		</div>
 	</div>
 </template>
-
