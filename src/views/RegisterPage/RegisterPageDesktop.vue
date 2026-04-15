@@ -76,10 +76,10 @@ const collegeOptions = [
 	'继续教育学院'
 ]
 
-// ===================== 响应式变量定义区 =====================
+// ===================== 类型定义 =====================
 /**
- * 注册表单数据模型
- * @type {Ref<Object>}
+ * 注册表单数据类型
+ * @typedef {Object} RegisterForm
  * @property {string} name - 学生姓名
  * @property {string} studentId - 学号（10位数字，20-30开头）
  * @property {string} gender - 性别（男/女）
@@ -90,6 +90,13 @@ const collegeOptions = [
  * @property {number|null} classNum - 班级（1-100的数字）
  * @property {string} password - 密码（6-16位）
  * @property {string} confirmPassword - 确认密码（与密码一致）
+ * @property {string} invitationCode - 邀请码
+ */
+
+// ===================== 响应式变量定义区 =====================
+/**
+ * 注册表单数据模型
+ * @type {Ref<RegisterForm>}
  */
 const form = ref({
 	name: '',
@@ -107,7 +114,7 @@ const form = ref({
 
 /**
  * 表单引用实例（用于表单校验）
- * @type {Ref<ElForm | null>}
+ * @type {Ref<import('element-plus').FormInstance | null>}
  */
 const formRef = ref(null)
 
