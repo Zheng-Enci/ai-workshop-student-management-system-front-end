@@ -209,10 +209,10 @@ html.dark .register-page-desktop-container::before {
 }
 
 /**
- * 展示图片区域容器（占满左边区域）
+ * 展示图片区域容器（占满左边 38.2% 区域）
  */
 .register-page-desktop-showcase {
-	width: 100%;
+	width: 38.2%;
 	height: 100vh;
 	display: flex;
 	align-items: center;
@@ -586,11 +586,14 @@ html.dark .register-page-desktop-card-footer {
 
 /**
  * 展示图片容器
+ * 图片相对于容器大小为 80%
  */
 .register-page-desktop-showcase-image {
-	width: 100%;
-	height: 100%;
+	width: 80%;
+	height: 80%;
 	object-fit: cover;
+	border-radius: 12px;
+	box-shadow: 0 4px 20px rgb(0 0 0 / 0.15);
 	z-index: 10;
 	position: relative;
 }
