@@ -303,27 +303,40 @@ html.dark .register-page-desktop-card {
 }
 
 /**
- * 系统名称
- * 日间模式：白色文字
+ * 页面顶部中央标题容器
+ * 固定在页面顶部中央，与首页按钮和logo中心对齐
  */
-.register-page-desktop-card-header h1 {
+.register-page-desktop-page-title {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	z-index: 100;
+}
+
+/**
+ * 页面顶部主标题
+ * 白色文字 + 阴影
+ */
+.register-page-desktop-page-title h1 {
 	margin: 0;
-	font-size: 28px;
+	font-size: 24px;
 	font-weight: 700;
 	color: #fff;
 	text-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
 }
 
 /**
- * 副标题
- * 日间模式：白色文字
+ * 页面顶部副标题
+ * 白色文字
  */
-.register-page-desktop-subtitle {
-	margin: 8px 0 0;
-	font-size: 16px;
-	font-weight: 800;
+.register-page-desktop-page-subtitle {
+	margin: 4px 0 0;
+	font-size: 14px;
+	font-weight: 600;
 	color: rgb(255 255 255 / 0.9);
-	letter-spacing: 2px;
+	letter-spacing: 1px;
 }
 
 /**

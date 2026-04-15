@@ -343,6 +343,12 @@ onMounted(() => {
 			<span>首页</span>
 		</el-button>
 
+		<!-- 页面顶部中央标题 -->
+		<div class="register-page-desktop-page-title">
+			<h1>AI坊学生管理系统</h1>
+			<p class="register-page-desktop-page-subtitle">AI Workshop Student Management System</p>
+		</div>
+
 		<!-- 展示图片区域 -->
 		<div class="register-page-desktop-showcase">
 			<img
@@ -358,10 +364,8 @@ onMounted(() => {
 			<div class="register-page-desktop-main-layout">
 				<!-- 注册卡片容器（带圆角/阴影/半透明） -->
 				<div class="register-page-desktop-card">
-				<!-- 卡片头部（系统名称） -->
+				<!-- 卡片头部（欢迎语） -->
 				<div class="register-page-desktop-card-header">
-					<h1>AI坊学生管理系统</h1>
-					<p class="register-page-desktop-subtitle">AI Workshop Student Management System</p>
 					<p class="register-page-desktop-welcome">欢迎加入AI坊</p>
 					<p class="register-page-desktop-welcome-en">Welcome to AI Workshop</p>
 				</div>
