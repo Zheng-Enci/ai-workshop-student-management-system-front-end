@@ -232,18 +232,16 @@ html.dark .register-page-desktop-container::before {
 .register-page-desktop-card {
 	padding: 40px;
 
-	/* 完全透明背景 */
-	background: transparent;
+	/* 使用项目配色 - 纯白背景带轻微透明度 */
+	background: rgb(255 255 255 / 0.95);
 
-	/* 去除边框 */
-	border: none;
+	/* 冰川青边框 */
+	border: 1px solid rgb(56 189 248 / 0.3);
 	border-radius: 24px;
 
-	/* 去除阴影 */
-	box-shadow: none;
-
-	/* 去除模糊效果 */
-	backdrop-filter: none;
+	/* 轻微阴影 */
+	box-shadow: 0 8px 32px rgb(30 58 138 / 0.15);
+	backdrop-filter: blur(4px);
 }
 
 /**
@@ -265,10 +263,13 @@ html.dark .register-page-desktop-container::before {
  * 深色模式下的注册卡片
  */
 html.dark .register-page-desktop-card {
-	background: transparent;
-	border: none;
-	box-shadow: none;
-	backdrop-filter: none;
+	/* 深空蓝背景带透明度 */
+	background: rgb(30 58 138 / 0.95);
+	/* 冰川青边框 */
+	border: 1px solid rgb(56 189 248 / 0.3);
+	/* 深蓝色阴影 */
+	box-shadow: 0 8px 32px rgb(0 0 0 / 0.3);
+	backdrop-filter: blur(4px);
 }
 
 /* ===================== 卡片头部 ===================== */
@@ -460,9 +461,10 @@ html.dark .register-page-desktop-welcome-en {
 	width: 100%;
 	padding: 4px;
 
-	/* 玻璃模态背景 */
-	background: rgb(255 255 255 / 0.15);
+	/* 浅灰背景，与白色卡片协调 */
+	background: rgb(243 244 246 / 0.8);
 	border-radius: 12px;
+	border: 1px solid rgb(56 189 248 / 0.2);
 
 	/* 轻微模糊效果 */
 	backdrop-filter: blur(2px);
@@ -486,7 +488,8 @@ html.dark .register-page-desktop-welcome-en {
 	width: 44px;
 	height: 44px;
 	font-size: 18px;
-	color: rgb(255 255 255 / 0.8);
+	/* 冰川青色图标 */
+	color: #38bdf8;
 }
 
 /**
@@ -510,7 +513,8 @@ html.dark .register-page-desktop-welcome-en {
 .register-page-desktop-custom-input :deep(.el-input__inner) {
 	height: 44px;
 	font-size: 15px;
-	color: #fff;
+	/* 深灰色文字，在浅背景上清晰可见 */
+	color: #1f2937;
 }
 
 .register-page-desktop-custom-input :deep(.el-input__inner::placeholder) {
@@ -540,7 +544,8 @@ html.dark .register-page-desktop-welcome-en {
 .register-page-desktop-custom-select :deep(.el-input__inner) {
 	height: 44px;
 	font-size: 15px;
-	color: #fff;
+	/* 深灰色文字，在浅背景上清晰可见 */
+	color: #1f2937;
 }
 
 .register-page-desktop-custom-select :deep(.el-input__inner::placeholder) {
@@ -651,7 +656,17 @@ html.dark .register-page-desktop-welcome-en {
  * 深色模式下的输入框组
  */
 html.dark .register-page-desktop-input-group {
-	background: rgb(0 0 0 / 0.2);
+	/* 深蓝色背景，与深空蓝卡片协调 */
+	background: rgb(15 23 42 / 0.6);
+	border: 1px solid rgb(56 189 248 / 0.2);
+}
+
+/**
+ * 深色模式下的输入框图标
+ * 冰川青色
+ */
+html.dark .register-page-desktop-input-icon {
+	color: #38bdf8;
 }
 
 html.dark .register-page-desktop-input-group:focus-within {
@@ -663,7 +678,7 @@ html.dark .register-page-desktop-input-group:focus-within {
 
 /**
  * 深色模式下的输入框文字颜色
- * 强制为白色，与下拉框保持一致
+ * 白色文字，在深蓝色背景上清晰可见
  */
 html.dark .register-page-desktop-custom-input input.el-input__inner {
 	color: #fff !important;
@@ -671,7 +686,7 @@ html.dark .register-page-desktop-custom-input input.el-input__inner {
 
 /**
  * 深色模式下的下拉框文字颜色
- * 保持白色
+ * 白色文字，在深蓝色背景上清晰可见
  */
 html.dark .register-page-desktop-custom-select input.el-input__inner {
 	color: #fff !important;
