@@ -41,25 +41,25 @@
 /* 上午签到按钮 - 冰川青渐变 */
 .attendance-mobile-sign-button-button-mobile.morning {
 	background: linear-gradient(135deg, #87CEEB 0%, #5DADE2 100%);
-	box-shadow: 0 4px 16px rgb(135 206 235 / 0.25),
-	0 2px 6px rgb(135 206 235 / 0.15),
-	inset 0 1px 0 rgb(255 255 255 / 0.25);
+	box-shadow: 0 8px 28px rgb(135 206 235 / 0.4),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
 /* 下午签到按钮 - 冰川青到深空蓝渐变 */
 .attendance-mobile-sign-button-button-mobile.afternoon {
 	background: linear-gradient(135deg, #6495ED 0%, #4682B4 100%);
-	box-shadow: 0 4px 16px rgb(100 149 237 / 0.25),
-	0 2px 6px rgb(100 149 237 / 0.15),
-	inset 0 1px 0 rgb(255 255 255 / 0.25);
+	box-shadow: 0 8px 28px rgb(100 149 237 / 0.4),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
 /* 晚上签到按钮 - 深空蓝渐变 */
 .attendance-mobile-sign-button-button-mobile.evening {
 	background: linear-gradient(135deg, #4682B4 0%, #191970 100%);
-	box-shadow: 0 4px 16px rgb(70 130 180 / 0.25),
-	0 2px 6px rgb(70 130 180 / 0.15),
-	inset 0 1px 0 rgb(255 255 255 / 0.25);
+	box-shadow: 0 8px 28px rgb(70 130 180 / 0.4),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
 .attendance-mobile-sign-button-button-mobile.disabled,
@@ -74,21 +74,21 @@
 }
 
 .attendance-mobile-sign-button-button-mobile.morning:hover:not(.disabled, [aria-disabled="true"]) {
-	box-shadow: 0 6px 20px rgb(135 206 235 / 0.35),
-	0 3px 8px rgb(135 206 235 / 0.2),
-	inset 0 1px 0 rgb(255 255 255 / 0.35);
+	box-shadow: 0 12px 36px rgb(135 206 235 / 0.5),
+	0 0 0 1px rgb(255 255 255 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
 .attendance-mobile-sign-button-button-mobile.afternoon:hover:not(.disabled, [aria-disabled="true"]) {
-	box-shadow: 0 6px 20px rgb(100 149 237 / 0.35),
-	0 3px 8px rgb(100 149 237 / 0.2),
-	inset 0 1px 0 rgb(255 255 255 / 0.35);
+	box-shadow: 0 12px 36px rgb(100 149 237 / 0.5),
+	0 0 0 1px rgb(255 255 255 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
 .attendance-mobile-sign-button-button-mobile.evening:hover:not(.disabled, [aria-disabled="true"]) {
-	box-shadow: 0 6px 20px rgb(70 130 180 / 0.35),
-	0 3px 8px rgb(70 130 180 / 0.2),
-	inset 0 1px 0 rgb(255 255 255 / 0.35);
+	box-shadow: 0 12px 36px rgb(70 130 180 / 0.5),
+	0 0 0 1px rgb(255 255 255 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
 .attendance-mobile-sign-button-button-mobile:active:not(.disabled, [aria-disabled="true"]) {
@@ -123,16 +123,11 @@
 	z-index: 1;
 	background: linear-gradient(
 		135deg,
-		rgb(255 255 255 / 0.4) 0%,
-		rgb(255 255 255 / 0.1) 20%,
-		rgb(255 255 255 / 0.4) 40%,
-		rgb(255 255 255 / 0.1) 60%,
-		rgb(255 255 255 / 0.4) 80%,
-		rgb(255 255 255 / 0.1) 100%
+		rgb(255 255 255 / 0.3) 0%,
+		rgb(255 255 255 / 0.1) 50%,
+		rgb(255 255 255 / 0.3) 100%
 	);
-	background-size: 400% 400%;
 	border-radius: 50%;
-	animation: attendance-mobile-sign-button-gradient-flow 2s linear infinite;
 }
 
 .attendance-mobile-sign-button-button-mobile.success .attendance-mobile-sign-button-background-mobile {
