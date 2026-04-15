@@ -202,13 +202,18 @@ html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evenin
 	background: conic-gradient(#4682B4 0deg 120deg, #6495ED 120deg 240deg, #4b5563 240deg 360deg);
 }
 
+/**
+ * 圆圈弹性入场动画
+ * 符合项目规范: 使用弹性缓动函数 cubic-bezier(0.34, 1.56, 0.64, 1)
+ * 动画效果: 从0缩放，经过1.15倍峰值，回弹至正常大小
+ */
 @keyframes circle-pop-in {
 	0% {
 		opacity: 0;
 		transform: scale(0);
 	}
-	80% {
-		transform: scale(1.1);
+	60% {
+		transform: scale(1.15);
 	}
 	100% {
 		opacity: 1;
@@ -217,6 +222,6 @@ html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evenin
 }
 
 .attendance-mobile-weekly-overview-day-mobile.circle-animate {
-	animation: circle-pop-in 0.4s ease-out forwards;
+	animation: circle-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 	opacity: 0;
 }

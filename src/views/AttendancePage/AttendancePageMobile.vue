@@ -1022,7 +1022,6 @@ onUnmounted(() => {
 <style scoped>
 @import './css/mobile/attendance-mobile-background.css';
 @import './css/mobile/attendance-mobile-sign-button.css';
-@import './css/mobile/attendance-mobile-time-card.css';
 @import './css/mobile/attendance-mobile-header.css';
 @import './css/mobile/attendance-mobile-status-cards.css';
 @import './css/mobile/attendance-mobile-desktop-tip-card.css';

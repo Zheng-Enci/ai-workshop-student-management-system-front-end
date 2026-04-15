@@ -108,13 +108,17 @@
  * 符合项目规范: cubic-bezier(0.34, 1.56, 0.64, 1)
  */
 
-/* 从下方滑入 + 弹性缩放 - 用于页面容器、内容区 */
+/**
+ * 从下方滑入 + 弹性缩放 - 用于页面容器、内容区
+ * 符合项目规范: 先缩小至0.95倍，再放大至1.02倍，最后回弹至正常大小
+ * 缓动函数: cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
 @keyframes attendance-mobile-fade-in-up {
 	0% {
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
 	}
-	60% {
+	50% {
 		transform: translateY(-5px) scale(1.02);
 	}
 	100% {
@@ -123,13 +127,17 @@
 	}
 }
 
-/* 弹性缩放淡入 - 用于按钮、卡片 */
+/**
+ * 弹性缩放淡入 - 用于按钮、卡片
+ * 符合项目规范: 先缩小至0.9倍，再放大至1.05倍，最后回弹至正常大小
+ * 缓动函数: cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
 @keyframes attendance-mobile-scale-in {
 	0% {
 		opacity: 0;
 		transform: scale(0.9);
 	}
-	60% {
+	50% {
 		transform: scale(1.05);
 	}
 	100% {
@@ -138,13 +146,17 @@
 	}
 }
 
-/* 从上方滑入 + 弹性缩放 - 用于头部 */
+/**
+ * 从上方滑入 + 弹性缩放 - 用于头部
+ * 符合项目规范: 先缩小至0.9倍，再放大至1.03倍，最后回弹至正常大小
+ * 缓动函数: cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
 @keyframes attendance-mobile-fade-in-down {
 	0% {
 		opacity: 0;
 		transform: translateY(-20px) scale(0.9);
 	}
-	60% {
+	50% {
 		transform: translateY(5px) scale(1.03);
 	}
 	100% {
@@ -172,22 +184,17 @@
 	animation: attendance-mobile-fade-in-up 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
 }
 
-/* 时间卡片 - 延迟0.3s */
-.attendance-mobile-time-card-card-mobile {
-	animation: attendance-mobile-scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
-}
-
-/* 签到按钮 - 延迟0.4s，强调效果 */
+/* 签到按钮 - 延迟0.3s，强调效果 */
 .attendance-mobile-sign-button-container-mobile {
-	animation: attendance-mobile-scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+	animation: attendance-mobile-scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
 }
 
-/* 状态卡片 - 延迟0.5s */
+/* 状态卡片 - 延迟0.4s */
 .attendance-mobile-status-cards-cards-mobile {
-	animation: attendance-mobile-fade-in-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+	animation: attendance-mobile-fade-in-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
 }
 
-/* 本周概览 - 延迟0.6s */
+/* 本周概览 - 延迟0.5s */
 .attendance-mobile-weekly-overview-mobile {
-	animation: attendance-mobile-fade-in-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
+	animation: attendance-mobile-fade-in-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
 }
