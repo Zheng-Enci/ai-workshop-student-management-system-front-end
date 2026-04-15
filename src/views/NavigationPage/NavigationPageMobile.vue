@@ -120,7 +120,7 @@ const hasAvatar = ref(false)
 const avatarLoading = ref(false)
 /**
  * 头像提示是否已显示
- * @description 控制"上传头像"提示仅显示一次
+ * @description 控制"上传头像"提示仅地显示一次
  */
 const avatarTipShown = ref(false)
 
