@@ -658,7 +658,7 @@ onBeforeUnmount(() => {
 			</div>
 
 			<div class="navigation-page-mobile-user-card-profile">
-				<!-- noinspection VueUnrecognizedDirective -->
+				<!-- v-lazy 是 vue3-lazy 插件提供的图片懒加载指令，IDE 无法识别是正常现象，不影响功能 -->
 				<div
 					class="navigation-page-mobile-user-card-avatar"
 					:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
