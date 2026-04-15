@@ -13,10 +13,11 @@
 /**
  * 返回首页按钮
  * 固定在左上角，圆形悬浮按钮样式
+ * 与Logo中心对齐：Logo高度48px，按钮高度44px，按钮top = 16 + (48-44)/2 = 18px
  */
 .register-page-mobile-header-home-btn {
 	position: fixed;
-	top: 16px;
+	top: 18px;
 	left: 16px;
 	z-index: 100;
 	width: 44px;
@@ -166,14 +167,14 @@
 
 /**
  * 系统副标题
- * 人工智能创作坊
+ * AI Workshop Student Management System
  */
 .register-page-mobile-header-subtitle {
 	margin: 0;
-	font-size: 13px;
+	font-size: 11px;
 	font-weight: 500;
 	color: #2d2d44;
-	letter-spacing: 1px;
+	letter-spacing: 0.5px;
 }
 
 /* ===================== 深色模式适配 ===================== */

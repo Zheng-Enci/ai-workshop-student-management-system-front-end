@@ -88,7 +88,7 @@ onMounted(() => {
 						title="切换主题模式"
 						@click="pageLogic.toggleTheme"/>
 					<h1>AI坊学生管理系统</h1>
-					<p class="register-page-mobile-header-subtitle">人工智能创作坊</p>
+					<p class="register-page-mobile-header-subtitle">AI Workshop Student Management System</p>
 				</div>
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
