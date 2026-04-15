@@ -1,0 +1,91 @@
+/**
+ * 签到页面移动端时间卡片样式
+ * @file attendance-mobile-time-card.css
+ * @description 签到页面移动端的时间卡片样式，包括当前时间、下次签到时间展示
+ */
+
+/* ==================== 时间卡片 ==================== */
+
+.attendance-mobile-time-card-card-mobile {
+	background: var(--glass-bg);
+	backdrop-filter: blur(20px);
+	border-radius: 16px;
+	border: 1px solid var(--glass-border);
+	box-shadow: 0 6px 24px var(--shadow-color);
+	padding: 16px 20px;
+	text-align: center;
+	transition: all 0.3s ease;
+	width: 100%;
+}
+
+.attendance-mobile-time-card-card-mobile:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 8px 28px var(--shadow-color);
+}
+
+/* ==================== 时间信息容器 ==================== */
+
+.attendance-mobile-time-card-info-mobile {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+/* ==================== 当前时间展示 ==================== */
+
+.attendance-mobile-time-card-current-mobile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	font-size: 16px;
+	color: var(--text-primary);
+	font-weight: 600;
+	font-family: 'Courier New', monospace;
+}
+
+/* ==================== 时间图标 ==================== */
+
+.attendance-mobile-time-card-time-icon-mobile {
+	color: var(--primary-color);
+	font-size: 20px;
+}
+
+/* ==================== 当前日期展示 ==================== */
+
+.attendance-mobile-time-card-date-mobile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	font-size: 13px;
+	color: var(--text-secondary);
+	font-weight: 500;
+	margin-bottom: 4px;
+}
+
+/* ==================== 日期图标 ==================== */
+
+.attendance-mobile-time-card-date-icon-mobile {
+	color: var(--text-tertiary);
+	font-size: 16px;
+}
+
+/* ==================== 下次签到时间 ==================== */
+
+.attendance-mobile-time-card-next-mobile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	font-size: 12px;
+	color: var(--text-secondary);
+	font-weight: 500;
+}
+
+/* ==================== 下次签到图标 ==================== */
+
+.attendance-mobile-time-card-next-icon-mobile {
+	color: var(--text-tertiary);
+	font-size: 14px;
+}

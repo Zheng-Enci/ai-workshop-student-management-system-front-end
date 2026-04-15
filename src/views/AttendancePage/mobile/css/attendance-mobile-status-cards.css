@@ -1,0 +1,116 @@
+/**
+ * 签到状态卡片样式
+ * @file attendance-mobile-status-cards.css
+ * @description 签到页面移动端的状态卡片样式，包括早中晚三个时段的签到状态展示
+ */
+
+/* ==================== 状态卡片组 ==================== */
+
+.attendance-mobile-status-cards-cards-mobile {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+/* ==================== 状态卡片 ==================== */
+
+.attendance-mobile-status-cards-card-mobile {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 3px 12px var(--shadow-color);
+  padding: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.attendance-mobile-status-cards-card-mobile:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px var(--shadow-color);
+}
+
+/* 当前时段激活状态 - 使用冰川青主色 */
+.attendance-mobile-status-cards-card-mobile.active {
+  border-color: #87CEEB;
+  box-shadow: 0 6px 18px rgba(135, 206, 235, 0.3);
+}
+
+/* 已签到状态 - 使用深空蓝辅色 */
+.attendance-mobile-status-cards-card-mobile.signed {
+  border-color: #4682B4;
+  background: linear-gradient(135deg, rgba(70, 130, 180, 0.25) 0%, rgba(70, 130, 180, 0.15) 100%);
+  box-shadow: 0 0 12px rgba(70, 130, 180, 0.3);
+}
+
+/* ==================== 卡片图标 ==================== */
+
+.attendance-mobile-status-cards-card-icon-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #87CEEB;
+  color: white;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* 注意：图标颜色样式已移至 AttendancePageMobile.vue 的 <style scoped> 中使用 :deep() 定义 */
+
+/* 上午签到图标 - 冰川青渐变 */
+.attendance-mobile-status-cards-card-mobile.morning .attendance-mobile-status-cards-card-icon-mobile {
+  background: linear-gradient(135deg, #87CEEB 0%, #5DADE2 100%);
+  box-shadow: 0 4px 12px rgba(135, 206, 235, 0.3);
+}
+
+/* 下午签到图标 - 冰川青到深空蓝渐变 */
+.attendance-mobile-status-cards-card-mobile.afternoon .attendance-mobile-status-cards-card-icon-mobile {
+  background: linear-gradient(135deg, #6495ED 0%, #4682B4 100%);
+  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
+}
+
+/* 晚上签到图标 - 深空蓝渐变 */
+.attendance-mobile-status-cards-card-mobile.evening .attendance-mobile-status-cards-card-icon-mobile {
+  background: linear-gradient(135deg, #4682B4 0%, #191970 100%);
+  box-shadow: 0 4px 12px rgba(70, 130, 180, 0.3);
+}
+
+/* ==================== 卡片内容 ==================== */
+
+.attendance-mobile-status-cards-card-content-mobile {
+  text-align: center;
+}
+
+.attendance-mobile-status-cards-card-title-mobile {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.attendance-mobile-status-cards-card-time-mobile {
+  font-size: 9px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.attendance-mobile-status-cards-card-status-mobile {
+  font-size: 9px;
+  font-weight: 500;
+  padding: 3px 6px;
+  border-radius: 12px;
+  background: rgba(158, 158, 158, 0.1);
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+/* 已签到状态文本 - 使用深空蓝 */
+.attendance-mobile-status-cards-card-status-mobile.signed {
+  background: rgba(70, 130, 180, 0.1);
+  color: #4682B4;
+}

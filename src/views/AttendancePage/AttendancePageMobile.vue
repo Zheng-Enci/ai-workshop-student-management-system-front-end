@@ -23,7 +23,7 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 // 本周签到概览样式
-import './css/mobile/attendance-mobile-weekly-overview.css'
+import './mobile/css/attendance-mobile-weekly-overview.css'
 // Element Plus 图标组件
 import {Check, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor, User, Loading} from '@element-plus/icons-vue'
 // Vue Router 路由跳转
