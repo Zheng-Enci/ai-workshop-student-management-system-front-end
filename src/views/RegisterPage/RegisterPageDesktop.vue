@@ -86,10 +86,10 @@ const collegeOptions = [
  * @property {string} name - 学生姓名，必填，用于显示用户名称
  * @property {string} studentId - 学号，10位数字，以20到30开头，用于登录和身份识别
  * @property {string} gender - 性别，男/女，下拉选择
- * @property {string} phoneNumber - 手机号，11个数字，以1开头，第二位为3-9，用于联系
+ * @property {string} phoneNumber - 手机号，11位数字，以1开头，第二位为3-9，用于联系
  * @property {string} college - 学院名称，下拉选择，如：人工智能学院
  * @property {string} major - 专业名称，手动输入，如：软件工程
- * @property {string} grade - 年级，1到5个，下拉选择
+ * @property {string} grade - 年级，1至5，下拉选择
  * @property {number|null} classNum - 班级，1到100之间的数字，用于班级分组
  * @property {string} password - 密码，6-16位，用于账户安全
  * @property {string} confirmPassword - 确认密码，必须与password一致
@@ -139,7 +139,7 @@ const rules = {
 	name: [
 		{ required: true, message: '请输入姓名', trigger: 'blur' }
 	],
-	// 学号校验：必填 + 格式（10个数字，20到30开头）
+	// 学号校验：必填 + 格式（10位数字，20到30开头）
 	studentId: [
 		{ required: true, message: '请输入学号', trigger: 'blur' },
 		{
@@ -152,7 +152,7 @@ const rules = {
 	gender: [
 		{ required: true, message: '请选择性别', trigger: 'change' }
 	],
-	// 手机号校验：必填 + 格式（11个数字，13到9开头）
+	// 手机号校验：必填 + 格式（11位数字，13到9开头）
 	phoneNumber: [
 		{ required: true, message: '请输入手机号', trigger: 'blur' },
 		{ pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
