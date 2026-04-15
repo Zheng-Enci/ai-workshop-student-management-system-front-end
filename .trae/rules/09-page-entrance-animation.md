@@ -4,13 +4,15 @@
 
 本规范定义了项目中所有页面入场动画的标准实现方式，以 RegisterPageDesktop 为基准示例。
 
+参考实现文件: `src/views/RegisterPage/desktop/css/RegisterPageDesktop.css`
+
 ## 动画设计原则
 
 ### 缓动函数
 
 统一使用弹性缓动函数：
 
-```css
+```
 cubic-bezier(0.34, 1.56, 0.64, 1)
 ```
 
@@ -46,182 +48,67 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 
 ### 1. 页面容器动画
 
-**效果**: 淡入 + 弹性缩放（先缩小再放大回弹）
+**效果**: 淡入 + 弹性缩放（先缩小至0.95倍，再放大至1.02倍，最后回弹至正常大小）
 
-```css
-.page-container {
-	animation: page-fade-in 0.8s ease-out;
-}
-
-@keyframes page-fade-in {
-	0% {
-		opacity: 0;
-		transform: scale(0.95);
-	}
-	70% {
-		opacity: 1;
-		transform: scale(1.02);
-	}
-	100% {
-		opacity: 1;
-		transform: scale(1);
-	}
-}
-```
+**视觉感受**: 页面从略小状态"蹦"出来，带有弹性回弹感
 
 ### 2. 从左侧滑入
 
 **适用**: 展示图片、左侧导航
 
-```css
-.element {
-	animation: slide-from-left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
-}
+**效果**: 从左侧-60px位置滑入，同时先缩小至0.9倍，再放大至1.05倍，最后回弹
 
-@keyframes slide-from-left {
-	0% {
-		opacity: 0;
-		transform: translateX(-60px) scale(0.9);
-	}
-	60% {
-		opacity: 1;
-		transform: translateX(0) scale(1.05);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0) scale(1);
-	}
-}
-```
+**视觉感受**: 元素从左侧飞入并"蹦"一下
 
 ### 3. 从右侧滑入
 
 **适用**: 表单卡片、右侧内容
 
-```css
-.element {
-	animation: slide-from-right 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
-}
+**效果**: 从右侧80px位置滑入，同时先缩小至0.9倍，再放大至1.05倍，最后回弹
 
-@keyframes slide-from-right {
-	0% {
-		opacity: 0;
-		transform: translateX(80px) scale(0.9);
-	}
-	60% {
-		opacity: 1;
-		transform: translateX(0) scale(1.05);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0) scale(1);
-	}
-}
-```
+**视觉感受**: 元素从右侧飞入并"蹦"一下
 
 ### 4. 从上方滑入
 
 **适用**: 页面标题、欢迎语
 
-```css
-.element {
-	animation: slide-from-top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
-}
+**效果**: 从上方-20px位置滑入，同时先缩小至0.9倍，再放大至1.05倍，最后回弹
 
-@keyframes slide-from-top {
-	0% {
-		opacity: 0;
-		transform: translateY(-20px) scale(0.9);
-	}
-	60% {
-		opacity: 1;
-		transform: translateY(0) scale(1.05);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-	}
-}
-```
+**视觉感受**: 元素从上方落下并"蹦"一下
 
 ### 5. 从下方滑入
 
 **适用**: 表单行、表单项
 
-```css
-.element {
-	animation: slide-from-bottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
-}
+**效果**: 从下方30px位置滑入，同时先缩小至0.95倍，再放大至1.03倍，最后回弹
 
-@keyframes slide-from-bottom {
-	0% {
-		opacity: 0;
-		transform: translateY(30px) scale(0.95);
-	}
-	60% {
-		opacity: 1;
-		transform: translateY(0) scale(1.03);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-	}
-}
-```
+**视觉感受**: 元素从下方升起并轻微"蹦"一下
 
 ### 6. 缩放淡入
 
 **适用**: 按钮、小元素
 
-```css
-.element {
-	animation: scale-fade-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s both;
-}
+**效果**: 先缩小至0.7倍，再放大至1.1倍，最后回弹至正常大小
 
-@keyframes scale-fade-in {
-	0% {
-		opacity: 0;
-		transform: scale(0.7);
-	}
-	50% {
-		opacity: 1;
-		transform: scale(1.1);
-	}
-	100% {
-		opacity: 1;
-		transform: scale(1);
-	}
-}
-```
+**视觉感受**: 元素从小变大"蹦"出来，弹性感明显
 
 ### 7. 旋转滑入
 
 **适用**: Logo、图标
 
-```css
-.element {
-	animation: rotate-slide-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
-}
+**效果**: 从右侧30px位置滑入，同时旋转-15度并缩小至0.7倍，再放大至1.15倍，最后回弹
 
-@keyframes rotate-slide-in {
-	0% {
-		opacity: 0;
-		transform: translateX(30px) rotate(-15deg) scale(0.7);
-	}
-	50% {
-		opacity: 1;
-		transform: translateX(0) rotate(0deg) scale(1.15);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0) rotate(0deg) scale(1);
-	}
-}
-```
+**视觉感受**: 元素旋转着飞入并强烈"蹦"一下，非常活泼
 
-## 完整示例
+## 弹性缩放参数参考
 
-参考文件: `src/views/RegisterPage/desktop/css/RegisterPageDesktop.css`
+| 元素类型 | 初始缩放 | 中间峰值 | 最终状态 |
+|---------|---------|---------|---------|
+| 页面容器 | 0.95 | 1.02 | 1.0 |
+| 卡片/展示图 | 0.9 | 1.05 | 1.0 |
+| 表单行 | 0.95 | 1.03 | 1.0 |
+| 按钮 | 0.7 | 1.1 | 1.0 |
+| Logo | 0.7 | 1.15 | 1.0 |
 
 ## 注意事项
 
