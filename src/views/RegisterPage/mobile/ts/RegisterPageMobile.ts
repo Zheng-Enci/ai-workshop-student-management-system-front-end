@@ -14,10 +14,8 @@ import { ref, type Ref } from 'vue'
 import type { Router } from 'vue-router'
 
 // ===================== 业务模块导入 =====================
-// 学生相关 API：注册、登录
-import { register, login } from '@/api/student'
-// 学生 API 封装类：获取学生数据库主键 ID
-import StudentApi from '@/api/StudentApi'
+// 学生 API 封装类：注册、登录、获取学生数据库主键 ID
+import StudentApi from '@/api/ts/StudentApi'
 // 状态管理：用户信息（登录态存储）
 import { useUserStore } from '@/stores/user'
 // 状态管理：主题（暗黑/亮色）
@@ -250,7 +248,7 @@ export default class RegisterPageMobile {
 			// 组装注册数据（转换年级/班级为数字类型）
 			const registerData = this._formData.toSubmitData()
 			// 调用注册 API
-			await register(registerData)
+			await StudentApi.register(registerData)
 			// 注册成功提示
 			ElMessage.success('注册成功！正在为您登录...')
 
@@ -260,7 +258,7 @@ export default class RegisterPageMobile {
 				password: this._formData.password
 			}
 			// 调用登录 API
-			const response = await login(loginData)
+			const response = await StudentApi.login(loginData)
 
 			// 第四步：获取学生数据库主键 ID（关联用户信息）
 			const studentDbIdResponse = await StudentApi.getStudentDatabaseTableId(response.data.token)

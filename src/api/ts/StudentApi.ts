@@ -3,7 +3,7 @@
  * 提供学生相关的API调用方法
  *
  * @module api/StudentApi
- * @description 封装学生信息查询、头像获取、等级查询等API接口
+ * @description 封装学生信息查询、头像获取、等级查询、登录注册等API接口
  */
 
 import ApiInterceptor from '../../composables/ApiInterceptor'
@@ -15,6 +15,38 @@ import config from '../../config'
  */
 export interface ApiResponse<T> {
 	data: T
+}
+
+/**
+ * 登录数据类型
+ */
+export interface LoginData {
+	studentId: string
+	password: string
+}
+
+/**
+ * 登录响应数据类型
+ */
+export interface LoginResponse {
+	token: string
+	[name: string]: any
+}
+
+/**
+ * 注册数据类型
+ */
+export interface RegisterData {
+	studentId: string
+	password: string
+	name: string
+	gender?: string
+	phoneNumber?: string
+	college?: string
+	major?: string
+	grade?: number | string
+	classNum?: number | string
+	invitationCode?: string
 }
 
 /**
@@ -53,6 +85,94 @@ class StudentApi {
 	 * @static
 	 */
 	static api: AxiosInstance = ApiInterceptor.createInstance()
+
+	/**
+	 * 学生登录接口
+	 * 使用学号和密码进行登录认证
+	 *
+	 * @static
+	 * @param {LoginData} data - 登录数据对象
+	 * @param {string} data.studentId - 学号
+	 * @param {string} data.password - 密码
+	 * @returns {Promise<ApiResponse<LoginResponse>>} 登录结果数据，包含token和用户信息
+	 * @throws {Error} 登录失败时抛出错误
+	 * @example
+	 * // 使用学号和密码登录
+	 * const result = await StudentApi.login({ studentId: '2021001001', password: '123456' })
+	 * console.log(result.data.token) // 输出登录token
+	 */
+	static async login(data: LoginData): Promise<ApiResponse<LoginResponse>> {
+		const response = await this.api.post('/api/v1/students/login', data)
+			.catch((error: AxiosError<{ message: string }>) => {
+				if (error.response) {
+					const { status } = error.response
+					if (status === 401) {
+						throw new Error('学号或密码错误')
+					} else if (status === 403) {
+						throw new Error('账户已被禁用')
+					} else if (status !== undefined && status >= 500) {
+						throw new Error('服务器错误，请稍后重试')
+					} else {
+						throw new Error(error.response.data?.message || '登录失败')
+					}
+				} else {
+					throw new Error('网络错误，登录失败')
+				}
+			})
+		return response.data
+	}
+
+	/**
+	 * 学生注册接口
+	 * 创建新的学生账户
+	 *
+	 * @static
+	 * @param {RegisterData} data - 注册数据对象
+	 * @param {string} data.studentId - 学号
+	 * @param {string} data.password - 密码
+	 * @param {string} data.name - 姓名
+	 * @param {string} [data.gender] - 性别
+	 * @param {string} [data.phoneNumber] - 手机号
+	 * @param {string} [data.college] - 学院
+	 * @param {string} [data.major] - 专业
+	 * @param {number|string} [data.grade] - 年级
+	 * @param {number|string} [data.classNum] - 班级
+	 * @param {string} [data.invitationCode] - 邀请码
+	 * @returns {Promise<ApiResponse<any>>} 注册结果数据
+	 * @throws {Error} 注册失败时抛出错误
+	 * @example
+	 * // 注册新学生账户
+	 * const result = await StudentApi.register({
+	 *   studentId: '2021001001',
+	 *   password: '123456',
+	 *   name: '张三',
+	 *   gender: '男',
+	 *   phoneNumber: '13800138000',
+	 *   college: '计算机学院',
+	 *   major: '软件工程',
+	 *   grade: 3,
+	 *   classNum: 2,
+	 *   invitationCode: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+	 * })
+	 */
+	static async register(data: RegisterData): Promise<ApiResponse<any>> {
+		const response = await this.api.post('/api/v1/students', data)
+			.catch((error: AxiosError<{ message: string }>) => {
+				if (error.response) {
+					const { status } = error.response
+					if (status === 400 || status === 409) {
+						throw new Error(error.response.data?.message || '注册失败')
+					} else if (status !== undefined && status >= 500) {
+						throw new Error('服务器错误，请稍后重试')
+					} else {
+						throw new Error(error.response.data?.message || '注册失败')
+					}
+				} else {
+					throw new Error('网络错误，注册失败')
+				}
+			})
+		return response.data
+	}
 
 	/**
 	 * 根据学生数据库表主键ID获取学生公开字段值
