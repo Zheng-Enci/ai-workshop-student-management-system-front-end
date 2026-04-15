@@ -8,7 +8,7 @@
 
 // ======================== 导入 ========================
 // Element Plus 核心组件
-import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElSelect, ElOption, ElMessage } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElSelect, ElOption, ElMessage, type FormInstance } from 'element-plus'
 // Element Plus 基础样式（按需引入，减小打包体积）
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
@@ -30,7 +30,7 @@ import './mobile/css/RegisterPageMobileHeader.css'
 // 表单样式（包含表单布局、输入框、按钮、下拉菜单等样式）
 import './mobile/css/RegisterPageMobileForm.css'
 // Vue3 核心 API
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 // Vue Router
 import { useRouter } from 'vue-router'
 // 页面逻辑类
@@ -47,6 +47,10 @@ import RegisterPageMobile from './mobile/ts/RegisterPageMobile'
 const router = useRouter()
 // 页面逻辑类实例
 const pageLogic = new RegisterPageMobile(router)
+// 表单引用实例（用于表单校验）
+const formRef = ref<FormInstance | null>(null)
+// 将表单引用传递给 pageLogic
+pageLogic.formRef = formRef
 
 // ======================== 计算属性 ========================
 // 无计算属性
