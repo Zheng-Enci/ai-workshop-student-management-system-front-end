@@ -180,6 +180,7 @@ html.dark .register-page-desktop-container::before {
 
 /**
  * 注册内容容器
+ * 左右分栏布局，避免重叠
  */
 .register-page-desktop-content {
 	position: relative;
@@ -190,18 +191,17 @@ html.dark .register-page-desktop-container::before {
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
-	justify-content: center;
+	justify-content: flex-end;
 }
 
 /**
  * 主布局容器（黄金比例）
- * 注册表单区域占右侧 38.2%，向右偏移避免与左侧图片重叠
+ * 注册表单区域占右侧 38.2%
  */
 .register-page-desktop-main-layout {
 	display: flex;
 	flex-direction: row;
 	width: 38.2%;
-	margin-left: 61.8%;
 	gap: 40px;
 	align-items: flex-start;
 	justify-content: center;
