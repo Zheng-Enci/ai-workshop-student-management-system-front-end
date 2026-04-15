@@ -168,7 +168,7 @@ html.dark .register-page-desktop-container::before {
 	background: rgb(255 255 255 / 0.2) !important;
 	border: 1px solid rgb(255 255 255 / 0.5) !important;
 	backdrop-filter: blur(4px);
-	transition: background 0.3s ease, transform 0.3s ease;
+	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .register-page-desktop-home-btn:hover {
@@ -351,7 +351,7 @@ html.dark .register-page-desktop-card {
 
 	/* 轻微模糊效果 */
 	backdrop-filter: blur(2px);
-	transition: background 0.3s ease, box-shadow 0.3s ease;
+	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .register-page-desktop-input-group:focus-within {
@@ -442,7 +442,7 @@ html.dark .register-page-desktop-card {
 
 	/* 极轻微模糊效果 */
 	backdrop-filter: blur(1px);
-	transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .register-page-desktop-register-button:hover {
@@ -488,7 +488,7 @@ html.dark .register-page-desktop-card {
 	font-weight: 600;
 	color: #fff;
 	text-decoration: none;
-	transition: color 0.3s ease, text-decoration 0.3s ease;
+	transition: opacity 0.3s ease;
 }
 
 .register-page-desktop-login-link .link:hover {
