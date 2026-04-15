@@ -6,10 +6,10 @@
  */
 
 // ===================== 第三方依赖导入 =====================
-// Element Plus 消息提示组件
-import { ElMessage } from 'element-plus'
+// Element Plus 消息提示组件和表单实例类型
+import { ElMessage, type FormInstance } from 'element-plus'
 // Vue3 响应式 API
-import { ref, type Ref } from 'vue'
+import { ref, reactive, type Ref } from 'vue'
 // Vue Router 路由实例类型
 import type { Router } from 'vue-router'
 
@@ -43,19 +43,18 @@ export default class RegisterPageDesktop {
 	 */
 	private _themeStore: ReturnType<typeof useThemeStore>
 
-	/**
-	 * 表单数据实例
-	 * @private
-	 * @readonly
-	 */
-	private readonly _formData: RegisterFormData
-
 	// ===================== 公共响应式属性 =====================
 	/**
 	 * 表单引用实例（用于表单校验）
 	 * @public
 	 */
-	public formRef: Ref<{ validate: () => Promise<void> } | null>
+	public formRef: Ref<FormInstance | null>
+
+	/**
+	 * 表单数据响应式对象
+	 * @public
+	 */
+	public form: RegisterFormData
 
 	/**
 	 * 注册按钮加载状态（防止重复提交）
@@ -98,9 +97,10 @@ export default class RegisterPageDesktop {
 		this._router = router
 		this._userStore = useUserStore()
 		this._themeStore = useThemeStore()
-		this._formData = new RegisterFormData()
 
-		// 初始化响应式属性
+		// 初始化响应式属性 - 使用 reactive 包装表单数据使其具有响应性
+		this.form = reactive(new RegisterFormData())
+		// formRef 将由 Vue 组件通过模板 ref 传入
 		this.formRef = ref(null)
 		this.isLoading = ref(false)
 
@@ -109,15 +109,6 @@ export default class RegisterPageDesktop {
 	}
 
 	// ===================== Getter 方法 =====================
-	/**
-	 * 获取表单数据
-	 * @getter form
-	 * @returns {RegisterFormData} 表单数据实例
-	 */
-	public get form(): RegisterFormData {
-		return this._formData
-	}
-
 	/**
 	 * 获取主题切换方法
 	 * @getter toggleTheme
@@ -199,7 +190,7 @@ export default class RegisterPageDesktop {
 				{ required: true, message: '请确认密码', trigger: 'blur' },
 				{
 					validator: (_rule: unknown, value: string, callback: (error?: Error) => void) => {
-						if (value !== self._formData.password) {
+						if (value !== self.form.password) {
 							callback(new Error('两次输入的密码不一致'))
 						} else {
 							callback()
@@ -231,6 +222,7 @@ export default class RegisterPageDesktop {
 	public async handleRegister(): Promise<void> {
 		// 表单实例不存在时直接返回（容错）
 		if (!this.formRef.value) {
+			ElMessage.error('表单初始化失败，请刷新页面重试')
 			return
 		}
 
@@ -246,7 +238,7 @@ export default class RegisterPageDesktop {
 		this.isLoading.value = true
 		try {
 			// 组装注册数据（转换年级/班级为数字类型）
-			const registerData = this._formData.toSubmitData()
+			const registerData = this.form.toSubmitData()
 			// 调用注册 API
 			await StudentApi.register(registerData)
 			// 注册成功提示
@@ -254,8 +246,8 @@ export default class RegisterPageDesktop {
 
 			// 第三步：自动登录（使用注册的学号/密码）
 			const loginData = {
-				studentId: this._formData.studentId,
-				password: this._formData.password
+				studentId: this.form.studentId,
+				password: this.form.password
 			}
 			// 调用登录 API
 			const response = await StudentApi.login(loginData)
@@ -267,7 +259,7 @@ export default class RegisterPageDesktop {
 			// 第五步：组装用户信息并存储到状态管理
 			const userInfo = {
 				...response.data,
-				studentId: this._formData.studentId,
+				studentId: this.form.studentId,
 				studentDatabaseTableId: studentDbId
 			}
 			this._userStore.setUserInfo(userInfo, response.data.token)
@@ -275,8 +267,9 @@ export default class RegisterPageDesktop {
 			// 第六步：跳转到导航主页面
 			void this._router.push('/navigation')
 		} catch (error: any) {
-			// 异常处理：提示错误信息
-			ElMessage.error(error.message || '注册失败，请检查您的信息')
+			// 异常处理：优先显示后端返回的 message，否则显示默认错误信息
+			const errorMessage = error.response?.data?.message || error.message || '注册失败，请检查您的信息'
+			ElMessage.error(errorMessage)
 		} finally {
 			// 最终：关闭加载状态（无论成功/失败）
 			this.isLoading.value = false

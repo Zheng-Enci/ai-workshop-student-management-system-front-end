@@ -8,7 +8,7 @@
 
 // ======================== 导入 ========================
 // Element Plus 核心组件
-import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElSelect, ElOption } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElSelect, ElOption, type FormInstance } from 'element-plus'
 // Element Plus 基础样式（按需引入，减小打包体积）
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
@@ -21,10 +21,12 @@ import 'element-plus/theme-chalk/el-option.css'
 // Element Plus 额外样式（下拉菜单、弹出层、表单验证等）
 import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
+// Element Plus 消息提示样式
+import 'element-plus/theme-chalk/el-message.css'
 // Element Plus 图标组件
 import { User, Lock, Phone, School, Collection, House } from '@element-plus/icons-vue'
 // Vue3 核心 API
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 // Vue Router
 import { useRouter } from 'vue-router'
 // 页面逻辑类
@@ -44,6 +46,10 @@ import '@/views/RegisterPage/desktop/css/RegisterPageDesktop.css'
 const router = useRouter()
 // 页面逻辑类实例
 const pageLogic = new RegisterPageDesktop(router)
+// 表单引用实例（用于表单校验）
+const formRef = ref<FormInstance | null>(null)
+// 将表单引用传递给 pageLogic
+pageLogic.formRef = formRef
 
 // ======================== 计算属性 ========================
 // 无计算属性
@@ -117,7 +123,7 @@ onMounted(() => {
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
 				<el-form
-					ref="pageLogic.formRef"
+					ref="formRef"
 					:model="pageLogic.form"
 					:rules="pageLogic.rules"
 					label-width="0px"
@@ -352,11 +358,11 @@ onMounted(() => {
 						type="primary"
 						class="register-page-desktop-register-button"
 						size="large"
-						:loading="pageLogic.isLoading"
-						:disabled="pageLogic.isLoading"
+						:loading="pageLogic.isLoading.value"
+						:disabled="pageLogic.isLoading.value"
 						@click="pageLogic.handleRegister()"
 					>
-						{{ pageLogic.isLoading ? '注册中...' : '注册' }}
+						{{ pageLogic.isLoading.value ? '注册中...' : '注册' }}
 					</el-button>
 				</el-form>
 
