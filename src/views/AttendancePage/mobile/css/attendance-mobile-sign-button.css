@@ -29,8 +29,11 @@
 	inset 0 1px 0 rgb(255 255 255 / 0.2);
 
 	/* 明确指定过渡属性以提升性能，避免使用 all */
+
 	/* Explicitly specify transition properties for better performance, avoid using all */
+
 	/* 注意：box-shadow 过渡性能较低，如需阴影动画请考虑使用伪元素替代 */
+
 	/* Note: box-shadow transition has low performance, consider using pseudo-elements for shadow animation */
 	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -228,25 +231,33 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
+
 	/* 使用固定尺寸配合 scale 实现高性能波纹效果 */
+
 	/* Use fixed size with scale for high-performance ripple effect */
 	width: 200px;
 	height: 200px;
 	background: rgb(255 255 255 / 0.3);
 	border-radius: 50%;
+
 	/* 初始状态为缩放0，使用transform实现动画 */
+
 	/* Initial state is scale(0), use transform for animation */
 	transform: translate(-50%, -50%) scale(0);
 
 	/* 明确指定过渡属性以提升性能，避免使用 all */
+
 	/* Explicitly specify transition properties for better performance, avoid using all */
+
 	/* 使用 transform 替代 width/height 以获得更好的性能 */
+
 	/* Use transform instead of width/height for better performance */
 	transition: transform 0.6s ease;
 }
 
 .attendance-mobile-sign-button-button-mobile:active:not(:disabled) .attendance-mobile-sign-button-ripple-mobile {
 	/* 使用 scale 实现波纹扩散效果，性能更好 */
+
 	/* Use scale for ripple spread effect, better performance */
 	transform: translate(-50%, -50%) scale(1);
 }

@@ -16,33 +16,36 @@
 /* ==================== 状态卡片 ==================== */
 
 .attendance-mobile-status-cards-card-mobile {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  border-radius: 12px;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 3px 12px var(--shadow-color);
-  padding: 12px;
-  transition: all 0.3s ease;
   position: relative;
+  padding: 12px;
   overflow: hidden;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: 0 3px 12px var(--shadow-color);
+  backdrop-filter: blur(20px);
+  /* 明确指定过渡属性以提升性能，避免使用 all */
+  /* Explicitly specify transition properties for better performance, avoid using all */
+  transition: transform 0.3s ease,
+              box-shadow 0.3s ease;
 }
 
 .attendance-mobile-status-cards-card-mobile:hover {
-  transform: translateY(-1px);
   box-shadow: 0 6px 18px var(--shadow-color);
+  transform: translateY(-1px);
 }
 
 /* 当前时段激活状态 - 使用冰川青主色 */
 .attendance-mobile-status-cards-card-mobile.active {
   border-color: #87CEEB;
-  box-shadow: 0 6px 18px rgba(135, 206, 235, 0.3);
+  box-shadow: 0 6px 18px rgb(135 206 235 / 0.3);
 }
 
 /* 已签到状态 - 使用深空蓝辅色 */
 .attendance-mobile-status-cards-card-mobile.signed {
+  background: linear-gradient(135deg, rgb(70 130 180 / 0.25) 0%, rgb(70 130 180 / 0.15) 100%);
   border-color: #4682B4;
-  background: linear-gradient(135deg, rgba(70, 130, 180, 0.25) 0%, rgba(70, 130, 180, 0.15) 100%);
-  box-shadow: 0 0 12px rgba(70, 130, 180, 0.3);
+  box-shadow: 0 0 12px rgb(70 130 180 / 0.3);
 }
 
 /* ==================== 卡片图标 ==================== */
@@ -53,11 +56,11 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: 8px;
-  background: #87CEEB;
-  color: white;
   margin-bottom: 8px;
   font-size: 16px;
+  color: white;
+  background: #87CEEB;
+  border-radius: 8px;
 }
 
 /* 注意：图标颜色样式已移至 AttendancePageMobile.vue 的 <style scoped> 中使用 :deep() 定义 */
@@ -65,19 +68,19 @@
 /* 上午签到图标 - 冰川青渐变 */
 .attendance-mobile-status-cards-card-mobile.morning .attendance-mobile-status-cards-card-icon-mobile {
   background: linear-gradient(135deg, #87CEEB 0%, #5DADE2 100%);
-  box-shadow: 0 4px 12px rgba(135, 206, 235, 0.3);
+  box-shadow: 0 4px 12px rgb(135 206 235 / 0.3);
 }
 
 /* 下午签到图标 - 冰川青到深空蓝渐变 */
 .attendance-mobile-status-cards-card-mobile.afternoon .attendance-mobile-status-cards-card-icon-mobile {
   background: linear-gradient(135deg, #6495ED 0%, #4682B4 100%);
-  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
+  box-shadow: 0 4px 12px rgb(100 149 237 / 0.3);
 }
 
 /* 晚上签到图标 - 深空蓝渐变 */
 .attendance-mobile-status-cards-card-mobile.evening .attendance-mobile-status-cards-card-icon-mobile {
   background: linear-gradient(135deg, #4682B4 0%, #191970 100%);
-  box-shadow: 0 4px 12px rgba(70, 130, 180, 0.3);
+  box-shadow: 0 4px 12px rgb(70 130 180 / 0.3);
 }
 
 /* ==================== 卡片内容 ==================== */
@@ -87,30 +90,33 @@
 }
 
 .attendance-mobile-status-cards-card-title-mobile {
+  margin-bottom: 4px;
   font-size: 11px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 4px;
 }
 
 .attendance-mobile-status-cards-card-time-mobile {
+  margin-bottom: 6px;
   font-size: 9px;
   color: var(--text-secondary);
-  margin-bottom: 6px;
 }
 
 .attendance-mobile-status-cards-card-status-mobile {
+  padding: 3px 6px;
   font-size: 9px;
   font-weight: 500;
-  padding: 3px 6px;
-  border-radius: 12px;
-  background: rgba(158, 158, 158, 0.1);
   color: var(--text-secondary);
-  transition: all 0.3s ease;
+  background: rgb(158 158 158 / 0.1);
+  border-radius: 12px;
+  /* 明确指定过渡属性以提升性能，避免使用 all */
+  /* Explicitly specify transition properties for better performance, avoid using all */
+  transition: color 0.3s ease,
+              background-color 0.3s ease;
 }
 
 /* 已签到状态文本 - 使用深空蓝 */
 .attendance-mobile-status-cards-card-status-mobile.signed {
-  background: rgba(70, 130, 180, 0.1);
   color: #4682B4;
+  background: rgb(70 130 180 / 0.1);
 }
