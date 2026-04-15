@@ -7,32 +7,30 @@
 /* ==================== 根容器样式 ==================== */
 
 .attendance-mobile-background-container-mobile {
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	min-height: 100vh;
 	padding: 0;
+	overflow: hidden;
+
 	/* 使用项目配色：冰川青(主色) + 深空蓝(辅色) */
 	background: linear-gradient(135deg,
-	rgba(135, 206, 235, 0.15) 0%,
-	rgba(100, 149, 237, 0.12) 25%,
-	rgba(70, 130, 180, 0.1) 50%,
-	rgba(25, 25, 112, 0.08) 75%,
-	rgba(135, 206, 235, 0.12) 100%);
-	position: relative;
-	overflow: hidden;
+	rgb(135 206 235 / 0.15) 0%,
+	rgb(100 149 237 / 0.12) 25%,
+	rgb(70 130 180 / 0.1) 50%,
+	rgb(25 25 112 / 0.08) 75%,
+	rgb(135 206 235 / 0.12) 100%);
 }
 
 /* ==================== 背景装饰容器 ==================== */
 
 .attendance-mobile-background-effects-mobile {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	pointer-events: none;
+	inset: 0;
 	z-index: 0;
+	pointer-events: none;
 }
 
 /* ==================== 渐变圆球基础样式 ==================== */
@@ -47,36 +45,39 @@
 /* ==================== 第一个渐变圆球 - 冰川青 ==================== */
 
 .attendance-mobile-background-orb-1 {
-	width: 200px;
-	height: 200px;
-	/* 冰川青色调 */
-	background: radial-gradient(circle, rgba(135, 206, 235, 0.2) 0%, rgba(135, 206, 235, 0.08) 70%, transparent 100%);
 	top: 5%;
 	left: 5%;
+	width: 200px;
+	height: 200px;
+
+	/* 冰川青色调 */
+	background: radial-gradient(circle, rgb(135 206 235 / 0.2) 0%, rgb(135 206 235 / 0.08) 70%, transparent 100%);
 	animation-delay: 0s;
 }
 
 /* ==================== 第二个渐变圆球 - 深空蓝 ==================== */
 
 .attendance-mobile-background-orb-2 {
-	width: 180px;
-	height: 180px;
-	/* 深空蓝色调 */
-	background: radial-gradient(circle, rgba(25, 25, 112, 0.15) 0%, rgba(25, 25, 112, 0.05) 70%, transparent 100%);
 	top: 50%;
 	right: 5%;
+	width: 180px;
+	height: 180px;
+
+	/* 深空蓝色调 */
+	background: radial-gradient(circle, rgb(25 25 112 / 0.15) 0%, rgb(25 25 112 / 0.05) 70%, transparent 100%);
 	animation-delay: 6s;
 }
 
 /* ==================== 第三个渐变圆球 - 冰川青与深空蓝混合 ==================== */
 
 .attendance-mobile-background-orb-3 {
-	width: 160px;
-	height: 160px;
-	/* 冰川青与深空蓝混合色调 */
-	background: radial-gradient(circle, rgba(70, 130, 180, 0.15) 0%, rgba(70, 130, 180, 0.05) 70%, transparent 100%);
 	bottom: 10%;
 	left: 15%;
+	width: 160px;
+	height: 160px;
+
+	/* 冰川青与深空蓝混合色调 */
+	background: radial-gradient(circle, rgb(70 130 180 / 0.15) 0%, rgb(70 130 180 / 0.05) 70%, transparent 100%);
 	animation-delay: 12s;
 }
 
@@ -84,20 +85,23 @@
 
 @keyframes attendance-mobile-background-float-mobile {
 	0%, 100% {
-		transform: translateY(0px) translateX(0px) rotate(0deg);
 		opacity: 0.6;
+		transform: translateY(0) translateX(0) rotate(0deg);
 	}
+
 	25% {
-		transform: translateY(-15px) translateX(8px) rotate(90deg);
 		opacity: 0.8;
+		transform: translateY(-15px) translateX(8px) rotate(90deg);
 	}
+
 	50% {
-		transform: translateY(-8px) translateX(-12px) rotate(180deg);
 		opacity: 1;
+		transform: translateY(-8px) translateX(-12px) rotate(180deg);
 	}
+
 	75% {
-		transform: translateY(12px) translateX(4px) rotate(270deg);
 		opacity: 0.7;
+		transform: translateY(12px) translateX(4px) rotate(270deg);
 	}
 }
 
@@ -118,9 +122,11 @@
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
 	}
+
 	50% {
 		transform: translateY(-5px) scale(1.02);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
@@ -137,9 +143,11 @@
 		opacity: 0;
 		transform: scale(0.9);
 	}
+
 	50% {
 		transform: scale(1.05);
 	}
+
 	100% {
 		opacity: 1;
 		transform: scale(1);
@@ -156,9 +164,11 @@
 		opacity: 0;
 		transform: translateY(-20px) scale(0.9);
 	}
+
 	50% {
 		transform: translateY(5px) scale(1.03);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
