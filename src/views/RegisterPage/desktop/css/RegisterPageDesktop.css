@@ -552,3 +552,14 @@ html.dark .register-page-desktop-register-button:hover {
 html.dark .register-page-desktop-card-footer {
 	border-top-color: rgb(255 255 255 / 0.1);
 }
+
+/**
+ * 展示图片容器
+ */
+.register-page-desktop-showcase-image {
+	width: 100%;
+	height: auto;
+	max-width: 400px;
+	border-radius: 12px;
+	box-shadow: 0 4px 20px rgb(0 0 0 / 0.15);
+}

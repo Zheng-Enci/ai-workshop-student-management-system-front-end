@@ -601,6 +601,14 @@ onMounted(() => {
 					</p>
 				</div>
 			</div>
+		
+		</div>
+		<div>
+			<img
+				src="@/assets/ai-workshop-exhibition.jpg"
+				alt="AI坊活动展示"
+				class="register-page-desktop-showcase-image"
+			/>
 		</div>
 	</div>
 </template>
