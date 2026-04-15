@@ -218,13 +218,14 @@
 
 /**
  * 欢迎语主标题
+ * 比顶栏主标题小，保持视觉层次
  */
 .register-page-mobile-form-welcome h2 {
 	margin: 0 0 4px;
-	font-size: 18px;
-	font-weight: 700;
+	font-size: 16px;
+	font-weight: 600;
 	color: #1a1a2e;
-	letter-spacing: 2px;
+	letter-spacing: 1px;
 }
 
 /**
@@ -232,10 +233,10 @@
  */
 .register-page-mobile-form-welcome p {
 	margin: 0;
-	font-size: 12px;
+	font-size: 11px;
 	font-weight: 500;
 	color: rgb(107 114 128);
-	letter-spacing: 1px;
+	letter-spacing: 0.5px;
 }
 
 /* ===================== 注册表单 ===================== */
