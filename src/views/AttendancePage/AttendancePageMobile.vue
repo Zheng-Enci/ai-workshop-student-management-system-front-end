@@ -1026,6 +1026,20 @@ onUnmounted(() => {
 @import './css/mobile/attendance-mobile-status-cards.css';
 @import './css/mobile/attendance-mobile-desktop-tip-card.css';
 
+/** 状态卡片图标颜色修复 - 使用深度选择器穿透 Element Plus 组件 */
+:deep(.attendance-mobile-status-cards-card-icon-mobile .el-icon) {
+	color: white !important;
+}
+
+:deep(.attendance-mobile-status-cards-card-icon-mobile .el-icon svg) {
+	fill: white !important;
+	color: white !important;
+}
+
+:deep(.attendance-mobile-status-cards-card-icon-mobile .el-icon svg path) {
+	fill: white !important;
+}
+
 /** 内容包裹层：相对定位，层级高于背景，垂直布局 */
 .content-wrapper-mobile {
 	display: flex;

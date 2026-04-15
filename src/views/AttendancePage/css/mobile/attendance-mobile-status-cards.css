@@ -60,15 +60,7 @@
   font-size: 16px;
 }
 
-/* 确保SVG图标在日间模式下显示为白色 */
-.attendance-mobile-status-cards-card-icon-mobile .el-icon svg {
-  fill: white !important;
-  color: white !important;
-}
-
-.attendance-mobile-status-cards-card-icon-mobile .el-icon svg path {
-  fill: white !important;
-}
+/* 注意：图标颜色样式已移至 AttendancePageMobile.vue 的 <style scoped> 中使用 :deep() 定义 */
 
 /* 上午签到图标 - 冰川青渐变 */
 .attendance-mobile-status-cards-card-mobile.morning .attendance-mobile-status-cards-card-icon-mobile {
