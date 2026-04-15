@@ -6,11 +6,11 @@
  * @description 管理首页的路由导航、主题切换、头像加载等功能
  */
 
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import {onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
 
-import { getAvatarUrl } from '@/api/student'
-import { useThemeStore } from '@/stores/theme'
+import {getAvatarUrl} from '@/api/student'
+import {useThemeStore} from '@/stores/theme'
 
 /**
  * 首页逻辑Composable函数
@@ -131,8 +131,7 @@ export const useHomePageLogic = () => {
 	const fetchDeveloperAvatar = async () => {
 		try {
 			// 获取学生ID为1的头像URL
-			const avatarUrl = await getAvatarUrl(1)
-			developerAvatar.value = avatarUrl
+			developerAvatar.value = await getAvatarUrl(1)
 		} catch (error) {
 			console.error('获取开发者头像失败:', error)
 			// 获取失败时使用默认头像

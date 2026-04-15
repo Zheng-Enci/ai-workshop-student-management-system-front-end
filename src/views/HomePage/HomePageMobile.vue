@@ -1,12 +1,12 @@
 <script setup>
 /**
  * 首页移动端组件
- * 
+ *
  * @description 移动端首页,展示系统介绍和快捷入口
  * @component HomePageMobile
  */
 import { User, Lock, TrendCharts, ArrowRight, Star, Trophy, OfficeBuilding } from '@element-plus/icons-vue'
-import { ElButton, ElIcon, ElDialog, ElMessage } from 'element-plus'
+import { ElButton, ElIcon, ElDialog } from 'element-plus'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
