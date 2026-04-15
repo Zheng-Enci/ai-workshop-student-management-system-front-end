@@ -49,7 +49,7 @@ export default class RegisterFormData implements IRegisterFormData {
 	public name: string
 
 	/**
-	 * 学号（共10位数字，以20-30开头）
+	 * 学号，长度为10位数字，起始范围为20-30
 	 * @type {string}
 	 */
 	public studentId: string
@@ -61,7 +61,7 @@ export default class RegisterFormData implements IRegisterFormData {
 	public gender: string
 
 	/**
-	 * 手机号（共11位数字，以13-19开头）
+	 * 手机号，长度为11位数字，起始范围为13-19
 	 * @type {string}
 	 */
 	public phoneNumber: string
@@ -126,17 +126,6 @@ export default class RegisterFormData implements IRegisterFormData {
 		this.password = data.password
 		this.confirmPassword = data.confirmPassword
 		this.invitationCode = data.invitationCode
-	}
-
-	/**
-	 * 重置表单数据为默认值
-	 * @method reset
-	 * @description 将表单所有字段恢复为初始默认值，供外部调用
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	public reset(): void {
-		const defaultData = new RegisterFormData()
-		Object.assign(this, defaultData)
 	}
 
 	/**
