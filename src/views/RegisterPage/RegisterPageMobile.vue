@@ -89,7 +89,7 @@ onMounted(() => {
 			<el-button
 				class="register-page-mobile-header-home-btn"
 				type="primary"
-				@click="pageLogic.goToHome()">
+				@click="() => { console.log('首页按钮被点击'); pageLogic.goToHome() }">
 				首页
 			</el-button>
 
