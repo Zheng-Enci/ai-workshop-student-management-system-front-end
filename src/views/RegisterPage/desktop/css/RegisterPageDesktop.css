@@ -376,6 +376,31 @@ html.dark .register-page-desktop-card {
 	letter-spacing: 2px;
 }
 
+/**
+ * 深色模式下的欢迎语容器
+ * 使用项目配色：深空蓝背景 + 冰川青文字
+ */
+html.dark .register-page-desktop-card-header {
+	background: rgb(30 58 138 / 0.9);
+	border: 1px solid rgb(56 189 248 / 0.3);
+}
+
+/**
+ * 深色模式下的欢迎语（中文）
+ * 冰川青色文字
+ */
+html.dark .register-page-desktop-welcome {
+	color: #38bdf8;
+}
+
+/**
+ * 深色模式下的欢迎语（英文）
+ * 冰川青色文字，稍淡
+ */
+html.dark .register-page-desktop-welcome-en {
+	color: rgb(56 189 248 / 0.9);
+}
+
 /* ===================== 注册表单 ===================== */
 
 /**
