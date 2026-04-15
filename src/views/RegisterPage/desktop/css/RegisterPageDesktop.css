@@ -275,16 +275,11 @@ html.dark .register-page-desktop-card {
 
 /**
  * 卡片头部区域
- * 包含系统名称和副标题，带反色边框
+ * 包含系统名称和副标题
  */
 .register-page-desktop-card-header {
 	margin-bottom: 30px;
-	padding: 20px;
 	text-align: center;
-	border: 2px solid rgb(255 255 255 / 0.8);
-	border-radius: 12px;
-	background: rgb(0 0 0 / 0.2);
-	backdrop-filter: blur(8px);
 }
 
 /**
@@ -309,23 +304,34 @@ html.dark .register-page-desktop-card {
 
 /**
  * 系统名称
+ * 带反色边框（深色文字配浅色边框）
  */
 .register-page-desktop-card-header h1 {
 	margin: 0;
+	padding: 8px 16px;
 	font-size: 28px;
 	font-weight: 700;
-	color: #fff;
-	text-shadow: 0 2px 8px rgb(0 0 0 / 0.4);
+	color: #1a1a1a;
+	background: rgb(255 255 255 / 0.9);
+	border: 2px solid #1a1a1a;
+	border-radius: 8px;
+	display: inline-block;
 }
 
 /**
  * 副标题
+ * 带反色边框（浅色文字配深色边框）
  */
 .register-page-desktop-subtitle {
-	margin: 8px 0 0;
+	margin: 12px 0 0;
+	padding: 4px 12px;
 	font-size: 14px;
-	color: rgb(255 255 255 / 0.9);
+	color: #fff;
+	background: rgb(0 0 0 / 0.6);
+	border: 2px solid rgb(255 255 255 / 0.8);
+	border-radius: 6px;
 	letter-spacing: 2px;
+	display: inline-block;
 }
 
 /* ===================== 注册表单 ===================== */
