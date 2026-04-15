@@ -669,9 +669,6 @@ onBeforeUnmount(() => {
 						alt="用户头像"
 						class="navigation-page-mobile-user-card-avatar-image" />
 					<el-icon v-else size="28" class="navigation-page-mobile-user-card-avatar-icon"><user /></el-icon>
-					<div v-if="avatarLoading" class="navigation-page-mobile-user-card-avatar-loading">
-						<img src="@/assets/loading.gif" alt="加载中" class="navigation-page-mobile-user-card-loading-gif" />
-					</div>
 				</div>
 				<div class="navigation-page-mobile-user-card-details">
 					<div>
