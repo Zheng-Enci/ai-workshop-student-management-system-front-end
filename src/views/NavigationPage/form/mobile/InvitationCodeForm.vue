@@ -15,7 +15,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { ElButton, ElDialog, ElIcon } from 'element-plus'
 import { Star, DocumentCopy, Check } from '@element-plus/icons-vue'
 import InvitationApi from '../../../../api/ts/InvitationApi'
-import { useUserStore } from '../../../../stores/user'
+import { useUserStore } from '../../../../stores/ts/user'
 
 // Props
 const props = defineProps({
@@ -74,8 +74,8 @@ const loadInvitationCode = async () => {
 			invitationCode.value = null
 		}
 	} catch (error) {
-		const errorMessage = error instanceof Error ? error.message : '未知错误'
-		errorMessage.value = `获取邀请码失败: ${errorMessage}`
+		const errorMsg = error instanceof Error ? error.message : '未知错误'
+		errorMessage.value = `获取邀请码失败: ${errorMsg}`
 		invitationCode.value = null
 	} finally {
 		nextTick().then(() => {
