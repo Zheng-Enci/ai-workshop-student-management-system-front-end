@@ -801,11 +801,11 @@ onUnmounted(() => {
 		</div>
 
 		<!-- 内容包裹层：所有业务内容容器 -->
-		<div class="content-wrapper-mobile">
+		<div class="attendance-page-mobile-content-wrapper-mobile">
 			<!-- 返回按钮：固定在左上角，点击返回导航页 -->
 			<el-button
 				type="primary"
-				class="nav-button-mobile"
+				class="attendance-page-mobile-nav-button-mobile"
 				:icon="ArrowLeft"
 				@click="goToNavigation"
 			>
@@ -852,7 +852,7 @@ onUnmounted(() => {
 			</div>
 
 			<!-- 主内容区：签到按钮和状态卡片 -->
-			<div class="main-content-mobile">
+			<div class="attendance-page-mobile-main-content-mobile">
 				<!-- 本周签到概览：展示本周每天的签到状态 -->
 				<div class="attendance-mobile-weekly-overview-mobile">
 					<div class="attendance-mobile-weekly-overview-title-mobile">本周签到概览</div>
@@ -993,12 +993,12 @@ onUnmounted(() => {
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
 			destroy-on-close
-			class="verification-code-dialog-mobile"
+			class="attendance-page-mobile-verification-code-dialog-mobile"
 			@close="handleVerificationCodeDialogClose"
 		>
-		<div class="verification-code-content-mobile">
+		<div class="attendance-page-mobile-verification-code-content-mobile">
 			<!-- 验证码提示文本 -->
-			<div class="verification-code-hint-mobile">
+			<div class="attendance-page-mobile-verification-code-hint-mobile">
 				<p>请输入6位数字验证码</p>
 			</div>
 			<!-- 验证码输入框：限制6位数字，回车提交 -->
@@ -1006,11 +1006,11 @@ onUnmounted(() => {
 				v-model="inputVerificationCode"
 				placeholder="请输入验证码"
 				maxlength="6"
-				class="verification-code-input-mobile"
+				class="attendance-page-mobile-verification-code-input-mobile"
 				@keyup.enter="confirmVerificationCode"
 			/>
 			<!-- 弹窗操作按钮：取消/确认 -->
-			<div class="verification-code-actions-mobile">
+			<div class="attendance-page-mobile-verification-code-actions-mobile">
 				<el-button @click.stop="cancelVerificationCode">取消</el-button>
 				<el-button type="primary" :loading="loading" @click.stop="confirmVerificationCode">确认</el-button>
 			</div>
@@ -1020,6 +1020,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+@import './css/mobile/AttendancePageMobile.css';
 @import './css/mobile/attendance-mobile-background.css';
 @import './css/mobile/attendance-mobile-sign-button.css';
 @import './css/mobile/attendance-mobile-header.css';
@@ -1040,132 +1041,8 @@ onUnmounted(() => {
 	fill: white !important;
 }
 
-/** 内容包裹层：相对定位，层级高于背景，垂直布局 */
-.content-wrapper-mobile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	max-width: 100%; /* 适配移动端宽度 */
-	position: relative; /* 作为子元素定位容器 */
-	z-index: 1; /* 层级高于背景装饰 */
-}
-
-/** 返回按钮：固定定位，玻璃态，hover效果 */
-.nav-button-mobile {
-	position: fixed; /* 固定在左上角 */
-	top: 0;
-	left: 12px;
-	height: 36px;
-	border-radius: 18px; /* 胶囊形状 */
-	font-size: 12px;
-	font-weight: 600;
-	background: var(--glass-bg); /* 玻璃态背景 */
-	backdrop-filter: blur(20px); /* 毛玻璃效果 */
-	border: 1px solid var(--glass-border); /* 玻璃态边框 */
-	color: var(--text-primary); /* 主文本色 */
-	box-shadow: 0 3px 12px var(--shadow-color); /* 阴影 */
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡 */
-	z-index: 1000; /* 层级最高，确保不被遮挡 */
-	padding: 0 12px;
-	min-width: 60px;
-}
-
-/** 返回按钮hover效果：上移，阴影放大，背景变色 */
-.nav-button-mobile:hover {
-	transform: translateY(-1px); /* 轻微上移 */
-	box-shadow: 0 6px 18px var(--shadow-color); /* 阴影放大 */
-	background: var(--primary-color); /* 主色调背景 */
-	color: #ffffff; /* 白色文本 */
-}
-
-/** 系统logo：固定尺寸，hover动画 */
-.logo-mobile {
-	width: 50px;
-	height: 50px;
-	margin-bottom: 12px;
-	cursor: pointer; /* 点击指针 */
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑过渡 */
-	border-radius: 0;
-	background: transparent;
-	box-shadow: none;
-}
-
-/** logo hover效果：缩放+旋转，亮度提升 */
-.logo-mobile:hover {
-	transform: scale(1.1) rotate(5deg); /* 放大10%，旋转5度 */
-	filter: brightness(1.2); /* 亮度提升20% */
-}
-
-/** 页面主标题：主文本色，阴影，字间距 */
-h1 {
-	color: var(--text-primary);
-	font-size: 20px;
-	margin: 0 0 6px 0;
-	font-weight: 700;
-	text-shadow: 0 2px 6px var(--shadow-color); /* 文本阴影增强可读性 */
-	letter-spacing: 0.5px; /* 字间距优化 */
-}
-
-/** 页面副标题：次文本色，低透明度 */
-.subtitle {
-	color: var(--text-secondary); /* 次文本色 */
-	font-size: 12px;
-	margin: 0;
-	font-weight: 400;
-	opacity: 0.8; /* 透明度降低 */
-}
-
-/** 主内容区：垂直布局，居中，子元素间距 */
-.main-content-mobile {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 50px; /* 子元素间距 */
-	width: 100%;
-}
-
-/** 旋转动画：用于加载中图标 */
-@keyframes spin-mobile {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-/** 验证码弹窗：圆角样式 */
-.verification-code-dialog-mobile {
-	border-radius: 16px;
-}
-
-/** 验证码弹窗内容：上下内边距 */
-.verification-code-content-mobile {
-	padding: 20px 0;
-}
-
-/** 验证码提示文本：居中，底部间距 */
-.verification-code-hint-mobile {
-	margin-bottom: 20px;
-	text-align: center;
-}
-
-/** 验证码提示文本：主文本色，中等字号 */
-.verification-code-hint-mobile p {
-	margin: 8px 0;
-	color: var(--text-primary);
-	font-size: 14px;
-}
-
-/** 验证码输入框：底部间距 */
-.verification-code-input-mobile {
-	margin-bottom: 20px;
-}
-
-/** 深度选择器：修改Element Plus输入框样式 */
-.verification-code-input-mobile :deep(.el-input__wrapper) {
+/** 验证码输入框深度选择器样式 - 需要保留在 scoped style 中 */
+.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__wrapper) {
 	background: var(--glass-bg);
 	backdrop-filter: blur(20px);
 	border: 2px solid var(--glass-border);
@@ -1175,24 +1052,21 @@ h1 {
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/** 输入框hover：主色调边框，阴影放大 */
-.verification-code-input-mobile :deep(.el-input__wrapper:hover) {
+.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__wrapper:hover) {
 	border-color: var(--primary-color);
 	box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
 }
 
-/** 输入框聚焦：主色调边框，更强阴影 */
-.verification-code-input-mobile :deep(.el-input__wrapper.is-focus) {
+.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__wrapper.is-focus) {
 	border-color: var(--primary-color);
 	box-shadow: 0 6px 24px rgba(102, 126, 234, 0.3);
 }
 
-/** 输入框内容：居中，等宽字体，大号，字间距 */
-.verification-code-input-mobile :deep(.el-input__inner) {
+.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__inner) {
 	text-align: center;
 	font-size: 28px;
 	font-weight: 700;
-	letter-spacing: 6px; /* 数字间距，提升可读性 */
+	letter-spacing: 6px;
 	font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
 	color: var(--text-primary);
 	background: transparent;
@@ -1200,44 +1074,12 @@ h1 {
 	padding: 0;
 }
 
-/** 输入框占位符：次文本色，小字号，低透明度 */
-.verification-code-input-mobile :deep(.el-input__inner::placeholder) {
+.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__inner::placeholder) {
 	color: var(--text-tertiary);
 	font-size: 20px;
 	font-weight: 500;
 	letter-spacing: 2px;
 	opacity: 0.6;
-}
-
-/** 弹窗操作按钮：水平布局，两端对齐，间距 */
-.verification-code-actions-mobile {
-	display: flex;
-	justify-content: space-between;
-	gap: 12px;
-}
-
-/** 操作按钮：弹性布局，占满剩余空间 */
-.verification-code-actions-mobile .el-button {
-	flex: 1;
-}
-
-/** 脉冲动画：加载中按钮的呼吸效果 */
-@keyframes pulse-mobile {
-	0% {
-		box-shadow: 0 8px 28px rgba(102, 126, 234, 0.3),
-		0 0 0 1px rgba(255, 255, 255, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.2);
-	}
-	50% {
-		box-shadow: 0 12px 36px rgba(102, 126, 234, 0.5),
-		0 0 0 6px rgba(102, 126, 234, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.3);
-	}
-	100% {
-		box-shadow: 0 8px 28px rgba(102, 126, 234, 0.3),
-		0 0 0 1px rgba(255, 255, 255, 0.1),
-		inset 0 1px 0 rgba(255, 255, 255, 0.2);
-	}
 }
 </style>
 
