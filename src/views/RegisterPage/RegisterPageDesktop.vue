@@ -19,8 +19,8 @@
 // ===================== 第三方依赖导入区 =====================
 // Element Plus 核心组件：表单、表单项、输入框、按钮、消息提示、图标、下拉选择、下拉选项
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElIcon, ElSelect, ElOption } from 'element-plus'
-// Vue3 核心API：响应式变量、组件挂载生命周期
-import { ref, onMounted } from 'vue'
+// Vue3 核心API：响应式变量、组件挂载生命周期、markRaw
+import { ref, onMounted, markRaw } from 'vue'
 // Element Plus 基础样式（按需引入，减小打包体积）
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
@@ -31,7 +31,14 @@ import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
 // Element Plus 图标组件：用户、锁、手机、学校、收藏（学号）、房子（首页）
-import { User, Lock, Phone, School, Collection, House } from '@element-plus/icons-vue'
+import { User, Lock, Phone, School, Collection, House as HouseIcon } from '@element-plus/icons-vue'
+
+/**
+ * 首页图标组件
+ * 使用markRaw包装以避免响应式代理
+ * @type {import('vue').Component}
+ */
+const House = markRaw(HouseIcon)
 // Vue Router 路由跳转
 import { useRouter } from 'vue-router'
 
