@@ -56,7 +56,7 @@ export default class RegisterPageMobile {
 	 * 表单引用实例（用于表单校验）
 	 * @public
 	 */
-	public formRef: Ref<any | null>
+	public formRef: Ref<unknown | null>
 
 	/**
 	 * 注册按钮加载状态（防止重复提交）
@@ -142,7 +142,7 @@ export default class RegisterPageMobile {
 			name: [
 				{ required: true, message: '请输入姓名', trigger: 'blur' }
 			],
-			// 学号校验：必填 + 格式（10位数字，20-30开头）
+			// 学号校验：必填 + 格式（长度为10位数字，起始范围为20-30）
 			studentId: [
 				{ required: true, message: '请输入学号', trigger: 'blur' },
 				{
@@ -155,7 +155,7 @@ export default class RegisterPageMobile {
 			gender: [
 				{ required: true, message: '请选择性别', trigger: 'change' }
 			],
-			// 手机号校验：必填 + 格式（11位，13-9开头）
+			// 手机号校验：必填 + 格式（长度为11位，起始范围为13-19）
 			phoneNumber: [
 				{ required: true, message: '请输入手机号', trigger: 'blur' },
 				{ pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
@@ -172,7 +172,7 @@ export default class RegisterPageMobile {
 			grade: [
 				{ required: true, message: '请选择年级', trigger: 'change' },
 				{
-					validator: (rule: any, value: string, callback: Function) => {
+					validator: (_rule: unknown, value: string, callback: (error?: Error) => void) => {
 						if (!value) {
 							callback(new Error('请选择年级'))
 						} else if (!['1', '2', '3', '4', '5'].includes(value)) {
@@ -199,7 +199,7 @@ export default class RegisterPageMobile {
 			confirmPassword: [
 				{ required: true, message: '请确认密码', trigger: 'blur' },
 				{
-					validator: (rule: any, value: string, callback: Function) => {
+					validator: (_rule: unknown, value: string, callback: (error?: Error) => void) => {
 						if (value !== self._formData.password) {
 							callback(new Error('两次输入的密码不一致'))
 						} else {
@@ -274,7 +274,7 @@ export default class RegisterPageMobile {
 			this._userStore.setUserInfo(userInfo, response.data.token)
 
 			// 第六步：跳转到导航主页面
-			this._router.push('/navigation')
+			void this._router.push('/navigation')
 		} catch (error: any) {
 			// 异常处理：提示错误信息
 			ElMessage.error(error.message || '注册失败，请检查您的信息')
@@ -290,7 +290,7 @@ export default class RegisterPageMobile {
 	 * @description 点击首页按钮时触发，返回系统首页
 	 */
 	public goToHome(): void {
-		this._router.push('/')
+		void this._router.push('/')
 	}
 
 	/**
@@ -303,7 +303,7 @@ export default class RegisterPageMobile {
 		const token = localStorage.getItem('token')
 		// 存在 token 说明已登录，直接跳转导航页
 		if (token) {
-			this._router.push('/navigation')
+			void this._router.push('/navigation')
 		}
 	}
 }
