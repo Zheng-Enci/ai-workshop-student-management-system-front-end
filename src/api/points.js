@@ -153,7 +153,7 @@ export const getTopAdjustRecordsByStudentInfoId = async (studentInfoId, top = 3)
  * 获取指定学生的活动积分总和
  *
  * @param studentInfoId - 学生信息ID
- * @returns - 学生总积分数据
+ * @returns {Promise<{code: number, data: number, message?: string}>} - 学生总积分数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getTotalPointsByStudentInfoId = async studentInfoId => {

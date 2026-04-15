@@ -245,7 +245,7 @@ export const getDailyAttendanceCount = async date => {
  * 获取当前登录用户的签到总次数
  *
  * @param token - 用户认证token
- * @returns - 个人签到次数数据
+ * @returns {Promise<{code: number, data: {count: number}, message?: string}>} - 个人签到次数数据
  * @throws {Error} - 获取失败时抛出错误
  */
 export const getMyAttendanceCount = async token => {

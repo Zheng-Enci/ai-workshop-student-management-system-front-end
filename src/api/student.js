@@ -382,7 +382,7 @@ export const getStudentCountByLevel = async levelCode => {
  * 通过学号（studentId）获取学生的等级信息
  *
  * @param studentId - 学号
- * @returns 学生等级数据，data字段为等级代码(0-3)
+ * @returns {Promise<{code: number, data: {levelCode: number, levelName: string}, message?: string}>} 学生等级数据，data字段为等级代码(0-3)
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentLevel = async studentId => {
@@ -438,7 +438,7 @@ export const getStudentLevelByInfoId = async studentInfoId => {
  * 根据用户登录token获取学生的数据库表主键ID
  *
  * @param token - 用户认证token
- * @returns 响应数据，data字段为学生数据库表主键ID
+ * @returns {Promise<{code: number, data: number, message?: string}>} 响应数据，data字段为学生数据库表主键ID
  * @throws {Error} 获取失败时抛出错误
  */
 export const getStudentDatabaseTableId = async token => {
@@ -834,7 +834,7 @@ export const uploadAvatar = async (token, file) => {
  *
  * @param studentInfoId - 学生数据库表主键ID
  * @param [avatarSize] - 头像尺寸（像素），默认64
- * @returns 头像URL地址，如果studentInfoId无效则返回null
+ * @returns {string|null} 头像URL地址，如果studentInfoId无效则返回null
  */
 export const getAvatarUrl = (studentInfoId, avatarSize = 64) => {
 	// 验证学生ID是否有效

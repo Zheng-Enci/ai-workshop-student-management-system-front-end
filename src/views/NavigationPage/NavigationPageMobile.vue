@@ -52,7 +52,15 @@ import 'element-plus/theme-chalk/el-icon.css'
 const router = useRouter()
 /**
  * 用户状态仓库实例
- * @type {Store}
+ * @type {Object}
+ * @property {boolean} isLoggedIn - 用户是否已登录
+ * @property {Object|null} userInfo - 用户信息对象
+ * @property {string|null} token - 用户认证token
+ * @property {Object|null} studentLevel - 学生等级信息
+ * @property {Function} setUserInfo - 设置用户信息和token
+ * @property {Function} setStudentLevel - 设置学生等级信息
+ * @property {Function} logout - 用户登出
+ * @property {Function} initFromStorage - 从本地存储初始化用户状态
  * @description 管理用户登录态、用户信息存储
  */
 const userStore = useUserStore()
