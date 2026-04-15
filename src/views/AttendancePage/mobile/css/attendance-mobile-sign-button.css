@@ -16,42 +16,51 @@
 /* ==================== 签到按钮 ==================== */
 
 .attendance-mobile-sign-button-button-mobile {
+	position: relative;
 	width: 160px;
 	height: 160px;
-	border-radius: 50%;
-	border: none;
+	overflow: hidden;
 	color: white;
 	cursor: pointer;
-	position: relative;
-	overflow: hidden;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	box-shadow: 0 8px 28px rgba(102, 126, 234, 0.3),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	border: none;
+	border-radius: 50%;
+	box-shadow: 0 8px 28px rgb(102 126 234 / 0.3),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.2);
+	/* 明确指定过渡属性以提升性能，避免使用 all */
+	/* Explicitly specify transition properties for better performance, avoid using all */
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+				box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 上午签到按钮 - 冰川青渐变 */
 .attendance-mobile-sign-button-button-mobile.morning {
 	background: linear-gradient(135deg, #87CEEB 0%, #5DADE2 100%);
-	box-shadow: 0 8px 28px rgba(135, 206, 235, 0.4),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	box-shadow: 0 8px 28px rgb(135 206 235 / 0.4),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
 /* 下午签到按钮 - 冰川青到深空蓝渐变 */
 .attendance-mobile-sign-button-button-mobile.afternoon {
 	background: linear-gradient(135deg, #6495ED 0%, #4682B4 100%);
-	box-shadow: 0 8px 28px rgba(100, 149, 237, 0.4),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	box-shadow: 0 8px 28px rgb(100 149 237 / 0.4),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
 /* 晚上签到按钮 - 深空蓝渐变 */
 .attendance-mobile-sign-button-button-mobile.evening {
 	background: linear-gradient(135deg, #4682B4 0%, #191970 100%);
-	box-shadow: 0 8px 28px rgba(70, 130, 180, 0.4),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	box-shadow: 0 8px 28px rgb(70 130 180 / 0.4),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.2);
+}
+
+.attendance-mobile-sign-button-button-mobile:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+	transform: scale(0.95);
 }
 
 .attendance-mobile-sign-button-button-mobile:hover:not(:disabled) {
@@ -59,47 +68,41 @@
 }
 
 .attendance-mobile-sign-button-button-mobile.morning:hover:not(:disabled) {
-	box-shadow: 0 12px 36px rgba(135, 206, 235, 0.5),
-	0 0 0 1px rgba(255, 255, 255, 0.2),
-	inset 0 1px 0 rgba(255, 255, 255, 0.3);
+	box-shadow: 0 12px 36px rgb(135 206 235 / 0.5),
+	0 0 0 1px rgb(255 255 255 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
 .attendance-mobile-sign-button-button-mobile.afternoon:hover:not(:disabled) {
-	box-shadow: 0 12px 36px rgba(100, 149, 237, 0.5),
-	0 0 0 1px rgba(255, 255, 255, 0.2),
-	inset 0 1px 0 rgba(255, 255, 255, 0.3);
+	box-shadow: 0 12px 36px rgb(100 149 237 / 0.5),
+	0 0 0 1px rgb(255 255 255 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
 .attendance-mobile-sign-button-button-mobile.evening:hover:not(:disabled) {
-	box-shadow: 0 12px 36px rgba(70, 130, 180, 0.5),
-	0 0 0 1px rgba(255, 255, 255, 0.2),
-	inset 0 1px 0 rgba(255, 255, 255, 0.3);
+	box-shadow: 0 12px 36px rgb(70 130 180 / 0.5),
+	0 0 0 1px rgb(255 255 255 / 0.2),
+	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
 .attendance-mobile-sign-button-button-mobile:active:not(:disabled) {
 	transform: translateY(-1px) scale(0.98);
 }
 
-.attendance-mobile-sign-button-button-mobile:disabled {
-	opacity: 0.6;
-	cursor: not-allowed;
-	transform: scale(0.95);
-}
-
 .attendance-mobile-sign-button-button-mobile.disabled {
 	background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
-	box-shadow: 0 6px 20px rgba(158, 158, 158, 0.3),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.1);
+	box-shadow: 0 6px 20px rgb(158 158 158 / 0.3),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.1);
 }
 
 .attendance-mobile-sign-button-button-mobile.success.morning,
 .attendance-mobile-sign-button-button-mobile.success.afternoon,
 .attendance-mobile-sign-button-button-mobile.success.evening {
 	background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-	box-shadow: 0 8px 28px rgba(76, 175, 80, 0.3),
-	0 0 0 1px rgba(255, 255, 255, 0.1),
-	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	box-shadow: 0 8px 28px rgb(76 175 80 / 0.3),
+	0 0 0 1px rgb(255 255 255 / 0.1),
+	inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
 .attendance-mobile-sign-button-button-mobile.loading {
@@ -110,39 +113,39 @@
 
 .attendance-mobile-sign-button-background-mobile {
 	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	border-radius: 50%;
+	inset: 0;
+	z-index: 1;
 	background: linear-gradient(
 		135deg,
-		rgba(255, 255, 255, 0.4) 0%,
-		rgba(255, 255, 255, 0.1) 20%,
-		rgba(255, 255, 255, 0.4) 40%,
-		rgba(255, 255, 255, 0.1) 60%,
-		rgba(255, 255, 255, 0.4) 80%,
-		rgba(255, 255, 255, 0.1) 100%
+		rgb(255 255 255 / 0.4) 0%,
+		rgb(255 255 255 / 0.1) 20%,
+		rgb(255 255 255 / 0.4) 40%,
+		rgb(255 255 255 / 0.1) 60%,
+		rgb(255 255 255 / 0.4) 80%,
+		rgb(255 255 255 / 0.1) 100%
 	);
 	background-size: 400% 400%;
+	border-radius: 50%;
 	animation: attendance-mobile-sign-button-gradient-flow 2s linear infinite;
-	z-index: 1;
 }
 
 .attendance-mobile-sign-button-button-mobile.success .attendance-mobile-sign-button-background-mobile {
-	background: linear-gradient(135deg, rgba(76, 175, 80, 0.5) 0%, rgba(76, 175, 80, 0.2) 50%, rgba(76, 175, 80, 0.5) 100%);
+	background: linear-gradient(135deg, rgb(76 175 80 / 0.5) 0%, rgb(76 175 80 / 0.2) 50%, rgb(76 175 80 / 0.5) 100%);
 	background-size: 400% 400%;
 	animation: none;
 }
 
 /* ==================== 渐变流动动画 ==================== */
 
+/* 使用 transform 替代 background-position 以提升性能 */
+/* Using transform instead of background-position for better performance */
 @keyframes attendance-mobile-sign-button-gradient-flow {
 	0% {
-		background-position: 0% 0%;
+		transform: translateX(0) translateY(0);
 	}
+
 	100% {
-		background-position: 100% 100%;
+		transform: translateX(-50%) translateY(-50%);
 	}
 }
 
@@ -153,10 +156,10 @@
 	z-index: 2;
 	display: flex;
 	flex-direction: column;
+	gap: 8px;
 	align-items: center;
 	justify-content: center;
 	height: 100%;
-	gap: 8px;
 }
 
 /* ==================== 图标容器 ==================== */
@@ -170,22 +173,25 @@
 /* ==================== 主图标 ==================== */
 
 .attendance-mobile-sign-button-main-icon-mobile {
-	filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
-	transition: all 0.3s ease;
+	filter: drop-shadow(0 3px 6px rgb(0 0 0 / 0.3));
+	/* 明确指定过渡属性以提升性能，避免使用 all */
+	/* Explicitly specify transition properties for better performance, avoid using all */
+	transition: transform 0.3s ease,
+				filter 0.3s ease;
 }
 
 .attendance-mobile-sign-button-main-icon-mobile.success-icon-mobile {
-	filter: drop-shadow(0 3px 6px rgba(76, 175, 80, 0.4));
+	filter: drop-shadow(0 3px 6px rgb(76 175 80 / 0.4));
 }
 
 .attendance-mobile-sign-button-main-icon-mobile.disabled-icon-mobile {
 	opacity: 0.6;
-	filter: grayscale(100%) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+	filter: grayscale(100%) drop-shadow(0 3px 6px rgb(0 0 0 / 0.2));
 }
 
 .attendance-mobile-sign-button-main-icon-mobile.loading-icon-mobile {
+	filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.2));
 	animation: attendance-mobile-sign-button-spin-mobile 1s linear infinite;
-	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 /* ==================== 按钮文本 ==================== */
@@ -193,17 +199,20 @@
 .attendance-mobile-sign-button-text-mobile {
 	font-size: 14px;
 	font-weight: 700;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-	letter-spacing: 0.5px;
 	color: white;
-	transition: all 0.3s ease;
+	letter-spacing: 1px;
+	text-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
+	/* 明确指定过渡属性以提升性能，避免使用 all */
+	/* Explicitly specify transition properties for better performance, avoid using all */
+	transition: opacity 0.3s ease,
+				transform 0.3s ease;
 }
 
 .attendance-mobile-sign-button-text-mobile.loading-text-mobile {
 	font-size: 12px;
 	font-weight: 600;
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 	color: white;
+	text-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
 }
 
 /* ==================== 波纹效果 ==================== */
@@ -214,10 +223,13 @@
 	left: 50%;
 	width: 0;
 	height: 0;
+	background: rgb(255 255 255 / 0.3);
 	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.3);
 	transform: translate(-50%, -50%);
-	transition: all 0.6s ease;
+	/* 明确指定过渡属性以提升性能，避免使用 all */
+	/* Explicitly specify transition properties for better performance, avoid using all */
+	transition: width 0.6s ease,
+				height 0.6s ease;
 }
 
 .attendance-mobile-sign-button-button-mobile:active:not(:disabled) .attendance-mobile-sign-button-ripple-mobile {
@@ -231,6 +243,7 @@
 	0%, 100% {
 		opacity: 1;
 	}
+
 	50% {
 		opacity: 0.7;
 	}
@@ -240,6 +253,7 @@
 	from {
 		transform: rotate(0deg);
 	}
+
 	to {
 		transform: rotate(360deg);
 	}
