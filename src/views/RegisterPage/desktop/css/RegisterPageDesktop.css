@@ -318,15 +318,15 @@ html.dark .register-page-desktop-card {
 
 /**
  * 副标题
- * 日间模式：白色文字 + 白色描边（极细）
+ * 日间模式：白色文字 + 白色描边
  */
 .register-page-desktop-subtitle {
 	margin: 8px 0 0;
 	font-size: 14px;
 	color: rgb(255 255 255 / 0.9);
 	letter-spacing: 2px;
-	-webkit-text-stroke: 0.1px #fff;
-	text-stroke: 0.1px #fff;
+	-webkit-text-stroke: 1px #fff;
+	text-stroke: 1px #fff;
 }
 
 /**
@@ -340,11 +340,11 @@ html.dark .register-page-desktop-card-header h1 {
 
 /**
  * 深色模式下的副标题
- * 深色模式：白色文字 + 黑色描边（极细）
+ * 深色模式：白色文字 + 黑色描边
  */
 html.dark .register-page-desktop-subtitle {
-	-webkit-text-stroke: 0.1px #000;
-	text-stroke: 0.1px #000;
+	-webkit-text-stroke: 1px #000;
+	text-stroke: 1px #000;
 }
 
 /* ===================== 注册表单 ===================== */
