@@ -84,7 +84,7 @@ const collegeOptions = [
  *
  * @typedef {Object} RegisterForm
  * @property {string} name - 学生姓名，必填，用于显示用户名称
- * @property {string} studentId - 学号，10个数字组成，以20到30开头，用于登录和身份识别
+ * @property {string} studentId - 学号，10位数字，以20到30开头，用于登录和身份识别
  * @property {string} gender - 性别，男/女，下拉选择
  * @property {string} phoneNumber - 手机号，11个数字，以1开头，第二位为3-9，用于联系
  * @property {string} college - 学院名称，下拉选择，如：人工智能学院
