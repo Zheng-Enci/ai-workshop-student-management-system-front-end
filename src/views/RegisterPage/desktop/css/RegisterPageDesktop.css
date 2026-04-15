@@ -348,6 +348,52 @@ html.dark .register-page-desktop-subtitle {
 	text-stroke: 0.7px #000;
 }
 
+/**
+ * 欢迎语（中文）
+ * 日间模式：白色文字 + 白色描边
+ */
+.register-page-desktop-welcome {
+	margin: 12px 0 0;
+	font-size: 18px;
+	font-weight: 700;
+	color: #fff;
+	letter-spacing: 4px;
+	-webkit-text-stroke: 0.5px #fff;
+	text-stroke: 0.5px #fff;
+}
+
+/**
+ * 欢迎语（英文）
+ * 日间模式：白色文字 + 白色描边
+ */
+.register-page-desktop-welcome-en {
+	margin: 4px 0 0;
+	font-size: 14px;
+	font-weight: 600;
+	color: rgb(255 255 255 / 0.9);
+	letter-spacing: 2px;
+	-webkit-text-stroke: 0.5px #fff;
+	text-stroke: 0.5px #fff;
+}
+
+/**
+ * 深色模式下的欢迎语（中文）
+ * 深色模式：白色文字 + 黑色描边
+ */
+html.dark .register-page-desktop-welcome {
+	-webkit-text-stroke: 0.5px #000;
+	text-stroke: 0.5px #000;
+}
+
+/**
+ * 深色模式下的欢迎语（英文）
+ * 深色模式：白色文字 + 黑色描边
+ */
+html.dark .register-page-desktop-welcome-en {
+	-webkit-text-stroke: 0.5px #000;
+	text-stroke: 0.5px #000;
+}
+
 /* ===================== 注册表单 ===================== */
 
 /**

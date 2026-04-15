@@ -362,6 +362,8 @@ onMounted(() => {
 				<div class="register-page-desktop-card-header">
 					<h1>AI坊学生管理系统</h1>
 					<p class="register-page-desktop-subtitle">AI Workshop Student Management System</p>
+					<p class="register-page-desktop-welcome">欢迎加入AI坊</p>
+					<p class="register-page-desktop-welcome-en">Welcome to AI Workshop</p>
 				</div>
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
