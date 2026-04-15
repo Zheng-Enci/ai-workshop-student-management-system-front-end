@@ -658,11 +658,11 @@ onBeforeUnmount(() => {
 			</div>
 
 			<div class="navigation-page-mobile-user-card-profile">
+				<!-- noinspection VueUnrecognizedDirective -->
 				<div
 					class="navigation-page-mobile-user-card-avatar"
 					:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
 					@click="handleAvatarClick">
-					<!-- noinspection VueUnrecognizedDirective -->
 				<img
 						v-if="hasAvatar && avatarUrl"
 						v-lazy="avatarUrl"
