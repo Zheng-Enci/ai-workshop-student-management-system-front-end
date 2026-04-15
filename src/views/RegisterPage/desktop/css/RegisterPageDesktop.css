@@ -33,11 +33,16 @@
 
 /**
  * 页面入场动画关键帧
- * 淡入 + 轻微缩放效果
+ * 淡入 + 弹性缩放效果（先放大再回弹）
  */
 @keyframes register-page-desktop-fade-in {
 	0% {
 		opacity: 0;
+		transform: scale(0.95);
+	}
+
+	70% {
+		opacity: 1;
 		transform: scale(1.02);
 	}
 
@@ -185,12 +190,17 @@ html.dark .register-page-desktop-container::before {
 @keyframes register-page-desktop-home-btn-enter {
 	0% {
 		opacity: 0;
-		transform: translateX(-30px);
+		transform: translateX(-30px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.1);
 	}
 
 	100% {
 		opacity: 1;
-		transform: translateX(0);
+		transform: translateX(0) scale(1);
 	}
 }
 
@@ -276,7 +286,12 @@ html.dark .register-page-desktop-container::before {
 @keyframes register-page-desktop-card-enter {
 	0% {
 		opacity: 0;
-		transform: translateX(80px) scale(0.95);
+		transform: translateX(80px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
 	}
 
 	100% {
@@ -319,12 +334,17 @@ html.dark .register-page-desktop-card {
 @keyframes register-page-desktop-header-enter {
 	0% {
 		opacity: 0;
-		transform: translateY(-20px);
+		transform: translateY(-20px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.05);
 	}
 
 	100% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 
@@ -354,7 +374,12 @@ html.dark .register-page-desktop-card {
 @keyframes register-page-desktop-logo-enter {
 	0% {
 		opacity: 0;
-		transform: translateX(30px) rotate(-15deg) scale(0.8);
+		transform: translateX(30px) rotate(-15deg) scale(0.7);
+	}
+
+	50% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1.15);
 	}
 
 	100% {
@@ -390,12 +415,17 @@ html.dark .register-page-desktop-card {
 @keyframes register-page-desktop-page-title-enter {
 	0% {
 		opacity: 0;
-		transform: translateX(-50%) translateY(-20px);
+		transform: translateX(-50%) translateY(-20px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0) scale(1.05);
 	}
 
 	100% {
 		opacity: 1;
-		transform: translateX(-50%) translateY(0);
+		transform: translateX(-50%) translateY(0) scale(1);
 	}
 }
 
@@ -534,12 +564,17 @@ html.dark .register-page-desktop-welcome-en {
 @keyframes register-page-desktop-form-row-enter {
 	0% {
 		opacity: 0;
-		transform: translateY(30px);
+		transform: translateY(30px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
 	}
 
 	100% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 
@@ -584,12 +619,17 @@ html.dark .register-page-desktop-welcome-en {
 @keyframes register-page-desktop-form-item-enter {
 	0% {
 		opacity: 0;
-		transform: translateY(20px);
+		transform: translateY(20px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
 	}
 
 	100% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 
@@ -731,7 +771,12 @@ html.dark .register-page-desktop-welcome-en {
 @keyframes register-page-desktop-button-enter {
 	0% {
 		opacity: 0;
-		transform: scale(0.8);
+		transform: scale(0.7);
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1.1);
 	}
 
 	100% {
@@ -780,12 +825,17 @@ html.dark .register-page-desktop-welcome-en {
 @keyframes register-page-desktop-footer-enter {
 	0% {
 		opacity: 0;
-		transform: translateY(15px);
+		transform: translateY(15px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.02);
 	}
 
 	100% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 
@@ -917,7 +967,12 @@ html.dark .register-page-desktop-card-footer {
 @keyframes register-page-desktop-showcase-enter {
 	0% {
 		opacity: 0;
-		transform: translateX(-60px) scale(0.95);
+		transform: translateX(-60px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
 	}
 
 	100% {
