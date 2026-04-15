@@ -438,6 +438,18 @@
 	color: #1f2937 !important;
 }
 
+/* 确保选中的值能够正确显示 */
+.register-page-mobile-form-custom-select .el-select__selected-item {
+	color: #1f2937 !important;
+	font-size: 14px;
+}
+
+/* 确保占位符和选中值都可见 */
+.register-page-mobile-form-custom-select .el-select__placeholder,
+.register-page-mobile-form-custom-select .el-select__selected-item {
+	color: #1f2937 !important;
+}
+
 .register-page-mobile-form-custom-select :deep(.el-input__inner) {
 	height: 36px;
 	font-size: 14px;
