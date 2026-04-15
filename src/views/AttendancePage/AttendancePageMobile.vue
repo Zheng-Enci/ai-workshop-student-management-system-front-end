@@ -24,6 +24,8 @@ import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-overlay.css'
 // 本周签到概览样式
 import './mobile/css/attendance-mobile-weekly-overview.css'
+// Element Plus 组件样式覆盖
+import './mobile/css/attendance-mobile-element-plus-overrides.css'
 // Element Plus 图标组件
 import {ArrowLeft, Check, Clock, Loading, Monitor, Moon, Sunny, Sunrise, User} from '@element-plus/icons-vue'
 // 页面组件
@@ -320,94 +322,4 @@ onUnmounted(() => {
 @import './mobile/css/attendance-mobile-header.css';
 @import './mobile/css/attendance-mobile-status-cards.css';
 @import './mobile/css/attendance-mobile-desktop-tip-card.css';
-
-/** 状态卡片图标颜色修复 - 使用深度选择器穿透 Element Plus 组件 */
-:deep(.attendance-mobile-status-cards-card-icon-mobile .el-icon) {
-	color: white !important;
-}
-
-:deep(.attendance-mobile-status-cards-card-icon-mobile .el-icon svg) {
-	fill: white !important;
-	color: white !important;
-}
-
-:deep(.attendance-mobile-status-cards-card-icon-mobile .el-icon svg path) {
-	fill: white !important;
-}
-
-/** 验证码输入框深度选择器样式 - 需要保留在 scoped style 中 */
-.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__wrapper) {
-	background: var(--glass-bg);
-	backdrop-filter: blur(20px);
-	border: 2px solid var(--glass-border);
-	border-radius: 12px;
-	padding: 12px 16px;
-	box-shadow: 0 4px 16px var(--shadow-color);
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__wrapper:hover) {
-	border-color: var(--primary-color);
-	box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
-}
-
-.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__wrapper.is-focus) {
-	border-color: var(--primary-color);
-	box-shadow: 0 6px 24px rgba(102, 126, 234, 0.3);
-}
-
-.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__inner) {
-	text-align: center;
-	font-size: 28px;
-	font-weight: 700;
-	letter-spacing: 6px;
-	font-family: 'Consolas', 'Monaco', 'Lucida Console', monospace;
-	color: var(--text-primary);
-	background: transparent;
-	border: none;
-	padding: 0;
-}
-
-.attendance-page-mobile-verification-code-input-mobile :deep(.el-input__inner::placeholder) {
-	color: var(--text-tertiary);
-	font-size: 20px;
-	font-weight: 500;
-	letter-spacing: 2px;
-	opacity: 0.6;
-}
-</style>
-
-<!-- 全局样式：处理验证码弹窗的明暗主题适配 -->
-<style>
-/** 亮色主题下的弹窗背景：白色 */
-.attendance-page-mobile-verification-code-dialog-mobile.el-dialog {
-	background-color: #ffffff !important;
-}
-
-/** 亮色主题下的弹窗头部：白色，浅灰色底部分隔线 */
-.attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__header {
-	background-color: #ffffff !important;
-	border-bottom: 1px solid #e2e8f0 !important;
-}
-
-/** 亮色主题下的弹窗内容：白色 */
-.attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__body {
-	background-color: #ffffff !important;
-}
-
-/** 暗色主题下的弹窗背景：深灰色 */
-html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog {
-	background-color: #0f172a !important;
-}
-
-/** 暗色主题下的弹窗头部：深灰色，深灰色底部分隔线 */
-html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__header {
-	background-color: #0f172a !important;
-	border-bottom: 1px solid #334155 !important;
-}
-
-/** 暗色主题下的弹窗内容：深灰色 */
-html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__body {
-	background-color: #0f172a !important;
-}
 </style>

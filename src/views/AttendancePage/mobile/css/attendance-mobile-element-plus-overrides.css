@@ -1,0 +1,138 @@
+/**
+ * Element Plus 组件样式覆盖
+ * @file attendance-mobile-element-plus-overrides.css
+ * @description 覆盖 Element Plus 组件的默认样式，包括状态卡片图标和验证码输入框
+ */
+
+/* ==================== 状态卡片图标颜色修复 ==================== */
+
+/**
+ * 状态卡片内的 Element Plus 图标颜色设置为白色
+ * 使用深度选择器确保样式应用到组件内部
+ */
+.attendance-mobile-status-cards-card-icon-mobile .el-icon {
+	color: white !important;
+}
+
+/**
+ * 状态卡片内的 Element Plus 图标 SVG 填充色设置为白色
+ */
+.attendance-mobile-status-cards-card-icon-mobile .el-icon svg {
+	color: white !important;
+	fill: white !important;
+}
+
+/**
+ * 状态卡片内的 Element Plus 图标 SVG 路径填充色设置为白色
+ */
+.attendance-mobile-status-cards-card-icon-mobile .el-icon svg path {
+	fill: white !important;
+}
+
+/* ==================== 验证码输入框样式覆盖 ==================== */
+
+/**
+ * 验证码输入框的包装器样式
+ * 使用毛玻璃效果和自定义边框
+ */
+.attendance-page-mobile-verification-code-input-mobile .el-input__wrapper {
+	padding: 12px 16px;
+	background: var(--glass-bg);
+	border: 2px solid var(--glass-border);
+	border-radius: 12px;
+	box-shadow: 0 4px 16px var(--shadow-color);
+	backdrop-filter: blur(20px);
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/**
+ * 验证码输入框包装器悬停状态
+ * 边框颜色变为主色，阴影增强
+ */
+.attendance-page-mobile-verification-code-input-mobile .el-input__wrapper:hover {
+	border-color: var(--primary-color);
+	box-shadow: 0 6px 20px rgb(102 126 234 / 0.2);
+}
+
+/**
+ * 验证码输入框包装器聚焦状态
+ * 边框颜色变为主色，阴影进一步增强
+ */
+.attendance-page-mobile-verification-code-input-mobile .el-input__wrapper.is-focus {
+	border-color: var(--primary-color);
+	box-shadow: 0 6px 24px rgb(102 126 234 / 0.3);
+}
+
+/**
+ * 验证码输入框内部输入框样式
+ * 文字居中，大字体，等宽字体，增加字间距
+ */
+.attendance-page-mobile-verification-code-input-mobile .el-input__inner {
+	padding: 0;
+	font-family: Consolas, Monaco, 'Lucida Console', monospace;
+	font-size: 28px;
+	font-weight: 700;
+	color: var(--text-primary);
+	text-align: center;
+	letter-spacing: 6px;
+	background: transparent;
+	border: none;
+}
+
+/**
+ * 验证码输入框占位符样式
+ * 颜色较浅，字体稍小
+ */
+.attendance-page-mobile-verification-code-input-mobile .el-input__inner::placeholder {
+	font-size: 20px;
+	font-weight: 500;
+	color: var(--text-tertiary);
+	letter-spacing: 2px;
+	opacity: 0.6;
+}
+
+/* ==================== 验证码弹窗主题样式 ==================== */
+
+/**
+ * 亮色主题下的弹窗背景：白色
+ */
+.attendance-page-mobile-verification-code-dialog-mobile.el-dialog {
+	background-color: #fff !important;
+}
+
+/**
+ * 亮色主题下的弹窗头部：白色，浅灰色底部分隔线
+ */
+.attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__header {
+	background-color: #fff !important;
+	border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/**
+ * 亮色主题下的弹窗内容：白色
+ */
+.attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__body {
+	background-color: #fff !important;
+}
+
+/**
+ * 暗色主题下的弹窗背景：深灰色
+ */
+html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog {
+	background-color: #0f172a !important;
+}
+
+/**
+ * 暗色主题下的弹窗头部：深灰色，深灰色底部分隔线
+ */
+html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__header {
+	background-color: #0f172a !important;
+	border-bottom: 1px solid #334155 !important;
+}
+
+/**
+ * 暗色主题下的弹窗内容：深灰色
+ */
+html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__body {
+	background-color: #0f172a !important;
+}
