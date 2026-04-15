@@ -126,7 +126,7 @@ const avatarTipShown = ref(false)
 
 /**
  * 邀请码表单显示状态
- * @description 控制邀请码表单的显示与隐藏
+ * @description 控制邀请码表单地显示与隐藏
  */
 const invitationFormVisible = ref(false)
 
