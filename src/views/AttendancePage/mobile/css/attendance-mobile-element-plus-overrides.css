@@ -42,7 +42,8 @@
 	border-radius: 12px;
 	box-shadow: 0 4px 16px var(--shadow-color);
 	backdrop-filter: blur(20px);
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+				box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /**
@@ -103,7 +104,7 @@
 /**
  * 亮色主题下的弹窗头部：白色，浅灰色底部分隔线
  */
-.attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__header {
+.attendance-page-mobile-verification-code-dialog-mobile .el-dialog__header {
 	background-color: #fff !important;
 	border-bottom: 1px solid #e2e8f0 !important;
 }
@@ -111,7 +112,7 @@
 /**
  * 亮色主题下的弹窗内容：白色
  */
-.attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__body {
+.attendance-page-mobile-verification-code-dialog-mobile .el-dialog__body {
 	background-color: #fff !important;
 }
 
@@ -125,7 +126,7 @@ html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog {
 /**
  * 暗色主题下的弹窗头部：深灰色，深灰色底部分隔线
  */
-html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__header {
+html.dark .attendance-page-mobile-verification-code-dialog-mobile .el-dialog__header {
 	background-color: #0f172a !important;
 	border-bottom: 1px solid #334155 !important;
 }
@@ -133,6 +134,6 @@ html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-
 /**
  * 暗色主题下的弹窗内容：深灰色
  */
-html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__body {
+html.dark .attendance-page-mobile-verification-code-dialog-mobile .el-dialog__body {
 	background-color: #0f172a !important;
 }
