@@ -60,6 +60,16 @@
   font-size: 16px;
 }
 
+/* 确保SVG图标在日间模式下显示为白色 */
+.attendance-mobile-status-cards-card-icon-mobile .el-icon svg {
+  fill: white !important;
+  color: white !important;
+}
+
+.attendance-mobile-status-cards-card-icon-mobile .el-icon svg path {
+  fill: white !important;
+}
+
 /* 上午签到图标 - 冰川青渐变 */
 .attendance-mobile-status-cards-card-mobile.morning .attendance-mobile-status-cards-card-icon-mobile {
   background: linear-gradient(135deg, #87CEEB 0%, #5DADE2 100%);
