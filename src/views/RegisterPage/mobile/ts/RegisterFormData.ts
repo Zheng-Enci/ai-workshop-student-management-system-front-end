@@ -133,9 +133,9 @@ export default class RegisterFormData implements IRegisterFormData {
 	 * @method toSubmitData
 	 * @returns {Object} 转换后的提交数据（年级和班级转为数字类型）
 	 */
-	public toSubmitData(): Omit<IRegisterFormData, 'grade' | 'classNum'> & {
-		grade: number | null
-		classNum: number | null
+	public toSubmitData(): Omit<IRegisterFormData, 'grade' | 'classNum' | 'confirmPassword'> & {
+		grade: number | undefined
+		classNum: number | undefined
 	} {
 		return {
 			name: this.name,
@@ -144,10 +144,9 @@ export default class RegisterFormData implements IRegisterFormData {
 			phoneNumber: this.phoneNumber,
 			college: this.college,
 			major: this.major,
-			grade: this.grade ? Number(this.grade) : null,
-			classNum: this.classNum ? Number(this.classNum) : null,
+			grade: this.grade ? Number(this.grade) : undefined,
+			classNum: this.classNum ? Number(this.classNum) : undefined,
 			password: this.password,
-			confirmPassword: this.confirmPassword,
 			invitationCode: this.invitationCode
 		}
 	}
