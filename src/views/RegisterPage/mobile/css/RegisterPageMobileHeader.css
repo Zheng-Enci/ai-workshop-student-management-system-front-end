@@ -12,7 +12,7 @@
 
 /**
  * 顶栏容器
- * 使用flex布局，让首页按钮和Logo在同一行自动对齐
+ * 使用flex布局，让首页按钮、标题组和Logo在同一行自动对齐
  */
 .register-page-mobile-header-top-bar {
 	position: fixed;
@@ -28,6 +28,69 @@
 
 	/* 入场动画 */
 	animation: register-page-mobile-header-top-bar-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+}
+
+/* ===================== 系统标题组 ===================== */
+
+/**
+ * 系统标题组
+ * 包含主标题和副标题，垂直排列
+ */
+.register-page-mobile-header-title-group {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+	margin: 0 12px;
+
+	/* 标题组入场动画 */
+	animation: register-page-mobile-header-title-group-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+/**
+ * 标题组入场动画关键帧
+ */
+@keyframes register-page-mobile-header-title-group-enter {
+	0% {
+		opacity: 0;
+		transform: translateY(-10px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.02);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/**
+ * 系统主标题
+ */
+.register-page-mobile-header-main-title {
+	margin: 0 0 2px;
+	font-size: 16px;
+	font-weight: 700;
+	color: #fff;
+	text-shadow: 0 2px 4px rgb(0 0 0 / 0.3);
+	letter-spacing: 1px;
+}
+
+/**
+ * 系统副标题
+ * AI Workshop Student Management System
+ */
+.register-page-mobile-header-subtitle {
+	margin: 0;
+	font-size: 10px;
+	font-weight: 500;
+	color: rgb(255 255 255 / 0.9);
+	text-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+	letter-spacing: 0.5px;
 }
 
 /**
@@ -125,70 +188,6 @@
 	transform: scale(0.95);
 }
 
-/* ===================== 卡片头部 ===================== */
-
-/**
- * 卡片头部区域
- * 包含系统名称和副标题
- */
-.register-page-mobile-header-card-header {
-	padding: 20px 16px;
-	margin-bottom: 24px;
-	text-align: center;
-
-	/* 半透明背景层 */
-	background: rgb(255 255 255 / 0.85);
-	border-radius: 12px;
-	backdrop-filter: blur(8px);
-
-	/* 头部入场动画 */
-	animation: register-page-mobile-header-card-header-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
-}
-
-/**
- * 卡片头部入场动画关键帧
- * 从上方淡入 + 弹性效果
- */
-@keyframes register-page-mobile-header-card-header-enter {
-	0% {
-		opacity: 0;
-		transform: translateY(-20px) scale(0.9);
-	}
-
-	60% {
-		opacity: 1;
-		transform: translateY(0) scale(1.05);
-	}
-
-	100% {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-	}
-}
-
-/**
- * 系统名称主标题
- */
-.register-page-mobile-header-card-header h1 {
-	margin: 0 0 4px;
-	font-size: 20px;
-	font-weight: 700;
-	color: #1a1a2e;
-	letter-spacing: 2px;
-}
-
-/**
- * 系统副标题
- * AI Workshop Student Management System
- */
-.register-page-mobile-header-subtitle {
-	margin: 0;
-	font-size: 11px;
-	font-weight: 500;
-	color: #2d2d44;
-	letter-spacing: 0.5px;
-}
-
 /* ===================== 深色模式适配 ===================== */
 
 /**
@@ -204,28 +203,19 @@ html.dark .register-page-mobile-header-home-btn:hover {
 }
 
 /**
- * 深色模式下的卡片头部
- * 使用项目配色：深空蓝背景 + 冰川青边框
+ * 深色模式下的主标题
  */
-html.dark .register-page-mobile-header-card-header {
-	background: rgb(30 58 138 / 0.9);
-	border: 1px solid rgb(56 189 248 / 0.3);
-}
-
-/**
- * 深色模式下的系统名称
- * 冰川青色文字
- */
-html.dark .register-page-mobile-header-card-header h1 {
-	color: #38bdf8;
+html.dark .register-page-mobile-header-main-title {
+	color: #fff;
+	text-shadow: 0 2px 4px rgb(0 0 0 / 0.5);
 }
 
 /**
  * 深色模式下的副标题
- * 冰川青色文字，稍淡
  */
 html.dark .register-page-mobile-header-subtitle {
-	color: rgb(56 189 248 / 0.9);
+	color: rgb(255 255 255 / 0.85);
+	text-shadow: 0 1px 2px rgb(0 0 0 / 0.5);
 }
 
 /* ===================== 无障碍适配 ===================== */
@@ -236,7 +226,7 @@ html.dark .register-page-mobile-header-subtitle {
 @media (prefers-reduced-motion: reduce) {
 	.register-page-mobile-header-top-bar,
 	.register-page-mobile-header-logo,
-	.register-page-mobile-header-card-header {
+	.register-page-mobile-header-title-group {
 		animation: none;
 	}
 }

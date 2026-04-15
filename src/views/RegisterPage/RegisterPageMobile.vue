@@ -68,7 +68,7 @@ onMounted(() => {
 			<div class="register-page-mobile-form-gradient-orb register-page-mobile-form-orb-3"/>
 		</div>
 
-		<!-- 顶栏容器（包含首页按钮和Logo，使用flex布局自动对齐） -->
+		<!-- 顶栏容器（包含首页按钮、Logo、系统名称和副标题，使用flex布局自动对齐） -->
 		<div class="register-page-mobile-header-top-bar">
 			<!-- 返回首页按钮（圆角矩形按钮，仅包含文字） -->
 			<el-button
@@ -77,6 +77,12 @@ onMounted(() => {
 				@click="pageLogic.goToHome()">
 				首页
 			</el-button>
+
+			<!-- 系统标题（主标题+副标题） -->
+			<div class="register-page-mobile-header-title-group">
+				<h1 class="register-page-mobile-header-main-title">AI坊学生管理系统</h1>
+				<p class="register-page-mobile-header-subtitle">AI Workshop Student Management System</p>
+			</div>
 
 			<!-- 系统logo（点击切换主题） -->
 			<img
@@ -91,11 +97,6 @@ onMounted(() => {
 		<div class="register-page-mobile-form-content">
 			<!-- 注册卡片容器（带圆角/阴影/半透明） -->
 			<div class="register-page-mobile-form-card">
-				<!-- 卡片头部（系统名称+副标题） -->
-				<div class="register-page-mobile-header-card-header">
-					<h1>AI坊学生管理系统</h1>
-					<p class="register-page-mobile-header-subtitle">AI Workshop Student Management System</p>
-				</div>
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
 				<el-form
