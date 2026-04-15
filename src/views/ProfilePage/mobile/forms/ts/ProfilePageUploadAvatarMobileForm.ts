@@ -709,12 +709,12 @@ export default class ProfilePageUploadAvatarMobileForm {
 	public showCropDialog = (file: File) => {
 		return new Promise((resolve: (value: void) => void, reject: (reason?: Error) => void) => {
 			try {
-				const dialogWrapper = document.querySelector('.profile-page-upload-avatar-mobile-form-dialog-overlay')
-				if (dialogWrapper) {
-					dialogWrapper.style.display = ''
-					dialogWrapper.style.visibility = ''
-					dialogWrapper.style.opacity = ''
-				}
+				const dialogWrapper = document.querySelector('.profile-page-upload-avatar-mobile-form-dialog-overlay') as HTMLElement | null
+			if (dialogWrapper) {
+				dialogWrapper.style.display = ''
+				dialogWrapper.style.visibility = ''
+				dialogWrapper.style.opacity = ''
+			}
 
 				const reader = new FileReader()
 				reader.onload = e => {
@@ -736,7 +736,7 @@ export default class ProfilePageUploadAvatarMobileForm {
 				reader.onerror = () => reject(new Error('文件读取失败'))
 				reader.readAsDataURL(file)
 			} catch (error) {
-				reject(error)
+				reject(error instanceof Error ? error : new Error(String(error)))
 			}
 		})
 	}
@@ -826,7 +826,7 @@ export default class ProfilePageUploadAvatarMobileForm {
 	 * @returns {void}
 	 */
 	public closeCropDialog() {
-		const dialogWrapper = document.querySelector('.profile-page-upload-avatar-mobile-form-dialog-overlay')
+		const dialogWrapper = document.querySelector('.profile-page-upload-avatar-mobile-form-dialog-overlay') as HTMLElement | null
 		if (dialogWrapper) {
 			dialogWrapper.style.opacity = '0'
 		}
@@ -878,6 +878,9 @@ export default class ProfilePageUploadAvatarMobileForm {
 		cropCanvas.width = outputSize
 		cropCanvas.height = outputSize
 		const cropCtx = cropCanvas.getContext('2d')
+		if (!cropCtx) {
+			throw new Error('无法获取Canvas上下文')
+		}
 
 		cropCtx.drawImage(
 			img,
