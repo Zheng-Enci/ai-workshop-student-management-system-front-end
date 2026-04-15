@@ -628,3 +628,15 @@ onMounted(() => {
 
 	</div>
 </template>
+
+<style scoped>
+/* 深色模式下的输入框文字颜色 */
+:deep(html.dark .register-page-desktop-custom-input .el-input__inner) {
+	color: #fff !important;
+}
+
+/* 深色模式下的下拉框文字颜色 */
+:deep(html.dark .register-page-desktop-custom-select .el-input__inner) {
+	color: #fff !important;
+}
+</style>
