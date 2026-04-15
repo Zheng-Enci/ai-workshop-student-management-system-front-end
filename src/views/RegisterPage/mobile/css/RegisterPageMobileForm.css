@@ -14,7 +14,7 @@
  * 注册页面根容器
  * 全屏布局，使用渐变背景
  */
-.register-page-mobile-container {
+.register-page-mobile-form-container {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -28,13 +28,13 @@
 	background: linear-gradient(135deg, rgb(62 158 172 / 0.1) 0%, rgb(31 66 119 / 0.1) 100%);
 
 	/* 入场动画 */
-	animation: register-page-mobile-container-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	animation: register-page-mobile-form-container-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 /**
  * 页面容器入场动画关键帧
  */
-@keyframes register-page-mobile-container-enter {
+@keyframes register-page-mobile-form-container-enter {
 	0% {
 		opacity: 0;
 		transform: scale(0.95);
@@ -56,7 +56,7 @@
 /**
  * 背景装饰容器
  */
-.register-page-mobile-background-effects {
+.register-page-mobile-form-background-effects {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -69,18 +69,18 @@
 /**
  * 渐变球体基础样式
  */
-.register-page-mobile-gradient-orb {
+.register-page-mobile-form-gradient-orb {
 	position: absolute;
 	border-radius: 50%;
 	opacity: 0.4;
 	filter: blur(60px);
-	animation: register-page-mobile-float 15s infinite ease-in-out;
+	animation: register-page-mobile-form-float 15s infinite ease-in-out;
 }
 
 /**
  * 渐变球体1 - 冰川青色调
  */
-.register-page-mobile-orb-1 {
+.register-page-mobile-form-orb-1 {
 	top: -50px;
 	right: -30px;
 	width: 200px;
@@ -92,7 +92,7 @@
 /**
  * 渐变球体2 - 深空蓝色调
  */
-.register-page-mobile-orb-2 {
+.register-page-mobile-form-orb-2 {
 	bottom: -30px;
 	left: -30px;
 	width: 180px;
@@ -104,7 +104,7 @@
 /**
  * 渐变球体3 - 冰川青浅色
  */
-.register-page-mobile-orb-3 {
+.register-page-mobile-form-orb-3 {
 	top: 40%;
 	left: 20%;
 	width: 150px;
@@ -116,7 +116,7 @@
 /**
  * 浮动动画关键帧
  */
-@keyframes register-page-mobile-float {
+@keyframes register-page-mobile-form-float {
 	0%, 100% {
 		transform: translate(0, 0) scale(1);
 	}
@@ -139,7 +139,7 @@
 /**
  * 注册内容容器
  */
-.register-page-mobile-content {
+.register-page-mobile-form-content {
 	position: relative;
 	z-index: 1;
 	width: 100%;
@@ -149,7 +149,7 @@
 /**
  * 注册卡片容器
  */
-.register-page-mobile-card {
+.register-page-mobile-form-card {
 	padding: 24px 20px;
 	background: rgb(255 255 255 / 0.95);
 	border: 1px solid rgb(56 189 248 / 0.3);
@@ -158,13 +158,13 @@
 	backdrop-filter: blur(4px);
 
 	/* 卡片入场动画 */
-	animation: register-page-mobile-card-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+	animation: register-page-mobile-form-card-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
 }
 
 /**
  * 卡片入场动画关键帧
  */
-@keyframes register-page-mobile-card-enter {
+@keyframes register-page-mobile-form-card-enter {
 	0% {
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
@@ -186,7 +186,7 @@
 /**
  * 注册表单
  */
-.register-page-mobile-form {
+.register-page-mobile-form-form {
 	margin-top: 20px;
 }
 
@@ -194,39 +194,39 @@
  * 表单行
  * 两列布局
  */
-.register-page-mobile-form-row {
+.register-page-mobile-form-form-row {
 	display: flex;
 	gap: 12px;
 	margin-bottom: 12px;
 
 	/* 表单行依次入场动画 */
-	animation: register-page-mobile-form-row-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	animation: register-page-mobile-form-form-row-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 /* 第一行 */
-.register-page-mobile-form-row:nth-of-type(1) {
+.register-page-mobile-form-form-row:nth-of-type(1) {
 	animation-delay: 0.6s;
 }
 
 /* 第二行 */
-.register-page-mobile-form-row:nth-of-type(2) {
+.register-page-mobile-form-form-row:nth-of-type(2) {
 	animation-delay: 0.7s;
 }
 
 /* 第三行 */
-.register-page-mobile-form-row:nth-of-type(3) {
+.register-page-mobile-form-form-row:nth-of-type(3) {
 	animation-delay: 0.8s;
 }
 
 /* 第四行 */
-.register-page-mobile-form-row:nth-of-type(4) {
+.register-page-mobile-form-form-row:nth-of-type(4) {
 	animation-delay: 0.9s;
 }
 
 /**
  * 表单行入场动画关键帧
  */
-@keyframes register-page-mobile-form-row-enter {
+@keyframes register-page-mobile-form-form-row-enter {
 	0% {
 		opacity: 0;
 		transform: translateY(20px) scale(0.95);
@@ -246,41 +246,41 @@
 /**
  * 表单项基础样式
  */
-.register-page-mobile-form-item {
+.register-page-mobile-form-form-item {
 	margin-bottom: 0;
 }
 
 /**
  * 半宽表单项
  */
-.register-page-mobile-form-item-half {
+.register-page-mobile-form-form-item-half {
 	flex: 1;
 }
 
 /**
  * 密码表单项
  */
-.register-page-mobile-password-form-item {
+.register-page-mobile-form-password-form-item {
 	margin-bottom: 12px;
 
 	/* 密码表单项入场动画 */
-	animation: register-page-mobile-form-item-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 1s both;
+	animation: register-page-mobile-form-form-item-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 1s both;
 }
 
 /**
  * 最后一个输入框表单项
  */
-.register-page-mobile-last-input-form-item {
+.register-page-mobile-form-last-input-form-item {
 	margin-bottom: 20px;
 
 	/* 邀请码表单项入场动画 */
-	animation: register-page-mobile-form-item-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s both;
+	animation: register-page-mobile-form-form-item-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s both;
 }
 
 /**
  * 表单项入场动画关键帧
  */
-@keyframes register-page-mobile-form-item-enter {
+@keyframes register-page-mobile-form-form-item-enter {
 	0% {
 		opacity: 0;
 		transform: translateY(15px) scale(0.95);
@@ -302,7 +302,7 @@
 /**
  * 输入框组容器
  */
-.register-page-mobile-input-group {
+.register-page-mobile-form-input-group {
 	display: flex;
 	align-items: center;
 	width: 100%;
@@ -314,7 +314,7 @@
 	transition: all 0.3s ease;
 }
 
-.register-page-mobile-input-group:focus-within {
+.register-page-mobile-form-input-group:focus-within {
 	background: rgb(255 255 255 / 0.95);
 	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.15);
 }
@@ -322,7 +322,7 @@
 /**
  * 输入框图标
  */
-.register-page-mobile-input-icon {
+.register-page-mobile-form-input-icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -335,12 +335,12 @@
 /**
  * 自定义输入框
  */
-.register-page-mobile-custom-input {
+.register-page-mobile-form-custom-input {
 	flex: 1;
 }
 
 /* 覆盖 Element Plus 默认样式 */
-.register-page-mobile-custom-input [class*='el-input__wrapper'] {
+.register-page-mobile-form-custom-input [class*='el-input__wrapper'] {
 	padding: 0 8px 0 0 !important;
 	background: transparent !important;
 	--el-input-bg-color: transparent !important;
@@ -348,26 +348,26 @@
 	box-shadow: none !important;
 }
 
-.register-page-mobile-custom-input :deep(.el-input__inner) {
+.register-page-mobile-form-custom-input :deep(.el-input__inner) {
 	height: 36px;
 	font-size: 14px;
 	color: #1f2937;
 }
 
-.register-page-mobile-custom-input :deep(.el-input__inner::placeholder) {
+.register-page-mobile-form-custom-input :deep(.el-input__inner::placeholder) {
 	color: rgb(156 163 175);
 }
 
 /**
  * 自定义下拉选择框
  */
-.register-page-mobile-custom-select {
+.register-page-mobile-form-custom-select {
 	flex: 1;
 }
 
 /* 覆盖 Element Plus 默认样式 */
-.register-page-mobile-custom-select [class*='el-input__wrapper'],
-.register-page-mobile-custom-select .el-select__wrapper {
+.register-page-mobile-form-custom-select [class*='el-input__wrapper'],
+.register-page-mobile-form-custom-select .el-select__wrapper {
 	padding: 0 8px 0 0 !important;
 	background: transparent !important;
 	--el-input-bg-color: transparent !important;
@@ -376,13 +376,13 @@
 	box-shadow: none !important;
 }
 
-.register-page-mobile-custom-select :deep(.el-input__inner) {
+.register-page-mobile-form-custom-select :deep(.el-input__inner) {
 	height: 36px;
 	font-size: 14px;
 	color: #1f2937;
 }
 
-.register-page-mobile-custom-select :deep(.el-input__inner::placeholder) {
+.register-page-mobile-form-custom-select :deep(.el-input__inner::placeholder) {
 	color: rgb(156 163 175);
 }
 
@@ -391,7 +391,7 @@
 /**
  * 注册按钮
  */
-.register-page-mobile-button {
+.register-page-mobile-form-button {
 	width: 100%;
 	height: 44px;
 	font-size: 15px;
@@ -403,13 +403,13 @@
 	transition: all 0.3s ease;
 
 	/* 注册按钮入场动画 */
-	animation: register-page-mobile-button-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s both;
+	animation: register-page-mobile-form-button-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s both;
 }
 
 /**
  * 注册按钮入场动画关键帧
  */
-@keyframes register-page-mobile-button-enter {
+@keyframes register-page-mobile-form-button-enter {
 	0% {
 		opacity: 0;
 		transform: scale(0.8);
@@ -426,17 +426,17 @@
 	}
 }
 
-.register-page-mobile-button:hover {
+.register-page-mobile-form-button:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 8px 20px rgb(62 158 172 / 0.4);
 }
 
-.register-page-mobile-button:active {
+.register-page-mobile-form-button:active {
 	transform: translateY(0);
 }
 
-.register-page-mobile-button.is-loading,
-.register-page-mobile-button.is-disabled {
+.register-page-mobile-form-button.is-loading,
+.register-page-mobile-form-button.is-disabled {
 	cursor: not-allowed;
 	opacity: 0.7;
 }
@@ -446,20 +446,20 @@
 /**
  * 卡片底部区域
  */
-.register-page-mobile-card-footer {
+.register-page-mobile-form-card-footer {
 	padding-top: 20px;
 	margin-top: 20px;
 	text-align: center;
 	border-top: 1px solid rgb(229 231 235);
 
 	/* 底部区域入场动画 */
-	animation: register-page-mobile-footer-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s both;
+	animation: register-page-mobile-form-footer-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s both;
 }
 
 /**
  * 底部区域入场动画关键帧
  */
-@keyframes register-page-mobile-footer-enter {
+@keyframes register-page-mobile-form-footer-enter {
 	0% {
 		opacity: 0;
 		transform: translateY(10px);
@@ -479,20 +479,20 @@
 /**
  * 登录链接
  */
-.register-page-mobile-login-link {
+.register-page-mobile-form-login-link {
 	margin: 0;
 	font-size: 13px;
 	color: rgb(107 114 128);
 }
 
-.register-page-mobile-link {
+.register-page-mobile-form-link {
 	font-weight: 600;
 	color: rgb(62 158 172);
 	text-decoration: none;
 	transition: color 0.3s ease;
 }
 
-.register-page-mobile-link:hover {
+.register-page-mobile-form-link:hover {
 	color: rgb(31 66 119);
 	text-decoration: underline;
 }
@@ -502,21 +502,21 @@
 /**
  * 性别下拉菜单
  */
-.register-page-mobile-gender-select-dropdown {
+.register-page-mobile-form-gender-select-dropdown {
 	border-radius: 8px;
 }
 
 /**
  * 学院下拉菜单
  */
-.register-page-mobile-college-select-dropdown {
+.register-page-mobile-form-college-select-dropdown {
 	border-radius: 8px;
 }
 
 /**
  * 年级下拉菜单
  */
-.register-page-mobile-grade-select-dropdown {
+.register-page-mobile-form-grade-select-dropdown {
 	border-radius: 8px;
 }
 
@@ -525,14 +525,14 @@
 /**
  * 深色模式下的页面容器
  */
-html.dark .register-page-mobile-container {
+html.dark .register-page-mobile-form-container {
 	background: linear-gradient(135deg, rgb(15 23 42) 0%, rgb(30 58 138 / 0.3) 100%);
 }
 
 /**
  * 深色模式下的注册卡片
  */
-html.dark .register-page-mobile-card {
+html.dark .register-page-mobile-form-card {
 	background: rgb(15 23 42 / 0.95);
 	border: 1px solid rgb(56 189 248 / 0.2);
 	box-shadow: 0 8px 32px rgb(0 0 0 / 0.3);
@@ -541,12 +541,12 @@ html.dark .register-page-mobile-card {
 /**
  * 深色模式下的输入框组
  */
-html.dark .register-page-mobile-input-group {
+html.dark .register-page-mobile-form-input-group {
 	background: rgb(30 41 59 / 0.6);
 	border: 1px solid rgb(56 189 248 / 0.15);
 }
 
-html.dark .register-page-mobile-input-group:focus-within {
+html.dark .register-page-mobile-form-input-group:focus-within {
 	background: rgb(30 41 59 / 0.8);
 	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.2);
 }
@@ -554,51 +554,51 @@ html.dark .register-page-mobile-input-group:focus-within {
 /**
  * 深色模式下的输入框图标
  */
-html.dark .register-page-mobile-input-icon {
+html.dark .register-page-mobile-form-input-icon {
 	color: #38bdf8;
 }
 
 /**
  * 深色模式下的输入框文字颜色
  */
-html.dark .register-page-mobile-custom-input input.el-input__inner {
+html.dark .register-page-mobile-form-custom-input input.el-input__inner {
 	color: #fff !important;
 }
 
 /**
  * 深色模式下的下拉框文字颜色
  */
-html.dark .register-page-mobile-custom-select input.el-input__inner {
+html.dark .register-page-mobile-form-custom-select input.el-input__inner {
 	color: #fff !important;
 }
 
 /**
  * 深色模式下的注册按钮
  */
-html.dark .register-page-mobile-button {
+html.dark .register-page-mobile-form-button {
 	background: linear-gradient(135deg, rgb(56 189 248 / 0.9) 0%, rgb(30 58 138 / 0.9) 100%) !important;
 }
 
-html.dark .register-page-mobile-button:hover {
+html.dark .register-page-mobile-form-button:hover {
 	box-shadow: 0 8px 20px rgb(56 189 248 / 0.3);
 }
 
 /**
  * 深色模式下的卡片底部
  */
-html.dark .register-page-mobile-card-footer {
+html.dark .register-page-mobile-form-card-footer {
 	border-top-color: rgb(255 255 255 / 0.1);
 }
 
-html.dark .register-page-mobile-login-link {
+html.dark .register-page-mobile-form-login-link {
 	color: rgb(156 163 175);
 }
 
-html.dark .register-page-mobile-link {
+html.dark .register-page-mobile-form-link {
 	color: #38bdf8;
 }
 
-html.dark .register-page-mobile-link:hover {
+html.dark .register-page-mobile-form-link:hover {
 	color: rgb(111 183 196);
 }
 
@@ -608,13 +608,13 @@ html.dark .register-page-mobile-link:hover {
  * 减少动画偏好设置
  */
 @media (prefers-reduced-motion: reduce) {
-	.register-page-mobile-container,
-	.register-page-mobile-card,
-	.register-page-mobile-form-row,
-	.register-page-mobile-password-form-item,
-	.register-page-mobile-last-input-form-item,
-	.register-page-mobile-button,
-	.register-page-mobile-card-footer {
+	.register-page-mobile-form-container,
+	.register-page-mobile-form-card,
+	.register-page-mobile-form-form-row,
+	.register-page-mobile-form-password-form-item,
+	.register-page-mobile-form-last-input-form-item,
+	.register-page-mobile-form-button,
+	.register-page-mobile-form-card-footer {
 		animation: none;
 	}
 }
