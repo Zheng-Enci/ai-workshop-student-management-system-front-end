@@ -285,6 +285,7 @@ onUnmounted(() => {
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
 			:lock-scroll="false"
+			:show-close="false"
 			class="attendance-page-mobile-verification-code-dialog-mobile"
 		>
 			<div class="attendance-page-mobile-verification-code-content-mobile">
