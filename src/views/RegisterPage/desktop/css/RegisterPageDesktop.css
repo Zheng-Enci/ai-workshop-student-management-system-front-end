@@ -201,7 +201,7 @@ html.dark .register-page-desktop-container::before {
 .register-page-desktop-main-layout {
 	display: flex;
 	flex-direction: row;
-	width: 38.2%;
+	/* width: 38.2%; */
 	gap: 40px;
 	align-items: flex-start;
 	justify-content: center;
