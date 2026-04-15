@@ -9,6 +9,7 @@
 	width: 100%;
 	max-width: 1400px;
 	margin: 0 auto;
+	/* stylelint-disable-next-line no-unknown-animations */
 	animation: navigation-desktop-navSections-fadeInUp 0.6s ease-out;
 }
 
@@ -37,6 +38,7 @@
 	flex-shrink: 0;
 	gap: 20px;
 	align-items: center;
+	/* stylelint-disable-next-line no-unknown-animations */
 	animation: navigation-desktop-navSections-fadeInLeft 0.6s ease-out 0.1s both;
 }
 
@@ -168,6 +170,7 @@
 	justify-content: flex-end;
 	padding-left: 32px;
 	border-left: 1px solid rgb(255 255 255 / 0.1);
+	/* stylelint-disable-next-line no-unknown-animations */
 	animation: navigation-desktop-navSections-fadeInRight 0.6s ease-out 0.2s both;
 }
 
@@ -307,10 +310,10 @@
 	}
 
 	.navigation-desktop-user-card-points-section {
-		padding-left: 0;
-		border-left: none;
 		padding-top: 24px;
+		padding-left: 0;
 		border-top: 1px solid rgb(255 255 255 / 0.1);
+		border-left: none;
 	}
 
 	.navigation-desktop-user-card-points-grid {
@@ -334,6 +337,12 @@ html:not(.dark) .navigation-desktop-user-card-points-section {
 	border-left: 1px solid var(--glass-border);
 }
 
+/* stylelint-disable no-descending-specificity */
+
+html:not(.dark) .navigation-desktop-user-card-point-icon {
+	background: var(--glass-bg);
+}
+
 html:not(.dark) .navigation-desktop-user-card-point-item {
 	background: var(--glass-bg);
 }
@@ -342,13 +351,11 @@ html:not(.dark) .navigation-desktop-user-card-point-item:hover {
 	background: var(--glass-bg);
 }
 
-html:not(.dark) .navigation-desktop-user-card-point-icon {
-	background: var(--glass-bg);
-}
-
 html:not(.dark) .navigation-desktop-user-card-user-level {
 	background: var(--glass-bg);
 }
+
+/* stylelint-enable no-descending-specificity */
 
 @media (width <= 768px) {
 	html:not(.dark) .navigation-desktop-user-card-points-section {
