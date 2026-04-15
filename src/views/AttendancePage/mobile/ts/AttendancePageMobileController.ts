@@ -130,8 +130,8 @@ export default class AttendancePageMobileController {
 	/**
 	 * 处理头像点击事件
 	 */
-	public handleAvatarClick(): void {
-		this.router.push('/profile')
+	public async handleAvatarClick(): Promise<void> {
+		await this.router.push('/profile')
 	}
 
 	/**
@@ -171,8 +171,8 @@ export default class AttendancePageMobileController {
 	/**
 	 * 返回导航页面
 	 */
-	public goToNavigation(): void {
-		this.router.push('/navigation')
+	public async goToNavigation(): Promise<void> {
+		await this.router.push('/navigation')
 	}
 
 	// ======================== 时段相关方法 ========================
@@ -334,7 +334,7 @@ export default class AttendancePageMobileController {
 		this.nextSignTime.value = nextTime
 
 		if (minute === 0 && second === 0) {
-			this.syncAllAttendanceStatus()
+			void this.syncAllAttendanceStatus()
 		}
 	}
 
@@ -344,10 +344,10 @@ export default class AttendancePageMobileController {
 	 */
 	public onMounted(): void {
 		this.loadAttendanceStatus()
-		this.loadUserAvatar()
+		void this.loadUserAvatar()
 		this.checkSignTime()
 		this.timeInterval.value = setInterval(() => this.checkSignTime(), 1000)
-		this.loadWeeklyAttendance()
+		void this.loadWeeklyAttendance()
 	}
 
 	/**
@@ -556,39 +556,9 @@ export default class AttendancePageMobileController {
 			const res = await signIn(token, this.inputVerificationCode.value)
 
 			if (res.code === 200) {
-				const currentSlot = this.getCurrentTimeSlot()
-				if (currentSlot) {
-					this.todayAttendanceSlots.value = {
-						...this.todayAttendanceSlots.value,
-						[currentSlot]: true
-					}
-					this.attendanceStatus.value = {
-						...this.attendanceStatus.value,
-						[currentSlot]: new Date().toISOString()
-					}
-					this.saveAttendanceStatus()
-				}
-				await this.loadWeeklyAttendance()
-				this.showVerificationCodeDialog.value = false
-				this.inputVerificationCode.value = ''
-				ElMessage.success('签到成功！')
+				await this.handleSignInSuccess('签到成功！')
 			} else if (res.code === 400 && res.message && res.message.includes('已签到')) {
-				const currentSlot = this.getCurrentTimeSlot()
-				if (currentSlot) {
-					this.todayAttendanceSlots.value = {
-						...this.todayAttendanceSlots.value,
-						[currentSlot]: true
-					}
-					this.attendanceStatus.value = {
-						...this.attendanceStatus.value,
-						[currentSlot]: new Date().toISOString()
-					}
-					this.saveAttendanceStatus()
-				}
-				await this.loadWeeklyAttendance()
-				this.showVerificationCodeDialog.value = false
-				this.inputVerificationCode.value = ''
-				ElMessage.success('您已签到，无需重复签到')
+				await this.handleSignInSuccess('您已签到，无需重复签到')
 			} else if (res.message && (res.message.includes('验证码错误') || res.message.includes('验证码已过期'))) {
 				ElMessage.error(res.message)
 				this.inputVerificationCode.value = ''
@@ -609,6 +579,29 @@ export default class AttendancePageMobileController {
 	public cancelVerificationCode(): void {
 		this.showVerificationCodeDialog.value = false
 		this.inputVerificationCode.value = ''
+	}
+
+	/**
+	 * 处理签到成功后的状态更新
+	 * @param message - 成功提示消息
+	 */
+	private async handleSignInSuccess(message: string): Promise<void> {
+		const currentSlot = this.getCurrentTimeSlot()
+		if (currentSlot) {
+			this.todayAttendanceSlots.value = {
+				...this.todayAttendanceSlots.value,
+				[currentSlot]: true
+			}
+			this.attendanceStatus.value = {
+				...this.attendanceStatus.value,
+				[currentSlot]: new Date().toISOString()
+			}
+			this.saveAttendanceStatus()
+		}
+		await this.loadWeeklyAttendance()
+		this.showVerificationCodeDialog.value = false
+		this.inputVerificationCode.value = ''
+		ElMessage.success(message)
 	}
 
 	// ======================== 辅助方法 ========================
