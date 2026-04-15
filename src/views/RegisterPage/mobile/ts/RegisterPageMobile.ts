@@ -233,44 +233,30 @@ export default class RegisterPageMobile {
 	 * @returns {Promise<void>}
 	 */
 	public async handleRegister(): Promise<void> {
-		// 测试：每次点击注册按钮输出 666
-		this.message.info('666')
-		console.log('handleRegister 被调用')
-
 		// 获取表单引用
 		const formRef = this.getFormRef()
-		console.log('formRef:', formRef)
 
 		// 表单实例不存在时直接返回（容错）
 		if (!formRef) {
-			console.log('formRef 为空，直接返回')
 			this.message.error('表单实例不存在')
 			return
 		}
 
 		// 第一步：表单校验（同步校验）
-		console.log('开始表单校验...')
 		try {
 			await formRef.validate()
-			console.log('表单校验通过')
 		} catch (error) {
 			// 校验失败时终止流程
-			console.log('表单校验失败:', error)
-			this.message.error('表单校验失败，请检查输入')
 			return
 		}
 
 		// 第二步：提交注册请求（开启加载状态）
 		this.isLoading.value = true
-		console.log('=== 开始注册流程 ===')
 		try {
 			// 组装注册数据（转换年级/班级为数字类型）
 			const registerData = this._formData.toSubmitData()
-			console.log('注册数据:', registerData)
 			// 调用注册 API
-			console.log('调用 StudentApi.register...')
 			await StudentApi.register(registerData)
-			console.log('StudentApi.register 成功')
 			// 注册成功提示
 			this.message.success('注册成功！正在为您登录...')
 
@@ -297,18 +283,9 @@ export default class RegisterPageMobile {
 			// 第六步：跳转到导航主页面
 			void this._router.push('/navigation')
 		} catch (error: any) {
-			// 调试：输出错误对象详细信息
-			console.log('=== 错误调试信息 ===')
-			console.log('error:', error)
-			console.log('error.message:', error.message)
-			console.log('error.response:', error.response)
-			console.log('error.response?.data:', error.response?.data)
-			console.log('error.response?.data?.message:', error.response?.data?.message)
-			console.log('====================')
-
 			// 异常处理：显示错误信息（StudentApi 已经将服务器返回的 message 设置到 error.message 中）
 			const errorMessage = error.message || '注册失败，请检查您的信息'
-			this.message.error('调试: ' + errorMessage)
+			this.message.error(errorMessage)
 		} finally {
 			// 最终：关闭加载状态（无论成功/失败）
 			this.isLoading.value = false
