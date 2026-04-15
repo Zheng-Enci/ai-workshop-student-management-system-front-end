@@ -114,7 +114,32 @@ const routes = [
 			description: '厦门工学院人工智能创作坊学生管理系统注册页面，填写个人信息创建账户，加入厦门工学院人工智能创作坊'
 		}
 	},
-
+	/**
+	 * 注册页面路由（移动端）
+	 * 移动设备专用注册页面
+	 */
+	{
+		path: '/register-mobile',
+		name: 'RegisterMobile',
+		component: () => import('../views/RegisterPage/RegisterPageMobile.vue'),
+		meta: {
+			title: '注册 - 厦工AI坊学生管理系统',
+			description: '厦门工学院人工智能创作坊学生管理系统注册页面，填写个人信息创建账户，加入厦门工学院人工智能创作坊'
+		}
+	},
+	/**
+	 * 注册页面路由（桌面端）
+	 * 桌面设备专用注册页面
+	 */
+	{
+		path: '/register-desktop',
+		name: 'RegisterDesktop',
+		component: () => import('../views/RegisterPage/RegisterPageDesktop.vue'),
+		meta: {
+			title: '注册 - 厦工AI坊学生管理系统',
+			description: '厦门工学院人工智能创作坊学生管理系统注册页面，填写个人信息创建账户，加入厦门工学院人工智能创作坊'
+		}
+	},
 
 	/**
 	 * 导航中心路由（自动适配）
