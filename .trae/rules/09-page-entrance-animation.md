@@ -46,7 +46,7 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 
 ### 1. 页面容器动画
 
-**效果**: 淡入 + 轻微缩放
+**效果**: 淡入 + 弹性缩放（先缩小再放大回弹）
 
 ```css
 .page-container {
@@ -56,6 +56,10 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 @keyframes page-fade-in {
 	0% {
 		opacity: 0;
+		transform: scale(0.95);
+	}
+	70% {
+		opacity: 1;
 		transform: scale(1.02);
 	}
 	100% {
@@ -77,7 +81,11 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 @keyframes slide-from-left {
 	0% {
 		opacity: 0;
-		transform: translateX(-60px) scale(0.95);
+		transform: translateX(-60px) scale(0.9);
+	}
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
 	}
 	100% {
 		opacity: 1;
@@ -98,7 +106,11 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 @keyframes slide-from-right {
 	0% {
 		opacity: 0;
-		transform: translateX(80px) scale(0.95);
+		transform: translateX(80px) scale(0.9);
+	}
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
 	}
 	100% {
 		opacity: 1;
@@ -119,11 +131,15 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 @keyframes slide-from-top {
 	0% {
 		opacity: 0;
-		transform: translateY(-20px);
+		transform: translateY(-20px) scale(0.9);
+	}
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.05);
 	}
 	100% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 ```
@@ -140,11 +156,15 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 @keyframes slide-from-bottom {
 	0% {
 		opacity: 0;
-		transform: translateY(30px);
+		transform: translateY(30px) scale(0.95);
+	}
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
 	}
 	100% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 ```
@@ -161,7 +181,11 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 @keyframes scale-fade-in {
 	0% {
 		opacity: 0;
-		transform: scale(0.8);
+		transform: scale(0.7);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.1);
 	}
 	100% {
 		opacity: 1;
@@ -182,7 +206,11 @@ cubic-bezier(0.34, 1.56, 0.64, 1)
 @keyframes rotate-slide-in {
 	0% {
 		opacity: 0;
-		transform: translateX(30px) rotate(-15deg) scale(0.8);
+		transform: translateX(30px) rotate(-15deg) scale(0.7);
+	}
+	50% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1.15);
 	}
 	100% {
 		opacity: 1;
