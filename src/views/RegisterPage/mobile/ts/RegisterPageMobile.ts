@@ -44,8 +44,9 @@ export default class RegisterPageMobile {
 	/**
 	 * 表单数据实例（响应式）
 	 * @private
+	 * @readonly
 	 */
-	private _formData: RegisterFormData
+	private readonly _formData: RegisterFormData
 
 	// ===================== 公共响应式属性 =====================
 	/**
