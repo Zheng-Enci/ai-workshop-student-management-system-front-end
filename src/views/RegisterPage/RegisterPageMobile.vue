@@ -97,6 +97,11 @@ onMounted(() => {
 		<div class="register-page-mobile-form-content">
 			<!-- 注册卡片容器（带圆角/阴影/半透明） -->
 			<div class="register-page-mobile-form-card">
+				<!-- 欢迎语 -->
+				<div class="register-page-mobile-form-welcome">
+					<h2>欢迎加入AI坊</h2>
+					<p>Welcome to AI Workshop</p>
+				</div>
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
 				<el-form

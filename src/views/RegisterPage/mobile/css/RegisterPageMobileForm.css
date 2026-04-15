@@ -181,13 +181,70 @@
 	}
 }
 
+/* ===================== 欢迎语 ===================== */
+
+/**
+ * 欢迎语容器
+ */
+.register-page-mobile-form-welcome {
+	text-align: center;
+	margin-bottom: 20px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid rgb(229 231 235);
+
+	/* 欢迎语入场动画 */
+	animation: register-page-mobile-form-welcome-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+}
+
+/**
+ * 欢迎语入场动画关键帧
+ */
+@keyframes register-page-mobile-form-welcome-enter {
+	0% {
+		opacity: 0;
+		transform: translateY(-15px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.02);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/**
+ * 欢迎语主标题
+ */
+.register-page-mobile-form-welcome h2 {
+	margin: 0 0 4px;
+	font-size: 18px;
+	font-weight: 700;
+	color: #1a1a2e;
+	letter-spacing: 2px;
+}
+
+/**
+ * 欢迎语副标题
+ */
+.register-page-mobile-form-welcome p {
+	margin: 0;
+	font-size: 12px;
+	font-weight: 500;
+	color: rgb(107 114 128);
+	letter-spacing: 1px;
+}
+
 /* ===================== 注册表单 ===================== */
 
 /**
  * 注册表单
  */
 .register-page-mobile-form-form {
-	margin-top: 20px;
+	margin-top: 0;
 }
 
 /**
@@ -536,6 +593,21 @@ html.dark .register-page-mobile-form-card {
 	background: rgb(15 23 42 / 0.95);
 	border: 1px solid rgb(56 189 248 / 0.2);
 	box-shadow: 0 8px 32px rgb(0 0 0 / 0.3);
+}
+
+/**
+ * 深色模式下的欢迎语
+ */
+html.dark .register-page-mobile-form-welcome {
+	border-bottom-color: rgb(255 255 255 / 0.1);
+}
+
+html.dark .register-page-mobile-form-welcome h2 {
+	color: #38bdf8;
+}
+
+html.dark .register-page-mobile-form-welcome p {
+	color: rgb(156 163 175);
 }
 
 /**
