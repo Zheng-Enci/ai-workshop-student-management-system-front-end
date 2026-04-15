@@ -2,9 +2,7 @@
 
 ## 概述
 
-本规范定义了项目中所有页面入场动画的标准实现方式，以 RegisterPageDesktop 为基准示例。
-
-参考实现文件: `src/views/RegisterPage/desktop/css/RegisterPageDesktop.css`
+本规范定义了项目中所有页面入场动画的标准实现方式。
 
 ## 动画设计原则
 
