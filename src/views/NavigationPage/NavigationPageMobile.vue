@@ -662,7 +662,8 @@ onBeforeUnmount(() => {
 					class="navigation-page-mobile-user-card-avatar"
 					:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
 					@click="handleAvatarClick">
-					<img
+					<!-- eslint-disable-next-line vue/no-undef-directives -->
+				<img
 						v-if="hasAvatar && avatarUrl"
 						v-lazy="avatarUrl"
 						:src="avatarUrl"
