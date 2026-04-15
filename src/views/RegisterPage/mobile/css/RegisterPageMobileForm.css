@@ -236,7 +236,7 @@
 	font-size: 11px;
 	font-weight: 500;
 	color: rgb(107 114 128);
-	letter-spacing: 0.5px;
+	letter-spacing: 1px;
 }
 
 /* ===================== 注册表单 ===================== */
@@ -369,12 +369,13 @@
 	border: 1px solid rgb(56 189 248 / 0.2);
 	border-radius: 10px;
 	backdrop-filter: blur(2px);
-	transition: all 0.3s ease;
+	transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .register-page-mobile-form-input-group:focus-within {
 	background: rgb(255 255 255 / 0.95);
 	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.15);
+	transform: scale(1.01);
 }
 
 /**
@@ -478,7 +479,7 @@
 	background: linear-gradient(135deg, rgb(62 158 172) 0%, rgb(31 66 119) 100%) !important;
 	border: none !important;
 	border-radius: 10px;
-	transition: all 0.3s ease;
+	transition: transform 0.3s ease, opacity 0.3s ease;
 
 	/* 注册按钮入场动画 */
 	animation: register-page-mobile-form-button-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s both;
@@ -506,7 +507,7 @@
 
 .register-page-mobile-form-button:hover {
 	box-shadow: 0 8px 20px rgb(62 158 172 / 0.4);
-	transform: translateY(-2px);
+	transform: translateY(-2px) scale(1.02);
 }
 
 .register-page-mobile-form-button:active {
@@ -567,12 +568,13 @@
 	font-weight: 600;
 	color: rgb(62 158 172);
 	text-decoration: none;
-	transition: color 0.3s ease;
+	transition: opacity 0.3s ease;
 }
 
 .register-page-mobile-form-link:hover {
 	color: rgb(31 66 119);
 	text-decoration: underline;
+	opacity: 0.8;
 }
 
 /* ===================== 下拉菜单样式 ===================== */
