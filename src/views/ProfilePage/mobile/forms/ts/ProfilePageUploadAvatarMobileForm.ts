@@ -37,7 +37,7 @@ export default class ProfilePageUploadAvatarMobileForm {
 	 * 原始图片文件
 	 * @private
 	 */
-	private originalImageFile = ref(null)
+	private originalImageFile = ref<File | null>(null)
 
 	/**
 	 * 裁剪图片对象
