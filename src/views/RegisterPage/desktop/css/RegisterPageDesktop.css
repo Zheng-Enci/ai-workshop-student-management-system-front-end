@@ -304,34 +304,36 @@ html.dark .register-page-desktop-card {
 
 /**
  * 系统名称
- * 带反色边框（深色文字配浅色边框）
+ * 带文字描边效果（文字边缘反色边框）
  */
 .register-page-desktop-card-header h1 {
 	margin: 0;
-	padding: 8px 16px;
 	font-size: 28px;
 	font-weight: 700;
-	color: #1a1a1a;
-	background: rgb(255 255 255 / 0.9);
-	border: 2px solid #1a1a1a;
-	border-radius: 8px;
-	display: inline-block;
+	color: #fff;
+	-webkit-text-stroke: 1px #1a1a1a;
+	text-shadow:
+		-1px -1px 0 #1a1a1a,
+		1px -1px 0 #1a1a1a,
+		-1px 1px 0 #1a1a1a,
+		1px 1px 0 #1a1a1a;
 }
 
 /**
  * 副标题
- * 带反色边框（浅色文字配深色边框）
+ * 带文字描边效果（文字边缘反色边框）
  */
 .register-page-desktop-subtitle {
-	margin: 12px 0 0;
-	padding: 4px 12px;
+	margin: 8px 0 0;
 	font-size: 14px;
-	color: #fff;
-	background: rgb(0 0 0 / 0.6);
-	border: 2px solid rgb(255 255 255 / 0.8);
-	border-radius: 6px;
+	color: #1a1a1a;
+	-webkit-text-stroke: 0.5px #fff;
+	text-shadow:
+		-1px -1px 0 #fff,
+		1px -1px 0 #fff,
+		-1px 1px 0 #fff,
+		1px 1px 0 #fff;
 	letter-spacing: 2px;
-	display: inline-block;
 }
 
 /* ===================== 注册表单 ===================== */
