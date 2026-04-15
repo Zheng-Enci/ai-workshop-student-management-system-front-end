@@ -658,12 +658,12 @@ onBeforeUnmount(() => {
 			</div>
 
 			<div class="navigation-page-mobile-user-card-profile">
-				<!-- v-lazy 是 vue3-lazy 插件提供的图片懒加载指令，IDE 无法识别是正常现象，不影响功能 -->
 				<div
 					class="navigation-page-mobile-user-card-avatar"
 					:class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
 					@click="handleAvatarClick">
-				<img
+					<!-- v-lazy 是 vue3-lazy 插件提供的图片懒加载指令，IDE 无法识别是正常现象，不影响功能 -->
+					<img
 						v-if="hasAvatar && avatarUrl"
 						v-lazy="avatarUrl"
 						:src="avatarUrl"
