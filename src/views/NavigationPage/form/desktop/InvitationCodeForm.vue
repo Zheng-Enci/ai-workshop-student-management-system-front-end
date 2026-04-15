@@ -241,11 +241,11 @@ const handleClose = () => {
 	justify-content: center;
 	padding: 60px;
 	gap: 16px;
-	color: #909399;
+	color: var(--text-tertiary);
 }
 
 .invitation-code-state .el-icon {
-	color: #C0C4CC;
+	color: var(--text-tertiary);
 }
 
 .invitation-code-state-text {
@@ -255,7 +255,7 @@ const handleClose = () => {
 
 .invitation-code-state.error .el-icon,
 .invitation-code-state.error .invitation-code-state-text {
-	color: #F56C6C;
+	color: var(--danger-color);
 }
 
 /* ==================== 邀请码内容 ==================== */
@@ -274,7 +274,7 @@ const handleClose = () => {
 	align-items: center;
 	text-align: center;
 	padding: 32px 24px;
-	background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+	background: var(--primary-gradient);
 	border-radius: 16px;
 	width: 100%;
 	box-sizing: border-box;
@@ -318,7 +318,7 @@ const handleClose = () => {
 /* ==================== 按钮样式 ==================== */
 
 .invitation-code-actions .el-button--primary {
-	background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+	background: var(--primary-gradient);
 	border: none;
 	padding: 20px 32px;
 	font-size: 16px;
@@ -334,17 +334,18 @@ const handleClose = () => {
 }
 
 /* ==================== 夜间模式适配 ==================== */
+/* 使用CSS变量，与日间模式保持一致 */
 
 html.dark .invitation-code-label {
-	color: #A8ABB2;
+	color: rgba(255, 255, 255, 0.8);
 }
 
 html.dark .invitation-code-value {
-	color: #E5EAF3;
-	background: #2B2B2B;
+	color: #ffffff;
+	background: rgba(255, 255, 255, 0.15);
 }
 
 html.dark .invitation-code-tip {
-	color: #606266;
+	color: rgba(255, 255, 255, 0.7);
 }
 </style>
