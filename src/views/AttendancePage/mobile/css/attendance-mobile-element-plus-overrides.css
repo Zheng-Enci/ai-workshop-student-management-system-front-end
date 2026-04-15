@@ -35,6 +35,7 @@
  * 验证码输入框的包装器样式
  * 使用毛玻璃效果和自定义边框
  */
+/* stylelint-disable plugin/no-low-performance-animation-properties */
 .attendance-page-mobile-verification-code-input-mobile .el-input__wrapper {
 	padding: 12px 16px;
 	background: var(--glass-bg);
@@ -45,6 +46,7 @@
 	transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
 				box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+/* stylelint-enable plugin/no-low-performance-animation-properties */
 
 /**
  * 验证码输入框包装器悬停状态
