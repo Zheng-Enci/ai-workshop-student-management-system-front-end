@@ -77,7 +77,7 @@
 	align-items: center;
 	justify-content: center;
 	font-size: 36px;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: var(--primary-gradient);
 	color: white;
 	border-radius: 50%;
 }
@@ -153,7 +153,7 @@
 	justify-content: center;
 	gap: 4px;
 	font-size: 12px;
-	color: #909399;
+	color: var(--text-tertiary);
 }
 
 /**
@@ -176,79 +176,84 @@
 
 /**
  * 用户姓名
+ * 使用CSS变量控制文字颜色，支持主题切换
  */
 .profile-page-mobile-user-details h2 {
 	margin: 0;
 	font-size: 18px;
 	font-weight: 600;
-	color: #303133;
+	color: var(--text-primary);
 }
 
 html.dark .profile-page-mobile-user-details h2 {
-	color: #e5eaf3;
+	color: var(--text-primary);
 }
 
 /**
  * 学号
+ * 使用CSS变量控制文字颜色，支持主题切换
  */
 .profile-page-mobile-student-id {
 	margin: 0;
 	font-size: 12px;
-	color: #909399;
+	color: var(--text-tertiary);
 	letter-spacing: 1px;
 }
 
 html.dark .profile-page-mobile-student-id {
-	color: #8e959f;
+	color: var(--text-tertiary);
 }
 
 /**
  * 用户统计信息
+ * 使用CSS变量控制边框颜色，支持主题切换
  */
 .profile-page-mobile-user-stats {
 	display: flex;
 	gap: 8px;
 	margin-top: 8px;
 	padding-top: 8px;
-	border-top: 1px solid #ebeef5;
+	border-top: 1px solid var(--border-color);
 }
 
 html.dark .profile-page-mobile-user-stats {
-	border-top-color: #3a3a3a;
+	border-top-color: var(--border-color);
 }
 
 /**
  * 统计项
+ * 使用CSS变量控制文字和背景颜色，支持主题切换
  */
 .profile-page-mobile-stat-item {
 	display: flex;
 	align-items: center;
 	gap: 4px;
 	font-size: 12px;
-	color: #606266;
-	background: #f5f7fa;
+	color: var(--text-secondary);
+	background: var(--bg-secondary);
 	padding: 4px 8px;
 	border-radius: 12px;
 }
 
 html.dark .profile-page-mobile-stat-item {
-	color: #a3a6ad;
-	background: #2d2d2d;
+	color: var(--text-secondary);
+	background: var(--bg-tertiary);
 }
 
 /**
  * 统计图标
+ * 使用CSS变量控制图标颜色
  */
 .profile-page-mobile-stat-icon {
 	font-size: 12px;
-	color: #67c23a;
+	color: var(--success-color);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 html.dark .profile-page-mobile-stat-icon {
-	color: #85ce61;
+	color: var(--success-color);
 }
 
 .profile-page-mobile-stat-icon svg {

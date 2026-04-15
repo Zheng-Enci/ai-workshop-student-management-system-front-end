@@ -1,28 +1,29 @@
 /* 安全设置部分样式 */
+/* 使用CSS变量控制背景色和阴影，支持主题切换 */
 .password-section {
     margin: 20px 0;
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 8px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px 0 var(--shadow-color);
     overflow: hidden;
 }
 
 .section-header {
     padding: 20px;
-    border-bottom: 1px solid #ebeef5;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .section-header h3 {
     margin: 0 0 8px 0;
     font-size: 16px;
     font-weight: 600;
-    color: #303133;
+    color: var(--text-primary);
 }
 
 .section-header p {
     margin: 0;
     font-size: 14px;
-    color: #909399;
+    color: var(--text-tertiary);
 }
 
 .security-card {
@@ -44,27 +45,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #ecf5ff;
+    background: var(--bg-secondary);
     border-radius: 24px;
     margin-right: 16px;
 }
 
 .security-icon i {
     font-size: 24px;
-    color: #409eff;
+    color: var(--primary-color);
 }
 
 .security-content h4 {
     margin: 0 0 4px 0;
     font-size: 15px;
     font-weight: 500;
-    color: #303133;
+    color: var(--text-primary);
 }
 
 .security-content p {
     margin: 0;
     font-size: 13px;
-    color: #909399;
+    color: var(--text-tertiary);
 }
 
 .security-btn {
@@ -73,36 +74,36 @@
 
 /* 夜间模式样式 */
 html.dark .password-section {
-    background: #1d1e1f;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
+    background: var(--bg-secondary);
+    box-shadow: 0 2px 12px 0 var(--shadow-color);
 }
 
 html.dark .section-header {
-    border-bottom: 1px solid #303133;
+    border-bottom: 1px solid var(--border-color);
 }
 
 html.dark .section-header h3 {
-    color: #e5eaf3;
+    color: var(--text-primary);
 }
 
 html.dark .section-header p {
-    color: #8e959f;
+    color: var(--text-tertiary);
 }
 
 html.dark .security-icon {
-    background: #1e3a5f;
+    background: var(--bg-tertiary);
 }
 
 html.dark .security-icon i {
-    color: #66b1ff;
+    color: var(--primary-color);
 }
 
 html.dark .security-content h4 {
-    color: #e5eaf3;
+    color: var(--text-primary);
 }
 
 html.dark .security-content p {
-    color: #8e959f;
+    color: var(--text-tertiary);
 }
 
 /* 响应式调整 */

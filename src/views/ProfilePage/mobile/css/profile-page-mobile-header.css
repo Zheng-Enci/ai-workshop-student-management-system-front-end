@@ -26,6 +26,7 @@
 
 /**
  * 返回按钮
+ * 使用项目主色冰川青作为背景色
  */
 .profile-page-mobile-header-back-btn {
 	flex-shrink: 0;
@@ -34,7 +35,7 @@
 	min-width: 36px !important;
 	padding: 0 !important;
 	border: none !important;
-	background: #409eff !important;
+	background: var(--primary-color) !important;
 	backdrop-filter: blur(10px);
 	transition: all 0.3s ease;
 }
