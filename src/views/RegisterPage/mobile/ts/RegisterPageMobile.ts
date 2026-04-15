@@ -49,10 +49,10 @@ export default class RegisterPageMobile {
 
 	// ===================== 公共响应式属性 =====================
 	/**
-	 * 表单引用实例（用于表单校验）
+	 * 获取表单引用的方法（从 Vue 文件注入）
 	 * @public
 	 */
-	public formRef: Ref<{ validate: () => Promise<void> } | null>
+	public getFormRef: () => { validate: () => Promise<void> } | null
 
 	/**
 	 * 消息提示实例（从 Vue 文件注入）
@@ -236,11 +236,14 @@ export default class RegisterPageMobile {
 		// 测试：每次点击注册按钮输出 666
 		this.message.info('666')
 		console.log('handleRegister 被调用')
-		console.log('formRef.value:', this.formRef.value)
+
+		// 获取表单引用
+		const formRef = this.getFormRef()
+		console.log('formRef:', formRef)
 
 		// 表单实例不存在时直接返回（容错）
-		if (!this.formRef.value) {
-			console.log('formRef.value 为空，直接返回')
+		if (!formRef) {
+			console.log('formRef 为空，直接返回')
 			this.message.error('表单实例不存在')
 			return
 		}
@@ -248,7 +251,7 @@ export default class RegisterPageMobile {
 		// 第一步：表单校验（同步校验）
 		console.log('开始表单校验...')
 		try {
-			await this.formRef.value.validate()
+			await formRef.validate()
 			console.log('表单校验通过')
 		} catch (error) {
 			// 校验失败时终止流程

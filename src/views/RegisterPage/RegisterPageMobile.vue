@@ -49,8 +49,6 @@ const router = useRouter()
 const pageLogic = new RegisterPageMobile(router)
 // 表单引用实例（用于表单校验）
 const formRef = ref<FormInstance | null>(null)
-// 将表单引用传递给 pageLogic
-pageLogic.formRef = formRef
 // 将 ElMessage 传递给 pageLogic，确保消息提示在正确的上下文中执行
 pageLogic.message = ElMessage
 
@@ -59,6 +57,11 @@ pageLogic.message = ElMessage
 
 // ======================== 方法 ========================
 // 方法通过 pageLogic 实例调用
+
+// 获取表单引用
+const getFormRef = () => formRef.value
+// 将获取表单引用的方法传递给 pageLogic
+pageLogic.getFormRef = getFormRef
 
 // ======================== 生命周期 ========================
 /**
@@ -117,7 +120,7 @@ onMounted(() => {
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
 				<el-form
-					:ref="(el) => { if (el) formRef.value = el as FormInstance }"
+					ref="formRef"
 					:model="pageLogic.form"
 					:rules="pageLogic.rules"
 					label-width="0px"
