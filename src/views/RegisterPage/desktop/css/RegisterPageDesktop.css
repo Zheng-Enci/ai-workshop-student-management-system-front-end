@@ -662,6 +662,22 @@ html.dark .register-page-desktop-input-group:focus-within {
 }
 
 /**
+ * 深色模式下的输入框文字颜色
+ * 强制为白色，与下拉框保持一致
+ */
+html.dark .register-page-desktop-custom-input [class*='el-input__inner'] {
+	color: #fff !important;
+}
+
+/**
+ * 深色模式下的下拉框文字颜色
+ * 保持白色
+ */
+html.dark .register-page-desktop-custom-select [class*='el-input__inner'] {
+	color: #fff !important;
+}
+
+/**
  * 深色模式下的注册按钮
  */
 html.dark .register-page-desktop-register-button {
