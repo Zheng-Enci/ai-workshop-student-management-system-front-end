@@ -35,6 +35,9 @@ import { User, Lock, Phone, School, Collection, House } from '@element-plus/icon
 // Vue Router 路由跳转
 import { useRouter } from 'vue-router'
 
+// ===================== 样式导入 =====================
+import '@/views/RegisterPage/desktop/css/RegisterPageDesktop.css'
+
 // ===================== 业务模块导入区 =====================
 // 学生相关API：注册、登录
 import { register, login } from '@/api/student'
