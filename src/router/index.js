@@ -14,7 +14,7 @@ import { validateToken } from '@/api/student'
  * 应用路由配置数组
  * 包含所有页面路由的定义，包括路径、组件、元信息等
  *
- * @type {Array<object>}
+ * @type {import('vue-router').RouteRecordRaw[]}
  * @description 路由配置对象包含：
  *   - path: 路由路径
  *   - name: 路由名称（用于编程式导航）
@@ -566,6 +566,8 @@ const routes = [
 /**
  * 创建Vue Router实例
  * 使用HTML5历史模式，支持浏览器前进后退
+ *
+ * @type {import('vue-router').Router}
  */
 const router = createRouter({
 	history: createWebHistory('/'),
