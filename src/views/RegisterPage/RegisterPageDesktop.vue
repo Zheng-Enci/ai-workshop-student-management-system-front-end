@@ -79,21 +79,26 @@ const collegeOptions = [
 // ===================== 类型定义 =====================
 /**
  * 注册表单数据类型
+ * 包含学生注册所需的所有字段信息
+ *
  * @typedef {Object} RegisterForm
- * @property {string} name - 学生姓名
- * @property {string} studentId - 学号（10位数字，20-30开头）
- * @property {string} gender - 性别（男/女）
- * @property {string} phoneNumber - 手机号（11位，13-9开头）
- * @property {string} college - 学院（下拉选择）
- * @property {string} major - 专业（手动输入）
- * @property {string} grade - 年级（1-5）
- * @property {number|null} classNum - 班级（1-100的数字）
- * @property {string} password - 密码（6-16位）
- * @property {string} confirmPassword - 确认密码（与密码一致）
- * @property {string} invitationCode - 邀请码
+ * @property {string} name - 学生姓名，必填，用于显示用户名称
+ * @property {string} studentId - 学号，10位数字，20-30开头，用于登录和身份识别
+ * @property {string} gender - 性别，男/女，下拉选择
+ * @property {string} phoneNumber - 手机号，11位，13-9开头，用于联系
+ * @property {string} college - 学院名称，下拉选择，如：人工智能学院
+ * @property {string} major - 专业名称，手动输入，如：软件工程
+ * @property {string} grade - 年级，1-5，下拉选择
+ * @property {number|null} classNum - 班级，1-100的数字，用于班级分组
+ * @property {string} password - 密码，6-16位，用于账户安全
+ * @property {string} confirmPassword - 确认密码，必须与password一致
+ * @property {string} invitationCode - 邀请码，UUID格式，用于注册验证
  */
 
 /**
+ * 表单初始数据
+ * 所有字段设置为空值作为初始状态
+ *
  * @type {RegisterForm}
  */
 const initialFormData = {
