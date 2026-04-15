@@ -180,18 +180,18 @@ html.dark .register-page-desktop-container::before {
 
 /**
  * 注册内容容器
- * 左右分栏布局，避免重叠
+ * 只占据右侧 38.2% 区域，避免覆盖整个页面
  */
 .register-page-desktop-content {
 	position: relative;
 	z-index: 1;
-	width: 100%;
-	max-width: 100%;
+	width: 38.2%;
+	margin-left: 61.8%;
 	padding: 20px;
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
-	justify-content: flex-end;
+	justify-content: center;
 }
 
 /**
