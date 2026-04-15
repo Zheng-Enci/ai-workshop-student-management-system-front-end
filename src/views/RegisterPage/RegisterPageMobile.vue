@@ -10,6 +10,7 @@
 // Element Plus 核心组件
 import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElSelect, ElOption } from 'element-plus'
 // Element Plus 基础样式（按需引入，减小打包体积）
+import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
 import 'element-plus/theme-chalk/el-input.css'
@@ -17,11 +18,16 @@ import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
+// Element Plus 额外样式（下拉菜单、弹出层、表单验证等）
+import 'element-plus/theme-chalk/el-popper.css'
+import 'element-plus/theme-chalk/el-scrollbar.css'
+// Element Plus 消息提示样式（用于显示注册成功/失败提示）
+import 'element-plus/theme-chalk/el-message.css'
 // Element Plus 图标组件
 import { User, Lock, Phone, School, Collection, House } from '@element-plus/icons-vue'
-// 顶栏样式
+// 顶栏样式（包含首页按钮、Logo、系统标题等样式）
 import './mobile/css/RegisterPageMobileHeader.css'
-// 表单样式
+// 表单样式（包含表单布局、输入框、按钮、下拉菜单等样式）
 import './mobile/css/RegisterPageMobileForm.css'
 // Vue3 核心 API
 import { onMounted } from 'vue'
