@@ -74,8 +74,8 @@ const loadInvitationCode = async () => {
 			invitationCode.value = null
 		}
 	} catch (error) {
-		const errorMessage = error instanceof Error ? error.message : '未知错误'
-		errorMessage.value = `获取邀请码失败: ${errorMessage}`
+		const errorMsg = error instanceof Error ? error.message : '未知错误'
+		errorMessage.value = `获取邀请码失败: ${errorMsg}`
 		invitationCode.value = null
 	} finally {
 		nextTick().then(() => {
