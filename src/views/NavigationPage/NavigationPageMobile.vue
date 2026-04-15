@@ -632,7 +632,6 @@ onBeforeUnmount(() => {
 					type="primary"
 					@click="goToHome"
 				>
-					<el-icon><House /></el-icon>
 					首页
 				</el-button>
 				<div class="navigation-page-mobile-header-title-section">
