@@ -6,8 +6,6 @@
  */
 
 // ===================== 第三方依赖导入 =====================
-// Element Plus 消息提示组件
-import { ElMessage } from 'element-plus'
 // Vue3 响应式 API
 import { ref, type Ref, reactive } from 'vue'
 // Vue Router 路由实例类型
@@ -55,6 +53,12 @@ export default class RegisterPageMobile {
 	 * @public
 	 */
 	public formRef: Ref<{ validate: () => Promise<void> } | null>
+
+	/**
+	 * 消息提示实例（从 Vue 文件注入）
+	 * @public
+	 */
+	public message: any
 
 	/**
 	 * 注册按钮加载状态（防止重复提交）
@@ -250,7 +254,7 @@ export default class RegisterPageMobile {
 			// 调用注册 API
 			await StudentApi.register(registerData)
 			// 注册成功提示
-			ElMessage.success('注册成功！正在为您登录...')
+			this.message.success('注册成功！正在为您登录...')
 
 			// 第三步：自动登录（使用注册的学号/密码）
 			const loginData = {
@@ -277,7 +281,7 @@ export default class RegisterPageMobile {
 		} catch (error: any) {
 			// 异常处理：优先显示后端返回的 message，否则显示默认错误信息
 			const errorMessage = error.response?.data?.message || error.message || '注册失败，请检查您的信息'
-			ElMessage.error(errorMessage)
+			this.message.error(errorMessage)
 		} finally {
 			// 最终：关闭加载状态（无论成功/失败）
 			this.isLoading.value = false

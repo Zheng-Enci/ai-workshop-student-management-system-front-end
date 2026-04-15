@@ -51,6 +51,8 @@ const pageLogic = new RegisterPageMobile(router)
 const formRef = ref<FormInstance | null>(null)
 // 将表单引用传递给 pageLogic
 pageLogic.formRef = formRef
+// 将 ElMessage 传递给 pageLogic，确保消息提示在正确的上下文中执行
+pageLogic.message = ElMessage
 
 // ======================== 计算属性 ========================
 // 无计算属性
