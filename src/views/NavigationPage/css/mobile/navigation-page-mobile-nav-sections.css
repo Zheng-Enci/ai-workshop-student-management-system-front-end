@@ -18,6 +18,7 @@
 		opacity: 0;
 		transform: translateY(20px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -97,16 +98,16 @@
 .navigation-page-mobile-nav-sections-card {
 	position: relative;
 	display: flex;
-	align-items: center;
 	gap: 12px;
+	align-items: center;
 	padding: 12px 16px;
 	overflow: hidden;
 	cursor: pointer;
 	background: rgb(255 255 255 / 0.08);
 	border: 1px solid rgb(255 255 255 / 0.12);
 	border-radius: 16px;
-	backdrop-filter: blur(20px);
 	box-shadow: 0 4px 16px rgb(0 0 0 / 0.08);
+	backdrop-filter: blur(20px);
 	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
 		box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
 		background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -131,10 +132,10 @@
 }
 
 .navigation-page-mobile-nav-sections-card:hover {
-	transform: translateY(-4px);
 	background: rgb(255 255 255 / 0.12);
 	border-color: rgb(255 255 255 / 0.2);
 	box-shadow: 0 12px 32px rgb(0 0 0 / 0.15);
+	transform: translateY(-4px);
 }
 
 .navigation-page-mobile-nav-sections-card:active {
@@ -149,11 +150,11 @@
 	position: relative;
 	z-index: 1;
 	display: flex;
+	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
 	width: 44px;
 	height: 44px;
-	flex-shrink: 0;
 	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	border-radius: 12px;
 	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
@@ -161,8 +162,8 @@
 }
 
 .navigation-page-mobile-nav-sections-card:hover .navigation-page-mobile-nav-sections-card-icon {
-	transform: scale(1.08);
 	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
+	transform: scale(1.08);
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon .el-icon,
@@ -177,17 +178,17 @@
 	position: relative;
 	z-index: 1;
 	display: flex;
-	align-items: center;
-	gap: 10px;
-	min-width: 0;
 	flex: 1;
+	gap: 10px;
+	align-items: center;
+	min-width: 0;
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	gap: 2px;
-	flex: 1;
 	min-width: 0;
 }
 
@@ -215,8 +216,8 @@
 	right: 0;
 	width: 80px;
 	height: 80px;
-	background: radial-gradient(circle, rgb(62 158 172 / 0.15), transparent 70%);
 	pointer-events: none;
+	background: radial-gradient(circle, rgb(62 158 172 / 0.15), transparent 70%);
 }
 
 /* ==================== 数据看板卡片（主色变体） ==================== */
