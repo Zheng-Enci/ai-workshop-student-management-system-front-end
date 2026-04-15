@@ -275,11 +275,16 @@ html.dark .register-page-desktop-card {
 
 /**
  * 卡片头部区域
- * 包含Logo和系统名称
+ * 包含系统名称和副标题，带反色边框
  */
 .register-page-desktop-card-header {
 	margin-bottom: 30px;
+	padding: 20px;
 	text-align: center;
+	border: 2px solid rgb(255 255 255 / 0.8);
+	border-radius: 12px;
+	background: rgb(0 0 0 / 0.2);
+	backdrop-filter: blur(8px);
 }
 
 /**
