@@ -15,7 +15,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { ElButton, ElDialog, ElIcon } from 'element-plus'
 import { Star, DocumentCopy, Check } from '@element-plus/icons-vue'
 import InvitationApi from '../../../../api/ts/InvitationApi'
-import { useUserStore } from '../../../../stores/user'
+import { useUserStore } from '../../../../stores/ts/user'
 
 // Props
 const props = defineProps({
