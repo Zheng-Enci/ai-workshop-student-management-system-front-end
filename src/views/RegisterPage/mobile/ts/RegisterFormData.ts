@@ -4,7 +4,44 @@
  * @description 封装注册表单的数据模型和默认值
  * @class RegisterFormData
  */
-export default class RegisterFormData {
+
+/**
+ * 注册表单数据结构接口
+ * @interface IRegisterFormData
+ */
+interface IRegisterFormData {
+	name: string
+	studentId: string
+	gender: string
+	phoneNumber: string
+	college: string
+	major: string
+	grade: string
+	classNum: number | null
+	password: string
+	confirmPassword: string
+	invitationCode: string
+}
+
+/**
+ * 默认表单数据值
+ * @constant DEFAULT_FORM_DATA
+ */
+const DEFAULT_FORM_DATA: IRegisterFormData = {
+	name: '',
+	studentId: '',
+	gender: '',
+	phoneNumber: '',
+	college: '',
+	major: '',
+	grade: '',
+	classNum: null,
+	password: '',
+	confirmPassword: '',
+	invitationCode: ''
+}
+
+export default class RegisterFormData implements IRegisterFormData {
 	/**
 	 * 学生姓名
 	 * @type {string}
@@ -12,7 +49,7 @@ export default class RegisterFormData {
 	public name: string
 
 	/**
-	 * 学号（10位数字，20-30开头）
+	 * 学号（十位数字，二十至三十开头）
 	 * @type {string}
 	 */
 	public studentId: string
@@ -24,7 +61,7 @@ export default class RegisterFormData {
 	public gender: string
 
 	/**
-	 * 手机号（11位，13-9开头）
+	 * 手机号（十一位，十三至十九开头）
 	 * @type {string}
 	 */
 	public phoneNumber: string
@@ -42,19 +79,19 @@ export default class RegisterFormData {
 	public major: string
 
 	/**
-	 * 年级（1-5）
+	 * 年级（一至五年级）
 	 * @type {string}
 	 */
 	public grade: string
 
 	/**
-	 * 班级（1-100的数字）
+	 * 班级（一至一百的数字）
 	 * @type {number | null}
 	 */
 	public classNum: number | null
 
 	/**
-	 * 密码（6-16位）
+	 * 密码（六至十六位）
 	 * @type {string}
 	 */
 	public password: string
@@ -73,37 +110,32 @@ export default class RegisterFormData {
 
 	/**
 	 * 构造函数 - 初始化表单数据为默认值
+	 * @constructor
+	 * @param {Partial<IRegisterFormData>} initialData - 可选的初始数据
 	 */
-	constructor() {
-		this.name = ''
-		this.studentId = ''
-		this.gender = ''
-		this.phoneNumber = ''
-		this.college = ''
-		this.major = ''
-		this.grade = ''
-		this.classNum = null
-		this.password = ''
-		this.confirmPassword = ''
-		this.invitationCode = ''
+	constructor(initialData: Partial<IRegisterFormData> = {}) {
+		const data = { ...DEFAULT_FORM_DATA, ...initialData }
+		this.name = data.name
+		this.studentId = data.studentId
+		this.gender = data.gender
+		this.phoneNumber = data.phoneNumber
+		this.college = data.college
+		this.major = data.major
+		this.grade = data.grade
+		this.classNum = data.classNum
+		this.password = data.password
+		this.confirmPassword = data.confirmPassword
+		this.invitationCode = data.invitationCode
 	}
 
 	/**
 	 * 重置表单数据为默认值
 	 * @method reset
+	 * @description 将表单所有字段恢复为初始默认值
 	 */
 	public reset(): void {
-		this.name = ''
-		this.studentId = ''
-		this.gender = ''
-		this.phoneNumber = ''
-		this.college = ''
-		this.major = ''
-		this.grade = ''
-		this.classNum = null
-		this.password = ''
-		this.confirmPassword = ''
-		this.invitationCode = ''
+		const defaultData = new RegisterFormData()
+		Object.assign(this, defaultData)
 	}
 
 	/**
@@ -111,18 +143,9 @@ export default class RegisterFormData {
 	 * @method toSubmitData
 	 * @returns {Object} 转换后的提交数据（年级和班级转为数字类型）
 	 */
-	public toSubmitData(): {
-		name: string
-		studentId: string
-		gender: string
-		phoneNumber: string
-		college: string
-		major: string
+	public toSubmitData(): Omit<IRegisterFormData, 'grade' | 'classNum'> & {
 		grade: number | null
 		classNum: number | null
-		password: string
-		confirmPassword: string
-		invitationCode: string
 	} {
 		return {
 			name: this.name,
