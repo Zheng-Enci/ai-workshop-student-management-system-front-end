@@ -16,7 +16,7 @@
 
 // ===================== 依赖导入区 =====================
 // Element Plus 图标组件导入
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, House, Trophy, Coin, Document, TrendCharts, Setting } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, Trophy, Coin, Document, TrendCharts, Setting } from '@element-plus/icons-vue'
 // Element Plus 核心组件导入
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
 // Vue3 核心API导入
