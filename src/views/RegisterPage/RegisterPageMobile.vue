@@ -163,6 +163,7 @@ onMounted(() => {
 									class="register-page-mobile-form-custom-select"
 									size="large"
 									popper-class="register-page-mobile-form-gender-select-dropdown"
+									:teleported="false"
 								>
 									<el-option label="男" value="男"/>
 									<el-option label="女" value="女"/>
@@ -204,6 +205,7 @@ onMounted(() => {
 									class="register-page-mobile-form-custom-select"
 									size="large"
 									popper-class="register-page-mobile-form-college-select-dropdown"
+									:teleported="false"
 								>
 									<el-option
 										v-for="college in pageLogic.collegeOptions"
@@ -249,6 +251,7 @@ onMounted(() => {
 									class="register-page-mobile-form-custom-select"
 									size="large"
 									popper-class="register-page-mobile-form-grade-select-dropdown"
+									:teleported="false"
 								>
 									<el-option label="1年级" value="1"/>
 									<el-option label="2年级" value="2"/>
