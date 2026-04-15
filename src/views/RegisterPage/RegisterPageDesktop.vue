@@ -89,8 +89,8 @@ const collegeOptions = [
  * @property {string} phoneNumber - 手机号，11个数字，13到9开头，用于联系
  * @property {string} college - 学院名称，下拉选择，如：人工智能学院
  * @property {string} major - 专业名称，手动输入，如：软件工程
- * @property {string} grade - 年级，1到5，下拉选择
- * @property {number|null} classNum - 班级，1到100的数字，用于班级分组
+ * @property {string} grade - 年级，1到5个，下拉选择
+ * @property {number|null} classNum - 班级，1到100之间的数字，用于班级分组
  * @property {string} password - 密码，6-16位，用于账户安全
  * @property {string} confirmPassword - 确认密码，必须与password一致
  * @property {string} invitationCode - 邀请码，UUID格式，用于注册验证
