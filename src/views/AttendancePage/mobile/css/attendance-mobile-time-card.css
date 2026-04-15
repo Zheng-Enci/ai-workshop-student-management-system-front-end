@@ -7,20 +7,24 @@
 /* ==================== 时间卡片 ==================== */
 
 .attendance-mobile-time-card-card-mobile {
-	background: var(--glass-bg);
-	backdrop-filter: blur(20px);
-	border-radius: 16px;
-	border: 1px solid var(--glass-border);
-	box-shadow: 0 6px 24px var(--shadow-color);
+	width: 100%;
 	padding: 16px 20px;
 	text-align: center;
-	transition: all 0.3s ease;
-	width: 100%;
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	border-radius: 16px;
+	box-shadow: 0 6px 24px var(--shadow-color);
+	backdrop-filter: blur(20px);
+	/* 明确指定过渡属性以提升性能，避免使用 all */
+	/* Explicitly specify transition properties for better performance, avoid using all */
+	/* 注意：box-shadow 过渡性能较低，已移除 */
+	/* Note: box-shadow transition has low performance, removed */
+	transition: transform 0.3s ease;
 }
 
 .attendance-mobile-time-card-card-mobile:hover {
-	transform: translateY(-1px);
 	box-shadow: 0 8px 28px var(--shadow-color);
+	transform: translateY(-1px);
 }
 
 /* ==================== 时间信息容器 ==================== */
@@ -35,57 +39,57 @@
 
 .attendance-mobile-time-card-current-mobile {
 	display: flex;
+	gap: 8px;
 	align-items: center;
 	justify-content: center;
-	gap: 8px;
-	font-size: 16px;
-	color: var(--text-primary);
-	font-weight: 600;
 	font-family: 'Courier New', monospace;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--text-primary);
 }
 
 /* ==================== 时间图标 ==================== */
 
 .attendance-mobile-time-card-time-icon-mobile {
-	color: var(--primary-color);
 	font-size: 20px;
+	color: var(--primary-color);
 }
 
 /* ==================== 当前日期展示 ==================== */
 
 .attendance-mobile-time-card-date-mobile {
 	display: flex;
+	gap: 6px;
 	align-items: center;
 	justify-content: center;
-	gap: 6px;
-	font-size: 13px;
-	color: var(--text-secondary);
-	font-weight: 500;
 	margin-bottom: 4px;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--text-secondary);
 }
 
 /* ==================== 日期图标 ==================== */
 
 .attendance-mobile-time-card-date-icon-mobile {
-	color: var(--text-tertiary);
 	font-size: 16px;
+	color: var(--text-tertiary);
 }
 
 /* ==================== 下次签到时间 ==================== */
 
 .attendance-mobile-time-card-next-mobile {
 	display: flex;
+	gap: 6px;
 	align-items: center;
 	justify-content: center;
-	gap: 6px;
 	font-size: 12px;
-	color: var(--text-secondary);
 	font-weight: 500;
+	color: var(--text-secondary);
 }
 
 /* ==================== 下次签到图标 ==================== */
 
 .attendance-mobile-time-card-next-icon-mobile {
-	color: var(--text-tertiary);
 	font-size: 14px;
+	color: var(--text-tertiary);
 }
