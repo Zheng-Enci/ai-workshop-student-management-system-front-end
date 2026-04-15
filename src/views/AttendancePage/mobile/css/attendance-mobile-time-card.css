@@ -15,9 +15,13 @@
 	border-radius: 16px;
 	box-shadow: 0 6px 24px var(--shadow-color);
 	backdrop-filter: blur(20px);
+
 	/* 明确指定过渡属性以提升性能，避免使用 all */
+
 	/* Explicitly specify transition properties for better performance, avoid using all */
+
 	/* 注意：box-shadow 过渡性能较低，已移除 */
+
 	/* Note: box-shadow transition has low performance, removed */
 	transition: transform 0.3s ease;
 }

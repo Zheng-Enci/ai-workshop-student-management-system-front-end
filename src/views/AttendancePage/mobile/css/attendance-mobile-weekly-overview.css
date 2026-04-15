@@ -1,36 +1,38 @@
 .attendance-mobile-weekly-overview-mobile {
-	margin-top: 0;
-	padding: 0;
-	width: 100%;
 	box-sizing: border-box;
+	width: 100%;
+	padding: 0;
+	margin-top: 0;
 	background: transparent;
 	border-radius: 12px;
 }
 
 .attendance-mobile-weekly-overview-title-mobile {
+	margin-bottom: 16px;
 	font-size: 16px;
 	font-weight: 600;
 	color: var(--text-primary, #1f2937);
-	margin-bottom: 16px;
 	text-align: center;
 }
 
 .attendance-mobile-weekly-overview-grid-mobile {
+	position: relative;
 	display: flex;
 	justify-content: space-evenly;
 	width: 100%;
-	position: relative;
 }
 
 .attendance-mobile-weekly-overview-day-mobile {
+	position: relative;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	gap: 6px;
+	align-items: center;
 	padding: 8px 4px;
 	border-radius: 8px;
-	transition: all 0.3s ease;
-	position: relative;
+	/* 明确指定过渡属性以提升性能，避免使用 all */
+	/* Explicitly specify transition properties for better performance, avoid using all */
+	transition: transform 0.3s ease;
 }
 
 .attendance-mobile-weekly-overview-day-mobile.today {
@@ -40,39 +42,43 @@
 
 /* 今日指示器 - 使用冰川青主色 */
 .attendance-mobile-weekly-overview-day-mobile.today::after {
-	content: '';
 	position: absolute;
 	bottom: 4px;
 	left: 50%;
-	transform: translateX(-50%);
+	z-index: -1;
 	width: 28px;
 	height: 4px;
+	content: '';
 	background: #87CEEB;
 	border-radius: 2px;
-	z-index: -1;
+	transform: translateX(-50%);
 }
 
 .attendance-mobile-weekly-overview-circle-mobile {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 40px;
+	height: 40px;
 	font-size: 12px;
 	font-weight: 600;
-	transition: all 0.2s ease;
-	position: relative;
+	border-radius: 50%;
+	/* 明确指定过渡属性以提升性能，避免使用 all */
+	/* Explicitly specify transition properties for better performance, avoid using all */
+	transition: transform 0.2s ease;
 }
 
 .attendance-mobile-weekly-overview-circle-mobile::before {
-	content: '';
 	position: absolute;
+	z-index: 1;
 	width: 28px;
 	height: 28px;
+	content: '';
+	/* 使用具体颜色值替代未定义的 CSS 变量 */
+	/* Use specific color value instead of undefined CSS variable */
+	background: #ffffff;
 	border-radius: 50%;
-	background: var(--card-background, #ffffff);
-	z-index: 1;
 }
 
 .attendance-mobile-weekly-overview-circle-mobile span,
@@ -83,12 +89,12 @@
 }
 
 .attendance-mobile-weekly-overview-circle-mobile.today::after {
-	content: '';
 	position: absolute;
 	inset: -3px;
-	border-radius: 50%;
-	border: 2px solid #667eea;
 	z-index: 3;
+	content: '';
+	border: 2px solid #667eea;
+	border-radius: 50%;
 }
 
 .attendance-mobile-weekly-overview-circle-mobile.future {
@@ -128,7 +134,7 @@
 /* 全部签到 - 冰川青到深空蓝完整渐变 */
 .attendance-mobile-weekly-overview-circle-mobile.slot-all {
 	background: conic-gradient(#4682B4 0deg 120deg, #191970 120deg 240deg, #87CEEB 240deg 360deg);
-	box-shadow: 0 0 8px 2px rgba(135, 206, 235, 0.6);
+	box-shadow: 0 0 8px 2px rgb(135 206 235 / 0.6);
 }
 
 .attendance-mobile-weekly-overview-circle-mobile.slot-none {
@@ -137,31 +143,31 @@
 
 .attendance-mobile-weekly-overview-circle-mobile .slot-indicator {
 	position: absolute;
-	width: 100%;
-	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 100%;
+	height: 100%;
 }
 
 .attendance-mobile-weekly-overview-day-name-mobile {
 	font-size: 11px;
-	color: var(--text-secondary, #6b7280);
 	font-weight: 500;
-}
-
-/* 今日文本 - 使用冰川青主色 */
-.attendance-mobile-weekly-overview-day-mobile.today .attendance-mobile-weekly-overview-day-name-mobile {
-	color: #87CEEB;
-	font-weight: 600;
-}
-
-html.dark .attendance-mobile-weekly-overview-title-mobile {
-	color: var(--text-primary, #f3f4f6);
+	color: var(--text-secondary, #6b7280);
 }
 
 html.dark .attendance-mobile-weekly-overview-day-name-mobile {
 	color: var(--text-secondary, #9ca3af);
+}
+
+/* 今日文本 - 使用冰川青主色 */
+.attendance-mobile-weekly-overview-day-mobile.today .attendance-mobile-weekly-overview-day-name-mobile {
+	font-weight: 600;
+	color: #87CEEB;
+}
+
+html.dark .attendance-mobile-weekly-overview-title-mobile {
+	color: var(--text-primary, #f3f4f6);
 }
 
 html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-none {
@@ -169,7 +175,9 @@ html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-none {
 }
 
 html.dark .attendance-mobile-weekly-overview-circle-mobile::before {
-	background: var(--card-background, #1f2937);
+	/* 使用具体颜色值替代未定义的 CSS 变量 */
+	/* Use specific color value instead of undefined CSS variable */
+	background: #1f2937;
 }
 
 /* 暗色主题 - 上午签到 - 冰川青 */
@@ -212,9 +220,11 @@ html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evenin
 		opacity: 0;
 		transform: scale(0);
 	}
+
 	60% {
 		transform: scale(1.15);
 	}
+
 	100% {
 		opacity: 1;
 		transform: scale(1);
@@ -222,6 +232,6 @@ html.dark .attendance-mobile-weekly-overview-circle-mobile.slot-afternoon-evenin
 }
 
 .attendance-mobile-weekly-overview-day-mobile.circle-animate {
-	animation: circle-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 	opacity: 0;
+	animation: circle-pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
