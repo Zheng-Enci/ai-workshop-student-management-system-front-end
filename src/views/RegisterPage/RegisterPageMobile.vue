@@ -357,7 +357,7 @@ onMounted(() => {
 						size="large"
 						:loading="pageLogic.isLoading.value"
 						:disabled="pageLogic.isLoading.value"
-						@click="pageLogic.handleRegister()"
+						@click="() => { console.log('按钮被点击'); pageLogic.handleRegister() }"
 					>
 						{{ pageLogic.isLoading.value ? '注册中...' : '注册' }}
 					</el-button>
