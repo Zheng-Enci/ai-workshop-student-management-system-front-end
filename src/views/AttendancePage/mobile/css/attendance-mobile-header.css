@@ -7,41 +7,44 @@
 /* ==================== 页面头部 ==================== */
 
 .attendance-mobile-header-header-mobile {
-	margin: 32px 0 20px 0;
-	padding: 8px 20px;
-	background: transparent;
-	border-radius: 20px;
-	border: none;
-	box-shadow: none;
 	display: flex;
 	flex-direction: row;
+	gap: 16px;
 	align-items: center;
 	justify-content: space-between;
-	gap: 16px;
+	padding: 8px 20px;
+	margin: 32px 0 20px;
+	background: transparent;
+	border: none;
+	border-radius: 20px;
+	box-shadow: none;
 }
 
 /* ==================== 左侧区域：Logo + 标题 ==================== */
 
 .attendance-mobile-header-left-mobile {
 	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: 12px;
 	flex: 1;
+	flex-direction: row;
+	gap: 12px;
+	align-items: center;
 	min-width: 0;
 }
 
 /* ==================== 系统logo ==================== */
 
 .attendance-mobile-header-logo-mobile {
+	flex-shrink: 0;
 	width: 44px;
 	height: 44px;
 	cursor: pointer;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	border-radius: 0;
 	background: transparent;
+	border-radius: 0;
 	box-shadow: none;
-	flex-shrink: 0;
+	/* 明确指定过渡属性以提升性能，避免使用 all */
+	/* Explicitly specify transition properties for better performance, avoid using all */
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+				filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ==================== 标题区域 ==================== */
@@ -56,42 +59,42 @@
 /* ==================== 页面主标题 ==================== */
 
 .attendance-mobile-header-title-mobile {
-	color: var(--text-primary);
-	font-size: 18px;
 	margin: 0;
+	font-size: 18px;
 	font-weight: 700;
-	text-shadow: 0 2px 6px var(--shadow-color);
-	letter-spacing: 0.5px;
 	line-height: 1.2;
+	color: var(--text-primary);
+	letter-spacing: 0.5px;
+	text-shadow: 0 2px 6px var(--shadow-color);
 }
 
 /* ==================== 页面副标题 ==================== */
 
 .attendance-mobile-header-subtitle-mobile {
-	color: var(--text-secondary);
-	font-size: 12px;
 	margin: 0;
+	font-size: 12px;
 	font-weight: 400;
-	opacity: 0.8;
 	line-height: 1.2;
+	color: var(--text-secondary);
+	opacity: 0.8;
 }
 
 /* ==================== 用户头像容器 ==================== */
 
 .attendance-mobile-header-avatar-mobile {
-	width: 48px;
-	height: 48px;
-	border-radius: 8px;
+	position: relative;
 	display: flex;
+	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
-	position: relative;
+	width: 48px;
+	height: 48px;
 	overflow: hidden;
-	flex-shrink: 0;
-	background: transparent;
-	box-shadow: none;
-	cursor: pointer;
 	touch-action: manipulation;
+	cursor: pointer;
+	background: transparent;
+	border-radius: 8px;
+	box-shadow: none;
 }
 
 .attendance-mobile-header-avatar-mobile.has-avatar {
@@ -122,8 +125,8 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	margin-left: -8px;
 	margin-top: 8px;
+	margin-left: -8px;
 }
 
 .attendance-mobile-flame-image-mobile {
@@ -137,5 +140,5 @@
 	font-size: 12px;
 	font-weight: bold;
 	color: #fff;
-	text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+	text-shadow: 0 0 2px rgb(0 0 0 / 0.8);
 }
