@@ -24,10 +24,12 @@
   border-radius: 12px;
   box-shadow: 0 3px 12px var(--shadow-color);
   backdrop-filter: blur(20px);
+
   /* 明确指定过渡属性以提升性能，避免使用 all */
   /* Explicitly specify transition properties for better performance, avoid using all */
-  transition: transform 0.3s ease,
-              box-shadow 0.3s ease;
+  /* 注意：box-shadow 过渡性能较低，已移除 */
+  /* Note: box-shadow transition has low performance, removed */
+  transition: transform 0.3s ease;
 }
 
 .attendance-mobile-status-cards-card-mobile:hover {
@@ -109,10 +111,11 @@
   color: var(--text-secondary);
   background: rgb(158 158 158 / 0.1);
   border-radius: 12px;
+
   /* 明确指定过渡属性以提升性能，避免使用 all */
   /* Explicitly specify transition properties for better performance, avoid using all */
-  transition: color 0.3s ease,
-              background-color 0.3s ease;
+  /* 注意：color 和 background-color 过渡性能较低，如需状态变化请考虑使用 opacity 或伪元素 */
+  /* Note: color and background-color transitions have low performance, consider using opacity or pseudo-elements for state changes */
 }
 
 /* 已签到状态文本 - 使用深空蓝 */
