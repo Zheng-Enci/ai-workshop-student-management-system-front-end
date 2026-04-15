@@ -275,8 +275,9 @@ export default class RegisterPageMobile {
 			// 第六步：跳转到导航主页面
 			void this._router.push('/navigation')
 		} catch (error: any) {
-			// 异常处理：提示错误信息
-			ElMessage.error(error.message || '注册失败，请检查您的信息')
+			// 异常处理：优先显示后端返回的 message，否则显示默认错误信息
+			const errorMessage = error.response?.data?.message || error.message || '注册失败，请检查您的信息'
+			ElMessage.error(errorMessage)
 		} finally {
 			// 最终：关闭加载状态（无论成功/失败）
 			this.isLoading.value = false
