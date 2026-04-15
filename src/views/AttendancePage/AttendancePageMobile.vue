@@ -10,7 +10,7 @@
 
 // ======================== 依赖导入区 ========================
 // Element Plus 组件及消息提示
-import {ElButton, ElDialog, ElIcon, ElInput, ElMessage} from 'element-plus'
+import {ElButton, ElDialog, ElIcon, ElInput} from 'element-plus'
 // Vue3 核心响应式API及生命周期钩子
 import {onMounted, onUnmounted} from 'vue'
 // Element Plus 基础样式（按需导入）
@@ -151,53 +151,56 @@ onUnmounted(() => {
 				</div>
 
 				<!-- 签到按钮容器 -->
-				<div class="attendance-mobile-sign-button-container-mobile">
-					<button
-						class="attendance-mobile-sign-button-button-mobile"
-						:disabled="controller.loading.value || !controller.isInSignTime.value || controller.isCurrentSlotSigned()"
-						:class="{
-							'loading': controller.loading.value,
-							'disabled': !controller.isInSignTime.value || controller.isCurrentSlotSigned(),
-							'success': controller.isInSignTime.value && controller.isCurrentSlotSigned(),
-							'morning': controller.getCurrentTimeSlot() === 'morning',
-							'afternoon': controller.getCurrentTimeSlot() === 'afternoon',
-							'evening': controller.getCurrentTimeSlot() === 'evening'
-						}"
-						@click="controller.submitAttendance()">
-						<div class="attendance-mobile-sign-button-background-mobile"/>
-						<div class="attendance-mobile-sign-button-content-mobile">
-							<div class="attendance-mobile-sign-button-icon-container-mobile">
-								<el-icon v-if="!controller.loading.value && controller.isInSignTime.value && !controller.isCurrentSlotSigned()" 
-									 size="40"
-									 class="attendance-mobile-sign-button-main-icon-mobile">
-									<Check/>
-								</el-icon>
-								<el-icon v-else-if="!controller.loading.value && controller.isInSignTime.value && controller.isCurrentSlotSigned()" 
-									 size="40"
-									 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-success-icon-mobile">
-									<Check/>
-								</el-icon>
-								<el-icon v-else-if="!controller.loading.value && !controller.isInSignTime.value" 
-									 size="40"
-									 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-disabled-icon-mobile">
-									<Clock/>
-								</el-icon>
-								<el-icon v-else 
-									 size="28" 
-									 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-loading-icon-mobile">
-									<Loading/>
-								</el-icon>
-							</div>
-							<span v-if="!controller.loading.value" class="attendance-mobile-sign-button-text-mobile">
-								{{ !controller.isInSignTime.value ? '非签到时间' : (controller.isCurrentSlotSigned() ? '已签到' : '点击签到') }}
-							</span>
-							<span v-else class="attendance-mobile-sign-button-text-mobile attendance-mobile-sign-button-text-mobile-loading-text-mobile">
-								签到中...
-							</span>
-						</div>
-						<div class="attendance-mobile-sign-button-ripple-mobile"/>
-					</button>
+			<div class="attendance-mobile-sign-button-container-mobile">
+				<div
+					class="attendance-mobile-sign-button-button-mobile"
+					role="button"
+					tabindex="0"
+					:aria-disabled="controller.loading.value || !controller.isInSignTime.value || controller.isCurrentSlotSigned()"
+					:class="{
+						'loading': controller.loading.value,
+						'disabled': !controller.isInSignTime.value || controller.isCurrentSlotSigned(),
+						'success': controller.isInSignTime.value && controller.isCurrentSlotSigned(),
+						'morning': controller.getCurrentTimeSlot() === 'morning',
+						'afternoon': controller.getCurrentTimeSlot() === 'afternoon',
+						'evening': controller.getCurrentTimeSlot() === 'evening'
+					}"
+					@click="!controller.loading.value && !(!controller.isInSignTime.value || controller.isCurrentSlotSigned()) && controller.submitAttendance()"
+					@keydown.enter="!controller.loading.value && !(!controller.isInSignTime.value || controller.isCurrentSlotSigned()) && controller.submitAttendance()">
+					<span class="attendance-mobile-sign-button-background-mobile"/>
+					<span class="attendance-mobile-sign-button-content-mobile">
+						<span class="attendance-mobile-sign-button-icon-container-mobile">
+							<el-icon v-if="!controller.loading.value && controller.isInSignTime.value && !controller.isCurrentSlotSigned()"
+								 size="40"
+								 class="attendance-mobile-sign-button-main-icon-mobile">
+								<Check/>
+							</el-icon>
+							<el-icon v-else-if="!controller.loading.value && controller.isInSignTime.value && controller.isCurrentSlotSigned()"
+								 size="40"
+								 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-success-icon-mobile">
+								<Check/>
+							</el-icon>
+							<el-icon v-else-if="!controller.loading.value && !controller.isInSignTime.value"
+								 size="40"
+								 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-disabled-icon-mobile">
+								<Clock/>
+							</el-icon>
+							<el-icon v-else
+								 size="28"
+								 class="attendance-mobile-sign-button-main-icon-mobile attendance-mobile-sign-button-main-icon-mobile-loading-icon-mobile">
+								<Loading/>
+							</el-icon>
+						</span>
+						<span v-if="!controller.loading.value" class="attendance-mobile-sign-button-text-mobile">
+							{{ !controller.isInSignTime.value ? '非签到时间' : (controller.isCurrentSlotSigned() ? '已签到' : '点击签到') }}
+						</span>
+						<span v-else class="attendance-mobile-sign-button-text-mobile attendance-mobile-sign-button-text-mobile-loading-text-mobile">
+							签到中...
+						</span>
+					</span>
+					<span class="attendance-mobile-sign-button-ripple-mobile"/>
 				</div>
+			</div>
 
 				<!-- 签到状态卡片组：展示早中晚三个时段的签到状态 -->
 				<div class="attendance-mobile-status-cards-cards-mobile">

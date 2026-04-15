@@ -62,35 +62,36 @@
 	inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
-.attendance-mobile-sign-button-button-mobile:disabled {
+.attendance-mobile-sign-button-button-mobile.disabled,
+.attendance-mobile-sign-button-button-mobile[aria-disabled="true"] {
 	cursor: not-allowed;
 	opacity: 0.6;
 	transform: scale(0.95);
 }
 
-.attendance-mobile-sign-button-button-mobile:hover:not(:disabled) {
+.attendance-mobile-sign-button-button-mobile:hover:not(.disabled):not([aria-disabled="true"]) {
 	transform: translateY(-2px) scale(1.02);
 }
 
-.attendance-mobile-sign-button-button-mobile.morning:hover:not(:disabled) {
+.attendance-mobile-sign-button-button-mobile.morning:hover:not(.disabled):not([aria-disabled="true"]) {
 	box-shadow: 0 12px 36px rgb(135 206 235 / 0.5),
 	0 0 0 1px rgb(255 255 255 / 0.2),
 	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
-.attendance-mobile-sign-button-button-mobile.afternoon:hover:not(:disabled) {
+.attendance-mobile-sign-button-button-mobile.afternoon:hover:not(.disabled):not([aria-disabled="true"]) {
 	box-shadow: 0 12px 36px rgb(100 149 237 / 0.5),
 	0 0 0 1px rgb(255 255 255 / 0.2),
 	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
-.attendance-mobile-sign-button-button-mobile.evening:hover:not(:disabled) {
+.attendance-mobile-sign-button-button-mobile.evening:hover:not(.disabled):not([aria-disabled="true"]) {
 	box-shadow: 0 12px 36px rgb(70 130 180 / 0.5),
 	0 0 0 1px rgb(255 255 255 / 0.2),
 	inset 0 1px 0 rgb(255 255 255 / 0.3);
 }
 
-.attendance-mobile-sign-button-button-mobile:active:not(:disabled) {
+.attendance-mobile-sign-button-button-mobile:active:not(.disabled):not([aria-disabled="true"]) {
 	transform: translateY(-1px) scale(0.98);
 }
 
@@ -255,7 +256,7 @@
 	transition: transform 0.6s ease;
 }
 
-.attendance-mobile-sign-button-button-mobile:active:not(:disabled) .attendance-mobile-sign-button-ripple-mobile {
+.attendance-mobile-sign-button-button-mobile:active:not(.disabled):not([aria-disabled="true"]) .attendance-mobile-sign-button-ripple-mobile {
 	/* 使用 scale 实现波纹扩散效果，性能更好 */
 
 	/* Use scale for ripple spread effect, better performance */
