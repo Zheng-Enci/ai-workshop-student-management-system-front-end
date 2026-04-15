@@ -52,7 +52,7 @@
   position: relative;
   top: auto;
   left: auto;
-  display: flex;
+  display: inline-flex;
   gap: 4px;
   align-items: center;
   justify-content: center;
@@ -61,6 +61,7 @@
   padding: 0 12px !important;
   font-size: 13px;
   font-weight: 500;
+  line-height: 1;
   color: white;
   background: rgb(255 255 255 / 0.1) !important;
   border: 1px solid rgb(255 255 255 / 0.15) !important;
@@ -75,8 +76,32 @@
 }
 
 .navigation-page-mobile-header-home-btn .el-icon {
-  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  line-height: 1;
   color: white;
+  vertical-align: middle;
+}
+
+.navigation-page-mobile-header-home-btn .el-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/**
+ * 首页按钮文字样式
+ * 修正文字与图标的垂直对齐问题
+ */
+.navigation-page-mobile-header-home-btn span {
+  display: inline-flex;
+  align-items: center;
+  height: 16px;
+  line-height: 16px;
+  vertical-align: middle;
 }
 
 /* ==================== Logo ==================== */
