@@ -562,7 +562,9 @@ html.dark .register-page-desktop-card-footer {
 	width: 100%;
 	height: auto;
 	max-width: 400px;
+	max-height: 500px;
 	border-radius: 12px;
 	box-shadow: 0 4px 20px rgb(0 0 0 / 0.15);
 	margin-top: 60px;
+	object-fit: cover;
 }
