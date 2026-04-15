@@ -20,6 +20,7 @@ export class FlameDisplayController {
    * 设置每周签到计数
    * @param value - 新的签到次数
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public set weeklyCount(value: number) {
     this._weeklyCount.value = value
   }
