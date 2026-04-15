@@ -79,3 +79,19 @@ code-quality/
 - [配置文件说明](./code-quality-config/README.md)
 - [插件说明](./vite-plugins/README.md)
 
+## 手动运行代码质量检查
+
+### Stylelint CSS 检查
+
+生成 JSON 格式的 Stylelint 报告：
+
+```bash
+npx stylelint "src/**/*.css" --formatter json > code-quality/code-quality-reports/stylelint-report.json 2>&1
+```
+
+或使用 verbose 格式：
+
+```bash
+npx stylelint "src/**/*.css" --formatter verbose > code-quality/code-quality-reports/stylelint-report.txt 2>&1
+```
+
