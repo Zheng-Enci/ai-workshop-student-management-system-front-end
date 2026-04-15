@@ -282,9 +282,18 @@ export default class RegisterPageMobile {
 			// 第六步：跳转到导航主页面
 			void this._router.push('/navigation')
 		} catch (error: any) {
+			// 调试：输出错误对象详细信息
+			console.log('=== 错误调试信息 ===')
+			console.log('error:', error)
+			console.log('error.message:', error.message)
+			console.log('error.response:', error.response)
+			console.log('error.response?.data:', error.response?.data)
+			console.log('error.response?.data?.message:', error.response?.data?.message)
+			console.log('====================')
+
 			// 异常处理：显示错误信息（StudentApi 已经将服务器返回的 message 设置到 error.message 中）
 			const errorMessage = error.message || '注册失败，请检查您的信息'
-			this.message.error(errorMessage)
+			this.message.error('调试: ' + errorMessage)
 		} finally {
 			// 最终：关闭加载状态（无论成功/失败）
 			this.isLoading.value = false
