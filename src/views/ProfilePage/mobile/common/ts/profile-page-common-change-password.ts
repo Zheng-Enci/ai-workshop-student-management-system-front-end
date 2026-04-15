@@ -6,8 +6,8 @@
  * @description 封装密码修改相关的HTTP请求，包含完整的错误处理
  */
 
-import ApiInterceptor from '@/composables/ApiInterceptor'
-import config from '@/config'
+import ApiInterceptor from '@/composables/ts/ApiInterceptor'
+import config from '@/config/ts'
 
 /**
  * 密码修改API类

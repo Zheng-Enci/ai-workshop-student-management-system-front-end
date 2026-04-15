@@ -8,7 +8,7 @@
 
 import axios, { type AxiosInstance, type AxiosResponse, type AxiosError } from 'axios'
 
-import ConfigServer from '@/config/Config'
+import ConfigServer from '@/config/Config.ts'
 
 /**
  * API拦截器类

@@ -6,9 +6,9 @@
  * @description 封装学生信息查询、头像获取、等级查询、登录注册等API接口
  */
 
-import ApiInterceptor from '@/composables/ApiInterceptor'
+import ApiInterceptor from '@/composables/ts/ApiInterceptor'
 import type { AxiosInstance, AxiosError } from 'axios'
-import config from '@/config'
+import config from '@/config/ts'
 
 /**
  * API响应类型
