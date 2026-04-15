@@ -98,7 +98,7 @@ const collegeOptions = [
  * 注册表单数据模型
  * @type {Ref<RegisterForm>}
  */
-const form = ref(/** @type {RegisterForm} */({
+const form = /** @type {Ref<RegisterForm>} */(ref({
 	name: '',
 	studentId: '',
 	gender: '',
@@ -106,7 +106,7 @@ const form = ref(/** @type {RegisterForm} */({
 	college: '',
 	major: '',
 	grade: '',
-	classNum: null,
+	classNum: /** @type {number|null} */(null),
 	password: '',
 	confirmPassword: '',
 	invitationCode: ''
