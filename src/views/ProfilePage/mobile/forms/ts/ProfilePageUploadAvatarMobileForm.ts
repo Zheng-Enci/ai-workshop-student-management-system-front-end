@@ -19,19 +19,19 @@ export default class ProfilePageUploadAvatarMobileForm {
 	 * 裁剪画布引用
 	 * @private
 	 */
-	private cropCanvasRef = ref(null)
+	private cropCanvasRef = ref<HTMLCanvasElement | null>(null)
 
 	/**
 	 * 裁剪容器引用
 	 * @private
 	 */
-	private cropWrapperRef = ref(null)
+	private cropWrapperRef = ref<HTMLElement | null>(null)
 
 	/**
 	 * 裁剪框引用
 	 * @private
 	 */
-	private cropBoxRef = ref(null)
+	private cropBoxRef = ref<HTMLElement | null>(null)
 
 	/**
 	 * 原始图片文件
@@ -43,7 +43,7 @@ export default class ProfilePageUploadAvatarMobileForm {
 	 * 裁剪图片对象
 	 * @private
 	 */
-	private cropImage = ref(null)
+	private cropImage = ref<HTMLImageElement | null>(null)
 
 	/**
 	 * 图片缩放比例
@@ -103,49 +103,49 @@ export default class ProfilePageUploadAvatarMobileForm {
 	 * 鼠标按下事件处理器
 	 * @private
 	 */
-	private mouseDownHandler = ref(null)
+	private mouseDownHandler = ref<((e: MouseEvent) => void) | null>(null)
 
 	/**
 	 * 鼠标移动事件处理器
 	 * @private
 	 */
-	private mouseMoveHandler = ref(null)
+	private mouseMoveHandler = ref<((e: MouseEvent) => void) | null>(null)
 
 	/**
 	 * 鼠标抬起事件处理器
 	 * @private
 	 */
-	private mouseUpHandler = ref(null)
+	private mouseUpHandler = ref<(() => void) | null>(null)
 
 	/**
 	 * 鼠标离开事件处理器
 	 * @private
 	 */
-	private mouseLeaveHandler = ref(null)
+	private mouseLeaveHandler = ref<(() => void) | null>(null)
 
 	/**
 	 * 鼠标滚轮事件处理器
 	 * @private
 	 */
-	private wheelHandler = ref(null)
+	private wheelHandler = ref<((e: WheelEvent) => void) | null>(null)
 
 	/**
 	 * 触摸开始事件处理器
 	 * @private
 	 */
-	private touchStartHandler = ref(null)
+	private touchStartHandler = ref<((e: TouchEvent) => void) | null>(null)
 
 	/**
 	 * 触摸移动事件处理器
 	 * @private
 	 */
-	private touchMoveHandler = ref(null)
+	private touchMoveHandler = ref<((e: TouchEvent) => void) | null>(null)
 
 	/**
 	 * 触摸结束事件处理器
 	 * @private
 	 */
-	private touchEndHandler = ref(null)
+	private touchEndHandler = ref<((e: TouchEvent) => void) | null>(null)
 
 	/**
 	 * 获取裁剪弹窗显示状态
@@ -726,7 +726,7 @@ export default class ProfilePageUploadAvatarMobileForm {
 						resolve()
 					}
 					img.onerror = () => reject(new Error('图片加载失败'))
-					img.src = e.target.result
+					img.src = e.target?.result as string
 				}
 				reader.onerror = () => reject(new Error('文件读取失败'))
 				reader.readAsDataURL(file)
