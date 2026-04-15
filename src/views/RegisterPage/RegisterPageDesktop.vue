@@ -34,6 +34,9 @@ import 'element-plus/theme-chalk/el-option.css'
 // Element Plus 额外样式（下拉菜单、弹出层、表单验证等）
 import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
+import 'element-plus/theme-chalk/el-dropdown.css'
+import 'element-plus/theme-chalk/el-dropdown-menu.css'
+import 'element-plus/theme-chalk/el-dropdown-item.css'
 // Element Plus 图标组件：用户、锁、手机、学校、收藏（学号）、房子（首页）
 import { User, Lock, Phone, School, Collection, House } from '@element-plus/icons-vue'
 // Vue Router 路由跳转
