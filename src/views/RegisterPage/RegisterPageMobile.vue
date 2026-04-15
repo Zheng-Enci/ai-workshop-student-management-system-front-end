@@ -66,13 +66,14 @@ onMounted(() => {
 			<div class="register-page-mobile-gradient-orb register-page-mobile-orb-3"/>
 		</div>
 
-		<!-- 返回首页按钮（圆形悬浮按钮） -->
+		<!-- 返回首页按钮（圆角矩形按钮，包含图标和文字） -->
 		<el-button
 			class="register-page-mobile-header-home-btn"
 			type="primary"
 			:icon="House"
-			circle
-			@click="pageLogic.goToHome()"/>
+			@click="pageLogic.goToHome()">
+			首页
+		</el-button>
 
 		<!-- 注册表单核心内容区 -->
 		<div class="register-page-mobile-content">

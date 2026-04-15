@@ -12,17 +12,18 @@
 
 /**
  * 返回首页按钮
- * 固定在左上角，圆形悬浮按钮样式
- * 与Logo中心对齐：Logo高度48px，按钮高度44px，按钮top = 16 + (48-44)/2 = 18px
+ * 固定在左上角，圆角矩形按钮样式，包含图标和文字
+ * 与Logo中心对齐：Logo高度48px，按钮高度36px，按钮top = 16 + (48-36)/2 = 22px
  */
 .register-page-mobile-header-home-btn {
 	position: fixed;
-	top: 18px;
+	top: 22px;
 	left: 16px;
 	z-index: 100;
-	width: 44px;
-	height: 44px;
-	padding: 0 !important;
+	width: auto;
+	height: 36px;
+	padding: 0 12px !important;
+	font-size: 13px;
 
 	/* 玻璃模态背景 */
 	background: rgb(255 255 255 / 0.2) !important;
