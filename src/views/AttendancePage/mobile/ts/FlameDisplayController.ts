@@ -17,15 +17,6 @@ export class FlameDisplayController {
   }
 
   /**
-   * 设置每周签到计数
-   * @param value - 新的签到次数
-   */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public set weeklyCount(value: number) {
-    this._weeklyCount.value = value
-  }
-
-  /**
    * 获取显示计数（与weeklyCount相同，用于模板显示）
    * @returns 当前签到次数
    */
