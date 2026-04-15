@@ -284,7 +284,7 @@ onUnmounted(() => {
 			width="90%"
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
-			destroy-on-close
+			:lock-scroll="false"
 			class="attendance-page-mobile-verification-code-dialog-mobile"
 		>
 			<div class="attendance-page-mobile-verification-code-content-mobile">
