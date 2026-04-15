@@ -326,9 +326,9 @@ onMounted(() => {
 		<el-button
 			class="register-page-desktop-home-btn"
 			type="primary"
-			circle
 			@click="goToHome">
 			<el-icon><House/></el-icon>
+			<span>首页</span>
 		</el-button>
 
 		<!-- 展示图片区域 -->
