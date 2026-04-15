@@ -1,318 +1,63 @@
-<script setup>
-/**
- * 用户注册页面组件
- *
- * @description AI坊学生管理系统新用户注册核心页面，具备以下核心功能：
- * 1. 学生信息表单填写（姓名、学号、性别、手机号、学院、专业、年级、班级）
- * 2. 完善的表单校验规则（格式、长度、必填、自定义验证）
- * 3. 密码设置与确认（一致性校验）
- * 4. 注册成功后自动完成登录并跳转至导航页
- * 5. 已登录状态自动跳转（防止重复注册）
- * 6. 支持暗黑/亮色主题切换适配
- * 7. 提供返回首页、跳转登录页的快捷入口
- * @component RegisterPage
- * @author 前端开发组
- * @date 2026-01
- * @version 1.0.0
- */
+<script setup lang="ts">
+/** *******************************************************************
+ * RegisterPageDesktop - 注册页面桌面端核心逻辑
+ * 1. 负责桌面端用户注册功能
+ * 2. 表单校验、注册提交、自动登录
+ * 3. 已登录状态自动跳转
+ ********************************************************************/
 
-// ===================== 第三方依赖导入区 =====================
-// Element Plus 核心组件：表单、表单项、输入框、按钮、消息提示、图标、下拉选择、下拉选项
-import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElIcon, ElSelect, ElOption } from 'element-plus'
-// Vue3 核心API：响应式变量、组件挂载生命周期
-import { ref, onMounted } from 'vue'
-
+// ======================== 导入 ========================
+// Element Plus 核心组件
+import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElSelect, ElOption } from 'element-plus'
 // Element Plus 基础样式（按需引入，减小打包体积）
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
 import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-button.css'
-import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
 // Element Plus 额外样式（下拉菜单、弹出层、表单验证等）
 import 'element-plus/theme-chalk/el-popper.css'
 import 'element-plus/theme-chalk/el-scrollbar.css'
-// Element Plus 图标组件：用户、锁、手机、学校、收藏（学号）、房子（首页）
+// Element Plus 图标组件
 import { User, Lock, Phone, School, Collection, House } from '@element-plus/icons-vue'
-// Vue Router 路由跳转
+// Vue3 核心 API
+import { onMounted } from 'vue'
+// Vue Router
 import { useRouter } from 'vue-router'
+// 页面逻辑类
+import RegisterPageDesktop from './desktop/ts/RegisterPageDesktop'
 
-// ===================== 样式导入 =====================
+// ======================== 样式导入 ========================
 import '@/views/RegisterPage/desktop/css/RegisterPageDesktop.css'
 
-// ===================== 业务模块导入区 =====================
-// 学生相关API：注册、登录
-import { register, login } from '@/api/student'
-// 学生API封装类：获取学生数据库主键ID
-import StudentApi from '@/api/StudentApi'
-// 状态管理：主题（暗黑/亮色）
-import { useThemeStore } from '@/stores/theme'
-// 状态管理：用户信息（登录态存储）
-import { useUserStore } from '@/stores/ts/user'
+// ======================== 组件 ========================
+// 无外部组件
 
-// ===================== 全局实例初始化 =====================
-// 路由实例：用于页面跳转
+// ======================== 常量 ========================
+// 无常量定义
+
+// ======================== 状态 ========================
+// 路由实例
 const router = useRouter()
-// 用户信息仓库实例：存储登录态、用户信息
-const userStore = useUserStore()
-// 主题仓库实例：管理暗黑/亮色主题切换
-const themeStore = useThemeStore()
-// 解构主题切换方法
-const { toggleTheme } = themeStore
+// 页面逻辑类实例
+const pageLogic = new RegisterPageDesktop(router)
 
-// ===================== 静态数据定义 =====================
-/**
- * 学院下拉选项列表（静态数据）
- * @type {Array<string>}
- */
-const collegeOptions = [
-	'融新学院',
-	'机械电气与信息工程学院',
-	'建筑科学与土木工程学院',
-	'人工智能学院',
-	'商 学 院',
-	'博雅教育与艺术传媒学院',
-	'外国语学院',
-	'国 学 院',
-	'国际教育学院',
-	'继续教育学院'
-]
+// ======================== 计算属性 ========================
+// 无计算属性
 
-// ===================== 类型定义 =====================
-/**
- * 注册表单数据类型
- * 包含学生注册所需的所有字段信息
- *
- * @typedef {Object} RegisterForm
- * @property {string} name - 学生姓名，必填，用于显示用户名称
- * @property {string} studentId - 学号，10位数字，以20到30开头，用于登录和身份识别
- * @property {string} gender - 性别，男/女，下拉选择
- * @property {string} phoneNumber - 手机号，11位数字，以1开头，第二位为3-9，用于联系
- * @property {string} college - 学院名称，下拉选择，如：人工智能学院
- * @property {string} major - 专业名称，手动输入，如：软件工程
- * @property {string} grade - 年级，1至5，下拉选择
- * @property {number|null} classNum - 班级，1到100之间的数字，用于班级分组
- * @property {string} password - 密码，6-16位，用于账户安全
- * @property {string} confirmPassword - 确认密码，必须与password一致
- * @property {string} invitationCode - 邀请码，UUID格式，用于注册验证
- */
+// ======================== 方法 ========================
+// 方法通过 pageLogic 实例调用
 
-/**
- * 表单初始数据
- * 所有字段设置为空值作为初始状态
- *
- * @type {RegisterForm}
- */
-const initialFormData = {
-	name: '',
-	studentId: '',
-	gender: '',
-	phoneNumber: '',
-	college: '',
-	major: '',
-	grade: '',
-	classNum: /** @type {number|null} */(null),
-	password: '',
-	confirmPassword: '',
-	invitationCode: ''
-}
-
-// ===================== 响应式变量定义区 =====================
-/**
- * 注册表单数据模型
- * @type {import('vue').Ref<RegisterForm>}
- */
-const form = ref(initialFormData)
-
-/**
- * 表单引用实例（用于表单校验）
- * @type {import('vue').Ref<import('element-plus').FormInstance | null>}
- */
-const formRef = ref(null)
-
-/**
- * 表单校验规则配置
- * @type {Object}
- * @description 包含必填、格式、长度、自定义验证规则，触发方式为blur/change
- */
-const rules = {
-	// 姓名校验：必填
-	name: [
-		{ required: true, message: '请输入姓名', trigger: 'blur' }
-	],
-	// 学号校验：必填 + 格式（10位数字，20到30开头）
-	studentId: [
-		{ required: true, message: '请输入学号', trigger: 'blur' },
-		{
-			pattern: /^(20|21|22|23|24|25|26|27|28|29|30)\d{8}$/,
-			message: '学号必须为10位数字，且以20-30开头',
-			trigger: 'blur'
-		}
-	],
-	// 性别校验：必填
-	gender: [
-		{ required: true, message: '请选择性别', trigger: 'change' }
-	],
-	// 手机号校验：必填 + 格式（11位数字，13到9开头）
-	phoneNumber: [
-		{ required: true, message: '请输入手机号', trigger: 'blur' },
-		{ pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
-	],
-	// 学院校验：必填
-	college: [
-		{ required: true, message: '请选择学院', trigger: 'change' }
-	],
-	// 专业校验：必填
-	major: [
-		{ required: true, message: '请输入专业', trigger: 'blur' }
-	],
-	// 年级校验：必填 + 自定义验证（1-5之间）
-	grade: [
-		{ required: true, message: '请选择年级', trigger: 'change' },
-		{
-			validator: (rule, value, callback) => {
-				if (!value) {
-					callback(new Error('请选择年级'))
-				} else if (!['1', '2', '3', '4', '5'].includes(value)) {
-					callback(new Error('年级必须在 1-5 之间'))
-				} else {
-					callback()
-				}
-			},
-			trigger: 'change'
-		}
-	],
-	// 班级校验：必填 + 数字范围（1-100）
-	classNum: [
-		{ required: true, message: '请输入班级', trigger: 'blur' },
-		{ type: 'number', min: 1, max: 100, message: '班级必须在 1-100 之间', trigger: 'blur' }
-	],
-	// 密码校验：必填 + 长度（6-16位）
-	password: [
-		{ required: true, message: '请输入密码', trigger: 'blur' },
-		{ min: 6, message: '密码长度至少 6 位', trigger: 'blur' },
-		{ max: 16, message: '密码长度不能超过 16 位', trigger: 'blur' }
-	],
-	// 确认密码校验：必填 + 自定义验证（与密码一致）
-	confirmPassword: [
-		{ required: true, message: '请确认密码', trigger: 'blur' },
-		{
-			validator: (rule, value, callback) => {
-				if (value !== form.value.password) {
-					callback(new Error('两次输入的密码不一致'))
-				} else {
-					callback()
-				}
-			},
-			trigger: 'blur'
-		}
-	],
-	// 邀请码校验：必填 + UUID格式
-	invitationCode: [
-		{ required: true, message: '请输入邀请码', trigger: 'blur' },
-		{
-			pattern: /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
-			message: '请输入正确的邀请码格式',
-			trigger: 'blur'
-		}
-	]
-}
-
-/**
- * 注册按钮加载状态（防止重复提交）
- * @type {import('vue').Ref<boolean>}
- */
-const isLoading = ref(false)
-
-// ===================== 核心业务逻辑区 =====================
-/**
- * 处理注册提交逻辑
- * @function handleRegister
- * @description 1. 表单校验 → 2. 提交注册数据 → 3. 自动登录 → 4. 存储用户信息 → 5. 跳转导航页
- * @async
- * @returns {Promise<void>}
- */
-const handleRegister = async () => {
-	// 表单实例不存在时直接返回（容错）
-	if (!formRef.value) { return }
-
-	// 第一步：表单校验（同步校验）
-	try {
-		await formRef.value.validate()
-	} catch (error) {
-		// 校验失败时终止流程
-		return
-	}
-
-	// 第二步：提交注册请求（开启加载状态）
-	isLoading.value = true
-	try {
-		// 组装注册数据（转换年级/班级为数字类型）
-		const registerData = {
-			...form.value,
-			grade: form.value.grade ? Number(form.value.grade) : null,
-			classNum: form.value.classNum ? Number(form.value.classNum) : null
-		}
-		// 调用注册API
-		await register(registerData)
-		// 注册成功提示
-		ElMessage.success('注册成功！正在为您登录...')
-
-		// 第三步：自动登录（使用注册的学号/密码）
-		const loginData = {
-			studentId: form.value.studentId,
-			password: form.value.password
-		}
-		// 调用登录API
-		const response = await login(loginData)
-
-		// 第四步：获取学生数据库主键ID（关联用户信息）
-		const studentDbIdResponse = await StudentApi.getStudentDatabaseTableId(response.data.token)
-		const studentDbId = studentDbIdResponse.data
-
-		// 第五步：组装用户信息并存储到状态管理
-		const userInfo = {
-			...response.data,
-			studentId: form.value.studentId,
-			studentDatabaseTableId: studentDbId
-		}
-		userStore.setUserInfo(userInfo, response.data.token)
-
-		// 第六步：跳转到导航主页面
-		await router.push('/navigation')
-	} catch (error) {
-		// 异常处理：提示错误信息
-		ElMessage.error(error.message || '注册失败，请检查您的信息')
-	} finally {
-		// 最终：关闭加载状态（无论成功/失败）
-		isLoading.value = false
-	}
-}
-
-/**
- * 跳转至首页
- * @function goToHome
- * @description 点击首页按钮时触发，返回系统首页
- */
-const goToHome = () => {
-	router.push('/')
-}
-
-// ===================== 生命周期钩子 =====================
+// ======================== 生命周期 ========================
 /**
  * 组件挂载完成钩子
- * @description 1. 检测本地存储的token → 2. 已登录状态自动跳转至导航页（防止重复注册）
+ * @description 检测本地存储的 token，已登录状态自动跳转至导航页
  */
 onMounted(() => {
-	// 从本地存储获取token（登录态标识）
-	const token = localStorage.getItem('token')
-	// 存在token说明已登录，直接跳转导航页
-	if (token) {
-		router.push('/navigation')
-	}
+	pageLogic.checkLoginStatus()
 })
 </script>
 
@@ -332,13 +77,13 @@ onMounted(() => {
 			alt="AI坊学生管理系统"
 			class="register-page-desktop-logo"
 			title="切换主题模式"
-			@click="toggleTheme"/>
+			@click="pageLogic.toggleTheme"/>
 
 		<!-- 返回首页按钮 -->
 		<el-button
 			class="register-page-desktop-home-btn"
 			type="primary"
-			@click="goToHome">
+			@click="pageLogic.goToHome()">
 			<el-icon><House/></el-icon>
 			<span>首页</span>
 		</el-button>
@@ -372,9 +117,9 @@ onMounted(() => {
 
 				<!-- 注册表单（绑定模型/规则/引用） -->
 				<el-form
-					ref="formRef"
-					:model="form"
-					:rules="rules"
+					ref="pageLogic.formRef"
+					:model="pageLogic.form"
+					:rules="pageLogic.rules"
 					label-width="0px"
 					class="register-page-desktop-form">
 					<!-- 第一行：姓名 + 学号 -->
@@ -388,7 +133,7 @@ onMounted(() => {
 									</el-icon>
 								</div>
 								<el-input
-									v-model="form.name"
+									v-model="pageLogic.form.name"
 									placeholder="请输入姓名"
 									class="register-page-desktop-custom-input"
 									size="large"
@@ -405,7 +150,7 @@ onMounted(() => {
 									</el-icon>
 								</div>
 								<el-input
-									v-model="form.studentId"
+									v-model="pageLogic.form.studentId"
 									placeholder="请输入学号"
 									class="register-page-desktop-custom-input"
 									size="large"
@@ -425,7 +170,7 @@ onMounted(() => {
 									</el-icon>
 								</div>
 								<el-select
-									v-model="form.gender"
+									v-model="pageLogic.form.gender"
 									placeholder="请选择性别"
 									class="register-page-desktop-custom-select"
 									size="large"
@@ -446,7 +191,7 @@ onMounted(() => {
 									</el-icon>
 								</div>
 								<el-input
-									v-model="form.phoneNumber"
+									v-model="pageLogic.form.phoneNumber"
 									placeholder="请输入手机号"
 									class="register-page-desktop-custom-input"
 									size="large"
@@ -466,14 +211,14 @@ onMounted(() => {
 									</el-icon>
 								</div>
 								<el-select
-									v-model="form.college"
+									v-model="pageLogic.form.college"
 									placeholder="请选择学院"
 									class="register-page-desktop-custom-select"
 									size="large"
 									popper-class="register-page-desktop-college-select-dropdown"
 								>
 									<el-option
-										v-for="college in collegeOptions"
+										v-for="college in pageLogic.collegeOptions"
 										:key="college"
 										:label="college"
 										:value="college"
@@ -491,7 +236,7 @@ onMounted(() => {
 									</el-icon>
 								</div>
 								<el-input
-									v-model="form.major"
+									v-model="pageLogic.form.major"
 									placeholder="请输入专业"
 									class="register-page-desktop-custom-input"
 									size="large"
@@ -511,7 +256,7 @@ onMounted(() => {
 									</el-icon>
 								</div>
 								<el-select
-									v-model="form.grade"
+									v-model="pageLogic.form.grade"
 									placeholder="请选择年级"
 									class="register-page-desktop-custom-select"
 									size="large"
@@ -535,7 +280,7 @@ onMounted(() => {
 									</el-icon>
 								</div>
 								<el-input
-									v-model.number="form.classNum"
+									v-model.number="pageLogic.form.classNum"
 									placeholder="请输入班级"
 									class="register-page-desktop-custom-input"
 									size="large"
@@ -556,7 +301,7 @@ onMounted(() => {
 								</el-icon>
 							</div>
 							<el-input
-								v-model="form.password"
+								v-model="pageLogic.form.password"
 								type="password"
 								placeholder="请输入密码"
 								class="register-page-desktop-custom-input"
@@ -575,7 +320,7 @@ onMounted(() => {
 								</el-icon>
 							</div>
 							<el-input
-								v-model="form.confirmPassword"
+								v-model="pageLogic.form.confirmPassword"
 								type="password"
 								placeholder="请确认密码"
 								class="register-page-desktop-custom-input"
@@ -594,7 +339,7 @@ onMounted(() => {
 								</el-icon>
 							</div>
 							<el-input
-								v-model="form.invitationCode"
+								v-model="pageLogic.form.invitationCode"
 								placeholder="请输入邀请码"
 								class="register-page-desktop-custom-input"
 								size="large"
@@ -607,11 +352,11 @@ onMounted(() => {
 						type="primary"
 						class="register-page-desktop-register-button"
 						size="large"
-						:loading="isLoading"
-						:disabled="isLoading"
-						@click="handleRegister"
+						:loading="pageLogic.isLoading"
+						:disabled="pageLogic.isLoading"
+						@click="pageLogic.handleRegister()"
 					>
-						{{ isLoading ? '注册中...' : '注册' }}
+						{{ pageLogic.isLoading ? '注册中...' : '注册' }}
 					</el-button>
 				</el-form>
 
