@@ -452,7 +452,7 @@ html.dark .register-page-desktop-welcome-en {
 
 /**
  * 输入框组容器
- * 包含图标和输入框 - 无背景
+ * 包含图标和输入框 - 玻璃模态背景
  */
 .register-page-desktop-input-group {
 	display: flex;
@@ -460,13 +460,18 @@ html.dark .register-page-desktop-welcome-en {
 	width: 100%;
 	padding: 4px;
 
-	/* 去除背景 */
-	background: transparent;
+	/* 玻璃模态背景 */
+	background: rgb(255 255 255 / 0.15);
 	border-radius: 12px;
+
+	/* 轻微模糊效果 */
+	backdrop-filter: blur(2px);
 	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .register-page-desktop-input-group:focus-within {
+	background: rgb(255 255 255 / 0.25);
+
 	/* 冰川青光晕效果 */
 	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.2);
 }
@@ -493,7 +498,10 @@ html.dark .register-page-desktop-welcome-en {
 
 .register-page-desktop-custom-input :deep(.el-input__wrapper) {
 	padding: 0 12px 0 0;
-	background: transparent;
+	/* 覆盖 Element Plus 默认背景色 */
+	background: transparent !important;
+	/* 覆盖 CSS 变量 */
+	--el-input-bg-color: transparent;
 	box-shadow: none;
 }
 
@@ -516,7 +524,10 @@ html.dark .register-page-desktop-welcome-en {
 
 .register-page-desktop-custom-select :deep(.el-input__wrapper) {
 	padding: 0 12px 0 0;
-	background: transparent;
+	/* 覆盖 Element Plus 默认背景色 */
+	background: transparent !important;
+	/* 覆盖 CSS 变量 */
+	--el-input-bg-color: transparent;
 	box-shadow: none;
 }
 
@@ -632,13 +643,14 @@ html.dark .register-page-desktop-welcome-en {
 
 /**
  * 深色模式下的输入框组
- * 保持透明背景
  */
 html.dark .register-page-desktop-input-group {
-	background: transparent;
+	background: rgb(0 0 0 / 0.2);
 }
 
 html.dark .register-page-desktop-input-group:focus-within {
+	background: rgb(0 0 0 / 0.3);
+
 	/* 冰川青光晕效果 */
 	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.3);
 }
