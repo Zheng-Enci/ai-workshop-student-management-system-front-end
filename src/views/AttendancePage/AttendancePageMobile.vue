@@ -10,9 +10,9 @@
 
 // ======================== 依赖导入区 ========================
 // Element Plus 组件及消息提示
-import {ElMessage, ElButton, ElIcon, ElDialog, ElInput} from 'element-plus'
+import {ElButton, ElDialog, ElIcon, ElInput, ElMessage} from 'element-plus'
 // Vue3 核心响应式API及生命周期钩子
-import {ref, onMounted, onUnmounted} from 'vue'
+import {onMounted, onUnmounted, ref} from 'vue'
 // Element Plus 基础样式（按需导入）
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
@@ -25,13 +25,13 @@ import 'element-plus/theme-chalk/el-overlay.css'
 // 本周签到概览样式
 import './mobile/css/attendance-mobile-weekly-overview.css'
 // Element Plus 图标组件
-import {Check, ArrowLeft, Clock, Calendar, Sunrise, Sunny, Moon, Monitor, User, Loading} from '@element-plus/icons-vue'
+import {ArrowLeft, Check, Clock, Loading, Monitor, Moon, Sunny, Sunrise, User} from '@element-plus/icons-vue'
 // Vue Router 路由跳转
 import {useRouter} from 'vue-router'
 
 // 业务接口导入
 import {signIn} from '@/api/attendance' // 签到提交接口
-import {getStudentDatabaseTableId, getAvatarUrl} from '@/api/student' // 学生信息及头像接口
+import {getAvatarUrl, getStudentDatabaseTableId} from '@/api/student' // 学生信息及头像接口
 import AttendanceApi from '@/api/ts/AttendanceApi' // 签到相关API接口
 // Pinia 状态管理
 import {useThemeStore} from '@/stores/theme' // 主题切换状态
@@ -388,15 +388,13 @@ const checkSignTime = () => {
 	const minute = now.getMinutes()
 	const second = now.getSeconds()
 	// 格式化当前时间为 HH:MM:SS
-	const timeStr = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
-	currentTime.value = timeStr // 更新当前时间显示
+	currentTime.value = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}` // 更新当前时间显示
 
 	// 格式化当前日期为 YYYY年MM月DD日
 	const year = now.getFullYear()
 	const month = (now.getMonth() + 1).toString().padStart(2, '0')
 	const day = now.getDate().toString().padStart(2, '0')
-	const dateStr = `${year}年${month}月${day}日`
-	currentDate.value = dateStr // 更新当前日期显示
+	currentDate.value = `${year}年${month}月${day}日` // 更新当前日期显示
 
 	// 定义三个签到时段的配置
 	const signTimeRanges = [
@@ -500,7 +498,7 @@ const confirmVerificationCode = async () => {
 		const token = userStore.token || localStorage.getItem('token')
 		if (!token) { // 无token，提示登录并跳转
 			ElMessage.error('请先登录')
-			router.push('/login')
+			await router.push('/login')
 			loading.value = false
 			showVerificationCodeDialog.value = false
 			return
@@ -526,7 +524,7 @@ const confirmVerificationCode = async () => {
 				}
 			}
 			// 刷新本周签到概览数据
-			loadWeeklyAttendance()
+			await loadWeeklyAttendance()
 			// 关闭弹窗、清空验证码、提示成功
 			showVerificationCodeDialog.value = false
 			inputVerificationCode.value = ''
@@ -547,7 +545,7 @@ const confirmVerificationCode = async () => {
 				}
 			}
 			// 刷新本周签到概览数据
-			loadWeeklyAttendance()
+			await loadWeeklyAttendance()
 			showVerificationCodeDialog.value = false
 			inputVerificationCode.value = ''
 			ElMessage.success('您已签到，无需重复签到')
@@ -834,11 +832,11 @@ onUnmounted(() => {
 				<div class="attendance-mobile-header-avatar-mobile" :class="{ 'has-avatar': hasAvatar, 'no-avatar': !hasAvatar }"
 					 @click="handleAvatarClick">
 					<!-- 自定义头像：懒加载 -->
-					<img
-						v-if="hasAvatar && avatarUrl"
-						v-lazy="avatarUrl"
-						alt="用户头像"
-						class="attendance-mobile-header-avatar-image-mobile"/>
+				<img
+					v-if="hasAvatar && avatarUrl"
+					:src="avatarUrl"
+					alt="用户头像"
+					class="attendance-mobile-header-avatar-image-mobile"/>
 					<!-- 默认头像图标：无自定义头像时显示 -->
 					<el-icon v-else size="24" class="attendance-mobile-header-avatar-icon-mobile">
 						<User/>
