@@ -21,6 +21,11 @@
 import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElIcon, ElSelect, ElOption } from 'element-plus'
 // Vue3 核心API：响应式变量、组件挂载生命周期
 import { ref, onMounted } from 'vue'
+
+/**
+ * @template T
+ * @typedef {import('vue').Ref<T>} Ref
+ */
 // Element Plus 基础样式（按需引入，减小打包体积）
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
