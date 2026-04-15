@@ -7,7 +7,7 @@
 
 import { ref, reactive, computed } from 'vue'
 import { ElMessage } from 'element-plus'
-import ChangePasswordApi from '@/views/ProfilePage/desktop/common/ts/profile-page-common-change-password'
+import ChangePasswordApi from '@/views/ProfilePage/mobile/common/ts/profile-page-common-change-password'
 
 export default class ProfilePageChangePasswordMobileForm {
 	/**

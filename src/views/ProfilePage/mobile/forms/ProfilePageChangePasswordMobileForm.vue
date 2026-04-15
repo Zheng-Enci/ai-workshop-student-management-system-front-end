@@ -1,14 +1,14 @@
 <script setup>
 /**
  * 个人信息页面-密码修改表单组件(移动端)
- * 
+ *
  * @description 提供用户修改密码的功能，包含原密码、新密码、确认新密码三个字段
  * @component ProfilePageChangePasswordMobileForm
  */
 
 // ======================== 导入 ========================
-import { ref, reactive, onMounted, computed } from 'vue'
-import { ElMessage, ElIcon, ElForm, ElFormItem, ElInput, ElButton, ElDialog } from 'element-plus'
+import { onMounted, computed } from 'vue'
+import { ElIcon, ElForm, ElFormItem, ElInput, ElButton, ElDialog } from 'element-plus'
 import { Lock } from '@element-plus/icons-vue'
 import ProfilePageChangePasswordMobileForm from '@/views/ProfilePage/mobile/forms/ts/ProfilePageChangePasswordMobileForm'
 import 'element-plus/theme-chalk/base.css'
