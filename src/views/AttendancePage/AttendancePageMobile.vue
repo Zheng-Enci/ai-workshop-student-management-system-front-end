@@ -40,8 +40,8 @@ import {useLoadingMaskStore} from '@/stores/ts/loading.ts' // 加载蒙版状态
 // 页面组件
 import LoadingMask from '@/components/LoadingMask.vue'
 // 页面配置常量
-import AttendancePageConfig from '@/views/AttendancePage/js/AttendancePageConfig'
-import {flameController} from '@/views/AttendancePage/ts/FlameDisplayController'
+import AttendancePageConfig from '@/views/AttendancePage/mobile/common/js/AttendancePageConfig'
+import {flameController} from '@/views/AttendancePage/mobile/ts/FlameDisplayController'
 import flameGif from '@/assets/flame.gif'
 import flameGrayStaticGif from '@/assets/flame-gray-static.gif'
 
@@ -1020,12 +1020,12 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-@import './css/mobile/AttendancePageMobile.css';
-@import './css/mobile/attendance-mobile-background.css';
-@import './css/mobile/attendance-mobile-sign-button.css';
-@import './css/mobile/attendance-mobile-header.css';
-@import './css/mobile/attendance-mobile-status-cards.css';
-@import './css/mobile/attendance-mobile-desktop-tip-card.css';
+@import './mobile/css/AttendancePageMobile.css';
+@import './mobile/css/attendance-mobile-background.css';
+@import './mobile/css/attendance-mobile-sign-button.css';
+@import './mobile/css/attendance-mobile-header.css';
+@import './mobile/css/attendance-mobile-status-cards.css';
+@import './mobile/css/attendance-mobile-desktop-tip-card.css';
 
 /** 状态卡片图标颜色修复 - 使用深度选择器穿透 Element Plus 组件 */
 :deep(.attendance-mobile-status-cards-card-icon-mobile .el-icon) {
