@@ -333,8 +333,10 @@ onMounted(() => {
 
 		<!-- 注册表单核心内容区 -->
 		<div class="register-page-desktop-content">
-			<!-- 注册卡片容器（带圆角/阴影/半透明） -->
-			<div class="register-page-desktop-card">
+			<!-- 注册表单与展示图布局容器（黄金比例） -->
+			<div class="register-page-desktop-main-layout">
+				<!-- 注册卡片容器（带圆角/阴影/半透明） -->
+				<div class="register-page-desktop-card">
 				<!-- 卡片头部（logo+系统名称） -->
 				<div class="register-page-desktop-card-header">
 					<!-- 系统logo（点击切换主题） -->
@@ -601,9 +603,9 @@ onMounted(() => {
 					</p>
 				</div>
 			</div>
-		
 		</div>
-		<div>
+		<!-- 展示图片区域 -->
+		<div class="register-page-desktop-showcase">
 			<img
 				src="@/assets/ai-workshop-exhibition.jpg"
 				alt="AI坊活动展示"

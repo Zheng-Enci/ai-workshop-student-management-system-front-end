@@ -185,13 +185,36 @@ html.dark .register-page-desktop-container::before {
 	position: relative;
 	z-index: 1;
 	width: 100%;
-	max-width: 1200px;
+	max-width: 100%;
 	padding: 20px;
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
 	justify-content: center;
+}
+
+/**
+ * 主布局容器（黄金比例）
+ * 注册表单区域 61.8%，展示图片区域 38.2%
+ */
+.register-page-desktop-main-layout {
+	display: flex;
+	flex-direction: row;
+	width: 61.8%;
 	gap: 40px;
+	align-items: flex-start;
+	justify-content: center;
+}
+
+/**
+ * 展示图片区域容器
+ */
+.register-page-desktop-showcase {
+	width: 38.2%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding-top: 80px;
 }
 
 /**
@@ -561,11 +584,9 @@ html.dark .register-page-desktop-card-footer {
 .register-page-desktop-showcase-image {
 	width: 100%;
 	height: auto;
-	max-width: 400px;
-	max-height: 500px;
+	max-height: 600px;
 	border-radius: 12px;
 	box-shadow: 0 4px 20px rgb(0 0 0 / 0.15);
-	margin-top: 60px;
 	object-fit: cover;
 	z-index: 10;
 	position: relative;
