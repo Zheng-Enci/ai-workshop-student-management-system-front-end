@@ -251,11 +251,15 @@ export default class RegisterPageMobile {
 
 		// 第二步：提交注册请求（开启加载状态）
 		this.isLoading.value = true
+		console.log('=== 开始注册流程 ===')
 		try {
 			// 组装注册数据（转换年级/班级为数字类型）
 			const registerData = this._formData.toSubmitData()
+			console.log('注册数据:', registerData)
 			// 调用注册 API
+			console.log('调用 StudentApi.register...')
 			await StudentApi.register(registerData)
+			console.log('StudentApi.register 成功')
 			// 注册成功提示
 			this.message.success('注册成功！正在为您登录...')
 
