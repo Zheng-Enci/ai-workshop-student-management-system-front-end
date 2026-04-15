@@ -185,8 +185,13 @@ html.dark .register-page-desktop-container::before {
 	position: relative;
 	z-index: 1;
 	width: 100%;
-	max-width: 900px;
+	max-width: 1200px;
 	padding: 20px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 40px;
 }
 
 /**
@@ -208,9 +213,6 @@ html.dark .register-page-desktop-container::before {
 
 	/* 去除模糊效果 */
 	backdrop-filter: none;
-
-	/* 入场动画 */
-	animation: register-page-desktop-slide-up 0.6s ease-out 0.2s both;
 }
 
 /**
@@ -562,4 +564,5 @@ html.dark .register-page-desktop-card-footer {
 	max-width: 400px;
 	border-radius: 12px;
 	box-shadow: 0 4px 20px rgb(0 0 0 / 0.15);
+	margin-top: 60px;
 }
