@@ -286,7 +286,6 @@ onUnmounted(() => {
 			:close-on-press-escape="false"
 			destroy-on-close
 			class="attendance-page-mobile-verification-code-dialog-mobile"
-			@closed="controller.cancelVerificationCode()"
 		>
 			<div class="attendance-page-mobile-verification-code-content-mobile">
 				<!-- 验证码提示文本 -->
