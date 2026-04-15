@@ -1041,7 +1041,7 @@ onUnmounted(() => {
 /** 返回按钮：固定定位，玻璃态，hover效果 */
 .nav-button-mobile {
 	position: fixed; /* 固定在左上角 */
-	top: 12px;
+	top: 0;
 	left: 12px;
 	height: 36px;
 	border-radius: 18px; /* 胶囊形状 */
