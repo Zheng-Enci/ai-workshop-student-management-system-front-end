@@ -46,7 +46,7 @@ import StudentApi from '@/api/StudentApi'
 // 状态管理：主题（暗黑/亮色）
 import { useThemeStore } from '@/stores/theme'
 // 状态管理：用户信息（登录态存储）
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/ts/user'
 
 // ===================== 全局实例初始化 =====================
 // 路由实例：用于页面跳转
