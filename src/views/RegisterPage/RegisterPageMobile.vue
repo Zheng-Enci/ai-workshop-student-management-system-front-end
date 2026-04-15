@@ -21,6 +21,8 @@ import 'element-plus/theme-chalk/el-option.css'
 import { User, Lock, Phone, School, Collection, House } from '@element-plus/icons-vue'
 // 顶栏样式
 import './mobile/css/RegisterPageMobileHeader.css'
+// 表单样式
+import './mobile/css/RegisterPageMobileForm.css'
 // Vue3 核心 API
 import { onMounted } from 'vue'
 // Vue Router
@@ -58,12 +60,12 @@ onMounted(() => {
 
 <template>
 	<!-- 注册页面根容器 -->
-	<div class="register-page-mobile-container">
+	<div class="register-page-mobile-form-container">
 		<!-- 背景装饰效果（渐变球体） -->
-		<div class="register-page-mobile-background-effects">
-			<div class="register-page-mobile-gradient-orb register-page-mobile-orb-1"/>
-			<div class="register-page-mobile-gradient-orb register-page-mobile-orb-2"/>
-			<div class="register-page-mobile-gradient-orb register-page-mobile-orb-3"/>
+		<div class="register-page-mobile-form-background-effects">
+			<div class="register-page-mobile-form-gradient-orb register-page-mobile-form-orb-1"/>
+			<div class="register-page-mobile-form-gradient-orb register-page-mobile-form-orb-2"/>
+			<div class="register-page-mobile-form-gradient-orb register-page-mobile-form-orb-3"/>
 		</div>
 
 		<!-- 顶栏容器（包含首页按钮和Logo，使用flex布局自动对齐） -->
@@ -86,9 +88,9 @@ onMounted(() => {
 		</div>
 
 		<!-- 注册表单核心内容区 -->
-		<div class="register-page-mobile-content">
+		<div class="register-page-mobile-form-content">
 			<!-- 注册卡片容器（带圆角/阴影/半透明） -->
-			<div class="register-page-mobile-card">
+			<div class="register-page-mobile-form-card">
 				<!-- 卡片头部（系统名称+副标题） -->
 				<div class="register-page-mobile-header-card-header">
 					<h1>AI坊学生管理系统</h1>
@@ -101,13 +103,13 @@ onMounted(() => {
 					:model="pageLogic.form"
 					:rules="pageLogic.rules"
 					label-width="0px"
-					class="register-page-mobile-form">
+					class="register-page-mobile-form-form">
 					<!-- 第一行：姓名 + 学号 -->
-					<div class="register-page-mobile-form-row">
+					<div class="register-page-mobile-form-form-row">
 						<!-- 姓名字段 -->
-						<el-form-item prop="name" class="register-page-mobile-form-item-half register-page-mobile-form-item">
-							<div class="register-page-mobile-input-group">
-								<div class="register-page-mobile-input-icon">
+						<el-form-item prop="name" class="register-page-mobile-form-form-item-half register-page-mobile-form-form-item">
+							<div class="register-page-mobile-form-input-group">
+								<div class="register-page-mobile-form-input-icon">
 									<el-icon>
 										<user/>
 									</el-icon>
@@ -115,16 +117,16 @@ onMounted(() => {
 								<el-input
 									v-model="pageLogic.form.name"
 									placeholder="请输入姓名"
-									class="register-page-mobile-custom-input"
+									class="register-page-mobile-form-custom-input"
 									size="large"
 								/>
 							</div>
 						</el-form-item>
 
 						<!-- 学号字段 -->
-						<el-form-item prop="studentId" class="register-page-mobile-form-item-half register-page-mobile-form-item">
-							<div class="register-page-mobile-input-group">
-								<div class="register-page-mobile-input-icon">
+						<el-form-item prop="studentId" class="register-page-mobile-form-form-item-half register-page-mobile-form-form-item">
+							<div class="register-page-mobile-form-input-group">
+								<div class="register-page-mobile-form-input-icon">
 									<el-icon>
 										<collection/>
 									</el-icon>
@@ -132,7 +134,7 @@ onMounted(() => {
 								<el-input
 									v-model="pageLogic.form.studentId"
 									placeholder="请输入学号"
-									class="register-page-mobile-custom-input"
+									class="register-page-mobile-form-custom-input"
 									size="large"
 								/>
 							</div>
@@ -140,11 +142,11 @@ onMounted(() => {
 					</div>
 
 					<!-- 第二行：性别 + 手机号 -->
-					<div class="register-page-mobile-form-row">
+					<div class="register-page-mobile-form-form-row">
 						<!-- 性别字段（下拉选择） -->
-						<el-form-item prop="gender" class="register-page-mobile-form-item-half register-page-mobile-form-item">
-							<div class="register-page-mobile-input-group">
-								<div class="register-page-mobile-input-icon">
+						<el-form-item prop="gender" class="register-page-mobile-form-form-item-half register-page-mobile-form-form-item">
+							<div class="register-page-mobile-form-input-group">
+								<div class="register-page-mobile-form-input-icon">
 									<el-icon>
 										<user/>
 									</el-icon>
@@ -152,9 +154,9 @@ onMounted(() => {
 								<el-select
 									v-model="pageLogic.form.gender"
 									placeholder="请选择性别"
-									class="register-page-mobile-custom-select"
+									class="register-page-mobile-form-custom-select"
 									size="large"
-									popper-class="register-page-mobile-gender-select-dropdown"
+									popper-class="register-page-mobile-form-gender-select-dropdown"
 								>
 									<el-option label="男" value="男"/>
 									<el-option label="女" value="女"/>
@@ -163,9 +165,9 @@ onMounted(() => {
 						</el-form-item>
 
 						<!-- 手机号字段 -->
-						<el-form-item prop="phoneNumber" class="register-page-mobile-form-item-half register-page-mobile-form-item">
-							<div class="register-page-mobile-input-group">
-								<div class="register-page-mobile-input-icon">
+						<el-form-item prop="phoneNumber" class="register-page-mobile-form-form-item-half register-page-mobile-form-form-item">
+							<div class="register-page-mobile-form-input-group">
+								<div class="register-page-mobile-form-input-icon">
 									<el-icon>
 										<phone/>
 									</el-icon>
@@ -173,7 +175,7 @@ onMounted(() => {
 								<el-input
 									v-model="pageLogic.form.phoneNumber"
 									placeholder="请输入手机号"
-									class="register-page-mobile-custom-input"
+									class="register-page-mobile-form-custom-input"
 									size="large"
 								/>
 							</div>
@@ -181,11 +183,11 @@ onMounted(() => {
 					</div>
 
 					<!-- 第三行：学院 + 专业 -->
-					<div class="register-page-mobile-form-row">
+					<div class="register-page-mobile-form-form-row">
 						<!-- 学院字段（下拉选择） -->
-						<el-form-item prop="college" class="register-page-mobile-form-item-half register-page-mobile-form-item">
-							<div class="register-page-mobile-input-group">
-								<div class="register-page-mobile-input-icon">
+						<el-form-item prop="college" class="register-page-mobile-form-form-item-half register-page-mobile-form-form-item">
+							<div class="register-page-mobile-form-input-group">
+								<div class="register-page-mobile-form-input-icon">
 									<el-icon>
 										<school/>
 									</el-icon>
@@ -193,9 +195,9 @@ onMounted(() => {
 								<el-select
 									v-model="pageLogic.form.college"
 									placeholder="请选择学院"
-									class="register-page-mobile-custom-select"
+									class="register-page-mobile-form-custom-select"
 									size="large"
-									popper-class="register-page-mobile-college-select-dropdown"
+									popper-class="register-page-mobile-form-college-select-dropdown"
 								>
 									<el-option
 										v-for="college in pageLogic.collegeOptions"
@@ -208,9 +210,9 @@ onMounted(() => {
 						</el-form-item>
 
 						<!-- 专业字段 -->
-						<el-form-item prop="major" class="register-page-mobile-form-item-half register-page-mobile-form-item">
-							<div class="register-page-mobile-input-group">
-								<div class="register-page-mobile-input-icon">
+						<el-form-item prop="major" class="register-page-mobile-form-form-item-half register-page-mobile-form-form-item">
+							<div class="register-page-mobile-form-input-group">
+								<div class="register-page-mobile-form-input-icon">
 									<el-icon>
 										<school/>
 									</el-icon>
@@ -218,7 +220,7 @@ onMounted(() => {
 								<el-input
 									v-model="pageLogic.form.major"
 									placeholder="请输入专业"
-									class="register-page-mobile-custom-input"
+									class="register-page-mobile-form-custom-input"
 									size="large"
 								/>
 							</div>
@@ -226,11 +228,11 @@ onMounted(() => {
 					</div>
 
 					<!-- 第四行：年级 + 班级 -->
-					<div class="register-page-mobile-form-row">
+					<div class="register-page-mobile-form-form-row">
 						<!-- 年级字段（下拉选择） -->
-						<el-form-item prop="grade" class="register-page-mobile-form-item-half register-page-mobile-form-item">
-							<div class="register-page-mobile-input-group">
-								<div class="register-page-mobile-input-icon">
+						<el-form-item prop="grade" class="register-page-mobile-form-form-item-half register-page-mobile-form-form-item">
+							<div class="register-page-mobile-form-input-group">
+								<div class="register-page-mobile-form-input-icon">
 									<el-icon>
 										<school/>
 									</el-icon>
@@ -238,9 +240,9 @@ onMounted(() => {
 								<el-select
 									v-model="pageLogic.form.grade"
 									placeholder="请选择年级"
-									class="register-page-mobile-custom-select"
+									class="register-page-mobile-form-custom-select"
 									size="large"
-									popper-class="register-page-mobile-grade-select-dropdown"
+									popper-class="register-page-mobile-form-grade-select-dropdown"
 								>
 									<el-option label="1年级" value="1"/>
 									<el-option label="2年级" value="2"/>
@@ -252,9 +254,9 @@ onMounted(() => {
 						</el-form-item>
 
 						<!-- 班级字段（数字输入） -->
-						<el-form-item prop="classNum" class="register-page-mobile-form-item-half register-page-mobile-form-item">
-							<div class="register-page-mobile-input-group">
-								<div class="register-page-mobile-input-icon">
+						<el-form-item prop="classNum" class="register-page-mobile-form-form-item-half register-page-mobile-form-form-item">
+							<div class="register-page-mobile-form-input-group">
+								<div class="register-page-mobile-form-input-icon">
 									<el-icon>
 										<school/>
 									</el-icon>
@@ -262,7 +264,7 @@ onMounted(() => {
 								<el-input
 									v-model.number="pageLogic.form.classNum"
 									placeholder="请输入班级"
-									class="register-page-mobile-custom-input"
+									class="register-page-mobile-form-custom-input"
 									size="large"
 									type="number"
 									:min="1"
@@ -273,9 +275,9 @@ onMounted(() => {
 					</div>
 
 					<!-- 密码字段 -->
-					<el-form-item prop="password" class="register-page-mobile-form-item register-page-mobile-password-form-item">
-						<div class="register-page-mobile-input-group">
-							<div class="register-page-mobile-input-icon">
+					<el-form-item prop="password" class="register-page-mobile-form-form-item register-page-mobile-form-password-form-item">
+						<div class="register-page-mobile-form-input-group">
+							<div class="register-page-mobile-form-input-icon">
 								<el-icon>
 									<lock/>
 								</el-icon>
@@ -284,7 +286,7 @@ onMounted(() => {
 								v-model="pageLogic.form.password"
 								type="password"
 								placeholder="请输入密码"
-								class="register-page-mobile-custom-input"
+								class="register-page-mobile-form-custom-input"
 								size="large"
 								show-password
 							/>
@@ -292,9 +294,9 @@ onMounted(() => {
 					</el-form-item>
 
 					<!-- 确认密码字段 -->
-					<el-form-item prop="confirmPassword" class="register-page-mobile-form-item register-page-mobile-password-form-item">
-						<div class="register-page-mobile-input-group">
-							<div class="register-page-mobile-input-icon">
+					<el-form-item prop="confirmPassword" class="register-page-mobile-form-form-item register-page-mobile-form-password-form-item">
+						<div class="register-page-mobile-form-input-group">
+							<div class="register-page-mobile-form-input-icon">
 								<el-icon>
 									<lock/>
 								</el-icon>
@@ -303,7 +305,7 @@ onMounted(() => {
 								v-model="pageLogic.form.confirmPassword"
 								type="password"
 								placeholder="请确认密码"
-								class="register-page-mobile-custom-input"
+								class="register-page-mobile-form-custom-input"
 								size="large"
 								show-password
 							/>
@@ -311,9 +313,9 @@ onMounted(() => {
 					</el-form-item>
 
 					<!-- 邀请码字段 -->
-					<el-form-item prop="invitationCode" class="register-page-mobile-form-item register-page-mobile-last-input-form-item">
-						<div class="register-page-mobile-input-group">
-							<div class="register-page-mobile-input-icon">
+					<el-form-item prop="invitationCode" class="register-page-mobile-form-form-item register-page-mobile-form-last-input-form-item">
+						<div class="register-page-mobile-form-input-group">
+							<div class="register-page-mobile-form-input-icon">
 								<el-icon>
 									<collection/>
 								</el-icon>
@@ -321,7 +323,7 @@ onMounted(() => {
 							<el-input
 								v-model="pageLogic.form.invitationCode"
 								placeholder="请输入邀请码"
-								class="register-page-mobile-custom-input"
+								class="register-page-mobile-form-custom-input"
 								size="large"
 							/>
 						</div>
@@ -330,7 +332,7 @@ onMounted(() => {
 					<!-- 注册按钮（带加载状态/禁用） -->
 					<el-button
 						type="primary"
-						class="register-page-mobile-button"
+						class="register-page-mobile-form-button"
 						size="large"
 						:loading="pageLogic.isLoading.value"
 						:disabled="pageLogic.isLoading.value"
@@ -341,10 +343,10 @@ onMounted(() => {
 				</el-form>
 
 				<!-- 卡片底部（登录链接） -->
-				<div class="register-page-mobile-card-footer">
-					<p class="register-page-mobile-login-link">
+				<div class="register-page-mobile-form-card-footer">
+					<p class="register-page-mobile-form-login-link">
 						已有账号？
-						<router-link to="/login" class="register-page-mobile-link">立即登录</router-link>
+						<router-link to="/login" class="register-page-mobile-form-link">立即登录</router-link>
 					</p>
 				</div>
 			</div>
