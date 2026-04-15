@@ -21,8 +21,10 @@
 	justify-content: center;
 	min-height: 100vh;
 	overflow: hidden;
+
 	/* 渐变背景 */
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
 	/* 入场动画 */
 	animation: register-page-desktop-fade-in 0.6s ease-out;
 }
@@ -138,7 +140,7 @@
 	background: rgb(255 255 255 / 0.2) !important;
 	border: 1px solid rgb(255 255 255 / 0.5) !important;
 	backdrop-filter: blur(4px);
-	transition: all 0.3s ease;
+	transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .register-page-desktop-home-btn:hover {
@@ -170,7 +172,8 @@
 	border-radius: 24px;
 	box-shadow: 0 8px 32px rgb(0 0 0 / 0.2);
 	backdrop-filter: blur(20px);
-	transition: all 0.4s ease;
+	transition: background 0.4s ease, border 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+
 	/* 入场动画 */
 	animation: register-page-desktop-slide-up 0.6s ease-out 0.2s both;
 }
@@ -205,8 +208,8 @@ html.dark .register-page-desktop-card {
  * 包含Logo和系统名称
  */
 .register-page-desktop-card-header {
-	text-align: center;
 	margin-bottom: 30px;
+	text-align: center;
 }
 
 /**
@@ -217,8 +220,8 @@ html.dark .register-page-desktop-card {
 	height: 80px;
 	margin-bottom: 16px;
 	cursor: pointer;
-	transition: transform 0.3s ease;
 	filter: drop-shadow(0 4px 8px rgb(0 0 0 / 0.3));
+	transition: transform 0.3s ease;
 }
 
 .register-page-desktop-logo:hover {
@@ -307,7 +310,7 @@ html.dark .register-page-desktop-card {
 	background: rgb(255 255 255 / 0.15);
 	border-radius: 12px;
 	backdrop-filter: blur(2px);
-	transition: all 0.3s ease;
+	transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .register-page-desktop-input-group:focus-within {
@@ -388,7 +391,7 @@ html.dark .register-page-desktop-card {
 	background: rgb(62 158 172 / 0.8) !important;
 	border: none !important;
 	border-radius: 12px;
-	transition: all 0.3s ease;
+	transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .register-page-desktop-register-button:hover {
@@ -432,7 +435,7 @@ html.dark .register-page-desktop-card {
 	font-weight: 600;
 	color: #fff;
 	text-decoration: none;
-	transition: all 0.3s ease;
+	transition: color 0.3s ease, text-decoration 0.3s ease;
 }
 
 .register-page-desktop-login-link .link:hover {
