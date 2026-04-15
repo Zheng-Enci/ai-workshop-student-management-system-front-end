@@ -22,10 +22,6 @@ import { ElForm, ElFormItem, ElInput, ElButton, ElMessage, ElIcon, ElSelect, ElO
 // Vue3 核心API：响应式变量、组件挂载生命周期
 import { ref, onMounted } from 'vue'
 
-/**
- * @template T
- * @typedef {import('vue').Ref<T>} Ref
- */
 // Element Plus 基础样式（按需引入，减小打包体积）
 import 'element-plus/theme-chalk/el-form.css'
 import 'element-plus/theme-chalk/el-form-item.css'
@@ -123,13 +119,13 @@ const initialFormData = {
 // ===================== 响应式变量定义区 =====================
 /**
  * 注册表单数据模型
- * @type {Ref<RegisterForm>}
+ * @type {import('vue').Ref<RegisterForm>}
  */
-const form = /** @type {Ref<RegisterForm>} */(ref(initialFormData))
+const form = ref(initialFormData)
 
 /**
  * 表单引用实例（用于表单校验）
- * @type {Ref<import('element-plus').FormInstance | null>}
+ * @type {import('vue').Ref<import('element-plus').FormInstance | null>}
  */
 const formRef = ref(null)
 
@@ -223,9 +219,9 @@ const rules = {
 
 /**
  * 注册按钮加载状态（防止重复提交）
- * @type {Ref<boolean>}
+ * @type {import('vue').Ref<boolean>}
  */
-const isLoading = /** @type {Ref<boolean>} */(ref(false))
+const isLoading = ref(false)
 
 // ===================== 核心业务逻辑区 =====================
 /**
