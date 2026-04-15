@@ -9,7 +9,7 @@
 // Element Plus 消息提示组件
 import { ElMessage } from 'element-plus'
 // Vue3 响应式 API
-import { ref, type Ref } from 'vue'
+import { ref, type Ref, reactive } from 'vue'
 // Vue Router 路由实例类型
 import type { Router } from 'vue-router'
 
@@ -44,11 +44,10 @@ export default class RegisterPageMobile {
 	private _themeStore: ReturnType<typeof useThemeStore>
 
 	/**
-	 * 表单数据实例
+	 * 表单数据实例（响应式）
 	 * @private
-	 * @readonly
 	 */
-	private readonly _formData: RegisterFormData
+	private _formData: RegisterFormData
 
 	// ===================== 公共响应式属性 =====================
 	/**
@@ -98,7 +97,8 @@ export default class RegisterPageMobile {
 		this._router = router
 		this._userStore = useUserStore()
 		this._themeStore = useThemeStore()
-		this._formData = new RegisterFormData()
+		// 使用 reactive 包装表单数据，确保响应式
+		this._formData = reactive(new RegisterFormData())
 
 		// 初始化响应式属性
 		this.formRef = ref(null)
