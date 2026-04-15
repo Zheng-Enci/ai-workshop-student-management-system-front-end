@@ -233,6 +233,9 @@ export default class RegisterPageMobile {
 	 * @returns {Promise<void>}
 	 */
 	public async handleRegister(): Promise<void> {
+		// 测试：每次点击注册按钮输出 666
+		this.message.info('666')
+
 		// 表单实例不存在时直接返回（容错）
 		if (!this.formRef.value) {
 			return
