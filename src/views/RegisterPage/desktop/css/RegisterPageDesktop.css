@@ -158,7 +158,7 @@ html.dark .register-page-desktop-container::before {
 
 /**
  * 返回首页按钮
- * 固定在左上角
+ * 固定在左上角，带圆角
  */
 .register-page-desktop-home-btn {
 	position: fixed;
@@ -169,6 +169,7 @@ html.dark .register-page-desktop-container::before {
 	border: 1px solid rgb(255 255 255 / 0.5) !important;
 	backdrop-filter: blur(4px);
 	transition: opacity 0.3s ease, transform 0.3s ease;
+	border-radius: 8px;
 }
 
 .register-page-desktop-home-btn:hover {
