@@ -1,9 +1,3 @@
-/**
- * 项目类型声明文件
- * 用于声明全局类型和第三方库的类型扩展
- */
-
-// 声明 Vue 3 的模块类型
 /// <reference types="vite/client" />
 
 declare module '*.vue' {
@@ -12,12 +6,15 @@ declare module '*.vue' {
 	export default component
 }
 
-// 扩展 Vue 的模块声明以支持 v-lazy 指令
-declare module 'vue' {
-	import { Directive } from 'vue'
+// 扩展 Vue 的 JSX 命名空间以支持 v-lazy 指令
+declare module '@vue/runtime-core' {
+	export interface ComponentCustomProperties {
+		// v-lazy 指令类型声明
+		vLazy: import('vue').Directive<HTMLElement, string>
+	}
 
 	export interface GlobalDirectives {
-		vLazy: Directive<HTMLElement, string>
+		vLazy: import('vue').Directive<HTMLElement, string>
 	}
 }
 
