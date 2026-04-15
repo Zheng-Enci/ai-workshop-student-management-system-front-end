@@ -567,4 +567,6 @@ html.dark .register-page-desktop-card-footer {
 	box-shadow: 0 4px 20px rgb(0 0 0 / 0.15);
 	margin-top: 60px;
 	object-fit: cover;
+	z-index: 10;
+	position: relative;
 }
