@@ -46,10 +46,12 @@
 	border-radius: 18px; /* 胶囊形状 */
 	box-shadow: 0 3px 12px var(--shadow-color); /* 阴影 */
 	backdrop-filter: blur(20px); /* 毛玻璃效果 */
+
 	/* 明确指定过渡属性以提升性能，避免使用 all */
 	/* Explicitly specify transition properties for better performance, avoid using all */
-	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-				background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	/* 注意：background-color 过渡性能较低，如需背景变化请考虑使用 opacity 或伪元素 */
+	/* Note: background-color transition has low performance, consider using opacity or pseudo-elements for background changes */
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /** 返回按钮hover效果：上移，阴影放大，背景变色 */
@@ -71,7 +73,9 @@
 	background: transparent;
 	border-radius: 0;
 	box-shadow: none;
+
 	/* 明确指定过渡属性以提升性能，避免使用 all */
+
 	/* Explicitly specify transition properties for better performance, avoid using all */
 	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
 				filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -142,9 +146,11 @@
 	border-radius: 12px;
 	box-shadow: 0 4px 16px var(--shadow-color);
 	backdrop-filter: blur(20px);
+
 	/* 明确指定过渡属性以提升性能，避免使用 all */
 	/* Explicitly specify transition properties for better performance, avoid using all */
-	transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	/* 注意：border-color 过渡性能较低，已移除 */
+	/* Note: border-color transition has low performance, removed */
 }
 
 /** 输入框hover：主色调边框，阴影放大 */
