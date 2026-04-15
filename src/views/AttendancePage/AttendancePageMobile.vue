@@ -380,34 +380,34 @@ onUnmounted(() => {
 <!-- 全局样式：处理验证码弹窗的明暗主题适配 -->
 <style>
 /** 亮色主题下的弹窗背景：白色 */
-.verification-code-dialog-mobile.el-dialog {
+.attendance-page-mobile-verification-code-dialog-mobile.el-dialog {
 	background-color: #ffffff !important;
 }
 
 /** 亮色主题下的弹窗头部：白色，浅灰色底部分隔线 */
-.verification-code-dialog-mobile.el-dialog .el-dialog__header {
+.attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__header {
 	background-color: #ffffff !important;
 	border-bottom: 1px solid #e2e8f0 !important;
 }
 
 /** 亮色主题下的弹窗内容：白色 */
-.verification-code-dialog-mobile.el-dialog .el-dialog__body {
+.attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__body {
 	background-color: #ffffff !important;
 }
 
 /** 暗色主题下的弹窗背景：深灰色 */
-html.dark .verification-code-dialog-mobile.el-dialog {
+html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog {
 	background-color: #0f172a !important;
 }
 
 /** 暗色主题下的弹窗头部：深灰色，深灰色底部分隔线 */
-html.dark .verification-code-dialog-mobile.el-dialog .el-dialog__header {
+html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__header {
 	background-color: #0f172a !important;
 	border-bottom: 1px solid #334155 !important;
 }
 
 /** 暗色主题下的弹窗内容：深灰色 */
-html.dark .verification-code-dialog-mobile.el-dialog .el-dialog__body {
+html.dark .attendance-page-mobile-verification-code-dialog-mobile.el-dialog .el-dialog__body {
 	background-color: #0f172a !important;
 }
 </style>
