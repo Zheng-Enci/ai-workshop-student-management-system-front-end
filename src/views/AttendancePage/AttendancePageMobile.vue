@@ -280,13 +280,15 @@ onUnmounted(() => {
 		<!-- 验证码弹窗：输入6位数字验证码完成签到 -->
 		<el-dialog
 			v-model="controller.showVerificationCodeDialog.value"
+			v-if="controller.showVerificationCodeDialog.value"
 			title="输入签到验证码"
 			width="90%"
 			:close-on-click-modal="false"
 			:close-on-press-escape="false"
-			:lock-scroll="false"
-			:show-close="false"
+			:append-to-body="true"
+			:teleported="true"
 			class="attendance-page-mobile-verification-code-dialog-mobile"
+			@close="controller.cancelVerificationCode()"
 		>
 			<div class="attendance-page-mobile-verification-code-content-mobile">
 				<!-- 验证码提示文本 -->
