@@ -187,9 +187,9 @@
  * 欢迎语容器
  */
 .register-page-mobile-form-welcome {
-	text-align: center;
-	margin-bottom: 20px;
 	padding-bottom: 16px;
+	margin-bottom: 20px;
+	text-align: center;
 	border-bottom: 1px solid rgb(229 231 235);
 
 	/* 欢迎语入场动画 */
@@ -401,8 +401,10 @@
 .register-page-mobile-form-custom-input [class*='el-input__wrapper'] {
 	padding: 0 8px 0 0 !important;
 	background: transparent !important;
+
 	--el-input-bg-color: transparent !important;
 	--el-fill-color-blank: transparent !important;
+
 	box-shadow: none !important;
 }
 
@@ -428,8 +430,10 @@
 .register-page-mobile-form-custom-select .el-select__wrapper {
 	padding: 0 8px 0 0 !important;
 	background: transparent !important;
+
 	--el-input-bg-color: transparent !important;
 	--el-fill-color-blank: transparent !important;
+
 	box-shadow: none !important;
 }
 
@@ -440,8 +444,8 @@
 
 /* 确保选中的值能够正确显示 */
 .register-page-mobile-form-custom-select .el-select__selected-item {
-	color: #1f2937 !important;
 	font-size: 14px;
+	color: #1f2937 !important;
 }
 
 /* 确保占位符和选中值都可见 */
@@ -501,8 +505,8 @@
 }
 
 .register-page-mobile-form-button:hover {
-	transform: translateY(-2px);
 	box-shadow: 0 8px 20px rgb(62 158 172 / 0.4);
+	transform: translateY(-2px);
 }
 
 .register-page-mobile-form-button:active {
@@ -577,24 +581,24 @@
  * 性别下拉菜单
  */
 .register-page-mobile-form-gender-select-dropdown {
-	border-radius: 8px;
 	z-index: 9999 !important;
+	border-radius: 8px;
 }
 
 /**
  * 学院下拉菜单
  */
 .register-page-mobile-form-college-select-dropdown {
-	border-radius: 8px;
 	z-index: 9999 !important;
+	border-radius: 8px;
 }
 
 /**
  * 年级下拉菜单
  */
 .register-page-mobile-form-grade-select-dropdown {
-	border-radius: 8px;
 	z-index: 9999 !important;
+	border-radius: 8px;
 }
 
 /**
@@ -622,8 +626,8 @@
 .register-page-mobile-form-gender-select-dropdown .el-select-dropdown__item.selected,
 .register-page-mobile-form-college-select-dropdown .el-select-dropdown__item.selected,
 .register-page-mobile-form-grade-select-dropdown .el-select-dropdown__item.selected {
-	color: rgb(62 158 172);
 	font-weight: 600;
+	color: rgb(62 158 172);
 }
 
 /* ===================== 深色模式适配 ===================== */

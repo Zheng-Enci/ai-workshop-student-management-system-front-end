@@ -32,15 +32,17 @@
   box-shadow: 0 6px 18px var(--shadow-color);
 }
 
+/* 当前时段激活状态 - 使用冰川青主色 */
 .attendance-mobile-status-cards-card-mobile.active {
-  border-color: var(--primary-color);
-  box-shadow: 0 6px 18px rgba(102, 126, 234, 0.2);
+  border-color: #87CEEB;
+  box-shadow: 0 6px 18px rgba(135, 206, 235, 0.3);
 }
 
+/* 已签到状态 - 使用深空蓝辅色 */
 .attendance-mobile-status-cards-card-mobile.signed {
-  border-color: #4CAF50;
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.25) 0%, rgba(76, 175, 80, 0.15) 100%);
-  box-shadow: 0 0 12px rgba(76, 175, 80, 0.3);
+  border-color: #4682B4;
+  background: linear-gradient(135deg, rgba(70, 130, 180, 0.25) 0%, rgba(70, 130, 180, 0.15) 100%);
+  box-shadow: 0 0 12px rgba(70, 130, 180, 0.3);
 }
 
 /* ==================== 卡片图标 ==================== */
@@ -52,28 +54,28 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: var(--primary-color);
+  background: #87CEEB;
   color: white;
   margin-bottom: 8px;
   font-size: 16px;
 }
 
-/* 上午签到图标 - 暖橙色渐变（朝阳） */
+/* 上午签到图标 - 冰川青渐变 */
 .attendance-mobile-status-cards-card-mobile.morning .attendance-mobile-status-cards-card-icon-mobile {
-  background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
-  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+  background: linear-gradient(135deg, #87CEEB 0%, #5DADE2 100%);
+  box-shadow: 0 4px 12px rgba(135, 206, 235, 0.3);
 }
 
-/* 下午签到图标 - 天蓝色渐变（晴空） */
+/* 下午签到图标 - 冰川青到深空蓝渐变 */
 .attendance-mobile-status-cards-card-mobile.afternoon .attendance-mobile-status-cards-card-icon-mobile {
-  background: linear-gradient(135deg, #2196F3 0%, #00BCD4 100%);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  background: linear-gradient(135deg, #6495ED 0%, #4682B4 100%);
+  box-shadow: 0 4px 12px rgba(100, 149, 237, 0.3);
 }
 
-/* 晚上签到图标 - 蓝紫色渐变（夜空） */
+/* 晚上签到图标 - 深空蓝渐变 */
 .attendance-mobile-status-cards-card-mobile.evening .attendance-mobile-status-cards-card-icon-mobile {
-  background: linear-gradient(135deg, #673AB7 0%, #3F51B5 100%);
-  box-shadow: 0 4px 12px rgba(103, 58, 183, 0.3);
+  background: linear-gradient(135deg, #4682B4 0%, #191970 100%);
+  box-shadow: 0 4px 12px rgba(70, 130, 180, 0.3);
 }
 
 /* ==================== 卡片内容 ==================== */
@@ -105,7 +107,8 @@
   transition: all 0.3s ease;
 }
 
+/* 已签到状态文本 - 使用深空蓝 */
 .attendance-mobile-status-cards-card-status-mobile.signed {
-  background: rgba(76, 175, 80, 0.1);
-  color: #4CAF50;
+  background: rgba(70, 130, 180, 0.1);
+  color: #4682B4;
 }

@@ -30,26 +30,26 @@
 	inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* 上午签到按钮 - 暖橙色渐变 */
+/* 上午签到按钮 - 冰川青渐变 */
 .attendance-mobile-sign-button-button-mobile.morning {
-	background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
-	box-shadow: 0 8px 28px rgba(255, 152, 0, 0.4),
+	background: linear-gradient(135deg, #87CEEB 0%, #5DADE2 100%);
+	box-shadow: 0 8px 28px rgba(135, 206, 235, 0.4),
 	0 0 0 1px rgba(255, 255, 255, 0.1),
 	inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* 下午签到按钮 - 天蓝色渐变 */
+/* 下午签到按钮 - 冰川青到深空蓝渐变 */
 .attendance-mobile-sign-button-button-mobile.afternoon {
-	background: linear-gradient(135deg, #2196F3 0%, #00BCD4 100%);
-	box-shadow: 0 8px 28px rgba(33, 150, 243, 0.4),
+	background: linear-gradient(135deg, #6495ED 0%, #4682B4 100%);
+	box-shadow: 0 8px 28px rgba(100, 149, 237, 0.4),
 	0 0 0 1px rgba(255, 255, 255, 0.1),
 	inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* 晚上签到按钮 - 蓝紫色渐变 */
+/* 晚上签到按钮 - 深空蓝渐变 */
 .attendance-mobile-sign-button-button-mobile.evening {
-	background: linear-gradient(135deg, #673AB7 0%, #3F51B5 100%);
-	box-shadow: 0 8px 28px rgba(103, 58, 183, 0.4),
+	background: linear-gradient(135deg, #4682B4 0%, #191970 100%);
+	box-shadow: 0 8px 28px rgba(70, 130, 180, 0.4),
 	0 0 0 1px rgba(255, 255, 255, 0.1),
 	inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
@@ -59,19 +59,19 @@
 }
 
 .attendance-mobile-sign-button-button-mobile.morning:hover:not(:disabled) {
-	box-shadow: 0 12px 36px rgba(255, 152, 0, 0.5),
+	box-shadow: 0 12px 36px rgba(135, 206, 235, 0.5),
 	0 0 0 1px rgba(255, 255, 255, 0.2),
 	inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .attendance-mobile-sign-button-button-mobile.afternoon:hover:not(:disabled) {
-	box-shadow: 0 12px 36px rgba(33, 150, 243, 0.5),
+	box-shadow: 0 12px 36px rgba(100, 149, 237, 0.5),
 	0 0 0 1px rgba(255, 255, 255, 0.2),
 	inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .attendance-mobile-sign-button-button-mobile.evening:hover:not(:disabled) {
-	box-shadow: 0 12px 36px rgba(103, 58, 183, 0.5),
+	box-shadow: 0 12px 36px rgba(70, 130, 180, 0.5),
 	0 0 0 1px rgba(255, 255, 255, 0.2),
 	inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
