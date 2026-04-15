@@ -49,5 +49,7 @@
 	font-size: 12px;
 	line-height: 1.5;
 	color: var(--text-secondary);
-	word-break: break-word;
+	/* 使用 overflow-wrap 替代已弃用的 word-break: break-word */
+	/* Using overflow-wrap instead of deprecated word-break: break-word */
+	overflow-wrap: break-word;
 }
