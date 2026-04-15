@@ -496,13 +496,15 @@ html.dark .register-page-desktop-welcome-en {
 	flex: 1;
 }
 
-.register-page-desktop-custom-input :deep(.el-input__wrapper) {
-	padding: 0 12px 0 0;
+/* 使用属性选择器提高特异性，覆盖 Element Plus 默认样式 */
+.register-page-desktop-custom-input [class*='el-input__wrapper'] {
+	padding: 0 12px 0 0 !important;
 	/* 覆盖 Element Plus 默认背景色 */
 	background: transparent !important;
 	/* 覆盖 CSS 变量 */
-	--el-input-bg-color: transparent;
-	box-shadow: none;
+	--el-input-bg-color: transparent !important;
+	--el-fill-color-blank: transparent !important;
+	box-shadow: none !important;
 }
 
 .register-page-desktop-custom-input :deep(.el-input__inner) {
@@ -522,13 +524,15 @@ html.dark .register-page-desktop-welcome-en {
 	flex: 1;
 }
 
-.register-page-desktop-custom-select :deep(.el-input__wrapper) {
-	padding: 0 12px 0 0;
+/* 使用属性选择器提高特异性，覆盖 Element Plus 默认样式 */
+.register-page-desktop-custom-select [class*='el-input__wrapper'] {
+	padding: 0 12px 0 0 !important;
 	/* 覆盖 Element Plus 默认背景色 */
 	background: transparent !important;
 	/* 覆盖 CSS 变量 */
-	--el-input-bg-color: transparent;
-	box-shadow: none;
+	--el-input-bg-color: transparent !important;
+	--el-fill-color-blank: transparent !important;
+	box-shadow: none !important;
 }
 
 .register-page-desktop-custom-select :deep(.el-input__inner) {
