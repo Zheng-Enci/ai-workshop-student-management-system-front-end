@@ -83,6 +83,8 @@ defineExpose({
 		:close-on-press-escape="true"
 		:lock-scroll="true"
 		:align-center="true"
+		:append-to-body="true"
+		:destroy-on-close="true"
 		@close="handleDialogClose"
 		modal-class="profile-page-mobile-change-password-dialog-overlay"
 		class="profile-page-mobile-change-password-dialog"
