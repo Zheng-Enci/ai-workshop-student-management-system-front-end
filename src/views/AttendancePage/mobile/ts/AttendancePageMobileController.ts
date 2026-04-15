@@ -363,6 +363,7 @@ export default class AttendancePageMobileController {
 	// ======================== 本周签到数据加载 ========================
 	/**
 	 * 加载本周签到概览数据
+	 * 通过 getStudentRecordsByTimeRange 接口获取本周签到记录，并转换为周签到数据结构
 	 */
 	public async loadWeeklyAttendance(): Promise<void> {
 		this.weeklyAttendanceLoading.value = true
@@ -372,11 +373,47 @@ export default class AttendancePageMobileController {
 				return
 			}
 
-			const response = await AttendanceApi.getWeeklyAttendance(token)
-			if (response.code === 200 && response.data) {
-				this.processWeeklyData(response.data)
-				this.updateFlameController()
+			// 获取学生数据库表主键ID
+			const idResponse = await getStudentDatabaseTableId(token)
+			if (idResponse.code !== 200 || !idResponse.data) {
+				console.error('获取学生ID失败')
+				return
 			}
+			const studentInfoId = idResponse.data
+
+			// 计算本周的起止时间（周一 00:00:00 到周日 23:59:59）
+			const now = new Date()
+			const currentDay = now.getDay() // 0=周日, 1=周一, ..., 6=周六
+			const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay // 计算到本周一的天数偏移
+
+			const monday = new Date(now)
+			monday.setDate(now.getDate() + mondayOffset)
+			monday.setHours(0, 0, 0, 0)
+
+			const sunday = new Date(monday)
+			sunday.setDate(monday.getDate() + 6)
+			sunday.setHours(23, 59, 59, 999)
+
+			// 格式化时间为 yyyy-MM-dd HH:mm:ss
+			const formatDateTime = (date: Date): string => {
+				const year = date.getFullYear()
+				const month = (date.getMonth() + 1).toString().padStart(2, '0')
+				const day = date.getDate().toString().padStart(2, '0')
+				const hours = date.getHours().toString().padStart(2, '0')
+				const minutes = date.getMinutes().toString().padStart(2, '0')
+				const seconds = date.getSeconds().toString().padStart(2, '0')
+				return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+			}
+
+			const startTime = formatDateTime(monday)
+			const endTime = formatDateTime(sunday)
+
+			// 调用 API 获取本周签到记录
+			const records = await AttendanceApi.getStudentRecordsByTimeRange(studentInfoId, startTime, endTime)
+
+			// 处理签到记录数据
+			this.processWeeklyData(records)
+			this.updateFlameController()
 		} catch (error) {
 			console.error('加载本周签到数据失败:', error)
 		} finally {
@@ -389,31 +426,71 @@ export default class AttendancePageMobileController {
 
 	/**
 	 * 处理本周签到数据
-	 * @param data - 服务器返回的签到数据
+	 * 将时间字符串数组转换为周签到数据结构
+	 * @param records - 服务器返回的签到时间字符串数组，格式：['2025-04-14 08:30:00', ...]
 	 */
-	private processWeeklyData(data: any[]): void {
+	private processWeeklyData(records: string[]): void {
 		const weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 		const today = new Date()
-		const currentDayIndex = today.getDay()
 
-		this.weeklyAttendanceData.value = data.map((item, index) => {
-			const date = new Date(item.date)
-			const dayIndex = date.getDay()
-			return {
-				date: item.date,
-				dayName: weekDays[dayIndex],
+		// 初始化本周7天的数据结构
+		const weeklyData: Array<{date: string, dayName: string, slots: {morning: boolean, afternoon: boolean, evening: boolean}}> = []
+
+		// 计算本周一的日期
+		const currentDay = today.getDay() // 0=周日, 1=周一, ..., 6=周六
+		const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay
+		const monday = new Date(today)
+		monday.setDate(today.getDate() + mondayOffset)
+
+		// 生成本周7天的初始数据（所有时段未签到）
+		for (let i = 0; i < 7; i++) {
+			const date = new Date(monday)
+			date.setDate(monday.getDate() + i)
+			const year = date.getFullYear()
+			const month = (date.getMonth() + 1).toString().padStart(2, '0')
+			const day = date.getDate().toString().padStart(2, '0')
+			const dateString = `${year}-${month}-${day}`
+
+			weeklyData.push({
+				date: dateString,
+				dayName: weekDays[date.getDay()],
 				slots: {
-					morning: item.morning || false,
-					afternoon: item.afternoon || false,
-					evening: item.evening || false
+					morning: false,
+					afternoon: false,
+					evening: false
+				}
+			})
+		}
+
+		// 根据签到记录更新各时段状态
+		// 时间段定义：morning=08:00-11:00, afternoon=14:00-17:00, evening=19:00-22:00
+		records.forEach(record => {
+			const recordDate = new Date(record)
+			const year = recordDate.getFullYear()
+			const month = (recordDate.getMonth() + 1).toString().padStart(2, '0')
+			const day = recordDate.getDate().toString().padStart(2, '0')
+			const dateString = `${year}-${month}-${day}`
+			const hour = recordDate.getHours()
+
+			// 找到对应的日期数据
+			const dayData = weeklyData.find(item => item.date === dateString)
+			if (dayData) {
+				// 根据小时判断时段
+				if (hour >= 8 && hour < 11) {
+					dayData.slots.morning = true
+				} else if (hour >= 14 && hour < 17) {
+					dayData.slots.afternoon = true
+				} else if (hour >= 19 && hour < 22) {
+					dayData.slots.evening = true
 				}
 			}
 		})
 
-		const todayData = this.weeklyAttendanceData.value.find(item => {
-			const itemDate = new Date(item.date)
-			return itemDate.toDateString() === today.toDateString()
-		})
+		this.weeklyAttendanceData.value = weeklyData
+
+		// 更新今日签到状态
+		const todayString = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`
+		const todayData = weeklyData.find(item => item.date === todayString)
 
 		if (todayData) {
 			this.todayAttendanceSlots.value = {
