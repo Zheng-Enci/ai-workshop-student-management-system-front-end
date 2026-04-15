@@ -536,4 +536,34 @@ export default class AttendancePageMobileController {
 		this.showVerificationCodeDialog.value = false
 		this.inputVerificationCode.value = ''
 	}
+
+	// ======================== 辅助方法 ========================
+	/**
+	 * 获取签到时段的CSS类名
+	 * @param slots - 时段签到状态对象
+	 * @returns CSS类名
+	 */
+	public getSlotClass(slots: { morning: boolean; afternoon: boolean; evening: boolean }): string {
+		if (slots.morning && slots.afternoon && slots.evening) return 'slot-all'
+		if (slots.morning && slots.afternoon) return 'slot-morning-afternoon'
+		if (slots.morning && slots.evening) return 'slot-morning-evening'
+		if (slots.afternoon && slots.evening) return 'slot-afternoon-evening'
+		if (slots.morning) return 'slot-morning'
+		if (slots.afternoon) return 'slot-afternoon'
+		if (slots.evening) return 'slot-evening'
+		return 'slot-none'
+	}
+
+	/**
+	 * 获取已签到次数
+	 * @param slots - 时段签到状态对象
+	 * @returns 已签到次数
+	 */
+	public getSignedCount(slots: { morning: boolean; afternoon: boolean; evening: boolean }): number {
+		let count = 0
+		if (slots.morning) count++
+		if (slots.afternoon) count++
+		if (slots.evening) count++
+		return count
+	}
 }
