@@ -452,7 +452,7 @@ html.dark .register-page-desktop-welcome-en {
 
 /**
  * 输入框组容器
- * 包含图标和输入框 - 玻璃模态背景
+ * 包含图标和输入框 - 无背景
  */
 .register-page-desktop-input-group {
 	display: flex;
@@ -460,18 +460,13 @@ html.dark .register-page-desktop-welcome-en {
 	width: 100%;
 	padding: 4px;
 
-	/* 玻璃模态背景 */
-	background: rgb(255 255 255 / 0.15);
+	/* 去除背景 */
+	background: transparent;
 	border-radius: 12px;
-
-	/* 轻微模糊效果 */
-	backdrop-filter: blur(2px);
 	transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .register-page-desktop-input-group:focus-within {
-	background: rgb(255 255 255 / 0.25);
-
 	/* 冰川青光晕效果 */
 	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.2);
 }
@@ -637,14 +632,13 @@ html.dark .register-page-desktop-welcome-en {
 
 /**
  * 深色模式下的输入框组
+ * 保持透明背景
  */
 html.dark .register-page-desktop-input-group {
-	background: rgb(0 0 0 / 0.2);
+	background: transparent;
 }
 
 html.dark .register-page-desktop-input-group:focus-within {
-	background: rgb(0 0 0 / 0.3);
-
 	/* 冰川青光晕效果 */
 	box-shadow: 0 0 0 3px rgb(62 158 172 / 0.3);
 }
