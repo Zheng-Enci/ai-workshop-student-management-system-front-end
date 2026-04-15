@@ -46,7 +46,7 @@ import 'element-plus/theme-chalk/el-icon.css'
 // ===================== 全局实例初始化 =====================
 /**
  * 路由实例
- * @type {Router}
+ * @type {import('vue-router').Router}
  * @description 用于页面跳转和路由导航
  */
 const router = useRouter()
@@ -322,7 +322,8 @@ const loadAttendanceCount = async () => {
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
-			router.push('/login')
+			// 异步跳转到登录页，不等待完成
+			void router.push('/login')
 		}
 	}
 }
@@ -397,7 +398,8 @@ const loadPoints = async () => {
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
-			router.push('/login')
+			// 异步跳转到登录页，不等待完成
+			void router.push('/login')
 		} else {
 			/**
 			 * 其他错误处理
@@ -584,7 +586,8 @@ const loadUserAvatar = async () => {
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
-			router.push('/login')
+			// 异步跳转到登录页，不等待完成
+			void router.push('/login')
 		} else {
 			// 其他错误时显示默认头像
 			showDefaultAvatar()
