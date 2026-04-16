@@ -275,10 +275,6 @@
 	box-shadow: 0 4px 16px rgb(31 66 119 / 0.4);
 }
 
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon {
-	color: rgb(255 255 255 / 0.95);
-}
-
 /**
  * 管理员等级标签样式
  * 使用白色
