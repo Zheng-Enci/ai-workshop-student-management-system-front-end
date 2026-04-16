@@ -335,15 +335,15 @@ class DashboardDataLoader {
 	 */
 	public async loadLevelStats(): Promise<void> {
 		try {
-			const [adminCount, coreCount, normalCount] = await Promise.all([
+			const [adminData, coreData, normalData] = await Promise.all([
 				StudentApi.getStudentCountByLevel(3),
 				StudentApi.getStudentCountByLevel(2),
 				StudentApi.getStudentCountByLevel(1)
 			])
 
-			this.levelStatsRef.value.admin = adminCount
-			this.levelStatsRef.value.core = coreCount
-			this.levelStatsRef.value.normal = normalCount
+			this.levelStatsRef.value.admin = adminData.count
+			this.levelStatsRef.value.core = coreData.count
+			this.levelStatsRef.value.normal = normalData.count
 		} catch (error) {
 			throw new Error('获取等级统计失败')
 		}
@@ -362,7 +362,7 @@ class DashboardDataLoader {
 		dailyData: any
 	}> {
 		try {
-			const [gradeData, majorData, totalCount, monthlyData, todayCount, rankingData] = await Promise.all([
+			const [gradeData, majorData, totalData, monthlyData, todayCount, rankingData] = await Promise.all([
 				StudentApi.getGradeStatistics(),
 				StudentApi.getMajorStatistics(),
 				StudentApi.getTotalStudentCount(),
@@ -383,7 +383,7 @@ class DashboardDataLoader {
 				count: item.count
 			}))
 
-			this.totalStudentsRef.value = totalCount
+			this.totalStudentsRef.value = totalData.count
 
 			const monthlyCount = monthlyData.count
 			const dailyAvg = calculateDailyAvgAttendance(monthlyCount)
@@ -397,7 +397,7 @@ class DashboardDataLoader {
 			return {
 				gradeData: { code: 200, data: gradeData },
 				majorData: { code: 200, data: majorData },
-				totalData: { code: 200, data: { count: totalCount } },
+				totalData: { code: 200, data: totalData },
 				monthlyData: { code: 200, data: monthlyData },
 				dailyData: { code: 200, data: todayCount }
 			}
