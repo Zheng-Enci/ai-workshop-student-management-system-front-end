@@ -66,14 +66,14 @@ export default class AttendancePageMobileController {
 	/** 头像提示是否已显示 - 控制"上传头像"提示只显示一次 */
 	public avatarTipShown: Ref<boolean> = ref(false)
 	/** 本周每天的签到数据 */
-	public weeklyAttendanceData: Ref<Array<{date: string, dayName: string, slots: {morning: boolean, afternoon: boolean, evening: boolean}}>> = ref([
-		{date: '', dayName: '周一', slots: {morning: false, afternoon: false, evening: false}},
-		{date: '', dayName: '周二', slots: {morning: false, afternoon: false, evening: false}},
-		{date: '', dayName: '周三', slots: {morning: false, afternoon: false, evening: false}},
-		{date: '', dayName: '周四', slots: {morning: false, afternoon: false, evening: false}},
-		{date: '', dayName: '周五', slots: {morning: false, afternoon: false, evening: false}},
-		{date: '', dayName: '周六', slots: {morning: false, afternoon: false, evening: false}},
-		{date: '', dayName: '周日', slots: {morning: false, afternoon: false, evening: false}}
+	public weeklyAttendanceData: Ref<Array<{date: string, dayName: string, isToday: boolean, isFuture: boolean, slots: {morning: boolean, afternoon: boolean, evening: boolean}}>> = ref([
+		{date: '', dayName: '周一', isToday: false, isFuture: false, slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周二', isToday: false, isFuture: false, slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周三', isToday: false, isFuture: false, slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周四', isToday: false, isFuture: false, slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周五', isToday: false, isFuture: false, slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周六', isToday: false, isFuture: false, slots: {morning: false, afternoon: false, evening: false}},
+		{date: '', dayName: '周日', isToday: false, isFuture: false, slots: {morning: false, afternoon: false, evening: false}}
 	])
 	/** 本周签到数据加载状态 */
 	public weeklyAttendanceLoading: Ref<boolean> = ref(false)
@@ -442,6 +442,9 @@ export default class AttendancePageMobileController {
 		const monday = new Date(today)
 		monday.setDate(today.getDate() + mondayOffset)
 
+		// 获取今天的日期字符串，用于判断 isToday 和 isFuture
+		const todayString = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`
+
 		// 生成本周7天的初始数据（所有时段未签到）
 		for (let i = 0; i < 7; i++) {
 			const date = new Date(monday)
@@ -451,9 +454,15 @@ export default class AttendancePageMobileController {
 			const day = date.getDate().toString().padStart(2, '0')
 			const dateString = `${year}-${month}-${day}`
 
+			// 判断是否是今天或未来日期
+			const isToday = dateString === todayString
+			const isFuture = date > today
+
 			weeklyData.push({
 				date: dateString,
 				dayName: weekDays[date.getDay()],
+				isToday,
+				isFuture,
 				slots: {
 					morning: false,
 					afternoon: false,
@@ -489,8 +498,7 @@ export default class AttendancePageMobileController {
 		this.weeklyAttendanceData.value = weeklyData
 
 		// 更新今日签到状态
-		const todayString = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`
-		const todayData = weeklyData.find(item => item.date === todayString)
+		const todayData = weeklyData.find(item => item.isToday)
 
 		if (todayData) {
 			this.todayAttendanceSlots.value = {
