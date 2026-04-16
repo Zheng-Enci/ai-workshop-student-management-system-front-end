@@ -149,7 +149,7 @@
 		transparent 120deg,
 		transparent 360deg
 	);
-	animation: attendance-mobile-sign-button-shimmer 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+	animation: attendance-mobile-sign-button-shimmer 4s linear infinite;
 }
 
 /**
@@ -182,8 +182,8 @@
 
 /**
  * 优雅的光泽旋转动画
- * 使用项目标准的弹性缓动函数
- * 动画时长4秒，符合页面入场动画规范
+ * 使用 linear 匀速旋转，无减速效果
+ * 动画持续循环，营造持续的科技感光泽
  */
 @keyframes attendance-mobile-sign-button-shimmer {
 	0% {
