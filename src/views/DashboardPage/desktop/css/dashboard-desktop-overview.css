@@ -393,14 +393,6 @@
 }
 
 /**
- * 社团成员等级图标样式
- * 使用项目辅色（深空蓝）
- */
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
-	color: rgb(31 66 119 / 0.8);
-}
-
-/**
  * 社团成员等级标签样式
  * 使用白色以确保在浅色背景上清晰可见
  */
