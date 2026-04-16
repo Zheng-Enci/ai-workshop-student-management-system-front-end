@@ -14,7 +14,6 @@ import AttendanceApi from '@/api/ts/AttendanceApi'
 import StudentApi from '@/api/ts/StudentApi'
 import {useThemeStore} from '@/stores/ts/theme'
 import {useUserStore} from '@/stores/ts/user'
-import {useLoadingMaskStore} from '@/stores/ts/loading'
 import AttendancePageConfig from '@/views/AttendancePage/mobile/common/ts/AttendancePageConfig'
 import {flameController} from '@/views/AttendancePage/mobile/ts/FlameDisplayController'
 
@@ -30,8 +29,6 @@ export default class AttendancePageMobileController {
 	private userStore: ReturnType<typeof useUserStore>
 	/** 主题状态仓库 */
 	private themeStore: ReturnType<typeof useThemeStore>
-	/** 加载蒙版状态仓库 */
-	private loadingMaskStore: ReturnType<typeof useLoadingMaskStore>
 	/** 定时器实例 - 用于实时更新时间 */
 	private timeInterval: Ref<ReturnType<typeof setInterval> | null> = ref(null)
 
@@ -98,7 +95,6 @@ export default class AttendancePageMobileController {
 		this.router = useRouter()
 		this.userStore = useUserStore()
 		this.themeStore = useThemeStore()
-		this.loadingMaskStore = useLoadingMaskStore()
 	}
 
 	// ======================== Getter 方法 ========================
