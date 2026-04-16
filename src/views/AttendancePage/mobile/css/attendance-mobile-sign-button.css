@@ -149,7 +149,7 @@
 		transparent 120deg,
 		transparent 360deg
 	);
-	animation: attendance-mobile-sign-button-shimmer 4s linear infinite;
+	animation: attendance-mobile-sign-button-shimmer 2s linear infinite;
 }
 
 /**
