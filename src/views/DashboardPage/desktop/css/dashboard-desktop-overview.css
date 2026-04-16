@@ -157,10 +157,18 @@
 
 /**
  * 等级统计图标SVG样式
- * 确保SVG图标填充色为白色
+ * 确保SVG图标填充色继承父元素颜色
  */
 .dashboard-desktop-overview-level-icon .el-icon svg {
-	fill: currentColor;
+	fill: currentColor !important;
+}
+
+/**
+ * 等级统计图标SVG内部路径样式
+ * 确保路径填充色继承父元素颜色
+ */
+.dashboard-desktop-overview-level-icon .el-icon svg path {
+	fill: currentColor !important;
 }
 
 /**
@@ -172,7 +180,8 @@
 	color: #fff !important;
 }
 
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon svg {
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon svg,
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon svg path {
 	fill: #fff !important;
 }
 
@@ -185,7 +194,8 @@
 	color: #fff !important;
 }
 
-.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon svg {
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon svg,
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon svg path {
 	fill: #fff !important;
 }
 
@@ -198,7 +208,8 @@
 	color: #fff !important;
 }
 
-.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon svg {
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon svg,
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon svg path {
 	fill: #fff !important;
 }
 
@@ -211,7 +222,8 @@
 	color: #fff !important;
 }
 
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg {
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg,
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg path {
 	fill: #fff !important;
 }
 
