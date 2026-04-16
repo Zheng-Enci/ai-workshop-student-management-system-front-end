@@ -49,9 +49,13 @@
   white-space: nowrap;
 }
 
+/**
+ * 网站二维码文字样式
+ * 使用项目主色（冰川青 #3E9EAC）
+ */
 .dashboard-desktop-qrcode-website-text {
-  font-weight: 700;
-  color: #667eea;
+	font-weight: 700;
+	color: #3E9EAC;
 }
 
 .dark .dashboard-desktop-qrcode-text,
@@ -59,8 +63,12 @@
   color: #fff !important;
 }
 
+/**
+ * 暗色模式下网站二维码文字样式
+ * 使用项目主色（冰川青 #3E9EAC）
+ */
 .dark .dashboard-desktop-qrcode-website-text {
-  color: #60a5fa !important;
+	color: #3E9EAC !important;
 }
 
 .dark .dashboard-desktop-qrcode-wechat-section .dashboard-desktop-qrcode-text {

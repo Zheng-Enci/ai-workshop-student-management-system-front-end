@@ -291,12 +291,13 @@ onUnmounted(() => {
 			<!-- 网站二维码 -->
 			<div v-if="currentQRType === 'website'" class="dashboard-desktop-qrcode-website-section">
 				<img src="@/assets/ShouJiDuanQianDanRuKou.png" alt="手机端签到入口" class="dashboard-desktop-qrcode-website-code"/>
+				<!-- 使用项目主色（冰川青 #3E9EAC） -->
 				<div
 					class="dashboard-desktop-qrcode-website-text"
 					:style="{
 						'font-weight': '800 !important',
-						'color': '#60a5fa !important',
-						'text-shadow': '0 0 8px rgb(96 165 250 / 1) !important'
+						'color': '#3E9EAC !important',
+						'text-shadow': '0 0 8px rgb(62 158 172 / 1) !important'
 					}"
 				>
 					手机端签到入口
@@ -306,12 +307,13 @@ onUnmounted(() => {
 			<!-- 微信二维码 -->
 			<div v-if="currentQRType === 'wechat'" class="dashboard-desktop-qrcode-wechat-section">
 				<img src="@/assets/ErWeiMa.png" alt="公众号二维码" class="dashboard-desktop-qrcode-code"/>
+				<!-- 使用项目主色（冰川青 #3E9EAC） -->
 				<div
 					class="dashboard-desktop-qrcode-text"
 					:style="{
 						'font-weight': '800 !important',
-						'color': '#60a5fa !important',
-						'text-shadow': '0 0 8px rgb(96 165 250 / 1) !important'
+						'color': '#3E9EAC !important',
+						'text-shadow': '0 0 8px rgb(62 158 172 / 1) !important'
 					}"
 				>
 					扫码了解更多
