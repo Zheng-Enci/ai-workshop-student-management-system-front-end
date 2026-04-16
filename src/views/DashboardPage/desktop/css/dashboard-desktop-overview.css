@@ -138,7 +138,7 @@
 .dashboard-desktop-overview-level-icon {
 	position: relative;
 	z-index: 2;
-	margin-bottom: 6px;
+	margin-bottom: 2px;
 }
 
 /**
@@ -151,12 +151,24 @@
 }
 
 /**
+ * 等级统计图标SVG样式
+ * 确保SVG图标填充色为白色
+ */
+.dashboard-desktop-overview-level-icon .el-icon svg {
+	fill: currentColor;
+}
+
+/**
  * 管理员等级图标样式
  * 使用白色，字号加大
  */
 .dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon {
 	font-size: 22px;
 	color: #fff !important;
+}
+
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon svg {
+	fill: #fff !important;
 }
 
 /**
@@ -168,6 +180,10 @@
 	color: #fff !important;
 }
 
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon svg {
+	fill: #fff !important;
+}
+
 /**
  * 普通成员等级图标样式
  * 使用白色，字号加大
@@ -177,6 +193,10 @@
 	color: #fff !important;
 }
 
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon svg {
+	fill: #fff !important;
+}
+
 /**
  * 社团成员等级图标样式
  * 使用白色，字号加大
@@ -184,6 +204,10 @@
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
 	font-size: 22px;
 	color: #fff !important;
+}
+
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg {
+	fill: #fff !important;
 }
 
 .dashboard-desktop-overview-level-content {
