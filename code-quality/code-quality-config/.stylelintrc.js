@@ -104,8 +104,9 @@ module.exports = {
 		// 启用类名命名规范检查 - 强制使用 kebab-case 格式
 		// 匹配规则：小写字母开头，后跟小写字母/数字，用短横线连接
 		// 示例：login-page, profile-page-header, dashboard-desktop-overview
+		// 例外：Element Plus 内部类名（如 el-progress-bar__outer, el-progress-bar__inner）
 		'selector-class-pattern': [
-			'^[a-z][a-z0-9]*(-[a-z0-9]+)*$',
+			'^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+)?$',
 			{
 				message: 'Expected class name to be in kebab-case (e.g., login-page, profile-page-header)'
 			}
