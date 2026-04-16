@@ -189,8 +189,11 @@
 	color: #fff !important;
 }
 
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon svg,
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon svg path {
+/**
+ * 管理员等级图标SVG填充色
+ * 使用 :is() 伪类降低选择器复杂度，同时保持优先级
+ */
+.dashboard-desktop-overview-admin-level :is(.dashboard-desktop-overview-level-icon) .el-icon :is(svg, svg path) {
 	fill: #fff !important;
 }
 
@@ -203,8 +206,11 @@
 	color: #fff !important;
 }
 
-.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon svg,
-.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon svg path {
+/**
+ * 核心成员等级图标SVG填充色
+ * 使用 :is() 伪类降低选择器复杂度，同时保持优先级
+ */
+.dashboard-desktop-overview-core-level :is(.dashboard-desktop-overview-level-icon) .el-icon :is(svg, svg path) {
 	fill: #fff !important;
 }
 
