@@ -1,7 +1,7 @@
-import ApiInterceptor from '../../composables/ApiInterceptor'
+import ApiInterceptor from '../../composables/ts/ApiInterceptor'
 import type { AxiosInstance, AxiosError } from 'axios'
 import axios from 'axios'
-import { ConfigServer } from '../../config/Config'
+import { ConfigServer } from '../../config/ts/Config'
 
 // 定义接口返回的数据类型
 interface AttendanceCountResponse {
