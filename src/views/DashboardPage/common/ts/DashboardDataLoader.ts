@@ -253,18 +253,18 @@ class DashboardDataLoader {
 			}
 
 			const processedData = data.map((item: any) => ({
-				name: item.name,
-				grade: item.grade,
-				major: item.major,
-				attendanceCount: item.count,
-				levelName: getLevelName(item.studentLevel ?? 0)
-			}))
+			name: item.studentName,
+			grade: item.studentGrade,
+			major: item.studentMajor,
+			attendanceCount: item.attendanceCount,
+			levelName: getLevelName(item.studentLevel ?? 0)
+		}))
 
-			this.topStudentsRef.value = processedData
-		} catch (error: any) {
-			throw new Error(`获取排行榜数据失败：${error.message}`)
-		}
+		this.topStudentsRef.value = processedData
+	} catch (error: any) {
+		throw new Error(`获取排行榜数据失败：${error.message}`)
 	}
+}
 
 	/**
 	 * 加载排行榜数据（异步版本，用于并行加载）
@@ -314,10 +314,10 @@ class DashboardDataLoader {
 			}
 
 			const processedData = data.map((item: any) => ({
-				name: item.name,
-				grade: item.grade,
-				major: item.major,
-				attendanceCount: item.count,
+				name: item.studentName,
+				grade: item.studentGrade,
+				major: item.studentMajor,
+				attendanceCount: item.attendanceCount,
 				levelName: getLevelName(item.studentLevel ?? 0)
 			}))
 
