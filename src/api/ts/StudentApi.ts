@@ -420,8 +420,8 @@ class StudentApi {
 	 * @returns 该等级的学生数量
 	 */
 	static async getStudentCountByLevel(levelCode: number): Promise<number> {
-		const response = await this.api.get<StudentCountResponse>('/api/v1/students/count-by-level', {
-			params: { levelCode }
+		const response = await this.api.get<StudentCountResponse>('/api/v1/students/student-count-by-level-code', {
+			params: { 'level-code': levelCode }
 		}).catch((error: AxiosError<{ message: string }>) => {
 			const msg = error.response?.data?.message
 			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)

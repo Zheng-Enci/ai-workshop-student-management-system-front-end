@@ -257,7 +257,7 @@ class AttendanceApi {
 	 */
 	static async getMonthlyAttendanceCount(): Promise<number> {
 		try {
-			const response = await this.api.get<MonthlyAttendanceCountResponse>('/api/v1/attendance/monthly-attendance-count')
+			const response = await this.api.get<MonthlyAttendanceCountResponse>('/api/v1/attendance/monthly-count')
 			return response.data.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
@@ -272,7 +272,7 @@ class AttendanceApi {
 	 */
 	static async getCurrentMonthTop10Students(): Promise<RankingStudent[]> {
 		try {
-			const response = await this.api.get<RankingResponse>('/api/v1/attendance/current-month-top10')
+			const response = await this.api.get<RankingResponse>('/api/v1/attendance/current-month-top10-students')
 			return response.data.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
@@ -283,77 +283,60 @@ class AttendanceApi {
 
 	/**
 	 * 获取周排行榜
+	 * 获取指定周（从周一开始）的签到次数排名
 	 * @param weekStart - 周开始日期，格式：yyyy-MM-dd
 	 * @param topN - 排名数量，默认 10
 	 * @returns 响应数据，data为学生信息列表
 	 */
 	static async getWeeklyRanking(weekStart: string, topN: number = 10): Promise<RankingStudent[]> {
-		try {
-			const response = await this.api.get<RankingResponse>('/api/v1/attendance/weekly-ranking', {
-				params: { weekStart, topN }
-			})
-			return response.data.data
-		} catch (error) {
-			const axiosError = error as AxiosError<{ message: string }>
-			const msg = axiosError.response?.data?.message
-			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
-		}
+		const startTime = `${weekStart}T00:00:00`
+		const weekEnd = new Date(weekStart)
+		weekEnd.setDate(weekEnd.getDate() + 6)
+		const endTime = `${weekEnd.toLocaleDateString('en-CA')}T23:59:59`
+		return this.getTopStudentsByTimeRange(startTime, endTime, topN)
 	}
 
 	/**
 	 * 获取月排行榜
+	 * 获取指定年月的签到次数排名
 	 * @param year - 年份
 	 * @param month - 月份（1-12）
 	 * @param topN - 排名数量，默认 10
 	 * @returns 响应数据，data为学生信息列表
 	 */
 	static async getMonthlyRanking(year: number, month: number, topN: number = 10): Promise<RankingStudent[]> {
-		try {
-			const response = await this.api.get<RankingResponse>('/api/v1/attendance/monthly-ranking', {
-				params: { year, month, topN }
-			})
-			return response.data.data
-		} catch (error) {
-			const axiosError = error as AxiosError<{ message: string }>
-			const msg = axiosError.response?.data?.message
-			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
-		}
+		const startTime = `${year}-${month.toString().padStart(2, '0')}-01T00:00:00`
+		const lastDay = new Date(year, month, 0).getDate()
+		const endTime = `${year}-${month.toString().padStart(2, '0')}-${lastDay}T23:59:59`
+		return this.getTopStudentsByTimeRange(startTime, endTime, topN)
 	}
 
 	/**
 	 * 获取最近7天排行榜
+	 * 获取过去7天（包括今天）的签到次数排名
 	 * @param topN - 排名数量，默认 10
 	 * @returns 响应数据，data为学生信息列表
 	 */
 	static async getLast7DaysRanking(topN: number = 10): Promise<RankingStudent[]> {
-		try {
-			const response = await this.api.get<RankingResponse>('/api/v1/attendance/last-7-days-ranking', {
-				params: { topN }
-			})
-			return response.data.data
-		} catch (error) {
-			const axiosError = error as AxiosError<{ message: string }>
-			const msg = axiosError.response?.data?.message
-			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
-		}
+		const endDate = new Date()
+		const startDate = new Date(endDate.getTime() - 6 * 24 * 60 * 60 * 1000)
+		const startTime = `${startDate.toLocaleDateString('en-CA')}T00:00:00`
+		const endTime = `${endDate.toLocaleDateString('en-CA')}T23:59:59`
+		return this.getTopStudentsByTimeRange(startTime, endTime, topN)
 	}
 
 	/**
 	 * 获取最近30天排行榜
+	 * 获取过去30天（包括今天）的签到次数排名
 	 * @param topN - 排名数量，默认 10
 	 * @returns 响应数据，data为学生信息列表
 	 */
 	static async getLast30DaysRanking(topN: number = 10): Promise<RankingStudent[]> {
-		try {
-			const response = await this.api.get<RankingResponse>('/api/v1/attendance/last-30-days-ranking', {
-				params: { topN }
-			})
-			return response.data.data
-		} catch (error) {
-			const axiosError = error as AxiosError<{ message: string }>
-			const msg = axiosError.response?.data?.message
-			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
-		}
+		const endDate = new Date()
+		const startDate = new Date(endDate.getTime() - 29 * 24 * 60 * 60 * 1000)
+		const startTime = `${startDate.toLocaleDateString('en-CA')}T00:00:00`
+		const endTime = `${endDate.toLocaleDateString('en-CA')}T23:59:59`
+		return this.getTopStudentsByTimeRange(startTime, endTime, topN)
 	}
 }
 
