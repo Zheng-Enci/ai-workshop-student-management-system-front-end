@@ -135,9 +135,14 @@
 	transform: translateY(-6px) scale(1.05);
 }
 
+/**
+ * 等级统计图标容器样式
+ * 增加上边距，减小下边距
+ */
 .dashboard-desktop-overview-level-icon {
 	position: relative;
 	z-index: 2;
+	margin-top: 4px;
 	margin-bottom: 2px;
 }
 
