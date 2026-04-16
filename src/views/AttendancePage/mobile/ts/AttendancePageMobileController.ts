@@ -433,7 +433,7 @@ export default class AttendancePageMobileController {
 		const today = new Date()
 
 		// 初始化本周7天的数据结构
-		const weeklyData: Array<{date: string, dayName: string, slots: {morning: boolean, afternoon: boolean, evening: boolean}}> = []
+		const weeklyData: Array<{date: string, dayName: string, isToday: boolean, isFuture: boolean, slots: {morning: boolean, afternoon: boolean, evening: boolean}}> = []
 
 		// 计算本周一的日期
 		const currentDay = today.getDay() // 0=周日, 1=周一, ..., 6=周六
