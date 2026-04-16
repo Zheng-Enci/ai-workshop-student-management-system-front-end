@@ -1,4 +1,4 @@
-import {getVerificationCode} from '@/api/attendance'
+import AttendanceApi from '@/api/ts/AttendanceApi'
 import {ElMessage} from 'element-plus'
 import {verificationCodeConfig} from './verificationCodeConfig'
 
@@ -39,7 +39,7 @@ class verificationCode {
 	 */
 	static async checkVerificationCodePermission() {
 		try {
-			await getVerificationCode()
+			await AttendanceApi.getVerificationCode()
 			return true
 		} catch (error: any) {
 			const errorMessage = error?.message || ''
@@ -84,7 +84,7 @@ class verificationCode {
 	 */
 	static async refreshVerificationCode() {
 		try {
-			const response = await getVerificationCode()
+			const response = await AttendanceApi.getVerificationCode()
 
 			if (response.data !== verificationCodeData) {
 				verificationCodeData = response.data
@@ -116,7 +116,7 @@ class verificationCode {
 		}
 
 		try {
-			const response = await getVerificationCode()
+			const response = await AttendanceApi.getVerificationCode()
 			firstVerificationCode = response.data
 			firstVerificationTime = Date.now()
 			verificationCodeStatus = "正在申请获取验证码"
@@ -125,7 +125,7 @@ class verificationCode {
 				fastRefreshCount++
 
 				try {
-					const fastResponse = await getVerificationCode()
+					const fastResponse = await AttendanceApi.getVerificationCode()
 
 					if (fastResponse.data !== firstVerificationCode) {
 						verificationCodeData = fastResponse.data
