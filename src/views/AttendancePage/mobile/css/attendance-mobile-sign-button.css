@@ -141,12 +141,12 @@
  * 性能更好，且可以独立控制动画
  */
 .attendance-mobile-sign-button-background-mobile::before {
-	content: '';
 	position: absolute;
 	top: -50%;
 	left: -50%;
 	width: 200%;
 	height: 200%;
+	content: '';
 	background: conic-gradient(
 		from 0deg,
 		transparent 0deg,
@@ -183,8 +183,8 @@
  */
 .attendance-mobile-sign-button-button-mobile.disabled .attendance-mobile-sign-button-background-mobile::before,
 .attendance-mobile-sign-button-button-mobile[aria-disabled='true'] .attendance-mobile-sign-button-background-mobile::before {
-	animation: none;
 	opacity: 0.3;
+	animation: none;
 }
 
 /* ==================== 光泽流动动画 ==================== */
