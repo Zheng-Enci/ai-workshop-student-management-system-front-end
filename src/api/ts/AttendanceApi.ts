@@ -224,7 +224,11 @@ class AttendanceApi {
 			})
 			return response.data
 		} catch (error) {
-			const axiosError = error as AxiosError<{ message: string }>
+			const axiosError = error as AxiosError<{ code: number; message: string; data?: unknown }>
+			// 400错误返回业务错误数据（如验证码错误）
+			if (axiosError.response?.status === 400) {
+				return axiosError.response.data
+			}
 			const msg = axiosError.response?.data?.message
 			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 		}
