@@ -10,8 +10,8 @@
 import {ElMessage} from 'element-plus'
 import {ref, type Ref} from 'vue'
 import {useRouter} from 'vue-router'
-import {getAvatarUrl, getStudentDatabaseTableId} from '@/api/student'
 import AttendanceApi from '@/api/ts/AttendanceApi'
+import StudentApi from '@/api/ts/StudentApi'
 import {useThemeStore} from '@/stores/theme'
 import {useUserStore} from '@/stores/user'
 import {useLoadingMaskStore} from '@/stores/ts/loading.ts'
@@ -144,14 +144,14 @@ export default class AttendancePageMobileController {
 				return
 			}
 
-			const idResponse = await getStudentDatabaseTableId(token)
+			const idResponse = await StudentApi.getStudentDatabaseTableId(token)
 			if (idResponse.code !== 200 || !idResponse.data) {
 				this.showDefaultAvatar()
 				return
 			}
 
 			const studentInfoId = idResponse.data
-			const avatarUrlString = getAvatarUrl(studentInfoId, AttendancePageConfig.AVATAR_SIZE)
+			const avatarUrlString = StudentApi.getAvatarUrl(studentInfoId, AttendancePageConfig.AVATAR_SIZE)
 
 			if (!avatarUrlString) {
 				this.showDefaultAvatar()
