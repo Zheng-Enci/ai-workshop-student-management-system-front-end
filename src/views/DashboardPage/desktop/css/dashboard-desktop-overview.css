@@ -25,6 +25,15 @@
   box-shadow: 0 4px 20px var(--shadow-color);
 }
 
+.dashboard-desktop-overview-mechanism-card h2 {
+	padding-bottom: 8px;
+	margin: 0 0 8px;
+	font-size: 24px;
+	font-weight: 700;
+	color: var(--text-primary);
+	text-align: left;
+}
+
 .dashboard-desktop-overview-punch-card h2,
 .dashboard-desktop-overview-overview-card h2 {
   margin: 0 0 10px;
@@ -506,15 +515,6 @@ html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-lev
 
 .dashboard-desktop-overview-mechanism-card:hover {
   transform: translateY(-2px);
-}
-
-.dashboard-desktop-overview-mechanism-card h2 {
-  padding-bottom: 8px;
-  margin: 0 0 8px;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-align: left;
 }
 
 html.dark .dashboard-desktop-overview-mechanism-card {
