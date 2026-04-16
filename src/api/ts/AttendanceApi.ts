@@ -219,15 +219,27 @@ class AttendanceApi {
 	 */
 	static async signIn(token: string, verificationCode: string): Promise<{ code: number; message: string; data?: unknown }> {
 		try {
-			const response = await this.api.post('/api/v1/attendance/sign-in', {
-				token,
-				verificationCode
+			const response = await this.api.post('/api/v1/attendance', {}, {
+				params: { token, verificationCode }
 			})
 			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
-			const msg = axiosError.response?.data?.message
-			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+			if (axiosError.response) {
+				const { status } = axiosError.response
+				if (status === 403) {
+					throw new Error('Token已过期或无效，请重新登录')
+				} else if (status === 401) {
+					throw new Error('未授权访问，请重新登录')
+				} else if (status >= 500) {
+					throw new Error('服务器错误，请稍后重试')
+				} else if (status === 400) {
+					return axiosError.response.data
+				} else {
+					throw new Error(axiosError.response.data?.message || '签到失败')
+				}
+			}
+			throw error
 		}
 	}
 }
