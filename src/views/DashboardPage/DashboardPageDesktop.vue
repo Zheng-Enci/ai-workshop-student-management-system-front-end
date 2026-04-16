@@ -274,16 +274,16 @@ onUnmounted(() => {
 						<ElProgress
 							:percentage="VerificationCode.remainingTimePercent"
 							:show-text="false"
-							color="#3E9EAC"
+							color="var(--primary-color)"
 						/>
 					</div>
 					<div v-else-if="VerificationCode.getVerificationCodeStatus() === '验证码'">
 						<span>{{ VerificationCode.getVerificationCodeData() }}</span>
 						<ElProgress
-							:percentage="VerificationCode.remainingTimePercent"
-							:show-text="false"
-							color="#3E9EAC"
-						/>
+						:percentage="VerificationCode.remainingTimePercent"
+						:show-text="false"
+						color="var(--primary-color)"
+					/>
 					</div>
 				</div>
 			</div>
