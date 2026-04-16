@@ -207,15 +207,13 @@ class DashboardDataLoader {
 					break
 			}
 
-			const processedData = data.data.map((item: any) => ({
+		this.topStudentsRef.value = data.data.map((item: any) => ({
 			name: item.studentName,
 			grade: item.studentGrade,
 			major: item.studentMajor,
 			attendanceCount: item.attendanceCount,
 			levelName: getLevelName(item.studentLevel ?? 0)
 		}))
-
-		this.topStudentsRef.value = processedData
 	} catch (error: any) {
 		throw new Error(`获取排行榜数据失败：${error.message}`)
 	}
@@ -302,7 +300,7 @@ class DashboardDataLoader {
 			console.log('coreData:', coreData)
 			console.log('normalData:', normalData)
 
-		
+
 			// API 返回 response.data 格式 { code, message, data }
 			this.levelStatsRef.value.admin = adminData.data
 			this.levelStatsRef.value.core = coreData.data
@@ -357,12 +355,10 @@ class DashboardDataLoader {
 			console.log('totalData:', totalData)
 			console.log('totalData.data.count:', totalData?.data?.count)
 
-			const totalCount = totalData.data.count
-			this.totalStudentsRef.value = totalCount
+			this.totalStudentsRef.value = totalData.data.count
 
 			const monthlyCount = monthlyData.data.count
-			const dailyAvg = calculateDailyAvgAttendance(monthlyCount)
-			this.dailyAvgAttendanceRef.value = dailyAvg
+			this.dailyAvgAttendanceRef.value = calculateDailyAvgAttendance(monthlyCount)
 			this.monthlyAttendanceCountRef.value = monthlyCount
 
 			this.todayCountRef.value = todayCount.data
