@@ -207,7 +207,7 @@ class DashboardDataLoader {
 					break
 			}
 
-			const processedData = data.map((item: any) => ({
+			const processedData = data.data.map((item: any) => ({
 			name: item.studentName,
 			grade: item.studentGrade,
 			major: item.studentMajor,
@@ -268,7 +268,7 @@ class DashboardDataLoader {
 					break
 			}
 
-			const processedData = data.map((item: any) => ({
+			const processedData = data.data.map((item: any) => ({
 				name: item.studentName,
 				grade: item.studentGrade,
 				major: item.studentMajor,
@@ -302,6 +302,7 @@ class DashboardDataLoader {
 			console.log('coreData:', coreData)
 			console.log('normalData:', normalData)
 
+		
 			// API 返回 response.data 格式 { code, message, data }
 			this.levelStatsRef.value.admin = adminData.data
 			this.levelStatsRef.value.core = coreData.data
@@ -359,12 +360,12 @@ class DashboardDataLoader {
 			const totalCount = totalData.data.count
 			this.totalStudentsRef.value = totalCount
 
-			const monthlyCount = monthlyData.count
+			const monthlyCount = monthlyData.data.count
 			const dailyAvg = calculateDailyAvgAttendance(monthlyCount)
 			this.dailyAvgAttendanceRef.value = dailyAvg
 			this.monthlyAttendanceCountRef.value = monthlyCount
 
-			this.todayCountRef.value = todayCount
+			this.todayCountRef.value = todayCount.data
 
 			this.updateClubMembers()
 
@@ -379,8 +380,8 @@ class DashboardDataLoader {
 				gradeData: gradeData,
 				majorData: majorData,
 				totalData: totalData,
-				monthlyData: { code: 200, data: monthlyData },
-				dailyData: { code: 200, data: todayCount }
+				monthlyData: monthlyData,
+				dailyData: todayCount
 			}
 		} catch (error: any) {
 			throw new Error(`数据加载失败：${error.message}`)

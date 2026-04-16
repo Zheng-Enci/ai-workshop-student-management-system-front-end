@@ -72,12 +72,12 @@ class AttendanceApi {
 	 * @param studentInfoId - 学生数据库表主键ID
 	 * @returns 响应数据，data 字段为签到次数
 	 */
-	static async getTotalAttendanceCountByStudentInfoId(studentInfoId: string): Promise<number> {
+	static async getTotalAttendanceCountByStudentInfoId(studentInfoId: string): Promise<AttendanceCountResponse> {
 		try {
 			const response = await this.api.get<AttendanceCountResponse>('/api/v1/attendance/total-attendance-count-by-student-info-id', {
 				params: { 'student-info-id': studentInfoId }
 			})
-			return response.data.data
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
@@ -90,12 +90,12 @@ class AttendanceApi {
 	 * @param top - 排名数量，默认 10，最少为 1
 	 * @returns 响应数据，data为学生 ID 和签到次数列表
 	 */
-	static async getTopNStudentsByAttendanceCount(top: number = 10): Promise<Array<{ studentId: string; count: number }>> {
+	static async getTopNStudentsByAttendanceCount(top: number = 10): Promise<TopRankingResponse> {
 		try {
 			const response = await this.api.get<TopRankingResponse>('/api/v1/attendance/top-ranking', {
 				params: { top }
 			})
-			return response.data.data
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
@@ -108,12 +108,12 @@ class AttendanceApi {
 	 * @param studentId - 学生学号
 	 * @returns 该学生的所有签到记录列表
 	 */
-	static async getStudentAttendanceRecords(studentId: string): Promise<AttendanceRecord[]> {
+	static async getStudentAttendanceRecords(studentId: string): Promise<AttendanceRecordsResponse> {
 		try {
 			const response = await this.api.get<AttendanceRecordsResponse>('/api/v1/attendance/student-records', {
 				params: { studentId }
 			})
-			return response.data.data
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
@@ -126,13 +126,13 @@ class AttendanceApi {
 	 * @param date - 查询日期，格式：yyyy-MM-dd，不传则查询当天
 	 * @returns 响应数据，data 字段为签到记录总数（数字类型）
 	 */
-	static async getTodayAttendanceCount(date?: string): Promise<number> {
+	static async getTodayAttendanceCount(date?: string): Promise<AttendanceCountResponse> {
 		try {
 			const params = date ? { date } : {}
 			const response = await this.api.get<AttendanceCountResponse>('/api/v1/attendance/today-attendance-count', {
 				params
 			})
-			return response.data.data
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
@@ -146,15 +146,12 @@ class AttendanceApi {
 	 * @param endDate - 结束日期，格式：yyyy-MM-dd
 	 * @returns 响应数据，包含日期和签到人次列表
 	 */
-	static async getDailySignInCount(startDate: string, endDate: string): Promise<Array<{ date: string; count: number }>> {
+	static async getDailySignInCount(startDate: string, endDate: string): Promise<DailySignInCountResponse> {
 		try {
 			const response = await this.api.get<DailySignInCountResponse>('/api/v1/attendance/daily-sign-in-count', {
 				params: { startDate, endDate }
 			})
-			return response.data.data.map(item => ({
-				date: item.date,
-				count: item.signCount
-			}))
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
@@ -169,19 +166,12 @@ class AttendanceApi {
 	 * @param topN - 排名数量，默认 10，最少为 1
 	 * @returns 响应数据，data为学生信息列表，包含学号、姓名、签到次数、学院、专业、年级
 	 */
-	static async getTopStudentsByTimeRange(startTime: string, endTime: string, topN: number = 10): Promise<Array<{
-		studentId: string
-		name: string
-		count: number
-		college: string
-		major: string
-		grade: number
-	}>> {
+	static async getTopStudentsByTimeRange(startTime: string, endTime: string, topN: number = 10): Promise<TimeRangeTopStudentsResponse> {
 		try {
 			const response = await this.api.get<TimeRangeTopStudentsResponse>('/api/v1/attendance/get-top-students-by-attendance-count-in-time-range', {
 				params: { startTime, endTime, topN }
 			})
-			return response.data.data
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
@@ -215,14 +205,14 @@ class AttendanceApi {
 	 * @param studentInfoId - 学生数据库表主键ID
 	 * @param startTime - 开始时间，格式：yyyy-MM-dd HH:mm:ss
 	 * @param endTime - 结束时间，格式：yyyy-MM-dd HH:mm:ss
-	 * @returns 签到时间列表
+	 * @returns 签到时间列表响应对象 { code, message, data: string[] }
 	 */
-	static async getStudentRecordsByTimeRange(studentInfoId: number, startTime: string, endTime: string): Promise<string[]> {
+	static async getStudentRecordsByTimeRange(studentInfoId: number, startTime: string, endTime: string): Promise<{ data: string[] }> {
 		try {
 			const response = await this.api.get<{ data: string[] }>('/api/v1/attendance/student-records-by-time-range', {
 				params: { studentInfoId, startTime, endTime }
 			})
-			return response.data.data
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
@@ -257,10 +247,10 @@ class AttendanceApi {
 	 * 获取月度签到次数
 	 * @returns 响应数据，data.count 字段为月度签到次数
 	 */
-	static async getMonthlyAttendanceCount(): Promise<{ count: number }> {
+	static async getMonthlyAttendanceCount(): Promise<MonthlyAttendanceCountResponse> {
 		try {
 			const response = await this.api.get<MonthlyAttendanceCountResponse>('/api/v1/attendance/monthly-count')
-			return response.data.data
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
@@ -272,10 +262,10 @@ class AttendanceApi {
 	 * 获取当月签到次数前10名学生
 	 * @returns 响应数据，data为学生信息列表
 	 */
-	static async getCurrentMonthTop10Students(): Promise<RankingStudent[]> {
+	static async getCurrentMonthTop10Students(): Promise<RankingResponse> {
 		try {
 			const response = await this.api.get<RankingResponse>('/api/v1/attendance/current-month-top10-students')
-			return response.data.data
+			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
 			const msg = axiosError.response?.data?.message
