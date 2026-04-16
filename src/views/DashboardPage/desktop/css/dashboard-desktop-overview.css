@@ -431,15 +431,16 @@ html.dark .dashboard-desktop-overview-club-level:hover {
 	box-shadow: 0 4px 16px rgb(42 106 117 / 0.4);
 }
 
-html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
+/* 暗色模式下社团成员等级子元素样式 - 使用较低特异性的选择器 */
+.dark .dashboard-desktop-overview-club-level [class*="level-icon"] .el-icon {
 	color: rgb(255 255 255 / 0.95);
 }
 
-html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label {
+.dark .dashboard-desktop-overview-club-level [class*="level-label"] {
 	color: rgb(255 255 255 / 0.9);
 }
 
-html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-value {
+.dark .dashboard-desktop-overview-club-level [class*="level-value"] {
 	color: #fff;
 }
 
