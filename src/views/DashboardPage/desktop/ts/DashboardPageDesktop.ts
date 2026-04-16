@@ -4,10 +4,8 @@
  * @class DashboardPageDesktop
  * @description 封装桌面端仪表盘的所有业务逻辑，包括数据可视化、图表渲染、时间筛选、验证码管理等功能
  */
-import { ref, reactive, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
-import { ArrowLeft, Calendar, Clock, User, Setting, Star, Avatar } from '@element-plus/icons-vue'
 import { PieChart, BarChart } from 'echarts/charts'
 import {
 	TitleComponent,
@@ -18,29 +16,10 @@ import {
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import 'echarts-wordcloud'
-import { ElProgress } from 'element-plus'
-import 'element-plus/theme-chalk/el-message.css'
-import 'element-plus/theme-chalk/el-progress.css'
 import VerificationCode from './verificationCode'
 import DashboardDataLoader from '@/views/DashboardPage/common/ts/DashboardDataLoader'
-import {
-	getMonthlyAttendanceCount,
-	getCurrentMonthTop10Students,
-	getWeeklyRanking,
-	getMonthlyRanking,
-	getTopStudentsByTimeRange,
-	getLast7DaysRanking,
-	getLast30DaysRanking
-} from '@/api/attendance'
-import AttendanceApi from '@/api/AttendanceApi'
-import {
-	getGradeStatistics,
-	getMajorStatistics,
-	getTotalStudentCount,
-	getStudentCountByLevel
-} from '@/api/student'
 import { useThemeStore } from '@/stores/theme'
-import { useLoadingMaskStore } from '@/stores/ts/loading.ts'
+import { useLoadingMaskStore } from '@/stores/ts/loading'
 
 export default class DashboardPageDesktop {
 	/**
@@ -110,7 +89,6 @@ export default class DashboardPageDesktop {
 	 * @public
 	 */
 	public selectedTimeRange = ref('week')
-	public selectedTopN = 16
 
 	/**
 	 * 时间范围选项配置（过滤/展示用）
@@ -248,112 +226,6 @@ export default class DashboardPageDesktop {
 	}
 
 	// ======================== 核心算法/工具函数 ========================
-
-	/**
-	 * 获取指定年月的法定节假日列表
-	 * @param year - 年份（如2024）
-	 * @param month - 月份（0-11，对应1-12月）
-	 * @returns 节假日日期数组（格式：YYYY-MM-DD）
-	 */
-	public getHolidaysForMonth(year: number, month: number): string[] {
-		const holidays: string[] = []
-
-		const monthHolidays: Record<number, string[]> = {
-			0: [`${year}-01-01`],
-			1: [`${year}-02-10`, `${year}-02-11`, `${year}-02-12`, `${year}-02-13`, `${year}-02-14`, `${year}-02-15`, `${year}-02-16`, `${year}-02-17`],
-			3: [`${year}-04-05`, `${year}-04-06`, `${year}-04-07`],
-			4: [`${year}-05-01`, `${year}-05-02`, `${year}-05-03`],
-			8: [`${year}-09-15`, `${year}-09-16`, `${year}-09-17`],
-			9: [`${year}-10-01`, `${year}-10-02`, `${year}-10-03`, `${year}-10-04`, `${year}-10-05`, `${year}-10-06`, `${year}-10-07`]
-		}
-
-		if (monthHolidays[month]) {
-			holidays.push(...monthHolidays[month])
-		}
-
-		return holidays
-	}
-
-	/**
-	 * 计算月度日均签到数（排除周末和节假日）
-	 * @param monthlyCount - 月度签到总人数
-	 * @returns 日均签到数（保留2位小数）
-	 */
-	public calculateDailyAvgAttendance(monthlyCount: number): number {
-		return DashboardDataLoader.calculateDailyAvgAttendance(monthlyCount)
-	}
-
-	/**
-	 * 获取本周周一的日期（ISO格式：YYYY-MM-DD）
-	 * @returns 本周周一日期
-	 */
-	public getCurrentWeekStart(): string {
-		const now = new Date()
-		const dayOfWeek = now.getDay()
-		const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1)
-		const monday = new Date(now.setDate(diff))
-		return monday.toLocaleDateString('en-CA')
-	}
-
-	/**
-	 * 将等级编码转换为等级名称
-	 * @param levelCode - 等级编码（0-3）
-	 * @returns 等级名称
-	 */
-	public getLevelName(levelCode: number): string {
-		const levelMap: Record<number, string> = {
-			0: '社团成员',
-			1: '普通成员',
-			2: '核心成员',
-			3: '管理员'
-		}
-		return levelMap[levelCode] || '社团成员'
-	}
-
-	/**
-	 * 计算月度签到率
-	 * @param monthlyCount - 月度签到总人数
-	 * @returns 签到率（保留1位小数，百分比）
-	 */
-	public calculateAttendanceRate(monthlyCount: number): number {
-		const workshopCount = this.levelStats.value.admin + this.levelStats.value.core + this.levelStats.value.normal
-
-		if (workshopCount === 0) {
-			return 0
-		}
-
-		return parseFloat(((monthlyCount / workshopCount) * 100).toFixed(1))
-	}
-
-	/**
-	 * 获取浅色模式下的稳定颜色（按索引循环）
-	 * @param index - 数据索引
-	 * @returns 十六进制颜色值
-	 */
-	public getStableColor(index: number): string {
-		const colors: string[] = [
-			'#667eea', '#764ba2', '#f093fb', '#f5576c',
-			'#4facfe', '#00f2fe', '#a8edea', '#fed6e3',
-			'#ff9a9e', '#fecfef', '#fecfef', '#a8edea',
-			'#d299c2', '#fad0c4', '#ffd1ff', '#a8e6cf'
-		]
-		return colors[index % colors.length]
-	}
-
-	/**
-	 * 获取深色模式下的稳定颜色（按索引循环）
-	 * @param index - 数据索引
-	 * @returns 十六进制颜色值
-	 */
-	public getDarkStableColor(index: number): string {
-		const colors: string[] = [
-			'#00d4ff', '#ff6b6b', '#4ecdc4', '#45b7d1',
-			'#96ceb4', '#feca57', '#ff9ff3', '#54a0ff',
-			'#5f27cd', '#00d2d3', '#ff9f43', '#10ac84',
-			'#ee5a24', '#0984e3', '#6c5ce7', '#a29bfe'
-		]
-		return colors[index % colors.length]
-	}
 
 	// ======================== ECharts 初始化函数 ========================
 

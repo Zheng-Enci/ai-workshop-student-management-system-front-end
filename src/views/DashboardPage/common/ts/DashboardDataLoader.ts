@@ -13,22 +13,8 @@
  */
 
 // ======================== API 接口导入 ========================
-import {
-	getMonthlyAttendanceCount,
-	getCurrentMonthTop10Students,
-	getWeeklyRanking,
-	getMonthlyRanking,
-	getTopStudentsByTimeRange,
-	getLast7DaysRanking,
-	getLast30DaysRanking
-} from '@/api/attendance'
-import AttendanceApi from '@/api/AttendanceApi'
-import {
-	getGradeStatistics,
-	getMajorStatistics,
-	getTotalStudentCount,
-	getStudentCountByLevel
-} from '@/api/student'
+import AttendanceApi from '@/api/ts/AttendanceApi'
+import StudentApi from '@/api/ts/StudentApi'
 
 // ======================== 工具函数 ========================
 /**
@@ -199,24 +185,20 @@ class DashboardDataLoader {
 	private async loadGradeAndMajorData(): Promise<void> {
 		try {
 			const [gradeData, majorData] = await Promise.all([
-				getGradeStatistics(),
-				getMajorStatistics()
+				StudentApi.getGradeStatistics(),
+				StudentApi.getMajorStatistics()
 			])
 
-			if (gradeData.code === 200 && gradeData.data) {
-				this.gradeData = gradeData.data.map((item: any) => ({
-					grade: item.grade,
-					count: item.count
-				}))
-			}
+			this.gradeData = gradeData.map((item: any) => ({
+				grade: item.grade,
+				count: item.count
+			}))
 
-			if (majorData.code === 200 && majorData.data) {
-				this.majorData = majorData.data.map((item: any) => ({
-					major: item.major,
-					count: item.count
-				}))
-			}
-		} catch (error) {
+			this.majorData = majorData.map((item: any) => ({
+				major: item.major,
+				count: item.count
+			}))
+		} catch (error: any) {
 			throw new Error(`获取年级和专业数据失败：${error.message}`)
 		}
 	}
@@ -228,31 +210,31 @@ class DashboardDataLoader {
 	 */
 	public async loadRankingData(selectedTopN: number = 16): Promise<void> {
 		try {
-			let response
+			let data
 
 			switch (this.selectedTimeRangeRef.value) {
 				case 'week': {
 					const weekStart = getCurrentWeekStart()
-					response = await getWeeklyRanking(weekStart, selectedTopN)
+					data = await AttendanceApi.getWeeklyRanking(weekStart, selectedTopN)
 					break
 				}
 				case 'month': {
 					const now = new Date()
-					response = await getMonthlyRanking(now.getFullYear(), now.getMonth() + 1, selectedTopN)
+					data = await AttendanceApi.getMonthlyRanking(now.getFullYear(), now.getMonth() + 1, selectedTopN)
 					break
 				}
 				case 'today': {
 					const today = new Date().toLocaleDateString('en-CA')
 					const startTime = `${today}T00:00:00`
 					const endTime = `${today}T23:59:59`
-					response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
+					data = await AttendanceApi.getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
 					break
 				}
 				case 'last7days':
-					response = await getLast7DaysRanking(selectedTopN)
+					data = await AttendanceApi.getLast7DaysRanking(selectedTopN)
 					break
 				case 'last30days': {
-					response = await getLast30DaysRanking(selectedTopN)
+					data = await AttendanceApi.getLast30DaysRanking(selectedTopN)
 					break
 				}
 				case 'all': {
@@ -262,27 +244,24 @@ class DashboardDataLoader {
 					const endDate = now.toLocaleDateString('en-CA')
 					const startTime = `${startDate}T00:00:00`
 					const endTime = `${endDate}T23:59:59`
-					response = await getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
+					data = await AttendanceApi.getTopStudentsByTimeRange(startTime, endTime, selectedTopN)
 					break
 				}
 				default:
-					response = await getCurrentMonthTop10Students()
+					data = await AttendanceApi.getCurrentMonthTop10Students()
 					break
 			}
 
-			if (response.code === 200) {
-				const { data } = response
-				const processedData = data.map((item: any) => ({
-					name: item.studentName,
-					grade: item.studentGrade,
-					major: item.studentMajor,
-					attendanceCount: item.attendanceCount,
-					levelName: getLevelName(item.studentLevel)
-				}))
+			const processedData = data.map((item: any) => ({
+				name: item.name,
+				grade: item.grade,
+				major: item.major,
+				attendanceCount: item.count,
+				levelName: getLevelName(item.studentLevel ?? 0)
+			}))
 
-				this.topStudentsRef.value = processedData
-			}
-		} catch (error) {
+			this.topStudentsRef.value = processedData
+		} catch (error: any) {
 			throw new Error(`获取排行榜数据失败：${error.message}`)
 		}
 	}
@@ -293,31 +272,31 @@ class DashboardDataLoader {
 	 */
 	private async loadRankingDataAsync(): Promise<any[]> {
 		try {
-			let response
+			let data
 
 			switch (this.selectedTimeRangeRef.value) {
 				case 'week': {
 					const weekStart = getCurrentWeekStart()
-					response = await getWeeklyRanking(weekStart, 16)
+					data = await AttendanceApi.getWeeklyRanking(weekStart, 16)
 					break
 				}
 				case 'month': {
 					const now = new Date()
-					response = await getMonthlyRanking(now.getFullYear(), now.getMonth() + 1, 16)
+					data = await AttendanceApi.getMonthlyRanking(now.getFullYear(), now.getMonth() + 1, 16)
 					break
 				}
 				case 'today': {
 					const today = new Date().toLocaleDateString('en-CA')
 					const startTime = `${today}T00:00:00`
 					const endTime = `${today}T23:59:59`
-					response = await getTopStudentsByTimeRange(startTime, endTime, 16)
+					data = await AttendanceApi.getTopStudentsByTimeRange(startTime, endTime, 16)
 					break
 				}
 				case 'last7days':
-					response = await getLast7DaysRanking(16)
+					data = await AttendanceApi.getLast7DaysRanking(16)
 					break
 				case 'last30days':
-					response = await getLast30DaysRanking(16)
+					data = await AttendanceApi.getLast30DaysRanking(16)
 					break
 				case 'all': {
 					const PROJECT_LAUNCH_DATE = new Date('2024-09-09T00:00:00')
@@ -326,29 +305,24 @@ class DashboardDataLoader {
 					const endDate = now.toLocaleDateString('en-CA')
 					const startTime = `${startDate}T00:00:00`
 					const endTime = `${endDate}T23:59:59`
-					response = await getTopStudentsByTimeRange(startTime, endTime, 16)
+					data = await AttendanceApi.getTopStudentsByTimeRange(startTime, endTime, 16)
 					break
 				}
 				default:
-					response = await getCurrentMonthTop10Students()
+					data = await AttendanceApi.getCurrentMonthTop10Students()
 					break
 			}
 
-			if (response.code === 200) {
-				const { data } = response
-				const processedData = data.map((item: any) => ({
-					name: item.studentName,
-					grade: item.studentGrade,
-					major: item.studentMajor,
-					attendanceCount: item.attendanceCount,
-					levelName: getLevelName(item.studentLevel)
-				}))
+			const processedData = data.map((item: any) => ({
+				name: item.name,
+				grade: item.grade,
+				major: item.major,
+				attendanceCount: item.count,
+				levelName: getLevelName(item.studentLevel ?? 0)
+			}))
 
-				this.topStudentsRef.value = processedData
-				return processedData
-			}
-
-			return []
+			this.topStudentsRef.value = processedData
+			return processedData
 		} catch (error) {
 			console.error('获取排行榜数据失败:', error)
 			return []
@@ -361,23 +335,15 @@ class DashboardDataLoader {
 	 */
 	public async loadLevelStats(): Promise<void> {
 		try {
-			const [adminData, coreData, normalData] = await Promise.all([
-				getStudentCountByLevel(3),
-				getStudentCountByLevel(2),
-				getStudentCountByLevel(1)
+			const [adminCount, coreCount, normalCount] = await Promise.all([
+				StudentApi.getStudentCountByLevel(3),
+				StudentApi.getStudentCountByLevel(2),
+				StudentApi.getStudentCountByLevel(1)
 			])
 
-			if (adminData.code === 200) {
-				this.levelStatsRef.value.admin = adminData.data
-			}
-
-			if (coreData.code === 200) {
-				this.levelStatsRef.value.core = coreData.data
-			}
-
-			if (normalData.code === 200) {
-				this.levelStatsRef.value.normal = normalData.data
-			}
+			this.levelStatsRef.value.admin = adminCount
+			this.levelStatsRef.value.core = coreCount
+			this.levelStatsRef.value.normal = normalCount
 		} catch (error) {
 			throw new Error('获取等级统计失败')
 		}
@@ -396,49 +362,45 @@ class DashboardDataLoader {
 		dailyData: any
 	}> {
 		try {
-			const [gradeData, majorData, totalData, monthlyData, dailyData, rankingData] = await Promise.all([
-				getGradeStatistics(),
-				getMajorStatistics(),
-				getTotalStudentCount(),
-				getMonthlyAttendanceCount(),
+			const [gradeData, majorData, totalCount, monthlyCount, todayCount, rankingData] = await Promise.all([
+				StudentApi.getGradeStatistics(),
+				StudentApi.getMajorStatistics(),
+				StudentApi.getTotalStudentCount(),
+				AttendanceApi.getMonthlyAttendanceCount(),
 				AttendanceApi.getTodayAttendanceCount(),
 				this.loadRankingDataAsync()
 			])
 
 			await this.loadLevelStats()
 
-			if (gradeData.code === 200 && gradeData.data) {
-				this.gradeData = gradeData.data.map((item: any) => ({
-					grade: item.grade,
-					count: item.count
-				}))
-			}
+			this.gradeData = gradeData.map((item: any) => ({
+				grade: item.grade,
+				count: item.count
+			}))
 
-			if (majorData.code === 200 && majorData.data) {
-				this.majorData = majorData.data.map((item: any) => ({
-					major: item.major,
-					count: item.count
-				}))
-			}
+			this.majorData = majorData.map((item: any) => ({
+				major: item.major,
+				count: item.count
+			}))
 
-			if (totalData.code === 200 && totalData.data) {
-				this.totalStudentsRef.value = totalData.data.count
-			}
+			this.totalStudentsRef.value = totalCount
 
-			if (monthlyData.code === 200 && monthlyData.data) {
-				const dailyAvg = calculateDailyAvgAttendance(monthlyData.data.count)
-				this.dailyAvgAttendanceRef.value = dailyAvg
-				this.monthlyAttendanceCountRef.value = monthlyData.data.count
-			}
+			const dailyAvg = calculateDailyAvgAttendance(monthlyCount)
+			this.dailyAvgAttendanceRef.value = dailyAvg
+			this.monthlyAttendanceCountRef.value = monthlyCount
 
-			if (dailyData.code === 200 && dailyData.data != null) {
-				this.todayCountRef.value = dailyData.data
-			}
+			this.todayCountRef.value = todayCount
 
 			this.updateClubMembers()
 
-			return { gradeData, majorData, totalData, monthlyData, dailyData }
-		} catch (error) {
+			return {
+				gradeData: { code: 200, data: gradeData },
+				majorData: { code: 200, data: majorData },
+				totalData: { code: 200, data: { count: totalCount } },
+				monthlyData: { code: 200, data: { count: monthlyCount } },
+				dailyData: { code: 200, data: todayCount }
+			}
+		} catch (error: any) {
 			throw new Error(`数据加载失败：${error.message}`)
 		}
 	}
