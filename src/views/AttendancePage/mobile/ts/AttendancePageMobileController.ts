@@ -15,7 +15,7 @@ import StudentApi from '@/api/ts/StudentApi'
 import {useThemeStore} from '@/stores/ts/theme'
 import {useUserStore} from '@/stores/ts/user'
 import {useLoadingMaskStore} from '@/stores/ts/loading.ts'
-import AttendancePageConfig from '@/views/AttendancePage/mobile/common/js/AttendancePageConfig'
+import AttendancePageConfig from '@/views/AttendancePage/mobile/common/ts/AttendancePageConfig'
 import {flameController} from '@/views/AttendancePage/mobile/ts/FlameDisplayController'
 
 /**
