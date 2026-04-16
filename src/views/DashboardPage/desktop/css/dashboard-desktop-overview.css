@@ -170,134 +170,155 @@
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
 }
 
-/* 管理员等级 */
+/**
+ * 管理员等级
+ * 使用项目主色到辅色的深色系渐变（深空蓝到冰川青）
+ * 体现管理员的高级权限和稳重感
+ */
 .dashboard-desktop-overview-admin-level {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-  border-color: #1e40af;
-  box-shadow: 0 2px 8px rgb(30 58 138 / 0.2);
+	background: linear-gradient(135deg, #1F4277 0%, #2E5A8B 100%);
+	border-color: #1F4277;
+	box-shadow: 0 2px 8px rgb(31 66 119 / 0.3);
 }
 
 .dashboard-desktop-overview-admin-level::before {
-  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+	background: linear-gradient(90deg, #1F4277, #3E9EAC);
 }
 
 .dashboard-desktop-overview-admin-level:hover {
-  box-shadow: 0 4px 16px rgb(30 58 138 / 0.3);
+	box-shadow: 0 4px 16px rgb(31 66 119 / 0.4);
 }
 
 .dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon {
-  color: rgb(255 255 255 / 0.95);
+	color: rgb(255 255 255 / 0.95);
 }
 
 .dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-label {
-  color: rgb(255 255 255 / 0.9);
+	color: rgb(255 255 255 / 0.9);
 }
 
 .dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-value {
-  color: #fff;
+	color: #fff;
 }
 
-/* 核心成员等级 */
+/**
+ * 核心成员等级
+ * 使用项目主色（冰川青）的饱和渐变
+ * 体现核心成员的重要地位
+ */
 .dashboard-desktop-overview-core-level {
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  border-color: #047857;
-  box-shadow: 0 2px 8px rgb(5 150 105 / 0.2);
+	background: linear-gradient(135deg, #3E9EAC 0%, #4DB8C4 100%);
+	border-color: #3E9EAC;
+	box-shadow: 0 2px 8px rgb(62 158 172 / 0.3);
 }
 
 .dashboard-desktop-overview-core-level::before {
-  background: linear-gradient(90deg, #059669, #10b981);
+	background: linear-gradient(90deg, #3E9EAC, #5CC8D4);
 }
 
 .dashboard-desktop-overview-core-level:hover {
-  box-shadow: 0 4px 16px rgb(5 150 105 / 0.3);
+	box-shadow: 0 4px 16px rgb(62 158 172 / 0.4);
 }
 
 .dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon {
-  color: rgb(255 255 255 / 0.95);
+	color: rgb(255 255 255 / 0.95);
 }
 
 .dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-label {
-  color: rgb(255 255 255 / 0.9);
+	color: rgb(255 255 255 / 0.9);
 }
 
 .dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-value {
-  color: #fff;
+	color: #fff;
 }
 
-/* 普通成员等级 */
+/**
+ * 普通成员等级
+ * 使用项目主色（冰川青）的浅色渐变
+ * 体现普通成员的清新活力
+ */
 .dashboard-desktop-overview-normal-level {
-  background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-  border-color: #6d28d9;
-  box-shadow: 0 2px 8px rgb(124 58 237 / 0.2);
+	background: linear-gradient(135deg, #5CB8C4 0%, #7EC8D4 100%);
+	border-color: #5CB8C4;
+	box-shadow: 0 2px 8px rgb(92 184 196 / 0.3);
 }
 
 .dashboard-desktop-overview-normal-level::before {
-  background: linear-gradient(90deg, #7c3aed, #a855f7);
+	background: linear-gradient(90deg, #5CB8C4, #9ED8E4);
 }
 
 .dashboard-desktop-overview-normal-level:hover {
-  box-shadow: 0 4px 16px rgb(124 58 237 / 0.3);
+	box-shadow: 0 4px 16px rgb(92 184 196 / 0.4);
 }
 
 .dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon {
-  color: rgb(255 255 255 / 0.95);
+	color: rgb(255 255 255 / 0.95);
 }
 
 .dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-label {
-  color: rgb(255 255 255 / 0.9);
+	color: rgb(255 255 255 / 0.9);
 }
 
 .dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-value {
-  color: #fff;
+	color: #fff;
 }
 
-/* 社团成员等级 */
+/**
+ * 社团成员等级
+ * 使用项目主色（冰川青）的最浅渐变
+ * 体现社团成员的轻松氛围
+ */
 .dashboard-desktop-overview-club-level {
-  background: linear-gradient(135deg, #96ceb4 0%, #b8e6b8 100%);
-  border-color: #66bb6a;
-  box-shadow: 0 2px 8px rgb(150 206 180 / 0.2);
+	background: linear-gradient(135deg, #8FD0D8 0%, #B0E0E8 100%);
+	border-color: #8FD0D8;
+	box-shadow: 0 2px 8px rgb(143 208 216 / 0.3);
 }
 
 .dashboard-desktop-overview-club-level::before {
-  background: linear-gradient(90deg, #96ceb4, #66bb6a);
+	background: linear-gradient(90deg, #8FD0D8, #C8E8F0);
 }
 
 .dashboard-desktop-overview-club-level:hover {
-  box-shadow: 0 4px 16px rgb(150 206 180 / 0.3);
+	box-shadow: 0 4px 16px rgb(143 208 216 / 0.4);
+}
+
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
+	color: rgb(31 66 119 / 0.8);
 }
 
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label {
-  color: #2e7d32;
+	color: #1F4277;
 }
 
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-value {
-  color: #1b5e20;
+	color: #1F4277;
 }
 
+/* 暗色模式下的社团成员等级 */
 html.dark .dashboard-desktop-overview-club-level {
-  background: linear-gradient(135deg, #2d5a3d 0%, #4a7c59 100%);
-  border-color: #2d5a3d;
-  box-shadow: 0 2px 8px rgb(45 90 61 / 0.3);
+	background: linear-gradient(135deg, #2A6A75 0%, #3E8A95 100%);
+	border-color: #2A6A75;
+	box-shadow: 0 2px 8px rgb(42 106 117 / 0.3);
 }
 
 html.dark .dashboard-desktop-overview-club-level::before {
-  background: linear-gradient(90deg, #2d5a3d, #4a7c59);
+	background: linear-gradient(90deg, #2A6A75, #4E9AA5);
 }
 
 html.dark .dashboard-desktop-overview-club-level:hover {
-  box-shadow: 0 4px 16px rgb(45 90 61 / 0.4);
+	box-shadow: 0 4px 16px rgb(42 106 117 / 0.4);
 }
 
 html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
-  color: rgb(255 255 255 / 0.95);
+	color: rgb(255 255 255 / 0.95);
 }
 
 html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label {
-  color: rgb(255 255 255 / 0.9);
+	color: rgb(255 255 255 / 0.9);
 }
 
 html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-value {
-  color: #fff;
+	color: #fff;
 }
 
 /* ==================== 统计标签和值 ==================== */
