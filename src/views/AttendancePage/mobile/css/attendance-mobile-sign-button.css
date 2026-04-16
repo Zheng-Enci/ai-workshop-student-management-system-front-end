@@ -102,13 +102,20 @@
 	inset 0 1px 0 rgb(255 255 255 / 0.1);
 }
 
+/**
+ * 已签到状态按钮样式
+ * 使用冰川青配色，符合项目配色方案
+ * 添加内发光效果，营造精致的科技感
+ */
 .attendance-mobile-sign-button-button-mobile.success.morning,
 .attendance-mobile-sign-button-button-mobile.success.afternoon,
 .attendance-mobile-sign-button-button-mobile.success.evening {
-	background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-	box-shadow: 0 8px 28px rgb(76 175 80 / 0.3),
-	0 0 0 1px rgb(255 255 255 / 0.1),
-	inset 0 1px 0 rgb(255 255 255 / 0.2);
+	background: linear-gradient(135deg, #5DADE2 0%, #4682B4 100%);
+	box-shadow:
+		0 8px 28px rgb(93 173 226 / 0.25),
+		0 0 0 1px rgb(255 255 255 / 0.15),
+		inset 0 1px 0 rgb(255 255 255 / 0.25),
+		inset 0 -2px 4px rgb(70 130 180 / 0.2);
 }
 
 .attendance-mobile-sign-button-button-mobile.loading {
@@ -153,16 +160,18 @@
 }
 
 /**
- * 成功状态下的背景
- * 使用柔和的绿色渐变，无动画
+ * 已签到状态下的背景光泽
+ * 使用冰川青配色，柔和的光泽效果
+ * 无旋转动画，保持静态精致感
  */
 .attendance-mobile-sign-button-button-mobile.success .attendance-mobile-sign-button-background-mobile::before {
 	background: conic-gradient(
-		from 0deg,
+		from 45deg,
 		transparent 0deg,
-		rgb(76 175 80 / 0.2) 60deg,
-		rgb(255 255 255 / 0.15) 120deg,
-		transparent 180deg,
+		rgb(135 206 235 / 0.15) 30deg,
+		rgb(255 255 255 / 0.2) 60deg,
+		rgb(135 206 235 / 0.15) 90deg,
+		transparent 120deg,
 		transparent 360deg
 	);
 	animation: none;
@@ -229,7 +238,7 @@
 }
 
 .attendance-mobile-sign-button-main-icon-mobile.success-icon-mobile {
-	filter: drop-shadow(0 3px 6px rgb(76 175 80 / 0.4));
+	filter: drop-shadow(0 3px 6px rgb(93 173 226 / 0.4));
 }
 
 .attendance-mobile-sign-button-main-icon-mobile.disabled-icon-mobile {
