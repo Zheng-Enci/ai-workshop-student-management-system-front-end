@@ -304,7 +304,11 @@ export { getDateRange, getAttendanceTrendData }
  */
 async function getAttendanceTrendData(startDate: string, endDate: string): Promise<{ date: string; count: number }[]> {
 	try {
-		return await AttendanceApi.getDailySignInCount(startDate, endDate)
+		const response = await AttendanceApi.getDailySignInCount(startDate, endDate)
+		return response.data.map(item => ({
+			date: item.date,
+			count: item.signCount
+		}))
 	} catch (error) {
 		console.error('获取签到趋势数据失败:', error)
 		return []
