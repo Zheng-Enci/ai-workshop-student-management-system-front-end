@@ -29,8 +29,8 @@
 /* 侧边卡片样式 */
 /* 右侧积分展示的卡片容器 */
 .points-dashboard-page-desktop-side-card {
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
-	border: 1px solid rgba(102, 126, 234, 0.2);
+	background: linear-gradient(135deg, rgba(62, 158, 172, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
+	border: 1px solid rgba(62, 158, 172, 0.2);
 	border-radius: 20px;
 	padding: 0 24px 24px 24px;
 	backdrop-filter: blur(20px);
@@ -83,7 +83,7 @@
 	margin-top: 1%;
 	padding-top: 0;
 	padding-bottom: 10px;
-	border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+	border-bottom: 1px solid rgba(62, 158, 172, 0.15);
 	flex-shrink: 0;
 	position: relative;
 }
@@ -99,7 +99,7 @@
 	font-size: 24px;
 	font-weight: 800;
 	color: var(--text-primary);
-	background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+	background: linear-gradient(135deg, var(--primary-color), #3E9EAC, #1F4277);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -176,17 +176,17 @@
 
 /* 总积分图例点 */
 .points-dashboard-page-desktop-unified-legend .points-dashboard-page-desktop-legend-total {
-	background: #667eea;
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 }
 
 /* 签到积分图例点 */
 .points-dashboard-page-desktop-unified-legend .points-dashboard-page-desktop-legend-signin {
-	background: #4facfe;
+	background: #3E9EAC;
 }
 
 /* 活动积分图例点 */
 .points-dashboard-page-desktop-unified-legend .points-dashboard-page-desktop-legend-activity {
-	background: #f59e0b;
+	background: #1F4277;
 }
 
 /* 提示图标样式 */
@@ -232,7 +232,7 @@
 	inset: 0;
 	border-radius: 10px;
 	padding: 2px;
-	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(102, 126, 234, 0.08) 100%);
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(62, 158, 172, 0.08) 100%);
 	-webkit-mask-composite: xor;
 	mask-composite: exclude;
 	pointer-events: none;
@@ -280,7 +280,7 @@
 	opacity: 0.6;
 	box-shadow: none;
 	background: rgba(255, 255, 255, 0.02);
-	border: 2px dashed rgba(102, 126, 234, 0.2);
+	border: 2px dashed rgba(62, 158, 172, 0.2);
 }
 
 .points-dashboard-page-desktop-side-student.points-dashboard-page-desktop-is-placeholder::before {
@@ -314,7 +314,7 @@
 .points-dashboard-page-desktop-side-avatar {
 	width: 64px;
 	height: 64px;
-	background: linear-gradient(135deg, #667eea, #764ba2);
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 	border-radius: 8px;
 	display: flex;
 	align-items: center;
@@ -432,7 +432,7 @@
 .points-dashboard-page-desktop-points-total {
 	font-weight: 700;
 	font-size: 14px;
-	color: #667eea !important;
+	color: #3E9EAC !important;
 }
 
 /* 主要总积分 */
@@ -456,12 +456,12 @@
 
 /* 签到积分 */
 .points-dashboard-page-desktop-points-number.points-dashboard-page-desktop-points-signin {
-	color: #3b82f6 !important;
+	color: #3E9EAC !important;
 }
 
 /* 活动积分 */
 .points-dashboard-page-desktop-points-number.points-dashboard-page-desktop-points-activity {
-	color: #f59e0b !important;
+	color: #1F4277 !important;
 }
 
 /* 加号 */
@@ -478,5 +478,5 @@
 	padding: 0;
 	flex-shrink: 0;
 	backdrop-filter: blur(10px);
-	background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
+	background: linear-gradient(135deg, rgba(62, 158, 172, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
 }

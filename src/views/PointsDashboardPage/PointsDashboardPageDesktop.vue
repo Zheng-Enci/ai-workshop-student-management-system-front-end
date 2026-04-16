@@ -364,12 +364,12 @@ const initSignInChart = async data => {
 						const index = params.dataIndex
 
 						if (totalCount <= 10) {
-							const colors = ['#e3f2fd', '#bbdefb', '#90caf9', '#64b5f6', '#42a5f5', '#2196f3', '#1e88e5', '#1976d2', '#1565c0', '#0d47a1']
+							const colors = ['#e0f2f1', '#b2dfdb', '#80cbc4', '#4db6ac', '#26a69a', '#009688', '#00897b', '#00796b', '#00695c', '#004d40']
 							return colors[index]
 						}
-						const hue = 200 + (index / totalCount) * 40
-						const saturation = 70 + (index / totalCount) * 20
-						const lightness = 85 - (index / totalCount) * 30
+						const hue = 170 + (index / totalCount) * 20
+						const saturation = 50 + (index / totalCount) * 20
+						const lightness = 80 - (index / totalCount) * 20
 						return `hsl(${hue}, ${saturation}%, ${lightness}%)`
 					},
 					borderRadius: [0, 4, 4, 0]
@@ -490,12 +490,12 @@ const initActivityChart = async data => {
 						const index = params.dataIndex
 
 						if (totalCount <= 10) {
-							const colors = ['#e3f2fd', '#bbdefb', '#90caf9', '#64b5f6', '#42a5f5', '#2196f3', '#1e88e5', '#1976d2', '#1565c0', '#0d47a1']
+							const colors = ['#e0f2f1', '#b2dfdb', '#80cbc4', '#4db6ac', '#26a69a', '#009688', '#00897b', '#00796b', '#00695c', '#004d40']
 							return colors[index]
 						}
-						const hue = 200 + (index / totalCount) * 40
-						const saturation = 70 + (index / totalCount) * 20
-						const lightness = 85 - (index / totalCount) * 30
+						const hue = 170 + (index / totalCount) * 20
+						const saturation = 50 + (index / totalCount) * 20
+						const lightness = 80 - (index / totalCount) * 20
 						return `hsl(${hue}, ${saturation}%, ${lightness}%)`
 					},
 					borderRadius: [0, 4, 4, 0]
@@ -612,7 +612,7 @@ const initTotalChart = async data => {
 				data: sortedData.map(item => item.signInPoints || 0),
 				barWidth: '60%',
 				itemStyle: {
-					color: isDark ? '#60a5fa' : '#4facfe',
+					color: isDark ? '#3E9EAC' : '#3E9EAC',
 					borderRadius: [0, 0, 0, 0]
 				},
 				label: {
@@ -626,7 +626,7 @@ const initTotalChart = async data => {
 				data: sortedData.map(item => item.activityPoints || 0),
 				barWidth: '60%',
 				itemStyle: {
-					color: isDark ? '#00d4ff' : '#00f2fe',
+					color: isDark ? '#1F4277' : '#1F4277',
 					borderRadius: [0, 4, 4, 0]
 				},
 				label: {
@@ -1500,15 +1500,15 @@ onUnmounted(() => {
 										<div class="points-dashboard-page-desktop-side-points">
 											<div class="points-dashboard-page-desktop-points-total-row">
 												<div v-if="!student.placeholder" class="points-dashboard-page-desktop-points-formula">
-													<span class="points-dashboard-page-desktop-points-total points-dashboard-page-desktop-points-total-main" style="color: #667eea !important;">{{
+													<span class="points-dashboard-page-desktop-points-total points-dashboard-page-desktop-points-total-main" style="color: #3E9EAC !important;">{{
 														student.totalPoints
 													}}</span>
 													<span class="points-dashboard-page-desktop-points-equals">=</span>
-													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-signin" style="color: #4facfe !important;">{{
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-signin" style="color: #3E9EAC !important;">{{
 														student.signInPoints
 													}}</span>
 													<span class="points-dashboard-page-desktop-points-plus">+</span>
-													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity" style="color: #f59e0b !important;">{{
+													<span class="points-dashboard-page-desktop-points-number points-dashboard-page-desktop-points-activity" style="color: #1F4277 !important;">{{
 														student.activityPoints
 													}}</span>
 												</div>
