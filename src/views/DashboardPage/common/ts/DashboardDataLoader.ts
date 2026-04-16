@@ -362,7 +362,7 @@ class DashboardDataLoader {
 		dailyData: any
 	}> {
 		try {
-			const [gradeData, majorData, totalCount, monthlyCount, todayCount, rankingData] = await Promise.all([
+			const [gradeData, majorData, totalCount, monthlyData, todayCount, rankingData] = await Promise.all([
 				StudentApi.getGradeStatistics(),
 				StudentApi.getMajorStatistics(),
 				StudentApi.getTotalStudentCount(),
@@ -385,6 +385,7 @@ class DashboardDataLoader {
 
 			this.totalStudentsRef.value = totalCount
 
+			const monthlyCount = monthlyData.count
 			const dailyAvg = calculateDailyAvgAttendance(monthlyCount)
 			this.dailyAvgAttendanceRef.value = dailyAvg
 			this.monthlyAttendanceCountRef.value = monthlyCount
@@ -397,7 +398,7 @@ class DashboardDataLoader {
 				gradeData: { code: 200, data: gradeData },
 				majorData: { code: 200, data: majorData },
 				totalData: { code: 200, data: { count: totalCount } },
-				monthlyData: { code: 200, data: { count: monthlyCount } },
+				monthlyData: { code: 200, data: monthlyData },
 				dailyData: { code: 200, data: todayCount }
 			}
 		} catch (error: any) {

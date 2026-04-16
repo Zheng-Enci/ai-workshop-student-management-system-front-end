@@ -46,7 +46,9 @@ interface DailySignInCountResponse {
 }
 
 interface MonthlyAttendanceCountResponse {
-	data: number
+	data: {
+		count: number
+	}
 }
 
 interface RankingStudent {
@@ -253,9 +255,9 @@ class AttendanceApi {
 
 	/**
 	 * 获取月度签到次数
-	 * @returns 响应数据，data 字段为月度签到次数
+	 * @returns 响应数据，data.count 字段为月度签到次数
 	 */
-	static async getMonthlyAttendanceCount(): Promise<number> {
+	static async getMonthlyAttendanceCount(): Promise<{ count: number }> {
 		try {
 			const response = await this.api.get<MonthlyAttendanceCountResponse>('/api/v1/attendance/monthly-count')
 			return response.data.data
