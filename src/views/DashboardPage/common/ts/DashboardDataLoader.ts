@@ -347,9 +347,10 @@ class DashboardDataLoader {
 			console.log('coreData:', coreData)
 			console.log('normalData:', normalData)
 
-			this.levelStatsRef.value.admin = adminData.count
-			this.levelStatsRef.value.core = coreData.count
-			this.levelStatsRef.value.normal = normalData.count
+			// 后端直接返回数字，不是对象
+			this.levelStatsRef.value.admin = adminData
+			this.levelStatsRef.value.core = coreData
+			this.levelStatsRef.value.normal = normalData
 		} catch (error) {
 			throw new Error('获取等级统计失败')
 		}
@@ -368,7 +369,7 @@ class DashboardDataLoader {
 		dailyData: any
 	}> {
 		try {
-			const [gradeData, majorData, totalData, monthlyData, todayCount, rankingData] = await Promise.all([
+			const [gradeData, majorData, totalCount, monthlyData, todayCount, rankingData] = await Promise.all([
 				StudentApi.getGradeStatistics(),
 				StudentApi.getMajorStatistics(),
 				StudentApi.getTotalStudentCount(),
@@ -379,7 +380,7 @@ class DashboardDataLoader {
 
 			// 调试输出：查看 API 返回的原始数据
 			console.log('=== 调试：API 返回数据 ===')
-			console.log('totalData:', totalData)
+			console.log('totalCount:', totalCount)
 			console.log('monthlyData:', monthlyData)
 			console.log('todayCount:', todayCount)
 
@@ -397,11 +398,10 @@ class DashboardDataLoader {
 
 			// 调试输出：查看计算前的人数
 			console.log('=== 调试：计算前的人数 ===')
-			console.log('totalData.count:', totalData?.count)
-			console.log('totalData 类型:', typeof totalData)
-			console.log('totalData 完整结构:', JSON.stringify(totalData))
+			console.log('totalCount:', totalCount)
+			console.log('totalCount 类型:', typeof totalCount)
 
-			this.totalStudentsRef.value = totalData.count
+			this.totalStudentsRef.value = totalCount
 
 			const monthlyCount = monthlyData.count
 			const dailyAvg = calculateDailyAvgAttendance(monthlyCount)
@@ -422,7 +422,7 @@ class DashboardDataLoader {
 			return {
 				gradeData: { code: 200, data: gradeData },
 				majorData: { code: 200, data: majorData },
-				totalData: { code: 200, data: totalData },
+				totalData: { code: 200, data: { count: totalCount } },
 				monthlyData: { code: 200, data: monthlyData },
 				dailyData: { code: 200, data: todayCount }
 			}

@@ -106,9 +106,7 @@ export interface MajorStatisticsResponse {
  * 学生数量响应类型
  */
 export interface StudentCountResponse {
-	data: {
-		count: number
-	}
+	data: number
 }
 
 /**
@@ -405,9 +403,9 @@ class StudentApi {
 
 	/**
 	 * 获取学生总数
-	 * @returns 学生总数对象 { count: number }
+	 * @returns 学生总数
 	 */
-	static async getTotalStudentCount(): Promise<{ count: number }> {
+	static async getTotalStudentCount(): Promise<number> {
 		const response = await this.api.get<StudentCountResponse>('/api/v1/students/total-count')
 			.catch((error: AxiosError<{ message: string }>) => {
 				const msg = error.response?.data?.message
@@ -419,9 +417,9 @@ class StudentApi {
 	/**
 	 * 获取指定等级的学生数量
 	 * @param levelCode - 等级代码（0-3）
-	 * @returns 该等级的学生数量对象 { count: number }
+	 * @returns 该等级的学生数量
 	 */
-	static async getStudentCountByLevel(levelCode: number): Promise<{ count: number }> {
+	static async getStudentCountByLevel(levelCode: number): Promise<number> {
 		const response = await this.api.get<StudentCountResponse>('/api/v1/students/student-count-by-level-code', {
 			params: { 'level-code': levelCode }
 		}).catch((error: AxiosError<{ message: string }>) => {
