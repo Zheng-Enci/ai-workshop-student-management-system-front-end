@@ -225,21 +225,12 @@ class AttendanceApi {
 			return response.data
 		} catch (error) {
 			const axiosError = error as AxiosError<{ message: string }>
-			if (axiosError.response) {
-				const { status } = axiosError.response
-				if (status === 403) {
-					throw new Error('Token已过期或无效，请重新登录')
-				} else if (status === 401) {
-					throw new Error('未授权访问，请重新登录')
-				} else if (status >= 500) {
-					throw new Error('服务器错误，请稍后重试')
-				} else if (status === 400) {
-					return axiosError.response.data
-				} else {
-					throw new Error(axiosError.response.data?.message || '签到失败')
-				}
+			// 400错误返回业务错误数据（如验证码错误）
+			if (axiosError.response?.status === 400) {
+				return axiosError.response.data
 			}
-			throw error
+			const msg = axiosError.response?.data?.message
+			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 		}
 	}
 }
