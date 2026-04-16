@@ -231,13 +231,13 @@
 	color: #fff !important;
 }
 
-/* stylelint-disable selector-max-compound-selectors */
-/* 社团成员等级图标SVG填充色 - 需要较深的选择器确保优先级 */
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg,
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg path {
+/**
+ * 社团成员等级图标SVG填充色
+ * 使用 :is() 伪类降低选择器复杂度，同时保持优先级
+ */
+.dashboard-desktop-overview-club-level :is(.dashboard-desktop-overview-level-icon) .el-icon :is(svg, svg path) {
 	fill: #fff !important;
 }
-/* stylelint-enable selector-max-compound-selectors */
 
 .dashboard-desktop-overview-level-content {
   position: relative;
