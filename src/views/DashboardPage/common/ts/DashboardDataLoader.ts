@@ -178,32 +178,6 @@ class DashboardDataLoader {
 	}
 
 	/**
-	 * 加载年级和专业统计数据
-	 * @private
-	 * @returns 包含年级和专业数据的对象
-	 */
-	private async loadGradeAndMajorData(): Promise<void> {
-		try {
-			const [gradeData, majorData] = await Promise.all([
-				StudentApi.getGradeStatistics(),
-				StudentApi.getMajorStatistics()
-			])
-
-			this.gradeData = gradeData.map((item: any) => ({
-				grade: item.grade,
-				count: item.count
-			}))
-
-			this.majorData = majorData.map((item: any) => ({
-				major: item.major,
-				count: item.count
-			}))
-		} catch (error: any) {
-			throw new Error(`获取年级和专业数据失败：${error.message}`)
-		}
-	}
-
-	/**
 	 * 加载排行榜数据
 	 * @param selectedTopN - 排行榜展示数量
 	 * @returns 排行榜数据
@@ -369,7 +343,7 @@ class DashboardDataLoader {
 		dailyData: any
 	}> {
 		try {
-			const [gradeData, majorData, totalCount, monthlyData, todayCount, rankingData] = await Promise.all([
+			const [gradeData, majorData, totalCount, monthlyData, todayCount] = await Promise.all([
 				StudentApi.getGradeStatistics(),
 				StudentApi.getMajorStatistics(),
 				StudentApi.getTotalStudentCount(),
@@ -428,19 +402,6 @@ class DashboardDataLoader {
 			}
 		} catch (error: any) {
 			throw new Error(`数据加载失败：${error.message}`)
-		}
-	}
-
-	/**
-	 * 更新签到率
-	 */
-	public updateAttendanceRate(): void {
-		if (this.monthlyAttendanceCountRef.value > 0) {
-			const rate = calculateAttendanceRate(
-				this.monthlyAttendanceCountRef.value,
-				this.levelStatsRef.value
-			)
-			this.attendanceRateRef.value = rate
 		}
 	}
 
