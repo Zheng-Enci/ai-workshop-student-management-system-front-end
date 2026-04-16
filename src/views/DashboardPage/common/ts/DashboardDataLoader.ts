@@ -302,10 +302,10 @@ class DashboardDataLoader {
 			console.log('coreData:', coreData)
 			console.log('normalData:', normalData)
 
-			// 后端直接返回数字，不是对象
-			this.levelStatsRef.value.admin = adminData
-			this.levelStatsRef.value.core = coreData
-			this.levelStatsRef.value.normal = normalData
+			// API 返回 response.data 格式 { code, message, data }
+			this.levelStatsRef.value.admin = adminData.data
+			this.levelStatsRef.value.core = coreData.data
+			this.levelStatsRef.value.normal = normalData.data
 		} catch (error) {
 			throw new Error('获取等级统计失败')
 		}
@@ -341,12 +341,12 @@ class DashboardDataLoader {
 
 			await this.loadLevelStats()
 
-			this.gradeData = gradeData.map((item: any) => ({
+			this.gradeData = gradeData.data.map((item: any) => ({
 				grade: item.grade,
 				count: item.count
 			}))
 
-			this.majorData = majorData.map((item: any) => ({
+			this.majorData = majorData.data.map((item: any) => ({
 				major: item.major,
 				count: item.count
 			}))
@@ -354,9 +354,9 @@ class DashboardDataLoader {
 			// 调试输出：查看计算前的人数
 			console.log('=== 调试：计算前的人数 ===')
 			console.log('totalData:', totalData)
-			console.log('totalData.count:', totalData?.count)
+			console.log('totalData.data.count:', totalData?.data?.count)
 
-			const totalCount = totalData.count
+			const totalCount = totalData.data.count
 			this.totalStudentsRef.value = totalCount
 
 			const monthlyCount = monthlyData.count
@@ -376,9 +376,9 @@ class DashboardDataLoader {
 			console.log('clubMembersRef:', this.clubMembersRef.value)
 
 			return {
-				gradeData: { code: 200, data: gradeData },
-				majorData: { code: 200, data: majorData },
-				totalData: { code: 200, data: { count: totalCount } },
+				gradeData: gradeData,
+				majorData: majorData,
+				totalData: totalData,
 				monthlyData: { code: 200, data: monthlyData },
 				dailyData: { code: 200, data: todayCount }
 			}

@@ -388,54 +388,54 @@ class StudentApi {
 	 * 获取年级分布统计
 	 * @returns 年级统计列表，包含年级和人数
 	 */
-	static async getGradeStatistics(): Promise<GradeStatistic[]> {
+	static async getGradeStatistics(): Promise<GradeStatisticsResponse> {
 		const response = await this.api.get<GradeStatisticsResponse>('/api/v1/students/grade-statistics')
 			.catch((error: AxiosError<{ message: string }>) => {
 				const msg = error.response?.data?.message
 				throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 			})
-		return response.data.data
+		return response.data
 	}
 
 	/**
 	 * 获取专业分布统计
 	 * @returns 专业统计列表，包含专业和人数
 	 */
-	static async getMajorStatistics(): Promise<MajorStatistic[]> {
+	static async getMajorStatistics(): Promise<MajorStatisticsResponse> {
 		const response = await this.api.get<MajorStatisticsResponse>('/api/v1/students/major-statistics')
 			.catch((error: AxiosError<{ message: string }>) => {
 				const msg = error.response?.data?.message
 				throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 			})
-		return response.data.data
+		return response.data
 	}
 
 	/**
 	 * 获取学生总数
-	 * @returns 学生总数对象 { count: number }
+	 * @returns 学生总数响应对象 { code, message, data: { count: number } }
 	 */
-	static async getTotalStudentCount(): Promise<{ count: number }> {
+	static async getTotalStudentCount(): Promise<TotalStudentCountResponse> {
 		const response = await this.api.get<TotalStudentCountResponse>('/api/v1/students/total-count')
 			.catch((error: AxiosError<{ message: string }>) => {
 				const msg = error.response?.data?.message
 				throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 			})
-		return response.data.data
+		return response.data
 	}
 
 	/**
 	 * 获取指定等级的学生数量
 	 * @param levelCode - 等级代码（0-3）
-	 * @returns 该等级的学生数量
+	 * @returns 该等级的学生数量响应对象 { code, message, data: number }
 	 */
-	static async getStudentCountByLevel(levelCode: number): Promise<number> {
+	static async getStudentCountByLevel(levelCode: number): Promise<StudentCountResponse> {
 		const response = await this.api.get<StudentCountResponse>('/api/v1/students/student-count-by-level-code', {
 			params: { 'level-code': levelCode }
 		}).catch((error: AxiosError<{ message: string }>) => {
 			const msg = error.response?.data?.message
 			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 		})
-		return response.data.data
+		return response.data
 	}
 }
 
