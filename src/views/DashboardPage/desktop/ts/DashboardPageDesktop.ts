@@ -18,7 +18,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 import 'echarts-wordcloud'
 import VerificationCode from './verificationCode'
 import DashboardDataLoader from '@/views/DashboardPage/common/ts/DashboardDataLoader'
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/ts/theme'
 import { useLoadingMaskStore } from '@/stores/ts/loading'
 
 export default class DashboardPageDesktop {
@@ -74,7 +74,6 @@ export default class DashboardPageDesktop {
 	public totalStudents = ref(0)
 	public todayCount = ref(0)
 	public dailyAvgAttendance = ref(0)
-	public attendanceRate = ref(0)
 	public monthlyAttendanceCount = ref(0)
 	public workshopMembersCount = ref(0)
 	public levelStats = ref({
@@ -561,7 +560,7 @@ export default class DashboardPageDesktop {
 			await nextTick()
 			this.initCharts()
 
-			VerificationCode.startAutoRefresh()
+			await VerificationCode.startAutoRefresh()
 
 			this.loadingMaskStore.hideLoadingMask()
 		} catch (error) {
