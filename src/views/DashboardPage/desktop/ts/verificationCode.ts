@@ -1,4 +1,4 @@
-import {getVerificationCode} from '@/api/ts/attendance'
+import {getVerificationCode} from '@/api/ts/InvitationApi'
 import {ElMessage} from 'element-plus'
 import {verificationCodeConfig} from './verificationCodeConfig'
 
