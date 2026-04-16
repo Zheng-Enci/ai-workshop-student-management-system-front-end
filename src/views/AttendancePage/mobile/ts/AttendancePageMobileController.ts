@@ -373,7 +373,7 @@ export default class AttendancePageMobileController {
 			}
 
 			// 获取学生数据库表主键ID
-			const idResponse = await getStudentDatabaseTableId(token)
+			const idResponse = await StudentApi.getStudentDatabaseTableId(token)
 			if (idResponse.code !== 200 || !idResponse.data) {
 				console.error('获取学生ID失败')
 				return
