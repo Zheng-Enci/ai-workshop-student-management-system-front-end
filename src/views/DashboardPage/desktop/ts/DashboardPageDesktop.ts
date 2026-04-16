@@ -164,7 +164,7 @@ export default class DashboardPageDesktop {
 	 * @returns {void}
 	 */
 	public goBack(): void {
-		this.router.push('/navigation')
+		void this.router.push('/navigation')
 	}
 
 	/**
@@ -387,7 +387,7 @@ export default class DashboardPageDesktop {
 				textStyle: {
 					fontFamily: 'Microsoft YaHei, sans-serif',
 					fontWeight: 'bold',
-					color(params) {
+					color(params: { dataIndex: number }) {
 						return isDark ? getDarkStableColor(params.dataIndex) : getStableColor(params.dataIndex)
 					}
 				},
@@ -444,13 +444,13 @@ export default class DashboardPageDesktop {
 				textStyle: {
 					color: isDark ? '#ffffff' : '#2c3e50'
 				},
-				formatter(params) {
-					if (!params || !params[0] || !cachedSortedData[params[0].dataIndex]) {
-						return ''
-					}
-					const itemData = cachedSortedData[params[0].dataIndex]
-					return `${itemData.name} (${itemData.levelName})\n${itemData.grade}年级 - ${itemData.major}\n签到次数: ${itemData.attendanceCount}次`
+				formatter(params: Array<{ dataIndex: number }>) {
+				if (!params || !params[0] || !cachedSortedData[params[0].dataIndex]) {
+					return ''
 				}
+				const itemData = cachedSortedData[params[0].dataIndex]
+				return `${itemData.name} (${itemData.levelName})\n${itemData.grade}年级 - ${itemData.major}\n签到次数: ${itemData.attendanceCount}次`
+			}
 			},
 			grid: {
 				left: '0%',
@@ -496,11 +496,11 @@ export default class DashboardPageDesktop {
 				animation: true,
 				animationDuration: 750,
 				animationEasing: 'cubicOut',
-				animationDelay: function(idx) {
+				animationDelay: function(idx: number) {
 					return idx * 30
 				},
 				itemStyle: {
-					color(params) {
+					color(params: { dataIndex: number }) {
 						const totalCount = sortedData.length
 						const index = totalCount - 1 - params.dataIndex
 
@@ -518,7 +518,7 @@ export default class DashboardPageDesktop {
 				label: {
 					show: true,
 					position: 'right',
-					formatter(params) {
+					formatter(params: { dataIndex: number }) {
 						if (!params || !cachedSortedData || !cachedSortedData[params.dataIndex]) {
 							return ''
 						}
@@ -627,7 +627,7 @@ export default class DashboardPageDesktop {
 			this.progressWidth.value += 100 / (DashboardPageDesktop.DATA_REFRESH_INTERVAL * 10)
 			if (this.progressWidth.value >= 100) {
 				this.progressWidth.value = 0
-				this.loadData()
+				void this.loadData()
 			}
 		}, 100)
 	}
@@ -655,7 +655,7 @@ export default class DashboardPageDesktop {
 	 */
 	public onMounted(): void {
 		this.loadUserPreferences()
-		this.loadData()
+		void this.loadData()
 		this.startProgressAnimation()
 	}
 

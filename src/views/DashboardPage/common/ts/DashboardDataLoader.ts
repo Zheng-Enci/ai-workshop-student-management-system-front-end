@@ -294,13 +294,6 @@ class DashboardDataLoader {
 				StudentApi.getStudentCountByLevel(1)
 			])
 
-			// 调试输出：查看等级统计原始数据
-			console.log('=== 调试：等级统计原始数据 ===')
-			console.log('adminData:', adminData)
-			console.log('coreData:', coreData)
-			console.log('normalData:', normalData)
-
-
 			// API 返回 response.data 格式 { code, message, data }
 			this.levelStatsRef.value.admin = adminData.data
 			this.levelStatsRef.value.core = coreData.data
@@ -332,12 +325,6 @@ class DashboardDataLoader {
 				this.loadRankingDataAsync()
 			])
 
-			// 调试输出：查看 API 返回的原始数据
-			console.log('=== 调试：API 返回数据 ===')
-			console.log('totalData:', totalData)
-			console.log('monthlyData:', monthlyData)
-			console.log('todayCount:', todayCount)
-
 			await this.loadLevelStats()
 
 			this.gradeData = gradeData.data.map((item: any) => ({
@@ -350,11 +337,6 @@ class DashboardDataLoader {
 				count: item.count
 			}))
 
-			// 调试输出：查看计算前的人数
-			console.log('=== 调试：计算前的人数 ===')
-			console.log('totalData:', totalData)
-			console.log('totalData.data.count:', totalData?.data?.count)
-
 			this.totalStudentsRef.value = totalData.data.count
 
 			const monthlyCount = monthlyData.data.count
@@ -364,13 +346,6 @@ class DashboardDataLoader {
 			this.todayCountRef.value = todayCount.data
 
 			this.updateClubMembers()
-
-			// 调试输出：查看计算后的人数
-			console.log('=== 调试：计算后的人数 ===')
-			console.log('totalStudentsRef:', this.totalStudentsRef.value)
-			console.log('levelStatsRef:', this.levelStatsRef.value)
-			console.log('workshopMembersCountRef:', this.workshopMembersCountRef.value)
-			console.log('clubMembersRef:', this.clubMembersRef.value)
 
 			return {
 				gradeData: gradeData,

@@ -1,5 +1,4 @@
-import AttendanceApi from '@/api/AttendanceApi'
-import {getVerificationCode} from '@/api/attendance'
+import {getVerificationCode} from '@/api/ts/attendance'
 import {ElMessage} from 'element-plus'
 import {verificationCodeConfig} from './verificationCodeConfig'
 
@@ -62,13 +61,13 @@ class verificationCode {
 			if (firstVerificationTime === 0) {
 				return 0
 			}
-			
+
 			const now = Date.now()
 			const elapsed = (now - firstVerificationTime) / 1000
 			const totalTime = elapsed + (fastRefreshCount * verificationCodeConfig.refreshInterval / 1000)
 			const randomMultiplier = Math.random() * 3
 			const progress = (totalTime / verificationCodeConfig.serverRefreshInterval) * 100 * randomMultiplier
-			
+
 			return Math.min(100, progress)
 		}
 
@@ -76,7 +75,7 @@ class verificationCode {
 		const elapsed = (now - lastRefreshTime) / 1000
 		const remaining = verificationCodeConfig.serverRefreshInterval - elapsed
 		const progress = 100 - (remaining / verificationCodeConfig.serverRefreshInterval) * 100
-		
+
 		return Math.min(100, Math.max(0, progress))
 	}
 
@@ -86,7 +85,7 @@ class verificationCode {
 	static async refreshVerificationCode() {
 		try {
 			const response = await getVerificationCode()
-			
+
 			if (response.data !== verificationCodeData) {
 				verificationCodeData = response.data
 				verificationCodeStatus = "验证码"
@@ -121,20 +120,20 @@ class verificationCode {
 			firstVerificationCode = response.data
 			firstVerificationTime = Date.now()
 			verificationCodeStatus = "正在申请获取验证码"
-			
+
 			const fastRefresh = async () => {
 				fastRefreshCount++
-				
+
 				try {
 					const fastResponse = await getVerificationCode()
-					
+
 					if (fastResponse.data !== firstVerificationCode) {
 						verificationCodeData = fastResponse.data
 						verificationCodeStatus = "验证码"
 						lastRefreshTime = Date.now()
-						
+
 						clearInterval(fastRefreshInterval)
-						refresh()
+						await refresh()
 						setInterval(refresh, verificationCodeConfig.refreshInterval)
 					}
 				} catch (error: any) {
@@ -146,9 +145,9 @@ class verificationCode {
 					ElMessage.error(`快速刷新验证码失败：${error}`)
 				}
 			}
-			
+
 			const fastRefreshInterval = setInterval(fastRefresh, verificationCodeConfig.refreshInterval)
-			
+
 		} catch (error) {
 			ElMessage.error(`首次获取验证码失败：${error}`)
 		}
