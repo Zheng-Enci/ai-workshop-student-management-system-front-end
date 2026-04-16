@@ -85,14 +85,14 @@ watch(() => props.modelValue, val => {
 
 const getRecordColor = record => {
 	const points = record.adjustPoints
-	if (maxPoints.value === minPoints.value) { return 'rgba(102, 126, 234, 0.08)' }
+	if (maxPoints.value === minPoints.value) { return 'rgba(62, 158, 172, 0.08)' }
 	const range = maxPoints.value - minPoints.value
 	const percent = Math.abs(points) / range
 	const intensity = Math.max(0.08, Math.min(0.35, percent * 0.4))
 	if (points >= 0) {
-		return `rgba(16, 185, 129, ${intensity})`
+		return `rgba(62, 158, 172, ${intensity})`
 	} else {
-		return `rgba(239, 68, 68, ${intensity})`
+		return `rgba(31, 66, 119, ${intensity})`
 	}
 }
 
@@ -212,7 +212,7 @@ defineExpose({
 
 .points-dashboard-page-view-records-desktop-form-card:hover {
 	border-color: var(--primary-color);
-	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+	box-shadow: 0 4px 12px rgba(62, 158, 172, 0.15);
 }
 
 .points-dashboard-page-view-records-desktop-form-card-header {
@@ -237,13 +237,13 @@ defineExpose({
 }
 
 .points-dashboard-page-view-records-desktop-form-card-badge.positive {
-	color: #10b981;
-	background: rgba(16, 185, 129, 0.12);
+	color: #3E9EAC;
+	background: rgba(62, 158, 172, 0.12);
 }
 
 .points-dashboard-page-view-records-desktop-form-card-badge.negative {
-	color: #ef4444;
-	background: rgba(239, 68, 68, 0.12);
+	color: #1F4277;
+	background: rgba(31, 66, 119, 0.12);
 }
 
 .points-dashboard-page-view-records-desktop-form-card-reason {
