@@ -160,7 +160,7 @@
   font-size: 13px;
   font-weight: 600;
   color: #5a6c7d;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .dashboard-desktop-overview-level-value {
@@ -282,16 +282,28 @@
 	box-shadow: 0 4px 16px rgb(143 208 216 / 0.4);
 }
 
+/**
+ * 社团成员等级图标样式
+ * 使用项目辅色（深空蓝）
+ */
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
 	color: rgb(31 66 119 / 0.8);
 }
 
+/**
+ * 社团成员等级标签样式
+ * 使用白色以确保在浅色背景上清晰可见
+ */
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label {
-	color: #1F4277;
+	color: #fff;
 }
 
+/**
+ * 社团成员等级数值样式
+ * 使用白色以确保在浅色背景上清晰可见
+ */
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-value {
-	color: #1F4277;
+	color: #fff;
 }
 
 /* 暗色模式下的社团成员等级 */

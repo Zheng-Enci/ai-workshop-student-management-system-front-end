@@ -21,6 +21,14 @@
 }
 
 /**
+ * 二维码切换按钮文字样式
+ * 确保日间模式下按钮文字为白色
+ */
+.dashboard-desktop-qrcode-switch-btn span {
+	color: white !important;
+}
+
+/**
  * 二维码切换按钮悬停效果
  * 使用项目主色渐变（冰川青到深空蓝的深色版本）
  */
