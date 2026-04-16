@@ -503,15 +503,15 @@ h1 {
 	left: 0;
 	width: 3px;
 	content: '';
-	background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(180deg, #3E9EAC 0%, #1F4277 100%);
 	transform: scaleY(0);
 	transition: transform 0.3s ease; /* 仅保留 transform 过渡 */
 }
 
 .tooltip-time-item-desktop:hover {
-	background: rgb(102 126 234 / 0.1);
-	border-color: rgb(102 126 234 / 0.3);
-	box-shadow: 0 2px 8px rgb(102 126 234 / 0.2);
+	background: rgb(62 158 172 / 0.1);
+	border-color: rgb(62 158 172 / 0.3);
+	box-shadow: 0 2px 8px rgb(62 158 172 / 0.2);
 	transform: translateX(2px); /* 用 transform 实现位移，舍弃其他属性过渡 */
 }
 
@@ -524,10 +524,10 @@ h1 {
 	padding: 4px 8px;
 	font-size: 12px;
 	font-weight: 600;
-	color: #667eea;
+	color: #3E9EAC;
 	text-align: center;
 	letter-spacing: 0.5px;
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.1) 0%, rgb(118 75 162 / 0.1) 100%);
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.1) 0%, rgb(31 66 119 / 0.1) 100%);
 	border-radius: 6px;
 
 	/* 仅保留 transform 过渡（性能最优，无报错） */
@@ -737,12 +737,12 @@ html.dark .calendar-header-desktop {
 /* 简化选择器，调整顺序，降低特异性 */
 html:not(.dark) .tooltip-time-item-desktop {
 	background: rgb(255 255 255 / 0.7);
-	border-color: rgb(102 126 234 / 0.2);
+	border-color: rgb(62 158 172 / 0.2);
 }
 
 html:not(.dark) .tooltip-time-slot-desktop {
-	color: #667eea;
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.12) 0%, rgb(118 75 162 / 0.12) 100%);
+	color: #3E9EAC;
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.12) 0%, rgb(31 66 119 / 0.12) 100%);
 }
 
 html:not(.dark) .tooltip-time-text-desktop {
@@ -751,12 +751,12 @@ html:not(.dark) .tooltip-time-text-desktop {
 
 html.dark .tooltip-time-item-desktop {
 	background: rgb(30 30 40 / 0.8);
-	border-color: rgb(102 126 234 / 0.3);
+	border-color: rgb(62 158 172 / 0.3);
 }
 
 html.dark .tooltip-time-slot-desktop {
-	color: #8b9aff;
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.2) 0%, rgb(118 75 162 / 0.2) 100%);
+	color: #3E9EAC;
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.2) 0%, rgb(31 66 119 / 0.2) 100%);
 }
 
 html.dark .tooltip-time-text-desktop {
@@ -768,8 +768,8 @@ html.dark .tooltip-time-text-desktop::before {
 }
 
 .tooltip-time-item-desktop:hover .tooltip-time-slot-desktop {
-	color: #764ba2;
-	background: linear-gradient(135deg, rgb(102 126 234 / 0.2) 0%, rgb(118 75 162 / 0.2) 100%);
+	color: #1F4277;
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.2) 0%, rgb(31 66 119 / 0.2) 100%);
 	transform: scale(1.05); /* 用 transform 实现缩放，舍弃其他属性过渡 */
 }
 
@@ -778,13 +778,13 @@ html.dark .tooltip-time-text-desktop::before {
 }
 
 html:not(.dark) .tooltip-time-item-desktop:hover {
-	background: rgb(102 126 234 / 0.12);
-	border-color: rgb(102 126 234 / 0.4);
-	box-shadow: 0 4px 12px rgb(102 126 234 / 0.25);
+	background: rgb(62 158 172 / 0.12);
+	border-color: rgb(62 158 172 / 0.4);
+	box-shadow: 0 4px 12px rgb(62 158 172 / 0.25);
 }
 
 html.dark .tooltip-time-item-desktop:hover {
-	background: rgb(102 126 234 / 0.15);
-	border-color: rgb(102 126 234 / 0.5);
-	box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
+	background: rgb(62 158 172 / 0.15);
+	border-color: rgb(62 158 172 / 0.5);
+	box-shadow: 0 4px 12px rgb(62 158 172 / 0.3);
 }
