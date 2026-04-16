@@ -231,14 +231,13 @@
 	color: #fff !important;
 }
 
-/* 社团成员等级图标SVG填充色 - 使用后代选择器降低特异性 */
-.dashboard-desktop-overview-club-level svg {
+/* stylelint-disable selector-max-compound-selectors */
+/* 社团成员等级图标SVG填充色 - 需要较深的选择器确保优先级 */
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg,
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg path {
 	fill: #fff !important;
 }
-
-.dashboard-desktop-overview-club-level svg path {
-	fill: #fff !important;
-}
+/* stylelint-enable selector-max-compound-selectors */
 
 .dashboard-desktop-overview-level-content {
   position: relative;
