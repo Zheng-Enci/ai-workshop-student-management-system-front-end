@@ -193,12 +193,20 @@
 	color: rgb(255 255 255 / 0.95);
 }
 
+/**
+ * 管理员等级标签样式
+ * 使用白色
+ */
 .dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-label {
-	color: rgb(255 255 255 / 0.9);
+	color: #fff !important;
 }
 
+/**
+ * 管理员等级数值样式
+ * 使用白色
+ */
 .dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-value {
-	color: #fff;
+	color: #fff !important;
 }
 
 /**
@@ -224,12 +232,20 @@
 	color: rgb(255 255 255 / 0.95);
 }
 
+/**
+ * 核心成员等级标签样式
+ * 使用白色
+ */
 .dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-label {
-	color: rgb(255 255 255 / 0.9);
+	color: #fff !important;
 }
 
+/**
+ * 核心成员等级数值样式
+ * 使用白色
+ */
 .dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-value {
-	color: #fff;
+	color: #fff !important;
 }
 
 /**
@@ -255,12 +271,20 @@
 	color: rgb(255 255 255 / 0.95);
 }
 
+/**
+ * 普通成员等级标签样式
+ * 使用白色
+ */
 .dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-label {
-	color: rgb(255 255 255 / 0.9);
+	color: #fff !important;
 }
 
+/**
+ * 普通成员等级数值样式
+ * 使用白色
+ */
 .dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-value {
-	color: #fff;
+	color: #fff !important;
 }
 
 /**
@@ -295,7 +319,7 @@
  * 使用白色以确保在浅色背景上清晰可见
  */
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label {
-	color: #fff;
+	color: #fff !important;
 }
 
 /**
@@ -303,7 +327,7 @@
  * 使用白色以确保在浅色背景上清晰可见
  */
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-value {
-	color: #fff;
+	color: #fff !important;
 }
 
 /* 暗色模式下的社团成员等级 */
