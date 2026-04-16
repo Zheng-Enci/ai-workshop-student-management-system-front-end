@@ -219,7 +219,7 @@ export default class DashboardPageDesktop {
 	 * @method getVerificationCode
 	 * @returns VerificationCode 实例
 	 */
-	public getVerificationCode(): VerificationCode {
+	public getVerificationCode(): typeof VerificationCode {
 		return VerificationCode
 	}
 
