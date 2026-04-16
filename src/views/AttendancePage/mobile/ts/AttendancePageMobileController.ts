@@ -404,7 +404,8 @@ export default class AttendancePageMobileController {
 			const endTime = formatDateTime(sunday)
 
 			// 调用 API 获取本周签到记录
-			const records = await AttendanceApi.getStudentRecordsByTimeRange(studentInfoId, startTime, endTime)
+			const response = await AttendanceApi.getStudentRecordsByTimeRange(studentInfoId, startTime, endTime)
+			const records = response.data
 
 			// 处理签到记录数据
 			this.processWeeklyData(records)
