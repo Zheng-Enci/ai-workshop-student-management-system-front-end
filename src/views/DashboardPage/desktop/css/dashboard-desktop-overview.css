@@ -91,47 +91,63 @@
   justify-content: space-between;
 }
 
+/**
+ * 等级统计项基础样式
+ * 使用项目主色渐变（冰川青到深空蓝）
+ */
 .dashboard-desktop-overview-level-item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 90px;
-  height: 70px;
-  padding: 16px 12px;
-  overflow: hidden;
-  background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
-  border: 1px solid #e1e8ff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgb(102 126 234 / 0.08);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-width: 90px;
+	height: 70px;
+	padding: 16px 12px;
+	overflow: hidden;
+	background: linear-gradient(135deg, #f0f9fa 0%, #e0f2f3 100%);
+	border: 1px solid #c5e3e6;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgb(62 158 172 / 0.08);
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/**
+ * 等级统计项顶部装饰条
+ * 使用项目主色渐变（冰川青到深空蓝）
+ */
 .dashboard-desktop-overview-level-item::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 4px;
-  content: '';
-  background: linear-gradient(90deg, #667eea, #764ba2);
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 4px;
+	content: '';
+	background: linear-gradient(90deg, #3E9EAC, #1F4277);
 }
 
+/**
+ * 等级统计项悬停效果
+ * 使用项目主色阴影（冰川青）
+ */
 .dashboard-desktop-overview-level-item:hover {
-  box-shadow: 0 12px 40px rgb(102 126 234 / 0.2);
-  transform: translateY(-6px) scale(1.05);
+	box-shadow: 0 12px 40px rgb(62 158 172 / 0.2);
+	transform: translateY(-6px) scale(1.05);
 }
 
 .dashboard-desktop-overview-level-icon {
-  position: relative;
-  z-index: 2;
-  margin-bottom: 6px;
+	position: relative;
+	z-index: 2;
+	margin-bottom: 6px;
 }
 
+/**
+ * 等级统计图标样式
+ * 使用项目主色（冰川青）
+ */
 .dashboard-desktop-overview-level-icon .el-icon {
-  font-size: 18px;
-  color: rgb(102 126 234 / 0.8);
+	font-size: 18px;
+	color: rgb(62 158 172 / 0.8);
 }
 
 .dashboard-desktop-overview-level-content {
@@ -318,16 +334,24 @@ html.dark .dashboard-desktop-overview-club-level .dashboard-desktop-overview-lev
   color: #7f8c8d;
 }
 
+/**
+ * 统计数值样式
+ * 使用项目主色（冰川青）
+ */
 .dashboard-desktop-overview-total-count .dashboard-desktop-overview-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: #667eea;
-  transition: transform 0.3s ease;
+	font-size: 28px;
+	font-weight: 700;
+	color: var(--primary-color);
+	transition: transform 0.3s ease;
 }
 
+/**
+ * 统计图标样式
+ * 使用项目主色（冰川青）
+ */
 .dashboard-desktop-overview-total-count .dashboard-desktop-overview-stat-icon {
-  font-size: 24px;
-  color: #667eea;
+	font-size: 24px;
+	color: var(--primary-color);
 }
 
 /* ==================== 文明公约机制 ==================== */

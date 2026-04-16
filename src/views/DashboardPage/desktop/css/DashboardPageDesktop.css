@@ -27,17 +27,134 @@
 
 /* ==================== 入场动画 ==================== */
 
-@keyframes fadeInUp {
-	from {
+/**
+ * 页面容器弹性入场动画
+ * 效果：淡入 + 弹性缩放（先缩小至0.95倍，再放大至1.02倍，最后回弹至正常大小）
+ * 符合项目页面入场动画规范
+ */
+@keyframes dashboardContainerEnter {
+	0% {
 		opacity: 0;
-		transform: translateY(30px);
+		transform: scale(0.95);
 	}
-	to {
+	60% {
+		transform: scale(1.02);
+	}
+	100% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: scale(1);
 	}
 }
 
+/**
+ * 从左侧滑入动画
+ * 适用：左侧排行榜区域
+ * 效果：从左侧-60px位置滑入，同时先缩小至0.9倍，再放大至1.05倍，最后回弹
+ */
+@keyframes dashboardSlideInLeft {
+	0% {
+		opacity: 0;
+		transform: translateX(-60px) scale(0.9);
+	}
+	60% {
+		transform: translateX(0) scale(1.05);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/**
+ * 从右侧滑入动画
+ * 适用：右侧学生总览区域
+ * 效果：从右侧80px位置滑入，同时先缩小至0.9倍，再放大至1.05倍，最后回弹
+ */
+@keyframes dashboardSlideInRight {
+	0% {
+		opacity: 0;
+		transform: translateX(80px) scale(0.9);
+	}
+	60% {
+		transform: translateX(0) scale(1.05);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/**
+ * 从上方滑入动画
+ * 适用：页面头部区域
+ * 效果：从上方-20px位置滑入，同时先缩小至0.9倍，再放大至1.05倍，最后回弹
+ */
+@keyframes dashboardSlideInTop {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.9);
+	}
+	60% {
+		transform: translateY(0) scale(1.05);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/**
+ * 缩放淡入动画
+ * 适用：手机展示区域
+ * 效果：先缩小至0.7倍，再放大至1.1倍，最后回弹至正常大小
+ */
+@keyframes dashboardScaleIn {
+	0% {
+		opacity: 0;
+		transform: scale(0.7);
+	}
+	60% {
+		transform: scale(1.1);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* 页面容器入场动画 - 400ms时长，无延迟 */
 .dashboard-desktop-container-enter-animation {
-	animation: fadeInUp 0.6s ease-out forwards;
+	animation: dashboardContainerEnter 400ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* 头部区域入场动画 - 350ms时长，0.05s延迟 */
+.dashboard-desktop-header-enter-animation {
+	animation: dashboardSlideInTop 350ms cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
+}
+
+/* 左侧排行榜区域入场动画 - 450ms时长，0.2s延迟 */
+.dashboard-desktop-ranking-enter-animation {
+	animation: dashboardSlideInLeft 450ms cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+/* 右侧总览区域入场动画 - 450ms时长，0.3s延迟 */
+.dashboard-desktop-overview-enter-animation {
+	animation: dashboardSlideInRight 450ms cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+
+/* 手机展示区域入场动画 - 400ms时长，0.5s延迟 */
+.dashboard-desktop-phone-enter-animation {
+	animation: dashboardScaleIn 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+}
+
+/* 可访问性：减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+	.dashboard-desktop-container-enter-animation,
+	.dashboard-desktop-header-enter-animation,
+	.dashboard-desktop-ranking-enter-animation,
+	.dashboard-desktop-overview-enter-animation,
+	.dashboard-desktop-phone-enter-animation {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
 }

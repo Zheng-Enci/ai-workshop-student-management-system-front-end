@@ -165,15 +165,23 @@
   color: #606266;
 }
 
+/**
+ * 统计数值样式
+ * 使用项目主色（冰川青）
+ */
 .dashboard-desktop-ranking-total-count .dashboard-desktop-ranking-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: #667eea;
+	font-size: 28px;
+	font-weight: 700;
+	color: var(--primary-color);
 }
 
+/**
+ * 统计图标样式
+ * 使用项目主色（冰川青）
+ */
 .dashboard-desktop-ranking-stat-icon {
-  font-size: 16px;
-  color: #667eea;
+	font-size: 16px;
+	color: var(--primary-color);
 }
 
 /* ==================== 响应式样式 ==================== */

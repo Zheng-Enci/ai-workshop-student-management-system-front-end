@@ -1,24 +1,32 @@
 /* ==================== 二维码切换按钮 ==================== */
 
 .dashboard-desktop-qrcode-switch-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
+/**
+ * 二维码切换按钮样式
+ * 使用项目主色渐变（冰川青到深空蓝）
+ */
 .dashboard-desktop-qrcode-switch-btn {
-  font-weight: 500;
-  color: white !important;
-  background: linear-gradient(135deg, #667eea, #764ba2) !important;
-  border-color: transparent !important;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
+	font-weight: 500;
+	color: white !important;
+	background: linear-gradient(135deg, #3E9EAC, #1F4277) !important;
+	border-color: transparent !important;
+	border-radius: 8px;
+	transition: transform 0.3s ease;
 }
 
+/**
+ * 二维码切换按钮悬停效果
+ * 使用项目主色渐变（冰川青到深空蓝的深色版本）
+ */
 .dashboard-desktop-qrcode-switch-btn:hover {
-  background: linear-gradient(135deg, #5568d3, #6a3d8f) !important;
-  transform: translateY(-2px);
+	background: linear-gradient(135deg, #358a96, #1a3866) !important;
+	transform: translateY(-2px);
 }
 
 html.dark .dashboard-desktop-qrcode-switch-btn {

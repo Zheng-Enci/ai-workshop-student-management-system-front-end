@@ -1,13 +1,17 @@
 /* ==================== 页脚容器 ==================== */
 
+/**
+ * 页脚容器样式
+ * 使用项目主色（冰川青）
+ */
 .dashboard-desktop-footer-container {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  padding: 8px 40px;
-  background: #667eea;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
+	padding: 8px 40px;
+	background: var(--primary-color);
 }
 
 /* ==================== el-progress 进度条样式 ==================== */

@@ -56,7 +56,7 @@ onUnmounted(() => {
 	<!-- 仪表盘主容器 -->
 	<div class="dashboard-desktop-container dashboard-desktop-container-enter-animation">
 		<!-- 头部区域：返回按钮 + 标题 + 标语 -->
-		<div class="dashboard-desktop-header">
+		<div class="dashboard-desktop-header dashboard-desktop-header-enter-animation">
 			<div class="dashboard-desktop-header-left">
 				<!-- 返回按钮 -->
 				<el-button
@@ -88,7 +88,7 @@ onUnmounted(() => {
 		<!-- 主内容区域：左侧排行榜 + 右侧学生总览 -->
 		<div class="dashboard-desktop-main-content">
 			<!-- 左侧区域：签到排行榜 -->
-			<div class="dashboard-desktop-ranking-left-section">
+			<div class="dashboard-desktop-ranking-left-section dashboard-desktop-ranking-enter-animation">
 				<div class="dashboard-desktop-ranking-punch-card">
 					<div class="dashboard-desktop-ranking-header">
 						<h2 class="dashboard-desktop-ranking-title">排行榜</h2>
@@ -143,7 +143,7 @@ onUnmounted(() => {
 			</div>
 
 			<!-- 右侧区域：学生总览 -->
-			<div class="dashboard-desktop-overview-right-section">
+			<div class="dashboard-desktop-overview-right-section dashboard-desktop-overview-enter-animation">
 				<div class="dashboard-desktop-overview-overview-card">
 					<h2>学生总览</h2>
 
@@ -258,7 +258,7 @@ onUnmounted(() => {
 		</div>
 
 		<!-- 手机展示区域：验证码 + 二维码 -->
-		<div class="dashboard-desktop-phone-display-container">
+		<div class="dashboard-desktop-phone-display-container dashboard-desktop-phone-enter-animation">
 			<!-- 签到验证码卡片 -->
 			<div class="dashboard-desktop-verification-code-card">
 				<div class="dashboard-desktop-verification-code-label">签到验证码</div>
