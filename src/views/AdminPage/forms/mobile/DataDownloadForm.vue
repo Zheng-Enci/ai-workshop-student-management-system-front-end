@@ -10,7 +10,7 @@ import { ElButton, ElDialog, ElIcon, ElMessage } from 'element-plus'
 import { DataLine, User } from '@element-plus/icons-vue'
 import AttendanceApi from '../../../../api/ts/AttendanceApi.ts'
 import AdminPageUtils from '../../ts/AdminPageUtils'
-import ConfigServer from '../../../../config/Config.ts'
+import ConfigServer from '@/config/ts/Config'
 
 // Props
 const props = defineProps({
