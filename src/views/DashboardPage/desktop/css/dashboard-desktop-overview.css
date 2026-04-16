@@ -231,8 +231,12 @@
 	color: #fff !important;
 }
 
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg,
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg path {
+/* 社团成员等级图标SVG填充色 - 使用后代选择器降低特异性 */
+.dashboard-desktop-overview-club-level svg {
+	fill: #fff !important;
+}
+
+.dashboard-desktop-overview-club-level svg path {
 	fill: #fff !important;
 }
 
