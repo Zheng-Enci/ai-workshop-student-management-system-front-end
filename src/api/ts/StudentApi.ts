@@ -103,10 +103,19 @@ export interface MajorStatisticsResponse {
 }
 
 /**
- * 学生数量响应类型
+ * 学生数量响应类型（直接返回数字）
  */
 export interface StudentCountResponse {
 	data: number
+}
+
+/**
+ * 学生总数响应类型（返回对象格式）
+ */
+export interface TotalStudentCountResponse {
+	data: {
+		count: number
+	}
 }
 
 /**
@@ -403,10 +412,10 @@ class StudentApi {
 
 	/**
 	 * 获取学生总数
-	 * @returns 学生总数
+	 * @returns 学生总数对象 { count: number }
 	 */
-	static async getTotalStudentCount(): Promise<number> {
-		const response = await this.api.get<StudentCountResponse>('/api/v1/students/total-count')
+	static async getTotalStudentCount(): Promise<{ count: number }> {
+		const response = await this.api.get<TotalStudentCountResponse>('/api/v1/students/total-count')
 			.catch((error: AxiosError<{ message: string }>) => {
 				const msg = error.response?.data?.message
 				throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)

@@ -324,7 +324,7 @@ class DashboardDataLoader {
 		dailyData: any
 	}> {
 		try {
-			const [gradeData, majorData, totalCount, monthlyData, todayCount] = await Promise.all([
+			const [gradeData, majorData, totalData, monthlyData, todayCount] = await Promise.all([
 				StudentApi.getGradeStatistics(),
 				StudentApi.getMajorStatistics(),
 				StudentApi.getTotalStudentCount(),
@@ -335,7 +335,7 @@ class DashboardDataLoader {
 
 			// 调试输出：查看 API 返回的原始数据
 			console.log('=== 调试：API 返回数据 ===')
-			console.log('totalCount:', totalCount)
+			console.log('totalData:', totalData)
 			console.log('monthlyData:', monthlyData)
 			console.log('todayCount:', todayCount)
 
@@ -353,9 +353,10 @@ class DashboardDataLoader {
 
 			// 调试输出：查看计算前的人数
 			console.log('=== 调试：计算前的人数 ===')
-			console.log('totalCount:', totalCount)
-			console.log('totalCount 类型:', typeof totalCount)
+			console.log('totalData:', totalData)
+			console.log('totalData.count:', totalData?.count)
 
+			const totalCount = totalData.count
 			this.totalStudentsRef.value = totalCount
 
 			const monthlyCount = monthlyData.count
