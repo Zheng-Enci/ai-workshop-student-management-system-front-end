@@ -62,8 +62,9 @@ onUnmounted(() => {
 				<el-button
 					class="dashboard-desktop-header-back-btn"
 					type="primary"
-					:icon="ArrowLeft"
-					@click="goBack"/>
+					@click="goBack">
+					<el-icon class="dashboard-desktop-header-back-icon"><ArrowLeft/></el-icon>
+				</el-button>
 				<!-- Logo（点击切换主题） -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
