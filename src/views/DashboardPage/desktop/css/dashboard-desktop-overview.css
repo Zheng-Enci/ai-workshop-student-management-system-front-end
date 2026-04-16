@@ -160,7 +160,7 @@
  * 确保SVG图标填充色继承父元素颜色
  */
 .dashboard-desktop-overview-level-icon .el-icon svg {
-	fill: currentColor !important;
+	fill: currentcolor !important;
 }
 
 /**
@@ -168,63 +168,7 @@
  * 确保路径填充色继承父元素颜色
  */
 .dashboard-desktop-overview-level-icon .el-icon svg path {
-	fill: currentColor !important;
-}
-
-/**
- * 管理员等级图标样式
- * 使用白色，字号加大
- */
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon {
-	font-size: 22px;
-	color: #fff !important;
-}
-
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon svg,
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon svg path {
-	fill: #fff !important;
-}
-
-/**
- * 核心成员等级图标样式
- * 使用白色，字号加大
- */
-.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon {
-	font-size: 22px;
-	color: #fff !important;
-}
-
-.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon svg,
-.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon svg path {
-	fill: #fff !important;
-}
-
-/**
- * 普通成员等级图标样式
- * 使用白色，字号加大
- */
-.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon {
-	font-size: 22px;
-	color: #fff !important;
-}
-
-.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon svg,
-.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon svg path {
-	fill: #fff !important;
-}
-
-/**
- * 社团成员等级图标样式
- * 使用白色，字号加大
- */
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
-	font-size: 22px;
-	color: #fff !important;
-}
-
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg,
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon svg path {
-	fill: #fff !important;
+	fill: currentcolor !important;
 }
 
 .dashboard-desktop-overview-level-content {
@@ -247,8 +191,10 @@
   text-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
 }
 
+/* ==================== 管理员等级 ==================== */
+
 /**
- * 管理员等级
+ * 管理员等级卡片样式
  * 使用项目主色到辅色的深色系渐变（深空蓝到冰川青）
  * 体现管理员的高级权限和稳重感
  */
@@ -266,28 +212,22 @@
 	box-shadow: 0 4px 16px rgb(31 66 119 / 0.4);
 }
 
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon {
-	color: rgb(255 255 255 / 0.95);
-}
-
-/**
- * 管理员等级标签样式
- * 使用白色
- */
-.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-label {
-	color: #fff !important;
-}
-
-/**
- * 管理员等级数值样式
- * 使用白色
- */
+/* 管理员等级图标、标签、数值统一使用白色 */
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon,
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-label,
 .dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-value {
 	color: #fff !important;
 }
 
+/* 管理员等级SVG图标填充色 */
+.dashboard-desktop-overview-admin-level .level-icon-svg {
+	fill: #fff !important;
+}
+
+/* ==================== 核心成员等级 ==================== */
+
 /**
- * 核心成员等级
+ * 核心成员等级卡片样式
  * 使用项目主色（冰川青）的饱和渐变
  * 体现核心成员的重要地位
  */
@@ -305,28 +245,22 @@
 	box-shadow: 0 4px 16px rgb(62 158 172 / 0.4);
 }
 
-.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon {
-	color: rgb(255 255 255 / 0.95);
-}
-
-/**
- * 核心成员等级标签样式
- * 使用白色
- */
-.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-label {
-	color: #fff !important;
-}
-
-/**
- * 核心成员等级数值样式
- * 使用白色
- */
+/* 核心成员等级图标、标签、数值统一使用白色 */
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon,
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-label,
 .dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-value {
 	color: #fff !important;
 }
 
+/* 核心成员等级SVG图标填充色 */
+.dashboard-desktop-overview-core-level .level-icon-svg {
+	fill: #fff !important;
+}
+
+/* ==================== 普通成员等级 ==================== */
+
 /**
- * 普通成员等级
+ * 普通成员等级卡片样式
  * 使用项目主色（冰川青）的浅色渐变
  * 体现普通成员的清新活力
  */
@@ -344,28 +278,22 @@
 	box-shadow: 0 4px 16px rgb(92 184 196 / 0.4);
 }
 
-.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon {
-	color: rgb(255 255 255 / 0.95);
-}
-
-/**
- * 普通成员等级标签样式
- * 使用白色
- */
-.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-label {
-	color: #fff !important;
-}
-
-/**
- * 普通成员等级数值样式
- * 使用白色
- */
+/* 普通成员等级图标、标签、数值统一使用白色 */
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon,
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-label,
 .dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-value {
 	color: #fff !important;
 }
 
+/* 普通成员等级SVG图标填充色 */
+.dashboard-desktop-overview-normal-level .level-icon-svg {
+	fill: #fff !important;
+}
+
+/* ==================== 社团成员等级 ==================== */
+
 /**
- * 社团成员等级
+ * 社团成员等级卡片样式
  * 使用项目主色（冰川青）的最浅渐变
  * 体现社团成员的轻松氛围
  */
@@ -383,28 +311,16 @@
 	box-shadow: 0 4px 16px rgb(143 208 216 / 0.4);
 }
 
-/**
- * 社团成员等级图标样式
- * 使用项目辅色（深空蓝）
- */
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
-	color: rgb(31 66 119 / 0.8);
-}
-
-/**
- * 社团成员等级标签样式
- * 使用白色以确保在浅色背景上清晰可见
- */
-.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label {
-	color: #fff !important;
-}
-
-/**
- * 社团成员等级数值样式
- * 使用白色以确保在浅色背景上清晰可见
- */
+/* 社团成员等级图标、标签、数值统一使用白色 */
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon,
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-label,
 .dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-value {
 	color: #fff !important;
+}
+
+/* 社团成员等级SVG图标填充色 */
+.dashboard-desktop-overview-club-level .level-icon-svg {
+	fill: #fff !important;
 }
 
 /* 暗色模式下的社团成员等级 */
