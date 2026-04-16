@@ -1,34 +1,24 @@
 /* ==================== 二维码区域 ==================== */
 
-.dashboard-desktop-qrcode-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-  height: 180px;
-  padding: 15px;
-  background: rgb(255 255 255 / 0.95);
-  border: 1px solid #e8e8e8;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-}
-
+/**
+ * 二维码区域基础样式
+ * 用于 .dashboard-desktop-qrcode-section、.dashboard-desktop-qrcode-website-section、.dashboard-desktop-qrcode-wechat-section
+ */
+.dashboard-desktop-qrcode-section,
 .dashboard-desktop-qrcode-website-section,
 .dashboard-desktop-qrcode-wechat-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-  height: 180px;
-  padding: 15px;
-  background: rgb(255 255 255 / 0.95);
-  border: 1px solid #e8e8e8;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: center;
+	justify-content: center;
+	width: 150px;
+	height: 180px;
+	padding: 15px;
+	background: rgb(255 255 255 / 0.95);
+	border: 1px solid #e8e8e8;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
 }
 
 .dashboard-desktop-qrcode-code,
