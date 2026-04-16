@@ -210,6 +210,26 @@ class AttendanceApi {
 			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
 		}
 	}
+
+	/**
+	 * 学生签到
+	 * @param token - 用户认证令牌
+	 * @param verificationCode - 验证码
+	 * @returns 签到响应结果
+	 */
+	static async signIn(token: string, verificationCode: string): Promise<{ code: number; message: string; data?: unknown }> {
+		try {
+			const response = await this.api.post('/api/v1/attendance/sign-in', {
+				token,
+				verificationCode
+			})
+			return response.data
+		} catch (error) {
+			const axiosError = error as AxiosError<{ message: string }>
+			const msg = axiosError.response?.data?.message
+			throw new Error(axiosError.response?.status && axiosError.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		}
+	}
 }
 
 export default AttendanceApi

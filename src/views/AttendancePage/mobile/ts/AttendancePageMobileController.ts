@@ -10,7 +10,6 @@
 import {ElMessage} from 'element-plus'
 import {ref, type Ref} from 'vue'
 import {useRouter} from 'vue-router'
-import {signIn} from '@/api/attendance'
 import {getAvatarUrl, getStudentDatabaseTableId} from '@/api/student'
 import AttendanceApi from '@/api/ts/AttendanceApi'
 import {useThemeStore} from '@/stores/theme'
@@ -561,7 +560,7 @@ export default class AttendancePageMobileController {
 				return
 			}
 
-			const res = await signIn(token, this.inputVerificationCode.value)
+			const res = await AttendanceApi.signIn(token, this.inputVerificationCode.value)
 
 			if (res.code === 200) {
 				await this.handleSignInSuccess('签到成功！')
