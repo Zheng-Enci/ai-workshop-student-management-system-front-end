@@ -148,7 +148,6 @@ export default class DashboardPageDesktop {
 			this.totalStudents,
 			this.todayCount,
 			this.dailyAvgAttendance,
-			this.attendanceRate,
 			this.monthlyAttendanceCount,
 			this.levelStats,
 			this.selectedTimeRange,

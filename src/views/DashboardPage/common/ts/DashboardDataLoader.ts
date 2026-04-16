@@ -121,29 +121,12 @@ const calculateClubMembers = (totalStudents: number, levelStats: { admin: number
 	return { workshopMembersCount, clubMembers }
 }
 
-/**
- * 计算月度签到率
- * @param monthlyCount - 月度签到总人数
- * @param levelStats - 等级分布统计
- * @returns 签到率（保留1位小数，百分比）
- */
-const calculateAttendanceRate = (monthlyCount: number, levelStats: { admin: number; core: number; normal: number }): number => {
-	const workshopCount = levelStats.admin + levelStats.core + levelStats.normal
-
-	if (workshopCount === 0) {
-		return 0
-	}
-
-	return parseFloat(((monthlyCount / workshopCount) * 100).toFixed(1))
-}
-
 // ======================== 数据加载器类 ========================
 class DashboardDataLoader {
 	private topStudentsRef: any
 	private totalStudentsRef: any
 	private todayCountRef: any
 	private dailyAvgAttendanceRef: any
-	private attendanceRateRef: any
 	private monthlyAttendanceCountRef: any
 	private levelStatsRef: any
 	private selectedTimeRangeRef: any
@@ -158,7 +141,6 @@ class DashboardDataLoader {
 		totalStudentsRef: any,
 		todayCountRef: any,
 		dailyAvgAttendanceRef: any,
-		attendanceRateRef: any,
 		monthlyAttendanceCountRef: any,
 		levelStatsRef: any,
 		selectedTimeRangeRef: any,
@@ -169,7 +151,6 @@ class DashboardDataLoader {
 		this.totalStudentsRef = totalStudentsRef
 		this.todayCountRef = todayCountRef
 		this.dailyAvgAttendanceRef = dailyAvgAttendanceRef
-		this.attendanceRateRef = attendanceRateRef
 		this.monthlyAttendanceCountRef = monthlyAttendanceCountRef
 		this.levelStatsRef = levelStatsRef
 		this.selectedTimeRangeRef = selectedTimeRangeRef
