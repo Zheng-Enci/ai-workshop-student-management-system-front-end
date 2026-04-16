@@ -280,7 +280,7 @@ class AttendanceApi {
 	 * @param topN - 排名数量，默认 10
 	 * @returns 响应数据，data为学生信息列表
 	 */
-	static async getWeeklyRanking(weekStart: string, topN: number = 10): Promise<RankingStudent[]> {
+	static async getWeeklyRanking(weekStart: string, topN: number = 10): Promise<TimeRangeTopStudentsResponse> {
 		const startTime = `${weekStart}T00:00:00`
 		const weekEnd = new Date(weekStart)
 		weekEnd.setDate(weekEnd.getDate() + 6)
@@ -296,7 +296,7 @@ class AttendanceApi {
 	 * @param topN - 排名数量，默认 10
 	 * @returns 响应数据，data为学生信息列表
 	 */
-	static async getMonthlyRanking(year: number, month: number, topN: number = 10): Promise<RankingStudent[]> {
+	static async getMonthlyRanking(year: number, month: number, topN: number = 10): Promise<TimeRangeTopStudentsResponse> {
 		const startTime = `${year}-${month.toString().padStart(2, '0')}-01T00:00:00`
 		const lastDay = new Date(year, month, 0).getDate()
 		const endTime = `${year}-${month.toString().padStart(2, '0')}-${lastDay}T23:59:59`
@@ -309,7 +309,7 @@ class AttendanceApi {
 	 * @param topN - 排名数量，默认 10
 	 * @returns 响应数据，data为学生信息列表
 	 */
-	static async getLast7DaysRanking(topN: number = 10): Promise<RankingStudent[]> {
+	static async getLast7DaysRanking(topN: number = 10): Promise<TimeRangeTopStudentsResponse> {
 		const endDate = new Date()
 		const startDate = new Date(endDate.getTime() - 6 * 24 * 60 * 60 * 1000)
 		const startTime = `${startDate.toLocaleDateString('en-CA')}T00:00:00`
@@ -323,7 +323,7 @@ class AttendanceApi {
 	 * @param topN - 排名数量，默认 10
 	 * @returns 响应数据，data为学生信息列表
 	 */
-	static async getLast30DaysRanking(topN: number = 10): Promise<RankingStudent[]> {
+	static async getLast30DaysRanking(topN: number = 10): Promise<TimeRangeTopStudentsResponse> {
 		const endDate = new Date()
 		const startDate = new Date(endDate.getTime() - 29 * 24 * 60 * 60 * 1000)
 		const startTime = `${startDate.toLocaleDateString('en-CA')}T00:00:00`
