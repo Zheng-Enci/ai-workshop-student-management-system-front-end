@@ -1,6 +1,6 @@
 :root {
-	--admin-primary-color: #667eea;
-	--admin-secondary-color: #764ba2;
+	--admin-primary-color: #3E9EAC;
+	--admin-secondary-color: #1F4277;
 	--admin-success-color: #67c23a;
 	--admin-warning-color: #e6a23c;
 	--admin-danger-color: #f56c6c;
@@ -18,8 +18,8 @@
 	--admin-glass-bg: rgba(255, 255, 255, 0.95);
 	--admin-glass-border: rgba(255, 255, 255, 0.3);
 
-	--primary-color: #667eea;
-	--secondary-color: #764ba2;
+	--primary-color: #3E9EAC;
+	--secondary-color: #1F4277;
 	--glass-bg: rgba(255, 255, 255, 0.95);
 	--glass-border: rgba(255, 255, 255, 0.3);
 	--shadow-color: rgba(0, 0, 0, 0.1);
@@ -1025,22 +1025,22 @@ html.dark .option-icon {
 
 
 .edit-btn {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	color: white;
 }
 
 .records-btn {
-	background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	color: white;
 }
 
 .makeup-btn {
-	background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	color: white;
 }
 
 .points-btn {
-	background: linear-gradient(135deg, #67c23a 0%, #529b2e 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	color: white;
 }
 
@@ -1057,7 +1057,7 @@ html.dark .option-icon {
 		color: white;
 		padding: 20px 24px;
 		border-radius: 8px 8px 0 0;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	}
 
 	.el-dialog__title {
@@ -1262,7 +1262,7 @@ html.dark .form-tip {
 	}
 
 	.el-dialog__header {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 		color: white;
 		padding: 20px 24px;
 		border-radius: 8px 8px 0 0;
@@ -1306,8 +1306,8 @@ html.dark .form-tip {
 
 	.el-input__inner:focus,
 	.el-select .el-input__inner:focus {
-		border-color: #667eea;
-		box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+		border-color: #3E9EAC;
+		box-shadow: 0 0 0 2px rgba(62, 158, 172, 0.2);
 	}
 
 	.el-input-number {
@@ -1339,20 +1339,20 @@ html.dark .form-tip {
 	}
 
 	.el-button--primary {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 		border: none;
 	}
 
 	.el-button--primary:hover {
-		background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+		box-shadow: 0 4px 12px rgba(62, 158, 172, 0.4);
 	}
 }
 
 .today-attendance-dialog {
 	.el-dialog__header {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 		color: white;
 		padding: 20px 24px;
 		border-radius: 8px 8px 0 0;
@@ -1393,7 +1393,7 @@ html.dark .form-tip {
 	max-height: calc(90vh - 20px);
 
 	.el-dialog__header {
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 		color: white;
 		padding: 12px 16px;
 		border-radius: 8px 8px 0 0;
@@ -1426,7 +1426,7 @@ html.dark .form-tip {
 	width: 48px;
 	height: 48px;
 	border-radius: 50%;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -1477,7 +1477,7 @@ html.dark .form-tip {
 .summary-value {
 	font-size: 16px;
 	font-weight: 700;
-	color: #667eea;
+	color: #3E9EAC;
 }
 
 .attendance-records-container {
@@ -2320,7 +2320,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	align-items: center;
 	gap: 16px;
 	padding: 20px;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	color: white;
 }
 
@@ -2375,21 +2375,21 @@ html.dark .time-slot-admin.signed .time-label-admin {
 .date-shortcut-btn:hover {
 	transform: translateY(-2px);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-color: #667eea;
-	color: #667eea;
+	border-color: #3E9EAC;
+	color: #3E9EAC;
 }
 
 .date-shortcut-btn.el-button--primary {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	border-color: #667eea;
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
+	border-color: #3E9EAC;
 	color: white;
-	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+	box-shadow: 0 4px 12px rgba(62, 158, 172, 0.35);
 }
 
 .date-shortcut-btn.el-button--primary:hover {
-	background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	transform: translateY(-2px);
-	box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+	box-shadow: 0 6px 16px rgba(62, 158, 172, 0.4);
 }
 
 .student-info-card {
@@ -2406,7 +2406,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 .student-avatar {
 	width: 64px;
 	height: 64px;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
@@ -2639,8 +2639,8 @@ html.dark .time-slot-admin.signed .time-label-admin {
 
 .makeup-form-content .el-input__inner:focus,
 .makeup-form-content .el-select .el-input__inner:focus {
-	border-color: #667eea;
-	box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+	border-color: #3E9EAC;
+	box-shadow: 0 0 0 2px rgba(62, 158, 172, 0.2);
 }
 
 html.dark .student-info-card {
@@ -2722,14 +2722,14 @@ html.dark .date-shortcut-btn {
 }
 
 html.dark .date-shortcut-btn:hover {
-	border-color: #667eea;
-	color: #667eea;
+	border-color: #3E9EAC;
+	color: #3E9EAC;
 	background: #2a2a2a;
 }
 
 html.dark .date-shortcut-btn.el-button--primary {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	border-color: #667eea;
+	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
+	border-color: #3E9EAC;
 	color: white;
 }
 
@@ -2767,7 +2767,7 @@ html.dark .makeup-form-content .el-select .el-input__inner {
 
 html.dark .makeup-form-content .el-input__inner:focus,
 html.dark .makeup-form-content .el-select .el-input__inner:focus {
-	border-color: #667eea;
+	border-color: #3E9EAC;
 }
 
 .makeup-date-picker-popper {
@@ -3147,15 +3147,15 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 }
 
 .record-points-badge.positive {
-	color: #10b981;
-	background: rgba(16, 185, 129, 0.15);
-	border: 1px solid rgba(16, 185, 129, 0.3);
+	color: #3E9EAC;
+	background: rgba(62, 158, 172, 0.15);
+	border: 1px solid rgba(62, 158, 172, 0.3);
 }
 
 .record-points-badge.negative {
-	color: #ef4444;
-	background: rgba(239, 68, 68, 0.15);
-	border: 1px solid rgba(239, 68, 68, 0.3);
+	color: #1F4277;
+	background: rgba(31, 66, 119, 0.15);
+	border: 1px solid rgba(31, 66, 119, 0.3);
 }
 
 .record-reason-text {
@@ -3166,11 +3166,11 @@ html.dark .makeup-date-picker-popper .el-date-table-cell__text {
 }
 
 .summary-value.positive {
-	color: #10b981;
+	color: #3E9EAC;
 }
 
 .summary-value.negative {
-	color: #ef4444;
+	color: #1F4277;
 }
 
 .auth-page-header h2 {
