@@ -143,11 +143,43 @@
 
 /**
  * 等级统计图标样式
- * 使用项目主色（冰川青）
+ * 默认使用项目主色（冰川青）
  */
 .dashboard-desktop-overview-level-icon .el-icon {
 	font-size: 18px;
 	color: rgb(62 158 172 / 0.8);
+}
+
+/**
+ * 管理员等级图标样式
+ * 使用白色
+ */
+.dashboard-desktop-overview-admin-level .dashboard-desktop-overview-level-icon .el-icon {
+	color: #fff !important;
+}
+
+/**
+ * 核心成员等级图标样式
+ * 使用白色
+ */
+.dashboard-desktop-overview-core-level .dashboard-desktop-overview-level-icon .el-icon {
+	color: #fff !important;
+}
+
+/**
+ * 普通成员等级图标样式
+ * 使用白色
+ */
+.dashboard-desktop-overview-normal-level .dashboard-desktop-overview-level-icon .el-icon {
+	color: #fff !important;
+}
+
+/**
+ * 社团成员等级图标样式
+ * 使用白色
+ */
+.dashboard-desktop-overview-club-level .dashboard-desktop-overview-level-icon .el-icon {
+	color: #fff !important;
 }
 
 .dashboard-desktop-overview-level-content {
