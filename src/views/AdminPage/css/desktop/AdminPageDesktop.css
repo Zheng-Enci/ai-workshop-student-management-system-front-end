@@ -77,10 +77,12 @@ html.dark {
 		opacity: 0;
 		transform: scale(0.95);
 	}
+
 	70% {
 		opacity: 1;
 		transform: scale(1.02);
 	}
+
 	100% {
 		opacity: 1;
 		transform: scale(1);
@@ -92,13 +94,30 @@ html.dark {
 		opacity: 0;
 		transform: translateY(-30px) scale(0.9);
 	}
+
 	70% {
 		opacity: 1;
 		transform: translateY(0) scale(1.05);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes identifyAuthZoomIn {
+	0% {
+		opacity: 0;
+		transform: scale(0.7) rotate(-15deg);
+	}
+	70% {
+		opacity: 1;
+		transform: scale(1.15) rotate(0deg);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1) rotate(0deg);
 	}
 }
 
