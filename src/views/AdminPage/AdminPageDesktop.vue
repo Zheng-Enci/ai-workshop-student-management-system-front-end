@@ -96,49 +96,41 @@ const router = useRouter()
 // 3.1 弹窗显示状态
 /**
  * 数据下载表单弹窗显示状态
- * @type {Ref<boolean>}
  */
 const dataDownloadDialogVisible = ref(false)
 
 /**
  * 修改学生身份弹窗显示状态
- * @type {Ref<boolean>}
  */
 const changeLevelDialogVisible = ref(false)
 
 /**
  * 修改所属管理员弹窗显示状态
- * @type {Ref<boolean>}
  */
 const changeAdminDialogVisible = ref(false)
 
 /**
  * 查看考勤记录弹窗显示状态
- * @type {Ref<boolean>}
  */
 const attendanceDialogVisible = ref(false)
 
 /**
  * 补卡弹窗显示状态
- * @type {Ref<boolean>}
  */
 const makeupAttendanceDialogVisible = ref(false)
 
 /**
  * 创建积分记录弹窗显示状态
- * @type {Ref<boolean>}
  */
 const createPointsRecordDialogVisible = ref(false)
 
 /**
  * 查看改分记录弹窗显示状态
- * @type {Ref<boolean>}
  */
 const viewPointsRecordsDialogVisible = ref(false)
 
 /**
  * 修改学生个人信息弹窗显示状态
- * @type {Ref<boolean>}
  */
 const updateStudentInfoDialogVisible = ref(false)
 
