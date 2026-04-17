@@ -1,8 +1,8 @@
 .main-page-buttons-and-search {
 	display: flex;
-	padding: 16px 64px;
 	align-items: center;
 	justify-content: space-between;
+	padding: 16px 64px;
 	animation: fade-in 1.6s ease-in-out;
 }
 
@@ -10,30 +10,35 @@
 	display: flex;
 	gap: 16px;
 }
+
+.main-page-buttons-and-search-search {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+}
+
 .main-page-buttons-and-search-buttons .el-button {
+	border-radius: 16px;
+}
+
+.main-page-buttons-and-search-search .el-button {
+	flex-shrink: 0;
 	border-radius: 16px;
 }
 
 .main-page-buttons-and-search-buttons .el-button:hover {
 	transform: scale(1.05);
 }
+
 .main-page-buttons-and-search-buttons .el-button.active {
 	transform: scale(1.15);
 }
 
-.main-page-buttons-and-search-search {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-}
-.main-page-buttons-and-search-search .el-button {
-	border-radius: 16px;
-	flex-shrink: 0;
-}
 .main-page-buttons-and-search-search .el-input {
 	flex: 1;
 	min-width: 300px;
 }
+
 .main-page-buttons-and-search-search .el-select {
 	min-width: 120px;
 }
@@ -44,10 +49,12 @@
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
 	}
+
 	70% {
 		opacity: 1;
 		transform: translateY(0) scale(1.03);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
