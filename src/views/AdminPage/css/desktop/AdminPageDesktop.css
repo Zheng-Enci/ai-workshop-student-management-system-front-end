@@ -191,14 +191,14 @@ html.dark .admin-page-desktop-student-id {
 	color: var(--admin-text-primary);
 }
 
-/* 超级管理员页面表单背景色 - 夜间模式 */
-html.dark .admin-page-desktop-el-dialog__body {
-	background: #000 !important;
-}
-
 /* 超级管理员页面表单背景色 - 日间模式 */
 .admin-page-desktop-el-dialog__body {
 	background: #fff !important;
+}
+
+/* 超级管理员页面表单背景色 - 夜间模式 */
+html.dark .admin-page-desktop-el-dialog__body {
+	background: #000 !important;
 }
 
 .admin-page-desktop-dialog-footer {
@@ -403,12 +403,12 @@ html.dark .admin-page-desktop-el-dialog__body {
 
 .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
 	color: #fff;
-	text-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+	text-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
 }
 
 html.dark .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
 	color: #fff;
-	text-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
+	text-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
 }
 
 .admin-page-desktop-attendance-calendar {
@@ -542,12 +542,6 @@ html.dark .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-la
 	gap: 12px;
 }
 
-.admin-page-desktop-cell-date-admin {
-	font-size: 13px;
-	font-weight: 700;
-	color: var(--admin-text-primary);
-}
-
 html.dark .admin-page-desktop-student-info h3 {
 	color: var(--admin-text-primary);
 }
@@ -637,10 +631,6 @@ html.dark .admin-page-desktop-time-label-admin {
 
 /* 禁用 BaseTransition 组件的过渡动画 */
 
-.admin-page-desktop-student-details {
-	flex: 1;
-}
-
 .admin-page-desktop-student-name {
 	margin-bottom: 4px;
 	font-size: 18px;
@@ -699,7 +689,6 @@ html.dark .admin-page-desktop-time-label-admin {
 	border: 1px solid rgb(102 126 234 / 0.15);
 	border-radius: 12px;
 	box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
-	transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .admin-page-desktop-record-card:hover {
@@ -733,7 +722,6 @@ html.dark .admin-page-desktop-time-label-admin {
 	font-weight: 700;
 	text-align: center;
 	border-radius: 8px;
-	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .admin-page-desktop-record-points-badge.positive {
