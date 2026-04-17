@@ -13,7 +13,6 @@
  */
 import { nextTick, onMounted, ref, watch } from 'vue'
 import { ElButton, ElCalendar, ElDatePicker, ElDialog, ElIcon, ElInput, ElMessage, ElMessageBox } from 'element-plus'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-button.css'
@@ -44,6 +43,7 @@ import { HeatmapChart, LineChart } from 'echarts/charts'
 import { GridComponent, LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
+import type { ECharts } from 'echarts/core'
 import { useRouter } from 'vue-router'
 
 import { getStudentAttendanceCount, makeupAttendance } from '@/api/attendance'
@@ -146,13 +146,13 @@ const heatmapChart = ref(null)
 const lineChart = ref(null)
 /**
  * 考勤热力图实例
- * @type {Ref<EChartsInstance|null>}
+ * @type {Ref<ECharts|null>}
  * @description ECharts考勤热力图实例
  */
 const heatmapInstance = ref(null)
 /**
  * 考勤趋势图实例
- * @type {Ref<EChartsInstance|null>}
+ * @type {Ref<ECharts|null>}
  * @description ECharts考勤趋势图实例
  */
 const lineInstance = ref(null)
@@ -1722,7 +1722,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 			</div>
 			<!-- 学生卡片列表块内容 -->
 			<div v-if="!loading && filteredStudents.length > 0" class="student-cards-list">
-				<div v-for="(student, index) in filteredStudents" :key="student.studentId" 
+				<div v-for="(student, index) in filteredStudents" :key="student.studentId"
 				     class="student-cards-list-item"
 				     :style="{ animationDelay: `${index * 0.15}s` }">
 					<!-- 学生卡片头部块 -->
