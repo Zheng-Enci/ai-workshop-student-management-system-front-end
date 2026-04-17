@@ -19,7 +19,21 @@
 	gap: 8px;
 }
 
+.main-page-buttons-and-search-search {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
 .main-page-buttons-and-search-buttons .el-button {
+	padding: 8px 12px;
+	font-size: 12px;
+	border-radius: 12px;
+}
+
+.main-page-buttons-and-search-search .el-button {
 	padding: 8px 12px;
 	font-size: 12px;
 	border-radius: 12px;
@@ -31,20 +45,6 @@
 
 .main-page-buttons-and-search-buttons .el-button.active {
 	transform: scale(1.15);
-}
-
-.main-page-buttons-and-search-search {
-	display: flex;
-	gap: 8px;
-	align-items: center;
-	justify-content: space-between;
-	width: 100%;
-}
-
-.main-page-buttons-and-search-search .el-button {
-	padding: 8px 12px;
-	font-size: 12px;
-	border-radius: 12px;
 }
 
 .main-page-buttons-and-search-search .el-input {
