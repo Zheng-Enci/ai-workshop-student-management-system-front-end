@@ -82,7 +82,7 @@ html.dark {
 	height: 50px;
 	cursor: pointer;
 	border-radius: 0;
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .admin-page-desktop-logo:hover {
@@ -144,6 +144,8 @@ html.dark {
 	color: var(--text-primary);
 	letter-spacing: 0.5px;
 	text-shadow: 0 2px 8px var(--shadow-color);
+	font-weight: 600;
+	color: var(--admin-text-primary);
 }
 
 .admin-page-desktop-student-id {
@@ -179,42 +181,8 @@ html.dark {
 	text-shadow: 0 1px 4px var(--shadow-color);
 }
 
-.admin-page-desktop-student-id {
-	font-family: 'Courier New', monospace;
-	font-weight: 600;
-	color: var(--admin-text-secondary);
-}
-
-.admin-page-desktop-student-name {
-	font-weight: 600;
-	color: var(--admin-text-primary);
-}
-
-
 .admin-page-desktop-college, .admin-page-desktop-major {
 	color: var(--admin-text-primary);
-}
-
-
-
-@keyframes admin-page-desktop-pulse-blue {
-	0%, 100% { box-shadow: 0 0 20px #00F, inset 0 0 20px #00F; }
-	50% { box-shadow: 0 0 40px #00F, inset 0 0 40px #00F; }
-}
-
-@keyframes admin-page-desktop-pulse-green {
-	0%, 100% { box-shadow: 0 0 20px #0F0, inset 0 0 20px #0F0; }
-	50% { box-shadow: 0 0 40px #0F0, inset 0 0 40px #0F0; }
-}
-
-@keyframes admin-page-desktop-pulse-orange {
-	0%, 100% { box-shadow: 0 0 20px #FFA500, inset 0 0 20px #FFA500; }
-	50% { box-shadow: 0 0 40px #FFA500, inset 0 0 40px #FFA500; }
-}
-
-@keyframes admin-page-desktop-pulse-red {
-	0%, 100% { box-shadow: 0 0 20px #F00, inset 0 0 20px #F00; }
-	50% { box-shadow: 0 0 40px #F00, inset 0 0 40px #F00; }
 }
 
 /* 超级管理员页面表单背景色 - 夜间模式 */
