@@ -16,8 +16,8 @@
  */
 .main-page-header-left {
 	display: flex;
-	align-items: center;
 	gap: 32px; /* logo和标题之间的间距 */
+	align-items: center;
 }
 
 /**
@@ -48,16 +48,16 @@
  * 中文主标题样式
  */
 .main-page-header-left-title h1 {
-	margin: 0; /* 移除默认外边距 */
 	padding: 0; /* 移除默认内边距 */
+	margin: 0; /* 移除默认外边距 */
 }
 
 /**
  * 英文副标题样式
  */
 .main-page-header-left-title p {
-	margin: 0; /* 移除默认外边距 */
 	padding: 0; /* 移除默认内边距 */
+	margin: 0; /* 移除默认外边距 */
 }
 
 /**
@@ -69,10 +69,12 @@
 		opacity: 0;
 		transform: translateY(-30px) scale(0.9);
 	}
+
 	70% {
 		opacity: 1;
 		transform: translateY(0) scale(1.05);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);

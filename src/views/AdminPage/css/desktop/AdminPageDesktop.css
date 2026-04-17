@@ -72,6 +72,21 @@ html.dark {
 	100% { transform: rotate(360deg); }
 }
 
+@keyframes adminPageFadeIn {
+	0% {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	70% {
+		opacity: 1;
+		transform: scale(1.02);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
 .admin-page-desktop-header-left {
 	display: flex;
 	gap: 20px;
