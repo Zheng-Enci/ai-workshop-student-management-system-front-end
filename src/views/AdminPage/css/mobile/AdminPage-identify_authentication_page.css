@@ -41,10 +41,6 @@ html.dark {
 	border-radius: 4px;
 }
 
-.identify-authentication-page-header-left .el-button:hover {
-	background: linear-gradient(135deg, #4dd9c9 0%, #3a7a73 100%);
-}
-
 .identify-authentication-page-header-title {
 	margin-right: 2%;
 	font-size: 18px;
@@ -113,6 +109,11 @@ html.dark {
 	border-radius: 12px;
 	box-shadow: 0 4px 16px rgb(60 189 177 / 0.4);
 	animation: identifyAuthFadeInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+
+/* ==================== Hover 状态 ==================== */
+.identify-authentication-page-header-left .el-button:hover {
+	background: linear-gradient(135deg, #4dd9c9 0%, #3a7a73 100%);
 }
 
 .identify-authentication-page-body .el-button:hover {
