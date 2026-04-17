@@ -104,7 +104,6 @@
  */
 html.light .student-manager-page-student-cards-list-item {
 	background: rgb(59 130 246 / 0.12);
-	transition: background-color 0.4s ease;
 }
 
 /**
@@ -113,7 +112,6 @@ html.light .student-manager-page-student-cards-list-item {
  */
 html.dark .student-manager-page-student-cards-list-item {
 	background: #1a202c;
-	transition: background-color 0.4s ease;
 }
 
 /**
