@@ -65,12 +65,16 @@
  * 用于页面加载时的头部区域动画效果
  */
 @keyframes fadeInDown {
-	from {
-		opacity: 0; /* 初始透明 */
-		transform: translateY(-30px); /* 初始位置向上偏移30px */
+	0% {
+		opacity: 0;
+		transform: translateY(-30px) scale(0.9);
 	}
-	to {
-		opacity: 1; /* 最终不透明 */
-		transform: translateY(0); /* 最终回到正常位置 */
+	70% {
+		opacity: 1;
+		transform: translateY(0) scale(1.05);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
 	}
 }

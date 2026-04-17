@@ -1,6 +1,6 @@
 :root {
-	--admin-primary-color: #3E9EAC;
-	--admin-secondary-color: #1F4277;
+	--admin-primary-color: #3CBDB1;
+	--admin-secondary-color: #2A5C58;
 	--admin-success-color: #67c23a;
 	--admin-warning-color: #e6a23c;
 	--admin-danger-color: #f56c6c;
@@ -16,8 +16,8 @@
 	--admin-shadow-hover: rgb(0 0 0 / 0.15);
 	--admin-glass-bg: rgb(255 255 255 / 0.95);
 	--admin-glass-border: rgb(255 255 255 / 0.3);
-	--primary-color: #3E9EAC;
-	--secondary-color: #1F4277;
+	--primary-color: #3CBDB1;
+	--secondary-color: #2A5C58;
 	--glass-bg: rgb(255 255 255 / 0.95);
 	--glass-border: rgb(255 255 255 / 0.3);
 	--shadow-color: rgb(0 0 0 / 0.1);
@@ -57,6 +57,7 @@ html.dark {
 .admin-page-desktop-loading-container {
 	color: var(--admin-text-primary);
 	text-align: center;
+	animation: adminPageFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 .admin-page-desktop-loading-spinner {
@@ -75,6 +76,7 @@ html.dark {
 	display: flex;
 	gap: 20px;
 	align-items: center;
+	animation: fadeInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
 }
 
 .admin-page-desktop-logo {
@@ -83,6 +85,7 @@ html.dark {
 	cursor: pointer;
 	border-radius: 0;
 	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	animation: identifyAuthZoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
 }
 
 .admin-page-desktop-logo:hover {
@@ -213,13 +216,13 @@ html.dark .admin-page-desktop-el-dialog__body {
 	}
 
 	.el-button--primary {
-		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
+		background: linear-gradient(135deg, var(--admin-primary-color) 0%, var(--admin-secondary-color) 100%);
 		border: none;
 	}
 
 	.el-button--primary:hover {
-		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
-		box-shadow: 0 4px 12px rgb(62 158 172 / 0.4);
+		background: linear-gradient(135deg, var(--admin-primary-color) 0%, var(--admin-secondary-color) 100%);
+		box-shadow: 0 4px 12px rgb(60 189 177 / 0.4);
 		transform: translateY(-2px);
 	}
 }
@@ -230,7 +233,7 @@ html.dark .admin-page-desktop-el-dialog__body {
 	.el-dialog__header {
 		padding: 12px 16px;
 		color: white;
-		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
+		background: linear-gradient(135deg, var(--admin-primary-color) 0%, var(--admin-secondary-color) 100%);
 		border-radius: 8px 8px 0 0;
 	}
 
@@ -256,7 +259,7 @@ html.dark .admin-page-desktop-el-dialog__body {
 	font-size: 18px;
 	font-weight: 700;
 	color: white;
-	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
+	background: linear-gradient(135deg, var(--admin-primary-color) 0%, var(--admin-secondary-color) 100%);
 	border-radius: 50%;
 }
 
@@ -301,7 +304,7 @@ html.dark .admin-page-desktop-el-dialog__body {
 .admin-page-desktop-summary-value {
 	font-size: 16px;
 	font-weight: 700;
-	color: #3E9EAC;
+	color: var(--admin-primary-color);
 }
 
 .admin-page-desktop-attendance-records-container {
@@ -689,15 +692,15 @@ html.dark .admin-page-desktop-time-label-admin {
 }
 
 .admin-page-desktop-record-points-badge.positive {
-	color: #3E9EAC;
-	background: rgb(62 158 172 / 0.15);
-	border: 1px solid rgb(62 158 172 / 0.3);
+	color: var(--admin-primary-color);
+	background: rgb(60 189 177 / 0.15);
+	border: 1px solid rgb(60 189 177 / 0.3);
 }
 
 .admin-page-desktop-record-points-badge.negative {
-	color: #1F4277;
-	background: rgb(31 66 119 / 0.15);
-	border: 1px solid rgb(31 66 119 / 0.3);
+	color: var(--admin-secondary-color);
+	background: rgb(42 92 88 / 0.15);
+	border: 1px solid rgb(42 92 88 / 0.3);
 }
 
 .admin-page-desktop-record-reason-text {
@@ -708,11 +711,11 @@ html.dark .admin-page-desktop-time-label-admin {
 }
 
 .admin-page-desktop-summary-value.positive {
-	color: #3E9EAC;
+	color: var(--admin-primary-color);
 }
 
 .admin-page-desktop-summary-value.negative {
-	color: #1F4277;
+	color: var(--admin-secondary-color);
 }
 
 /* 修复logo位置样式 */
