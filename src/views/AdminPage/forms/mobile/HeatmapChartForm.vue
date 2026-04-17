@@ -315,18 +315,18 @@ defineExpose({
 	max-width: 90%;
 }
 
-/* purgecss:ignore */
+/* stylelint-disable */
 .heatmap-chart-form-dialog :deep(.el-dialog__body) {
 	padding: 15px;
 	overflow: visible;
 }
 
-/* purgecss:ignore */
+/* stylelint-disable */
 .heatmap-chart-form-dialog :deep(.el-dialog__header) {
 	padding: 15px 15px 10px;
 }
 
-/* purgecss:ignore */
+/* stylelint-disable */
 .heatmap-chart-form-dialog :deep(.el-dialog__footer) {
 	padding: 10px 15px 15px;
 }
@@ -442,7 +442,7 @@ defineExpose({
 	justify-content: center;
 }
 
-/* purgecss:ignore */
+/* stylelint-disable */
 .heatmap-chart-form-footer .el-button {
 	flex: 1;
 }
@@ -462,7 +462,7 @@ html.dark .heatmap-chart-form-no-records-icon {
 
 /* ==================== 小屏幕适配 ==================== */
 @media screen and (max-width: 375px) {
-	/* purgecss:ignore */
+	/* stylelint-disable */
 	.heatmap-chart-form-dialog :deep(.el-dialog__title) {
 		font-size: 16px;
 	}
