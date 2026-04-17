@@ -1738,7 +1738,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 						/>
 
 						<!-- 块2：学号 名字和签到次数 -->
-						<div class="student-cards-list-item-header-name--student_id-attendance-count">
+						<div class="student-cards-list-item-header-name-info">
 							<div>
 								<span>姓名：</span>
 								<span>{{ student.name }}</span>
@@ -1771,7 +1771,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 						</div>
 					</div>
 					<!-- 学生卡片其他信息块 -->
-					<div class="student-cards-list-item-other_info">
+					<div class="student-cards-list-item-other-info">
 						<div>
 							<span>年级:&nbsp;</span>
 							<span>{{ student.grade }}年级</span>
