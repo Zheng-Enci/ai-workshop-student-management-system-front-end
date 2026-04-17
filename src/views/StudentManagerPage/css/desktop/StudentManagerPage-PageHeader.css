@@ -6,15 +6,17 @@
 
 /* 入场动画 - 使用项目规范的弹性缓动函数 */
 @keyframes fadeInUp {
-	from {
+	0% {
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
 	}
+
 	60% {
 		opacity: 1;
 		transform: translateY(0) scale(1.02);
 	}
-	to {
+
+	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
 	}
@@ -32,9 +34,9 @@
  */
 .page-header {
 	display: flex; /* 弹性布局 */
+	align-items: center; /* 垂直居中 */
 	justify-content: space-between; /* 两端对齐 */
 	padding: 16px 32px; /* 内边距 */
-	align-items: center; /* 垂直居中 */
 }
 
 /* ==================== 页面头部左侧区域 ==================== */
@@ -45,8 +47,8 @@
  */
 .page-header-left {
 	display: flex; /* 弹性布局 */
-	align-items: center; /* 垂直居中 */
 	gap: 8px; /* 子元素间距 */
+	align-items: center; /* 垂直居中 */
 }
 
 /**
@@ -63,12 +65,12 @@
  * Element Plus按钮的自定义样式，用于返回按钮
  */
 .page-header-left .el-button {
-	font-size: 20px !important; /* 字体大小 */
-	border: none; /* 无边框 */
-	background: #3CBDB1; /* 冰川青 - 项目主色 */
-	border-radius: 20%; /* 圆角 */
 	width: 40px; /* 宽度 */
 	margin: 5px; /* 外边距 */
+	font-size: 20px !important; /* 字体大小 */
+	background: #3CBDB1; /* 冰川青 - 项目主色 */
+	border: none; /* 无边框 */
+	border-radius: 20%; /* 圆角 */
 }
 
 /**
@@ -110,12 +112,13 @@
 	margin: 0; /* 无外边距 */
 	font-size: 40px; /* 字体大小 */
 	font-weight: 700; /* 字体粗细 */
+	letter-spacing: 1px; /* 字母间距 */
+
 	/* 渐变背景：冰川青到深空蓝 - 项目配色 */
 	background: linear-gradient(135deg, #3CBDB1 0%, #2A5C58 100%);
-	-webkit-background-clip: text; /* WebKit浏览器文字裁剪 */
-	-webkit-text-fill-color: transparent; /* 透明文字，显示背景 */
+	background-clip: text; /* WebKit浏览器文字裁剪 */
 	background-clip: text; /* 标准文字裁剪 */
-	letter-spacing: 1px; /* 字母间距 */
+	-webkit-text-fill-color: transparent; /* 透明文字，显示背景 */
 }
 
 /* ==================== 页面头部右侧区域 ==================== */
@@ -125,11 +128,11 @@
  * 显示用户信息，如用户名和头像
  */
 .page-header-right {
-	font-size: 20px; /* 字体大小 */
 	display: flex; /* 弹性布局 */
 	flex-direction: column; /* 垂直排列 */
-	align-items: center; /* 水平居中 */
 	gap: 4px; /* 子元素间距 */
+	align-items: center; /* 水平居中 */
+	font-size: 20px; /* 字体大小 */
 }
 
 /**

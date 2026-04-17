@@ -1966,22 +1966,22 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 			@close="closeHeatmapDialog"
 		>
 			<div class="heatmap-dialog-content">
-				<div v-if="attendanceRecordsLoading" class="HeatmapChart-loading-container">
-					<el-icon class="HeatmapChart-loading-icon">
+				<div v-if="attendanceRecordsLoading" class="student-manager-page-heatmap-chart-loading-container">
+					<el-icon class="student-manager-page-heatmap-chart-loading-icon">
 						<loading/>
 					</el-icon>
 					<p>加载中...</p>
 				</div>
-				<div v-else-if="!StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords || StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0" class="HeatmapChart-no-records">
-					<el-icon class="HeatmapChart-no-records-icon">
+				<div v-else-if="!StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords || StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0" class="student-manager-page-heatmap-chart-no-records">
+					<el-icon class="student-manager-page-heatmap-chart-no-records-icon">
 						<calendar/>
 					</el-icon>
 					<p>暂无考勤记录</p>
 				</div>
-				<div v-else class="HeatmapChart-container">
-					<div class="HeatmapChart-item">
-						<div class="HeatmapChart-title">签到热力图</div>
-						<div ref="heatmapDialogChart" class="HeatmapChart-content"/>
+				<div v-else class="student-manager-page-heatmap-chart-container">
+					<div class="student-manager-page-heatmap-chart-item">
+						<div class="student-manager-page-heatmap-chart-title">签到热力图</div>
+						<div ref="heatmapDialogChart" class="student-manager-page-heatmap-chart-content"/>
 					</div>
 				</div>
 			</div>
@@ -2006,22 +2006,22 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 			@close="closeTrendChartDialog"
 		>
 			<div class="trend-chart-dialog-content">
-				<div v-if="attendanceRecordsLoading" class="TrendChart-loading-container">
-					<el-icon class="TrendChart-loading-icon">
+				<div v-if="attendanceRecordsLoading" class="student-manager-page-trend-chart-loading-container">
+					<el-icon class="student-manager-page-trend-chart-loading-icon">
 						<loading/>
 					</el-icon>
 					<p>加载中...</p>
 				</div>
-				<div v-else-if="!StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords || StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0" class="TrendChart-no-records">
-					<el-icon class="TrendChart-no-records-icon">
+				<div v-else-if="!StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords || StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords.length === 0" class="student-manager-page-trend-chart-no-records">
+					<el-icon class="student-manager-page-trend-chart-no-records-icon">
 						<calendar/>
 					</el-icon>
 					<p>暂无考勤记录</p>
 				</div>
-				<div v-else class="TrendChart-container">
-					<div class="TrendChart-item">
-						<div class="TrendChart-title">签到趋势图</div>
-						<div ref="trendDialogChart" class="TrendChart-content"/>
+				<div v-else class="student-manager-page-trend-chart-container">
+					<div class="student-manager-page-trend-chart-item">
+						<div class="student-manager-page-trend-chart-title">签到趋势图</div>
+						<div ref="trendDialogChart" class="student-manager-page-trend-chart-content"/>
 					</div>
 				</div>
 			</div>
