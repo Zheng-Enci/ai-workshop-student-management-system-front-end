@@ -210,7 +210,6 @@ html.dark .admin-page-desktop-el-dialog__body {
 		padding: 12px 24px;
 		font-weight: 600;
 		border-radius: 8px;
-		transition: background 0.3s ease, transform 0.3s ease;
 	}
 
 	.el-button--primary {
@@ -345,7 +344,6 @@ html.dark .admin-page-desktop-el-dialog__body {
 	height: 100%;
 	padding: 8px;
 	cursor: pointer;
-	transition: background-color 0.2s ease;
 }
 
 .admin-page-desktop-calendar-cell-admin:hover {
@@ -385,7 +383,6 @@ html.dark .admin-page-desktop-el-dialog__body {
 	background-color: #f5f5f5;
 	border: 1px solid #e0e0e0;
 	border-radius: 3px;
-	transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .admin-page-desktop-time-slot-admin.signed {
@@ -399,6 +396,10 @@ html.dark .admin-page-desktop-el-dialog__body {
 	font-weight: 700;
 	line-height: 1;
 	color: #666;
+}
+
+html.dark .admin-page-desktop-time-label-admin {
+	color: #ccc;
 }
 
 .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
@@ -591,8 +592,6 @@ html.dark .admin-page-desktop-time-label-admin {
 
 /* v-cloak指令样式，防止模板编译过程中的闪烁 */
 
-/* 完全禁用弹窗过渡动画，避免闪烁 */
-
 .admin-page-desktop-el-dialog {
 	transform: none !important;
 	transition: none !important;
@@ -602,13 +601,6 @@ html.dark .admin-page-desktop-time-label-admin {
 }
 
 .admin-page-desktop-el-overlay {
-	transition: none !important;
-	transition-delay: 0s !important;
-	transition-duration: 0s !important;
-	animation: none !important;
-}
-
-.admin-page-desktop-el-dialog__body {
 	transition: none !important;
 	transition-delay: 0s !important;
 	transition-duration: 0s !important;
@@ -630,20 +622,6 @@ html.dark .admin-page-desktop-time-label-admin {
 }
 
 /* 禁用 BaseTransition 组件的过渡动画 */
-
-.admin-page-desktop-student-name {
-	margin-bottom: 4px;
-	font-size: 18px;
-	font-weight: 700;
-	color: #1f2937;
-}
-
-.admin-page-desktop-student-id {
-	margin-bottom: 4px;
-	font-family: 'Courier New', monospace;
-	font-size: 14px;
-	color: #6b7280;
-}
 
 
 
