@@ -31,6 +31,19 @@ html.dark {
 	gap: 8px;
 }
 
+.identify-authentication-page-header-left .el-button {
+	padding: 6px 12px;
+	font-size: 12px;
+	border-radius: 6px;
+	background: linear-gradient(135deg, #3CBDB1 0%, #2A5C58 100%);
+	border: none;
+	color: #fff;
+}
+
+.identify-authentication-page-header-left .el-button:hover {
+	background: linear-gradient(135deg, #4dd9c9 0%, #3a7a73 100%);
+}
+
 .identify-authentication-page-header-title {
 	font-size: 18px;
 	letter-spacing: 2px;
