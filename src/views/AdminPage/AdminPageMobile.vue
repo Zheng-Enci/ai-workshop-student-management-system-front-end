@@ -25,12 +25,12 @@ import {
 	Clock,           // 时钟图标
 	Document,        // 文档图标
 	Lock,            // 锁图标
-	House,           // 房屋图标
+	// 房屋图标
 	Key,             // 钥匙图标
 	Refresh,         // 刷新图标
 	Download,        // 下载图标
 	ArrowRight,      // 右箭头图标
-	Warning,         // 警告图标
+	// 警告图标
 } from '@element-plus/icons-vue'
 
 // 1.4 Element Plus 样式导入（按需导入，减少包体积）
@@ -344,6 +344,7 @@ onMounted(async () => {
 		<div class="identify-authentication-page-body">
 			<!-- 管理员头像 -->
 			<img
+				:src="superAdminAvatarUrl"
 				v-if="superAdminAvatarUrl"
 				v-lazy="superAdminAvatarUrl"
 				alt="Admin Avatar"
@@ -494,6 +495,7 @@ onMounted(async () => {
 				<div class="student-cards-item-header">
 					<!-- 学生头像 -->
 					<img
+						:src="studentInfo.avatarUrl"
 						v-if="studentInfo.avatarUrl"
 						v-lazy="studentInfo.avatarUrl"
 						alt="头像"
@@ -732,4 +734,3 @@ onMounted(async () => {
 <style scoped src="./css/mobile/AdminPage-main_page_buttons_and_search.css"></style>
 <style scoped src="./css/mobile/AdminPage-main_page_student_cards.css"></style>
 
-			
