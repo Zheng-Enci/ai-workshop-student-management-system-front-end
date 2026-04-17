@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 考勤热力图组件
  * @description 显示学生考勤热力图的独立组件
