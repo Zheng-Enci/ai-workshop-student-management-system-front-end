@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 学生管理页面组件(桌面端)
  *
@@ -1675,6 +1675,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 			<!-- 页面头部右侧块 -->
 			<div v-if="studentManagerPage.adminStudentAvatarUrl" class="page-header-right">
 				<img
+					:src="studentManagerPage.adminStudentAvatarUrl"
 					v-lazy="studentManagerPage.adminStudentAvatarUrl"
 					alt="管理员头像"
 				/>
