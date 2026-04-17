@@ -350,7 +350,6 @@ html.dark {
 	height: 100%;
 	background-color: var(--admin-bg-primary);
 	border-radius: 4px;
-	transition: width 0.3s ease;
 }
 
 .loading-status {
