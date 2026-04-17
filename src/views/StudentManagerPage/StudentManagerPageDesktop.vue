@@ -1901,7 +1901,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 				<div>
 					<el-calendar v-model="StudentManagerPageAttendance_Records_Dialog.state.calendarValue">
 						<template #header="{ date }">
-							<div>{{ formatCalendarTitle(date) }}</div>
+							<div>{{ date }}</div>
 							<div>
 								<el-button size="small" @click="prevMonth">上个月</el-button>
 								<el-button size="small" @click="goToday">今天</el-button>
