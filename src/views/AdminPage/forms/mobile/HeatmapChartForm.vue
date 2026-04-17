@@ -188,7 +188,7 @@ const initDialogHeatmapChart = () => {
 				fontSize: 11
 			},
 			inRange: {
-				// 使用项目主色冰川青(#3CBDB1)和辅色深空蓝(#2A5C58)
+				// 使用项目主色冰川青(#3CBDB1青色)和辅色深空蓝(#2A5C58深蓝)
 				color: themeStore.isDark
 					? ['#1a3d3a', '#236b64', '#2c9990', '#35c7bc', '#3CBDB1', '#5ecdc3']
 					: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58']
