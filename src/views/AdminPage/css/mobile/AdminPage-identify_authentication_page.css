@@ -75,8 +75,6 @@ html.dark {
 	height: auto;
 	aspect-ratio: 1;
 	border-radius: 20%;
-	border: 2px solid var(--identify-auth-primary);
-	box-shadow: 0 8px 24px rgb(60 189 177 / 0.3);
 }
 
 .identify-authentication-page-body :deep(.el-input__wrapper) {
