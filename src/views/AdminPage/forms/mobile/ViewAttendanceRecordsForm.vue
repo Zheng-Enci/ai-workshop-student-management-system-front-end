@@ -63,7 +63,9 @@ const loadAttendanceRecords = async () => {
 	loadingMaskStore.showLoadingMask('正在加载考勤记录...')
 
 	try {
-		attendanceRecords.value = await AttendanceApi.getStudentAttendanceRecords(props.student.studentId)
+		const response = await AttendanceApi.getStudentAttendanceRecords(props.student.studentId)
+		// 适配接口返回数据结构: response.data 直接包含数组
+		attendanceRecords.value = response.data || []
 
 	} catch (error) {
 		const errorMessage = error instanceof Error ? error.message : "未知错误"
