@@ -1,8 +1,19 @@
 /**
  * ============================================================================
- * 超级管理员页面 - 身份验证页面头部样式
+ * 超级管理员页面 - 身份认证页面样式
  * ============================================================================
  */
+
+/* ==================== 项目配色变量 ==================== */
+:root {
+	--identify-auth-primary: #3CBDB1;
+	--identify-auth-primary-dark: #2A5C58;
+	--identify-auth-bg: #f8fafa;
+}
+
+html.dark {
+	--identify-auth-bg: #0a1a18;
+}
 
 /* ==================== 页面头部 ==================== */
 .identify-authentication-page-header {
@@ -10,34 +21,44 @@
 	align-items: center;
 	justify-content: space-between;
 	padding: 8px 32px;
+	background: linear-gradient(135deg, rgb(60 189 177 / 0.1) 0%, rgb(42 92 88 / 0.05) 100%);
+	border-bottom: 1px solid rgb(60 189 177 / 0.2);
 }
+
 .identify-authentication-page-header-left {
 	display: flex;
 	align-items: center;
 	gap: 16px;
 }
+
 .identify-authentication-page-header-title {
 	font-size: 32px;
 	letter-spacing: 20px;
 	font-weight: 500;
 	text-transform: uppercase;
 	opacity: 0.9;
-	transition: all 0.3s ease;
+	color: var(--identify-auth-primary);
+	transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
 	margin-right: 2%;
 }
 
 .identify-authentication-page-header-left img {
 	width: 64px;
 	height: 64px;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgb(60 189 177 / 0.3);
 }
+
 .identify-authentication-page-header-left img:hover {
-	transform: scale(1.1);
+	transform: scale(1.1) rotate(3deg);
 }
 
 .identify-authentication-page-header-right-icon {
 	font-size: 50px;
+	color: var(--identify-auth-primary);
 }
-/* 方案1：使用绝对定位居中（最简单直接） */
+
+/* ==================== 页面主体 ==================== */
 .identify-authentication-page-body {
 	position: absolute;
 	width: 16%;
@@ -51,71 +72,95 @@
 	gap: 16px;
 	padding: 8px;
 }
+
 .identify-authentication-page-body img {
 	width: 64%;
 	height: 64%;
 	border-radius: 25%;
+	border: 2px solid var(--identify-auth-primary);
+	box-shadow: 0 8px 24px rgb(60 189 177 / 0.3);
 }
+
 .identify-authentication-page-body :deep(.el-input__wrapper) {
 	border-radius: 16px !important;
+	border: 1px solid rgb(60 189 177 / 0.3);
+	box-shadow: 0 2px 8px rgb(60 189 177 / 0.1);
 }
+
+.identify-authentication-page-body :deep(.el-input__wrapper:hover) {
+	border-color: var(--identify-auth-primary);
+}
+
+.identify-authentication-page-body :deep(.el-input__wrapper.is-focus) {
+	border-color: var(--identify-auth-primary);
+	box-shadow: 0 0 0 3px rgb(60 189 177 / 0.2);
+}
+
 .identify-authentication-page-body .el-button {
 	width: 100%;
 	letter-spacing: 16px;
 	font-size: 18px;
 	border-radius: 16px;
+	background: linear-gradient(135deg, #3CBDB1 0%, #2A5C58 100%);
+	border: none;
+	color: #fff;
+	box-shadow: 0 4px 16px rgb(60 189 177 / 0.4);
 }
 
+.identify-authentication-page-body .el-button:hover {
+	background: linear-gradient(135deg, #4dd9c9 0%, #3a7a73 100%);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgb(60 189 177 / 0.5);
+}
 
-/* 添加入场动画 */
-@keyframes fadeInDown {
+/* ==================== 弹性缓动函数 ==================== */
+@keyframes identifyAuthFadeInDown {
 	from {
 		opacity: 0;
-		transform: translateY(-30px);
+		transform: translateY(-20px) scale(0.95);
 	}
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 
-@keyframes fadeInUp {
+@keyframes identifyAuthFadeInUp {
 	from {
 		opacity: 0;
-		transform: translateY(30px);
+		transform: translateY(30px) scale(0.95);
 	}
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 
-@keyframes zoomIn {
+@keyframes identifyAuthZoomIn {
 	from {
 		opacity: 0;
-		transform: scale(0.8);
+		transform: scale(0.7) rotate(-15deg);
 	}
 	to {
 		opacity: 1;
-		transform: scale(1);
+		transform: scale(1) rotate(0deg);
 	}
 }
 
-/* 应用动画到页面头部 */
+/* ==================== 页面头部动画 ==================== */
 .identify-authentication-page-header {
-	animation: fadeInDown 0.8s ease-out;
+	animation: identifyAuthFadeInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-/* 应用动画到页面主体 */
+/* ==================== 页面主体动画 ==================== */
 .identify-authentication-page-body {
-	animation: fadeInUp 0.8s ease-out 0.3s both; /* 延迟0.3秒，both保持动画结束状态 */
+	animation: identifyAuthFadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
 }
 
 .identify-authentication-page-body img {
-	animation: zoomIn 0.6s ease-out 0.5s both; /* 图像延迟0.5秒 */
+	animation: identifyAuthZoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
 }
 
 .identify-authentication-page-body .el-button {
-	animation: fadeInUp 0.5s ease-out 0.7s both; /* 按钮延迟0.7秒 */
+	animation: identifyAuthFadeInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
 }
-
