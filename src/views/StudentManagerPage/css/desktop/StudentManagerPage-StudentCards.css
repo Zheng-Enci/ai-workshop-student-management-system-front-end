@@ -9,10 +9,12 @@
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
 	}
+
 	60% {
 		opacity: 1;
 		transform: translateY(0) scale(1.03);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
@@ -28,12 +30,12 @@
  * 包含头部和卡片列表的整体布局
  */
 .student-cards {
-	width: 80%;                    /* 容器宽度占父元素的80% */
-	margin-left: 10%;              /* 左侧外边距10%，实现水平居中 */
-	padding: 1%;                   /* 1%内边距，为内容提供呼吸空间 */
 	display: flex;                 /* 使用Flexbox布局 */
 	flex-direction: column;        /* 垂直方向排列子元素 */
 	gap: 8px;                     /* 子元素之间8px间距 */
+	width: 80%;                    /* 容器宽度占父元素的80% */
+	padding: 1%;                   /* 1%内边距，为内容提供呼吸空间 */
+	margin-left: 10%;              /* 左侧外边距10%，实现水平居中 */
 }
 
 /* ========================================
@@ -46,8 +48,8 @@
  */
 .student-cards-header{
 	display: flex;                 /* 使用Flexbox布局 */
-	justify-content: space-between; /* 子元素两端对齐，标题在左，搜索框在右 */
 	align-items: center;           /* 子元素垂直居中对齐 */
+	justify-content: space-between; /* 子元素两端对齐，标题在左，搜索框在右 */
 }
 
 /**
@@ -76,8 +78,8 @@
  */
 .student-cards-list {
 	display: flex;                 /* 使用Flexbox布局 */
-	gap: 16px;                    /* 卡片之间16px间距 */
 	flex-wrap: wrap;              /* 允许卡片换行，适应不同屏幕尺寸 */
+	gap: 16px;                    /* 卡片之间16px间距 */
 }
 
 /* ========================================
@@ -89,13 +91,13 @@
  * 每张卡片包含头像、姓名、积分等信息
  */
 .student-cards-list-item {
-	padding: 18px 16px;           /* 上下18px，左右16px内边距 */
-	border-radius: 8%;            /* 8%圆角，创建柔和的卡片外观 */
-	width: 24%;                   /* 单个卡片宽度占容器24%，一行约显示4个 */
-	font-size: 0.9rem;            /* 字体大小0.9rem，适合桌面端阅读 */
 	display: flex;                 /* 使用Flexbox布局 */
 	flex-direction: column;        /* 垂直方向排列子元素（头像在顶，按钮在底） */
 	gap: 16px;                    /* 子元素之间16px间距 */
+	width: 24%;                   /* 单个卡片宽度占容器24%，一行约显示4个 */
+	padding: 18px 16px;           /* 上下18px，左右16px内边距 */
+	font-size: 0.9rem;            /* 字体大小0.9rem，适合桌面端阅读 */
+	border-radius: 8%;            /* 8%圆角，创建柔和的卡片外观 */
 }
 
 /**
@@ -104,7 +106,7 @@
  * html.light选择器匹配日间模式
  */
 html.light .student-cards-list-item {
-	background: rgba(59, 130, 246, 0.12);  /* 浅蓝色背景，12%透明度 */
+	background: rgb(59 130 246 / 0.12);  /* 浅蓝色背景，12%透明度 */
 	transition: background 0.4s ease;      /* 背景颜色切换使用0.4s缓动 */
 }
 
@@ -157,8 +159,8 @@ html.dark .student-cards-list-item * {
 .student-cards-list-item-header-name--student_id-attendance-count {
 	display: flex;                 /* 使用Flexbox布局 */
 	flex-direction: column;        /* 垂直方向排列三个信息项 */
-	justify-content: center;       /* 垂直居中对齐 */
 	gap: 3px;                     /* 信息项之间3px间距，紧凑排列 */
+	justify-content: center;       /* 垂直居中对齐 */
 }
 
 /**
@@ -179,12 +181,12 @@ html.dark .student-cards-list-item * {
  */
 .student-cards-list-item-points {
 	display: flex;                 /* 使用Flexbox布局 */
-	align-items: center;           /* 子元素垂直居中对齐 */
-	gap: 16px;                    /* 积分项之间16px间距 */
-	padding: 12px;                 /* 12px内边距 */
-	border-radius: 12px;           /* 12px圆角 */
-	background-color: var(--bg-tertiary);  /* 使用CSS变量定义的第三级背景色 */
 	flex-wrap: wrap;              /* 允许积分项换行，适应不同内容长度 */
+	gap: 16px;                    /* 积分项之间16px间距 */
+	align-items: center;           /* 子元素垂直居中对齐 */
+	padding: 12px;                 /* 12px内边距 */
+	background-color: var(--bg-tertiary);  /* 使用CSS变量定义的第三级背景色 */
+	border-radius: 12px;           /* 12px圆角 */
 }
 
 /* ========================================
@@ -200,8 +202,8 @@ html.dark .student-cards-list-item * {
 	flex-wrap: wrap;              /* 允许信息项换行 */
 	gap: 12px 20px;               /* 行间距12px，列间距20px */
 	padding: 12px;                 /* 12px内边距 */
-	border-radius: 12px;           /* 12px圆角 */
 	background-color: var(--bg-tertiary);  /* 使用CSS变量定义的第三级背景色 */
+	border-radius: 12px;           /* 12px圆角 */
 }
 
 /**
@@ -229,8 +231,8 @@ html.dark .student-cards-list-item * {
  * Element Plus的el-button组件
  */
 .student-cards-list-item-buttons .el-button {
-	font-size: 0.8rem;            /* 按钮文字大小0.8rem */
 	padding: 1px 7px;             /* 上下1px，左右7px内边距，紧凑按钮样式 */
+	font-size: 0.8rem;            /* 按钮文字大小0.8rem */
 }
 
 /**
