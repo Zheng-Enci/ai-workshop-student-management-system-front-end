@@ -331,11 +331,11 @@ onMounted(async () => {
 				<!-- 返回首页按钮 -->
 				<el-button
 					type="primary"
-					:icon="House"
-					circle
-					size="large"
 					@click="router.push('/')"
-				/>
+				>
+					<el-icon><House /></el-icon>
+					首页
+				</el-button>
 				<!-- 系统logo（点击可切换主题） -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
