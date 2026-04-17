@@ -140,12 +140,14 @@ html.dark {
 .admin-page-desktop-student-name {
 	margin-bottom: 4px;
 	font-size: 18px;
-	font-weight: 800;
-	color: var(--text-primary);
-	letter-spacing: 0.5px;
-	text-shadow: 0 2px 8px var(--shadow-color);
 	font-weight: 600;
 	color: var(--admin-text-primary);
+	letter-spacing: 1px;
+	text-shadow: 0 2px 8px var(--shadow-color);
+}
+
+html.dark .admin-page-desktop-student-name {
+	color: #e2e8f0;
 }
 
 .admin-page-desktop-student-id {
@@ -153,6 +155,10 @@ html.dark {
 	font-weight: 600;
 	color: var(--text-secondary);
 	text-shadow: 0 1px 4px var(--shadow-color);
+}
+
+html.dark .admin-page-desktop-student-id {
+	color: #cbd5e1;
 }
 
 .admin-page-desktop-attendance-icon {
@@ -190,49 +196,6 @@ html.dark .admin-page-desktop-el-dialog__body {
 	background: #000 !important;
 }
 
-
-.admin-page-desktop-heatmap-dialog,
-.admin-page-desktop-attendance-records-dialog {
-	.el-dialog,
-	.el-overlay,
-	.el-dialog__header,
-	.el-dialog__body,
-	.el-dialog__footer {
-		transition: none !important;
-		transition-delay: 0s !important;
-		transition-duration: 0s !important;
-		animation: none !important;
-	}
-
-	.el-dialog {
-		transform: none !important;
-	}
-
-	.el-dialog__header {
-		padding: 20px 24px;
-		color: white;
-		background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
-		border-radius: 8px 8px 0 0;
-	}
-
-	.el-dialog__title {
-		font-size: 18px;
-		font-weight: 700;
-		color: white;
-	}
-
-	.el-dialog__body {
-		padding: 30px 24px;
-		background: #f8f9fa;
-	}
-
-	.el-dialog__footer {
-		padding: 20px 24px;
-		background: #f8f9fa;
-		border-radius: 0 0 8px 8px;
-	}
-}
-
 /* 超级管理员页面表单背景色 - 日间模式 */
 .admin-page-desktop-el-dialog__body {
 	background: #fff !important;
@@ -247,7 +210,7 @@ html.dark .admin-page-desktop-el-dialog__body {
 		padding: 12px 24px;
 		font-weight: 600;
 		border-radius: 8px;
-		transition: all 0.3s ease;
+		transition: background 0.3s ease, transform 0.3s ease;
 	}
 
 	.el-button--primary {
@@ -382,7 +345,7 @@ html.dark .admin-page-desktop-el-dialog__body {
 	height: 100%;
 	padding: 8px;
 	cursor: pointer;
-	transition: all 0.2s ease;
+	transition: background-color 0.2s ease;
 }
 
 .admin-page-desktop-calendar-cell-admin:hover {
@@ -422,7 +385,7 @@ html.dark .admin-page-desktop-el-dialog__body {
 	background-color: #f5f5f5;
 	border: 1px solid #e0e0e0;
 	border-radius: 3px;
-	transition: all 0.3s ease;
+	transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .admin-page-desktop-time-slot-admin.signed {
@@ -436,12 +399,16 @@ html.dark .admin-page-desktop-el-dialog__body {
 	font-weight: 700;
 	line-height: 1;
 	color: #666;
-	transition: color 0.3s ease;
 }
 
 .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
 	color: #fff;
 	text-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
+}
+
+html.dark .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
+	color: #fff;
+	text-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
 }
 
 .admin-page-desktop-attendance-calendar {
@@ -495,10 +462,6 @@ html.dark .admin-page-desktop-el-dialog__body {
 
 .admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th:nth-child(7))::after {
 	content: '周六';
-}
-
-.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th) {
-	font-size: 0;
 }
 
 .admin-page-desktop-attendance-calendar :deep(.el-calendar-table tbody td) {
@@ -579,50 +542,6 @@ html.dark .admin-page-desktop-el-dialog__body {
 	gap: 12px;
 }
 
-.admin-page-desktop-student-details {
-	flex: 1;
-	min-width: 0;
-}
-
-.admin-page-desktop-student-name {
-	margin-bottom: 4px;
-	font-size: 16px;
-	font-weight: 700;
-	line-height: 1.2;
-	color: #1F2937;
-}
-
-.admin-page-desktop-student-id {
-	font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
-	font-size: 13px;
-	font-weight: 500;
-	line-height: 1.2;
-	color: #6B7280;
-}
-
-html.dark .admin-page-desktop-student-name {
-	color: var(--text-primary);
-}
-
-html.dark .admin-page-desktop-student-id {
-	color: var(--text-secondary);
-}
-
-.admin-page-desktop-calendar-cell-admin {
-	display: flex;
-	flex-direction: column;
-	gap: 3px;
-	min-height: 60px;
-	padding: 4px;
-	cursor: pointer;
-	border-radius: 6px;
-	transition: all 0.2s ease;
-}
-
-.admin-page-desktop-calendar-cell-admin:hover {
-	background: var(--admin-bg-secondary);
-}
-
 .admin-page-desktop-cell-date-admin {
 	font-size: 13px;
 	font-weight: 700;
@@ -674,11 +593,6 @@ html.dark .admin-page-desktop-time-slot-admin.signed {
 
 html.dark .admin-page-desktop-time-label-admin {
 	color: #ccc;
-}
-
-html.dark .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
-	color: #fff;
-	text-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
 }
 
 /* v-cloak指令样式，防止模板编译过程中的闪烁 */
@@ -741,14 +655,6 @@ html.dark .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-la
 	color: #6b7280;
 }
 
-html.dark .admin-page-desktop-student-name {
-	color: #e2e8f0;
-}
-
-html.dark .admin-page-desktop-student-id {
-	color: #cbd5e1;
-}
-
 
 
 /* 改分记录查看弹窗样式 */
@@ -793,7 +699,7 @@ html.dark .admin-page-desktop-student-id {
 	border: 1px solid rgb(102 126 234 / 0.15);
 	border-radius: 12px;
 	box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
-	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .admin-page-desktop-record-card:hover {
@@ -816,7 +722,7 @@ html.dark .admin-page-desktop-student-id {
 	font-size: 13px;
 	font-weight: 500;
 	color: var(--admin-text-secondary);
-	word-break: break-word;
+	word-break: break-all;
 }
 
 .admin-page-desktop-record-points-badge {
@@ -827,7 +733,7 @@ html.dark .admin-page-desktop-student-id {
 	font-weight: 700;
 	text-align: center;
 	border-radius: 8px;
-	transition: all 0.3s ease;
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .admin-page-desktop-record-points-badge.positive {
@@ -846,7 +752,7 @@ html.dark .admin-page-desktop-student-id {
 	font-size: 14px;
 	line-height: 1.6;
 	color: var(--admin-text-primary);
-	word-break: break-word;
+	word-break: break-all;
 }
 
 .admin-page-desktop-summary-value.positive {
