@@ -360,6 +360,7 @@ onMounted(async () => {
 		<div class="identify-authentication-page-body">
 			<!-- 管理员头像 -->
 			<img
+				:src="superAdminAvatarUrl"
 				v-if="superAdminAvatarUrl"
 				v-lazy="superAdminAvatarUrl"
 				alt="Admin Avatar"
@@ -499,6 +500,7 @@ onMounted(async () => {
 				<div class="student-cards-item-header">
 					<!-- 学生头像 -->
 					<img
+						:src="studentInfo.avatarUrl"
 						v-if="studentInfo.avatarUrl"
 						v-lazy="studentInfo.avatarUrl"
 						alt="头像"
@@ -730,4 +732,3 @@ onMounted(async () => {
 <style scoped src="./css/desktop/AdminPage-main_page_buttons_and_search.css"></style>
 <style scoped src="./css/desktop/AdminPage-main_page_student_cards.css"></style>
 
-		
