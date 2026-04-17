@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 考勤热力图组件
  * @description 显示学生考勤热力图的独立组件
@@ -15,7 +15,6 @@ import { HeatmapChart } from 'echarts/charts'
 import { GridComponent, LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import type { ECharts } from 'echarts/core'
 import StudentManagerPageAttendance_Records_Dialog from '@/views/StudentManagerPage/js/StudentManagerPage-Attendance_Records_Dialog'
 import StudentManagerPageStudentAttendanceServer from '@/views/StudentManagerPage/js/StudentManagerPageStudentAttendanceServer'
 
