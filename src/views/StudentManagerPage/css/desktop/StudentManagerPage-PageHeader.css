@@ -85,40 +85,6 @@
 	transition: transform 0.2s ease;
 }
 
-/**
- * Logo图片悬停效果
- * 鼠标悬停时放大图片，提供视觉反馈
- */
-.student-manager-page-page-header-left img:hover {
-	transform: scale(1.1);
-}
-
-/* ==================== 页面头部中间区域 ==================== */
-
-/**
- * 页面头部中间块标题容器
- * 居中显示页面标题
- */
-.student-manager-page-page-header-middle {
-	display: flex;
-	align-items: center;
-}
-
-/**
- * 页面标题样式
- * 使用渐变色文字效果，增强视觉吸引力
- */
-.student-manager-page-page-header-middle h1 {
-	margin: 0;
-	font-size: 40px;
-	font-weight: 700;
-	letter-spacing: 1px;
-	background: linear-gradient(135deg, #3CBDB1 0%, #2A5C58 100%);
-	background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
 /* ==================== 页面头部右侧区域 ==================== */
 
 /**
@@ -145,11 +111,45 @@
 }
 
 /**
+ * Logo图片悬停效果
+ * 鼠标悬停时放大图片，提供视觉反馈
+ */
+.student-manager-page-page-header-left img:hover {
+	transform: scale(1.1);
+}
+
+/**
  * 头像悬停效果
  * 鼠标悬停时放大头像，提供视觉反馈
  */
 .student-manager-page-page-header-right img:hover {
 	transform: scale(1.1);
+}
+
+/* ==================== 页面头部中间区域 ==================== */
+
+/**
+ * 页面头部中间块标题容器
+ * 居中显示页面标题
+ */
+.student-manager-page-page-header-middle {
+	display: flex;
+	align-items: center;
+}
+
+/**
+ * 页面标题样式
+ * 使用渐变色文字效果，增强视觉吸引力
+ */
+.student-manager-page-page-header-middle h1 {
+	margin: 0;
+	font-size: 40px;
+	font-weight: 700;
+	letter-spacing: 1px;
+	background: linear-gradient(135deg, #3CBDB1 0%, #2A5C58 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 /**
