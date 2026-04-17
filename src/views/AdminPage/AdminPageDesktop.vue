@@ -263,8 +263,8 @@ const openUpdateStudentInfoDialog = (student) => {
  * @param {Object} student - 学生信息对象
  * @description 调用热力图子组件的打开方法，展示学生签到热力图
  */
-const openHeatmapDialog = (student) => {
-	heatmapChartFormRef.value.openHeatmapDialog(student)
+const openHeatmapDialog = (student: unknown) => {
+	heatmapChartFormRef.value?.openHeatmapDialog(student)
 }
 
 /**
@@ -272,8 +272,8 @@ const openHeatmapDialog = (student) => {
  * @param {Object} student - 学生信息对象
  * @description 调用趋势图子组件的打开方法，展示学生签到累计趋势
  */
-const openTrendChartDialog = (student) => {
-	trendChartFormRef.value.openTrendChartDialog(student)
+const openTrendChartDialog = (student: unknown) => {
+	trendChartFormRef.value?.openTrendChartDialog(student)
 }
 
 // ===================== 第五部分：生命周期钩子区 =====================
