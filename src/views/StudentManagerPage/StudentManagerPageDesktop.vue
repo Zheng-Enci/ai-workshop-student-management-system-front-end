@@ -43,7 +43,6 @@ import { HeatmapChart, LineChart } from 'echarts/charts'
 import { GridComponent, LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import type { ECharts } from 'echarts/core'
 import { useRouter } from 'vue-router'
 
 import { getStudentAttendanceCount, makeupAttendance } from '@/api/attendance'
@@ -857,7 +856,7 @@ const goToday = () => {
 onMounted(async () => {
 	if (!userStore.userInfo?.studentId) {
 		ElMessage.error('请先登录')
-		router.push('/login')
+		await router.push('/login')
 		return
 	}
 
@@ -867,17 +866,17 @@ onMounted(async () => {
 
 		if (levelResponse.data.levelCode !== 3) {
 			ElMessage.error('您没有管理员权限')
-			router.push('/navigation')
+			await router.push('/navigation')
 			return
 		}
 
-		loadManagedStudents()
+		await loadManagedStudents()
 
 		await nextTick()
 		initCharts()
 	} catch (error) {
 		ElMessage.error('获取用户权限失败')
-		router.push('/navigation')
+		await router.push('/navigation')
 	}
 
 	window.addEventListener('pageshow', event => {
@@ -1730,6 +1729,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 					<div class="student-cards-list-item-header">
 						<!-- 块1：头像 -->
 						<img
+							:src="getStudentAvatarUrl(student)"
 							v-if="getStudentAvatarUrl(student)"
 							v-lazy="getStudentAvatarUrl(student)"
 							:alt="student.name"
