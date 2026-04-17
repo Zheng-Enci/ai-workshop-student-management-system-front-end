@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 查看学生考勤记录表单
  * 功能描述: 查看指定学生的所有考勤签到记录（日历视图）
@@ -11,6 +11,14 @@ import {ElButton, ElCalendar, ElDialog, ElIcon, ElMessage} from 'element-plus'
 import {Calendar} from '@element-plus/icons-vue'
 import AttendanceApi from '../../../../api/ts/AttendanceApi.ts'
 import {useLoadingMaskStore} from '@/stores/ts/loading'
+
+/**
+ * 考勤记录数据类型接口
+ * 定义单个考勤记录的数据结构
+ */
+interface AttendanceRecord {
+	attendanceDateTime: string
+}
 
 
 // Props
@@ -44,7 +52,7 @@ const dialogVisible = computed({
 const loadingMaskStore = useLoadingMaskStore()
 
 // 表单内部状态
-const attendanceRecords = ref([])
+const attendanceRecords = ref<AttendanceRecord[]>([])
 const calendarValue = ref(new Date())
 const isLoading = ref(false)
 
