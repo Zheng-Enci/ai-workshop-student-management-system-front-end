@@ -257,11 +257,12 @@ const handleClose = () => {
 /**
  * 日期数字圆形标识
  * 显示日期数字的圆形背景，用于标识每一天
+ * 使用项目主色冰川青
  */
 .view-attendance-records-form-list-item-span {
 	font-size: 14px; /* 字体大小 */
 	font-weight: bold; /* 字体粗细 */
-	background-color: #1F2937; /* 深灰色背景 */
+	background-color: #3CBDB1; /* 冰川青 - 项目主色 */
 	height: 20px; /* 高度 */
 	width: 20px; /* 宽度 */
 	border-radius: 50%; /* 圆形 */
@@ -276,11 +277,11 @@ const handleClose = () => {
 
 /**
  * 考勤记录对话框有签到记录的时间段样式
- * 当某个时间段有签到记录时，应用此样式，使用绿色背景高亮显示
+ * 当某个时间段有签到记录时，应用此样式，使用项目主色冰川青高亮显示
  */
 .view-attendance-records-form-list-item-has-attendance {
 	font-weight: bold; /* 加粗字体 */
-	background-color: #67C23A; /* 绿色背景（成功色） */
+	background-color: #3CBDB1; /* 冰川青 - 项目主色 */
 	border-radius: 4px; /* 圆角 */
 	color: white !important; /* 白色文字 */
 }
