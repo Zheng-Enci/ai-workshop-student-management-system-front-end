@@ -30,10 +30,10 @@
  * 趋势图的标题文字
  */
 .student-manager-page-trend-chart-title {
+	margin-bottom: 15px;
 	font-size: 18px;
 	font-weight: bold;
 	color: var(--admin-text-primary);
-	margin-bottom: 15px;
 	text-align: center;
 }
 
@@ -65,8 +65,8 @@
  * 旋转的加载动画
  */
 .student-manager-page-trend-chart-loading-icon {
-	font-size: 40px;
 	margin-bottom: 16px;
+	font-size: 40px;
 	animation: student-manager-page-trend-chart-rotate 2s linear infinite;
 }
 
@@ -77,6 +77,7 @@
 	from {
 		transform: rotate(0deg);
 	}
+
 	to {
 		transform: rotate(360deg);
 	}
@@ -101,8 +102,8 @@
  * 趋势图无记录图标
  */
 .student-manager-page-trend-chart-no-records-icon {
-	font-size: 48px;
 	margin-bottom: 16px;
+	font-size: 48px;
 	color: #999;
 }
 
