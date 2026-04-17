@@ -1010,7 +1010,8 @@ export const useAdminPage = () => {
 					fontSize: 12
 				},
 				inRange: {
-					color: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e']
+					// 使用项目主色冰川青(#3CBDB1)和辅色深空蓝(#2A5C58)渐变
+					color: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58']
 				}
 			},
 			series: [{
