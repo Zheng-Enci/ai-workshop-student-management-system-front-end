@@ -46,7 +46,6 @@ html.dark {
 	width: 64px;
 	height: 64px;
 	border-radius: 12px;
-	box-shadow: 0 4px 12px rgb(60 189 177 / 0.3);
 }
 
 .identify-authentication-page-header-left img:hover {
