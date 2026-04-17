@@ -1026,10 +1026,10 @@ const initDialogHeatmapChart = () => {
 			},
 			// 颜色映射范围
 			inRange: {
-				// 根据主题设置颜色映射
+				// 根据主题设置颜色映射 - 使用项目主色冰川青(#3CBDB1)和辅色深空蓝(#2A5C58)
 				color: themeStore.isDark
-					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8'] // 暗色主题颜色
-					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e'] // 亮色主题颜色
+					? ['#1a3d3a', '#236b64', '#2c9990', '#35c7bc', '#3CBDB1', '#5ecdc3'] // 暗色主题：深空蓝到冰川青渐变
+					: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58'] // 亮色主题：浅冰川青到深空蓝渐变
 			}
 		},
 		// 配置数据系列
@@ -1047,7 +1047,7 @@ const initDialogHeatmapChart = () => {
 			emphasis: {
 				itemStyle: {
 					shadowBlur: 10, // 阴影模糊度
-					shadowColor: 'rgba(0, 0, 0, 0.5)' // 阴影颜色
+					shadowColor: 'rgba(60, 189, 177, 0.5)' // 阴影颜色 - 使用冰川青半透明
 				}
 			}
 		}]
@@ -1334,10 +1334,10 @@ const initHeatmapChart = () => {
 			},
 			// 颜色映射范围
 			inRange: {
-				// 根据主题设置颜色映射
+				// 根据主题设置颜色映射 - 使用项目主色冰川青(#3CBDB1)和辅色深空蓝(#2A5C58)
 				color: themeStore.isDark
-					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8'] // 暗色主题颜色
-					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e'] // 亮色主题颜色
+					? ['#1a3d3a', '#236b64', '#2c9990', '#35c7bc', '#3CBDB1', '#5ecdc3'] // 暗色主题：深空蓝到冰川青渐变
+					: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58'] // 亮色主题：浅冰川青到深空蓝渐变
 			}
 		},
 		// 配置数据系列
@@ -1355,7 +1355,7 @@ const initHeatmapChart = () => {
 			emphasis: {
 				itemStyle: {
 					shadowBlur: 10, // 阴影模糊度
-					shadowColor: 'rgba(0, 0, 0, 0.5)' // 阴影颜色
+					shadowColor: 'rgba(60, 189, 177, 0.5)' // 阴影颜色 - 使用冰川青半透明
 				}
 			}
 		}]
