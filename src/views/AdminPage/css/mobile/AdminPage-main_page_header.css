@@ -106,6 +106,20 @@
 	}
 }
 
+/* ==================== 夜间模式样式 ==================== */
+html.dark .main-page-header {
+	background: #1a1a1a;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .main-page-header-left-title h1 {
+	color: #e5e5e5;
+}
+
+html.dark .main-page-header-left-title p {
+	color: #a0a0a0;
+}
+
 /* ==================== 小屏幕适配 ==================== */
 @media screen and (max-width: 375px) {
 	/* 头部区域内边距调整 */
