@@ -15,8 +15,24 @@ import { HeatmapChart } from 'echarts/charts'
 import { GridComponent, LegendComponent, TitleComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
 import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
+import type { ECharts } from 'echarts/core'
 import StudentManagerPageAttendance_Records_Dialog from '@/views/StudentManagerPage/js/StudentManagerPage-Attendance_Records_Dialog'
 import StudentManagerPageStudentAttendanceServer from '@/views/StudentManagerPage/js/StudentManagerPageStudentAttendanceServer'
+
+/**
+ * 考勤记录类型定义
+ * @typedef {Object} AttendanceRecord
+ * @property {string} attendanceDateTime - 考勤时间
+ * @property {string} studentId - 学生ID
+ * @property {string} status - 考勤状态
+ */
+
+/**
+ * 学生类型定义
+ * @typedef {Object} Student
+ * @property {string} studentId - 学生ID
+ * @property {string} studentName - 学生姓名
+ */
 
 // 注册ECharts组件
 echarts.use([
@@ -45,6 +61,7 @@ const heatmapDialogChart = ref(null)
 
 /**
  * 热力图实例
+ * @type {import('echarts/core').ECharts | null}
  */
 const heatmapInstance = ref(null)
 
@@ -62,7 +79,7 @@ const attendanceRecordsLoading = ref(false)
 
 /**
  * 打开热力图弹窗
- * @param {Object} student - 学生对象
+ * @param {Student} student - 学生对象
  */
 const openHeatmapDialog = async (student) => {
 	selectedStudent.value = student
@@ -188,7 +205,7 @@ const initDialogHeatmapChart = () => {
 				fontSize: 11
 			},
 			inRange: {
-				// 使用项目主色冰川青(#3CBDB1)和辅色深空蓝(#2A5C58)
+				// 使用项目主色冰川青(#3CBDB1青色)和辅色深空蓝(#2A5C58深蓝)
 				color: themeStore.isDark
 					? ['#1a3d3a', '#236b64', '#2c9990', '#35c7bc', '#3CBDB1', '#5ecdc3']
 					: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58']
@@ -217,6 +234,7 @@ const initDialogHeatmapChart = () => {
 
 /**
  * 生成热力图数据
+ * @returns {Array<[number, number, number]>} 热力图数据 [星期索引, 时段索引, 数量]
  */
 const generateHeatmapData = () => {
 	const data = []
