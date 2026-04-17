@@ -137,62 +137,52 @@ const updateStudentInfoDialogVisible = ref(false)
 // 3.2 选中学生状态
 /**
  * 当前选中的学生对象（用于修改身份）
- * @type {Ref<Object|null>}
  */
 const selectedStudent = ref(null)
 
 /**
  * 当前选中的学生对象（用于修改管理员）
- * @type {Ref<Object|null>}
  */
 const selectedStudentForAdminChange = ref(null)
 
 /**
  * 当前选中的学生对象（用于查看考勤记录）
- * @type {Ref<Object|null>}
  */
 const selectedStudentForAttendance = ref(null)
 
 /**
  * 当前选中的学生对象（用于补卡操作）
- * @type {Ref<Object|null>}
  */
 const selectedStudentForMakeup = ref(null)
 
 /**
  * 当前选中的学生对象（用于创建积分记录操作）
- * @type {Ref<Object|null>}
  */
 const selectedStudentForPointsRecord = ref(null)
 
 /**
  * 当前选中的学生对象（用于查看改分记录操作）
- * @type {Ref<Object|null>}
  */
 const selectedStudentForViewPointsRecords = ref(null)
 
 /**
  * 当前选中的学生对象（用于修改个人信息）
- * @type {Ref<Object|null>}
  */
 const selectedStudentForUpdateInfo = ref(null)
 
 /**
  * 当前排序方式
- * @type {Ref<string>}
  */
 const currentSortBy = ref('id')
 
 // 3.3 子组件引用
 /**
  * 热力图组件引用，用于调用组件方法
- * @type {Ref<Object|null>}
  */
 const heatmapChartFormRef = ref(null)
 
 /**
  * 趋势图组件引用，用于调用组件方法
- * @type {Ref<Object|null>}
  */
 const trendChartFormRef = ref(null)
 
