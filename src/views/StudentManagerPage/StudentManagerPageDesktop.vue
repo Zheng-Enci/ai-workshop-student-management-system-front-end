@@ -1647,10 +1647,10 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 
 <template>
 	<!-- 学生管理页面主容器 -->
-	<div class="page_header student-manager-page-desktop-enter-animation">
-		<div class="page-header">
+	<div class="student-manager-page-page-header student-manager-page-desktop-enter-animation">
+		<div class="student-manager-page-page-header">
 			<!-- 页面头部左侧块 -->
-			<div class="page-header-left">
+			<div class="student-manager-page-page-header-left">
 				<el-button
 					title="返回导航页"
 					@click="goBack"
@@ -1668,11 +1668,11 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 				/>
 			</div>
 			<!-- 页面头部中间块 -->
-			<div class="page-header-middle">
+			<div class="student-manager-page-page-header-middle">
 				<h1>学生管理</h1>
 			</div>
 			<!-- 页面头部右侧块 -->
-			<div v-if="studentManagerPage.adminStudentAvatarUrl" class="page-header-right">
+			<div v-if="studentManagerPage.adminStudentAvatarUrl" class="student-manager-page-page-header-right">
 				<img
 					:src="studentManagerPage.adminStudentAvatarUrl"
 					v-lazy="studentManagerPage.adminStudentAvatarUrl"

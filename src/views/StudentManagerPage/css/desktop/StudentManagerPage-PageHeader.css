@@ -5,7 +5,7 @@
  */
 
 /* 入场动画 - 使用项目规范的弹性缓动函数 */
-@keyframes fadeInUp {
+@keyframes student-manager-page-page-header-fadeInUp {
 	0% {
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
@@ -23,7 +23,7 @@
 }
 
 .student-manager-page-desktop-enter-animation {
-	animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+	animation: student-manager-page-page-header-fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* ==================== 页面头部容器 ==================== */
@@ -32,7 +32,7 @@
  * 页面头部块
  * 使用flex布局，水平分布左侧、中间和右侧内容
  */
-.page-header {
+.student-manager-page-page-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -45,7 +45,7 @@
  * 页面头部左边块
  * 包含返回按钮和Logo图片
  */
-.page-header-left {
+.student-manager-page-page-header-left {
 	display: flex;
 	gap: 8px;
 	align-items: center;
@@ -55,7 +55,7 @@
  * 页面头部左边块按钮
  * Element Plus按钮的自定义样式，用于返回按钮
  */
-.page-header-left .el-button {
+.student-manager-page-page-header-left .el-button {
 	width: 40px;
 	margin: 5px;
 	font-size: 20px !important;
@@ -69,7 +69,7 @@
  * 页面头部左侧按钮悬停效果
  * 鼠标悬停时放大按钮，提供交互反馈
  */
-.page-header-left .el-button:hover {
+.student-manager-page-page-header-left .el-button:hover {
 	transform: scale(1.1);
 }
 
@@ -77,7 +77,7 @@
  * 页面头部左边块图片（Logo）
  * 显示应用Logo，支持点击交互
  */
-.page-header-left img {
+.student-manager-page-page-header-left img {
 	width: 64px;
 	height: 64px;
 	margin: 5px;
@@ -89,7 +89,7 @@
  * Logo图片悬停效果
  * 鼠标悬停时放大图片，提供视觉反馈
  */
-.page-header-left img:hover {
+.student-manager-page-page-header-left img:hover {
 	transform: scale(1.1);
 }
 
@@ -99,7 +99,7 @@
  * 页面头部中间块标题容器
  * 居中显示页面标题
  */
-.page-header-middle {
+.student-manager-page-page-header-middle {
 	display: flex;
 	align-items: center;
 }
@@ -108,7 +108,7 @@
  * 页面标题样式
  * 使用渐变色文字效果，增强视觉吸引力
  */
-.page-header-middle h1 {
+.student-manager-page-page-header-middle h1 {
 	margin: 0;
 	font-size: 40px;
 	font-weight: 700;
@@ -125,7 +125,7 @@
  * 页面头部块右边块
  * 显示用户信息，如用户名和头像
  */
-.page-header-right {
+.student-manager-page-page-header-right {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
@@ -137,7 +137,7 @@
  * 页面头部块右边块头像
  * 用户头像图片样式，圆形显示
  */
-.page-header-right img {
+.student-manager-page-page-header-right img {
 	width: 74px;
 	height: 74px;
 	border-radius: 25%;
@@ -148,6 +148,6 @@
  * 头像悬停效果
  * 鼠标悬停时放大头像，提供视觉反馈
  */
-.page-header-right img:hover {
+.student-manager-page-page-header-right img:hover {
 	transform: scale(1.1);
 }
