@@ -666,7 +666,7 @@ const handleMakeupTimeChange = async (student, time) => {
 	try {
 		// 弹出确认对话框
 		await ElMessageBox.confirm(
-			`您确定要为学生 <strong style="color: #409EFF;">${student.name}</strong><br/>补 <strong style="color: #67C23A;">${dateStr} ${timeStr}</strong> 的卡吗？`,
+			`您确定要为学生 <strong style="color: #3CBDB1;">${student.name}</strong><br/>补 <strong style="color: #3CBDB1;">${dateStr} ${timeStr}</strong> 的卡吗？`,
 			'确认补卡',
 			{
 				confirmButtonText: '确定',

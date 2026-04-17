@@ -3,15 +3,15 @@
  * 用于桌面端学生管理页面的学生卡片展示组件
  * ======================================== */
 
-/* 卡片入场动画 */
+/* 卡片入场动画 - 使用项目规范的弹性缓动函数 */
 @keyframes card-enter {
 	0% {
 		opacity: 0;
-		transform: translateY(20px) scale(0.9);
+		transform: translateY(30px) scale(0.95);
 	}
 	60% {
 		opacity: 1;
-		transform: translateY(0) scale(1.05);
+		transform: translateY(0) scale(1.03);
 	}
 	100% {
 		opacity: 1;
@@ -20,7 +20,7 @@
 }
 
 .student-cards-list-item {
-	animation: card-enter 0.5s ease-out backwards;
+	animation: card-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 
 /**

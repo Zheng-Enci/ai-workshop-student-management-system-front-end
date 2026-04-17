@@ -4,20 +4,24 @@
  * @description 定义学生管理页面头部的布局和样式，包括左侧导航、中间标题和右侧用户信息
  */
 
-/* 入场动画 */
+/* 入场动画 - 使用项目规范的弹性缓动函数 */
 @keyframes fadeInUp {
 	from {
 		opacity: 0;
-		transform: translateY(30px);
+		transform: translateY(30px) scale(0.95);
+	}
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.02);
 	}
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1);
 	}
 }
 
 .student-manager-page-desktop-enter-animation {
-	animation: fadeInUp 0.6s ease-out forwards;
+	animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* ==================== 页面头部容器 ==================== */
@@ -61,7 +65,7 @@
 .page-header-left .el-button {
 	font-size: 20px !important; /* 字体大小 */
 	border: none; /* 无边框 */
-	background: #1e88e5; /* 蓝色背景 */
+	background: #3CBDB1; /* 冰川青 - 项目主色 */
 	border-radius: 20%; /* 圆角 */
 	width: 40px; /* 宽度 */
 	margin: 5px; /* 外边距 */
@@ -106,8 +110,8 @@
 	margin: 0; /* 无外边距 */
 	font-size: 40px; /* 字体大小 */
 	font-weight: 700; /* 字体粗细 */
-	/* 渐变背景：从蓝紫色到紫色 */
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	/* 渐变背景：冰川青到深空蓝 - 项目配色 */
+	background: linear-gradient(135deg, #3CBDB1 0%, #2A5C58 100%);
 	-webkit-background-clip: text; /* WebKit浏览器文字裁剪 */
 	-webkit-text-fill-color: transparent; /* 透明文字，显示背景 */
 	background-clip: text; /* 标准文字裁剪 */
