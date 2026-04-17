@@ -130,36 +130,51 @@ html.dark {
 
 /* ==================== 弹性缓动函数 ==================== */
 @keyframes identifyAuthFadeInDown {
-	from {
+	0% {
 		opacity: 0;
-		transform: translateY(-20px) scale(0.95);
+		transform: translateY(-20px) scale(0.9);
 	}
 
-	to {
+	70% {
+		opacity: 1;
+		transform: translateY(0) scale(1.05);
+	}
+
+	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
 	}
 }
 
 @keyframes identifyAuthFadeInUp {
-	from {
+	0% {
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
 	}
 
-	to {
+	70% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
+	}
+
+	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
 	}
 }
 
 @keyframes identifyAuthZoomIn {
-	from {
+	0% {
 		opacity: 0;
 		transform: scale(0.7) rotate(-15deg);
 	}
 
-	to {
+	70% {
+		opacity: 1;
+		transform: scale(1.15) rotate(0deg);
+	}
+
+	100% {
 		opacity: 1;
 		transform: scale(1) rotate(0deg);
 	}
