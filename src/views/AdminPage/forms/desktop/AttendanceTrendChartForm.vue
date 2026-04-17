@@ -311,7 +311,7 @@ defineExpose({
 			</div>
 		</div>
 		<template #footer>
-			<div class="dialog-footer">
+			<div class="admin-page-desktop-dialog-footer">
 				<el-button @click="closeTrendChartDialog">关闭</el-button>
 			</div>
 		</template>

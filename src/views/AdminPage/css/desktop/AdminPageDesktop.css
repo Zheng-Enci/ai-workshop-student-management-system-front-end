@@ -54,30 +54,30 @@ html.dark {
 
 /* 身份验证界面样式 */
 
-.loading-container {
+.admin-page-desktop-loading-container {
 	color: var(--admin-text-primary);
 	text-align: center;
 }
 
-.loading-spinner {
+.admin-page-desktop-loading-spinner {
 	position: relative;
 	width: 80px;
 	height: 80px;
 	margin: 0 auto 30px;
 }
 
-@keyframes spin {
+@keyframes admin-page-desktop-spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
 
-.header-left {
+.admin-page-desktop-header-left {
 	display: flex;
 	gap: 20px;
 	align-items: center;
 }
 
-.logo {
+.admin-page-desktop-logo {
 	width: 50px;
 	height: 50px;
 	cursor: pointer;
@@ -85,32 +85,32 @@ html.dark {
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.logo:hover {
+.admin-page-desktop-logo:hover {
 	filter: brightness(1.2);
 	transform: scale(1.1);
 }
 
-.title-section h1 {
+.admin-page-desktop-title-section h1 {
 	margin: 0 0 4px;
 	font-size: 28px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
-.title-section p {
+.admin-page-desktop-title-section p {
 	margin: 0;
 	font-size: 14px;
 	font-weight: 500;
 	color: var(--admin-text-secondary);
 }
 
-.header-right {
+.admin-page-desktop-header-right {
 	display: flex;
 	gap: 15px;
 	align-items: center;
 }
 
-.section-header {
+.admin-page-desktop-section-header {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 20px;
@@ -118,14 +118,14 @@ html.dark {
 	margin-bottom: 30px;
 }
 
-.section-header h2 {
+.admin-page-desktop-section-header h2 {
 	margin: 0;
 	font-size: 24px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
-.header-actions {
+.admin-page-desktop-header-actions {
 	display: flex;
 	gap: 15px;
 	align-items: center;
@@ -137,7 +137,7 @@ html.dark {
 
 /* 设置标签页边框完全透明 */
 
-.student-name {
+.admin-page-desktop-student-name {
 	margin-bottom: 4px;
 	font-size: 18px;
 	font-weight: 800;
@@ -146,19 +146,19 @@ html.dark {
 	text-shadow: 0 2px 8px var(--shadow-color);
 }
 
-.student-id {
+.admin-page-desktop-student-id {
 	font-size: 14px;
 	font-weight: 600;
 	color: var(--text-secondary);
 	text-shadow: 0 1px 4px var(--shadow-color);
 }
 
-.attendance-icon {
+.admin-page-desktop-attendance-icon {
 	font-size: 16px;
 	filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.2));
 }
 
-.student-details {
+.admin-page-desktop-student-details {
 	display: flex;
 	flex: 1;
 	flex-wrap: wrap;
@@ -166,66 +166,65 @@ html.dark {
 	align-items: center;
 }
 
-.label {
+.admin-page-desktop-label {
 	margin-right: 4px;
 	font-weight: 600;
 	color: var(--text-secondary);
 	text-shadow: 0 1px 4px var(--shadow-color);
 }
 
-.value {
+.admin-page-desktop-value {
 	font-weight: 700;
 	color: var(--text-primary);
 	text-shadow: 0 1px 4px var(--shadow-color);
 }
 
-.student-id {
+.admin-page-desktop-student-id {
 	font-family: 'Courier New', monospace;
 	font-weight: 600;
 	color: var(--admin-text-secondary);
 }
 
-.student-name {
+.admin-page-desktop-student-name {
 	font-weight: 600;
 	color: var(--admin-text-primary);
 }
 
 
-.college, .major {
+.admin-page-desktop-college, .admin-page-desktop-major {
 	color: var(--admin-text-primary);
 }
 
 
 
-@keyframes pulse-blue {
+@keyframes admin-page-desktop-pulse-blue {
 	0%, 100% { box-shadow: 0 0 20px #00F, inset 0 0 20px #00F; }
 	50% { box-shadow: 0 0 40px #00F, inset 0 0 40px #00F; }
 }
 
-@keyframes pulse-green {
+@keyframes admin-page-desktop-pulse-green {
 	0%, 100% { box-shadow: 0 0 20px #0F0, inset 0 0 20px #0F0; }
 	50% { box-shadow: 0 0 40px #0F0, inset 0 0 40px #0F0; }
 }
 
-@keyframes pulse-orange {
+@keyframes admin-page-desktop-pulse-orange {
 	0%, 100% { box-shadow: 0 0 20px #FFA500, inset 0 0 20px #FFA500; }
 	50% { box-shadow: 0 0 40px #FFA500, inset 0 0 40px #FFA500; }
 }
 
-@keyframes pulse-red {
+@keyframes admin-page-desktop-pulse-red {
 	0%, 100% { box-shadow: 0 0 20px #F00, inset 0 0 20px #F00; }
 	50% { box-shadow: 0 0 40px #F00, inset 0 0 40px #F00; }
 }
 
 /* 超级管理员页面表单背景色 - 夜间模式 */
-html.dark .el-dialog__body {
+html.dark .admin-page-desktop-el-dialog__body {
 	background: #000 !important;
 }
 
 
-.heatmap-dialog,
-.attendance-records-dialog {
-	
+.admin-page-desktop-heatmap-dialog,
+.admin-page-desktop-attendance-records-dialog {
 	.el-dialog,
 	.el-overlay,
 	.el-dialog__header,
@@ -267,11 +266,11 @@ html.dark .el-dialog__body {
 }
 
 /* 超级管理员页面表单背景色 - 日间模式 */
-.el-dialog__body {
+.admin-page-desktop-el-dialog__body {
 	background: #fff !important;
 }
 
-.dialog-footer {
+.admin-page-desktop-dialog-footer {
 	display: flex;
 	gap: 12px;
 	justify-content: flex-end;
@@ -295,7 +294,7 @@ html.dark .el-dialog__body {
 	}
 }
 
-.attendance-records-dialog {
+.admin-page-desktop-attendance-records-dialog {
 	max-height: calc(90vh - 20px);
 
 	.el-dialog__header {
@@ -317,7 +316,7 @@ html.dark .el-dialog__body {
 	}
 }
 
-.student-avatar-large {
+.admin-page-desktop-student-avatar-large {
 	display: flex;
 	flex-shrink: 0;
 	align-items: center;
@@ -331,60 +330,60 @@ html.dark .el-dialog__body {
 	border-radius: 50%;
 }
 
-.student-info {
+.admin-page-desktop-student-info {
 	flex: 1;
 	min-width: 0;
 }
 
-.student-info h3 {
+.admin-page-desktop-student-info h3 {
 	margin: 0 0 3px;
 	font-size: 15px;
 	font-weight: 700;
 	color: #1f2937;
 }
 
-.student-info p {
+.admin-page-desktop-student-info p {
 	margin: 1px 0;
 	font-size: 12px;
 	line-height: 1.3;
 	color: #6b7280;
 }
 
-.attendance-summary {
+.admin-page-desktop-attendance-summary {
 	display: flex;
 	gap: 12px;
 	align-items: center;
 }
 
-.summary-item {
+.admin-page-desktop-summary-item {
 	display: flex;
 	flex-direction: column;
 	gap: 2px;
 	align-items: center;
 }
 
-.summary-label {
+.admin-page-desktop-summary-label {
 	font-size: 12px;
 	font-weight: 500;
 	color: #6b7280;
 }
 
-.summary-value {
+.admin-page-desktop-summary-value {
 	font-size: 16px;
 	font-weight: 700;
 	color: #3E9EAC;
 }
 
-.attendance-records-container {
+.admin-page-desktop-attendance-records-container {
 	margin-top: 8px;
 }
 
-.chart-container {
+.admin-page-desktop-chart-container {
 	min-height: 500px;
 	margin: 20px 0;
 }
 
-.chart-item-admin {
+.admin-page-desktop-chart-item-admin {
 	padding: 20px;
 	background: var(--admin-glass-bg);
 	border: 1px solid var(--admin-glass-border);
@@ -392,7 +391,7 @@ html.dark .el-dialog__body {
 	box-shadow: 0 8px 32px var(--admin-shadow-color);
 }
 
-.chart-title-admin {
+.admin-page-desktop-chart-title-admin {
 	margin-bottom: 15px;
 	font-size: 16px;
 	font-weight: 600;
@@ -400,13 +399,13 @@ html.dark .el-dialog__body {
 	text-align: center;
 }
 
-.chart-content-admin {
+.admin-page-desktop-chart-content-admin {
 	width: 100%;
 	height: 400px;
 }
 
 
-.calendar-cell-admin {
+.admin-page-desktop-calendar-cell-admin {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -418,25 +417,25 @@ html.dark .el-dialog__body {
 	transition: all 0.2s ease;
 }
 
-.calendar-cell-admin:hover {
+.admin-page-desktop-calendar-cell-admin:hover {
 	background-color: var(--admin-bg-secondary);
 	border-radius: 4px;
 }
 
-.cell-date-admin {
+.admin-page-desktop-cell-date-admin {
 	margin-bottom: 4px;
 	font-size: 14px;
 	font-weight: 600;
 	color: var(--admin-text-primary);
 }
 
-.cell-status-admin {
+.admin-page-desktop-cell-status-admin {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.time-slot-status-admin {
+.admin-page-desktop-time-slot-status-admin {
 	display: flex;
 	flex-direction: row;
 	gap: 2px;
@@ -444,7 +443,7 @@ html.dark .el-dialog__body {
 	margin-top: 2px;
 }
 
-.time-slot-admin {
+.admin-page-desktop-time-slot-admin {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -458,13 +457,13 @@ html.dark .el-dialog__body {
 	transition: all 0.3s ease;
 }
 
-.time-slot-admin.signed {
+.admin-page-desktop-time-slot-admin.signed {
 	background-color: #4caf50;
 	border-color: #2e7d32;
 	box-shadow: 0 2px 4px rgb(76 175 80 / 0.3);
 }
 
-.time-label-admin {
+.admin-page-desktop-time-label-admin {
 	font-size: 8px;
 	font-weight: 700;
 	line-height: 1;
@@ -472,28 +471,28 @@ html.dark .el-dialog__body {
 	transition: color 0.3s ease;
 }
 
-.time-slot-admin.signed .time-label-admin {
+.admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
 	color: #fff;
 	text-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
 }
 
-.attendance-calendar {
+.admin-page-desktop-attendance-calendar {
 	width: 100%;
 }
 
-.attendance-calendar :deep(.el-calendar__header) {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar__header) {
 	display: none;
 }
 
-.attendance-calendar :deep(.el-calendar__body) {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar__body) {
 	padding: 0;
 }
 
-.attendance-calendar :deep(.el-calendar-table) {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table) {
 	border: none;
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th) {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th) {
 	padding: 12px 0;
 	font-size: 14px;
 	font-weight: 600;
@@ -502,54 +501,54 @@ html.dark .el-dialog__body {
 	border: none;
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th:nth-child(1))::after {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th:nth-child(1))::after {
 	content: '周日';
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th:nth-child(2))::after {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th:nth-child(2))::after {
 	content: '周一';
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th:nth-child(3))::after {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th:nth-child(3))::after {
 	content: '周二';
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th:nth-child(4))::after {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th:nth-child(4))::after {
 	content: '周三';
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th:nth-child(5))::after {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th:nth-child(5))::after {
 	content: '周四';
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th:nth-child(6))::after {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th:nth-child(6))::after {
 	content: '周五';
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th:nth-child(7))::after {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th:nth-child(7))::after {
 	content: '周六';
 }
 
-.attendance-calendar :deep(.el-calendar-table thead th) {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table thead th) {
 	font-size: 0;
 }
 
-.attendance-calendar :deep(.el-calendar-table tbody td) {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table tbody td) {
 	height: 80px;
 	padding: 0;
 	vertical-align: top;
 	border: 1px solid #e9ecef;
 }
 
-.attendance-calendar :deep(.el-calendar-table tbody td.is-today) {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table tbody td.is-today) {
 	background: rgb(102 126 234 / 0.1);
 }
 
-.attendance-calendar :deep(.el-calendar-table tbody td.is-selected) {
+.admin-page-desktop-attendance-calendar :deep(.el-calendar-table tbody td.is-selected) {
 	background: rgb(102 126 234 / 0.2);
 }
 
-.calendar-legend {
+.admin-page-desktop-calendar-legend {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 20px;
@@ -560,7 +559,7 @@ html.dark .el-dialog__body {
 	border-radius: 12px;
 }
 
-.legend-item {
+.admin-page-desktop-legend-item {
 	display: flex;
 	gap: 8px;
 	align-items: center;
@@ -568,56 +567,56 @@ html.dark .el-dialog__body {
 	color: #6B7280;
 }
 
-.legend-dot {
+.admin-page-desktop-legend-dot {
 	width: 12px;
 	height: 12px;
 	border-radius: 50%;
 }
 
-.legend-dot.morning {
+.admin-page-desktop-legend-dot.morning {
 	background: linear-gradient(135deg, #10B981 0%, #059669 100%);
 	box-shadow: 0 0 6px rgb(16 185 129 / 0.4);
 }
 
-.legend-dot.afternoon {
+.admin-page-desktop-legend-dot.afternoon {
 	background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
 	box-shadow: 0 0 6px rgb(245 158 11 / 0.4);
 }
 
-.legend-dot.evening {
+.admin-page-desktop-legend-dot.evening {
 	background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
 	box-shadow: 0 0 6px rgb(139 92 246 / 0.4);
 }
 
-.no-records {
+.admin-page-desktop-no-records {
 	padding: 60px 20px;
 	color: #7f8c8d;
 	text-align: center;
 }
 
-.no-records-icon {
+.admin-page-desktop-no-records-icon {
 	margin-bottom: 20px;
 	font-size: 48px;
 	color: #ddd;
 }
 
-.no-records p {
+.admin-page-desktop-no-records p {
 	margin: 0;
 	font-size: 16px;
 }
 
-.records-list {
+.admin-page-desktop-records-list {
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
 }
 
-.student-details {
+.admin-page-desktop-student-details {
 	flex: 1;
 	min-width: 0;
 }
 
-.student-name {
+.admin-page-desktop-student-name {
 	margin-bottom: 4px;
 	font-size: 16px;
 	font-weight: 700;
@@ -625,7 +624,7 @@ html.dark .el-dialog__body {
 	color: #1F2937;
 }
 
-.student-id {
+.admin-page-desktop-student-id {
 	font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', monospace;
 	font-size: 13px;
 	font-weight: 500;
@@ -633,15 +632,15 @@ html.dark .el-dialog__body {
 	color: #6B7280;
 }
 
-html.dark .student-name {
+html.dark .admin-page-desktop-student-name {
 	color: var(--text-primary);
 }
 
-html.dark .student-id {
+html.dark .admin-page-desktop-student-id {
 	color: var(--text-secondary);
 }
 
-.calendar-cell-admin {
+.admin-page-desktop-calendar-cell-admin {
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
@@ -652,64 +651,64 @@ html.dark .student-id {
 	transition: all 0.2s ease;
 }
 
-.calendar-cell-admin:hover {
+.admin-page-desktop-calendar-cell-admin:hover {
 	background: var(--admin-bg-secondary);
 }
 
-.cell-date-admin {
+.admin-page-desktop-cell-date-admin {
 	font-size: 13px;
 	font-weight: 700;
 	color: var(--admin-text-primary);
 }
 
-html.dark .student-info h3 {
+html.dark .admin-page-desktop-student-info h3 {
 	color: var(--admin-text-primary);
 }
 
-html.dark .student-info p {
+html.dark .admin-page-desktop-student-info p {
 	color: var(--admin-text-secondary);
 }
 
-html.dark .summary-label {
+html.dark .admin-page-desktop-summary-label {
 	color: var(--admin-text-secondary);
 }
 
-html.dark .summary-value {
+html.dark .admin-page-desktop-summary-value {
 	color: var(--admin-primary-color);
 }
 
-html.dark .calendar-container {
+html.dark .admin-page-desktop-calendar-container {
 	background: var(--admin-glass-bg);
 	border: 1px solid var(--admin-glass-border);
 }
 
 
 
-html.dark .calendar-legend {
+html.dark .admin-page-desktop-calendar-legend {
 	background: var(--admin-bg-secondary);
 	border: 1px solid var(--admin-border-color);
 }
 
-html.dark .legend-item {
+html.dark .admin-page-desktop-legend-item {
 	color: var(--admin-text-secondary);
 }
 
-html.dark .time-slot-admin {
+html.dark .admin-page-desktop-time-slot-admin {
 	background-color: #2a2a2a;
 	border-color: #404040;
 }
 
-html.dark .time-slot-admin.signed {
+html.dark .admin-page-desktop-time-slot-admin.signed {
 	background-color: #4caf50;
 	border-color: #2e7d32;
 	box-shadow: 0 2px 4px rgb(76 175 80 / 0.4);
 }
 
-html.dark .time-label-admin {
+html.dark .admin-page-desktop-time-label-admin {
 	color: #ccc;
 }
 
-html.dark .time-slot-admin.signed .time-label-admin {
+html.dark .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
 	color: #fff;
 	text-shadow: 0 1px 2px rgb(0 0 0 / 0.3);
 }
@@ -718,7 +717,7 @@ html.dark .time-slot-admin.signed .time-label-admin {
 
 /* 完全禁用弹窗过渡动画，避免闪烁 */
 
-.el-dialog {
+.admin-page-desktop-el-dialog {
 	transform: none !important;
 	transition: none !important;
 	transition-delay: 0s !important;
@@ -726,28 +725,28 @@ html.dark .time-slot-admin.signed .time-label-admin {
 	animation: none !important;
 }
 
-.el-overlay {
+.admin-page-desktop-el-overlay {
 	transition: none !important;
 	transition-delay: 0s !important;
 	transition-duration: 0s !important;
 	animation: none !important;
 }
 
-.el-dialog__body {
+.admin-page-desktop-el-dialog__body {
 	transition: none !important;
 	transition-delay: 0s !important;
 	transition-duration: 0s !important;
 	animation: none !important;
 }
 
-.el-dialog__header {
+.admin-page-desktop-el-dialog__header {
 	transition: none !important;
 	transition-delay: 0s !important;
 	transition-duration: 0s !important;
 	animation: none !important;
 }
 
-.el-dialog__footer {
+.admin-page-desktop-el-dialog__footer {
 	transition: none !important;
 	transition-delay: 0s !important;
 	transition-duration: 0s !important;
@@ -756,29 +755,29 @@ html.dark .time-slot-admin.signed .time-label-admin {
 
 /* 禁用 BaseTransition 组件的过渡动画 */
 
-.student-details {
+.admin-page-desktop-student-details {
 	flex: 1;
 }
 
-.student-name {
+.admin-page-desktop-student-name {
 	margin-bottom: 4px;
 	font-size: 18px;
 	font-weight: 700;
 	color: #1f2937;
 }
 
-.student-id {
+.admin-page-desktop-student-id {
 	margin-bottom: 4px;
 	font-family: 'Courier New', monospace;
 	font-size: 14px;
 	color: #6b7280;
 }
 
-html.dark .student-name {
+html.dark .admin-page-desktop-student-name {
 	color: #e2e8f0;
 }
 
-html.dark .student-id {
+html.dark .admin-page-desktop-student-id {
 	color: #cbd5e1;
 }
 
@@ -786,8 +785,8 @@ html.dark .student-id {
 
 /* 改分记录查看弹窗样式 */
 
-.records-loading,
-.records-empty {
+.admin-page-desktop-records-loading,
+.admin-page-desktop-records-empty {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
@@ -797,30 +796,30 @@ html.dark .student-id {
 	color: var(--admin-text-secondary);
 }
 
-.records-loading .el-icon {
+.admin-page-desktop-records-loading .el-icon {
 	font-size: 40px;
 	color: var(--admin-primary-color);
 }
 
-.records-empty .el-icon {
+.admin-page-desktop-records-empty .el-icon {
 	font-size: 56px;
 	color: var(--admin-text-tertiary);
 	opacity: 0.5;
 }
 
-.records-loading span,
-.records-empty span {
+.admin-page-desktop-records-loading span,
+.admin-page-desktop-records-empty span {
 	font-size: 14px;
 	font-weight: 500;
 }
 
-.records-grid {
+.admin-page-desktop-records-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 	gap: 16px;
 }
 
-.record-card {
+.admin-page-desktop-record-card {
 	padding: 16px;
 	background: linear-gradient(135deg, rgb(102 126 234 / 0.08) 0%, rgb(0 242 254 / 0.05) 100%);
 	border: 1px solid rgb(102 126 234 / 0.15);
@@ -829,21 +828,21 @@ html.dark .student-id {
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.record-card:hover {
+.admin-page-desktop-record-card:hover {
 	background: linear-gradient(135deg, rgb(102 126 234 / 0.12) 0%, rgb(0 242 254 / 0.08) 100%);
 	border-color: rgb(102 126 234 / 0.25);
 	box-shadow: 0 8px 32px rgb(0 0 0 / 0.15);
 	transform: translateY(-4px);
 }
 
-.record-header {
+.admin-page-desktop-record-header {
 	display: flex;
 	gap: 12px;
 	align-items: center;
 	margin-bottom: 12px;
 }
 
-.record-time {
+.admin-page-desktop-record-time {
 	flex: 1;
 	min-width: 0;
 	font-size: 13px;
@@ -852,7 +851,7 @@ html.dark .student-id {
 	word-break: break-word;
 }
 
-.record-points-badge {
+.admin-page-desktop-record-points-badge {
 	flex-shrink: 0;
 	min-width: 70px;
 	padding: 6px 14px;
@@ -863,30 +862,30 @@ html.dark .student-id {
 	transition: all 0.3s ease;
 }
 
-.record-points-badge.positive {
+.admin-page-desktop-record-points-badge.positive {
 	color: #3E9EAC;
 	background: rgb(62 158 172 / 0.15);
 	border: 1px solid rgb(62 158 172 / 0.3);
 }
 
-.record-points-badge.negative {
+.admin-page-desktop-record-points-badge.negative {
 	color: #1F4277;
 	background: rgb(31 66 119 / 0.15);
 	border: 1px solid rgb(31 66 119 / 0.3);
 }
 
-.record-reason-text {
+.admin-page-desktop-record-reason-text {
 	font-size: 14px;
 	line-height: 1.6;
 	color: var(--admin-text-primary);
 	word-break: break-word;
 }
 
-.summary-value.positive {
+.admin-page-desktop-summary-value.positive {
 	color: #3E9EAC;
 }
 
-.summary-value.negative {
+.admin-page-desktop-summary-value.negative {
 	color: #1F4277;
 }
 

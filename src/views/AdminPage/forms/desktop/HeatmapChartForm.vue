@@ -267,7 +267,7 @@ defineExpose({
 		v-model="heatmapDialogVisible"
 		:title="`${selectedStudent?.name} 的签到热力图`"
 		width="80%"
-		class="heatmap-dialog"
+		class="admin-page-desktop-heatmap-dialog"
 		destroy-on-close
 		:close-on-click-modal="false"
 		:append-to-body="true"
@@ -296,7 +296,7 @@ defineExpose({
 			</div>
 		</div>
 		<template #footer>
-			<div class="dialog-footer">
+			<div class="admin-page-desktop-dialog-footer">
 				<el-button @click="closeHeatmapDialog">关闭</el-button>
 			</div>
 		</template>
