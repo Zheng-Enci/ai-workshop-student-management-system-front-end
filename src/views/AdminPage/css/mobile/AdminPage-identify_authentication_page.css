@@ -32,9 +32,9 @@ html.dark {
 }
 
 .identify-authentication-page-header-left .el-button {
-	padding: 6px 12px;
-	font-size: 12px;
-	border-radius: 6px;
+	padding: 4px 8px;
+	font-size: 11px;
+	border-radius: 4px;
 	background: linear-gradient(135deg, #3CBDB1 0%, #2A5C58 100%);
 	border: none;
 	color: #fff;
