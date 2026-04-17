@@ -398,20 +398,6 @@ html.dark .admin-page-desktop-el-dialog__body {
 	color: #666;
 }
 
-html.dark .admin-page-desktop-time-label-admin {
-	color: #ccc;
-}
-
-.admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
-	color: #fff;
-	text-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
-}
-
-html.dark .admin-page-desktop-time-slot-admin.signed .admin-page-desktop-time-label-admin {
-	color: #fff;
-	text-shadow: 0 1px 4px rgb(0 0 0 / 0.5);
-}
-
 .admin-page-desktop-attendance-calendar {
 	width: 100%;
 }
