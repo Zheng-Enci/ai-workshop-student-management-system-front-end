@@ -4,7 +4,7 @@
  * ======================================== */
 
 /* 卡片入场动画 - 使用项目规范的弹性缓动函数 */
-@keyframes card-enter {
+@keyframes student-manager-page-student-cards-card-enter {
 	0% {
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
@@ -26,7 +26,7 @@
  * 每张卡片包含头像、姓名、积分等信息
  * 同时定义入场动画
  */
-.student-cards-list-item {
+.student-manager-page-student-cards-list-item {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
@@ -34,14 +34,14 @@
 	padding: 18px 16px;
 	font-size: 0.9rem;
 	border-radius: 8%;
-	animation: card-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+	animation: student-manager-page-student-cards-card-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 
 /**
  * 学生卡片主容器
  * 包含头部和卡片列表的整体布局
  */
-.student-cards {
+.student-manager-page-student-cards {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
@@ -58,7 +58,7 @@
  * 卡片头部容器
  * 包含标题和搜索框，使用Flexbox实现两端对齐布局
  */
-.student-cards-header {
+.student-manager-page-student-cards-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -68,7 +68,7 @@
  * 头部标题样式
  * 显示"学生卡片"等页面标题
  */
-.student-cards-header h2 {
+.student-manager-page-student-cards-header h2 {
 	font-size: 1.8rem;
 }
 
@@ -76,7 +76,7 @@
  * 头部搜索框宽度设置
  * 使用Element Plus的el-input组件
  */
-.student-cards-header .el-input {
+.student-manager-page-student-cards-header .el-input {
 	width: 32%;
 }
 
@@ -88,7 +88,7 @@
  * 卡片列表容器
  * 使用Flexbox实现卡片网格布局，支持自动换行
  */
-.student-cards-list {
+.student-manager-page-student-cards-list {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 16px;
@@ -102,7 +102,7 @@
  * 日间模式卡片背景
  * 使用浅蓝色背景，营造清爽的视觉效果
  */
-html.light .student-cards-list-item {
+html.light .student-manager-page-student-cards-list-item {
 	background: rgb(59 130 246 / 0.12);
 	transition: background-color 0.4s ease;
 }
@@ -111,7 +111,7 @@ html.light .student-cards-list-item {
  * 夜间模式卡片背景
  * 使用深灰色背景，减少刺眼感，保护视力
  */
-html.dark .student-cards-list-item {
+html.dark .student-manager-page-student-cards-list-item {
 	background: #1a202c;
 	transition: background-color 0.4s ease;
 }
@@ -120,7 +120,7 @@ html.dark .student-cards-list-item {
  * 夜间模式卡片内所有文字颜色
  * 使用通用选择器*，确保所有子元素文字颜色统一
  */
-html.dark .student-cards-list-item * {
+html.dark .student-manager-page-student-cards-list-item * {
 	color: #c8c8c8 !important;
 }
 
@@ -132,7 +132,7 @@ html.dark .student-cards-list-item * {
  * 卡片头部容器
  * 包含头像和基本信息（姓名、学号、签到次数）
  */
-.student-cards-list-item-header {
+.student-manager-page-student-cards-list-item-header {
 	display: flex;
 	gap: 16px;
 }
@@ -141,7 +141,7 @@ html.dark .student-cards-list-item * {
  * 卡片头像图片
  * 显示学生的个人头像
  */
-.student-cards-list-item-header img {
+.student-manager-page-student-cards-list-item-header img {
 	width: 80px;
 	height: 80px;
 	border-radius: 25%;
@@ -151,7 +151,7 @@ html.dark .student-cards-list-item * {
  * 基本信息容器
  * 包含姓名、学号和签到次数三个信息项
  */
-.student-cards-list-item-header-name-info {
+.student-manager-page-student-cards-list-item-header-name-info {
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
@@ -162,7 +162,7 @@ html.dark .student-cards-list-item * {
  * 单个信息项容器
  * 用于包裹姓名、学号、签到次数等文本
  */
-.student-cards-list-item-header-name-info div {
+.student-manager-page-student-cards-list-item-header-name-info div {
 	display: flex;
 }
 
@@ -174,7 +174,7 @@ html.dark .student-cards-list-item * {
  * 积分信息块
  * 显示学生的积分相关数据
  */
-.student-cards-list-item-points {
+.student-manager-page-student-cards-list-item-points {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 16px;
@@ -192,7 +192,7 @@ html.dark .student-cards-list-item * {
  * 其他信息块
  * 显示学生的其他信息，如等级、管理员等
  */
-.student-cards-list-item-other-info {
+.student-manager-page-student-cards-list-item-other-info {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 12px 20px;
@@ -205,7 +205,7 @@ html.dark .student-cards-list-item * {
  * 其他信息项
  * 单个信息信息的右侧间距
  */
-.student-cards-list-item-other-info div {
+.student-manager-page-student-cards-list-item-other-info div {
 	margin-right: 16px;
 }
 
@@ -217,7 +217,7 @@ html.dark .student-cards-list-item * {
  * 按钮容器
  * 包含编辑、删除等操作按钮
  */
-.student-cards-list-item-buttons {
+.student-manager-page-student-cards-list-item-buttons {
 	display: flex;
 }
 
@@ -225,7 +225,7 @@ html.dark .student-cards-list-item * {
  * 按钮样式
  * Element Plus的el-button组件
  */
-.student-cards-list-item-buttons .el-button {
+.student-manager-page-student-cards-list-item-buttons .el-button {
 	padding: 1px 7px;
 	font-size: 0.8rem;
 }
@@ -234,6 +234,6 @@ html.dark .student-cards-list-item * {
  * 按钮悬停效果
  * 提供交互反馈，增强用户体验
  */
-.student-cards-list-item-buttons .el-button:hover {
+.student-manager-page-student-cards-list-item-buttons .el-button:hover {
 	transform: scale(1.05);
 }

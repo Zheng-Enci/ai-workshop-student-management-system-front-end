@@ -1680,9 +1680,9 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 				/>
 			</div>
 		</div>
-		<div class="student-cards">
+		<div class="student-manager-page-student-cards">
 			<!-- 学生卡片列表块头部 -->
-			<div class="student-cards-header">
+			<div class="student-manager-page-student-cards-header">
 				<h2>管理的学生列表</h2>
 				<el-input
 					v-model="searchQuery"
@@ -1721,12 +1721,12 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 				</div>
 			</div>
 			<!-- 学生卡片列表块内容 -->
-			<div v-if="!loading && filteredStudents.length > 0" class="student-cards-list">
+			<div v-if="!loading && filteredStudents.length > 0" class="student-manager-page-student-cards-list">
 				<div v-for="(student, index) in filteredStudents" :key="student.studentId"
-				     class="student-cards-list-item"
+				     class="student-manager-page-student-cards-list-item"
 				     :style="{ animationDelay: `${index * 0.15}s` }">
 					<!-- 学生卡片头部块 -->
-					<div class="student-cards-list-item-header">
+					<div class="student-manager-page-student-cards-list-item-header">
 						<!-- 块1：头像 -->
 						<img
 							:src="getStudentAvatarUrl(student)"
@@ -1738,7 +1738,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 						/>
 
 						<!-- 块2：学号 名字和签到次数 -->
-						<div class="student-cards-list-item-header-name-info">
+						<div class="student-manager-page-student-cards-list-item-header-name-info">
 							<div>
 								<span>姓名：</span>
 								<span>{{ student.name }}</span>
@@ -1755,7 +1755,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 					</div>
 
 					<!-- 学生卡片积分块 -->
-					<div class="student-cards-list-item-points">
+					<div class="student-manager-page-student-cards-list-item-points">
 						<div>
 							<span>总积分:&nbsp;</span>
 							<span>{{ student.points + Math.round(student.checkInCount * 0.64) }}</span>
@@ -1771,7 +1771,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 						</div>
 					</div>
 					<!-- 学生卡片其他信息块 -->
-					<div class="student-cards-list-item-other-info">
+					<div class="student-manager-page-student-cards-list-item-other-info">
 						<div>
 							<span>年级:&nbsp;</span>
 							<span>{{ student.grade }}年级</span>
@@ -1798,7 +1798,7 @@ watch(() => StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceR
 						</div>
 					</div>
 					<!-- 学生卡片按钮块 -->
-					<div class="student-cards-list-item-buttons">
+					<div class="student-manager-page-student-cards-list-item-buttons">
 						<el-button
 							type="success"
 							size="small"
