@@ -12,6 +12,7 @@
 interface ConfigServerType {
 	API_BASE_URL: string
 	VERIFICATION_CODE_URL: string
+	IP_MONITOR_BASE_URL: string
 	APP_TITLE: string
 	APP_VERSION: string
 	STUDENT_LEVEL_NAMES: {
@@ -32,6 +33,7 @@ interface ConfigServerType {
 export const ConfigServer: ConfigServerType = {
 	API_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-main_backend',
 	VERIFICATION_CODE_URL: 'http://10.0.48.168:7001/api/v1/attendance/verification-code',
+	IP_MONITOR_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-ip_monitor',
 	APP_TITLE: 'AI坊学生管理系统',
 	APP_VERSION: '1.0.0',
 	
