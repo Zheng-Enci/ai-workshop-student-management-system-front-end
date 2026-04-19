@@ -13,7 +13,6 @@ import DeviceDetector, { DeviceType } from '@/composables/ts/DeviceDetector'
 
 /**
  * 路由实例
- * @type {Router}
  * @description 用于页面跳转和路由导航
  */
 const router = useRouter()
@@ -27,9 +26,9 @@ const loadingMaskStore = useLoadingMaskStore()
  * 检测设备类型
  *
  * @description 使用DeviceDetector检测设备类型
- * @returns {string} 'mobile' 表示移动端, 'desktop' 表示桌面端
+ * @returns 'mobile' 表示移动端, 'desktop' 表示桌面端
  */
-const detectDeviceType = () => {
+const detectDeviceType = (): 'mobile' | 'desktop' => {
 	const deviceType = DeviceDetector.detect()
 	// 平板设备也归类为移动端
 	return deviceType === DeviceType.DESKTOP ? 'desktop' : 'mobile'
