@@ -6,10 +6,10 @@
  * @description 管理IP监控页面的所有数据，包括IP统计、扫描次数、坊内IP列表和IP范围
  */
 
-import { ref, reactive } from 'vue'
+import {reactive, ref} from 'vue'
+import type {FangIPsData, IPCountsData, IPRangeData, ScanCountData} from '@/api/ts/IPMonitorApi'
 import IPMonitorApi from '@/api/ts/IPMonitorApi'
-import type { IPCountsData, ScanCountData, FangIPsData, IPRangeData } from '@/api/ts/IPMonitorApi'
-import { useLoadingMaskStore } from '@/stores/ts/loading'
+import {useLoadingMaskStore} from '@/stores/ts/loading'
 
 /**
  * IP监控页面数据接口
@@ -56,14 +56,6 @@ class IPMonitorPageDesktop {
 	private isLoaded = ref(false)
 
 	/**
-	 * 错误信息
-	 * 存储数据加载过程中的错误信息
-	 *
-	 * @private
-	 */
-	private error = ref<string | null>(null)
-
-	/**
 	 * 单例实例
 	 *
 	 * @private
@@ -103,9 +95,6 @@ class IPMonitorPageDesktop {
 		try {
 			// 显示加载蒙版
 			loadingMaskStore.showLoadingMask('正在加载IP监控数据...')
-
-			// 重置错误状态
-			this.error.value = null
 
 			// 获取当前时间戳和过去30天的时间戳
 			const endTime = Math.floor(Date.now() / 1000)
@@ -154,8 +143,6 @@ class IPMonitorPageDesktop {
 
 			console.log('IP监控数据加载完成:', this.data)
 		} catch (err) {
-			const errorMessage = err instanceof Error ? err.message : '数据加载失败'
-			this.error.value = errorMessage
 			console.error('初始化IP监控数据失败:', err)
 		} finally {
 			// 隐藏加载蒙版
@@ -186,17 +173,6 @@ class IPMonitorPageDesktop {
 	}
 
 	/**
-	 * 获取错误信息
-	 * 返回数据加载过程中的错误信息
-	 *
-	 * @public
-	 * @returns {string | null} 错误信息，无错误时返回null
-	 */
-	public getError(): string | null {
-		return this.error.value
-	}
-
-	/**
 	 * 刷新数据
 	 * 重新调用所有API接口获取最新数据
 	 *
@@ -221,7 +197,6 @@ class IPMonitorPageDesktop {
 		this.data.fangIPs = null
 		this.data.ipRange = null
 		this.isLoaded.value = false
-		this.error.value = null
 	}
 }
 
