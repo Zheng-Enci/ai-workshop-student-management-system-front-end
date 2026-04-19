@@ -369,25 +369,8 @@ html:not(.dark) .navigation-page-mobile-nav-sections-divider {
 	background: linear-gradient(90deg, rgb(62 158 172 / 0.3) 0%, rgb(62 158 172 / 0.1) 50%, transparent 100%);
 }
 
-/**
- * 日间模式下的功能卡片
- * 使用主题变量替代固定白色
- */
-html:not(.dark) .navigation-page-mobile-nav-sections-card {
-	background: var(--glass-bg);
-	border: 1px solid var(--glass-border);
-}
-
-html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text h3 {
-	color: var(--text-primary);
-	text-shadow: none;
-}
-
-html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text p {
-	color: var(--text-secondary);
-}
-
 /* ==================== 悬停状态 ==================== */
+
 /* 所有 hover 状态统一放在文件末尾，避免选择器特异性顺序问题 */
 
 .navigation-page-mobile-nav-sections-card:hover::before {
@@ -443,6 +426,26 @@ html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobil
 
 .navigation-page-mobile-nav-sections-card.invitation-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
+}
+
+/* ==================== 日间模式适配 ==================== */
+
+/**
+ * 日间模式下的功能卡片基础样式
+ * 使用主题变量替代固定白色
+ */
+html:not(.dark) .navigation-page-mobile-nav-sections-card {
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+}
+
+html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text h3 {
+	color: var(--text-primary);
+	text-shadow: none;
+}
+
+html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-text p {
+	color: var(--text-secondary);
 }
 
 html:not(.dark) .navigation-page-mobile-nav-sections-card:hover {
