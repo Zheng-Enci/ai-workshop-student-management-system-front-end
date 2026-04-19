@@ -49,7 +49,7 @@ const {
 	goToIPMonitor
 } = useHomePageLogic()
 
-const environmentPolicyRef = ref(null)
+const environmentPolicyRef = ref<InstanceType<typeof EnvironmentPolicy> | null>(null)
 
 const showEnvironmentPolicy = () => {
 	environmentPolicyRef.value?.showEnvironmentPolicy()
