@@ -14,6 +14,7 @@
   background: rgb(255 255 255 / 0.05);
   border-top: 1px solid rgb(255 255 255 / 0.1);
   backdrop-filter: blur(20px);
+
   /* 从下方滑入+弹性缩放动画，延迟0.6s */
   animation: navigation-footer-slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
 }
@@ -24,10 +25,12 @@
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   60% {
     opacity: 1;
     transform: translateY(0) scale(1.03);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
