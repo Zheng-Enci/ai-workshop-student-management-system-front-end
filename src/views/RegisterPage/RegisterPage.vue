@@ -7,6 +7,7 @@
  */
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import DeviceDetector, { DeviceType } from '@/composables/ts/DeviceDetector'
 
 // 路由实例,用于页面跳转
 const router = useRouter()
@@ -14,10 +15,14 @@ const router = useRouter()
 /**
  * 检测是否为移动设备
  *
- * @description 根据窗口宽度判断设备类型
+ * @description 使用DeviceDetector判断设备类型
  * @returns true表示移动端, false表示桌面端
  */
-const isMobile = () => window.innerWidth <= 768
+const isMobile = () => {
+	const deviceType = DeviceDetector.detect()
+	// 平板设备也归类为移动端
+	return deviceType !== DeviceType.DESKTOP
+}
 
 /**
  * 组件挂载时根据设备类型跳转到对应页面

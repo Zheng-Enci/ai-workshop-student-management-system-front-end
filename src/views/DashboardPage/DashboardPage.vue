@@ -24,6 +24,7 @@ import { onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoadingMaskStore } from '@/stores/ts/loading'
 import LoadingMask from '@/components/LoadingMask.vue'
+import DeviceDetector, { DeviceType } from '@/composables/ts/DeviceDetector'
 
 // ===================== 全局实例初始化 =====================
 const router = useRouter()
@@ -32,14 +33,13 @@ const loadingMaskStore = useLoadingMaskStore()
 // ===================== 业务逻辑方法区 =====================
 /**
  * 检测设备类型
+ * 使用DeviceDetector进行设备类型判断
  * @returns {string} 'mobile' | 'desktop'
  */
 const detectDeviceType = () => {
-	const screenWidth = window.innerWidth
-	if (screenWidth < 768) {
-		return 'mobile'
-	}
-	return 'desktop'
+	const deviceType = DeviceDetector.detect()
+	// 平板设备也归类为移动端
+	return deviceType === DeviceType.DESKTOP ? 'desktop' : 'mobile'
 }
 
 /**

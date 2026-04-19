@@ -25,6 +25,7 @@ import { onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoadingMaskStore } from '@/stores/ts/loading.ts'
 import LoadingMask from '@/components/LoadingMask.vue'
+import DeviceDetector, { DeviceType } from '@/composables/ts/DeviceDetector.ts'
 
 // ===================== 全局实例初始化 =====================
 /**
@@ -43,22 +44,17 @@ const loadingMaskStore = useLoadingMaskStore()
 /**
  * 检测设备类型并重定向
  * @function detectDevice
- * @description 根据浏览器窗口宽度判断设备类型,并跳转到对应的个人信息页面路由
- * 判断规则:
- * - 屏幕宽度 < 768px: 判定为移动设备,跳转到移动版个人信息页面
- * - 屏幕宽度 >= 768px: 判定为桌面设备,跳转到桌面版个人信息页面
+ * @description 使用DeviceDetector检测设备类型,并跳转到对应的个人信息页面路由
  * 使用router.replace而非push,避免在浏览器历史记录中留下中间页面
  */
 const detectDevice = () => {
-	// 获取当前浏览器窗口的宽度(像素)
-	const screenWidth = window.innerWidth
+	const deviceType = DeviceDetector.detect()
 
-	// 小于768px为移动设备,跳转到移动版个人信息页面
-	if (screenWidth < 768) {
-		router.replace('/profile/mobile')
-	} else {
-		// 大于等于768px为桌面设备,跳转到桌面版个人信息页面
+	// 平板设备也归类为移动端
+	if (deviceType === DeviceType.DESKTOP) {
 		router.replace('/profile/desktop')
+	} else {
+		router.replace('/profile/mobile')
 	}
 
 	// 在跳转后关闭加载蒙版

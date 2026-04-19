@@ -17,6 +17,7 @@ import { onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoadingMaskStore } from '@/stores/ts/loading'
 import LoadingMask from '@/components/LoadingMask.vue'
+import DeviceDetector, { DeviceType } from '@/composables/ts/DeviceDetector'
 
 // ======================== 状态 ========================
 /**
@@ -34,23 +35,15 @@ const loadingMaskStore = useLoadingMaskStore()
 // ======================== 方法 ========================
 /**
  * 检测设备类型
- * 结合屏幕宽度和UserAgent进行更准确的设备类型判断
+ * 使用DeviceDetector进行设备类型判断
  *
- * @description Detect device type by combining screen width and UserAgent
+ * @description Detect device type using DeviceDetector
  * @returns {string} 'mobile' | 'desktop'
  */
 const detectDeviceType = () => {
-	const screenWidth = window.innerWidth
-	const userAgent = navigator.userAgent.toLowerCase()
-
-	// 结合屏幕宽度和 userAgent 进行更准确的检测
-	// 屏幕宽度小于768px或UserAgent包含移动设备标识，则判定为移动设备
-	// Combine screen width and userAgent for more accurate detection
-	// Screen width < 768px or userAgent contains mobile device identifier = mobile
-	const isMobile = screenWidth < 768 ||
-		/android.*mobile|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
-
-	return isMobile ? 'mobile' : 'desktop'
+	const deviceType = DeviceDetector.detect()
+	// 平板设备也归类为移动端
+	return deviceType === DeviceType.DESKTOP ? 'desktop' : 'mobile'
 }
 
 /**

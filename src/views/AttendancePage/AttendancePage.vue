@@ -26,6 +26,7 @@ import { onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { useLoadingMaskStore } from '@/stores/ts/loading.ts'
 import LoadingMask from '@/components/LoadingMask.vue'
+import DeviceDetector, { DeviceType } from '@/composables/ts/DeviceDetector.ts'
 
 // ===================== 全局实例初始化 =====================
 /**
@@ -45,24 +46,13 @@ const loadingMaskStore = useLoadingMaskStore()
  * 检测设备类型
  *
  * @function detectDeviceType
- * @description 根据浏览器窗口宽度判断当前设备类型
- * 判断规则:
- * - 屏幕宽度 < 768px: 判定为移动设备
- * - 屏幕宽度 >= 768px: 判定为桌面设备
- *
+ * @description 使用DeviceDetector检测设备类型
  * @returns {string} 'mobile' | 'desktop' - 设备类型标识
  */
 const detectDeviceType = () => {
-	// 获取当前浏览器窗口的宽度(像素)
-	const screenWidth = window.innerWidth
-
-	// 小于768px为移动设备
-	// 这是响应式设计的标准断点,符合移动端和桌面端的分界
-	if (screenWidth < 768) {
-		return 'mobile'
-	}
-	// 大于等于768px为桌面设备
-	return 'desktop'
+	const deviceType = DeviceDetector.detect()
+	// 平板设备也归类为移动端
+	return deviceType === DeviceType.DESKTOP ? 'desktop' : 'mobile'
 }
 
 /**
