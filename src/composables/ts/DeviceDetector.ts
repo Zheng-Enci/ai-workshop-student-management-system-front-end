@@ -31,7 +31,7 @@ class DeviceDetector {
 	 * 根据User-Agent和屏幕尺寸判断当前设备类型
 	 *
 	 * @static
-	 * @returns {DeviceType} 设备类型枚举值（DESKTOP、MOBILE、TABLET）
+	 * @returns 设备类型枚举值（DESKTOP、MOBILE、TABLET）
 	 * @example
 	 * // 获取设备类型
 	 * const deviceType = DeviceDetector.detect()
@@ -45,21 +45,28 @@ class DeviceDetector {
 		const screenHeight = window.innerHeight
 		const minSize = Math.min(screenWidth, screenHeight)
 
-		// 检测平板设备
-		if (
-			userAgent.includes('iPad') ||
-			(userAgent.includes('Android') && !userAgent.includes('Mobile')) ||
-			(minSize >= 768 && minSize <= 1366)
-		) {
+		// 检测iPad平板
+		if (userAgent.includes('iPad')) {
 			return DeviceType.TABLET
 		}
 
-		// 检测移动设备
+		// 检测Android平板（Android但不包含Mobile关键词）
+		if (userAgent.includes('Android') && !userAgent.includes('Mobile')) {
+			return DeviceType.TABLET
+		}
+
+		// 检测其他平板（屏幕尺寸在768px到1366px之间）
+		if (minSize >= 768 && minSize <= 1366) {
+			return DeviceType.TABLET
+		}
+
+		// 检测移动设备（iPhone、Android手机等）
+		// 注意：Android必须包含Mobile关键词才是手机
 		if (
-			userAgent.includes('Android') ||
 			userAgent.includes('iPhone') ||
 			userAgent.includes('iPod') ||
 			userAgent.includes('Windows Phone') ||
+			(userAgent.includes('Android') && userAgent.includes('Mobile')) ||
 			minSize < 768
 		) {
 			return DeviceType.MOBILE
