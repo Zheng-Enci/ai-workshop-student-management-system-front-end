@@ -48,14 +48,6 @@ class IPMonitorPageDesktop {
 	})
 
 	/**
-	 * 加载状态
-	 * 用于跟踪数据加载是否完成
-	 *
-	 * @private
-	 */
-	private isLoaded = ref(false)
-
-	/**
 	 * 单例实例
 	 *
 	 * @private
@@ -138,9 +130,6 @@ class IPMonitorPageDesktop {
 				this.data.ipRange = ipRangeResult.data
 			}
 
-			// 标记加载完成
-			this.isLoaded.value = true
-
 			console.log('IP监控数据加载完成:', this.data)
 		} catch (err) {
 			console.error('初始化IP监控数据失败:', err)
@@ -162,17 +151,6 @@ class IPMonitorPageDesktop {
 	}
 
 	/**
-	 * 获取加载状态
-	 * 返回数据是否已加载完成
-	 *
-	 * @public
-	 * @returns {boolean} 是否已加载
-	 */
-	public getIsLoaded(): boolean {
-		return this.isLoaded.value
-	}
-
-	/**
 	 * 刷新数据
 	 * 重新调用所有API接口获取最新数据
 	 *
@@ -181,7 +159,6 @@ class IPMonitorPageDesktop {
 	 * @returns {Promise<void>}
 	 */
 	public async refreshData(): Promise<void> {
-		this.isLoaded.value = false
 		await this.init_data()
 	}
 
@@ -196,7 +173,6 @@ class IPMonitorPageDesktop {
 		this.data.scanCount = null
 		this.data.fangIPs = null
 		this.data.ipRange = null
-		this.isLoaded.value = false
 	}
 }
 
