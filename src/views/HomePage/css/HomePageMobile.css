@@ -755,8 +755,8 @@ html:not(.dark) .home-page-mobile-feature-icon path {
 	/* 深色背景 */
 	background: #2c3e50;
 
-	/* 从下方淡入动画 */
-	animation: fadeInUp 0.8s ease-out 1s both;
+	/* 从下方滑入+弹性缩放动画，延迟1.2s */
+	animation: slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s both;
 }
 
 /* 页脚内容容器 */
@@ -1257,8 +1257,8 @@ html:not(.dark) .home-page-mobile-update-icon {
 	/* 文本左对齐 */
 	text-align: left;
 
-	/* 从下方淡入动画 */
-	animation: fadeInUp 0.6s ease-out 0.4s both;
+	/* 从下方滑入+弹性缩放动画，延迟0.4s */
+	animation: slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
 }
 
 /* 作者信息区域 */
@@ -1701,6 +1701,7 @@ html:not(.dark) .home-page-mobile-author-link {
 }
 
 /* ==================== 首页入场动画（移动端） ==================== */
+
 /* 统一使用弹性缓动函数: cubic-bezier(0.34, 1.56, 0.64, 1) */
 
 /* 页面容器动画 - 淡入+弹性缩放 */
@@ -1709,10 +1710,12 @@ html:not(.dark) .home-page-mobile-author-link {
 		opacity: 0;
 		transform: scale(0.95);
 	}
+
 	60% {
 		opacity: 1;
 		transform: scale(1.02);
 	}
+
 	100% {
 		opacity: 1;
 		transform: scale(1);
@@ -1725,10 +1728,12 @@ html:not(.dark) .home-page-mobile-author-link {
 		opacity: 0;
 		transform: translateY(-20px) scale(0.9);
 	}
+
 	60% {
 		opacity: 1;
 		transform: translateY(0) scale(1.05);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
@@ -1741,10 +1746,12 @@ html:not(.dark) .home-page-mobile-author-link {
 		opacity: 0;
 		transform: translateY(30px) scale(0.95);
 	}
+
 	60% {
 		opacity: 1;
 		transform: translateY(0) scale(1.03);
 	}
+
 	100% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
@@ -1757,10 +1764,12 @@ html:not(.dark) .home-page-mobile-author-link {
 		opacity: 0;
 		transform: scale(0.7);
 	}
+
 	60% {
 		opacity: 1;
 		transform: scale(1.1);
 	}
+
 	100% {
 		opacity: 1;
 		transform: scale(1);
