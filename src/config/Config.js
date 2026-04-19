@@ -16,7 +16,7 @@
  * @property {string} APP_VERSION - 应用版本号
  */
 export const ConfigServer = {
-	API_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci',
+	API_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-main_backend',
 	VERIFICATION_CODE_URL: 'http://10.0.48.168:7001/api/v1/attendance/verification-code',
 	APP_TITLE: 'AI坊学生管理系统',
 	APP_VERSION: '1.0.0'
