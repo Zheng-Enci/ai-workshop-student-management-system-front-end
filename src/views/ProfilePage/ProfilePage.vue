@@ -30,7 +30,6 @@ import DeviceDetector, { DeviceType } from '@/composables/ts/DeviceDetector'
 // ===================== 全局实例初始化 =====================
 /**
  * 路由实例
- * @type {Router}
  * @description 用于页面跳转和路由导航,实现设备检测后的页面重定向
  */
 const router = useRouter()
