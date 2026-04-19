@@ -156,10 +156,8 @@
 	border-radius: 16px;
 	box-shadow: 0 4px 16px rgb(0 0 0 / 0.08);
 	backdrop-filter: blur(20px);
-	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-		box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-		background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-		border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	will-change: transform;
 }
 
 /**
@@ -206,12 +204,8 @@
 	background: linear-gradient(135deg, #3E9EAC 0%, #1F4277 100%);
 	border-radius: 12px;
 	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.navigation-page-mobile-nav-sections-card:hover .navigation-page-mobile-nav-sections-card-icon {
-	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
-	transform: scale(1.08);
+	transition: transform 0.3s ease;
+	will-change: transform;
 }
 
 .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon .el-icon,
@@ -278,9 +272,11 @@
 	box-shadow: 0 6px 16px rgb(77 182 196 / 0.35);
 }
 
+/* stylelint-disable no-descending-specificity */
 .navigation-page-mobile-nav-sections-card.data-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(77 182 196 / 0.45);
 }
+/* stylelint-enable no-descending-specificity */
 
 /* ==================== 积分看板卡片（辅色变体） ==================== */
 
@@ -292,9 +288,11 @@
 	box-shadow: 0 6px 16px rgb(31 66 119 / 0.35);
 }
 
+/* stylelint-disable no-descending-specificity */
 .navigation-page-mobile-nav-sections-card.points-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(31 66 119 / 0.45);
 }
+/* stylelint-enable no-descending-specificity */
 
 /* ==================== 考勤分析卡片（辅色到主色） ==================== */
 
@@ -306,9 +304,11 @@
 	box-shadow: 0 6px 16px rgb(42 90 140 / 0.35);
 }
 
+/* stylelint-disable no-descending-specificity */
 .navigation-page-mobile-nav-sections-card.analysis-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(42 90 140 / 0.45);
 }
+/* stylelint-enable no-descending-specificity */
 
 /* ==================== 全部成员卡片（主色渐变变体） ==================== */
 
@@ -320,9 +320,11 @@
 	box-shadow: 0 6px 16px rgb(42 138 154 / 0.35);
 }
 
+/* stylelint-disable no-descending-specificity */
 .navigation-page-mobile-nav-sections-card.members-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(42 138 154 / 0.45);
 }
+/* stylelint-enable no-descending-specificity */
 
 /* ==================== 管理员卡片（辅色渐变） ==================== */
 
@@ -334,9 +336,11 @@
 	box-shadow: 0 6px 16px rgb(31 66 119 / 0.35);
 }
 
+/* stylelint-disable no-descending-specificity */
 .navigation-page-mobile-nav-sections-card.admin-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(31 66 119 / 0.45);
 }
+/* stylelint-enable no-descending-specificity */
 
 /* ==================== 超级管理员卡片（辅色变体） ==================== */
 
@@ -348,9 +352,11 @@
 	box-shadow: 0 6px 16px rgb(42 90 140 / 0.35);
 }
 
+/* stylelint-disable no-descending-specificity */
 .navigation-page-mobile-nav-sections-card.super-admin-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(42 90 140 / 0.45);
 }
+/* stylelint-enable no-descending-specificity */
 
 /* ==================== 签到卡片（主色渐变） ==================== */
 
@@ -362,9 +368,11 @@
 	box-shadow: 0 6px 16px rgb(62 158 172 / 0.35);
 }
 
+/* stylelint-disable no-descending-specificity */
 .navigation-page-mobile-nav-sections-card.primary-card:hover .navigation-page-mobile-nav-sections-card-icon {
 	box-shadow: 0 8px 24px rgb(62 158 172 / 0.45);
 }
+/* stylelint-enable no-descending-specificity */
 
 /* ==================== 个人信息卡片（主色变体） ==================== */
 
@@ -454,12 +462,14 @@ html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobil
  * 使用 !important 覆盖主题 CSS 的强制文字颜色
  * 注意：需要使用 html.light 选择器来覆盖 theme.css 中的 html.light * 规则
  */
-html.light .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon .el-icon,
-html.light .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon svg,
-html.light .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon path,
-html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon .el-icon,
-html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon svg,
-html:not(.dark) .navigation-page-mobile-nav-sections-card .navigation-page-mobile-nav-sections-card-icon path {
+/* stylelint-disable selector-max-specificity */
+html.light .navigation-page-mobile-nav-sections-card-icon .el-icon,
+html.light .navigation-page-mobile-nav-sections-card-icon svg,
+html.light .navigation-page-mobile-nav-sections-card-icon path,
+html:not(.dark) .navigation-page-mobile-nav-sections-card-icon .el-icon,
+html:not(.dark) .navigation-page-mobile-nav-sections-card-icon svg,
+html:not(.dark) .navigation-page-mobile-nav-sections-card-icon path {
 	color: white !important;
 	fill: white !important;
 }
+/* stylelint-enable selector-max-specificity */
