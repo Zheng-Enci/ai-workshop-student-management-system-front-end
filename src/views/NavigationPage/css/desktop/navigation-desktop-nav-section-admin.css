@@ -1,1 +1,119 @@
-/* ==================== 管理功能区块 ==================== */.navigation-desktop-nav-section-admin {	display: flex;	flex-direction: column;	gap: 24px;	width: 100%;	/* 从下方滑入+弹性缩放动画，延迟0.5s */	animation: navigation-desktop-navSections-slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;}.navigation-desktop-nav-section-admin-header {	display: flex;	gap: 16px;	align-items: center;	margin-bottom: 8px;	/* 从左侧滑入+弹性缩放动画，延迟0.6s */	animation: navigation-desktop-navSections-slideInFromLeft 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;}.navigation-desktop-nav-section-admin-title {	display: flex;	flex-shrink: 0;	gap: 10px;	align-items: center;	font-size: 18px;	font-weight: 700;	white-space: nowrap;	background: linear-gradient(135deg, #667eea, #764ba2);	background-clip: text;	-webkit-text-fill-color: transparent;}.navigation-desktop-nav-section-admin-icon {	flex-shrink: 0;	font-size: 20px;	color: #667eea;}.navigation-desktop-nav-section-admin-divider {	position: relative;	flex: 1;	height: 1px;	background: linear-gradient(90deg, rgb(102 126 234 / 0.3) 0%, rgb(102 126 234 / 0.1) 50%, transparent 100%);}.navigation-desktop-nav-section-admin-divider::after {	position: absolute;	top: 50%;	right: 0;	width: 8px;	height: 8px;	content: '';	background: rgb(102 126 234 / 0.4);	border-radius: 50%;	box-shadow: 0 0 12px rgb(102 126 234 / 0.6);	transform: translateY(-50%);}/* ==================== 日间模式适配 ==================== *//** * 日间模式下的区域标题 * 使用项目主色替代紫色渐变 */html:not(.dark) .navigation-desktop-nav-section-admin-title {	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));	background-clip: text;	-webkit-text-fill-color: transparent;}html:not(.dark) .navigation-desktop-nav-section-admin-icon {	color: var(--primary-color);}html:not(.dark) .navigation-desktop-nav-section-admin-divider {	background: linear-gradient(90deg, rgb(62 158 172 / 0.3) 0%, rgb(62 158 172 / 0.1) 50%, transparent 100%);}html:not(.dark) .navigation-desktop-nav-section-admin-divider::after {	background: rgb(62 158 172 / 0.4);	box-shadow: 0 0 12px rgb(62 158 172 / 0.6);}/* ==================== 入场动画定义 ==================== *//* 统一使用弹性缓动函数: cubic-bezier(0.34, 1.56, 0.64, 1) *//* 从下方滑入+弹性缩放 */@keyframes navigation-desktop-navSections-slideInFromBottom {	0% {		opacity: 0;		transform: translateY(30px) scale(0.95);	}	60% {		opacity: 1;		transform: translateY(0) scale(1.03);	}	100% {		opacity: 1;		transform: translateY(0) scale(1);	}}/* 从左侧滑入+弹性缩放 */@keyframes navigation-desktop-navSections-slideInFromLeft {	0% {		opacity: 0;		transform: translateX(-60px) scale(0.9);	}	60% {		opacity: 1;		transform: translateX(0) scale(1.05);	}	100% {		opacity: 1;		transform: translateX(0) scale(1);	}}
+/* ==================== 管理功能区块 ==================== */
+.navigation-desktop-nav-section-admin {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	width: 100%; /* 从下方滑入+弹性缩放动画，延迟0.5s */
+	animation: navigation-desktop-navSections-slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+}
+
+.navigation-desktop-nav-section-admin-header {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	margin-bottom: 8px; /* 从左侧滑入+弹性缩放动画，延迟0.6s */
+	animation: navigation-desktop-navSections-slideInFromLeft 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
+}
+
+.navigation-desktop-nav-section-admin-title {
+	display: flex;
+	flex-shrink: 0;
+	gap: 10px;
+	align-items: center;
+	font-size: 18px;
+	font-weight: 700;
+	white-space: nowrap;
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.navigation-desktop-nav-section-admin-icon {
+	flex-shrink: 0;
+	font-size: 20px;
+	color: #667eea;
+}
+
+.navigation-desktop-nav-section-admin-divider {
+	position: relative;
+	flex: 1;
+	height: 1px;
+	background: linear-gradient(90deg, rgb(102 126 234 / 0.3) 0%, rgb(102 126 234 / 0.1) 50%, transparent 100%);
+}
+
+.navigation-desktop-nav-section-admin-divider::after {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	width: 8px;
+	height: 8px;
+	content: '';
+	background: rgb(102 126 234 / 0.4);
+	border-radius: 50%;
+	box-shadow: 0 0 12px rgb(102 126 234 / 0.6);
+	transform: translateY(-50%);
+}
+
+/* ==================== 日间模式适配 ==================== */
+
+/** * 日间模式下的区域标题 * 使用项目主色替代紫色渐变 */
+html:not(.dark) .navigation-desktop-nav-section-admin-title {
+	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+html:not(.dark) .navigation-desktop-nav-section-admin-icon {
+	color: var(--primary-color);
+}
+
+html:not(.dark) .navigation-desktop-nav-section-admin-divider {
+	background: linear-gradient(90deg, rgb(62 158 172 / 0.3) 0%, rgb(62 158 172 / 0.1) 50%, transparent 100%);
+}
+
+html:not(.dark) .navigation-desktop-nav-section-admin-divider::after {
+	background: rgb(62 158 172 / 0.4);
+	box-shadow: 0 0 12px rgb(62 158 172 / 0.6);
+}
+
+/* ==================== 入场动画定义 ==================== */
+
+/* 统一使用弹性缓动函数: cubic-bezier(0.34, 1.56, 0.64, 1) */
+
+/* 从下方滑入+弹性缩放 */
+
+@keyframes navigation-desktop-navSections-slideInFromBottom {
+	0% {
+		opacity: 0;
+		transform: translateY(30px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* 从左侧滑入+弹性缩放 */
+
+@keyframes navigation-desktop-navSections-slideInFromLeft {
+	0% {
+		opacity: 0;
+		transform: translateX(-60px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
