@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { OfficeBuilding } from '@element-plus/icons-vue'
-import { ElDialog } from 'element-plus'
+import { ElDialog, ElIcon } from 'element-plus'
 
 const environmentPolicyVisible = ref(false)
 const isClosingEnvironmentPolicy = ref(false)
