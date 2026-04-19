@@ -29,9 +29,9 @@ const loadingMaskStore = useLoadingMaskStore()
  * 检测设备类型
  * 使用DeviceDetector进行设备类型判断
  *
- * @returns {string} 'mobile' | 'desktop'
+ * @returns 'mobile' | 'desktop'
  */
-const detectDeviceType = () => {
+const detectDeviceType = (): 'mobile' | 'desktop' => {
 	const deviceType = DeviceDetector.detect()
 	// 平板设备也归类为移动端
 	return deviceType === DeviceType.DESKTOP ? 'desktop' : 'mobile'
