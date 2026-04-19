@@ -560,6 +560,48 @@ const routes = [
 			title: '考勤分析 - 厦工AI坊学生管理系统',
 			description: '厦工AI坊学生管理系统考勤分析页面，查看考勤数据统计、签到趋势分析、成员考勤情况'
 		}
+	},
+	/**
+	 * IP监控页面路由（自动适配）
+	 * 无需登录认证，查看AI坊内IP活跃程度
+	 */
+	{
+		path: '/ip-monitor',
+		name: 'IPMonitor',
+		component: () => import('../views/IPMonitorPage/IPMonitorPage.vue'),
+		meta: {
+			requiresAuth: false,
+			title: 'IP监控 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统IP监控页面，实时查看AI坊内IP活跃程度、扫描统计和IP分布情况'
+		}
+	},
+	/**
+	 * IP监控页面路由（移动端）
+	 * 移动设备专用IP监控页面，无需登录认证
+	 */
+	{
+		path: '/ip-monitor/mobile',
+		name: 'IPMonitorMobile',
+		component: () => import('../views/IPMonitorPage/IPMonitorPageMobile.vue'),
+		meta: {
+			requiresAuth: false,
+			title: 'IP监控 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统IP监控页面，实时查看AI坊内IP活跃程度、扫描统计和IP分布情况'
+		}
+	},
+	/**
+	 * IP监控页面路由（桌面端）
+	 * 桌面设备专用IP监控页面，无需登录认证
+	 */
+	{
+		path: '/ip-monitor/desktop',
+		name: 'IPMonitorDesktop',
+		component: () => import('../views/IPMonitorPage/IPMonitorPageDesktop.vue'),
+		meta: {
+			requiresAuth: false,
+			title: 'IP监控 - 厦工AI坊学生管理系统',
+			description: '厦工AI坊学生管理系统IP监控页面，实时查看AI坊内IP活跃程度、扫描统计和IP分布情况'
+		}
 	}
 ]
 
