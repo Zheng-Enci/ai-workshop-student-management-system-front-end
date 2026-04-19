@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 首页组件(桌面端)
  *
@@ -56,7 +56,7 @@ const showEnvironmentPolicy = () => {
 }
 	</script>
 
-<!-- 
+<!--
   首页模板定义
   @template HomePageDesktopTemplate
   @description 定义首页桌面端的完整UI结构，包括主题切换、系统介绍、功能入口和环境保障政策弹窗
@@ -189,7 +189,7 @@ const showEnvironmentPolicy = () => {
 					<!-- IP监控功能卡片:点击跳转到IP监控页面 -->
 					<div class="home-page-desktop-feature-card senary" title = "点击查看IP监控" @click="goToIPMonitor">
 						<div class="home-page-desktop-feature-icon">
-							<el-icon><monitor /></el-icon>
+							<el-icon><Monitor /></el-icon>
 						</div>
 						<h3>IP监控</h3>
 						<p>查看AI坊内IP活跃程度和扫描统计</p>
@@ -226,7 +226,7 @@ const showEnvironmentPolicy = () => {
 @import './css/HomePageDesktop.css';
 </style>
 
-			
+
 
 <style scoped>
 /* 这里应该导入外部CSS文件中的样式 */

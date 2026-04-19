@@ -306,7 +306,7 @@ onMounted(() => {
 					<!-- IP监控入口 -->
 					<div class="home-page-mobile-feature-card senary" @click="goToIPMonitor">
 						<div class="home-page-mobile-feature-icon">
-							<el-icon><monitor /></el-icon>
+							<el-icon><Monitor /></el-icon>
 						</div>
 						<h3>IP监控</h3>
 						<p>查看AI坊内IP活跃程度</p>
