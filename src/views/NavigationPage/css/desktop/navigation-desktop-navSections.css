@@ -7,42 +7,138 @@
 	width: 100%;
 	max-width: 1200px;
 	padding: 0 20px;
-	animation: navigation-desktop-navSections-fadeInUp 0.6s ease-out;
+
+	/* 页面容器淡入+弹性缩放动画 */
+	animation: navigation-desktop-navSections-pageContainerEntrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-@keyframes navigation-desktop-navSections-fadeInUp {
-	from {
+/* ==================== 导航页面入场动画 ==================== */
+
+/* 统一使用弹性缓动函数: cubic-bezier(0.34, 1.56, 0.64, 1) */
+
+/* 页面容器动画 - 淡入+弹性缩放 */
+@keyframes navigation-desktop-navSections-pageContainerEntrance {
+	0% {
 		opacity: 0;
-		transform: translateY(30px);
+		transform: scale(0.95);
 	}
 
-	to {
+	60% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: scale(1.02);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1);
 	}
 }
 
-@keyframes navigation-desktop-navSections-fadeInLeft {
-	from {
+/* 从上方滑入+弹性缩放 - 用于标题 */
+@keyframes navigation-desktop-navSections-slideInFromTop {
+	0% {
 		opacity: 0;
-		transform: translateX(-30px);
+		transform: translateY(-20px) scale(0.9);
 	}
 
-	to {
+	60% {
 		opacity: 1;
-		transform: translateX(0);
+		transform: translateY(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
 	}
 }
 
-@keyframes navigation-desktop-navSections-fadeInRight {
-	from {
+/* 从左侧滑入+弹性缩放 - 用于左侧内容 */
+@keyframes navigation-desktop-navSections-slideInFromLeft {
+	0% {
 		opacity: 0;
-		transform: translateX(30px);
+		transform: translateX(-60px) scale(0.9);
 	}
 
-	to {
+	60% {
 		opacity: 1;
-		transform: translateX(0);
+		transform: translateX(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/* 从右侧滑入+弹性缩放 - 用于右侧内容 */
+@keyframes navigation-desktop-navSections-slideInFromRight {
+	0% {
+		opacity: 0;
+		transform: translateX(80px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/* 从下方滑入+弹性缩放 - 用于功能卡片 */
+@keyframes navigation-desktop-navSections-slideInFromBottom {
+	0% {
+		opacity: 0;
+		transform: translateY(30px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* 缩放淡入+弹性 - 用于小元素 */
+@keyframes navigation-desktop-navSections-scaleFadeIn {
+	0% {
+		opacity: 0;
+		transform: scale(0.7);
+	}
+
+	60% {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* 旋转滑入+弹性 - 用于Logo */
+@keyframes navigation-desktop-navSections-rotateSlideIn {
+	0% {
+		opacity: 0;
+		transform: translateX(30px) rotate(-15deg) scale(0.7);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1.15);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1);
 	}
 }
 

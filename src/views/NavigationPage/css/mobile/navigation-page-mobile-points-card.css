@@ -13,17 +13,23 @@
 	justify-content: center;
 	gap: 16px;
 	width: 100%;
-	animation: navigation-page-mobile-points-card-fadeInUp 0.6s ease-out 0.3s both;
+	/* 从下方滑入+弹性缩放动画，延迟0.3s */
+	animation: navigation-page-mobile-points-card-slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
 }
 
-@keyframes navigation-page-mobile-points-card-fadeInUp {
-	from {
+/* 从下方滑入+弹性缩放 - 用于积分卡片 */
+@keyframes navigation-page-mobile-points-card-slideInFromBottom {
+	0% {
 		opacity: 0;
-		transform: translateY(20px);
+		transform: translateY(30px) scale(0.95);
 	}
-	to {
+	60% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1.03);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
 	}
 }
 

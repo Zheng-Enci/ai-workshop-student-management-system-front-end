@@ -14,17 +14,23 @@
 	align-items: center;
 	gap: 16px;
 	padding: 0 16px;
-	animation: navigation-page-mobile-user-card-fadeInUp 0.6s ease-out 0.2s both;
+	/* 从下方滑入+弹性缩放动画，延迟0.2s */
+	animation: navigation-page-mobile-user-card-slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
 }
 
-@keyframes navigation-page-mobile-user-card-fadeInUp {
-	from {
+/* 从下方滑入+弹性缩放 - 用于用户卡片 */
+@keyframes navigation-page-mobile-user-card-slideInFromBottom {
+	0% {
 		opacity: 0;
-		transform: translateY(20px);
+		transform: translateY(30px) scale(0.95);
 	}
-	to {
+	60% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateY(0) scale(1.03);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
 	}
 }
 

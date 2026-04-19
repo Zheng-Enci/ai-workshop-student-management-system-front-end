@@ -9,8 +9,9 @@
 	width: 100%;
 	max-width: 1400px;
 	margin: 0 auto;
-	/* stylelint-disable-next-line no-unknown-animations */
-	animation: navigation-desktop-navSections-fadeInUp 0.6s ease-out;
+
+	/* 页面容器淡入+弹性缩放动画 */
+	animation: navigation-desktop-navSections-pageContainerEntrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 /* ==================== 用户信息卡片 ==================== */
@@ -38,8 +39,9 @@
 	flex-shrink: 0;
 	gap: 20px;
 	align-items: center;
-	/* stylelint-disable-next-line no-unknown-animations */
-	animation: navigation-desktop-navSections-fadeInLeft 0.6s ease-out 0.1s both;
+
+	/* 从左侧滑入+弹性缩放动画，延迟0.1s */
+	animation: navigation-desktop-navSections-slideInFromLeft 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
 }
 
 /* ==================== 用户头像 ==================== */
@@ -170,8 +172,9 @@
 	justify-content: flex-end;
 	padding-left: 32px;
 	border-left: 1px solid rgb(255 255 255 / 0.1);
-	/* stylelint-disable-next-line no-unknown-animations */
-	animation: navigation-desktop-navSections-fadeInRight 0.6s ease-out 0.2s both;
+
+	/* 从右侧滑入+弹性缩放动画，延迟0.2s */
+	animation: navigation-desktop-navSections-slideInFromRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
 }
 
 /* ==================== 积分网格 ==================== */
