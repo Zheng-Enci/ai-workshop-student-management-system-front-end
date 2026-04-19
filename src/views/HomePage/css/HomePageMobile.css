@@ -185,6 +185,12 @@
 	animation: fadeInUp 0.5s ease-out 0.9s both;
 }
 
+/* 功能卡片动画 - IP监控 */
+.home-page-mobile-hero-right .home-page-mobile-feature-card.senary {
+	/* 从下方淡入动画 */
+	animation: fadeInUp 0.5s ease-out 1.0s both;
+}
+
 /* Logo区域 */
 
 /* 包含Logo和标题 */
@@ -682,6 +688,14 @@ html:not(.dark) .home-page-mobile-feature-icon path {
 .home-page-mobile-feature-card.quinary .home-page-mobile-feature-icon {
 	/* 渐变背景，从深空蓝到更深蓝色 */
 	background: linear-gradient(135deg, #1F4277, #0F2A4D);
+}
+
+/* 第六功能卡片图标背景（IP监控） */
+
+/* 使用项目主色和辅色混合渐变 */
+.home-page-mobile-feature-card.senary .home-page-mobile-feature-icon {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
 }
 
 /* 功能卡片标题 */

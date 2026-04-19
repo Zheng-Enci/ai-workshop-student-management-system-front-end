@@ -1055,6 +1055,14 @@ html:not(.dark) .home-page-desktop-feature-icon i svg path {
 	background: linear-gradient(135deg, #1F4277, #0F2A4D);
 }
 
+/* 第六功能卡片图标背景（IP监控） */
+
+/* 使用项目主色和辅色混合渐变 */
+.home-page-desktop-feature-card.senary .home-page-desktop-feature-icon {
+	/* 渐变背景，从冰川青到深空蓝 */
+	background: linear-gradient(135deg, #3E9EAC, #1F4277);
+}
+
 
 /* 页脚内容第一段 */
 
