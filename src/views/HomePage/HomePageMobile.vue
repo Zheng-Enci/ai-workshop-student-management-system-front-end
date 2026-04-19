@@ -322,7 +322,7 @@ onMounted(() => {
 				<div class="home-page-mobile-author-info">
 					<p>项目作者：郑恩赐</p>
 					<div class="home-page-mobile-author-links">
-						<span class="home-page-mobile-author-contact">📧 zheng_enci@qq.com</span>
+						<span class="home-page-mobile-author-contact">📧 zheng_enci_work@foxmail.com</span>
 						<a href="https://gitee.com/zheng-enci050704" target="_blank" class="home-page-mobile-author-link">🔗 Gitee</a>
 						<a href="https://juejin.cn/user/2883382090934252" target="_blank" class="home-page-mobile-author-link">📝 掘金</a>
 						<a href="https://blog.csdn.net/2301_79239314" target="_blank" class="home-page-mobile-author-link">📄 CSDN</a>

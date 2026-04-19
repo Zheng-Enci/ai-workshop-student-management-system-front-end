@@ -37,8 +37,8 @@
 	/* 设置较高的层级，确保在其他元素之上 */
 	z-index: 1000;
 
-	/* 从上方淡入动画 */
-	animation: fadeInDown 0.6s ease-out;
+	/* 从上方滑入+弹性缩放动画，延迟0.15s */
+	animation: slideInFromTop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
 }
 
 /* 主题切换图标样式 */
@@ -143,8 +143,8 @@
 	/* 文本左对齐 */
 	text-align: left;
 
-	/* 从左侧淡入动画 */
-	animation: fadeInLeft 0.8s ease-out;
+	/* 从左侧滑入+弹性缩放动画，延迟0.2s */
+	animation: slideInFromLeft 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
 }
 
 /* 英雄区域右侧内容 */
@@ -153,42 +153,51 @@
 .home-page-desktop-hero-right {
 	/* 块级显示 */
 	display: block;
+
+	/* 从右侧滑入+弹性缩放动画，延迟0.3s */
+	animation: slideInFromRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
 }
 
 /* 快捷访问标签动画 */
 .home-page-desktop-hero-right .home-page-desktop-quick-access-label {
-	/* 从右侧淡入动画 */
-	animation: fadeInRight 0.6s ease-out 0.3s both;
+	/* 从上方滑入+弹性缩放动画，延迟0.5s */
+	animation: slideInFromTop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
 }
 
 /* 功能卡片动画 - 数据看板 */
 .home-page-desktop-hero-right .home-page-desktop-feature-card.primary {
-	/* 从下方淡入动画 */
-	animation: fadeInUp 0.6s ease-out 0.4s both;
+	/* 从下方滑入+弹性缩放动画，延迟0.6s */
+	animation: slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
 }
 
 /* 功能卡片动画 - 超级管理员系统 */
 .home-page-desktop-hero-right .home-page-desktop-feature-card.secondary {
-	/* 从下方淡入动画 */
-	animation: fadeInUp 0.6s ease-out 0.5s both;
+	/* 从下方滑入+弹性缩放动画，延迟0.7s */
+	animation: slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s both;
 }
 
 /* 功能卡片动画 - 积分看板 */
 .home-page-desktop-hero-right .home-page-desktop-feature-card.tertiary {
-	/* 从下方淡入动画 */
-	animation: fadeInUp 0.6s ease-out 0.6s both;
+	/* 从下方滑入+弹性缩放动画，延迟0.8s */
+	animation: slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both;
 }
 
 /* 功能卡片动画 - 全部成员 */
 .home-page-desktop-hero-right .home-page-desktop-feature-card.quaternary {
-	/* 从下方淡入动画 */
-	animation: fadeInUp 0.6s ease-out 0.7s both;
+	/* 从下方滑入+弹性缩放动画，延迟0.9s */
+	animation: slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s both;
 }
 
 /* 功能卡片动画 - 考勤分析 */
 .home-page-desktop-hero-right .home-page-desktop-feature-card.quinary {
-	/* 从下方淡入动画 */
-	animation: fadeInUp 0.6s ease-out 0.8s both;
+	/* 从下方滑入+弹性缩放动画，延迟1.0s */
+	animation: slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.0s both;
+}
+
+/* 功能卡片动画 - IP监控 */
+.home-page-desktop-hero-right .home-page-desktop-feature-card.senary {
+	/* 从下方滑入+弹性缩放动画，延迟1.1s */
+	animation: slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s both;
 }
 
 /* Logo区域 */
@@ -1739,67 +1748,130 @@ html:not(.dark) .home-page-desktop-author-link {
 
 /* ==================== 首页入场动画 ==================== */
 
-/* 从上方淡入动画 */
-@keyframes fadeInDown {
-	from {
+/* 统一使用弹性缓动函数: cubic-bezier(0.34, 1.56, 0.64, 1) */
+
+/* 页面容器动画 - 淡入+弹性缩放 */
+@keyframes pageContainerEntrance {
+	0% {
 		opacity: 0;
-		transform: translateY(-30px);
+		transform: scale(0.95);
 	}
 
-	to {
+	60% {
 		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-/* 从下方淡入动画 */
-@keyframes fadeInUp {
-	from {
-		opacity: 0;
-		transform: translateY(30px);
+		transform: scale(1.02);
 	}
 
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-/* 从左侧淡入动画 */
-@keyframes fadeInLeft {
-	from {
-		opacity: 0;
-		transform: translateX(-30px);
-	}
-
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-
-/* 从右侧淡入动画 */
-@keyframes fadeInRight {
-	from {
-		opacity: 0;
-		transform: translateX(30px);
-	}
-
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-
-/* 缩放淡入动画 */
-@keyframes zoomIn {
-	from {
-		opacity: 0;
-		transform: scale(0.8);
-	}
-
-	to {
+	100% {
 		opacity: 1;
 		transform: scale(1);
+	}
+}
+
+/* 从上方滑入+弹性缩放 - 用于标题 */
+@keyframes slideInFromTop {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* 从左侧滑入+弹性缩放 - 用于左侧内容 */
+@keyframes slideInFromLeft {
+	0% {
+		opacity: 0;
+		transform: translateX(-60px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/* 从右侧滑入+弹性缩放 - 用于右侧卡片 */
+@keyframes slideInFromRight {
+	0% {
+		opacity: 0;
+		transform: translateX(80px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/* 从下方滑入+弹性缩放 - 用于功能卡片 */
+@keyframes slideInFromBottom {
+	0% {
+		opacity: 0;
+		transform: translateY(30px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* 缩放淡入+弹性 - 用于小元素 */
+@keyframes scaleFadeIn {
+	0% {
+		opacity: 0;
+		transform: scale(0.7);
+	}
+
+	60% {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* 旋转滑入+弹性 - 用于Logo */
+@keyframes rotateSlideIn {
+	0% {
+		opacity: 0;
+		transform: translateX(30px) rotate(-15deg) scale(0.7);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1.15);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1);
 	}
 }
