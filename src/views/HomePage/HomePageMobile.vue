@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 首页移动端组件
  *

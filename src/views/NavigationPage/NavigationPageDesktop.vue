@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 导航页面组件(桌面端)
  *
@@ -337,7 +337,7 @@ const loadAttendanceCount = async () => {
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
-			router.push('/login')
+			await router.push('/login')
 		}
 	}
 }
@@ -414,7 +414,7 @@ const loadPoints = async () => {
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
-			router.push('/login')
+			await router.push('/login')
 		} else {
 			// 出错时默认赋值为0，避免显示null
 			signInPoints.value = 0
@@ -575,7 +575,7 @@ const loadUserAvatar = async () => {
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
-			router.push('/login')
+			await router.push('/login')
 		} else {
 			// 其他错误显示默认头像
 			showDefaultAvatar()
@@ -709,6 +709,7 @@ onBeforeUnmount(() => {
 							@click="handleAvatarClick"
 						>
 							<img
+								:src="avatarUrl"
 								v-if="hasAvatar && avatarUrl"
 								v-lazy="avatarUrl"
 								alt="用户头像"
