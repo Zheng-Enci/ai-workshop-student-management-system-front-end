@@ -5,7 +5,7 @@
  * @description 移动端首页,展示系统介绍和快捷入口
  * @component HomePageMobile
  */
-import { User, Lock, TrendCharts, ArrowRight, Star, Trophy, OfficeBuilding } from '@element-plus/icons-vue'
+import { User, Lock, TrendCharts, ArrowRight, Star, Trophy, OfficeBuilding, Monitor } from '@element-plus/icons-vue'
 import { ElButton, ElIcon, ElDialog } from 'element-plus'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -111,6 +111,15 @@ const goToAllMembers = () => {
  */
 const goToAttendanceAnalysis = () => {
 	router.push('/attendance-analysis')
+}
+
+/**
+ * 跳转到IP监控页
+ * @function goToIPMonitor
+ * @description 点击IP监控功能卡片时触发,跳转到IP监控页面
+ */
+const goToIPMonitor = () => {
+	router.push('/ip-monitor')
 }
 
 // ===================== 业务逻辑方法区 =====================
@@ -286,14 +295,23 @@ onMounted(() => {
 						</div>
 
 						<!-- 考勤分析入口 -->
-						<div class="home-page-mobile-feature-card quinary" @click="goToAttendanceAnalysis">
-							<div class="home-page-mobile-feature-icon">
-								<el-icon><trend-charts /></el-icon>
-							</div>
-							<h3>考勤分析</h3>
-							<p>查看考勤数据统计和分析报告</p>
+					<div class="home-page-mobile-feature-card quinary" @click="goToAttendanceAnalysis">
+						<div class="home-page-mobile-feature-icon">
+							<el-icon><trend-charts /></el-icon>
 						</div>
+						<h3>考勤分析</h3>
+						<p>查看考勤数据统计和分析报告</p>
 					</div>
+
+					<!-- IP监控入口 -->
+					<div class="home-page-mobile-feature-card senary" @click="goToIPMonitor">
+						<div class="home-page-mobile-feature-icon">
+							<el-icon><monitor /></el-icon>
+						</div>
+						<h3>IP监控</h3>
+						<p>查看AI坊内IP活跃程度</p>
+					</div>
+				</div>
 				</div>
 			</div>
 		</div>

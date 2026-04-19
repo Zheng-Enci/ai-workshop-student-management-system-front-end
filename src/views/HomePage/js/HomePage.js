@@ -104,6 +104,14 @@ export const useHomePageLogic = () => {
 	}
 
 	/**
+	 * 跳转到IP监控页面
+	 * 导航到IP监控页面，查看AI坊内IP活跃程度
+	 */
+	const goToIPMonitor = () => {
+		router.push('/ip-monitor')
+	}
+
+	/**
 	 * 显示联系表单
 	 * 打开联系表单对话框
 	 */
@@ -161,6 +169,7 @@ export const useHomePageLogic = () => {
 		goToPointsDashboard,
 		goToAllMembers,
 		goToAttendanceAnalysis,
+		goToIPMonitor,
 		showContactForm,
 		handleAvatarError
 	}

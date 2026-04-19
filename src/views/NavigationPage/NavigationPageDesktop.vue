@@ -17,7 +17,8 @@ import {
 	Trophy,
 	Coin,
 	Document,
-	Setting
+	Setting,
+	Monitor
 } from '@element-plus/icons-vue'
 // 导入 Element Plus 组件
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
@@ -262,6 +263,15 @@ const goToSuperAdmin = () => {
  */
 const goToAllMembers = () => {
 	router.push('/all-members')
+}
+
+/**
+ * 跳转到IP监控页面
+ * @function goToIPMonitor
+ * @description 点击IP监控入口时触发,跳转到IP监控页面
+ */
+const goToIPMonitor = () => {
+	router.push('/ip-monitor')
 }
 
 /**
@@ -905,18 +915,30 @@ onBeforeUnmount(() => {
 							</div>
 
 							<div class="navigation-desktop-navSectionCard-card" @click="goToAllMembers">
-								<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-8">
-									<el-icon size="28">
-										<user-filled/>
-									</el-icon>
-								</div>
-								<div class="navigation-desktop-navSectionCard-content">
-									<div class="navigation-desktop-navSectionCard-label">查看全部成员</div>
-									<div class="navigation-desktop-navSectionCard-description">查看所有成员信息</div>
-								</div>
+							<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-8">
+								<el-icon size="28">
+									<user-filled/>
+								</el-icon>
+							</div>
+							<div class="navigation-desktop-navSectionCard-content">
+								<div class="navigation-desktop-navSectionCard-label">查看全部成员</div>
+								<div class="navigation-desktop-navSectionCard-description">查看所有成员信息</div>
+							</div>
+						</div>
+
+						<div class="navigation-desktop-navSectionCard-card" @click="goToIPMonitor">
+							<div class="navigation-desktop-navSectionCard-card-icon navigation-page-desktop-nav-icon-gradient-10">
+								<el-icon size="28">
+									<monitor/>
+								</el-icon>
+							</div>
+							<div class="navigation-desktop-navSectionCard-content">
+								<div class="navigation-desktop-navSectionCard-label">IP监控</div>
+								<div class="navigation-desktop-navSectionCard-description">查看AI坊IP活跃程度</div>
 							</div>
 						</div>
 					</div>
+				</div>
 
 					<!-- 管理功能分组（管理员可见）-->
 					<div class="navigation-desktop-navSectionAdmin">

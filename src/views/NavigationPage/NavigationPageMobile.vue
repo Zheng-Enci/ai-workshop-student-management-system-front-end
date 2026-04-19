@@ -16,7 +16,7 @@
 
 // ===================== 依赖导入区 =====================
 // Element Plus 图标组件导入
-import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, Trophy, Coin, Document, TrendCharts, Setting } from '@element-plus/icons-vue'
+import { Check, User, DataAnalysis, SwitchButton, Calendar, Star, UserFilled, Trophy, Coin, Document, TrendCharts, Setting, Monitor } from '@element-plus/icons-vue'
 // Element Plus 核心组件导入
 import { ElMessage, ElButton, ElIcon } from 'element-plus'
 // Vue3 核心API导入
@@ -249,6 +249,15 @@ const goToAttendanceAnalysis = () => {
  */
 const goToAllMembers = () => {
 	router.push('/all-members')
+}
+
+/**
+ * 跳转到IP监控页面
+ * @function goToIPMonitor
+ * @description 点击IP监控入口时触发,跳转到IP监控页面
+ */
+const goToIPMonitor = () => {
+	router.push('/ip-monitor')
 }
 
 /**
@@ -838,18 +847,31 @@ onBeforeUnmount(() => {
 						</div>
 
 						<div class="navigation-page-mobile-nav-sections-card members-card" @click="goToAllMembers">
-							<div class="navigation-page-mobile-nav-sections-card-bg"/>
-							<div class="navigation-page-mobile-nav-sections-card-content">
-								<div class="navigation-page-mobile-nav-sections-card-icon">
-									<el-icon size="28"><user /></el-icon>
-								</div>
-								<div class="navigation-page-mobile-nav-sections-card-text">
-									<h3>全部成员</h3>
-									<p>查看所有成员信息</p>
-								</div>
+						<div class="navigation-page-mobile-nav-sections-card-bg"/>
+						<div class="navigation-page-mobile-nav-sections-card-content">
+							<div class="navigation-page-mobile-nav-sections-card-icon">
+								<el-icon size="28"><user /></el-icon>
+							</div>
+							<div class="navigation-page-mobile-nav-sections-card-text">
+								<h3>全部成员</h3>
+								<p>查看所有成员信息</p>
 							</div>
 						</div>
 					</div>
+
+					<div class="navigation-page-mobile-nav-sections-card ip-monitor-card" @click="goToIPMonitor">
+						<div class="navigation-page-mobile-nav-sections-card-bg"/>
+						<div class="navigation-page-mobile-nav-sections-card-content">
+							<div class="navigation-page-mobile-nav-sections-card-icon">
+								<el-icon size="28"><monitor /></el-icon>
+							</div>
+							<div class="navigation-page-mobile-nav-sections-card-text">
+								<h3>IP监控</h3>
+								<p>查看AI坊IP活跃程度</p>
+							</div>
+						</div>
+					</div>
+				</div>
 				</div>
 
 				<!-- 管理功能分组（所有用户可见） -->

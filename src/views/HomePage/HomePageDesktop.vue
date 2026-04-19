@@ -16,7 +16,7 @@
 
 // ===================== 样式和依赖导入区 =====================
 // Element Plus 图标组件导入
-import { TrendCharts, Lock, Star, User, OfficeBuilding, ArrowRight } from '@element-plus/icons-vue'
+import { TrendCharts, Lock, Star, User, OfficeBuilding, ArrowRight, Monitor } from '@element-plus/icons-vue'
 import { ElIcon, ElButton } from 'element-plus'
 // Vue3 响应式API导入
 import { ref } from 'vue'
@@ -45,7 +45,8 @@ const {
 	goToAdminSystem,
 	goToPointsDashboard,
 	goToAllMembers,
-	goToAttendanceAnalysis
+	goToAttendanceAnalysis,
+	goToIPMonitor
 } = useHomePageLogic()
 
 const environmentPolicyRef = ref(null)
@@ -177,14 +178,23 @@ const showEnvironmentPolicy = () => {
 						</div>
 
 						<!-- 考勤分析功能卡片:点击跳转到考勤分析页面 -->
-						<div class="home-page-desktop-feature-card quinary" title = "点击查看考勤趋势" @click="goToAttendanceAnalysis">
-							<div class="home-page-desktop-feature-icon">
-								<el-icon><trend-charts /></el-icon>
-							</div>
-							<h3>考勤分析</h3>
-							<p>查看考勤趋势数据和统计信息</p>
+					<div class="home-page-desktop-feature-card quinary" title = "点击查看考勤趋势" @click="goToAttendanceAnalysis">
+						<div class="home-page-desktop-feature-icon">
+							<el-icon><trend-charts /></el-icon>
 						</div>
+						<h3>考勤分析</h3>
+						<p>查看考勤趋势数据和统计信息</p>
 					</div>
+
+					<!-- IP监控功能卡片:点击跳转到IP监控页面 -->
+					<div class="home-page-desktop-feature-card senary" title = "点击查看IP监控" @click="goToIPMonitor">
+						<div class="home-page-desktop-feature-icon">
+							<el-icon><monitor /></el-icon>
+						</div>
+						<h3>IP监控</h3>
+						<p>查看AI坊内IP活跃程度和扫描统计</p>
+					</div>
+				</div>
 				</div>
 			</div>
 		</div>
