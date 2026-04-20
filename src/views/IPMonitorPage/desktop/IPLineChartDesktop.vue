@@ -42,7 +42,7 @@
  */
 
 // Vue核心API导入
-import {ref, onMounted, onBeforeUnmount, computed} from 'vue'
+import {ref, onMounted, onBeforeUnmount, computed, watch} from 'vue'
 
 // IP折线图核心逻辑类导入
 import {IPLineChartDesktop} from './ts/IPLineChartDesktop'
@@ -50,6 +50,9 @@ import {IPLineChartDesktop} from './ts/IPLineChartDesktop'
 // IP监控页面数据管理类导入
 import IPMonitorPageDesktop from './ts/IPMonitorPageDesktop'
 import type {IPMonitorPageData} from './ts/IPMonitorPageDesktop'
+
+// 主题状态管理导入
+import {useThemeStore} from '@/stores/ts/theme'
 
 /**
  * IP监控页面数据管理实例
@@ -84,11 +87,17 @@ const ipCounts = computed(() => {
 })
 
 /**
- * 是否为深色模式
- * 从本地存储或系统偏好获取主题设置
- * 默认使用浅色模式
+ * 主题状态管理实例
+ * 用于获取当前主题模式（深色/浅色）
  */
-const isDark = ref(false)
+const themeStore = useThemeStore()
+
+/**
+ * 是否为深色模式计算属性
+ * 从主题store获取当前主题状态
+ * 自动响应主题切换
+ */
+const isDark = computed(() => themeStore.isDarkMode)
 
 /**
  * 图表容器DOM引用
@@ -127,6 +136,32 @@ onMounted(() => {
 		chartInstance.mount()
 	}
 })
+
+/**
+ * 主题切换监听器
+ *
+ * 监听isDark变化，当主题切换时：
+ * 1. 销毁旧图表实例
+ * 2. 使用新主题重新创建图表实例
+ * 确保图表样式随主题实时更新
+ */
+watch(
+	isDark,
+	(newIsDark) => {
+		if (chartInstance && chartContainerRef.value) {
+			// 销毁旧实例
+			chartInstance.unmount()
+			// 使用新主题重新创建
+			chartInstance = new IPLineChartDesktop({
+				fangIPs: fangIPs.value,
+				ipCounts: ipCounts.value,
+				isDark: newIsDark
+			})
+			chartInstance.ref = chartContainerRef.value
+			chartInstance.mount()
+		}
+	}
+)
 
 /**
  * 组件卸载前生命周期钩子

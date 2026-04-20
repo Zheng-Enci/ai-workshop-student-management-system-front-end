@@ -69,15 +69,31 @@ export class IPLineChartDesktop {
 		const option: echarts.EChartsOption = {
 			tooltip: {
 				trigger: 'axis',
-				backgroundColor: this.props.isDark ? '#2c2c2c' : '#ffffff',
-				borderColor: colors.gridColor,
+				backgroundColor: this.props.isDark ? '#1a1a1a' : '#ffffff',
+				borderColor: this.props.isDark ? '#5bdae2' : '#1a9e9a',
+				borderWidth: 1,
+				padding: [10, 15],
 				textStyle: {
-					color: colors.textColor
+					color: this.props.isDark ? '#ffffff' : '#333333',
+					fontSize: 14
 				},
+				extraCssText: this.props.isDark
+					? 'box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);'
+					: 'box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);',
 				formatter: (params: unknown) => {
 					const p = params as {name: string; value: number}[]
 					if (p && p[0]) {
-						return `IP: ${p[0].name}<br/>次数: ${p[0].value}`
+						const ipColor = this.props.isDark ? '#5bdae2' : '#1a9e9a'
+						return `<div style="font-weight: 500;">
+							<div style="margin-bottom: 5px;">
+								<span style="color: ${ipColor};">●</span> 
+								<span style="color: ${this.props.isDark ? '#ffffff' : '#333333'};">IP: ${p[0].name}</span>
+							</div>
+							<div>
+								<span style="color: ${ipColor};">●</span> 
+								<span style="color: ${this.props.isDark ? '#ffffff' : '#333333'};">次数: ${p[0].value}</span>
+							</div>
+						</div>`
 					}
 					return ''
 				}
