@@ -42,6 +42,8 @@ interface ChartProps {
 }
 
 const props = withDefaults(defineProps<ChartProps>(), {
+	fangIPs: () => [] as string[],
+	ipCounts: undefined,
 	isDark: false
 })
 
