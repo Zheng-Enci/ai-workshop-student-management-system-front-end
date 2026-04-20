@@ -9,7 +9,7 @@
 				<el-button
 					type="primary"
 					class="ip-monitor-page-desktop-nav-btn"
-					@click="$router.push('/navigation')"
+					@click="router.push('/navigation')"
 				>
 					<el-icon><ArrowLeft /></el-icon>
 					导航
@@ -113,6 +113,7 @@
  * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
  */
 import {ref, computed, onMounted, watch, provide} from 'vue'
+import {useRouter} from 'vue-router'
 import {ElButton, ElMessage, ElIcon, ElSelect, ElOption} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {useThemeStore} from '@/stores/ts/theme'
@@ -183,6 +184,12 @@ import 'element-plus/theme-chalk/el-option.css'
 import 'element-plus/dist/index.css'
 
 // ==================== 响应式数据 ====================
+
+/**
+ * 路由实例
+ * 用于页面导航
+ */
+const router = useRouter()
 
 /**
  * IP监控页面数据管理实例
