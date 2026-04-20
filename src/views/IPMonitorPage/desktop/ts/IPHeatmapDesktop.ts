@@ -18,7 +18,7 @@
  * @since 2024
  */
 import {ElMessage} from 'element-plus'
-import {computed, onMounted, ref, watch, type Ref} from 'vue'
+import {computed, ref, watch, type Ref} from 'vue'
 import IPMonitorPageDesktop from './IPMonitorPageDesktop'
 import type {IPMonitorPageData} from './IPMonitorPageDesktop'
 
@@ -120,7 +120,7 @@ export class IPHeatmapDesktop {
 	 * @private
 	 * @type {Ref<boolean>}
 	 */
-	private isDark: Ref<boolean>
+	private readonly isDark: Ref<boolean>
 
 	/**
 	 * 数据监听器清理函数
@@ -144,8 +144,6 @@ export class IPHeatmapDesktop {
 	 */
 	constructor(props: HeatmapProps) {
 		this.props = props
-		this.ipList = props.ipRange || []
-		this.updateIPCouter()
 
 		/**
 		 * 初始化数据管理实例
@@ -164,6 +162,12 @@ export class IPHeatmapDesktop {
 		 * 默认使用浅色模式
 		 */
 		this.isDark = ref(false)
+
+		/**
+		 * 初始化IP计数器
+		 * 注意：此时pageData已经初始化，可以使用计算属性
+		 */
+		this.updateIPCouter()
 	}
 
 	/**
@@ -325,28 +329,17 @@ export class IPHeatmapDesktop {
 			this.unwatchData = null
 		}
 	}
-
-	/**
-	 * 更新深色模式状态
-	 *
-	 * @public
-	 * @param {boolean} isDark - 是否为深色模式
-	 */
-	public setDarkMode(isDark: boolean): void {
-		this.isDark.value = isDark
-	}
-
 	/**
 	 * 更新IP计数器
-	 * 将props中的ipCounts对象转换为Map结构，便于后续高效查询
+	 * 将ipCounts对象转换为Map结构，便于后续高效查询
 	 * 此方法在构造函数和属性更新时调用
 	 *
 	 * @private
 	 * @returns {void}
 	 */
 	private updateIPCouter(): void {
-		this.ipCounter = new Map(Object.entries(this.props.ipCounts || {}))
-		this.ipList = this.props.ipRange || []
+		// 使用计算属性ipCounts获取数据，确保数据一致性
+		this.ipCounter = new Map(Object.entries(this.ipCounts || {}))
 	}
 
 	/**
@@ -443,7 +436,8 @@ export class IPHeatmapDesktop {
 	 */
 	public getFullIP(row: number, col: number): string {
 		const index = this.getIPIndex(row, col)
-		return this.ipList[index] || ''
+		// 使用计算属性ipRange获取IP列表，确保数据一致性
+		return this.ipRange[index] || ''
 	}
 
 	/**
@@ -545,5 +539,3 @@ export class IPHeatmapDesktop {
 		ElMessage.info(`IP: ${ip}, 出现次数: ${count}`)
 	}
 }
-
-export default IPHeatmapDesktop
