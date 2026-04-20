@@ -29,7 +29,7 @@
 				row从1开始计数，对应热力图的第一行到最后一行
 			-->
 			<tr
-				v-for="row in rowCount"
+				v-for="row in heatmap.rowCount"
 				:key="row"
 			>
 				<!--
@@ -43,7 +43,7 @@
 					- @click：点击事件，显示IP详情弹窗
 				-->
 				<td
-					v-for="col in colCount"
+					v-for="col in heatmap.colCount"
 					:key="`${row}-${col}`"
 					:class="heatmap.getCellClass(row, col)"
 					:style="heatmap.getCellStyle(row, col)"
@@ -60,10 +60,10 @@
 						- count-number：该IP的使用次数，从ipCounts对象中获取
 						  使用可选链?.防止ipCounts为undefined，默认显示0
 					-->
-					<div v-if="fangIPs?.includes(heatmap.getFullIP(row, col))">
+					<div v-if="heatmap.fangIPs?.includes(heatmap.getFullIP(row, col))">
 						<span class="ip-monitor-page-desktop-heatmap-ip-number">{{ heatmap.getFullIP(row, col) }}</span>
 						<span class="ip-monitor-page-desktop-heatmap-count-number">
-							{{ ipCounts?.[heatmap.getFullIP(row, col)] || 0 }}
+							{{ heatmap.ipCounts?.[heatmap.getFullIP(row, col)] || 0 }}
 						</span>
 					</div>
 					<!--
@@ -143,180 +143,51 @@
 
 <script setup lang="ts">
 /**
- * IP热力图桌面端组件脚本
+ * IP热力图桌面端组件脚本（重构后）
  *
  * @component IPHeatmapDesktop
- * @description 展示IP地址使用频率的热力图组件，使用IPHeatmapDesktop类处理核心逻辑
- * 本组件完全自主从IPMonitorPageDesktop获取数据，不依赖父组件传递props
- *
- * 功能特性：
- * 1. 网格化展示IP地址，每个单元格代表一个IP
- * 2. 根据使用次数显示不同颜色深浅（热力图效果）
- * 3. 区分坊内IP和非坊内IP（不同样式）
- * 4. 点击单元格显示IP详情
- * 5. 响应式数据更新，支持动态刷新
- * 6. 自主数据获取，组件完全独立
+ * @description 展示IP地址使用频率的热力图组件
+ * 重构后，所有业务逻辑已移至IPHeatmapDesktop类中
+ * Vue组件仅负责模板渲染和事件绑定
  */
 
 // Vue核心API导入
-import {computed, onMounted, watch, provide, ref} from 'vue'
+import {onBeforeUnmount, onMounted} from 'vue'
 
 // IP热力图核心逻辑类导入
 import {IPHeatmapDesktop} from './ts/IPHeatmapDesktop'
 
-// IP监控页面数据管理类导入
-import IPMonitorPageDesktop from './ts/IPMonitorPageDesktop'
-import type {IPMonitorPageData} from './ts/IPMonitorPageDesktop'
-
-/**
- * IP监控页面数据管理实例
- * 使用单例模式获取数据管理类实例
- * 该实例包含所有IP监控数据：ipCounts、scanCount、fangIPs、ipRange
- */
-const pageDataManager = IPMonitorPageDesktop.getInstance()
-
-/**
- * 页面数据响应式引用
- * 直接从IPMonitorPageDesktop获取数据并转换为响应式
- * 数据变化时自动更新热力图
- */
-const pageData = ref<IPMonitorPageData>(pageDataManager.getData())
-
-/**
- * 向子组件提供数据管理实例
- * 使用Vue的Provide/Inject机制实现跨层级数据共享
- * 子组件可以通过inject('ipMonitorData')获取此实例
- * 这样设计使得IPHeatmapDesktop成为数据提供中心
- */
-provide('ipMonitorData', pageDataManager)
-
-/**
- * 坊内IP列表计算属性
- * 从pageData中提取坊内IP列表
- * 如果数据未加载则返回空数组
- */
-const fangIPs = computed(() => {
-	return pageData.value.fangIPs?.fang_ips || []
-})
-
-/**
- * IP使用次数映射计算属性
- * 从pageData中提取IP使用次数映射
- * 如果数据未加载则返回空对象
- */
-const ipCounts = computed(() => {
-	return pageData.value.ipCounts?.ip_counts || {}
-})
-
-/**
- * IP地址范围列表计算属性
- * 从pageData中提取IP地址范围列表
- * 如果数据未加载则返回空数组
- */
-const ipRange = computed(() => {
-	return pageData.value.ipRange?.ip_range || []
-})
-
-/**
- * 是否为深色模式
- * 从本地存储或系统偏好获取主题设置
- * 默认使用浅色模式
- */
-const isDark = ref(false)
-
 /**
  * IP热力图核心类实例
- *
- * 创建IPHeatmapDesktop类的实例，传入初始数据
+ * 创建IPHeatmapDesktop类的实例
  * 该类封装了热力图的所有业务逻辑，包括：
- * - IP数据管理和查询
+ * - 数据管理和获取
  * - 单元格样式计算
  * - 点击事件处理
  * - 行列数计算
+ * - 生命周期管理
  */
 const heatmap = new IPHeatmapDesktop({
-	fangIPs: fangIPs.value,
-	ipCounts: ipCounts.value,
-	isDark: isDark.value,
-	ipRange: ipRange.value,
+	fangIPs: [],
+	ipCounts: {},
+	isDark: false,
+	ipRange: []
 })
 
 /**
- * 热力图行数计算属性
- *
- * 从heatmap实例中获取行数
- * 行数根据ipRange长度和每行显示的列数计算得出
- */
-const rowCount = computed(() => heatmap.rowCount)
-
-/**
- * 热力图列数计算属性
- *
- * 从heatmap实例中获取列数
- * 默认每行显示10个IP（可根据需要调整）
- */
-const colCount = computed(() => heatmap.colCount)
-
-/**
- * 数据监听器
- *
- * 监听fangIPs、ipCounts、isDark的变化
- * 当任一数据变化时，调用heatmap.updateProps更新内部状态
- *
- * 配置说明：
- * - deep: true 启用深度监听，确保对象内部属性变化也能被捕获
- */
-watch(
-	[fangIPs, ipCounts, isDark],
-	([newFangIPs, newIpCounts, newIsDark]) => {
-		heatmap.updateProps({
-			fangIPs: newFangIPs,
-			ipCounts: newIpCounts,
-			isDark: newIsDark,
-			ipRange: ipRange.value
-		})
-	},
-	{deep: true}
-)
-
-/**
  * 组件挂载生命周期钩子
- *
- * 组件挂载后执行，处理异步数据加载场景：
- * 1. 尝试获取fangIPs数据
- * 2. 如果数据未加载完成，最多重试20次（每次间隔300ms）
- * 3. 数据加载完成后更新heatmap实例
- *
- * 重试机制确保在异步数据场景下组件能正确初始化
+ * 调用heatmap.init()初始化组件
  */
 onMounted(() => {
-	/** 重试计数器 */
-	let attempts = 0
-	
-	/**
-	 * 尝试更新数据
-	 * 递归函数，直到获取到fangIPs数据或达到最大重试次数
-	 */
-	const tryUpdate = () => {
-		attempts++
-		// 更新pageData引用
-		pageData.value = pageDataManager.getData()
-		// 检查fangIPs是否已加载且有数据
-		if (fangIPs.value && fangIPs.value.length > 0) {
-			// 数据已加载，更新heatmap实例
-			heatmap.updateProps({
-				fangIPs: fangIPs.value,
-				ipCounts: ipCounts.value,
-				isDark: isDark.value,
-				ipRange: ipRange.value
-			})
-		} else if (attempts < 20) {
-			// 数据未加载，继续重试（最多20次）
-			setTimeout(tryUpdate, 300)
-		}
-	}
-	// 延迟300ms后开始第一次尝试
-	setTimeout(tryUpdate, 300)
+	heatmap.init()
+})
+
+/**
+ * 组件卸载前生命周期钩子
+ * 调用heatmap.destroy()清理资源
+ */
+onBeforeUnmount(() => {
+	heatmap.destroy()
 })
 </script>
 

@@ -3,6 +3,7 @@
  *
  * 本类负责IP热力图的全部数据处理、单元格样式计算、点击事件处理等功能
  * 采用面向对象设计模式，封装了热力图渲染所需的所有业务逻辑
+ * 重构后，此类成为完整的视图模型，Vue组件只需调用此类的方法
  *
  * 主要功能：
  * 1. 管理坊内IP列表和IP出现次数的映射关系
@@ -10,12 +11,16 @@
  * 3. 提供单元格的CSS类名和样式计算
  * 4. 处理单元格点击交互事件
  * 5. 支持动态属性更新和响应式数据变化
+ * 6. 自主数据获取，不依赖父组件传递props
  *
  * @class IPHeatmapDesktop
  * @author AI Workshop Team
  * @since 2024
  */
 import {ElMessage} from 'element-plus'
+import {computed, onMounted, ref, watch, type Ref} from 'vue'
+import IPMonitorPageDesktop from './IPMonitorPageDesktop'
+import type {IPMonitorPageData} from './IPMonitorPageDesktop'
 
 /**
  * 热力图组件属性接口
@@ -62,6 +67,7 @@ interface HeatmapProps {
 /**
  * IP热力图桌面端核心类
  * 封装了热力图的所有业务逻辑和计算方法
+ * 重构后包含完整的Vue响应式数据管理和生命周期逻辑
  */
 export class IPHeatmapDesktop {
 	/**
@@ -90,8 +96,44 @@ export class IPHeatmapDesktop {
 	private ipList: string[] = []
 
 	/**
+	 * IP监控页面数据管理实例
+	 * 使用单例模式获取数据管理类实例
+	 * 该实例包含所有IP监控数据：ipCounts、scanCount、fangIPs、ipRange
+	 * @private
+	 * @type {IPMonitorPageDesktop}
+	 */
+	private pageDataManager: IPMonitorPageDesktop
+
+	/**
+	 * 页面数据响应式引用
+	 * 直接从IPMonitorPageDesktop获取数据并转换为响应式
+	 * 数据变化时自动更新热力图
+	 * @private
+	 * @type {Ref<IPMonitorPageData>}
+	 */
+	private pageData: Ref<IPMonitorPageData>
+
+	/**
+	 * 是否为深色模式
+	 * 从本地存储或系统偏好获取主题设置
+	 * 默认使用浅色模式
+	 * @private
+	 * @type {Ref<boolean>}
+	 */
+	private isDark: Ref<boolean>
+
+	/**
+	 * 数据监听器清理函数
+	 * 用于在组件卸载时清理watch监听
+	 * @private
+	 * @type {(() => void) | null}
+	 */
+	private unwatchData: (() => void) | null = null
+
+	/**
 	 * 构造函数
 	 * 初始化组件属性并构建IP计数器映射
+	 * 同时初始化数据管理实例和响应式数据
 	 *
 	 * @param {HeatmapProps} props - 组件初始化属性
 	 * @example
@@ -104,6 +146,194 @@ export class IPHeatmapDesktop {
 		this.props = props
 		this.ipList = props.ipRange || []
 		this.updateIPCouter()
+
+		/**
+		 * 初始化数据管理实例
+		 * 使用单例模式获取IPMonitorPageDesktop实例
+		 */
+		this.pageDataManager = IPMonitorPageDesktop.getInstance()
+
+		/**
+		 * 初始化页面数据响应式引用
+		 * 直接从数据管理器获取数据
+		 */
+		this.pageData = ref<IPMonitorPageData>(this.pageDataManager.getData())
+
+		/**
+		 * 初始化深色模式状态
+		 * 默认使用浅色模式
+		 */
+		this.isDark = ref(false)
+	}
+
+	/**
+	 * 坊内IP列表计算属性
+	 * 从pageData中提取坊内IP列表
+	 * 如果数据未加载则返回空数组
+	 *
+	 * @public
+	 * @returns {string[]} 坊内IP地址数组
+	 */
+	public get fangIPs(): string[] {
+		return this.pageData.value.fangIPs?.fang_ips || []
+	}
+
+	/**
+	 * IP使用次数映射计算属性
+	 * 从pageData中提取IP使用次数映射
+	 * 如果数据未加载则返回空对象
+	 *
+	 * @public
+	 * @returns {Record<string, number>} IP使用次数映射
+	 */
+	public get ipCounts(): Record<string, number> {
+		return this.pageData.value.ipCounts?.ip_counts || {}
+	}
+
+	/**
+	 * IP地址范围列表计算属性
+	 * 从pageData中提取IP地址范围列表
+	 * 如果数据未加载则返回空数组
+	 *
+	 * @public
+	 * @returns {string[]} IP地址范围数组
+	 */
+	public get ipRange(): string[] {
+		return this.pageData.value.ipRange?.ip_range || []
+	}
+
+	/**
+	 * 热力图行数计算属性
+	 * 从ipRange长度计算行数
+	 * 行数根据ipRange长度和每行显示的列数计算得出
+	 *
+	 * @public
+	 * @returns {number} 热力图行数
+	 */
+	public get rowCount(): number {
+		return Math.ceil(this.ipRange.length / 10)
+	}
+
+	/**
+	 * 热力图列数计算属性
+	 * 默认每行显示10个IP
+	 *
+	 * @public
+	 * @returns {number} 热力图列数，固定为10
+	 */
+	public get colCount(): number {
+		return 10
+	}
+
+	/**
+	 * 计算属性：获取最大出现次数
+	 * 遍历所有IP计数，返回出现次数的最大值
+	 * 用于热力图颜色计算的上限基准
+	 *
+	 * @public
+	 * @returns {number} 最大出现次数，无数据时返回0
+	 */
+	public get maxCount(): number {
+		const counts = Object.values(this.ipCounts)
+		if (counts.length === 0) return 0
+		return Math.max(...counts)
+	}
+
+	/**
+	 * 计算属性：获取最小出现次数（非零）
+	 * 遍历所有IP计数，返回大于0的最小出现次数
+	 * 用于热力图颜色计算的下限基准
+	 *
+	 * @public
+	 * @returns {number} 最小非零出现次数，无有效数据时返回0
+	 */
+	public get minCount(): number {
+		const counts = Object.values(this.ipCounts).filter(c => c > 0)
+		if (counts.length === 0) return 0
+		return Math.min(...counts)
+	}
+
+	/**
+	 * 初始化组件
+	 * 设置数据监听器和生命周期逻辑
+	 * 此方法应在Vue组件的onMounted中调用
+	 *
+	 * @public
+	 * @returns {void}
+	 */
+	public init(): void {
+		/**
+		 * 设置数据监听器
+		 * 监听fangIPs、ipCounts、isDark的变化
+		 * 当任一数据变化时，调用updateProps更新内部状态
+		 */
+		this.unwatchData = watch(
+			[
+				computed(() => this.fangIPs),
+				computed(() => this.ipCounts),
+				this.isDark
+			],
+			([newFangIPs, newIpCounts, newIsDark]) => {
+				this.updateProps({
+					fangIPs: newFangIPs,
+					ipCounts: newIpCounts,
+					isDark: newIsDark,
+					ipRange: this.ipRange
+				})
+			},
+			{deep: true}
+		)
+
+		/**
+		 * 组件挂载后执行，处理异步数据加载场景
+		 * 使用重试机制确保在异步数据场景下组件能正确初始化
+		 */
+		let attempts = 0
+		const tryUpdate = () => {
+			attempts++
+			// 更新pageData引用
+			this.pageData.value = this.pageDataManager.getData()
+			// 检查fangIPs是否已加载且有数据
+			if (this.fangIPs && this.fangIPs.length > 0) {
+				// 数据已加载，更新heatmap实例
+				this.updateProps({
+					fangIPs: this.fangIPs,
+					ipCounts: this.ipCounts,
+					isDark: this.isDark.value,
+					ipRange: this.ipRange
+				})
+			} else if (attempts < 20) {
+				// 数据未加载，继续重试（最多20次）
+				setTimeout(tryUpdate, 300)
+			}
+		}
+		// 延迟300ms后开始第一次尝试
+		setTimeout(tryUpdate, 300)
+	}
+
+	/**
+	 * 销毁组件
+	 * 清理监听器和资源
+	 * 此方法应在Vue组件的onBeforeUnmount中调用
+	 *
+	 * @public
+	 * @returns {void}
+	 */
+	public destroy(): void {
+		if (this.unwatchData) {
+			this.unwatchData()
+			this.unwatchData = null
+		}
+	}
+
+	/**
+	 * 更新深色模式状态
+	 *
+	 * @public
+	 * @param {boolean} isDark - 是否为深色模式
+	 */
+	public setDarkMode(isDark: boolean): void {
+		this.isDark.value = isDark
 	}
 
 	/**
@@ -135,54 +365,6 @@ export class IPHeatmapDesktop {
 	public updateProps(props: HeatmapProps): void {
 		this.props = props
 		this.updateIPCouter()
-	}
-
-	/**
-	 * 计算属性：获取坊内IP列表
-	 * 返回当前配置的所有坊内IP地址
-	 * 如果未配置则返回空数组
-	 *
-	 * @public
-	 * @returns {string[]} 坊内IP地址数组
-	 */
-	public get fangIPs(): string[] {
-		return this.props.fangIPs || []
-	}
-
-	/**
-	 * 计算属性：获取最大出现次数
-	 * 遍历所有IP计数，返回出现次数的最大值
-	 * 用于热力图颜色计算的上限基准
-	 *
-	 * @public
-	 * @returns {number} 最大出现次数，无数据时返回0
-	 */
-	public get maxCount(): number {
-		let max = 0
-		this.ipCounter.forEach((count) => {
-			if (count > max) {
-				max = count
-			}
-		})
-		return max
-	}
-
-	/**
-	 * 计算属性：获取最小出现次数（非零）
-	 * 遍历所有IP计数，返回大于0的最小出现次数
-	 * 用于热力图颜色计算的下限基准
-	 *
-	 * @public
-	 * @returns {number} 最小非零出现次数，无有效数据时返回0
-	 */
-	public get minCount(): number {
-		let min = Infinity
-		this.ipCounter.forEach((count) => {
-			if (count > 0 && count < min) {
-				min = count
-			}
-		})
-		return min === Infinity ? 0 : min
 	}
 
 	/**
@@ -362,30 +544,6 @@ export class IPHeatmapDesktop {
 		const count = this.ipCounter.get(ip) || 0
 		ElMessage.info(`IP: ${ip}, 出现次数: ${count}`)
 	}
-
-	/**
-	 * 获取渲染行数
-	 * 定义热力图显示的行数量，根据IP列表动态计算
-	 *
-	 * 每行显示10个IP，根据IP列表总长度计算行数
-	 *
-	 * @public
-	 * @returns {number} 行数，根据IP列表长度动态计算
-	 */
-	public get rowCount(): number {
-		return Math.ceil(this.ipList.length / 10)
-	}
-
-	/**
-	 * 获取渲染列数
-	 * 定义热力图显示的列数量
-	 *
-	 * 默认显示10列，每行10个IP
-	 *
-	 * @public
-	 * @returns {number} 列数，固定为10
-	 */
-	public get colCount(): number {
-		return 10
-	}
 }
+
+export default IPHeatmapDesktop
