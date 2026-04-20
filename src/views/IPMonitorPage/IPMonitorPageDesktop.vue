@@ -76,12 +76,32 @@
 			v-if="maxCount > 0"
 			class="ip-monitor-page-desktop-legend"
 		>
+			<!-- 热力图颜色说明 -->
 			<div class="ip-monitor-page-desktop-legend-item">
 				<div
 					class="ip-monitor-page-desktop-legend-color"
 					:style="{ background: 'linear-gradient(to right, rgb(91,217,212), rgb(45,85,130))' }"
 				/>
 				<span>1次-{{ maxCount }}次（颜色越深次数越多）</span>
+			</div>
+			<!-- 坊内/非坊内说明 -->
+			<div class="ip-monitor-page-desktop-legend-item">
+				<div
+					class="ip-monitor-page-desktop-legend-color ip-monitor-page-desktop-legend-fang"
+				/>
+				<span>坊内IP（带数字表示有使用次数）</span>
+			</div>
+			<div class="ip-monitor-page-desktop-legend-item">
+				<div
+					class="ip-monitor-page-desktop-legend-color ip-monitor-page-desktop-legend-non-fang"
+				/>
+				<span>非坊内IP（灰色背景，不可使用）</span>
+			</div>
+			<div class="ip-monitor-page-desktop-legend-item">
+				<div
+					class="ip-monitor-page-desktop-legend-color ip-monitor-page-desktop-legend-available"
+				/>
+				<span>可分配IP（坊内但次数为0，白色背景）</span>
 			</div>
 		</div>
 

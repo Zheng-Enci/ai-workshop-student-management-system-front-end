@@ -270,3 +270,29 @@
 	height: 20px;
 	border-radius: 2px;
 }
+
+/**
+ * 坊内IP图例颜色
+ * 使用主题主色表示坊内IP
+ */
+.ip-monitor-page-desktop-legend-fang {
+	background-color: var(--primary-color);
+}
+
+/**
+ * 非坊内IP图例颜色
+ * 使用灰色表示非坊内IP
+ */
+.ip-monitor-page-desktop-legend-non-fang {
+	background-color: var(--bg-tertiary, #e0e0e0);
+	border: 1px solid var(--border-color, #ccc);
+}
+
+/**
+ * 可分配IP图例颜色
+ * 使用白色背景表示可分配的IP
+ */
+.ip-monitor-page-desktop-legend-available {
+	background-color: var(--bg-primary, #ffffff);
+	border: 1px solid var(--border-color, #ccc);
+}
