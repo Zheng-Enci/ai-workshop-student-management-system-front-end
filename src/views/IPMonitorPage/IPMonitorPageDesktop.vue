@@ -395,19 +395,13 @@ async function initPageData(): Promise<void> {
 	await pageDataManager.init_data()
 	pageData.value = pageDataManager.getData()
 
-	// 从localStorage读取保存的时间段
-	const savedTimeRange = localStorage.getItem('ip_monitor_time_range')
-	if (savedTimeRange) {
-		try {
-			const timeRange = JSON.parse(savedTimeRange)
-			// 根据保存的时间戳计算天数
-			const days = Math.round((timeRange.endTime - timeRange.startTime) / (24 * 60 * 60))
-			// 更新下拉框显示
-			selectedTimeRange.value = days
-		} catch {
-			// 解析失败，使用默认值
-			selectedTimeRange.value = 180
-		}
+	// 从数据管理类获取保存的时间段
+	const timeRange = pageDataManager.getTimeRange()
+	if (timeRange.startTime > 0 && timeRange.endTime > 0) {
+		// 根据保存的时间戳计算天数
+		const days = Math.round((timeRange.endTime - timeRange.startTime) / (24 * 60 * 60))
+		// 更新下拉框显示
+		selectedTimeRange.value = days
 	}
 }
 
