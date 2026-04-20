@@ -89,23 +89,24 @@ const updateChart = (): void => {
 			containLabel: true
 		},
 		xAxis: {
-			type: 'category',
-			data: data.map((d) => d.ip),
-			axisLine: {
-				lineStyle: {
-					color: colors.gridColor
-				}
-			},
-			axisLabel: {
-				color: colors.textColor,
-				rotate: 45,
-				fontSize: 10,
-				interval: Math.floor(data.length / 10)
-			},
-			axisTick: {
-				alignWithLabel: true
-			}
-		},
+	type: 'category',
+	data: data.map((d) => d.ip),
+	axisLine: {
+		lineStyle: {
+			color: colors.gridColor
+		}
+	},
+	axisLabel: {
+		color: colors.textColor,
+		rotate: 45,
+		fontSize: 9,
+		interval: 0,
+		overflow: 'none'
+	},
+	axisTick: {
+		alignWithLabel: true
+	}
+},
 		yAxis: {
 			type: 'value',
 			name: '出现次数',
