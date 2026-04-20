@@ -13,13 +13,13 @@
 			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
 		</div>
 
-		<!-- 扫描统计和IP表格容器 -->
-		<div>
-			<!-- 扫描统计 -->
+		<!-- 主内容区域：扫描统计和IP表格 -->
+		<div class="ip-monitor-page-desktop-main-content">
+			<!-- 扫描统计信息 -->
 			<div class="ip-monitor-page-desktop-scan-stats">
 				最近7天扫描次数：{{ recent7DScans }}
 			</div>
-			<!-- IP表格 -->
+			<!-- IP热力图表格 -->
 			<table class="ip-monitor-page-desktop-ip-table">
 				<tr
 					v-for="row in 10"
