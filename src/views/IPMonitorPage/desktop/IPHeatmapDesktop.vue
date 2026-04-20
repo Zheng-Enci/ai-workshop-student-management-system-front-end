@@ -13,7 +13,7 @@
 					:style="heatmap.getCellStyle(row, col)"
 					@click="heatmap.handleCellClick(row, col)"
 				>
-					<div v-if="heatmap.fangIPs.includes(heatmap.getFullIP(row, col))">
+					<div v-if="props.fangIPs?.includes(heatmap.getFullIP(row, col))">
 						<span class="ip-monitor-page-desktop-heatmap-ip-number">{{ heatmap.getIPNumber(row, col) }}</span>
 						<span class="ip-monitor-page-desktop-heatmap-count-number">
 							{{ props.ipCounts[heatmap.getFullIP(row, col)] || 0 }}
