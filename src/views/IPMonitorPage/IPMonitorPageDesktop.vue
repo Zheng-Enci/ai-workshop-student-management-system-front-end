@@ -33,6 +33,7 @@
 			<div class="ip-monitor-page-desktop-ip-stats">
 				<span>总IP数: {{ ipCounter.size }}</span>
 				<span v-if="maxCount > 0">| 活跃IP: {{ activeIPCount }}</span>
+				<span v-if="maxCount > 0">| 未使用: {{ unusedIPCount }}</span>
 				<span v-if="maxCount > 0">| 最大: {{ maxCount }}</span>
 				<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
 				<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
@@ -257,6 +258,14 @@ const avgCount = computed(() => {
 		total += value
 	})
 	return Math.round(total / activeIPCount.value)
+})
+
+/**
+ * 未使用IP数
+ * 统计出现次数为0的IP数量
+ */
+const unusedIPCount = computed(() => {
+	return ipCounter.value.size - activeIPCount.value
 })
 
 
