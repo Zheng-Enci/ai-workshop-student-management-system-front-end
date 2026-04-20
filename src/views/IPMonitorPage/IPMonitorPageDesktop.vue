@@ -101,7 +101,7 @@
 				<div
 					class="ip-monitor-page-desktop-legend-color ip-monitor-page-desktop-legend-available"
 				/>
-				<span>可分配IP（坊内但次数为0，白色背景）</span>
+				<span>可分配IP（坊内但次数为0，无颜色背景）</span>
 			</div>
 		</div>
 

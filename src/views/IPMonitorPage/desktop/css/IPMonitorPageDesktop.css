@@ -290,9 +290,9 @@
 
 /**
  * 可分配IP图例颜色
- * 使用白色背景表示可分配的IP
+ * 使用主题背景色表示可分配的IP（日间为白色，夜间为深色）
  */
 .ip-monitor-page-desktop-legend-available {
-	background-color: var(--bg-primary, #ffffff);
-	border: 1px solid var(--border-color, #ccc);
+	background-color: var(--bg-primary);
+	border: 1px solid var(--border-color);
 }
