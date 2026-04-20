@@ -28,10 +28,10 @@ let chartInstance: ECharts | null = null
 
 const chartData = computed(() => {
 	const data: {ip: string; count: number}[] = []
-	if (!props.fangIPs || props.fangIPs.length === 0 || !props.ipCounts) {
+	if (!props.ipCounts) {
 		return data
 	}
-	props.fangIPs.forEach((ip) => {
+	Object.keys(props.ipCounts).forEach((ip) => {
 		const count = props.ipCounts[ip] || 0
 		data.push({ip, count})
 	})
