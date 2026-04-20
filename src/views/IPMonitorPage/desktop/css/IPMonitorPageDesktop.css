@@ -23,8 +23,8 @@
 
 /**
  * 头部容器
- * 包含导航按钮、页面标题和Logo，使用flex布局
- * 导航按钮在左，标题居中，Logo在右
+ * 包含左侧区域（导航按钮+扫描统计）、页面标题和Logo，使用flex布局
+ * 左侧区域在左，标题居中，Logo在右
  */
 .ip-monitor-page-desktop-header-container {
 	position: relative;
@@ -35,12 +35,23 @@
 }
 
 /**
- * 导航按钮
- * 返回导航页面的按钮，位于头部左侧
+ * 头部左侧区域
+ * 包含导航按钮和扫描统计信息，垂直排列
  */
-.ip-monitor-page-desktop-nav-btn {
+.ip-monitor-page-desktop-header-left {
 	position: absolute;
 	left: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	align-items: flex-start;
+}
+
+/**
+ * 导航按钮
+ * 返回导航页面的按钮
+ */
+.ip-monitor-page-desktop-nav-btn {
 	padding: 4px 8px;
 }
 
@@ -68,12 +79,11 @@
 
 /**
  * 扫描统计信息
- * 显示最近7天扫描次数，使用主题主文字色
+ * 显示最近7天扫描次数，位于头部左侧区域，使用主题主文字色
  */
 .ip-monitor-page-desktop-scan-stats {
-	padding: 10px 15px;
-	margin-bottom: 10px;
-	font-size: 16px;
+	padding: 6px 12px;
+	font-size: 14px;
 	font-weight: 500;
 	color: var(--text-primary);
 	text-align: center;

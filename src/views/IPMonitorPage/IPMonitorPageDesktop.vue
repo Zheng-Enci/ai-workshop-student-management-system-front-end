@@ -2,32 +2,33 @@
 	<div class="ip-monitor-page-desktop">
 		<!-- 页面头部 -->
 		<div class="ip-monitor-page-desktop-header-container">
-			<!-- 导航按钮 -->
-			<el-button
-				type="primary"
-				class="ip-monitor-page-desktop-nav-btn"
-				@click="$router.push('/navigation')"
-			>
-				<el-icon><ArrowLeft /></el-icon>
-				导航
-			</el-button>
+			<!-- 左侧区域：导航按钮和扫描统计 -->
+			<div class="ip-monitor-page-desktop-header-left">
+				<el-button
+					type="primary"
+					class="ip-monitor-page-desktop-nav-btn"
+					@click="$router.push('/navigation')"
+				>
+					<el-icon><ArrowLeft /></el-icon>
+					导航
+				</el-button>
+				<div class="ip-monitor-page-desktop-scan-stats">
+					最近7天扫描次数：{{ recent7DScans }}
+				</div>
+			</div>
 			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
-            <!-- Logo图片 - 点击切换日间/夜间模式 -->
-            <img
-                class="ip-monitor-page-desktop-logo"
-                src="/src/assets/AiWorkShop_icon.png"
-                alt="AiWorkShop Logo"
-                @click="handleLogoClick"
-                title="点击切换日间/夜间模式"
-            />
+			<!-- Logo图片 - 点击切换日间/夜间模式 -->
+			<img
+				class="ip-monitor-page-desktop-logo"
+				src="/src/assets/AiWorkShop_icon.png"
+				alt="AiWorkShop Logo"
+				@click="handleLogoClick"
+				title="点击切换日间/夜间模式"
+			/>
 		</div>
 
 		<!-- 主内容区域：扫描统计和IP表格 -->
 		<div class="ip-monitor-page-desktop-main-content">
-			<!-- 扫描统计信息 -->
-			<div class="ip-monitor-page-desktop-scan-stats">
-				最近7天扫描次数：{{ recent7DScans }}
-			</div>
 			<!-- IP统计信息 -->
 			<div class="ip-monitor-page-desktop-ip-stats">
 				<span>最大次数: {{ maxCount }}</span>
