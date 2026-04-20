@@ -8,6 +8,7 @@
 
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { ElMessage } from 'element-plus'
 
 /**
  * 主题Store定义
@@ -65,7 +66,7 @@ export const useThemeStore = defineStore('theme', () => {
 
 	/**
 	 * 切换主题（深色/浅色）
-	 * 手动切换时会禁用自动主题功能
+	 * 手动切换时会禁用自动主题功能，并显示切换提示
 	 */
 	const toggleTheme = () => {
 		isDarkMode.value = !isDarkMode.value
@@ -74,6 +75,8 @@ export const useThemeStore = defineStore('theme', () => {
 		localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
 		localStorage.setItem('autoTheme', 'false')
 		updateDocumentTheme()
+		// 显示主题切换提示
+		ElMessage.success(isDarkMode.value ? '已切换到夜间模式' : '已切换到日间模式')
 	}
 
 	/**

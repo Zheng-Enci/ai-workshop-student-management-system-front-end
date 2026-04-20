@@ -333,7 +333,6 @@ async function initPageData(): Promise<void> {
 function handleLogoClick(): void {
 	const themeStore = useThemeStore()
 	themeStore.toggleTheme()
-	ElMessage.success(themeStore.isDarkMode ? '已切换到夜间模式' : '已切换到日间模式')
 }
 
 // ==================== 生命周期钩子 ====================
