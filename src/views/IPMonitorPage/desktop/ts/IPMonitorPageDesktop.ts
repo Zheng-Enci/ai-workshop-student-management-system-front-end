@@ -224,6 +224,12 @@ class IPMonitorPageDesktop {
 			if (ipCountsResult && scanCountResult) {
 				ElMessage.success('IP监控数据刷新成功')
 			}
+
+			// 保存当前时间段到本地存储
+			localStorage.setItem('ip_monitor_time_range', JSON.stringify({
+				startTime,
+				endTime
+			}))
 		} catch (err) {
 			ElMessage.error('刷新IP监控数据失败')
 		} finally {
