@@ -26,10 +26,10 @@
  * 导航按钮在左，标题居中，Logo在右
  */
 .ip-monitor-page-desktop-header-container {
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	position: relative;
 	margin-bottom: 30px;
 }
 
@@ -59,8 +59,8 @@
 .ip-monitor-page-desktop-logo {
 	position: absolute;
 	right: 0;
-	width: 40px;
-	height: 40px;
+	width: 60px;
+	height: 60px;
 	object-fit: contain;
 }
 
