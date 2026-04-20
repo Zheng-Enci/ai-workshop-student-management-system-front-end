@@ -79,10 +79,10 @@
 			</div>
 			<!-- IP热力图表格 -->
 		<IPHeatmapDesktop
-            v-if="fangIPs.length > 0 && ipCounts && pageData.ipRange?.ip_range"
+            v-if="fangIPs.length > 0 && ipCounts && ipRange"
 			:fang-ips="fangIPs"
 			:ip-counts="ipCounts"
-			:ip-range="pageData.ipRange?.ip_range"
+			:ip-range="ipRange"
 			:is-dark="isDarkMode"
 		/>
 		</div>
@@ -238,6 +238,14 @@ const ipCounter = computed(() => {
  */
 const ipCounts = computed(() => {
 	return pageData.value.ipCounts?.ip_counts || {}
+})
+
+/**
+ * IP范围字符串
+ * 从页面数据中提取IP范围用于子组件
+ */
+const ipRange = computed(() => {
+	return pageData.value.ipRange?.ip_range || ''
 })
 
 /**

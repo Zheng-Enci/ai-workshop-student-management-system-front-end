@@ -85,9 +85,8 @@ const handleDownloadDailyAttendance = async () => {
 	
 	const csvData: string[][] = [
 		['一', '二', '三', '四', '五', '六', '日'],
-		data.map(count => String(count))
+		data.map(count => String(count.data))
 	]
-	
 	AdminPageUtils.exportToCSV(csvData, '上周每天签到人次.csv')
 }
 
