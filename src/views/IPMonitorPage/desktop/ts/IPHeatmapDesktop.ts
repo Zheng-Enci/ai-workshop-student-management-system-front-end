@@ -6,9 +6,9 @@ import {ref, computed} from 'vue'
 import {ElMessage} from 'element-plus'
 
 interface HeatmapProps {
-	fangIPs: string[]
-	ipCounts: Record<string, number>
-	isDark: boolean
+	fangIPs?: string[]
+	ipCounts?: Record<string, number>
+	isDark?: boolean
 }
 
 export class IPHeatmapDesktop {

@@ -69,9 +69,9 @@ import {computed, onMounted, watch} from 'vue'
 import {IPHeatmapDesktop} from './ts/IPHeatmapDesktop'
 
 interface HeatmapProps {
-	fangIPs: string[]
-	ipCounts: Record<string, number>
-	isDark: boolean
+	fangIPs?: string[]
+	ipCounts?: Record<string, number>
+	isDark?: boolean
 }
 
 const props = defineProps<HeatmapProps>()
