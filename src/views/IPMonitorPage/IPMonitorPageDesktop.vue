@@ -78,68 +78,11 @@
 				</el-select>
 			</div>
 			<!-- IP热力图表格 -->
-			<table class="ip-monitor-page-desktop-ip-table">
-				<tr
-					v-for="row in 10"
-					:key="row"
-				>
-					<td
-						v-for="col in 10"
-						:key="`${row}-${col}`"
-						:class="getCellClass(row, col)"
-						:style="getCellStyle(row, col)"
-						@click="handleCellClick(row, col)"
-					>
-						<div v-if="fangIPs.includes(getFullIP(row, col))">
-						<span class="ip-monitor-page-desktop-ip-number">{{ getIPNumber(row, col) }}</span>
-						<span
-							class="ip-monitor-page-desktop-count-number"
-						>
-						{{ ipCounter.get(getFullIP(row, col)) || 0 }}
-					</span>
-					</div>
-						<span
-							v-else
-							class="ip-monitor-page-desktop-ip-number"
-						>
-						{{ getIPNumber(row, col) }}
-					</span>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<!-- 图例 -->
-		<div
-			v-if="maxCount > 0"
-			class="ip-monitor-page-desktop-legend"
-		>
-			<!-- 热力图颜色说明 -->
-			<div class="ip-monitor-page-desktop-legend-item">
-				<div
-					class="ip-monitor-page-desktop-legend-color"
-					:style="{ background: 'linear-gradient(to right, rgb(91,217,212), rgb(45,85,130))' }"
-				/>
-				<span>1次-{{ maxCount }}次（颜色越深次数越多）</span>
-			</div>
-			<!-- 坊内/非坊内说明 -->
-			<div class="ip-monitor-page-desktop-legend-item">
-				<div
-					class="ip-monitor-page-desktop-legend-color ip-monitor-page-desktop-legend-fang"
-				/>
-				<span>坊内IP（带数字表示有使用次数）</span>
-			</div>
-			<div class="ip-monitor-page-desktop-legend-item">
-				<div
-					class="ip-monitor-page-desktop-legend-color ip-monitor-page-desktop-legend-non-fang"
-				/>
-				<span>非坊内IP（灰色背景，不可使用）</span>
-			</div>
-			<div class="ip-monitor-page-desktop-legend-item">
-				<div
-					class="ip-monitor-page-desktop-legend-color ip-monitor-page-desktop-legend-available"
-				/>
-				<span>可分配IP（坊内但次数为0，无颜色背景）</span>
-			</div>
+			<IPHeatmapDesktop
+				:fang-ips="pageData.fangIPs?.fang_ips || []"
+				:ip-counts="pageData.ipCounts?.ip_counts || {}"
+				:is-dark="isDarkMode"
+			/>
 		</div>
 
 		<!-- IP出现次数折线图 -->
@@ -166,6 +109,7 @@ import {ElButton, ElMessage, ElIcon, ElSelect, ElOption} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {useThemeStore} from '@/stores/ts/theme'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
+import IPHeatmapDesktop from './desktop/IPHeatmapDesktop.vue'
 import IPLineChartDesktop from './desktop/IPLineChartDesktop.vue'
 import type {IPMonitorPageData} from './desktop/ts/IPMonitorPageDesktop'
 
@@ -229,13 +173,6 @@ import 'element-plus/theme-chalk/el-option.css'
  */
 import 'element-plus/dist/index.css'
 
-// ==================== 常量定义 ====================
-
-/** IP范围起始值 */
-const IP_START = 151
-
-/** IP前缀 */
-const IP_PREFIX = '10.0.48.'
 // ==================== 响应式数据 ====================
 
 /**
@@ -275,6 +212,14 @@ const timeRangeLabel = computed(() => {
 // ==================== 计算属性 ====================
 
 /**
+ * 坊内IP列表
+ * 从页面数据中提取坊内IP列表
+ */
+const fangIPs = computed(() => {
+	return pageData.value.fangIPs?.fang_ips || []
+})
+
+/**
  * IP计数器
  * 从页面数据中提取IP出现次数统计
  */
@@ -283,14 +228,6 @@ const ipCounter = computed(() => {
 		return new Map<string, number>()
 	}
 	return new Map(Object.entries(pageData.value.ipCounts.ip_counts))
-})
-
-/**
- * 坊内IP列表
- * 从页面数据中提取坊内IP列表
- */
-const fangIPs = computed(() => {
-	return pageData.value.fangIPs?.fang_ips || []
 })
 
 /**
@@ -397,96 +334,6 @@ const ipUtilizationRate = computed(() => {
 
 
 // ==================== 方法 ====================
-
-/**
- * 获取IP编号
- * 根据行列计算IP的最后一位编号
- *
- * @param {number} row - 行号（1-10）
- * @param {number} col - 列号（1-10）
- * @returns {number} IP编号
- */
-function getIPNumber(row: number, col: number): number {
-	return IP_START + (row - 1) * 10 + (col - 1)
-}
-
-/**
- * 获取完整IP地址
- * 根据行列计算完整的IP地址
- *
- * @param {number} row - 行号（1-10）
- * @param {number} col - 列号（1-10）
- * @returns {string} 完整IP地址
- */
-function getFullIP(row: number, col: number): string {
-	return `${IP_PREFIX}${getIPNumber(row, col)}`
-}
-
-/**
- * 获取单元格样式类
- * 根据IP状态返回对应的CSS类名
- *
- * @param {number} row - 行号（1-10）
- * @param {number} col - 列号（1-10）
- * @returns {string} CSS类名
- */
-function getCellClass(row: number, col: number): string {
-	const classes = ['ip-monitor-page-desktop-ip-cell']
-
-	const ip = getFullIP(row, col)
-	const count = ipCounter.value.get(ip) || 0
-	const isFangIP = fangIPs.value.includes(ip)
-
-	if (!isFangIP) {
-		classes.push('ip-monitor-page-desktop-non-fang')
-	} else if (count === 0) {
-		classes.push('ip-monitor-page-desktop-count-zero')
-	} else {
-		classes.push('ip-monitor-page-desktop-heatmap-cell')
-	}
-
-	return classes.join(' ')
-}
-
-/**
- * 获取单元格样式
- * 根据IP出现次数返回对应的背景色样式
- *
- * @param {number} row - 行号（1-10）
- * @param {number} col - 列号（1-10）
- * @returns {object} 样式对象
- */
-function getCellStyle(row: number, col: number): Record<string, string> {
-	const ip = getFullIP(row, col)
-	const count = ipCounter.value.get(ip) || 0
-
-	if (!fangIPs.value.includes(ip) || count === 0) {
-		return {}
-	}
-	const color = IPMonitorPageDesktop.calculateColor(minCount.value, maxCount.value, count)
-
-	// 计算文字颜色
-	const brightness = color.r * 0.299 + color.g * 0.587 + color.b * 0.114
-	const textColor = brightness < 180 ? 'white' : '#333333'
-
-	return {
-		backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
-		color: textColor
-	}
-}
-
-/**
- * 处理单元格点击
- * 点击IP单元格时的处理函数
- *
- * @param {number} row - 行号
- * @param {number} col - 列号
- */
-function handleCellClick(row: number, col: number): void {
-	const ip = getFullIP(row, col)
-	const count = ipCounter.value.get(ip) || 0
-	ElMessage.info(`IP: ${ip}, 出现次数: ${count}`)
-}
 
 /**
  * 初始化页面数据
