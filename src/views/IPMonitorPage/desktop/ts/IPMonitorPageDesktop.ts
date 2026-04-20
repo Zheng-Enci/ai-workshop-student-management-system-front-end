@@ -143,6 +143,11 @@ class IPMonitorPageDesktop {
 				this.data.ipRange = ipRangeResult.data
 			}
 
+			// 判断所有数据是否都加载成功
+			if (ipCountsResult && scanCountResult && fangIPsResult && ipRangeResult) {
+				ElMessage.success('IP监控数据加载成功')
+			}
+
 			console.log('IP监控数据加载完成:', this.data)
 		} catch (err) {
 			ElMessage.error('初始化IP监控数据失败')
