@@ -94,10 +94,12 @@
 /**
  * IP统计信息
  * 显示最大次数和总IP数，使用主题次文字色
+ * 宽度与表格保持一致（90%）
  */
 .ip-monitor-page-desktop-ip-stats {
+	width: 90%;
 	padding: 8px 15px;
-	margin-bottom: 15px;
+	margin: 0 auto 15px;
 	font-size: 14px;
 	color: var(--text-secondary);
 	text-align: center;
