@@ -54,6 +54,9 @@ let chartInstance: ECharts | null = null
  */
 const chartData = computed(() => {
 	const data: {ip: string; count: number}[] = []
+	if (!props.fangIPs || !props.ipCounter) {
+		return data
+	}
 	props.fangIPs.forEach((ip) => {
 		const count = props.ipCounter.get(ip) || 0
 		data.push({ip, count})
