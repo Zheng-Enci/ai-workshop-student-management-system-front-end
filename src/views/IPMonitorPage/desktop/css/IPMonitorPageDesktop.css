@@ -13,9 +13,9 @@
  * 整个IP监控页面的根容器
  */
 .ip-monitor-page-desktop {
+	min-height: 100vh;
 	padding: 20px;
 	background-color: #f8f9fa;
-	min-height: 100vh;
 }
 
 /* ==================== 头部区域 ==================== */
@@ -34,12 +34,12 @@
  * 显示最近7天扫描次数
  */
 .ip-monitor-page-desktop-scan-stats {
-	color: #666;
-	font-size: 16px;
-	font-weight: 600;
 	position: absolute;
 	top: 0;
 	left: 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: #666;
 }
 
 /**
@@ -47,10 +47,10 @@
  * IP出现次数统计标题
  */
 .ip-monitor-page-desktop-title {
-	text-align: center;
-	color: #333;
-	margin: 0;
 	padding: 10px 0;
+	margin: 0;
+	color: #333;
+	text-align: center;
 }
 
 /* ==================== 时间选择器区域 ==================== */
@@ -60,12 +60,12 @@
  * 包含日期范围选择器和刷新按钮
  */
 .ip-monitor-page-desktop-time-selector {
+	display: flex;
+	gap: 15px;
+	align-items: center;
+	justify-content: center;
 	width: 90%;
 	margin: 0 auto 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 15px;
 }
 
 /**
@@ -87,7 +87,7 @@
 	margin: 0 auto;
 	border-collapse: collapse;
 	background-color: #fff;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
 }
 
 /**
@@ -95,21 +95,22 @@
  * 表格中的每个IP单元格基础样式
  */
 .ip-monitor-page-desktop-ip-cell {
+	position: relative;
 	width: 10%;
 	height: 60px;
-	text-align: center;
-	border: 1px solid #ddd;
 	padding: 5px;
 	font-size: 14px;
-	position: relative;
+	text-align: center;
 	cursor: pointer;
-	transition: all 0.2s ease;
+	border: 1px solid #ddd;
+	transition: transform 0.2s ease;
+	will-change: transform;
 }
 
 .ip-monitor-page-desktop-ip-cell:hover {
-	transform: scale(1.05);
 	z-index: 1;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+	transform: scale(1.05);
 }
 
 /**
@@ -117,9 +118,9 @@
  * 单元格中显示的IP最后一位数字
  */
 .ip-monitor-page-desktop-ip-number {
-	font-weight: bold;
-	margin-bottom: 5px;
 	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
 }
 
 /**
@@ -136,7 +137,7 @@
  * 出现次数为0的IP单元格样式
  */
 .ip-monitor-page-desktop-count-zero {
-	background-color: #ffffff;
+	background-color: #fff;
 }
 
 .ip-monitor-page-desktop-count-zero .ip-monitor-page-desktop-ip-number,
@@ -156,13 +157,13 @@
 		#e8e8e8 8px,
 		#e8e8e8 16px
 	);
-	border: 2px dashed #cccccc;
+	border: 2px dashed #ccc;
 	opacity: 0.7;
 }
 
 .ip-monitor-page-desktop-non-fang .ip-monitor-page-desktop-ip-number {
-	color: #999999;
 	font-weight: normal;
+	color: #999;
 }
 
 /**
@@ -170,7 +171,8 @@
  * 有出现次数的IP单元格基础样式
  */
 .ip-monitor-page-desktop-heatmap-cell {
-	transition: all 0.3s ease;
+	transition: opacity 0.3s ease;
+	will-change: opacity;
 }
 
 /* ==================== 颜色筛选区域 ==================== */
@@ -181,22 +183,22 @@
  */
 .ip-monitor-page-desktop-color-filter-container {
 	width: 90%;
+	padding: 20px;
 	margin: 20px auto;
 	background-color: #fff;
-	padding: 20px;
 	border-radius: 8px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
 }
 
 /**
  * 颜色筛选标题
  */
 .ip-monitor-page-desktop-color-filter-title {
-	text-align: center;
-	color: #333;
+	margin-bottom: 15px;
 	font-size: 16px;
 	font-weight: 600;
-	margin-bottom: 15px;
+	color: #333;
+	text-align: center;
 }
 
 /**
@@ -205,8 +207,8 @@
  */
 .ip-monitor-page-desktop-color-filter-bar {
 	display: flex;
-	width: 100%;
 	gap: 2px;
+	width: 100%;
 	margin-bottom: 10px;
 }
 
@@ -215,8 +217,8 @@
  * 每个颜色块及其标签的容器
  */
 .ip-monitor-page-desktop-color-block-wrapper {
-	flex: 1;
 	display: flex;
+	flex: 1;
 	flex-direction: column;
 	align-items: center;
 }
@@ -226,25 +228,26 @@
  * 可点击的颜色筛选块
  */
 .ip-monitor-page-desktop-color-block {
+	position: relative;
 	width: 100%;
 	height: 40px;
-	transition: all 0.2s ease;
-	border-radius: 4px;
-	position: relative;
 	cursor: pointer;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+	border-radius: 4px;
+	box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+	transition: transform 0.2s ease;
+	will-change: transform;
 }
 
 .ip-monitor-page-desktop-color-block:hover {
-	transform: scaleY(1.1);
 	z-index: 1;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
+	transform: scaleY(1.1);
 }
 
 .ip-monitor-page-desktop-color-block.selected {
-	border: 3px solid #1890ff;
-	box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
 	z-index: 2;
+	border: 3px solid #1890ff;
+	box-shadow: 0 0 0 2px rgb(24 144 255 / 0.3), 0 2px 8px rgb(0 0 0 / 0.3);
 }
 
 /**
@@ -254,13 +257,13 @@
 .ip-monitor-page-desktop-color-block-label {
 	margin-top: 5px;
 	font-size: 11px;
+	font-weight: 500;
 	color: #666;
 	text-align: center;
 	white-space: nowrap;
-	font-weight: 500;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
 	.ip-monitor-page-desktop-color-block-label {
 		font-size: 9px;
 	}
@@ -271,8 +274,8 @@
  */
 .ip-monitor-page-desktop-color-filter-controls {
 	display: flex;
-	justify-content: center;
 	gap: 10px;
+	justify-content: center;
 	margin-top: 15px;
 }
 
@@ -304,16 +307,16 @@
  * 图例容器
  */
 .ip-monitor-page-desktop-legend {
-	width: 90%;
-	margin: 20px auto 0;
 	display: flex;
-	justify-content: center;
-	gap: 20px;
 	flex-wrap: wrap;
-	background-color: #fff;
+	gap: 20px;
+	justify-content: center;
+	width: 90%;
 	padding: 10px;
+	margin: 20px auto 0;
+	background-color: #fff;
 	border-radius: 4px;
-	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 5px rgb(0 0 0 / 0.1);
 }
 
 /**
@@ -321,8 +324,8 @@
  */
 .ip-monitor-page-desktop-legend-item {
 	display: flex;
-	align-items: center;
 	gap: 5px;
+	align-items: center;
 	font-size: 13px;
 }
 
@@ -342,10 +345,10 @@
  * 显示最大次数等调试信息
  */
 .ip-monitor-page-desktop-debug-info {
-	margin-top: 20px;
 	padding: 10px;
-	background: #f0f0f0;
-	text-align: center;
+	margin-top: 20px;
 	font-size: 12px;
 	color: #666;
+	text-align: center;
+	background: #f0f0f0;
 }
