@@ -8,26 +8,6 @@
 			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
 		</div>
 
-		<!-- 时间范围选择器 -->
-		<div class="ip-monitor-page-desktop-time-selector">
-			<el-date-picker
-				v-model="timeRange"
-				type="datetimerange"
-				range-separator="至"
-				start-placeholder="开始时间"
-				end-placeholder="结束时间"
-				:default-time="['00:00:00', '23:59:59']"
-				@change="handleTimeRangeChange"
-			/>
-			<el-button
-				type="primary"
-				class="ip-monitor-page-desktop-refresh-btn"
-				@click="handleRefresh"
-			>
-				刷新数据
-			</el-button>
-		</div>
-
 		<!-- IP表格 -->
 		<table class="ip-monitor-page-desktop-ip-table">
 			<tr
@@ -143,17 +123,6 @@ import type { IPMonitorPageData } from './desktop/ts/IPMonitorPageDesktop'
 import 'element-plus/theme-chalk/el-button.css'
 
 /**
- * el-date-picker 组件样式
- * 提供日期时间选择器的基础样式，包括:
- * - 输入框的样式和图标
- * - 日期面板的面板布局、日历网格
- * - 日期单元格的选中、悬停、禁用状态样式
- * - 时间选择器的滚动条和选项样式
- * - 范围选择器的双面板布局样式
- */
-import 'element-plus/theme-chalk/el-date-picker.css'
-
-/**
  * el-message 组件样式
  * 提供消息提示组件的基础样式，包括:
  * - 消息框的定位和层级
@@ -198,12 +167,6 @@ const pageData = ref<IPMonitorPageData>({
 })
 
 /**
- * 时间范围
- * 用于选择数据查询的时间范围
- */
-const timeRange = ref<[Date, Date] | null>(null)
-
-/**
  * 选中的颜色块索引
  * 用于筛选显示特定次数范围的IP
  */
@@ -221,15 +184,6 @@ const ipCounter = computed(() => {
 	}
 	return new Map(Object.entries(pageData.value.ipCounts.ip_counts))
 })
-
-/**
- * 坊内IP列表
- * 从页面数据中提取坊内IP列表
- */
-const fangIPs = computed(() => {
-	return pageData.value.fangIPs?.fang_ips || []
-})
-
 /**
  * 最近7天扫描次数
  * 从页面数据中提取扫描次数
@@ -438,38 +392,6 @@ function handleColorBlockClick(index: number): void {
  */
 function resetFilter(): void {
 	selectedColorIndex.value = null
-}
-
-/**
- * 处理时间范围变化
- * 当用户选择新的时间范围时刷新数据
- */
-async function handleTimeRangeChange(): Promise<void> {
-	if (!timeRange.value || timeRange.value.length !== 2) {
-		return
-	}
-
-	const startTime = Math.floor(timeRange.value[0].getTime() / 1000)
-	const endTime = Math.floor(timeRange.value[1].getTime() / 1000)
-
-	const pageDataManager = IPMonitorPageDesktop.getInstance()
-	await pageDataManager.refreshIPDataByTimeRange(startTime, endTime)
-
-	// 更新本地数据
-	pageData.value = pageDataManager.getData()
-}
-
-/**
- * 处理刷新按钮点击
- * 重新加载所有数据
- */
-async function handleRefresh(): Promise<void> {
-	const pageDataManager = IPMonitorPageDesktop.getInstance()
-	await pageDataManager.init_data()
-	pageData.value = pageDataManager.getData()
-
-	// 重置时间选择器
-	timeRange.value = null
 }
 
 /**

@@ -108,22 +108,22 @@ class IPMonitorPageDesktop {
 			// 并行调用所有API接口
 			const [ipCountsResult, scanCountResult, fangIPsResult, ipRangeResult] = await Promise.all([
 				// 获取IP出现次数统计
-				IPMonitorApi.getIPCounts(startTime, endTime).catch((err) => {
+				IPMonitorApi.getIPCounts(startTime, endTime).catch(() => {
 					ElMessage.error('获取IP统计失败')
 					return null
 				}),
 				// 获取扫描次数
-				IPMonitorApi.getScanCount(startTime, endTime).catch((err) => {
+				IPMonitorApi.getScanCount(startTime, endTime).catch(() => {
 					ElMessage.error('获取扫描次数失败')
 					return null
 				}),
 				// 获取坊内IP列表
-				IPMonitorApi.getFangIPs().catch((err) => {
+				IPMonitorApi.getFangIPs().catch(() => {
 					ElMessage.error('获取坊内IP列表失败')
 					return null
 				}),
 				// 获取IP范围
-				IPMonitorApi.getIPRange().catch((err) => {
+				IPMonitorApi.getIPRange().catch(() => {
 					ElMessage.error('获取IP范围失败')
 					return null
 				})
@@ -201,12 +201,12 @@ class IPMonitorPageDesktop {
 			// 并行调用IP统计和扫描次数API
 			const [ipCountsResult, scanCountResult] = await Promise.all([
 				// 获取IP出现次数统计
-				IPMonitorApi.getIPCounts(startTime, endTime).catch((err) => {
+				IPMonitorApi.getIPCounts(startTime, endTime).catch(() => {
 					ElMessage.error('获取IP统计失败')
 					return null
 				}),
 				// 获取扫描次数
-				IPMonitorApi.getScanCount(startTime, endTime).catch((err) => {
+				IPMonitorApi.getScanCount(startTime, endTime).catch(() => {
 					ElMessage.error('获取扫描次数失败')
 					return null
 				})
