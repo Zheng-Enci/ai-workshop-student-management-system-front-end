@@ -13,7 +13,7 @@
 					导航
 				</el-button>
 				<div class="ip-monitor-page-desktop-scan-stats">
-					最近7天扫描次数：{{ recent7DScans }}
+					{{ timeRangeLabel }}扫描次数：{{ recent7DScans }}
 				</div>
 			</div>
 			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
@@ -249,6 +249,21 @@ const pageData = ref<IPMonitorPageData>({
  * 默认最近7天
  */
 const selectedTimeRange = ref<number>(7)
+
+/**
+ * 时间范围标签
+ * 根据选择的天数返回对应的中文标签
+ */
+const timeRangeLabel = computed(() => {
+	const days = selectedTimeRange.value
+	if (days === 7) {
+		return '最近7天'
+	}
+	if (days <= 30) {
+		return '最近1个月'
+	}
+	return `最近${Math.floor(days / 30)}个月`
+})
 
 
 
