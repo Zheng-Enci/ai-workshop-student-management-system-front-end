@@ -1,54 +1,56 @@
 <template>
 	<div class="ip-monitor-page-desktop">
-		<!-- 导航按钮 -->
-		<el-button
-			type="primary"
-			class="ip-monitor-page-desktop-nav-btn"
-			@click="$router.push('/navigation')"
-		>
-			导航
-		</el-button>
-
 		<!-- 页面头部 -->
 		<div class="ip-monitor-page-desktop-header-container">
-			<div class="ip-monitor-page-desktop-scan-stats">
-				最近7天扫描次数：{{ recent7DScans }}
-			</div>
+			<!-- 导航按钮 -->
+			<el-button
+				type="primary"
+				class="ip-monitor-page-desktop-nav-btn"
+				@click="$router.push('/navigation')"
+			>
+				导航
+			</el-button>
 			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
 		</div>
 
-		<!-- IP表格 -->
-		<table class="ip-monitor-page-desktop-ip-table">
-			<tr
-				v-for="row in 10"
-				:key="row"
-			>
-				<td
-					v-for="col in 10"
-					:key="`${row}-${col}`"
-					:class="getCellClass(row, col)"
-					:style="getCellStyle(row, col)"
-					@click="handleCellClick(row, col)"
+		<!-- 扫描统计和IP表格容器 -->
+		<div>
+			<!-- 扫描统计 -->
+			<div class="ip-monitor-page-desktop-scan-stats">
+				最近7天扫描次数：{{ recent7DScans }}
+			</div>
+			<!-- IP表格 -->
+			<table class="ip-monitor-page-desktop-ip-table">
+				<tr
+					v-for="row in 10"
+					:key="row"
 				>
-					<div v-if="fangIPs.includes(getFullIP(row, col))">
-						<span class="ip-monitor-page-desktop-ip-number">{{ getIPNumber(row, col) }}</span>
-						<span
-							v-if="(ipCounter.get(getFullIP(row, col)) || 0) > 0"
-							class="ip-monitor-page-desktop-count-number"
-						>
+					<td
+						v-for="col in 10"
+						:key="`${row}-${col}`"
+						:class="getCellClass(row, col)"
+						:style="getCellStyle(row, col)"
+						@click="handleCellClick(row, col)"
+					>
+						<div v-if="fangIPs.includes(getFullIP(row, col))">
+							<span class="ip-monitor-page-desktop-ip-number">{{ getIPNumber(row, col) }}</span>
+							<span
+								v-if="(ipCounter.get(getFullIP(row, col)) || 0) > 0"
+								class="ip-monitor-page-desktop-count-number"
+							>
 							{{ ipCounter.get(getFullIP(row, col)) || 0 }}
 						</span>
-					</div>
-					<span
-						v-else
-						class="ip-monitor-page-desktop-ip-number"
-					>
+						</div>
+						<span
+							v-else
+							class="ip-monitor-page-desktop-ip-number"
+						>
 						{{ getIPNumber(row, col) }}
 					</span>
-				</td>
-			</tr>
-		</table>
-
+					</td>
+				</tr>
+			</table>
+		</div>
 		<!-- 颜色筛选横条 -->
 		<div
 			v-if="maxCount > 0"
@@ -114,10 +116,10 @@
  * @component IPMonitorPageDesktop
  * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
  */
-import { ref, computed, onMounted } from 'vue'
-import { ElButton, ElMessage } from 'element-plus'
+import {ref, computed, onMounted} from 'vue'
+import {ElButton, ElMessage} from 'element-plus'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
-import type { IPMonitorPageData } from './desktop/ts/IPMonitorPageDesktop'
+import type {IPMonitorPageData} from './desktop/ts/IPMonitorPageDesktop'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)
 
@@ -417,7 +419,6 @@ onMounted(() => {
 	initPageData()
 })
 </script>
-
 
 
 <style>

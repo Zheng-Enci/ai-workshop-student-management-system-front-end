@@ -34,9 +34,6 @@
  * 显示最近7天扫描次数
  */
 .ip-monitor-page-desktop-scan-stats {
-	position: absolute;
-	top: 0;
-	left: 0;
 	font-size: 16px;
 	font-weight: 600;
 	color: #666;
