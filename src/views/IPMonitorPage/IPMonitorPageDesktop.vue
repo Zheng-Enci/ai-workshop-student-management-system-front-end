@@ -148,6 +148,11 @@
 			:ip-counts="pageData.ipCounts?.ip_counts"
 			:is-dark="isDarkMode"
 		/>
+		<!-- 调试信息 -->
+		<div style="color: red; padding: 10px; background: #eee;">
+			调试: fangIPs = {{ pageData.fangIPs?.fang_ips }}<br/>
+			ipCounts = {{ pageData.ipCounts?.ip_counts }}
+		</div>
 
 	</div>
 </template>
@@ -235,10 +240,6 @@ const IP_START = 151
 
 /** IP前缀 */
 const IP_PREFIX = '10.0.48.'
-
-/** 时间范围选项（天数） */
-const TIME_RANGE_OPTIONS = [7, 30, 60, 90, 120, 150, 180]
-
 // ==================== 响应式数据 ====================
 
 /**
