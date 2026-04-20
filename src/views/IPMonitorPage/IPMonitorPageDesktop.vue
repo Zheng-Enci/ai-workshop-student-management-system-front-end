@@ -44,10 +44,10 @@
 					<div v-if="!isNonFangIP(row, col)">
 						<span class="ip-monitor-page-desktop-ip-number">{{ getIPNumber(row, col) }}</span>
 						<span
-							v-if="getIPCount(row, col) > 0"
+							v-if="(ipCounter.get(getFullIP(row, col)) || 0) > 0"
 							class="ip-monitor-page-desktop-count-number"
 						>
-							{{ getIPCount(row, col) }}
+							{{ ipCounter.get(getFullIP(row, col)) || 0 }}
 						</span>
 					</div>
 					<span
@@ -329,19 +329,6 @@ function getFullIP(row: number, col: number): string {
 }
 
 /**
- * 获取IP出现次数
- * 从ipCounter中获取指定IP的出现次数
- *
- * @param {number} row - 行号（1-10）
- * @param {number} col - 列号（1-10）
- * @returns {number} IP出现次数
- */
-function getIPCount(row: number, col: number): number {
-	const ip = getFullIP(row, col)
-	return ipCounter.value.get(ip) || 0
-}
-
-/**
  * 判断是否为非坊内IP
  * 检查指定IP是否在坊内IP列表中
  * 支持两种格式的坊内IP列表：完整IP(10.0.48.153)或IP编号(153)
@@ -351,19 +338,9 @@ function getIPCount(row: number, col: number): number {
  * @returns {boolean} 是否为非坊内IP
  */
 function isNonFangIP(row: number, col: number): boolean {
-	const ipNumber = getIPNumber(row, col)
 	const fullIP = getFullIP(row, col)
+	return fangIP === fullIP
 
-	// 检查坊内IP列表中是否包含完整IP或IP编号
-	return !fangIPs.value.some((fangIP) => {
-		// 如果列表中是完整IP(如 10.0.48.153)
-		if (fangIP === fullIP) {
-			return true
-		}
-		// 如果列表中是IP编号(如 153)
-		return fangIP === ipNumber.toString();
-
-	})
 }
 
 /**
@@ -377,9 +354,12 @@ function isNonFangIP(row: number, col: number): boolean {
 function getCellClass(row: number, col: number): string {
 	const classes = ['ip-monitor-page-desktop-ip-cell']
 
+	const ip = getFullIP(row, col)
+	const count = ipCounter.value.get(ip) || 0
+
 	if (isNonFangIP(row, col)) {
 		classes.push('ip-monitor-page-desktop-non-fang')
-	} else if (getIPCount(row, col) === 0) {
+	} else if (count === 0) {
 		classes.push('ip-monitor-page-desktop-count-zero')
 	} else {
 		classes.push('ip-monitor-page-desktop-heatmap-cell')
@@ -387,11 +367,10 @@ function getCellClass(row: number, col: number): string {
 
 	// 添加筛选状态类
 	if (selectedColorIndex.value !== null) {
-		const count = getIPCount(row, col)
 		const block = colorBlocks.value[selectedColorIndex.value]
 		if (block && count >= block.minRange && count < block.maxRange) {
 			classes.push('ip-monitor-page-desktop-filtered-in')
-		} else if (!isNonFangIP(row, col) && getIPCount(row, col) > 0) {
+		} else if (!isNonFangIP(row, col) && count > 0) {
 			classes.push('ip-monitor-page-desktop-filtered-out')
 		}
 	}
@@ -408,11 +387,12 @@ function getCellClass(row: number, col: number): string {
  * @returns {object} 样式对象
  */
 function getCellStyle(row: number, col: number): Record<string, string> {
-	if (isNonFangIP(row, col) || getIPCount(row, col) === 0) {
+	const ip = getFullIP(row, col)
+	const count = ipCounter.value.get(ip) || 0
+
+	if (isNonFangIP(row, col) || count === 0) {
 		return {}
 	}
-
-	const count = getIPCount(row, col)
 	const color = calculateColor(minCount.value, maxCount.value, count)
 
 	// 计算文字颜色
@@ -459,7 +439,7 @@ function calculateColor(min: number, max: number, count: number): { r: number; g
  */
 function handleCellClick(row: number, col: number): void {
 	const ip = getFullIP(row, col)
-	const count = getIPCount(row, col)
+	const count = ipCounter.value.get(ip) || 0
 	ElMessage.info(`IP: ${ip}, 出现次数: ${count}`)
 }
 
