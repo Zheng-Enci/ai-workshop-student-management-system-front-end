@@ -21,7 +21,7 @@
 					:style="getCellStyle(row, col)"
 					@click="handleCellClick(row, col)"
 				>
-					<div v-if="!isNonFangIP(row, col)">
+					<div v-if="fangIPs.includes(getFullIP(row, col))">
 						<span class="ip-monitor-page-desktop-ip-number">{{ getIPNumber(row, col) }}</span>
 						<span
 							v-if="(ipCounter.get(getFullIP(row, col)) || 0) > 0"
@@ -292,20 +292,6 @@ function getFullIP(row: number, col: number): string {
 }
 
 /**
- * 判断是否为非坊内IP
- * 检查指定IP是否在坊内IP列表中
- * 支持两种格式的坊内IP列表：完整IP(10.0.48.153)或IP编号(153)
- *
- * @param {number} row - 行号（1-10）
- * @param {number} col - 列号（1-10）
- * @returns {boolean} 是否为非坊内IP
- */
-function isNonFangIP(row: number, col: number): boolean {
-	const fullIP = getFullIP(row, col)
-	return !fangIPs.value.includes(fullIP)
-}
-
-/**
  * 获取单元格样式类
  * 根据IP状态返回对应的CSS类名
  *
@@ -318,8 +304,9 @@ function getCellClass(row: number, col: number): string {
 
 	const ip = getFullIP(row, col)
 	const count = ipCounter.value.get(ip) || 0
+	const isFangIP = fangIPs.value.includes(ip)
 
-	if (isNonFangIP(row, col)) {
+	if (!isFangIP) {
 		classes.push('ip-monitor-page-desktop-non-fang')
 	} else if (count === 0) {
 		classes.push('ip-monitor-page-desktop-count-zero')
@@ -332,7 +319,7 @@ function getCellClass(row: number, col: number): string {
 		const block = colorBlocks.value[selectedColorIndex.value]
 		if (block && count >= block.minRange && count < block.maxRange) {
 			classes.push('ip-monitor-page-desktop-filtered-in')
-		} else if (!isNonFangIP(row, col) && count > 0) {
+		} else if (isFangIP && count > 0) {
 			classes.push('ip-monitor-page-desktop-filtered-out')
 		}
 	}
@@ -352,7 +339,7 @@ function getCellStyle(row: number, col: number): Record<string, string> {
 	const ip = getFullIP(row, col)
 	const count = ipCounter.value.get(ip) || 0
 
-	if (isNonFangIP(row, col) || count === 0) {
+	if (!fangIPs.value.includes(ip) || count === 0) {
 		return {}
 	}
 	const color = IPMonitorPageDesktop.calculateColor(minCount.value, maxCount.value, count)
