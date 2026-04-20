@@ -270,18 +270,3 @@
 	height: 20px;
 	border-radius: 2px;
 }
-
-/* ==================== 调试信息区域 ==================== */
-
-/**
- * 调试信息
- * 显示最大次数等调试信息，使用主题次背景和次文字色
- */
-.ip-monitor-page-desktop-debug-info {
-	padding: 10px;
-	margin-top: 20px;
-	font-size: 12px;
-	color: var(--text-tertiary);
-	text-align: center;
-	background: var(--bg-secondary);
-}

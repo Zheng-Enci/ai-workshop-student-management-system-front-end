@@ -85,14 +85,6 @@
 			</div>
 		</div>
 
-		<!-- 调试信息 -->
-		<div class="ip-monitor-page-desktop-debug-info">
-			最大次数: {{ maxCount }} |
-			<span v-if="maxCount > 0">
-				总IP数: {{ ipCounter.size }}
-			</span>
-			<span v-else>暂无数据</span>
-		</div>
 	</div>
 </template>
 
