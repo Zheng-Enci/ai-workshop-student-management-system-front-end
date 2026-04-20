@@ -78,21 +78,25 @@
 				</el-select>
 			</div>
 			<!-- IP热力图表格 -->
+		<!--
+			IP热力图组件
+			该组件完全自主从IPMonitorPageDesktop获取数据，无需传递props
+			组件内部通过provide/inject机制或直接从单例类获取数据
+			v-if条件确保数据加载完成后再渲染组件
+		-->
 		<IPHeatmapDesktop
-            v-if="fangIPs.length > 0 && ipCounts && ipRange"
-			:fang-ips="fangIPs"
-			:ip-counts="ipCounts"
-			:ip-range="ipRange"
-			:is-dark="isDarkMode"
+			v-if="pageData.fangIPs?.fang_ips?.length > 0 && ipCounts && ipRange"
 		/>
 		</div>
 
-		<!-- IP出现次数折线图 -->
+		<!--
+			IP出现次数折线图组件
+			该组件完全自主从IPMonitorPageDesktop获取数据，无需传递props
+			组件内部通过直接从单例类获取数据
+			v-if条件确保数据加载完成后再渲染组件
+		-->
 		<IPLineChartDesktop
 			v-if="pageData.fangIPs?.fang_ips?.length > 0"
-			:fang-ips="pageData.fangIPs.fang_ips"
-			:ip-counts="pageData.ipCounts?.ip_counts"
-			:is-dark="isDarkMode"
 		/>
 
 	</div>
@@ -106,7 +110,7 @@
  * @component IPMonitorPageDesktop
  * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
  */
-import {ref, computed, onMounted} from 'vue'
+import {ref, computed, onMounted, watch, provide} from 'vue'
 import {ElButton, ElMessage, ElIcon, ElSelect, ElOption} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {useThemeStore} from '@/stores/ts/theme'
@@ -178,8 +182,16 @@ import 'element-plus/dist/index.css'
 // ==================== 响应式数据 ====================
 
 /**
+ * IP监控页面数据管理实例
+ * 使用单例模式获取数据管理类实例
+ * 提供数据加载、刷新和管理功能
+ */
+const pageDataManager = IPMonitorPageDesktop.getInstance()
+
+/**
  * 页面数据
  * 存储从IPMonitorPageDesktop获取的所有数据
+ * 使用ref实现响应式，数据变化会自动更新UI
  */
 const pageData = ref<IPMonitorPageData>({
 	ipCounts: null,
@@ -187,6 +199,14 @@ const pageData = ref<IPMonitorPageData>({
 	fangIPs: null,
 	ipRange: null
 })
+
+/**
+ * 向子组件提供数据管理实例
+ * 使用Vue的Provide/Inject机制实现跨层级数据共享
+ * 子组件可以通过inject('ipMonitorData')获取此实例
+ * 避免通过props层层传递数据
+ */
+provide('ipMonitorData', pageDataManager)
 
 /**
  * 选中的时间范围（天数）
@@ -216,10 +236,21 @@ const timeRangeLabel = computed(() => {
 /**
  * 坊内IP列表
  * 从页面数据中提取坊内IP列表
+ * 使用ref+watch确保初始值为空数组，避免undefined
  */
-const fangIPs = computed(() => {
-	return pageData.value.fangIPs?.fang_ips || []
-})
+const fangIPs = ref<string[]>([])
+
+/**
+ * 监听pageData.fangIPs变化，更新fangIPs
+ * immediate: true确保初始值立即设置
+ */
+watch(
+	() => pageData.value.fangIPs?.fang_ips,
+	(newVal) => {
+		fangIPs.value = newVal || []
+	},
+	{immediate: true}
+)
 
 /**
  * IP计数器
@@ -245,7 +276,7 @@ const ipCounts = computed(() => {
  * 从页面数据中提取IP范围用于子组件
  */
 const ipRange = computed(() => {
-	return pageData.value.ipRange?.ip_range || ''
+	return pageData.value.ipRange?.ip_range || []
 })
 
 /**
