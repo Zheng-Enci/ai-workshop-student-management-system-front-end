@@ -154,7 +154,7 @@ class IPMonitorPageDesktop {
 			// 确保数据加载完成后再关闭加载提示，提升用户体验
 			setTimeout(() => {
 				loadingMaskStore.hideLoadingMask()
-			}, 800)
+			}, 400)
 		}
 	}
 
@@ -240,7 +240,7 @@ class IPMonitorPageDesktop {
 			// 确保数据加载完成后再关闭加载提示，提升用户体验
 			setTimeout(() => {
 				loadingMaskStore.hideLoadingMask()
-			}, 800)
+			}, 400)
 		}
 	}
 }
