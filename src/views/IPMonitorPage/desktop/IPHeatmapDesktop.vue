@@ -96,6 +96,23 @@ watch(
 	},
 	{deep: true}
 )
+
+onMounted(() => {
+	let attempts = 0
+	const tryUpdate = () => {
+		attempts++
+		if (props.fangIPs && props.fangIPs.length > 0) {
+			heatmap.updateProps({
+				fangIPs: props.fangIPs,
+				ipCounts: props.ipCounts,
+				isDark: props.isDark
+			})
+		} else if (attempts < 20) {
+			setTimeout(tryUpdate, 300)
+		}
+	}
+	setTimeout(tryUpdate, 300)
+})
 </script>
 
 <style>
