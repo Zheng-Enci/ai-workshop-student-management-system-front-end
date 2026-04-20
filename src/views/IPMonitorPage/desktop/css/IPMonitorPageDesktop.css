@@ -36,15 +36,15 @@
 
 /**
  * 头部左侧区域
- * 包含导航按钮和扫描统计信息，垂直排列
+ * 包含导航按钮和扫描统计信息，水平排列且垂直居中对齐
  */
 .ip-monitor-page-desktop-header-left {
 	position: absolute;
 	left: 0;
 	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	align-items: flex-start;
+	flex-direction: row;
+	gap: 12px;
+	align-items: center;
 }
 
 /**
