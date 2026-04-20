@@ -1,8 +1,5 @@
 <template>
-	<div
-		v-if="hasData"
-		class="ip-monitor-page-desktop-line-chart"
-	>
+	<div class="ip-monitor-page-desktop-line-chart">
 		<h3 class="ip-monitor-page-desktop-line-chart-title">
 			坊内IP出现次数趋势
 		</h3>
@@ -73,14 +70,6 @@ const chartData = computed(() => {
 	})
 	console.log('[IPLineChart] chartData result:', data)
 	return data.sort((a, b) => a.count - b.count)
-})
-
-/**
- * 是否有数据
- * 判断是否有有效的数据用于显示图表
- */
-const hasData = computed(() => {
-	return chartData.value.length > 0
 })
 
 /**
