@@ -92,6 +92,7 @@
 			:ip-counts="pageData.ipCounts?.ip_counts"
 			:is-dark="isDarkMode"
 		/>
+		<div style="display:none">{{ consoleLog(pageData) }}</div>
 
 	</div>
 </template>
@@ -336,13 +337,23 @@ const ipUtilizationRate = computed(() => {
 // ==================== 方法 ====================
 
 /**
+ * 控制台日志
+ * 用于在模板中输出调试信息
+ */
+function consoleLog(data: unknown): void {
+	console.log('[IPMonitorPageDesktop] template pageData:', data)
+}
+
+/**
  * 初始化页面数据
  * 组件挂载时调用，加载初始数据
  */
 async function initPageData(): Promise<void> {
+	console.log('[IPMonitorPageDesktop] initPageData 开始')
 	const pageDataManager = IPMonitorPageDesktop.getInstance()
 	await pageDataManager.init_data()
 	pageData.value = pageDataManager.getData()
+	console.log('[IPMonitorPageDesktop] initPageData 完成, pageData:', pageData.value)
 }
 
 /**

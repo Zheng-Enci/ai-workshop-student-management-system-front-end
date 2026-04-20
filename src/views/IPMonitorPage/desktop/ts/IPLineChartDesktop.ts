@@ -165,12 +165,15 @@ export class IPLineChartDesktop {
 	}
 
 	public mount(): void {
+		console.log('[IPLineChartDesktop] mount called, props:', this.props)
 		this.initChart()
 		window.addEventListener('resize', this.handleResize)
 		let attempts = 0
 		const tryUpdate = () => {
 			attempts++
+			console.log('[IPLineChartDesktop] tryUpdate attempt', attempts, 'chartData:', this.chartData.length)
 			if (this.chartData.length > 0) {
+				console.log('[IPLineChartDesktop] chartData found, updating chart')
 				this.updateChart()
 			} else if (attempts < 20) {
 				setTimeout(tryUpdate, 300)
