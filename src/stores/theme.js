@@ -95,13 +95,15 @@ export const useThemeStore = defineStore('theme', () => {
 
 	/**
 	 * 启用自动主题功能
-	 * 启用后根据时间自动切换主题
+	 * 启用后根据时间自动切换主题，并显示启用提示
 	 */
 	const enableAutoTheme = () => {
 		autoThemeEnabled.value = true
 		localStorage.setItem('autoTheme', 'true')
 		// 立即检查并应用基于时间的主题
 		checkTimeBasedTheme()
+		// 显示自动主题已启用提示
+		ElMessage.success('已启用自动主题（6:00-18:00日间模式，其余夜间模式）')
 	}
 
 	/**
