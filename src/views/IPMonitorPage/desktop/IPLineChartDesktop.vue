@@ -188,6 +188,11 @@ const handleResize = (): void => {
 onMounted(() => {
 	initChart()
 	window.addEventListener('resize', handleResize)
+	setTimeout(() => {
+		if (chartData.value.length > 0) {
+			updateChart()
+		}
+	}, 500)
 })
 
 onBeforeUnmount(() => {
