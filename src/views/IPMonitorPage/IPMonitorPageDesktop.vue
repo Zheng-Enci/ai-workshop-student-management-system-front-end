@@ -34,6 +34,7 @@
 				<span>总IP数: {{ ipCounter.size }}</span>
 				<span v-if="maxCount > 0">| 活跃IP: {{ activeIPCount }}</span>
 				<span v-if="maxCount > 0">| 未使用: {{ unusedIPCount }}</span>
+				<span v-if="maxCount > 0">| 利用率: {{ ipUtilizationRate }}</span>
 				<span v-if="maxCount > 0">| 最大: {{ maxCount }}</span>
 				<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
 				<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
@@ -266,6 +267,18 @@ const avgCount = computed(() => {
  */
 const unusedIPCount = computed(() => {
 	return ipCounter.value.size - activeIPCount.value
+})
+
+/**
+ * IP利用率
+ * 计算活跃IP占总IP的百分比
+ */
+const ipUtilizationRate = computed(() => {
+	if (ipCounter.value.size === 0) {
+		return '0%'
+	}
+	const rate = (activeIPCount.value / ipCounter.value.size) * 100
+	return rate.toFixed(1) + '%'
 })
 
 
