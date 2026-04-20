@@ -389,9 +389,3 @@ export class IPHeatmapDesktop {
 		return 10
 	}
 }
-
-/**
- * 默认导出
- * 导出IPHeatmapDesktop类作为模块默认输出
- */
-export default IPHeatmapDesktop

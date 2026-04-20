@@ -1,4 +1,4 @@
-import {ref, computed, watch, onMounted, onBeforeUnmount} from 'vue'
+import {ref} from 'vue'
 import * as echarts from 'echarts'
 import type {ECharts} from 'echarts'
 
@@ -18,21 +18,18 @@ export class IPLineChartDesktop {
 		this.chartRef = ref<HTMLDivElement | null>(null)
 	}
 
-	get ref(): HTMLDivElement | null {
-		return this.chartRef.value
-	}
-
 	set ref(val: HTMLDivElement | null) {
 		this.chartRef.value = val
 	}
 
 	private get chartData(): {ip: string; count: number}[] {
 		const data: {ip: string; count: number}[] = []
-		if (!this.props.ipCounts) {
+		const ipCounts = this.props.ipCounts
+		if (!ipCounts) {
 			return data
 		}
-		Object.keys(this.props.ipCounts).forEach((ip) => {
-			const count = this.props.ipCounts[ip] || 0
+		Object.keys(ipCounts).forEach((ip) => {
+			const count = ipCounts[ip] || 0
 			data.push({ip, count})
 		})
 		return data.sort((a, b) => a.count - b.count)
@@ -86,11 +83,11 @@ export class IPLineChartDesktop {
 						const ipColor = this.props.isDark ? '#5bdae2' : '#1a9e9a'
 						return `<div style="font-weight: 500;">
 							<div style="margin-bottom: 5px;">
-								<span style="color: ${ipColor};">●</span> 
+								<span style="color: ${ipColor};">●</span>
 								<span style="color: ${this.props.isDark ? '#ffffff' : '#333333'};">IP: ${p[0].name}</span>
 							</div>
 							<div>
-								<span style="color: ${ipColor};">●</span> 
+								<span style="color: ${ipColor};">●</span>
 								<span style="color: ${this.props.isDark ? '#ffffff' : '#333333'};">次数: ${p[0].value}</span>
 							</div>
 						</div>`
