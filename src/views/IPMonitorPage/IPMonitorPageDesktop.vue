@@ -344,6 +344,7 @@ function getIPCount(row: number, col: number): number {
 /**
  * 判断是否为非坊内IP
  * 检查指定IP是否在坊内IP列表中
+ * 支持两种格式的坊内IP列表：完整IP(10.0.48.153)或IP编号(153)
  *
  * @param {number} row - 行号（1-10）
  * @param {number} col - 列号（1-10）
@@ -351,7 +352,20 @@ function getIPCount(row: number, col: number): number {
  */
 function isNonFangIP(row: number, col: number): boolean {
 	const ipNumber = getIPNumber(row, col)
-	return !fangIPs.value.includes(ipNumber.toString())
+	const fullIP = getFullIP(row, col)
+
+	// 检查坊内IP列表中是否包含完整IP或IP编号
+	return !fangIPs.value.some((fangIP) => {
+		// 如果列表中是完整IP(如 10.0.48.153)
+		if (fangIP === fullIP) {
+			return true
+		}
+		// 如果列表中是IP编号(如 153)
+		if (fangIP === ipNumber.toString()) {
+			return true
+		}
+		return false
+	})
 }
 
 /**
