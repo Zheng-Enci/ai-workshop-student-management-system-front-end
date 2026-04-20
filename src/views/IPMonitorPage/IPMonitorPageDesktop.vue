@@ -31,8 +31,11 @@
 		<div class="ip-monitor-page-desktop-main-content">
 			<!-- IP统计信息 -->
 			<div class="ip-monitor-page-desktop-ip-stats">
-				<span>最大次数: {{ maxCount }}</span>
-				<span v-if="maxCount > 0">| 总IP数: {{ ipCounter.size }}</span>
+				<span>总IP数: {{ ipCounter.size }}</span>
+				<span v-if="maxCount > 0">| 活跃IP: {{ activeIPCount }}</span>
+				<span v-if="maxCount > 0">| 最大: {{ maxCount }}</span>
+				<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
+				<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
 			</div>
 			<!-- IP热力图表格 -->
 			<table class="ip-monitor-page-desktop-ip-table">
@@ -225,6 +228,35 @@ const minCount = computed(() => {
 		}
 	})
 	return min === Infinity ? 0 : min
+})
+
+/**
+ * 活跃IP数
+ * 统计出现次数大于0的IP数量
+ */
+const activeIPCount = computed(() => {
+	let count = 0
+	ipCounter.value.forEach((value) => {
+		if (value > 0) {
+			count++
+		}
+	})
+	return count
+})
+
+/**
+ * 平均次数
+ * 计算所有活跃IP的平均出现次数
+ */
+const avgCount = computed(() => {
+	if (activeIPCount.value === 0) {
+		return 0
+	}
+	let total = 0
+	ipCounter.value.forEach((value) => {
+		total += value
+	})
+	return Math.round(total / activeIPCount.value)
 })
 
 
