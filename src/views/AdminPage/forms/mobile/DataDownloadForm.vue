@@ -98,7 +98,7 @@ const handleDownloadActiveStudents = async () => {
 
 	const activeStudents = await AttendanceApi.getTopStudentsByTimeRange(startTimeStr, endTimeStr, 100)
 	
-	const filteredStudents = activeStudents.filter(student => student.attendanceCount > 3)
+	const filteredStudents = activeStudents.data.filter(student => student.attendanceCount >= 3)
 	
 	if (filteredStudents.length > 0) {
 		const csvData = []

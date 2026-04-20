@@ -72,6 +72,7 @@ interface HeatmapProps {
 	fangIPs?: string[]
 	ipCounts?: Record<string, number>
 	isDark?: boolean
+	ipRange?: string[]
 }
 
 const props = defineProps<HeatmapProps>()
@@ -79,8 +80,16 @@ const props = defineProps<HeatmapProps>()
 const heatmap = new IPHeatmapDesktop({
 	fangIPs: props.fangIPs,
 	ipCounts: props.ipCounts,
-	isDark: props.isDark
+	isDark: props.isDark,
+	ipRange: props.ipRange,
 })
+console.log(heatmap)
+// <IPHeatmapDesktop
+// :fang-ips="fangIPs"
+// :ip-counts="ipCounts"
+// :ip-range="pageData.ipRange?.ip_range"
+// :is-dark="isDarkMode"
+// 	/>
 
 const rowCount = computed(() => heatmap.rowCount)
 const colCount = computed(() => heatmap.colCount)

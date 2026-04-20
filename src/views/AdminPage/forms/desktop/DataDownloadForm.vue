@@ -97,7 +97,7 @@ const handleDownloadDailyAttendance = async () => {
 const handleDownloadActiveStudents = async () => {
 	// 第一步：获取上周的时间范围（上周一00:00到上周日23:59:59）
 	const { startTime, endTime } = getLastWeekTimeRange()
-	
+
 	// 格式化为ISO字符串：yyyy-MM-ddTHH:mm:ss
 	const startTimeStr = startTime.toISOString().slice(0, 19)
 	const endTimeStr = endTime.toISOString().slice(0, 19)
@@ -106,9 +106,8 @@ const handleDownloadActiveStudents = async () => {
 	// 获取上周签到次数最多的前50名学生（可以根据需要调整数量）
 	const activeStudents = await AttendanceApi.getTopStudentsByTimeRange(startTimeStr, endTimeStr, 100)
 	
-	
 	// 过滤出签到次数大于3次的学生
-	const filteredStudents = activeStudents.filter(student => student.attendanceCount > 3)
+	const filteredStudents = activeStudents.data.filter(student => student.attendanceCount >= 3)
 	
 	// 第三步：下载CSV文件
 	if (filteredStudents.length > 0) {
@@ -132,7 +131,7 @@ const handleDownloadActiveStudents = async () => {
 				student.studentMajor || '未知' // 专业
 			])
 		})
-		
+
 		// 调用CSV导出工具
 		AdminPageUtils.exportToCSV(csvData, '上周签到活跃学生数据.csv')
 	} else {

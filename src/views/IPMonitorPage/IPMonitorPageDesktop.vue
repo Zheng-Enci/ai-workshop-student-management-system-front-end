@@ -79,7 +79,7 @@
 			</div>
 			<!-- IP热力图表格 -->
 		<IPHeatmapDesktop
-			v-if="fangIPs.length > 0"
+            v-if="fangIPs.length > 0 && ipCounts && pageData.ipRange?.ip_range"
 			:fang-ips="fangIPs"
 			:ip-counts="ipCounts"
 			:ip-range="pageData.ipRange?.ip_range"
