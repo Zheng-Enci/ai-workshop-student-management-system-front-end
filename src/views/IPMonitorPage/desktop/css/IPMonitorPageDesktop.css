@@ -22,23 +22,46 @@
 
 /**
  * 头部容器
- * 包含导航按钮和页面标题，使用flex布局使元素在同一水平线居中
+ * 包含导航按钮、页面标题和Logo，使用flex布局
+ * 导航按钮在左，标题居中，Logo在右
  */
 .ip-monitor-page-desktop-header-container {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 20px;
 	position: relative;
 	margin-bottom: 30px;
 }
 
 /**
  * 导航按钮
- * 返回导航页面的按钮
+ * 返回导航页面的按钮，位于头部左侧
  */
 .ip-monitor-page-desktop-nav-btn {
-	/* 按钮在flex容器中自动垂直居中 */
+	position: absolute;
+	left: 0;
+}
+
+/**
+ * 页面标题
+ * IP出现次数统计标题，在头部居中显示
+ */
+.ip-monitor-page-desktop-title {
+	padding: 10px 0;
+	margin: 0;
+	color: #333;
+}
+
+/**
+ * Logo图片
+ * AiWorkShop Logo，位于头部右侧
+ */
+.ip-monitor-page-desktop-logo {
+	position: absolute;
+	right: 0;
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
 }
 
 /**
