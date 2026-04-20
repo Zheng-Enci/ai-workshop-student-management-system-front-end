@@ -148,11 +148,6 @@
 			:ip-counts="pageData.ipCounts?.ip_counts"
 			:is-dark="isDarkMode"
 		/>
-		<!-- 调试信息 -->
-		<div style="color: red; padding: 10px; background: #eee;">
-			调试: fangIPs = {{ pageData.fangIPs?.fang_ips }}<br/>
-			ipCounts = {{ pageData.ipCounts?.ip_counts }}
-		</div>
 
 	</div>
 </template>
