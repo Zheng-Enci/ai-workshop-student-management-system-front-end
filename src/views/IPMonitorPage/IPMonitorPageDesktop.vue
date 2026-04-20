@@ -31,9 +31,9 @@
 		<div class="ip-monitor-page-desktop-main-content">
 			<!-- IP统计信息 -->
 			<div class="ip-monitor-page-desktop-ip-stats">
-				<span>总IP数: {{ ipCounter.size }}</span>
-				<span v-if="maxCount > 0">| 活跃IP: {{ activeIPCount }}</span>
-				<span v-if="maxCount > 0">| 未使用: {{ unusedIPCount }}</span>
+				<span>坊内总IP: {{ fangIPs.length }}</span>
+				<span v-if="maxCount > 0">| 活跃: {{ activeIPCount }}</span>
+				<span v-if="maxCount > 0">| 不活跃: {{ inactiveIPCount }}</span>
 				<span v-if="maxCount > 0">| 利用率: {{ ipUtilizationRate }}</span>
 				<span v-if="maxCount > 0">| 最大: {{ maxCount }}</span>
 				<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
@@ -262,22 +262,29 @@ const avgCount = computed(() => {
 })
 
 /**
- * 未使用IP数
- * 统计出现次数为0的IP数量
+ * 不活跃IP数（坊内次数为0的IP）
+ * 统计坊内IP中出现次数为0的数量
  */
-const unusedIPCount = computed(() => {
-	return ipCounter.value.size - activeIPCount.value
+const inactiveIPCount = computed(() => {
+	let count = 0
+	fangIPs.value.forEach((ip) => {
+		const ipCount = ipCounter.value.get(ip) || 0
+		if (ipCount === 0) {
+			count++
+		}
+	})
+	return count
 })
 
 /**
  * IP利用率
- * 计算活跃IP占总IP的百分比
+ * 计算活跃IP占坊内总IP的百分比
  */
 const ipUtilizationRate = computed(() => {
-	if (ipCounter.value.size === 0) {
+	if (fangIPs.value.length === 0) {
 		return '0%'
 	}
-	const rate = (activeIPCount.value / ipCounter.value.size) * 100
+	const rate = (activeIPCount.value / fangIPs.value.length) * 100
 	return rate.toFixed(1) + '%'
 })
 
