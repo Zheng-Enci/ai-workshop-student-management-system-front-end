@@ -1,5 +1,7 @@
 <template>
 	<div class="ip-monitor-page-desktop">
+		<!-- 加载蒙版组件 -->
+		<LoadingMask />
 		<!-- 页面头部 -->
 		<div class="ip-monitor-page-desktop-header-container">
 			<!-- 左侧区域：导航按钮和扫描统计 -->
@@ -117,6 +119,7 @@ import {useThemeStore} from '@/stores/ts/theme'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
 import IPHeatmapDesktop from './desktop/IPHeatmapDesktop.vue'
 import IPLineChartDesktop from './desktop/IPLineChartDesktop.vue'
+import LoadingMask from '@/components/LoadingMask.vue'
 import type {IPMonitorPageData} from './desktop/ts/IPMonitorPageDesktop'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)

@@ -243,51 +243,6 @@ class IPMonitorPageDesktop {
 			}, 800)
 		}
 	}
-
-	/**
-	 * 清空数据
-	 * 清除内存中的所有数据
-	 *
-	 * @public
-	 */
-	public clearData(): void {
-		this.data.ipCounts = null
-		this.data.scanCount = null
-		this.data.fangIPs = null
-		this.data.ipRange = null
-	}
-
-	/**
-	 * 计算热力图颜色RGB值
-	 * 根据次数计算对应的热力图颜色，使用浅橙色到深橙色的渐变
-	 *
-	 * @public
-	 * @static
-	 * @param {number} min - 最小次数
-	 * @param {number} max - 最大次数
-	 * @param {number} count - 当前次数
-	 * @returns {object} RGB颜色对象，包含r, g, b三个属性
-	 * @example
-	 * const color = IPMonitorPageDesktop.calculateColor(0, 100, 50)
-	 * console.log(`rgb(${color.r}, ${color.g}, ${color.b})`)
-	 */
-	public static calculateColor(min: number, max: number, count: number): { r: number; g: number; b: number } {
-		// 冰川青（浅色）- 对应次数较少
-		const lightGlacier = { r: 91, g: 217, b: 212 }
-		// 深空蓝（深色）- 对应次数较多，但限制最小亮度确保文字可读
-		const darkSpace = { r: 45, g: 85, b: 130 }
-
-		if (max === min) {
-			return lightGlacier
-		}
-
-		const intensity = ((count - min) / (max - min))
-		const r = Math.round(lightGlacier.r - intensity * (lightGlacier.r - darkSpace.r))
-		const g = Math.round(lightGlacier.g - intensity * (lightGlacier.g - darkSpace.g))
-		const b = Math.round(lightGlacier.b - intensity * (lightGlacier.b - darkSpace.b))
-
-		return { r, g, b }
-	}
 }
 
 export default IPMonitorPageDesktop
