@@ -150,8 +150,11 @@ class IPMonitorPageDesktop {
 		} catch (err) {
 			ElMessage.error('初始化IP监控数据失败')
 		} finally {
-			// 隐藏加载蒙版
-			loadingMaskStore.hideLoadingMask()
+			// 延迟0.8秒后隐藏加载蒙版
+			// 确保数据加载完成后再关闭加载提示，提升用户体验
+			setTimeout(() => {
+				loadingMaskStore.hideLoadingMask()
+			}, 800)
 		}
 	}
 
