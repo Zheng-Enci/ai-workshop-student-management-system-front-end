@@ -186,9 +186,11 @@ const handleResize = (): void => {
 }
 
 onMounted(() => {
+	console.log('onMounted - fangIPs:', props.fangIPs, 'ipCounts:', props.ipCounts)
 	initChart()
 	window.addEventListener('resize', handleResize)
 	setTimeout(() => {
+		console.log('setTimeout - chartData:', chartData.value)
 		if (chartData.value.length > 0) {
 			updateChart()
 		}
