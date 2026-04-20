@@ -106,7 +106,7 @@
  * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
  */
 import { ref, computed, onMounted } from 'vue'
-import { ElDatePicker, ElButton, ElMessage } from 'element-plus'
+import { ElButton, ElMessage } from 'element-plus'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
 import type { IPMonitorPageData } from './desktop/ts/IPMonitorPageDesktop'
 
@@ -184,6 +184,15 @@ const ipCounter = computed(() => {
 	}
 	return new Map(Object.entries(pageData.value.ipCounts.ip_counts))
 })
+
+/**
+ * 坊内IP列表
+ * 从页面数据中提取坊内IP列表
+ */
+const fangIPs = computed(() => {
+	return pageData.value.fangIPs?.fang_ips || []
+})
+
 /**
  * 最近7天扫描次数
  * 从页面数据中提取扫描次数
@@ -293,8 +302,7 @@ function getFullIP(row: number, col: number): string {
  */
 function isNonFangIP(row: number, col: number): boolean {
 	const fullIP = getFullIP(row, col)
-	return fangIP === fullIP
-
+	return !fangIPs.value.includes(fullIP)
 }
 
 /**
