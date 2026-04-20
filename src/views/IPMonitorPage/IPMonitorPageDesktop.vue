@@ -28,6 +28,11 @@
 			<div class="ip-monitor-page-desktop-scan-stats">
 				最近7天扫描次数：{{ recent7DScans }}
 			</div>
+			<!-- IP统计信息 -->
+			<div class="ip-monitor-page-desktop-ip-stats">
+				<span>最大次数: {{ maxCount }}</span>
+				<span v-if="maxCount > 0">| 总IP数: {{ ipCounter.size }}</span>
+			</div>
 			<!-- IP热力图表格 -->
 			<table class="ip-monitor-page-desktop-ip-table">
 				<tr

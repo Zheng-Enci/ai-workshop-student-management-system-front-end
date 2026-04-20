@@ -67,13 +67,36 @@
 }
 
 /**
- * 扫描统计
- * 显示最近7天扫描次数，使用主题次文字色
+ * 扫描统计信息
+ * 显示最近7天扫描次数，使用主题主文字色
  */
 .ip-monitor-page-desktop-scan-stats {
+	padding: 10px 15px;
+	margin-bottom: 10px;
 	font-size: 16px;
-	font-weight: 600;
+	font-weight: 500;
+	color: var(--text-primary);
+	text-align: center;
+	background-color: var(--bg-secondary);
+	border-radius: 4px;
+}
+
+/**
+ * IP统计信息
+ * 显示最大次数和总IP数，使用主题次文字色
+ */
+.ip-monitor-page-desktop-ip-stats {
+	padding: 8px 15px;
+	margin-bottom: 15px;
+	font-size: 14px;
 	color: var(--text-secondary);
+	text-align: center;
+	background-color: var(--bg-secondary);
+	border-radius: 4px;
+}
+
+.ip-monitor-page-desktop-ip-stats span {
+	margin: 0 10px;
 }
 
 /* ==================== 时间选择器区域 ==================== */
