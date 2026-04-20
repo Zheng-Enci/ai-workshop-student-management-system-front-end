@@ -138,6 +138,36 @@ onMounted(() => {
 })
 
 /**
+ * 数据变化监听器
+ *
+ * 监听ipCounts数据变化，当时间段切换导致数据更新时：
+ * 1. 更新pageData引用获取最新数据
+ * 2. 重新创建图表实例使用新数据
+ * 3. 重新挂载图表展示新时间段的数据
+ * 确保折线图随时间段切换实时更新
+ */
+watch(
+	ipCounts,
+	(newIpCounts) => {
+		// 更新pageData获取最新数据
+		pageData.value = pageDataManager.getData()
+		if (chartInstance && chartContainerRef.value) {
+			// 销毁旧实例
+			chartInstance.unmount()
+			// 使用新数据重新创建
+			chartInstance = new IPLineChartDesktop({
+				fangIPs: fangIPs.value,
+				ipCounts: newIpCounts,
+				isDark: isDark.value
+			})
+			chartInstance.ref = chartContainerRef.value
+			chartInstance.mount()
+		}
+	},
+	{deep: true}
+)
+
+/**
  * 主题切换监听器
  *
  * 监听isDark变化，当主题切换时：

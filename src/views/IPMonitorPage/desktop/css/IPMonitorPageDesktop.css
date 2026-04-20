@@ -7,16 +7,146 @@
  * @description IPMonitorPageDesktop.vue 组件的样式文件
  */
 
+/* ==================== 入场动画关键帧定义 ==================== */
+
+/**
+ * 页面容器入场动画
+ * 效果：淡入 + 弹性缩放（先缩小至0.95倍，再放大至1.02倍，最后回弹至正常大小）
+ * 时长：500ms
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-desktop-container-entrance {
+	0% {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	60% {
+		opacity: 1;
+		transform: scale(1.02);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/**
+ * 从上方滑入+弹性缩放动画
+ * 适用：页面标题、头部元素
+ * 时长：400ms，延迟0.05s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-desktop-slideInFromTop {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.9);
+	}
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.05);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/**
+ * 从左侧滑入+弹性缩放动画
+ * 适用：左侧导航按钮
+ * 时长：400ms，延迟0.1s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-desktop-slideInFromLeft {
+	0% {
+		opacity: 0;
+		transform: translateX(-60px) scale(0.9);
+	}
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/**
+ * 从右侧滑入+弹性缩放动画
+ * 适用：右上角Logo
+ * 时长：400ms，延迟0.15s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-desktop-slideInFromRight {
+	0% {
+		opacity: 0;
+		transform: translateX(60px) scale(0.9);
+	}
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/**
+ * 从下方滑入+弹性缩放动画
+ * 适用：主内容区域、卡片
+ * 时长：400ms，延迟0.3s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-desktop-slideInFromBottom {
+	0% {
+		opacity: 0;
+		transform: translateY(30px) scale(0.95);
+	}
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/**
+ * 旋转滑入+弹性缩放动画
+ * 适用：Logo图标
+ * 时长：400ms，延迟0.15s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-desktop-rotateSlideIn {
+	0% {
+		opacity: 0;
+		transform: translateX(30px) rotate(-15deg) scale(0.7);
+	}
+	60% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1.15);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1);
+	}
+}
+
 /* ==================== 页面布局 ==================== */
 
 /**
  * 页面容器
  * 整个IP监控页面的根容器，使用主题背景色
+ * 入场动画：淡入+弹性缩放，时长500ms
  */
 .ip-monitor-page-desktop {
 	min-height: 100vh;
 	padding: 20px;
 	background-color: var(--bg-primary);
+	animation: ip-monitor-page-desktop-container-entrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 /* ==================== 头部区域 ==================== */
@@ -25,6 +155,7 @@
  * 头部容器
  * 包含左侧区域（导航按钮+扫描统计）、页面标题和Logo，使用flex布局
  * 左侧区域在左，标题居中，Logo在右
+ * 入场动画：从上方滑入+弹性缩放，时长400ms，延迟0.05s
  */
 .ip-monitor-page-desktop-header-container {
 	position: relative;
@@ -32,11 +163,13 @@
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 30px;
+	animation: ip-monitor-page-desktop-slideInFromTop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
 }
 
 /**
  * 头部左侧区域
  * 包含导航按钮和扫描统计信息，水平排列且垂直居中对齐
+ * 入场动画：从左侧滑入+弹性缩放，时长400ms，延迟0.1s
  */
 .ip-monitor-page-desktop-header-left {
 	position: absolute;
@@ -45,6 +178,7 @@
 	flex-direction: row;
 	gap: 12px;
 	align-items: center;
+	animation: ip-monitor-page-desktop-slideInFromLeft 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
 }
 
 /**
@@ -68,6 +202,7 @@
 /**
  * Logo图片
  * AiWorkShop Logo，位于头部右侧
+ * 入场动画：旋转滑入+弹性缩放，时长400ms，延迟0.15s
  */
 .ip-monitor-page-desktop-logo {
 	position: absolute;
@@ -75,6 +210,7 @@
 	width: 60px;
 	height: 60px;
 	object-fit: contain;
+	animation: ip-monitor-page-desktop-rotateSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
 }
 
 /**
@@ -147,6 +283,17 @@
  */
 .ip-monitor-page-desktop-refresh-btn {
 	margin-left: 10px;
+}
+
+/* ==================== 主内容区域 ==================== */
+
+/**
+ * 主内容区域：扫描统计和IP表格
+ * 入场动画：从下方滑入+弹性缩放，时长400ms，延迟0.3s
+ */
+.ip-monitor-page-desktop-main-content {
+	width: 100%;
+	animation: ip-monitor-page-desktop-slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
 }
 
 /* ==================== IP表格区域 ==================== */
@@ -312,4 +459,20 @@
 .ip-monitor-page-desktop-legend-available {
 	background-color: var(--bg-primary);
 	border: 1px solid var(--border-color);
+}
+
+/* ==================== 可访问性：减少动画 ==================== */
+
+/**
+ * 尊重用户的减少动画偏好设置
+ * 当用户设置了 prefers-reduced-motion 时，禁用所有入场动画
+ */
+@media (prefers-reduced-motion: reduce) {
+	.ip-monitor-page-desktop,
+	.ip-monitor-page-desktop-header-container,
+	.ip-monitor-page-desktop-header-left,
+	.ip-monitor-page-desktop-logo,
+	.ip-monitor-page-desktop-main-content {
+		animation: none !important;
+	}
 }
