@@ -1,46 +1,165 @@
 /**
- * IP热力图桌面端组件核心逻辑
- * 负责热力图数据处理、单元格样式计算、点击事件处理
+ * IP热力图桌面端组件核心逻辑类
+ *
+ * 本类负责IP热力图的全部数据处理、单元格样式计算、点击事件处理等功能
+ * 采用面向对象设计模式，封装了热力图渲染所需的所有业务逻辑
+ *
+ * 主要功能：
+ * 1. 管理坊内IP列表和IP出现次数的映射关系
+ * 2. 根据IP出现次数计算热力图颜色渐变
+ * 3. 提供单元格的CSS类名和样式计算
+ * 4. 处理单元格点击交互事件
+ * 5. 支持动态属性更新和响应式数据变化
+ *
+ * @class IPHeatmapDesktop
+ * @author AI Workshop Team
+ * @since 2024
  */
-import {ref, computed} from 'vue'
 import {ElMessage} from 'element-plus'
 
+/**
+ * 热力图组件属性接口
+ * 定义了组件接收的所有配置参数类型
+ *
+ * @interface HeatmapProps
+ */
 interface HeatmapProps {
+	/**
+	 * 坊内IP地址列表
+	 * 用于标识哪些IP属于当前坊，坊内IP将根据出现次数显示热力图颜色
+	 * 非坊内IP则显示为灰色占位状态
+	 * @type {string[]}
+	 * @optional
+	 */
 	fangIPs?: string[]
+
+	/**
+	 * IP出现次数映射表
+	 * 键为IP地址字符串，值为该IP出现的次数
+	 * 用于计算热力图的颜色深浅
+	 * @type {Record<string, number>}
+	 * @optional
+	 */
 	ipCounts?: Record<string, number>
+
+	/**
+	 * 是否为深色模式
+	 * 用于适配不同的主题配色方案
+	 * @type {boolean}
+	 * @optional
+	 */
 	isDark?: boolean
 }
 
+/**
+ * IP热力图桌面端核心类
+ * 封装了热力图的所有业务逻辑和计算方法
+ */
 export class IPHeatmapDesktop {
+	/**
+	 * 组件属性对象
+	 * 存储从外部传入的配置参数
+	 * @private
+	 * @type {HeatmapProps}
+	 */
 	private props: HeatmapProps
+
+	/**
+	 * IP计数器映射
+	 * 使用Map结构存储IP到出现次数的映射，提供高效的查询性能
+	 * 在属性更新时自动同步
+	 * @private
+	 * @type {Map<string, number>}
+	 */
 	private ipCounter: Map<string, number> = new Map()
 
+	/**
+	 * IP起始编号常量
+	 * 定义热力图显示的第一个IP的最后一位数字
+	 * 默认从10.0.48.151开始显示
+	 * @private
+	 * @static
+	 * @readonly
+	 * @type {number}
+	 */
 	private static readonly IP_START = 151
+
+	/**
+	 * IP地址前缀常量
+	 * 定义所有显示IP的共同前缀部分
+	 * 完整IP格式为：10.0.48.{编号}
+	 * @private
+	 * @static
+	 * @readonly
+	 * @type {string}
+	 */
 	private static readonly IP_PREFIX = '10.0.48.'
 
+	/**
+	 * 构造函数
+	 * 初始化组件属性并构建IP计数器映射
+	 *
+	 * @param {HeatmapProps} props - 组件初始化属性
+	 * @example
+	 * const heatmap = new IPHeatmapDesktop({
+	 *   fangIPs: ['10.0.48.151', '10.0.48.152'],
+	 *   ipCounts: { '10.0.48.151': 5, '10.0.48.152': 10 }
+	 * })
+	 */
 	constructor(props: HeatmapProps) {
 		this.props = props
 		this.updateIPCouter()
 	}
 
+	/**
+	 * 更新IP计数器
+	 * 将props中的ipCounts对象转换为Map结构，便于后续高效查询
+	 * 此方法在构造函数和属性更新时调用
+	 *
+	 * @private
+	 * @returns {void}
+	 */
 	private updateIPCouter(): void {
 		this.ipCounter = new Map(Object.entries(this.props.ipCounts || {}))
 	}
 
+	/**
+	 * 更新组件属性
+	 * 支持动态更新组件配置，更新后会自动重新计算IP计数器
+	 * 此方法用于响应式数据变化场景
+	 *
+	 * @public
+	 * @param {HeatmapProps} props - 新的组件属性
+	 * @returns {void}
+	 * @example
+	 * heatmap.updateProps({
+	 *   ipCounts: { '10.0.48.151': 15 }
+	 * })
+	 */
 	public updateProps(props: HeatmapProps): void {
 		this.props = props
 		this.updateIPCouter()
 	}
 
 	/**
-	 * 计算属性：坊内IP列表
+	 * 计算属性：获取坊内IP列表
+	 * 返回当前配置的所有坊内IP地址
+	 * 如果未配置则返回空数组
+	 *
+	 * @public
+	 * @returns {string[]} 坊内IP地址数组
 	 */
 	public get fangIPs(): string[] {
 		return this.props.fangIPs || []
 	}
 
 	/**
-	 * 计算属性：最大次数
+	 * 计算属性：获取最大出现次数
+	 * 遍历所有IP计数，返回出现次数的最大值
+	 * 用于热力图颜色计算的上限基准
+	 *
+	 * @public
+	 * @returns {number} 最大出现次数，无数据时返回0
 	 */
 	public get maxCount(): number {
 		let max = 0
@@ -53,7 +172,12 @@ export class IPHeatmapDesktop {
 	}
 
 	/**
-	 * 计算属性：最小次数（非零）
+	 * 计算属性：获取最小出现次数（非零）
+	 * 遍历所有IP计数，返回大于0的最小出现次数
+	 * 用于热力图颜色计算的下限基准
+	 *
+	 * @public
+	 * @returns {number} 最小非零出现次数，无有效数据时返回0
 	 */
 	public get minCount(): number {
 		let min = Infinity
@@ -66,24 +190,39 @@ export class IPHeatmapDesktop {
 	}
 
 	/**
-	 * 计算颜色RGB值
-	 * 根据最小值、最大值和当前值计算热力图颜色
+	 * 计算热力图颜色RGB值
+	 * 根据最小值、最大值和当前值，使用线性插值算法计算热力图渐变颜色
 	 *
-	 * @param min - 最小出现次数
-	 * @param max - 最大出现次数
-	 * @param value - 当前IP的出现次数
-	 * @returns RGB对象 {r, g, b}
+	 * 颜色渐变逻辑：
+	 * - 最小值（或零值）显示为浅青色 (91, 217, 212)
+	 * - 最大值显示为深红色 (45, 85, 130)
+	 * - 中间值按比例进行RGB线性插值
+	 *
+	 * @public
+	 * @static
+	 * @param {number} min - 最小出现次数（颜色基准下限）
+	 * @param {number} max - 最大出现次数（颜色基准上限）
+	 * @param {number} value - 当前IP的出现次数
+	 * @returns {{r: number; g: number; b: number}} RGB颜色对象，包含r、g、b三个分量（0-255）
+	 * @example
+	 * const color = IPHeatmapDesktop.calculateColor(1, 10, 5)
+	 * // 返回中间过渡色
 	 */
 	public static calculateColor(
 		min: number,
 		max: number,
 		value: number
 	): {r: number; g: number; b: number} {
+		// 边界情况处理：如果最大值等于最小值，或值为0，返回默认浅青色
 		if (max === min || value === 0) {
 			return {r: 91, g: 217, b: 212}
 		}
 
+		// 计算当前值在最小最大值之间的比例（0-1之间）
 		const ratio = (value - min) / (max - min)
+
+		// RGB线性插值计算
+		// 从浅青色(91, 217, 212)渐变到深红色(45, 85, 130)
 		const r = Math.round(91 + (45 - 91) * ratio)
 		const g = Math.round(217 + (85 - 217) * ratio)
 		const b = Math.round(212 + (130 - 212) * ratio)
@@ -93,7 +232,21 @@ export class IPHeatmapDesktop {
 
 	/**
 	 * 获取IP编号
-	 * 根据行列计算IP的最后一位编号
+	 * 根据行列位置计算对应的IP最后一位编号
+	 *
+	 * 计算逻辑：
+	 * - 起始编号为151（IP_START常量）
+	 * - 每行10个IP，行号从1开始
+	 * - 列号从1开始，每列递增1
+	 *
+	 * @public
+	 * @param {number} row - 行号（从1开始）
+	 * @param {number} col - 列号（从1开始）
+	 * @returns {number} IP的最后一位编号
+	 * @example
+	 * getIPNumber(1, 1) // 返回 151
+	 * getIPNumber(1, 2) // 返回 152
+	 * getIPNumber(2, 1) // 返回 161
 	 */
 	public getIPNumber(row: number, col: number): number {
 		return IPHeatmapDesktop.IP_START + (row - 1) * 10 + (col - 1)
@@ -101,28 +254,55 @@ export class IPHeatmapDesktop {
 
 	/**
 	 * 获取完整IP地址
-	 * 根据行列计算完整的IP地址
+	 * 根据行列位置计算完整的IP地址字符串
+	 *
+	 * IP格式：10.0.48.{编号}
+	 * 编号通过getIPNumber方法计算
+	 *
+	 * @public
+	 * @param {number} row - 行号（从1开始）
+	 * @param {number} col - 列号（从1开始）
+	 * @returns {string} 完整的IP地址，如 "10.0.48.151"
+	 * @example
+	 * getFullIP(1, 1) // 返回 "10.0.48.151"
 	 */
 	public getFullIP(row: number, col: number): string {
 		return `${IPHeatmapDesktop.IP_PREFIX}${this.getIPNumber(row, col)}`
 	}
 
 	/**
-	 * 获取单元格样式类
-	 * 根据IP状态返回对应的CSS类名
+	 * 获取单元格样式类名
+	 * 根据IP的状态（是否坊内IP、出现次数）返回对应的CSS类名
+	 *
+	 * 类名分配逻辑：
+	 * 1. 基础类名：ip-monitor-page-desktop-ip-cell（所有单元格）
+	 * 2. 非坊内IP：ip-monitor-page-desktop-non-fang（灰色显示）
+	 * 3. 坊内IP但次数为0：ip-monitor-page-desktop-count-zero（浅色显示）
+	 * 4. 坊内IP且有次数：ip-monitor-page-desktop-heatmap-cell（热力图颜色）
+	 *
+	 * @public
+	 * @param {number} row - 行号（从1开始）
+	 * @param {number} col - 列号（从1开始）
+	 * @returns {string} 空格分隔的CSS类名字符串
 	 */
 	public getCellClass(row: number, col: number): string {
+		// 基础类名，所有单元格都包含
 		const classes = ['ip-monitor-page-desktop-ip-cell']
 
+		// 获取当前位置的IP地址和计数
 		const ip = this.getFullIP(row, col)
 		const count = this.ipCounter.get(ip) || 0
 		const isFangIP = this.fangIPs.includes(ip)
 
+		// 根据IP状态分配不同的样式类名
 		if (!isFangIP) {
+			// 非坊内IP：使用灰色样式
 			classes.push('ip-monitor-page-desktop-non-fang')
 		} else if (count === 0) {
+			// 坊内IP但无记录：使用浅色样式
 			classes.push('ip-monitor-page-desktop-count-zero')
 		} else {
+			// 坊内IP且有记录：使用热力图样式
 			classes.push('ip-monitor-page-desktop-heatmap-cell')
 		}
 
@@ -130,19 +310,37 @@ export class IPHeatmapDesktop {
 	}
 
 	/**
-	 * 获取单元格样式
-	 * 根据IP出现次数返回对应的背景色样式
+	 * 获取单元格内联样式
+	 * 根据IP出现次数计算对应的背景色和文字颜色样式
+	 *
+	 * 样式计算逻辑：
+	 * 1. 非坊内IP或次数为0：返回空对象，使用默认样式
+	 * 2. 坊内IP且有次数：计算热力图渐变背景色
+	 * 3. 文字颜色根据背景亮度自动计算（深色背景用白字，浅色背景用黑字）
+	 *
+	 * 亮度计算公式：Y = 0.299*R + 0.587*G + 0.114*B
+	 * 阈值180以下为深色背景，使用白色文字
+	 *
+	 * @public
+	 * @param {number} row - 行号（从1开始）
+	 * @param {number} col - 列号（从1开始）
+	 * @returns {Record<string, string>} 样式对象，包含backgroundColor和color属性
 	 */
 	public getCellStyle(row: number, col: number): Record<string, string> {
+		// 获取当前位置的IP地址和计数
 		const ip = this.getFullIP(row, col)
 		const count = this.ipCounter.get(ip) || 0
 
+		// 非坊内IP或次数为0时返回空样式
 		if (!this.fangIPs.includes(ip) || count === 0) {
 			return {}
 		}
+
+		// 计算热力图颜色
 		const color = IPHeatmapDesktop.calculateColor(this.minCount, this.maxCount, count)
 
-		// 计算文字颜色
+		// 计算背景亮度，使用标准亮度公式
+		// 亮度值范围0-255，阈值180用于判断深浅背景
 		const brightness = color.r * 0.299 + color.g * 0.587 + color.b * 0.114
 		const textColor = brightness < 180 ? 'white' : '#333333'
 
@@ -153,8 +351,17 @@ export class IPHeatmapDesktop {
 	}
 
 	/**
-	 * 处理单元格点击
-	 * 点击IP单元格时的处理函数
+	 * 处理单元格点击事件
+	 * 当用户点击热力图中的IP单元格时触发
+	 *
+	 * 交互行为：
+	 * - 显示Element Plus消息提示
+	 * - 展示当前IP地址和出现次数
+	 *
+	 * @public
+	 * @param {number} row - 点击的行号（从1开始）
+	 * @param {number} col - 点击的列号（从1开始）
+	 * @returns {void}
 	 */
 	public handleCellClick(row: number, col: number): void {
 		const ip = this.getFullIP(row, col)
@@ -163,18 +370,34 @@ export class IPHeatmapDesktop {
 	}
 
 	/**
-	 * 渲染行数
+	 * 获取渲染行数
+	 * 定义热力图显示的行数量
+	 *
+	 * 默认显示10行，对应IP范围151-250
+	 *
+	 * @public
+	 * @returns {number} 行数，固定为10
 	 */
 	public get rowCount(): number {
 		return 10
 	}
 
 	/**
-	 * 渲染列数
+	 * 获取渲染列数
+	 * 定义热力图显示的列数量
+	 *
+	 * 默认显示10列，每行10个IP
+	 *
+	 * @public
+	 * @returns {number} 列数，固定为10
 	 */
 	public get colCount(): number {
 		return 10
 	}
 }
 
+/**
+ * 默认导出
+ * 导出IPHeatmapDesktop类作为模块默认输出
+ */
 export default IPHeatmapDesktop

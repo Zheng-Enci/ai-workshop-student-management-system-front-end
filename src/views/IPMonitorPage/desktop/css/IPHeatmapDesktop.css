@@ -113,8 +113,8 @@
  */
 .ip-monitor-page-desktop-heatmap-legend-item {
 	display: flex;
-	align-items: center;
 	gap: 8px;
+	align-items: center;
 	font-size: 12px;
 	color: var(--text-secondary);
 }
@@ -132,7 +132,7 @@
  * 图例颜色渐变
  */
 .ip-monitor-page-desktop-heatmap-legend-gradient {
-	background: linear-gradient(to right, rgb(91, 217, 212), rgb(45, 85, 130));
+	background: linear-gradient(to right, rgb(91 217 212), rgb(45 85 130));
 }
 
 /**
