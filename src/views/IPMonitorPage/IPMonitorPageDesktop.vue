@@ -79,6 +79,7 @@
 			</div>
 			<!-- IP热力图表格 -->
 		<IPHeatmapDesktop
+			v-if="fangIPs.length > 0"
 			:fang-ips="fangIPs"
 			:ip-counts="ipCounts"
 			:is-dark="isDarkMode"
