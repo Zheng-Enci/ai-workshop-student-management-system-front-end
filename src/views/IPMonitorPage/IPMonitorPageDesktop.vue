@@ -8,6 +8,7 @@
 				class="ip-monitor-page-desktop-nav-btn"
 				@click="$router.push('/navigation')"
 			>
+				<el-icon><ArrowLeft /></el-icon>
 				导航
 			</el-button>
 			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
@@ -123,7 +124,8 @@
  * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
  */
 import {ref, computed, onMounted} from 'vue'
-import {ElButton, ElMessage} from 'element-plus'
+import {ElButton, ElMessage, ElIcon} from 'element-plus'
+import {ArrowLeft} from '@element-plus/icons-vue'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
 import type {IPMonitorPageData} from './desktop/ts/IPMonitorPageDesktop'
 
@@ -148,6 +150,15 @@ import 'element-plus/theme-chalk/el-button.css'
  * - 消息的进入/退出动画效果
  */
 import 'element-plus/theme-chalk/el-message.css'
+
+/**
+ * el-icon 组件样式
+ * 提供图标组件的基础样式，包括:
+ * - 图标的尺寸和颜色
+ * - 图标的对齐方式
+ * - 图标的旋转动画效果
+ */
+import 'element-plus/theme-chalk/el-icon.css'
 
 /**
  * Element Plus 全局基础样式
