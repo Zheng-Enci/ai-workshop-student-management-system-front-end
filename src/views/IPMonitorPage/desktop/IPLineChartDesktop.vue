@@ -166,13 +166,18 @@ const updateChart = (): void => {
 watch(
 	[() => props.fangIPs, () => props.ipCounts, () => props.isDark],
 	() => {
-		console.log('watch triggered, chartInstance:', chartInstance, 'chartData:', chartData.value)
 		if (chartInstance && chartData.value.length > 0) {
 			updateChart()
 		}
 	},
-	{deep: true, immediate: true}
+	{deep: true}
 )
+
+watch(chartData, () => {
+	if (chartInstance && chartData.value.length > 0) {
+		updateChart()
+	}
+}, {deep: true})
 
 const handleResize = (): void => {
 	if (chartInstance) {
