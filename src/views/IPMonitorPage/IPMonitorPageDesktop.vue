@@ -1,5 +1,14 @@
 <template>
 	<div class="ip-monitor-page-desktop">
+		<!-- 导航按钮 -->
+		<el-button
+			type="primary"
+			class="ip-monitor-page-desktop-nav-btn"
+			@click="$router.push('/navigation')"
+		>
+			导航
+		</el-button>
+
 		<!-- 页面头部 -->
 		<div class="ip-monitor-page-desktop-header-container">
 			<div class="ip-monitor-page-desktop-scan-stats">
