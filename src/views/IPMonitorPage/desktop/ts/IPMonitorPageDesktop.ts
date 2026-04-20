@@ -143,12 +143,6 @@ class IPMonitorPageDesktop {
 			}
 
 			console.log('IP监控数据加载完成:', this.data)
-
-			// 保存当前时间段到本地存储
-			localStorage.setItem('ip_monitor_time_range', JSON.stringify({
-				startTime,
-				endTime
-			}))
 		} catch (err) {
 			console.error('初始化IP监控数据失败:', err)
 		} finally {
