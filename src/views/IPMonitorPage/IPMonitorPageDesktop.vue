@@ -142,6 +142,13 @@
 			</div>
 		</div>
 
+		<!-- IP出现次数折线图 -->
+		<IPLineChartDesktop
+			:fang-ips="fangIPs"
+			:ip-counter="ipCounter"
+			:is-dark="isDarkMode"
+		/>
+
 	</div>
 </template>
 
@@ -158,6 +165,7 @@ import {ElButton, ElMessage, ElIcon, ElSelect, ElOption} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {useThemeStore} from '@/stores/ts/theme'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
+import IPLineChartDesktop from './desktop/IPLineChartDesktop.vue'
 import type {IPMonitorPageData} from './desktop/ts/IPMonitorPageDesktop'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)
@@ -294,6 +302,15 @@ const fangIPs = computed(() => {
  */
 const recent7DScans = computed(() => {
 	return pageData.value.scanCount?.scan_count || 0
+})
+
+/**
+ * 是否为深色模式
+ * 从主题store中获取当前主题状态
+ */
+const isDarkMode = computed(() => {
+	const themeStore = useThemeStore()
+	return themeStore.isDarkMode
 })
 
 /**
@@ -525,4 +542,5 @@ onMounted(() => {
  * 从独立CSS文件导入
  */
 @import './desktop/css/IPMonitorPageDesktop.css';
+@import './desktop/css/IPLineChartDesktop.css';
 </style>
