@@ -189,12 +189,17 @@ onMounted(() => {
 	console.log('onMounted - fangIPs:', props.fangIPs, 'ipCounts:', props.ipCounts)
 	initChart()
 	window.addEventListener('resize', handleResize)
-	setTimeout(() => {
-		console.log('setTimeout - chartData:', chartData.value)
+	let attempts = 0
+	const tryUpdate = () => {
+		attempts++
+		console.log('tryUpdate attempt', attempts, '- fangIPs:', props.fangIPs, 'chartData:', chartData.value)
 		if (chartData.value.length > 0) {
 			updateChart()
+		} else if (attempts < 20) {
+			setTimeout(tryUpdate, 300)
 		}
-	}, 500)
+	}
+	setTimeout(tryUpdate, 300)
 })
 
 onBeforeUnmount(() => {
