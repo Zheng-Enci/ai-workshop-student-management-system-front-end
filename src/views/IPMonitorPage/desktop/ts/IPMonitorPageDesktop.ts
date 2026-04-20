@@ -268,8 +268,8 @@ class IPMonitorPageDesktop {
 	public static calculateColor(min: number, max: number, count: number): { r: number; g: number; b: number } {
 		// 冰川青（浅色）- 对应次数较少
 		const lightGlacier = { r: 91, g: 217, b: 212 }
-		// 深空蓝（深色）- 对应次数较多
-		const darkSpace = { r: 30, g: 58, b: 95 }
+		// 深空蓝（深色）- 对应次数较多，但限制最小亮度确保文字可读
+		const darkSpace = { r: 45, g: 85, b: 130 }
 
 		if (max === min) {
 			return lightGlacier
