@@ -97,7 +97,7 @@
 			<div class="ip-monitor-page-desktop-legend-item">
 				<div
 					class="ip-monitor-page-desktop-legend-color"
-					:style="{ background: 'linear-gradient(to right, rgb(255,218,185), rgb(255,69,0))' }"
+					:style="{ background: 'linear-gradient(to right, rgb(91,217,212), rgb(30,58,95))' }"
 				/>
 				<span>1次-{{ maxCount }}次（坊内，颜色越深次数越多）</span>
 			</div>

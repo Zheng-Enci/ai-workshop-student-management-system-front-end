@@ -266,17 +266,19 @@ class IPMonitorPageDesktop {
 	 * console.log(`rgb(${color.r}, ${color.g}, ${color.b})`)
 	 */
 	public static calculateColor(min: number, max: number, count: number): { r: number; g: number; b: number } {
-		const lightOrange = { r: 255, g: 218, b: 185 }
-		const darkOrange = { r: 255, g: 69, b: 0 }
+		// 冰川青（浅色）- 对应次数较少
+		const lightGlacier = { r: 91, g: 217, b: 212 }
+		// 深空蓝（深色）- 对应次数较多
+		const darkSpace = { r: 30, g: 58, b: 95 }
 
 		if (max === min) {
-			return lightOrange
+			return lightGlacier
 		}
 
-		const intensity = ((count - min) / (max - min)) * 255
-		const r = Math.round(lightOrange.r - (intensity / 255) * (lightOrange.r - darkOrange.r))
-		const g = Math.round(lightOrange.g - (intensity / 255) * (lightOrange.g - darkOrange.g))
-		const b = Math.round(lightOrange.b - (intensity / 255) * (lightOrange.b - darkOrange.b))
+		const intensity = ((count - min) / (max - min))
+		const r = Math.round(lightGlacier.r - intensity * (lightGlacier.r - darkSpace.r))
+		const g = Math.round(lightGlacier.g - intensity * (lightGlacier.g - darkSpace.g))
+		const b = Math.round(lightGlacier.b - intensity * (lightGlacier.b - darkSpace.b))
 
 		return { r, g, b }
 	}
