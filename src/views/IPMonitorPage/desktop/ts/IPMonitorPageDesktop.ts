@@ -88,9 +88,23 @@ class IPMonitorPageDesktop {
 			// 显示加载蒙版
 			loadingMaskStore.showLoadingMask('正在加载IP监控数据...')
 
-			// 获取当前时间戳和过去30天的时间戳
-			const endTime = Math.floor(Date.now() / 1000)
-			const startTime = endTime - 30 * 24 * 60 * 60 // 30天前
+			// 尝试从本地存储获取上一次的数据时间段
+			const savedTimeRange = localStorage.getItem('ip_monitor_time_range')
+			let startTime: number
+			let endTime: number
+
+			if (savedTimeRange) {
+				// 使用本地存储的时间段
+				const timeRange = JSON.parse(savedTimeRange)
+				startTime = timeRange.startTime
+				endTime = timeRange.endTime
+				console.log('使用本地存储的时间段:', new Date(startTime * 1000).toLocaleString(), '-', new Date(endTime * 1000).toLocaleString())
+			} else {
+				// 默认获取当前时间戳和过去30天的时间戳
+				endTime = Math.floor(Date.now() / 1000)
+				startTime = endTime - 30 * 24 * 60 * 60 // 30天前
+				console.log('使用默认时间段(30天):', new Date(startTime * 1000).toLocaleString(), '-', new Date(endTime * 1000).toLocaleString())
+			}
 
 			// 并行调用所有API接口
 			const [ipCountsResult, scanCountResult, fangIPsResult, ipRangeResult] = await Promise.all([
@@ -131,6 +145,12 @@ class IPMonitorPageDesktop {
 			}
 
 			console.log('IP监控数据加载完成:', this.data)
+
+			// 保存当前时间段到本地存储
+			localStorage.setItem('ip_monitor_time_range', JSON.stringify({
+				startTime,
+				endTime
+			}))
 		} catch (err) {
 			console.error('初始化IP监控数据失败:', err)
 		} finally {
