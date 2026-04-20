@@ -2,6 +2,7 @@
 	<div
 		class="ip-monitor-page-desktop-line-chart"
 		:data-has-data="chartData.length > 0 ? 'true' : 'false'"
+		:style="{ display: chartData.length > 0 ? 'block' : 'none' }"
 	>
 		<h3 class="ip-monitor-page-desktop-line-chart-title">
 			坊内IP出现次数趋势
@@ -226,6 +227,7 @@ const updateChart = (): void => {
 watch(
 	() => [props.fangIPs, props.ipCounts, props.isDark],
 	() => {
+		console.log('[IPLineChart] Watch triggered, chartInstance:', chartInstance, 'chartData length:', chartData.value.length)
 		if (chartInstance && chartData.value.length > 0) {
 			updateChart()
 		}
