@@ -131,9 +131,46 @@ import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
 import type { IPMonitorPageData } from './desktop/ts/IPMonitorPageDesktop'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)
+
+/**
+ * el-button 组件样式
+ * 提供按钮的基础样式，包括:
+ * - 按钮的默认/主要/成功/警告/危险等类型样式
+ * - 按钮的尺寸样式(大/中/小)
+ * - 按钮的悬停、点击、禁用状态样式
+ * - 按钮的圆角、边框、阴影效果
+ */
 import 'element-plus/theme-chalk/el-button.css'
+
+/**
+ * el-date-picker 组件样式
+ * 提供日期时间选择器的基础样式，包括:
+ * - 输入框的样式和图标
+ * - 日期面板的面板布局、日历网格
+ * - 日期单元格的选中、悬停、禁用状态样式
+ * - 时间选择器的滚动条和选项样式
+ * - 范围选择器的双面板布局样式
+ */
 import 'element-plus/theme-chalk/el-date-picker.css'
+
+/**
+ * el-message 组件样式
+ * 提供消息提示组件的基础样式，包括:
+ * - 消息框的定位和层级
+ * - 成功/警告/错误/信息等不同类型的颜色样式
+ * - 消息图标和关闭按钮的样式
+ * - 消息的进入/退出动画效果
+ */
 import 'element-plus/theme-chalk/el-message.css'
+
+/**
+ * Element Plus 全局基础样式
+ * 提供组件库的基础通用样式，包括:
+ * - CSS变量定义(主题色、字体、间距等)
+ * - 基础动画和过渡效果
+ * - 图标字体样式
+ * - 通用的工具类样式
+ */
 import 'element-plus/dist/index.css'
 
 // ==================== 常量定义 ====================
