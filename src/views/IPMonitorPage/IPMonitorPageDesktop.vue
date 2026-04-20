@@ -144,8 +144,8 @@
 
 		<!-- IP出现次数折线图 -->
 		<IPLineChartDesktop
-			:fang-ips="pageData.fangIPs?.fang_ips"
-			:ip-counts="pageData.ipCounts?.ip_counts"
+			:fang-ips="pageData.fangIPs?.fang_ips || []"
+			:ip-counts="pageData.ipCounts?.ip_counts || {}"
 			:is-dark="isDarkMode"
 		/>
 
