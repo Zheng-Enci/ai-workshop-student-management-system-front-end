@@ -43,6 +43,7 @@
 				<el-select
 					v-model="selectedTimeRange"
 					class="ip-monitor-page-desktop-time-select"
+					size="small"
 					placeholder="选择时间范围"
 					@change="handleTimeRangeChange"
 				>
