@@ -98,12 +98,10 @@ class IPMonitorPageDesktop {
 				const timeRange = JSON.parse(savedTimeRange)
 				startTime = timeRange.startTime
 				endTime = timeRange.endTime
-				console.log('使用本地存储的时间段:', new Date(startTime * 1000).toLocaleString(), '-', new Date(endTime * 1000).toLocaleString())
 			} else {
 				// 默认获取当前时间戳和过去30天的时间戳
 				endTime = Math.floor(Date.now() / 1000)
 				startTime = endTime - 30 * 24 * 60 * 60 // 30天前
-				console.log('使用默认时间段(30天):', new Date(startTime * 1000).toLocaleString(), '-', new Date(endTime * 1000).toLocaleString())
 			}
 
 			// 并行调用所有API接口
