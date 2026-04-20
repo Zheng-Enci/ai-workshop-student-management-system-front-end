@@ -10,6 +10,7 @@ import {reactive, ref} from 'vue'
 import type {FangIPsData, IPCountsData, IPRangeData, ScanCountData} from '@/api/ts/IPMonitorApi'
 import IPMonitorApi from '@/api/ts/IPMonitorApi'
 import {useLoadingMaskStore} from '@/stores/ts/loading'
+import {ElMessage} from 'element-plus'
 
 /**
  * IP监控页面数据接口
@@ -108,22 +109,22 @@ class IPMonitorPageDesktop {
 			const [ipCountsResult, scanCountResult, fangIPsResult, ipRangeResult] = await Promise.all([
 				// 获取IP出现次数统计
 				IPMonitorApi.getIPCounts(startTime, endTime).catch((err) => {
-					console.error('获取IP统计失败:', err)
+					ElMessage.error('获取IP统计失败')
 					return null
 				}),
 				// 获取扫描次数
 				IPMonitorApi.getScanCount(startTime, endTime).catch((err) => {
-					console.error('获取扫描次数失败:', err)
+					ElMessage.error('获取扫描次数失败')
 					return null
 				}),
 				// 获取坊内IP列表
 				IPMonitorApi.getFangIPs().catch((err) => {
-					console.error('获取坊内IP列表失败:', err)
+					ElMessage.error('获取坊内IP列表失败')
 					return null
 				}),
 				// 获取IP范围
 				IPMonitorApi.getIPRange().catch((err) => {
-					console.error('获取IP范围失败:', err)
+					ElMessage.error('获取IP范围失败')
 					return null
 				})
 			])
@@ -144,7 +145,7 @@ class IPMonitorPageDesktop {
 
 			console.log('IP监控数据加载完成:', this.data)
 		} catch (err) {
-			console.error('初始化IP监控数据失败:', err)
+			ElMessage.error('初始化IP监控数据失败')
 		} finally {
 			// 隐藏加载蒙版
 			loadingMaskStore.hideLoadingMask()
