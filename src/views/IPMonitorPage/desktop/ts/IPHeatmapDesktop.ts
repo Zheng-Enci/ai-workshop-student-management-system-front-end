@@ -71,14 +71,6 @@ interface HeatmapProps {
  */
 export class IPHeatmapDesktop {
 	/**
-	 * 组件属性对象
-	 * 存储从外部传入的配置参数
-	 * @private
-	 * @type {HeatmapProps}
-	 */
-	private props: HeatmapProps
-
-	/**
 	 * IP计数器映射
 	 * 使用Map结构存储IP到出现次数的映射，提供高效的查询性能
 	 * 在属性更新时自动同步
@@ -86,14 +78,6 @@ export class IPHeatmapDesktop {
 	 * @type {Map<string, number>}
 	 */
 	private ipCounter: Map<string, number> = new Map()
-
-	/**
-	 * IP地址列表
-	 * 从后端获取的所有IP地址列表，用于热力图渲染
-	 * @private
-	 * @type {string[]}
-	 */
-	private ipList: string[] = []
 
 	/**
 	 * IP监控页面数据管理实例
@@ -142,9 +126,7 @@ export class IPHeatmapDesktop {
 	 *   ipCounts: { '10.0.48.151': 5, '10.0.48.152': 10 }
 	 * })
 	 */
-	constructor(props: HeatmapProps) {
-		this.props = props
-
+	constructor(_props: HeatmapProps) {
 		/**
 		 * 初始化数据管理实例
 		 * 使用单例模式获取IPMonitorPageDesktop实例
@@ -348,15 +330,15 @@ export class IPHeatmapDesktop {
 	 * 此方法用于响应式数据变化场景
 	 *
 	 * @public
-	 * @param {HeatmapProps} props - 新的组件属性
+	 * @param {HeatmapProps} _props - 新的组件属性（已废弃，保留参数以保持API兼容）
 	 * @returns {void}
 	 * @example
 	 * heatmap.updateProps({
 	 *   ipCounts: { '10.0.48.151': 15 }
 	 * })
 	 */
-	public updateProps(props: HeatmapProps): void {
-		this.props = props
+	public updateProps(_props: HeatmapProps): void {
+		// 直接从计算属性获取最新数据，不再依赖props
 		this.updateIPCouter()
 	}
 
