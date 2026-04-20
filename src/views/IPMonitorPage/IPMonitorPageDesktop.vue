@@ -11,6 +11,12 @@
 				导航
 			</el-button>
 			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
+            <!-- Logo图片 -->
+            <img
+                class="ip-monitor-page-desktop-logo"
+                src="/src/assets/AiWorkShop_icon.png"
+                alt="AiWorkShop Logo"
+            />
 		</div>
 
 		<!-- 主内容区域：扫描统计和IP表格 -->
