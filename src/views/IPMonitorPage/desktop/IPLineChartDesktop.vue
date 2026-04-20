@@ -47,6 +47,12 @@ const props = withDefaults(defineProps<ChartProps>(), {
 	isDark: false
 })
 
+console.log('[IPLineChart] Props received:', {
+	fangIPs: props.fangIPs,
+	ipCounts: props.ipCounts,
+	isDark: props.isDark
+})
+
 const chartRef = ref<HTMLDivElement | null>(null)
 let chartInstance: ECharts | null = null
 
@@ -56,13 +62,16 @@ let chartInstance: ECharts | null = null
  */
 const chartData = computed(() => {
 	const data: {ip: string; count: number}[] = []
+	console.log('[IPLineChart] chartData computed, props.fangIPs:', props.fangIPs, 'props.ipCounts:', props.ipCounts)
 	if (!props.fangIPs?.length || !props.ipCounts) {
+		console.log('[IPLineChart] No data - fangIPs length:', props.fangIPs?.length, 'ipCounts:', props.ipCounts)
 		return data
 	}
 	props.fangIPs.forEach((ip) => {
 		const count = props.ipCounts[ip] || 0
 		data.push({ip, count})
 	})
+	console.log('[IPLineChart] chartData result:', data)
 	return data.sort((a, b) => a.count - b.count)
 })
 
@@ -71,7 +80,9 @@ const chartData = computed(() => {
  * 判断是否有有效的数据用于显示图表
  */
 const hasData = computed(() => {
-	return chartData.value.length > 0
+	const result = chartData.value.length > 0
+	console.log('[IPLineChart] hasData computed:', result, 'chartData length:', chartData.value.length)
+	return result
 })
 
 /**
@@ -91,11 +102,15 @@ const getThemeColors = () => {
  * 创建echarts实例并配置图表选项
  */
 const initChart = (): void => {
+	console.log('[IPLineChart] initChart called, chartRef:', chartRef.value)
 	if (!chartRef.value) {
+		console.log('[IPLineChart] chartRef is null, cannot init')
 		return
 	}
 
+	console.log('[IPLineChart] Initializing echarts...')
 	chartInstance = echarts.init(chartRef.value)
+	console.log('[IPLineChart] Echarts initialized, instance:', chartInstance)
 	updateChart()
 }
 
@@ -104,11 +119,14 @@ const initChart = (): void => {
  * 根据当前数据和主题更新图表配置
  */
 const updateChart = (): void => {
+	console.log('[IPLineChart] updateChart called, chartInstance:', chartInstance, 'chartData:', chartData.value)
 	if (!chartInstance) {
+		console.log('[IPLineChart] chartInstance is null')
 		return
 	}
 
 	const data = chartData.value
+	console.log('[IPLineChart] Rendering with data:', data)
 	const colors = getThemeColors()
 
 	const option: echarts.EChartsOption = {
@@ -238,8 +256,11 @@ const handleResize = (): void => {
  * 组件挂载时初始化图表
  */
 onMounted(async () => {
+	console.log('[IPLineChart] onMounted called')
 	await nextTick()
+	console.log('[IPLineChart] after nextTick, chartRef:', chartRef.value)
 	initChart()
+	console.log('[IPLineChart] after initChart, chartData length:', chartData.value.length)
 	if (chartData.value.length > 0) {
 		updateChart()
 	}
