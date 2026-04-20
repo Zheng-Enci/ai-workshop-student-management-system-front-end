@@ -112,7 +112,7 @@ export class IPLineChartDesktop {
 	 * @private
 	 * @type {import('vue').ComputedRef<boolean>}
 	 */
-	private isDark: import('vue').ComputedRef<boolean>
+	private readonly isDark: import('vue').ComputedRef<boolean>
 
 	/**
 	 * 数据监听器清理函数
@@ -135,12 +135,12 @@ export class IPLineChartDesktop {
 	 * 初始化组件属性
 	 * 同时初始化数据管理实例和响应式数据
 	 *
-	 * @param {ChartProps} props - 组件初始化属性
 	 * @example
 	 * const chart = new IPLineChartDesktop({
 	 *   fangIPs: ['10.0.48.151', '10.0.48.152'],
 	 *   ipCounts: { '10.0.48.151': 5, '10.0.48.152': 10 }
 	 * })
+	 * @param _props
 	 */
 	constructor(_props: ChartProps) {
 		this.chartRef = ref<HTMLDivElement | null>(null)
@@ -180,18 +180,6 @@ export class IPLineChartDesktop {
 	}
 
 	/**
-	 * 坊内IP列表计算属性
-	 * 从pageData中提取坊内IP列表
-	 * 如果数据未加载则返回空数组
-	 *
-	 * @public
-	 * @returns {string[]} 坊内IP地址数组
-	 */
-	public get fangIPs(): string[] {
-		return this.pageData.value.fangIPs?.fang_ips || []
-	}
-
-	/**
 	 * IP使用次数映射计算属性
 	 * 从pageData中提取IP使用次数映射
 	 * 如果数据未加载则返回空对象
@@ -227,11 +215,8 @@ export class IPLineChartDesktop {
 	/**
 	 * 获取主题颜色
 	 * 根据当前主题返回对应的颜色配置
-	 *
-	 * @private
-	 * @returns {{textColor: string; gridColor: string; lineColor: string}} 主题颜色对象
 	 */
-	private getThemeColors() {
+	private getThemeColors(): {textColor: string; gridColor: string; lineColor: string} {
 		return {
 			textColor: this.isDark.value ? '#e0e0e0' : '#333333',
 			gridColor: this.isDark.value ? '#333333' : '#e0e0e0',
@@ -489,5 +474,3 @@ export class IPLineChartDesktop {
 		}
 	}
 }
-
-export default IPLineChartDesktop
