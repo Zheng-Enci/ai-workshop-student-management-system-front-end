@@ -220,9 +220,9 @@ provide('ipMonitorData', pageDataManager)
 
 /**
  * 选中的时间范围（天数）
- * 默认最近7天
+ * 默认最近六个月（180天）
  */
-const selectedTimeRange = ref<number>(7)
+const selectedTimeRange = ref<number>(180)
 
 /**
  * 时间范围标签
@@ -388,11 +388,27 @@ const ipUtilizationRate = computed(() => {
 /**
  * 初始化页面数据
  * 组件挂载时调用，加载初始数据
+ * 从localStorage读取时间段并更新下拉框显示
  */
 async function initPageData(): Promise<void> {
 	const pageDataManager = IPMonitorPageDesktop.getInstance()
 	await pageDataManager.init_data()
 	pageData.value = pageDataManager.getData()
+
+	// 从localStorage读取保存的时间段
+	const savedTimeRange = localStorage.getItem('ip_monitor_time_range')
+	if (savedTimeRange) {
+		try {
+			const timeRange = JSON.parse(savedTimeRange)
+			// 根据保存的时间戳计算天数
+			const days = Math.round((timeRange.endTime - timeRange.startTime) / (24 * 60 * 60))
+			// 更新下拉框显示
+			selectedTimeRange.value = days
+		} catch {
+			// 解析失败，使用默认值
+			selectedTimeRange.value = 180
+		}
+	}
 }
 
 /**
