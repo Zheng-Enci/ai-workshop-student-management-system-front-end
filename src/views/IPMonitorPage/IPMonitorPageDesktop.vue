@@ -78,7 +78,6 @@
 		<div class="ip-monitor-page-desktop-debug-info">
 			最大次数: {{ maxCount }} |
 			<span v-if="maxCount > 0">
-				示例：1次=rgb(255,218,185), {{ maxCount }}次=rgb(255,69,0) |
 				总IP数: {{ ipCounter.size }}
 			</span>
 			<span v-else>暂无数据</span>
