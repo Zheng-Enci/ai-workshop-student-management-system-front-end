@@ -114,7 +114,7 @@
  */
 import {ref, computed, onMounted, watch, provide} from 'vue'
 import {useRouter} from 'vue-router'
-import {ElButton, ElMessage, ElIcon, ElSelect, ElOption} from 'element-plus'
+import {ElButton, ElIcon, ElSelect, ElOption} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {useThemeStore} from '@/stores/ts/theme'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
