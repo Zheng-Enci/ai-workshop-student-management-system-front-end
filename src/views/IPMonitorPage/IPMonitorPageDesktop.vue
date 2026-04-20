@@ -1,7 +1,7 @@
 <template>
 	<div class="ip-monitor-page-desktop">
 		<!-- 加载蒙版组件 -->
-		<LoadingMask />
+		<LoadingMask/>
 		<!-- 页面头部 -->
 		<div class="ip-monitor-page-desktop-header-container">
 			<!-- 左侧区域：导航按钮和扫描统计 -->
@@ -11,7 +11,9 @@
 					class="ip-monitor-page-desktop-nav-btn"
 					@click="router.push('/navigation')"
 				>
-					<el-icon><ArrowLeft /></el-icon>
+					<el-icon>
+						<ArrowLeft/>
+					</el-icon>
 					导航
 				</el-button>
 				<div class="ip-monitor-page-desktop-scan-stats">
@@ -80,15 +82,15 @@
 				</el-select>
 			</div>
 			<!-- IP热力图表格 -->
-		<!--
-			IP热力图组件
-			该组件完全自主从IPMonitorPageDesktop获取数据，无需传递props
-			组件内部通过provide/inject机制或直接从单例类获取数据
-			v-if条件确保数据加载完成后再渲染组件
-		-->
-		<IPHeatmapDesktop
-			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0 && ipCounts && ipRange"
-		/>
+			<!--
+				IP热力图组件
+				该组件完全自主从IPMonitorPageDesktop获取数据，无需传递props
+				组件内部通过provide/inject机制或直接从单例类获取数据
+				v-if条件确保数据加载完成后再渲染组件
+			-->
+			<IPHeatmapDesktop
+				v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0 && ipCounts && ipRange"
+			/>
 		</div>
 
 		<!--
@@ -112,19 +114,18 @@
  * @component IPMonitorPageDesktop
  * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
  */
-import {ref, computed, onMounted, watch, provide} from 'vue'
+import {computed, onMounted, provide, ref, watch} from 'vue'
 import {useRouter} from 'vue-router'
-import {ElButton, ElIcon, ElSelect, ElOption} from 'element-plus'
+import {ElButton, ElIcon, ElOption, ElSelect} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {useThemeStore} from '@/stores/ts/theme'
+import type {IPMonitorPageData} from './desktop/ts/IPMonitorPageDesktop'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
 import IPHeatmapDesktop from './desktop/IPHeatmapDesktop.vue'
 import IPLineChartDesktop from './desktop/IPLineChartDesktop.vue'
 import LoadingMask from '@/components/LoadingMask.vue'
-import type {IPMonitorPageData} from './desktop/ts/IPMonitorPageDesktop'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)
-
 /**
  * el-button 组件样式
  * 提供按钮的基础样式，包括:
@@ -238,7 +239,6 @@ const timeRangeLabel = computed(() => {
 	}
 	return `最近 ${Math.floor(days / 30)} 个月`
 })
-
 
 
 // ==================== 计算属性 ====================
@@ -382,7 +382,6 @@ const ipUtilizationRate = computed(() => {
 })
 
 
-
 // ==================== 方法 ====================
 
 /**
@@ -397,13 +396,12 @@ async function initPageData(): Promise<void> {
 
 	// 从数据管理类获取保存的时间段
 	const timeRange = pageDataManager.getTimeRange()
-	if (timeRange.startTime > 0 && timeRange.endTime > 0) {
-		// 根据保存的时间戳计算天数
-		const days = Math.round((timeRange.endTime - timeRange.startTime) / (24 * 60 * 60))
-		// 更新下拉框显示
-		selectedTimeRange.value = days
-	}
+
+	// 根据保存的时间戳计算天数
+	// 更新下拉框显示
+	selectedTimeRange.value = Math.round((timeRange.endTime - timeRange.startTime) / (24 * 60 * 60))
 }
+
 
 /**
  * 处理Logo点击

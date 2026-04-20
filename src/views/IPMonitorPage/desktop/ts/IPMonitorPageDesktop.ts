@@ -117,7 +117,7 @@ class IPMonitorPageDesktop {
 			}
 
 			// 保存当前时间段到实例变量
-			this.timeRange = { startTime, endTime }
+			this.timeRange = {startTime, endTime}
 
 			// 并行调用所有API接口
 			const [ipCountsResult, scanCountResult, fangIPsResult, ipRangeResult] = await Promise.all([
@@ -254,7 +254,7 @@ class IPMonitorPageDesktop {
 			}
 
 			// 保存当前时间段到实例变量
-			this.timeRange = { startTime, endTime }
+			this.timeRange = {startTime, endTime}
 
 			// 保存当前时间段到本地存储
 			localStorage.setItem('ip_monitor_time_range', JSON.stringify({
