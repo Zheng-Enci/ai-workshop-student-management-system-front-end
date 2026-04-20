@@ -30,11 +30,11 @@ interface ChartProps {
 	/**
 	 * 坊内IP列表
 	 */
-	fangIPs: string[]
+	fangIPs?: string[]
 	/**
 	 * IP出现次数统计对象
 	 */
-	ipCounts: Record<string, number> | undefined
+	ipCounts?: Record<string, number>
 	/**
 	 * 主题是否为深色模式
 	 */
@@ -42,7 +42,7 @@ interface ChartProps {
 }
 
 const props = withDefaults(defineProps<ChartProps>(), {
-	fangIPs: () => [] as string[],
+	fangIPs: () => [],
 	ipCounts: undefined,
 	isDark: false
 })
@@ -56,7 +56,7 @@ let chartInstance: ECharts | null = null
  */
 const chartData = computed(() => {
 	const data: {ip: string; count: number}[] = []
-	if (!props.fangIPs || !props.ipCounts) {
+	if (!props.fangIPs?.length || !props.ipCounts) {
 		return data
 	}
 	props.fangIPs.forEach((ip) => {
