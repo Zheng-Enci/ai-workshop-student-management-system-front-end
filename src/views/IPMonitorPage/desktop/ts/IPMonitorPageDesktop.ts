@@ -179,6 +179,60 @@ class IPMonitorPageDesktop {
 	}
 
 	/**
+	 * 根据时间范围刷新IP统计和扫描次数数据
+	 * 只刷新ipCounts和scanCount两个数据，保留fangIPs和ipRange
+	 *
+	 * @public
+	 * @async
+	 * @param {number} startTime - 开始时间戳（Unix时间戳，秒）
+	 * @param {number} endTime - 结束时间戳（Unix时间戳，秒）
+	 * @returns {Promise<void>}
+	 * @example
+	 * const pageData = IPMonitorPageDesktop.getInstance()
+	 * await pageData.refreshIPDataByTimeRange(1704067200, 1706745600)
+	 */
+	public async refreshIPDataByTimeRange(startTime: number, endTime: number): Promise<void> {
+		const loadingMaskStore = useLoadingMaskStore()
+
+		try {
+			// 显示加载蒙版
+			loadingMaskStore.showLoadingMask('正在刷新IP监控数据...')
+
+			// 并行调用IP统计和扫描次数API
+			const [ipCountsResult, scanCountResult] = await Promise.all([
+				// 获取IP出现次数统计
+				IPMonitorApi.getIPCounts(startTime, endTime).catch((err) => {
+					ElMessage.error('获取IP统计失败')
+					return null
+				}),
+				// 获取扫描次数
+				IPMonitorApi.getScanCount(startTime, endTime).catch((err) => {
+					ElMessage.error('获取扫描次数失败')
+					return null
+				})
+			])
+
+			// 保存数据到内存
+			if (ipCountsResult) {
+				this.data.ipCounts = ipCountsResult.data
+			}
+			if (scanCountResult) {
+				this.data.scanCount = scanCountResult.data
+			}
+
+			// 判断数据是否都加载成功
+			if (ipCountsResult && scanCountResult) {
+				ElMessage.success('IP监控数据刷新成功')
+			}
+		} catch (err) {
+			ElMessage.error('刷新IP监控数据失败')
+		} finally {
+			// 隐藏加载蒙版
+			loadingMaskStore.hideLoadingMask()
+		}
+	}
+
+	/**
 	 * 清空数据
 	 * 清除内存中的所有数据
 	 *
