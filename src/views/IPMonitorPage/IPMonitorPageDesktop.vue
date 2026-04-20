@@ -291,15 +291,6 @@ const recent7DScans = computed(() => {
 })
 
 /**
- * 是否为深色模式
- * 从主题store中获取当前主题状态
- */
-const isDarkMode = computed(() => {
-	const themeStore = useThemeStore()
-	return themeStore.isDarkMode
-})
-
-/**
  * 最大次数
  * 计算所有IP中出现次数的最大值
  */
