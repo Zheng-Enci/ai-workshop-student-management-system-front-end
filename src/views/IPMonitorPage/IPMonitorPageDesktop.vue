@@ -53,14 +53,13 @@
 						@click="handleCellClick(row, col)"
 					>
 						<div v-if="fangIPs.includes(getFullIP(row, col))">
-							<span class="ip-monitor-page-desktop-ip-number">{{ getIPNumber(row, col) }}</span>
-							<span
-								v-if="(ipCounter.get(getFullIP(row, col)) || 0) > 0"
-								class="ip-monitor-page-desktop-count-number"
-							>
-							{{ ipCounter.get(getFullIP(row, col)) || 0 }}
-						</span>
-						</div>
+						<span class="ip-monitor-page-desktop-ip-number">{{ getIPNumber(row, col) }}</span>
+						<span
+							class="ip-monitor-page-desktop-count-number"
+						>
+						{{ ipCounter.get(getFullIP(row, col)) || 0 }}
+					</span>
+					</div>
 						<span
 							v-else
 							class="ip-monitor-page-desktop-ip-number"
