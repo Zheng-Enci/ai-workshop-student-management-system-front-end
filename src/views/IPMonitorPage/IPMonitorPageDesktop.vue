@@ -78,11 +78,11 @@
 				</el-select>
 			</div>
 			<!-- IP热力图表格 -->
-			<IPHeatmapDesktop
-				:fang-ips="pageData.fangIPs?.fang_ips || []"
-				:ip-counts="pageData.ipCounts?.ip_counts || {}"
-				:is-dark="isDarkMode"
-			/>
+		<IPHeatmapDesktop
+			:fang-ips="fangIPs"
+			:ip-counts="ipCounts"
+			:is-dark="isDarkMode"
+		/>
 		</div>
 
 		<!-- IP出现次数折线图 -->
@@ -229,6 +229,14 @@ const ipCounter = computed(() => {
 		return new Map<string, number>()
 	}
 	return new Map(Object.entries(pageData.value.ipCounts.ip_counts))
+})
+
+/**
+ * IP次数对象
+ * 从页面数据中提取IP次数对象用于子组件
+ */
+const ipCounts = computed(() => {
+	return pageData.value.ipCounts?.ip_counts || {}
 })
 
 /**
