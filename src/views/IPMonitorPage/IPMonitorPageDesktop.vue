@@ -257,12 +257,12 @@ const selectedTimeRange = ref<number>(7)
 const timeRangeLabel = computed(() => {
 	const days = selectedTimeRange.value
 	if (days === 7) {
-		return '最近7天'
+		return '最近 7 天'
 	}
 	if (days <= 30) {
-		return '最近1个月'
+		return '最近 1 个月'
 	}
-	return `最近${Math.floor(days / 30)}个月`
+	return `最近 ${Math.floor(days / 30)} 个月`
 })
 
 
