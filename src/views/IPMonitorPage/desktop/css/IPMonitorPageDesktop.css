@@ -119,10 +119,11 @@
 
 /**
  * 时间范围选择器
- * 固定在统计信息块右侧，使用small尺寸
+ * 固定在统计信息块右侧，使用small尺寸并限制最大宽度
  */
 .ip-monitor-page-desktop-time-select {
-	width: 120px;
+	flex-shrink: 0;
+	max-width: 100px;
 }
 
 /* ==================== 时间选择器区域 ==================== */
