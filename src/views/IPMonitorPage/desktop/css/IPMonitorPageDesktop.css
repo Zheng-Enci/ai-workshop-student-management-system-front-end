@@ -94,21 +94,35 @@
 /**
  * IP统计信息
  * 显示最大次数和总IP数，使用主题次文字色
- * 宽度与表格保持一致（90%）
+ * 宽度与表格保持一致（90%），使用flex布局使下拉框靠右
  */
 .ip-monitor-page-desktop-ip-stats {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	width: 90%;
 	padding: 8px 15px;
 	margin: 0 auto 15px;
 	font-size: 14px;
 	color: var(--text-secondary);
-	text-align: center;
 	background-color: var(--bg-secondary);
 	border-radius: 4px;
 }
 
-.ip-monitor-page-desktop-ip-stats span {
+/**
+ * 统计信息左侧区域
+ * 包含所有统计文本
+ */
+.ip-monitor-page-desktop-stats-left span {
 	margin: 0 10px;
+}
+
+/**
+ * 时间范围选择器
+ * 固定在统计信息块右侧
+ */
+.ip-monitor-page-desktop-time-select {
+	width: 140px;
 }
 
 /* ==================== 时间选择器区域 ==================== */

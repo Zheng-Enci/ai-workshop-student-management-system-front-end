@@ -31,13 +31,50 @@
 		<div class="ip-monitor-page-desktop-main-content">
 			<!-- IP统计信息 -->
 			<div class="ip-monitor-page-desktop-ip-stats">
-				<span>坊内总IP: {{ fangIPs.length }}</span>
-				<span v-if="maxCount > 0">| 活跃: {{ activeIPCount }}</span>
-				<span v-if="maxCount > 0">| 不活跃: {{ inactiveIPCount }}</span>
-				<span v-if="maxCount > 0">| 利用率: {{ ipUtilizationRate }}</span>
-				<span v-if="maxCount > 0">| 最大: {{ maxCount }}</span>
-				<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
-				<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
+				<div class="ip-monitor-page-desktop-stats-left">
+					<span>坊内总IP: {{ fangIPs.length }}</span>
+					<span v-if="maxCount > 0">| 活跃: {{ activeIPCount }}</span>
+					<span v-if="maxCount > 0">| 不活跃: {{ inactiveIPCount }}</span>
+					<span v-if="maxCount > 0">| 利用率: {{ ipUtilizationRate }}</span>
+					<span v-if="maxCount > 0">| 最大: {{ maxCount }}</span>
+					<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
+					<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
+				</div>
+				<el-select
+					v-model="selectedTimeRange"
+					class="ip-monitor-page-desktop-time-select"
+					placeholder="选择时间范围"
+					@change="handleTimeRangeChange"
+				>
+					<el-option
+						label="最近七天"
+						:value="7"
+					/>
+					<el-option
+						label="最近一个月"
+						:value="30"
+					/>
+					<el-option
+						label="两个月"
+						:value="60"
+					/>
+					<el-option
+						label="三个月"
+						:value="90"
+					/>
+					<el-option
+						label="四个月"
+						:value="120"
+					/>
+					<el-option
+						label="五个月"
+						:value="150"
+					/>
+					<el-option
+						label="六个月"
+						:value="180"
+					/>
+				</el-select>
 			</div>
 			<!-- IP热力图表格 -->
 			<table class="ip-monitor-page-desktop-ip-table">
@@ -116,7 +153,7 @@
  * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
  */
 import {ref, computed, onMounted} from 'vue'
-import {ElButton, ElMessage, ElIcon} from 'element-plus'
+import {ElButton, ElMessage, ElIcon, ElSelect, ElOption} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {useThemeStore} from '@/stores/ts/theme'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
@@ -154,6 +191,25 @@ import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-icon.css'
 
 /**
+ * el-select 组件样式
+ * 提供下拉选择框的基础样式，包括:
+ * - 选择框的输入区域样式
+ * - 下拉菜单的展开动画
+ * - 选项的悬停和选中状态
+ * - 清除按钮和箭头图标样式
+ */
+import 'element-plus/theme-chalk/el-select.css'
+
+/**
+ * el-option 组件样式
+ * 提供下拉选项的基础样式，包括:
+ * - 选项的默认、悬停、选中状态
+ * - 选项的分组和分隔线样式
+ * - 选项的禁用状态样式
+ */
+import 'element-plus/theme-chalk/el-option.css'
+
+/**
  * Element Plus 全局基础样式
  * 提供组件库的基础通用样式，包括:
  * - CSS变量定义(主题色、字体、间距等)
@@ -171,6 +227,9 @@ const IP_START = 151
 /** IP前缀 */
 const IP_PREFIX = '10.0.48.'
 
+/** 时间范围选项（天数） */
+const TIME_RANGE_OPTIONS = [7, 30, 60, 90, 120, 150, 180]
+
 // ==================== 响应式数据 ====================
 
 /**
@@ -183,6 +242,12 @@ const pageData = ref<IPMonitorPageData>({
 	fangIPs: null,
 	ipRange: null
 })
+
+/**
+ * 选中的时间范围（天数）
+ * 默认最近7天
+ */
+const selectedTimeRange = ref<number>(7)
 
 
 
@@ -410,6 +475,21 @@ async function initPageData(): Promise<void> {
 function handleLogoClick(): void {
 	const themeStore = useThemeStore()
 	themeStore.toggleTheme()
+}
+
+/**
+ * 处理时间范围变化
+ * 当用户选择不同时间范围时刷新数据
+ *
+ * @param {number} days - 选择的天数
+ */
+async function handleTimeRangeChange(days: number): Promise<void> {
+	const endTime = Math.floor(Date.now() / 1000)
+	const startTime = endTime - days * 24 * 60 * 60
+
+	const pageDataManager = IPMonitorPageDesktop.getInstance()
+	await pageDataManager.refreshIPDataByTimeRange(startTime, endTime)
+	pageData.value = pageDataManager.getData()
 }
 
 // ==================== 生命周期钩子 ====================
