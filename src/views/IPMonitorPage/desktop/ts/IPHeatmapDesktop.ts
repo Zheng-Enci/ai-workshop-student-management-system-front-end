@@ -49,6 +49,14 @@ interface HeatmapProps {
 	 * @optional
 	 */
 	isDark?: boolean
+
+	/**
+	 * IP地址范围列表
+	 * 定义热力图显示的所有IP地址，从后端API获取
+	 * @type {string[]}
+	 * @optional
+	 */
+	ipRange?: string[]
 }
 
 /**
@@ -74,26 +82,12 @@ export class IPHeatmapDesktop {
 	private ipCounter: Map<string, number> = new Map()
 
 	/**
-	 * IP起始编号常量
-	 * 定义热力图显示的第一个IP的最后一位数字
-	 * 默认从10.0.48.151开始显示
+	 * IP地址列表
+	 * 从后端获取的所有IP地址列表，用于热力图渲染
 	 * @private
-	 * @static
-	 * @readonly
-	 * @type {number}
+	 * @type {string[]}
 	 */
-	private static readonly IP_START = 151
-
-	/**
-	 * IP地址前缀常量
-	 * 定义所有显示IP的共同前缀部分
-	 * 完整IP格式为：10.0.48.{编号}
-	 * @private
-	 * @static
-	 * @readonly
-	 * @type {string}
-	 */
-	private static readonly IP_PREFIX = '10.0.48.'
+	private ipList: string[] = []
 
 	/**
 	 * 构造函数
@@ -108,6 +102,7 @@ export class IPHeatmapDesktop {
 	 */
 	constructor(props: HeatmapProps) {
 		this.props = props
+		this.ipList = props.ipRange || []
 		this.updateIPCouter()
 	}
 
@@ -121,6 +116,7 @@ export class IPHeatmapDesktop {
 	 */
 	private updateIPCouter(): void {
 		this.ipCounter = new Map(Object.entries(this.props.ipCounts || {}))
+		this.ipList = this.props.ipRange || []
 	}
 
 	/**
@@ -232,32 +228,29 @@ export class IPHeatmapDesktop {
 
 	/**
 	 * 获取IP编号
-	 * 根据行列位置计算对应的IP最后一位编号
+	 * 根据行列位置计算对应的IP在列表中的索引
 	 *
 	 * 计算逻辑：
-	 * - 起始编号为151（IP_START常量）
+	 * - 将行列位置转换为一维索引
 	 * - 每行10个IP，行号从1开始
-	 * - 列号从1开始，每列递增1
+	 * - 列号从1开始
 	 *
 	 * @public
 	 * @param {number} row - 行号（从1开始）
 	 * @param {number} col - 列号（从1开始）
-	 * @returns {number} IP的最后一位编号
+	 * @returns {number} IP在列表中的索引位置
 	 * @example
-	 * getIPNumber(1, 1) // 返回 151
-	 * getIPNumber(1, 2) // 返回 152
-	 * getIPNumber(2, 1) // 返回 161
+	 * getIPIndex(1, 1) // 返回 0
+	 * getIPIndex(1, 2) // 返回 1
+	 * getIPIndex(2, 1) // 返回 10
 	 */
-	public getIPNumber(row: number, col: number): number {
-		return IPHeatmapDesktop.IP_START + (row - 1) * 10 + (col - 1)
+	public getIPIndex(row: number, col: number): number {
+		return (row - 1) * 10 + (col - 1)
 	}
 
 	/**
 	 * 获取完整IP地址
-	 * 根据行列位置计算完整的IP地址字符串
-	 *
-	 * IP格式：10.0.48.{编号}
-	 * 编号通过getIPNumber方法计算
+	 * 根据行列位置从IP列表中获取对应的IP地址
 	 *
 	 * @public
 	 * @param {number} row - 行号（从1开始）
@@ -267,7 +260,8 @@ export class IPHeatmapDesktop {
 	 * getFullIP(1, 1) // 返回 "10.0.48.151"
 	 */
 	public getFullIP(row: number, col: number): string {
-		return `${IPHeatmapDesktop.IP_PREFIX}${this.getIPNumber(row, col)}`
+		const index = this.getIPIndex(row, col)
+		return this.ipList[index] || ''
 	}
 
 	/**
@@ -371,15 +365,15 @@ export class IPHeatmapDesktop {
 
 	/**
 	 * 获取渲染行数
-	 * 定义热力图显示的行数量
+	 * 定义热力图显示的行数量，根据IP列表动态计算
 	 *
-	 * 默认显示10行，对应IP范围151-250
+	 * 每行显示10个IP，根据IP列表总长度计算行数
 	 *
 	 * @public
-	 * @returns {number} 行数，固定为10
+	 * @returns {number} 行数，根据IP列表长度动态计算
 	 */
 	public get rowCount(): number {
-		return 10
+		return Math.ceil(this.ipList.length / 10)
 	}
 
 	/**

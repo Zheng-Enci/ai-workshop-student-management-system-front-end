@@ -82,6 +82,7 @@
 			v-if="fangIPs.length > 0"
 			:fang-ips="fangIPs"
 			:ip-counts="ipCounts"
+			:ip-range="pageData.ipRange?.ip_range"
 			:is-dark="isDarkMode"
 		/>
 		</div>
