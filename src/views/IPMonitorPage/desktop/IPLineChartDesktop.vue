@@ -1,6 +1,6 @@
 <template>
 	<div
-		v-if="chartData.length > 0"
+		v-if="hasData"
 		class="ip-monitor-page-desktop-line-chart"
 	>
 		<h3 class="ip-monitor-page-desktop-line-chart-title">
@@ -32,9 +32,9 @@ interface ChartProps {
 	 */
 	fangIPs: string[]
 	/**
-	 * IP计数器（IP -> 出现次数）
+	 * IP出现次数统计对象
 	 */
-	ipCounter: Map<string, number>
+	ipCounts: Record<string, number> | undefined
 	/**
 	 * 主题是否为深色模式
 	 */
@@ -54,14 +54,22 @@ let chartInstance: ECharts | null = null
  */
 const chartData = computed(() => {
 	const data: {ip: string; count: number}[] = []
-	if (!props.fangIPs || !props.ipCounter) {
+	if (!props.fangIPs || !props.ipCounts) {
 		return data
 	}
 	props.fangIPs.forEach((ip) => {
-		const count = props.ipCounter.get(ip) || 0
+		const count = props.ipCounts[ip] || 0
 		data.push({ip, count})
 	})
 	return data.sort((a, b) => a.count - b.count)
+})
+
+/**
+ * 是否有数据
+ * 判断是否有有效的数据用于显示图表
+ */
+const hasData = computed(() => {
+	return chartData.value.length > 0
 })
 
 /**
@@ -206,7 +214,7 @@ const updateChart = (): void => {
  * 当IP数据或主题变化时重新渲染图表
  */
 watch(
-	() => [props.fangIPs, props.ipCounter, props.isDark],
+	() => [props.fangIPs, props.ipCounts, props.isDark],
 	() => {
 		updateChart()
 	},
