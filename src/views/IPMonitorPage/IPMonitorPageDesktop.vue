@@ -58,37 +58,6 @@
 				</tr>
 			</table>
 		</div>
-		<!-- 颜色筛选横条 -->
-		<div
-			v-if="maxCount > 0"
-			class="ip-monitor-page-desktop-color-filter-container"
-		>
-			<div class="ip-monitor-page-desktop-color-filter-title">点击颜色筛选IP范围</div>
-			<div class="ip-monitor-page-desktop-color-filter-bar">
-				<div
-					v-for="(block, index) in colorBlocks"
-					:key="index"
-					class="ip-monitor-page-desktop-color-block-wrapper"
-				>
-					<div
-						class="ip-monitor-page-desktop-color-block"
-						:style="{ backgroundColor: block.color }"
-						:class="{ selected: selectedColorIndex === index }"
-						@click="handleColorBlockClick(index)"
-					/>
-					<div class="ip-monitor-page-desktop-color-block-label">{{ block.label }}</div>
-				</div>
-			</div>
-			<div class="ip-monitor-page-desktop-color-filter-controls">
-				<el-button
-					type="primary"
-					@click="resetFilter"
-				>
-					显示全部
-				</el-button>
-			</div>
-		</div>
-
 		<!-- 图例 -->
 		<div
 			v-if="maxCount > 0"
@@ -172,9 +141,6 @@ import 'element-plus/dist/index.css'
 
 // ==================== 常量定义 ====================
 
-/** 颜色块数量 */
-const COLOR_BLOCK_COUNT = 15
-
 /** IP范围起始值 */
 const IP_START = 151
 
@@ -194,11 +160,7 @@ const pageData = ref<IPMonitorPageData>({
 	ipRange: null
 })
 
-/**
- * 选中的颜色块索引
- * 用于筛选显示特定次数范围的IP
- */
-const selectedColorIndex = ref<number | null>(null)
+
 
 // ==================== 计算属性 ====================
 
@@ -257,41 +219,7 @@ const minCount = computed(() => {
 	return min === Infinity ? 0 : min
 })
 
-/**
- * 颜色块数据
- * 生成颜色筛选横条的数据
- */
-const colorBlocks = computed(() => {
-	if (maxCount.value === 0) {
-		return []
-	}
 
-	const blocks = []
-	const rangeSize = (maxCount.value - minCount.value) / COLOR_BLOCK_COUNT
-
-	for (let i = 0; i < COLOR_BLOCK_COUNT; i++) {
-		// 计算当前颜色块对应的次数值（使用区间中点）
-		const countValue = minCount.value + (i + 0.5) * rangeSize
-		const color = IPMonitorPageDesktop.calculateColor(minCount.value, maxCount.value, countValue)
-
-		// 计算范围标签
-		const minRange = i === 0 ? Math.floor(minCount.value) : Math.floor(minCount.value + i * rangeSize) + 1
-		const maxRange = i === COLOR_BLOCK_COUNT - 1
-			? Math.floor(maxCount.value)
-			: Math.floor(minCount.value + (i + 1) * rangeSize)
-
-		const label = minRange === maxRange ? `${minRange}` : `${minRange}-${maxRange}`
-
-		blocks.push({
-			color: `rgb(${color.r}, ${color.g}, ${color.b})`,
-			label,
-			minRange: minCount.value + i * rangeSize,
-			maxRange: i === COLOR_BLOCK_COUNT - 1 ? maxCount.value + 0.1 : minCount.value + (i + 1) * rangeSize
-		})
-	}
-
-	return blocks
-})
 
 // ==================== 方法 ====================
 
@@ -342,16 +270,6 @@ function getCellClass(row: number, col: number): string {
 		classes.push('ip-monitor-page-desktop-heatmap-cell')
 	}
 
-	// 添加筛选状态类
-	if (selectedColorIndex.value !== null) {
-		const block = colorBlocks.value[selectedColorIndex.value]
-		if (block && count >= block.minRange && count < block.maxRange) {
-			classes.push('ip-monitor-page-desktop-filtered-in')
-		} else if (isFangIP && count > 0) {
-			classes.push('ip-monitor-page-desktop-filtered-out')
-		}
-	}
-
 	return classes.join(' ')
 }
 
@@ -393,28 +311,6 @@ function handleCellClick(row: number, col: number): void {
 	const ip = getFullIP(row, col)
 	const count = ipCounter.value.get(ip) || 0
 	ElMessage.info(`IP: ${ip}, 出现次数: ${count}`)
-}
-
-/**
- * 处理颜色块点击
- * 点击颜色筛选块时的处理函数
- *
- * @param {number} index - 颜色块索引
- */
-function handleColorBlockClick(index: number): void {
-	if (selectedColorIndex.value === index) {
-		selectedColorIndex.value = null
-	} else {
-		selectedColorIndex.value = index
-	}
-}
-
-/**
- * 重置筛选
- * 清除颜色筛选状态，显示所有IP
- */
-function resetFilter(): void {
-	selectedColorIndex.value = null
 }
 
 /**
