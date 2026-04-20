@@ -30,11 +30,11 @@ interface ChartProps {
 	/**
 	 * 坊内IP列表
 	 */
-	fangIPs?: string[]
+	fangIPs: string[]
 	/**
 	 * IP出现次数统计对象
 	 */
-	ipCounts?: Record<string, number>
+	ipCounts: Record<string, number>
 	/**
 	 * 主题是否为深色模式
 	 */
@@ -42,8 +42,8 @@ interface ChartProps {
 }
 
 const props = withDefaults(defineProps<ChartProps>(), {
-	fangIPs: () => [],
-	ipCounts: undefined,
+	fangIPs: () => [] as string[],
+	ipCounts: () => ({} as Record<string, number>),
 	isDark: false
 })
 
@@ -62,9 +62,9 @@ let chartInstance: ECharts | null = null
  */
 const chartData = computed(() => {
 	const data: {ip: string; count: number}[] = []
-	console.log('[IPLineChart] chartData computed, props.fangIPs:', props.fangIPs, 'props.ipCounts:', props.ipCounts)
-	if (!props.fangIPs?.length || !props.ipCounts) {
-		console.log('[IPLineChart] No data - fangIPs length:', props.fangIPs?.length, 'ipCounts:', props.ipCounts)
+	console.log('[IPLineChart] chartData computed, props.fangIPs:', props.fangIPs, 'props.ipCounts:', props.ipCounts, 'length:', props.fangIPs?.length)
+	if (!props.fangIPs || props.fangIPs.length === 0 || !props.ipCounts || Object.keys(props.ipCounts).length === 0) {
+		console.log('[IPLineChart] No data - fangIPs:', props.fangIPs, 'ipCounts:', props.ipCounts)
 		return data
 	}
 	props.fangIPs.forEach((ip) => {
@@ -80,9 +80,7 @@ const chartData = computed(() => {
  * 判断是否有有效的数据用于显示图表
  */
 const hasData = computed(() => {
-	const result = chartData.value.length > 0
-	console.log('[IPLineChart] hasData computed:', result, 'chartData length:', chartData.value.length)
-	return result
+	return chartData.value.length > 0
 })
 
 /**
