@@ -64,14 +64,6 @@ interface ChartProps {
  */
 export class IPLineChartDesktop {
 	/**
-	 * 组件属性对象
-	 * 存储从外部传入的配置参数
-	 * @private
-	 * @type {ChartProps}
-	 */
-	private props: ChartProps
-
-	/**
 	 * 图表容器DOM引用
 	 * 用于获取图表挂载的DOM元素
 	 * @private
@@ -118,9 +110,9 @@ export class IPLineChartDesktop {
 	 * 从主题store获取当前主题状态
 	 * 自动响应主题切换
 	 * @private
-	 * @type {ReturnType<typeof computed<boolean>>}
+	 * @type {import('vue').ComputedRef<boolean>}
 	 */
-	private isDark: ReturnType<typeof computed<boolean>>
+	private isDark: import('vue').ComputedRef<boolean>
 
 	/**
 	 * 数据监听器清理函数
@@ -150,8 +142,7 @@ export class IPLineChartDesktop {
 	 *   ipCounts: { '10.0.48.151': 5, '10.0.48.152': 10 }
 	 * })
 	 */
-	constructor(props: ChartProps) {
-		this.props = props
+	constructor(_props: ChartProps) {
 		this.chartRef = ref<HTMLDivElement | null>(null)
 
 		/**

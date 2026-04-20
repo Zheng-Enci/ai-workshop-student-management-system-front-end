@@ -119,12 +119,12 @@ export class IPHeatmapDesktop {
 	 * 初始化组件属性并构建IP计数器映射
 	 * 同时初始化数据管理实例和响应式数据
 	 *
-	 * @param {HeatmapProps} props - 组件初始化属性
 	 * @example
 	 * const heatmap = new IPHeatmapDesktop({
 	 *   fangIPs: ['10.0.48.151', '10.0.48.152'],
 	 *   ipCounts: { '10.0.48.151': 5, '10.0.48.152': 10 }
 	 * })
+	 * @param _props
 	 */
 	constructor(_props: HeatmapProps) {
 		/**
