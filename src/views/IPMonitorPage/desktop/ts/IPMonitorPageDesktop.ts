@@ -100,9 +100,9 @@ class IPMonitorPageDesktop {
 				startTime = timeRange.startTime
 				endTime = timeRange.endTime
 			} else {
-				// 默认获取当前时间戳和过去30天的时间戳
+				// 默认获取当前时间戳和过去六个月的时间戳
 				endTime = Math.floor(Date.now() / 1000)
-				startTime = endTime - 30 * 24 * 60 * 60 // 30天前
+				startTime = endTime - 180 * 24 * 60 * 60 // 180天前（六个月）
 			}
 
 			// 并行调用所有API接口
