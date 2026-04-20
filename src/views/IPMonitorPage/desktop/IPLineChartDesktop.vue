@@ -32,13 +32,16 @@ let chartInstance: ECharts | null = null
 
 const chartData = computed(() => {
 	const data: {ip: string; count: number}[] = []
+	console.log('chartData:', props.fangIPs, props.ipCounts)
 	if (!props.fangIPs || props.fangIPs.length === 0 || !props.ipCounts) {
+		console.log('No data - returning empty')
 		return data
 	}
 	props.fangIPs.forEach((ip) => {
 		const count = props.ipCounts[ip] || 0
 		data.push({ip, count})
 	})
+	console.log('chartData result:', data)
 	return data.sort((a, b) => a.count - b.count)
 })
 
