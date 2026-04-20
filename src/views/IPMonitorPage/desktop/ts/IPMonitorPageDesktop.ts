@@ -49,6 +49,17 @@ class IPMonitorPageDesktop {
 	})
 
 	/**
+	 * 当前时间段
+	 * 存储当前查询的时间范围（Unix时间戳，秒）
+	 *
+	 * @private
+	 */
+	private timeRange: { startTime: number; endTime: number } = {
+		startTime: 0,
+		endTime: 0
+	}
+
+	/**
 	 * 单例实例
 	 *
 	 * @private
@@ -104,6 +115,9 @@ class IPMonitorPageDesktop {
 				endTime = Math.floor(Date.now() / 1000)
 				startTime = endTime - 180 * 24 * 60 * 60 // 180天前（六个月）
 			}
+
+			// 保存当前时间段到实例变量
+			this.timeRange = { startTime, endTime }
 
 			// 并行调用所有API接口
 			const [ipCountsResult, scanCountResult, fangIPsResult, ipRangeResult] = await Promise.all([
@@ -170,6 +184,17 @@ class IPMonitorPageDesktop {
 	}
 
 	/**
+	 * 获取当前时间段
+	 * 返回当前查询的时间范围
+	 *
+	 * @public
+	 * @returns {{ startTime: number; endTime: number }} 时间范围对象
+	 */
+	public getTimeRange(): { startTime: number; endTime: number } {
+		return this.timeRange
+	}
+
+	/**
 	 * 刷新数据
 	 * 重新调用所有API接口获取最新数据
 	 *
@@ -227,6 +252,9 @@ class IPMonitorPageDesktop {
 			if (ipCountsResult && scanCountResult) {
 				ElMessage.success('IP监控数据刷新成功')
 			}
+
+			// 保存当前时间段到实例变量
+			this.timeRange = { startTime, endTime }
 
 			// 保存当前时间段到本地存储
 			localStorage.setItem('ip_monitor_time_range', JSON.stringify({
