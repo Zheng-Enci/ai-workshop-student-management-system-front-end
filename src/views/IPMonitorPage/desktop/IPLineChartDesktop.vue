@@ -1,5 +1,8 @@
 <template>
-	<div class="ip-monitor-page-desktop-line-chart">
+	<div
+		class="ip-monitor-page-desktop-line-chart"
+		:data-has-data="chartData.length > 0 ? 'true' : 'false'"
+	>
 		<h3 class="ip-monitor-page-desktop-line-chart-title">
 			坊内IP出现次数趋势
 		</h3>

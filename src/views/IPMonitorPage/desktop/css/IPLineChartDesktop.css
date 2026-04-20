@@ -5,12 +5,20 @@
  * 包含标题和图表内容，宽度与上方表格保持一致（90%）
  */
 .ip-monitor-page-desktop-line-chart {
+	display: none;
 	width: 90%;
 	margin: 30px auto 0;
 	padding: 15px;
 	background-color: var(--bg-primary);
 	border-radius: 4px;
 	box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+/**
+ * 折线图容器 - 有数据时显示
+ */
+.ip-monitor-page-desktop-line-chart[data-has-data="true"] {
+	display: block;
 }
 
 /**
