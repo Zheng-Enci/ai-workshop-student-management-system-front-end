@@ -22,13 +22,10 @@ interface ChartProps {
 
 const props = defineProps<ChartProps>()
 
-console.log('[IPLineChartDesktop] props received:', props)
-
 const chartContainerRef = ref<HTMLDivElement | null>(null)
 let chartInstance: IPLineChartDesktop | null = null
 
 onMounted(() => {
-	console.log('[IPLineChartDesktop] onMounted')
 	if (chartContainerRef.value) {
 		chartInstance = new IPLineChartDesktop(props)
 		chartInstance.ref = chartContainerRef.value

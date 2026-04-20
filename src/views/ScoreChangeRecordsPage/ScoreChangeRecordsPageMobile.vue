@@ -181,8 +181,6 @@ const loadRecords = async () => {
 			records.value = []
 		}
 	} catch (error) {
-		// 错误日志记录
-		console.error('加载改分记录失败:', error)
 		// Token失效处理:清除本地存储并跳转到登录页
 		if (error.message.includes('Token无效') || error.message.includes('请重新登录')) {
 			localStorage.removeItem('token')

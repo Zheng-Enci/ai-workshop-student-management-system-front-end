@@ -826,7 +826,6 @@ const loadTotalRanking = async () => {
 			}, 200)
 		}
 	} catch (error) {
-		console.error('获取综合排名数据失败:', error)
 		totalRanking.value = []
 	} finally {
 		totalLoading.value = false
@@ -867,7 +866,6 @@ const handleTabChange = async tabName => {
 				initChartWithRetry()
 			}, 200)
 		} catch (error) {
-			console.error('获取签到排名数据失败:', error)
 		} finally {
 			signInLoading.value = false
 		}
@@ -897,7 +895,6 @@ const handleTabChange = async tabName => {
 				initChartWithRetry()
 			}, 200)
 		} catch (error) {
-			console.error('获取活动积分排名数据失败:', error)
 		} finally {
 			activityLoading.value = false
 		}
@@ -1084,7 +1081,6 @@ const openRecordsDialog = async student => {
 			})
 		}
 	} catch (error) {
-		console.error('获取改分记录失败:', error)
 		allRecords.value = []
 	} finally {
 		recordsLoading.value = false

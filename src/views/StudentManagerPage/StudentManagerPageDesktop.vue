@@ -422,9 +422,8 @@ const getStudentAvatarUrl = student => {
 	// 查找第一个有效的ID(非null、非undefined、非空字符串)
 	const validId = possibleIds.find(id => id != null && true && id !== '')
 
-	// 如果找不到有效ID,输出警告并返回null
+	// 如果找不到有效ID,返回null
 	if (!validId) {
-		console.warn('未找到有效的学生ID:', student)
 		return null
 	}
 
@@ -909,13 +908,8 @@ const initCharts = () => {
  * @returns {void}
  */
 const initDialogHeatmapChart = () => {
-	console.log('开始初始化热力图')
-	console.log('heatmapDialogChart.value:', heatmapDialogChart.value)
-	console.log('容器尺寸:', heatmapDialogChart.value?.offsetWidth, heatmapDialogChart.value?.offsetHeight)
-
 	// 验证DOM容器是否存在
 	if (!heatmapDialogChart.value) {
-		console.error('热力图容器不存在')
 		return
 	}
 
@@ -927,16 +921,12 @@ const initDialogHeatmapChart = () => {
 	try {
 		// 创建ECharts实例
 		heatmapInstance.value = echarts.init(heatmapDialogChart.value)
-		console.log('ECharts实例创建成功')
 	} catch (error) {
-		console.error('ECharts初始化失败:', error)
 		return
 	}
 
 	// 生成热力图数据
 	const heatmapData = generateHeatmapData()
-	console.log('热力图数据:', heatmapData)
-	console.log('考勤记录:', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 	// 计算数据中的最大值,用于配置颜色映射
 	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
 
@@ -1056,9 +1046,7 @@ const initDialogHeatmapChart = () => {
 	// 应用配置到图表实例
 	try {
 		heatmapInstance.value.setOption(option)
-		console.log('热力图配置设置成功')
 	} catch (error) {
-		console.error('热力图配置设置失败:', error)
 	}
 }
 
@@ -1074,13 +1062,8 @@ const initDialogHeatmapChart = () => {
  * @returns {void}
  */
 const initDialogLineChart = () => {
-	console.log('开始初始化趋势图')
-	console.log('trendDialogChart.value:', trendDialogChart.value)
-	console.log('容器尺寸:', trendDialogChart.value?.offsetWidth, trendDialogChart.value?.offsetHeight)
-
 	// 验证DOM容器是否存在
 	if (!trendDialogChart.value) {
-		console.error('趋势图容器不存在')
 		return
 	}
 
@@ -1092,16 +1075,12 @@ const initDialogLineChart = () => {
 	try {
 		// 创建ECharts实例
 		lineInstance.value = echarts.init(trendDialogChart.value)
-		console.log('ECharts实例创建成功')
 	} catch (error) {
-		console.error('ECharts初始化失败:', error)
 		return
 	}
 
 	// 生成趋势图数据
 	const lineData = generateLineData()
-	console.log('趋势图数据:', lineData)
-	console.log('考勤记录:', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 
 	// 配置趋势图选项
 	const option = {

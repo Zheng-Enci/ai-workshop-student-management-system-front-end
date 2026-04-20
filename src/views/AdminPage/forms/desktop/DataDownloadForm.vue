@@ -101,9 +101,7 @@ const handleDownloadActiveStudents = async () => {
 	// 格式化为ISO字符串：yyyy-MM-ddTHH:mm:ss
 	const startTimeStr = startTime.toISOString().slice(0, 19)
 	const endTimeStr = endTime.toISOString().slice(0, 19)
-	
-	console.log('上周时间范围:', startTimeStr, '到', endTimeStr)
-	
+
 	// 第二步：调用指定时间内签到次数前n名的接口
 	// 获取上周签到次数最多的前50名学生（可以根据需要调整数量）
 	const activeStudents = await AttendanceApi.getTopStudentsByTimeRange(startTimeStr, endTimeStr, 100)

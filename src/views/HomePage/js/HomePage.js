@@ -141,7 +141,6 @@ export const useHomePageLogic = () => {
 			// 获取学生ID为1的头像URL
 			developerAvatar.value = await getAvatarUrl(1)
 		} catch (error) {
-			console.error('获取开发者头像失败:', error)
 			// 获取失败时使用默认头像
 			developerAvatar.value = '@/assets/default-avatar.png'
 		}

@@ -106,7 +106,6 @@ const closeTrendChartDialog = () => {
  */
 const initDialogLineChart = () => {
 	if (!trendDialogChart.value) {
-		console.error('趋势图容器不存在')
 		return
 	}
 
@@ -117,7 +116,6 @@ const initDialogLineChart = () => {
 	try {
 		lineInstance.value = echarts.init(trendDialogChart.value)
 	} catch (error) {
-		console.error('ECharts初始化失败:', error)
 		return
 	}
 

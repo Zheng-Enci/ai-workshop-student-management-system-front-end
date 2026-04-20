@@ -34,7 +34,6 @@ export function useStudentAvatar() {
 			avatarCache.value.set(studentId, avatarUrl)
 			return avatarUrl
 		} catch (error) {
-			console.error('获取学生头像失败:', error)
 			avatarCache.value.set(studentId, defaultAvatar)
 			return defaultAvatar
 		}
@@ -67,7 +66,6 @@ export function useStudentAvatar() {
 
 			return { success: true, results }
 		} catch (error) {
-			console.error('批量加载学生头像失败:', error)
 			return { success: false, message: '加载头像失败，请检查网络连接' }
 		} finally {
 			loading.value = false
@@ -87,8 +85,6 @@ export function useStudentAvatar() {
 
 		// 更新缓存
 		avatarCache.value.set(studentId, defaultAvatar)
-
-		console.warn(`学生ID ${studentId} 的头像加载失败，已使用默认头像`)
 	}
 
 	/**
@@ -133,7 +129,6 @@ export function useStudentAvatar() {
 			const results = await Promise.all(preloadPromises)
 			return { success: true, results }
 		} catch (error) {
-			console.error('预加载学生头像失败:', error)
 			return { success: false, message: '预加载头像失败' }
 		} finally {
 			loading.value = false

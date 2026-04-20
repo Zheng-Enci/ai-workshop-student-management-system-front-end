@@ -76,8 +76,6 @@ interface HeatmapProps {
 
 const props = defineProps<HeatmapProps>()
 
-console.log('[IPHeatmapDesktop] props received:', props)
-
 const heatmap = new IPHeatmapDesktop({
 	fangIPs: props.fangIPs,
 	ipCounts: props.ipCounts,
@@ -90,7 +88,6 @@ const colCount = computed(() => heatmap.colCount)
 watch(
 	() => [props.fangIPs, props.ipCounts, props.isDark],
 	() => {
-		console.log('[IPHeatmapDesktop] watch triggered, props:', props)
 		heatmap.updateProps({
 			fangIPs: props.fangIPs,
 			ipCounts: props.ipCounts,
@@ -101,13 +98,10 @@ watch(
 )
 
 onMounted(() => {
-	console.log('[IPHeatmapDesktop] onMounted')
 	let attempts = 0
 	const tryUpdate = () => {
 		attempts++
-		console.log('[IPHeatmapDesktop] tryUpdate attempt', attempts, 'props.fangIPs:', props.fangIPs)
 		if (props.fangIPs && props.fangIPs.length > 0) {
-			console.log('[IPHeatmapDesktop] fangIPs found, updating')
 			heatmap.updateProps({
 				fangIPs: props.fangIPs,
 				ipCounts: props.ipCounts,

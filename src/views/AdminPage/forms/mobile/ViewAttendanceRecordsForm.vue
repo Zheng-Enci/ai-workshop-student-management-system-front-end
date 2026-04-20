@@ -63,7 +63,6 @@ const isLoading = ref(false)
 const loadAttendanceRecords = async () => {
 
 	if (!props.student?.studentId) {
-		console.warn('[ViewAttendanceRecordsForm] 没有 studentId, 取消加载')
 		return
 	}
 

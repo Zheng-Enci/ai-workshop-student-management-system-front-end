@@ -56,7 +56,6 @@ class InvitationCodeManager {
 
 		try {
 			const result = await InvitationApi.getInvitationCode(this.token.value)
-			console.log('邀请码API返回:', result)
 
 			if (result.code === 400) {
 				this.error.value = result.message
@@ -73,7 +72,6 @@ class InvitationCodeManager {
 			if (result.code === 200 && result.data) {
 				this.invitationCode.value = result.data
 				this.status.value = InvitationCodeStatus.HAS_CODE
-				console.log('邀请码设置成功:', this.invitationCode.value, '状态:', this.status.value)
 				return { success: true, data: result.data }
 			}
 
@@ -108,7 +106,6 @@ class InvitationCodeManager {
 			ElMessage.success('邀请码已复制到剪贴板')
 			return { success: true }
 		} catch (err) {
-			console.error('复制邀请码失败:', err)
 			ElMessage.error('复制失败，请手动复制')
 			return { success: false, message: '复制失败' }
 		}

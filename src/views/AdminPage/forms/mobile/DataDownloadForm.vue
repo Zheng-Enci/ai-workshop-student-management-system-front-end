@@ -95,9 +95,7 @@ const handleDownloadActiveStudents = async () => {
 	
 	const startTimeStr = startTime.toISOString().slice(0, 19)
 	const endTimeStr = endTime.toISOString().slice(0, 19)
-	
-	console.log('上周时间范围:', startTimeStr, '到', endTimeStr)
-	
+
 	const activeStudents = await AttendanceApi.getTopStudentsByTimeRange(startTimeStr, endTimeStr, 100)
 	
 	const filteredStudents = activeStudents.filter(student => student.attendanceCount > 3)

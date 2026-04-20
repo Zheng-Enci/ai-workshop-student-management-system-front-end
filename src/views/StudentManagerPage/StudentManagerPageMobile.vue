@@ -242,15 +242,6 @@ const getStudentAttendanceCountFromCache = (studentId) => {
  * @returns {string|null} 头像URL或null
  */
 const getStudentAvatarUrl = (student) => {
-	console.log('获取头像URL, student:', student)
-	console.log('可用的ID字段:', {
-		id: student.id,
-		studentInfoId: student.studentInfoId,
-		studentId: student.studentId,
-		infoId: student.infoId,
-		databaseId: student.databaseId
-	})
-
 	// 尝试多个可能的ID字段名（兼容不同后端返回格式）
 	const possibleIds = [
 		student.studentInfoId,
@@ -263,13 +254,11 @@ const getStudentAvatarUrl = (student) => {
 	const validId = possibleIds.find(id => id != null && true && id !== '')
 
 	if (!validId) {
-		console.warn('未找到有效的学生ID:', student)
 		return null
 	}
 
 	// 调用工具函数生成头像URL
 	const url = StudentManagerPageUtils.getStudentAvatarUrl(validId)
-	console.log('使用的ID:', validId, '头像URL:', url)
 	return url
 }
 
@@ -975,13 +964,8 @@ const initCharts = () => {
  * 初始化弹窗内热力图
  */
 const initDialogHeatmapChart = () => {
-	console.log('开始初始化热力图')
-	console.log('heatmapDialogChart.value:', heatmapDialogChart.value)
-	console.log('容器尺寸:', heatmapDialogChart.value?.offsetWidth, heatmapDialogChart.value?.offsetHeight)
-
 	// 容器不存在时终止
 	if (!heatmapDialogChart.value) {
-		console.error('热力图容器不存在')
 		return
 	}
 
@@ -993,16 +977,12 @@ const initDialogHeatmapChart = () => {
 	try {
 		// 创建新的ECharts实例
 		heatmapInstance.value = echarts.init(heatmapDialogChart.value)
-		console.log('ECharts实例创建成功')
 	} catch (error) {
-		console.error('ECharts初始化失败:', error)
 		return
 	}
 
 	// 生成热力图数据
 	const heatmapData = generateHeatmapData()
-	console.log('热力图数据:', heatmapData)
-	console.log('考勤记录:', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
 
 	// 热力图配置项
@@ -1097,9 +1077,7 @@ const initDialogHeatmapChart = () => {
 	try {
 		// 应用配置项
 		heatmapInstance.value.setOption(option)
-		console.log('热力图配置设置成功')
 	} catch (error) {
-		console.error('热力图配置设置失败:', error)
 	}
 }
 
@@ -1107,13 +1085,8 @@ const initDialogHeatmapChart = () => {
  * 初始化弹窗内趋势图
  */
 const initDialogLineChart = () => {
-	console.log('开始初始化趋势图')
-	console.log('trendDialogChart.value:', trendDialogChart.value)
-	console.log('容器尺寸:', trendDialogChart.value?.offsetWidth, trendDialogChart.value?.offsetHeight)
-
 	// 容器不存在时终止
 	if (!trendDialogChart.value) {
-		console.error('趋势图容器不存在')
 		return
 	}
 
@@ -1125,16 +1098,12 @@ const initDialogLineChart = () => {
 	try {
 		// 创建新的ECharts实例
 		lineInstance.value = echarts.init(trendDialogChart.value)
-		console.log('ECharts实例创建成功')
 	} catch (error) {
-		console.error('ECharts初始化失败:', error)
 		return
 	}
 
 	// 生成趋势图数据
 	const lineData = generateLineData()
-	console.log('趋势图数据:', lineData)
-	console.log('考勤记录:', StudentManagerPageAttendance_Records_Dialog.state.studentAttendanceRecords)
 
 	// 趋势图配置项
 	const option = {

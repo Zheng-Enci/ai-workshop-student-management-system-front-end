@@ -131,7 +131,6 @@ const loadRecords = async () => {
 			}
 		}
 	} catch (error) {
-		console.error('获取改分记录失败:', error)
 		records.value = []
 	} finally {
 		loading.value = false

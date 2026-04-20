@@ -45,7 +45,6 @@ const isLoading = ref(false)
  */
 const loadAdjustRecords = async () => {
 	if (!props.student?.id) {
-		console.warn('[ViewPointsRecordsForm] 没有 studentId, 取消加载')
 		return
 	}
 
