@@ -250,6 +250,36 @@ class IPMonitorPageDesktop {
 		this.data.fangIPs = null
 		this.data.ipRange = null
 	}
+
+	/**
+	 * 计算热力图颜色RGB值
+	 * 根据次数计算对应的热力图颜色，使用浅橙色到深橙色的渐变
+	 *
+	 * @public
+	 * @static
+	 * @param {number} min - 最小次数
+	 * @param {number} max - 最大次数
+	 * @param {number} count - 当前次数
+	 * @returns {object} RGB颜色对象，包含r, g, b三个属性
+	 * @example
+	 * const color = IPMonitorPageDesktop.calculateColor(0, 100, 50)
+	 * console.log(`rgb(${color.r}, ${color.g}, ${color.b})`)
+	 */
+	public static calculateColor(min: number, max: number, count: number): { r: number; g: number; b: number } {
+		const lightOrange = { r: 255, g: 218, b: 185 }
+		const darkOrange = { r: 255, g: 69, b: 0 }
+
+		if (max === min) {
+			return lightOrange
+		}
+
+		const intensity = ((count - min) / (max - min)) * 255
+		const r = Math.round(lightOrange.r - (intensity / 255) * (lightOrange.r - darkOrange.r))
+		const g = Math.round(lightOrange.g - (intensity / 255) * (lightOrange.g - darkOrange.g))
+		const b = Math.round(lightOrange.b - (intensity / 255) * (lightOrange.b - darkOrange.b))
+
+		return { r, g, b }
+	}
 }
 
 export default IPMonitorPageDesktop

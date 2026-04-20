@@ -281,7 +281,7 @@ const colorBlocks = computed(() => {
 	for (let i = 0; i < COLOR_BLOCK_COUNT; i++) {
 		// 计算当前颜色块对应的次数值（使用区间中点）
 		const countValue = minCount.value + (i + 0.5) * rangeSize
-		const color = calculateColor(minCount.value, maxCount.value, countValue)
+		const color = IPMonitorPageDesktop.calculateColor(minCount.value, maxCount.value, countValue)
 
 		// 计算范围标签
 		const minRange = i === 0 ? Math.floor(minCount.value) : Math.floor(minCount.value + i * rangeSize) + 1
@@ -393,7 +393,7 @@ function getCellStyle(row: number, col: number): Record<string, string> {
 	if (isNonFangIP(row, col) || count === 0) {
 		return {}
 	}
-	const color = calculateColor(minCount.value, maxCount.value, count)
+	const color = IPMonitorPageDesktop.calculateColor(minCount.value, maxCount.value, count)
 
 	// 计算文字颜色
 	const brightness = color.r * 0.299 + color.g * 0.587 + color.b * 0.114
@@ -403,31 +403,6 @@ function getCellStyle(row: number, col: number): Record<string, string> {
 		backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
 		color: textColor
 	}
-}
-
-/**
- * 计算颜色RGB值
- * 根据次数计算对应的热力图颜色
- *
- * @param {number} min - 最小次数
- * @param {number} max - 最大次数
- * @param {number} count - 当前次数
- * @returns {object} RGB颜色对象
- */
-function calculateColor(min: number, max: number, count: number): { r: number; g: number; b: number } {
-	const lightOrange = { r: 255, g: 218, b: 185 }
-	const darkOrange = { r: 255, g: 69, b: 0 }
-
-	if (max === min) {
-		return lightOrange
-	}
-
-	const intensity = ((count - min) / (max - min)) * 255
-	const r = Math.round(lightOrange.r - (intensity / 255) * (lightOrange.r - darkOrange.r))
-	const g = Math.round(lightOrange.g - (intensity / 255) * (lightOrange.g - darkOrange.g))
-	const b = Math.round(lightOrange.b - (intensity / 255) * (lightOrange.b - darkOrange.b))
-
-	return { r, g, b }
 }
 
 /**
