@@ -1,575 +1,744 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP出现次数统计</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-        }
-        body {
-            background-color: #f8f9fa;
-            padding: 20px;
-        }
-        .header-container {
-            position: relative;
-            margin-bottom: 30px;
-        }
-        .scan-stats {
-            color: #666;
-            font-size: 16px;
-            font-weight: 600;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin: 0;
-            padding: 10px 0;
-        }
-        .ip-table {
-            width: 90%;
-            margin: 0 auto;
-            border-collapse: collapse;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .ip-table td {
-            width: 10%;
-            height: 60px;
-            text-align: center;
-            border: 1px solid #ddd;
-            padding: 5px;
-            font-size: 14px;
-            position: relative;
-        }
-        .ip-table .ip-number {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-        }
-        .ip-table .count-number {
-            font-size: 16px;
-            font-weight: 600;
-        }
-        /* 0次：白色背景 */
-        .count-zero {
-            background-color: #ffffff !important;
-        }
-        .count-zero .ip-number,
-        .count-zero .count-number {
-            color: #718096 !important;
-        }
-        /* 非坊内IP：斜纹背景 */
-        .non-fang { 
-            background: repeating-linear-gradient(
-                45deg,
-                #f5f5f5,
-                #f5f5f5 8px,
-                #e8e8e8 8px,
-                #e8e8e8 16px
-            ) !important;
-            border: 2px dashed #cccccc !important;
-            opacity: 0.7;
-        }
-        .non-fang .ip-number {
-            color: #999999 !important;
-            font-weight: normal;
-        }
-        .legend {
-            width: 90%;
-            margin: 20px auto 0;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 4px;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
-        }
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 2px;
-        }
-        .legend-color.non-fang {
-            background: repeating-linear-gradient(
-                45deg,
-                #f5f5f5,
-                #f5f5f5 4px,
-                #e8e8e8 4px,
-                #e8e8e8 8px
-            );
-            border: 2px dashed #cccccc;
-        }
-        /* 颜色筛选横条样式 */
-        .color-filter-container {
-            width: 90%;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .color-filter-title {
-            text-align: center;
-            color: #333;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        .color-filter-bar {
-            display: flex;
-            width: 100%;
-            gap: 2px;
-            margin-bottom: 10px;
-        }
-        .color-block-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .color-block {
-            width: 100%;
-            height: 40px;
-            transition: all 0.2s ease;
-            border-radius: 4px;
-            position: relative;
-            cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-        .color-block:hover {
-            transform: scaleY(1.1);
-            z-index: 1;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-        .color-block.selected {
-            border: 3px solid #1890ff;
-            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.3), 0 2px 8px rgba(0,0,0,0.3);
-            z-index: 2;
-        }
-        .color-block-label {
-            margin-top: 5px;
-            font-size: 11px;
-            color: #666;
-            text-align: center;
-            white-space: nowrap;
-            font-weight: 500;
-        }
-        @media (max-width: 768px) {
-            .color-block-label {
-                font-size: 9px;
-            }
-        }
-        .color-filter-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .filter-btn {
-            padding: 8px 20px;
-            background-color: #1890ff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.2s ease;
-        }
-        .filter-btn:hover {
-            background-color: #40a9ff;
-        }
-        .filter-btn:active {
-            background-color: #096dd9;
-        }
-        /* 筛选状态下的IP单元格样式 */
-        .ip-table td.filtered-out {
-            opacity: 0.25;
-            filter: grayscale(50%);
-            transition: opacity 0.3s ease, filter 0.3s ease;
-        }
-        .ip-table td.filtered-in {
-            opacity: 1;
-            filter: brightness(1.1);
-            transition: opacity 0.3s ease, filter 0.3s ease;
-        }
-    </style>
-</head>
-<body>
-    <div class="header-container">
-        <div class="scan-stats">最近7天扫描次数：{{ recent_7d_scans }}</div>
-        <h1>IP出现次数统计</h1>
-    </div>
+<template>
+	<div class="ip-monitor-page-desktop">
+		<!-- 页面头部 -->
+		<div class="ip-monitor-page-desktop-header-container">
+			<div class="ip-monitor-page-desktop-scan-stats">
+				最近7天扫描次数：{{ recent7DScans }}
+			</div>
+			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
+		</div>
 
-    <table class="ip-table">
-        {% set max_count = 0 %}
-        {% for ip_str, count in ip_counter.items() %}
-            {% if count > max_count %}
-                {% set max_count = count %}
-            {% endif %}
-        {% endfor %}
-        {% for row in range(10) %}
-        <tr>
-            {% for col in range(10) %}
-                {% set current_ip = 151 + row*10 + col %}
-                {% set current_ip_str = "10.0.48." + current_ip|string %}
-                {% set current_count = ip_counter.get(current_ip_str, 0) %}
-                
-                {% if current_ip not in fang_ips %}
-                    {# 非坊内IP #}
-                    <td class="non-fang">
-                        <span class="ip-number">{{ current_ip }}</span>
-                    </td>
-                {% elif current_count == 0 %}
-                    {# 0次：白色背景 #}
-                    <td class="count-zero">
-                        <div>
-                            <span class="ip-number">{{ current_ip }}</span>
-                            <span class="count-number">{{ current_count }}</span>
-                        </div>
-                    </td>
-                {% else %}
-                    {# 有次数：使用JavaScript动态计算颜色 #}
-                    <td class="heatmap-cell" data-ip="{{ current_ip }}" data-count="{{ current_count }}">
-                        <div>
-                            <span class="ip-number">{{ current_ip }}</span>
-                            <span class="count-number">{{ current_count }}</span>
-                        </div>
-                    </td>
-                {% endif %}
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </table>
+		<!-- 时间范围选择器 -->
+		<div class="ip-monitor-page-desktop-time-selector">
+			<el-date-picker
+				v-model="timeRange"
+				type="datetimerange"
+				range-separator="至"
+				start-placeholder="开始时间"
+				end-placeholder="结束时间"
+				:default-time="['00:00:00', '23:59:59']"
+				@change="handleTimeRangeChange"
+			/>
+			<el-button
+				type="primary"
+				class="ip-monitor-page-desktop-refresh-btn"
+				@click="handleRefresh"
+			>
+				刷新数据
+			</el-button>
+		</div>
 
-    <!-- 颜色筛选横条 -->
-    <div class="color-filter-container" id="colorFilterContainer" style="display: none;">
-        <div class="color-filter-title">点击颜色筛选IP范围</div>
-        <div class="color-filter-bar" id="colorFilterBar"></div>
-        <div class="color-filter-controls">
-            <button class="filter-btn" id="resetFilterBtn">显示全部</button>
-        </div>
-    </div>
+		<!-- IP表格 -->
+		<table class="ip-monitor-page-desktop-ip-table">
+			<tr
+				v-for="row in 10"
+				:key="row"
+			>
+				<td
+					v-for="col in 10"
+					:key="`${row}-${col}`"
+					:class="getCellClass(row, col)"
+					:style="getCellStyle(row, col)"
+					@click="handleCellClick(row, col)"
+				>
+					<div v-if="!isNonFangIP(row, col)">
+						<span class="ip-monitor-page-desktop-ip-number">{{ getIPNumber(row, col) }}</span>
+						<span
+							v-if="getIPCount(row, col) > 0"
+							class="ip-monitor-page-desktop-count-number"
+						>
+							{{ getIPCount(row, col) }}
+						</span>
+					</div>
+					<span
+						v-else
+						class="ip-monitor-page-desktop-ip-number"
+					>
+						{{ getIPNumber(row, col) }}
+					</span>
+				</td>
+			</tr>
+		</table>
 
-    <div class="legend">
-        {% if max_count > 0 %}
-        <div class="legend-item">
-            <div class="legend-color" style="background: linear-gradient(to right, rgb(255,218,185), rgb(255,69,0));"></div>
-            <span>1次-{{ max_count }}次（坊内，颜色越深次数越多）</span>
-        </div>
-        {% endif %}
-    </div>
-    
-    <!-- 调试信息 -->
-    <div style="margin-top: 20px; padding: 10px; background: #f0f0f0; text-align: center; font-size: 12px; color: #666;">
-        最大次数: {{ max_count }} | 
-        {% if max_count > 0 %}
-            示例：1次=rgb(255,218,185), {{ max_count }}次=rgb(255,69,0) | 
-            总IP数: {{ ip_counter|length }}
-        {% else %}
-            暂无数据
-        {% endif %}
-    </div>
-</body>
-<script>
-    // 定义坊内IP列表（从服务器端渲染）
-    const fangIps = {{ fang_ips|tojson }};
-    
-    // IP计数器数据（从服务器端渲染）
-    const ipCounter = {{ ip_counter|tojson }};
-    
-    /**
-     * 将当前值映射到0-255范围
-     * @param {number} minValue - 最小值
-     * @param {number} maxValue - 最大值
-     * @param {number} currentValue - 当前值
-     * @returns {number} 0-255之间的整数值
-     */
-    function mapTo255(minValue, maxValue, currentValue) {
-        // 如果最大值和最小值相等，返回中间值
-        if (maxValue === minValue) {
-            return 128;
-        }
-        
-        // 线性映射：将[currentValue]映射到[0, 255]
-        // 公式：result = (currentValue - minValue) / (maxValue - minValue) * 255
-        let mapped = ((currentValue - minValue) / (maxValue - minValue)) * 255;
-        
-        // 确保返回值在0-255范围内
-        mapped = Math.max(0, Math.min(255, mapped));
-        
-        // 返回整数
-        return Math.round(mapped);
-    }
-    
-    // 全局变量：存储颜色范围数据
-    let globalMinCount = 0;
-    let globalMaxCount = 0;
-    let colorBlockCount = 15; // 颜色块数量
-    let selectedColorRange = null; // 当前选中的颜色范围
-    
-    /**
-     * 计算颜色RGB值
-     */
-    function calculateColor(minCount, maxCount, count) {
-        const lightOrange = { r: 255, g: 218, b: 185 };
-        const darkOrange = { r: 255, g: 69, b: 0 };
-        
-        if (maxCount === minCount) {
-            return lightOrange;
-        }
-        
-        const intensity = mapTo255(minCount, maxCount, count);
-        const r = Math.round(lightOrange.r - (intensity / 255) * (lightOrange.r - darkOrange.r));
-        const g = Math.round(lightOrange.g - (intensity / 255) * (lightOrange.g - darkOrange.g));
-        const b = Math.round(lightOrange.b - (intensity / 255) * (lightOrange.b - darkOrange.b));
-        
-        return { r, g, b };
-    }
-    
-    /**
-     * 应用热力图颜色到所有IP单元格
-     */
-    function applyHeatmapColors() {
-        // 收集所有有次数的IP数据
-        const counts = [];
-        const heatmapCells = document.querySelectorAll('.heatmap-cell');
-        
-        heatmapCells.forEach(cell => {
-            const count = parseInt(cell.getAttribute('data-count')) || 0;
-            if (count > 0) {
-                counts.push(count);
-            }
-        });
-        
-        if (counts.length === 0) {
-            return; // 没有数据
-        }
-        
-        // 找到最小值和最大值
-        globalMinCount = Math.min(...counts);
-        globalMaxCount = Math.max(...counts);
-        
-        // 定义颜色范围：从浅橙色(255,218,185)到深橙色/红色(255,69,0)
-        const lightOrange = { r: 255, g: 218, b: 185 };  // 浅橙色 (PeachPuff)
-        const darkOrange = { r: 255, g: 69, b: 0 };      // 深橙红色 (OrangeRed)
-        
-        // 为每个单元格计算和应用颜色
-        heatmapCells.forEach(cell => {
-            const count = parseInt(cell.getAttribute('data-count')) || 0;
-            
-            if (count === 0) {
-                return; // 0次已经在模板中处理了
-            }
-            
-            // 使用mapTo255计算颜色强度（次数越多，强度值越大，颜色越深）
-            const intensity = mapTo255(globalMinCount, globalMaxCount, count);
-            
-            // 反向映射：intensity越大（次数越多），颜色越深
-            const r = Math.round(lightOrange.r - (intensity / 255) * (lightOrange.r - darkOrange.r));
-            const g = Math.round(lightOrange.g - (intensity / 255) * (lightOrange.g - darkOrange.g));
-            const b = Math.round(lightOrange.b - (intensity / 255) * (lightOrange.b - darkOrange.b));
-            
-            // 设置背景颜色
-            const bgColor = `rgb(${r}, ${g}, ${b})`;
-            cell.style.backgroundColor = bgColor;
-            
-            // 计算亮度来决定文字颜色
-            const brightness = r * 0.299 + g * 0.587 + b * 0.114;
-            const textColor = brightness < 180 ? 'white' : '#333333';
-            
-            // 设置文字颜色
-            const ipNumber = cell.querySelector('.ip-number');
-            const countNumber = cell.querySelector('.count-number');
-            if (ipNumber) ipNumber.style.color = textColor;
-            if (countNumber) countNumber.style.color = textColor;
-        });
-        
-        // 创建颜色横条
-        createColorBar();
-    }
-    
-    /**
-     * 创建颜色筛选横条
-     */
-    function createColorBar() {
-        if (globalMaxCount === 0) {
-            return; // 没有数据，不显示颜色横条
-        }
-        
-        const colorFilterBar = document.getElementById('colorFilterBar');
-        const colorFilterContainer = document.getElementById('colorFilterContainer');
-        
-        // 清空现有颜色块
-        colorFilterBar.innerHTML = '';
-        
-        // 显示颜色筛选容器
-        colorFilterContainer.style.display = 'block';
-        
-        // 计算每个颜色块对应的次数范围（使用整数）
-        const rangeSize = (globalMaxCount - globalMinCount) / colorBlockCount;
-        
-        // 格式化范围显示（始终显示为整数）
-        function formatRange(min, max, isLast, index) {
-            // 将范围边界取整
-            // 第一个范围从最小值开始，其他范围从上一个范围的结束值+1开始
-            const minInt = index === 0 ? Math.floor(globalMinCount) : Math.floor(min) + 1;
-            const maxInt = isLast ? Math.floor(globalMaxCount) : Math.floor(max);
-            
-            // 如果最小值和最大值相同，只显示一个值
-            if (minInt === maxInt) {
-                return `${minInt}`;
-            }
-            
-            return `${minInt}-${maxInt}`;
-        }
-        
-        // 创建颜色块
-        for (let i = 0; i < colorBlockCount; i++) {
-            // 创建包装容器
-            const wrapper = document.createElement('div');
-            wrapper.classList.add('color-block-wrapper');
-            
-            // 创建颜色块
-            const colorBlock = document.createElement('div');
-            colorBlock.classList.add('color-block');
-            
-            // 计算当前颜色块对应的次数值（使用区间中点）
-            const countValue = globalMinCount + (i + 0.5) * rangeSize;
-            
-            // 计算颜色
-            const color = calculateColor(globalMinCount, globalMaxCount, countValue);
-            colorBlock.style.backgroundColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
-            
-            // 存储次数范围信息（用于筛选，保持精度）
-            const minRange = globalMinCount + i * rangeSize;
-            // 最后一个颜色块应该包含最大值
-            const maxRange = (i === colorBlockCount - 1) ? globalMaxCount + 0.1 : globalMinCount + (i + 1) * rangeSize;
-            colorBlock.dataset.minRange = minRange;
-            colorBlock.dataset.maxRange = maxRange;
-            colorBlock.dataset.index = i;
-            
-            // 添加点击事件
-            colorBlock.addEventListener('click', handleColorBarClick);
-            
-            // 创建范围标签
-            const label = document.createElement('div');
-            label.classList.add('color-block-label');
-            label.textContent = formatRange(minRange, maxRange, i === colorBlockCount - 1, i);
-            
-            // 将颜色块和标签添加到包装容器
-            wrapper.appendChild(colorBlock);
-            wrapper.appendChild(label);
-            
-            // 将包装容器添加到颜色横条
-            colorFilterBar.appendChild(wrapper);
-        }
-    }
-    
-    /**
-     * 处理颜色横条点击事件
-     */
-    function handleColorBarClick(event) {
-        const colorBlock = event.target;
-        const minRange = parseFloat(colorBlock.dataset.minRange);
-        const maxRange = parseFloat(colorBlock.dataset.maxRange);
-        const index = parseInt(colorBlock.dataset.index);
-        
-        // 更新选中状态
-        if (selectedColorRange && selectedColorRange.index === index) {
-            // 如果点击的是已选中的颜色块，则取消筛选
-            resetFilter();
-            return;
-        }
-        
-        // 移除所有颜色块的选中状态
-        document.querySelectorAll('.color-block').forEach(block => {
-            block.classList.remove('selected');
-        });
-        
-        // 添加当前颜色块的选中状态
-        colorBlock.classList.add('selected');
-        selectedColorRange = { minRange, maxRange, index };
-        
-        // 筛选IP单元格
-        filterIPCells(minRange, maxRange);
-    }
-    
-    /**
-     * 根据次数范围筛选IP单元格
-     */
-    function filterIPCells(minRange, maxRange) {
-        const allCells = document.querySelectorAll('.ip-table td');
-        
-        allCells.forEach(cell => {
-            // 移除之前的筛选类
-            cell.classList.remove('filtered-out', 'filtered-in');
-            
-            // 跳过非坊内IP和0次IP
-            if (cell.classList.contains('non-fang') || cell.classList.contains('count-zero')) {
-                return;
-            }
-            
-            // 获取IP的次数
-            const count = parseInt(cell.getAttribute('data-count')) || 0;
-            
-            // 判断是否在范围内
-            if (count >= minRange && count < maxRange) {
-                // 在范围内：高亮显示
-                cell.classList.add('filtered-in');
-            } else {
-                // 不在范围内：变暗
-                cell.classList.add('filtered-out');
-            }
-        });
-    }
-    
-    /**
-     * 重置筛选，显示所有IP
-     */
-    function resetFilter() {
-        // 移除所有颜色块的选中状态
-        document.querySelectorAll('.color-block').forEach(block => {
-            block.classList.remove('selected');
-        });
-        
-        // 移除所有IP单元格的筛选类
-        document.querySelectorAll('.ip-table td').forEach(cell => {
-            cell.classList.remove('filtered-out', 'filtered-in');
-        });
-        
-        selectedColorRange = null;
-    }
-    
-    // 页面加载完成后应用热力图颜色
-    document.addEventListener('DOMContentLoaded', function() {
-        applyHeatmapColors();
-        
-        // 绑定重置按钮点击事件
-        const resetBtn = document.getElementById('resetFilterBtn');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', resetFilter);
-        }
-    });
-    
-    // 自动刷新：每60秒刷新一次页面以获取最新数据
-    setInterval(function() {
-        location.reload();
-    }, 60000); // 60000毫秒 = 60秒 = 1分钟
+		<!-- 颜色筛选横条 -->
+		<div
+			v-if="maxCount > 0"
+			class="ip-monitor-page-desktop-color-filter-container"
+		>
+			<div class="ip-monitor-page-desktop-color-filter-title">点击颜色筛选IP范围</div>
+			<div class="ip-monitor-page-desktop-color-filter-bar">
+				<div
+					v-for="(block, index) in colorBlocks"
+					:key="index"
+					class="ip-monitor-page-desktop-color-block-wrapper"
+				>
+					<div
+						class="ip-monitor-page-desktop-color-block"
+						:style="{ backgroundColor: block.color }"
+						:class="{ selected: selectedColorIndex === index }"
+						@click="handleColorBlockClick(index)"
+					/>
+					<div class="ip-monitor-page-desktop-color-block-label">{{ block.label }}</div>
+				</div>
+			</div>
+			<div class="ip-monitor-page-desktop-color-filter-controls">
+				<el-button
+					type="primary"
+					@click="resetFilter"
+				>
+					显示全部
+				</el-button>
+			</div>
+		</div>
+
+		<!-- 图例 -->
+		<div
+			v-if="maxCount > 0"
+			class="ip-monitor-page-desktop-legend"
+		>
+			<div class="ip-monitor-page-desktop-legend-item">
+				<div
+					class="ip-monitor-page-desktop-legend-color"
+					:style="{ background: 'linear-gradient(to right, rgb(255,218,185), rgb(255,69,0))' }"
+				/>
+				<span>1次-{{ maxCount }}次（坊内，颜色越深次数越多）</span>
+			</div>
+		</div>
+
+		<!-- 调试信息 -->
+		<div class="ip-monitor-page-desktop-debug-info">
+			最大次数: {{ maxCount }} |
+			<span v-if="maxCount > 0">
+				示例：1次=rgb(255,218,185), {{ maxCount }}次=rgb(255,69,0) |
+				总IP数: {{ ipCounter.size }}
+			</span>
+			<span v-else>暂无数据</span>
+		</div>
+	</div>
+</template>
+
+<script setup lang="ts">
+/**
+ * IP监控页面桌面端组件
+ * 展示IP出现次数统计热力图
+ *
+ * @component IPMonitorPageDesktop
+ * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
+ */
+import { ref, computed, onMounted, watch } from 'vue'
+import { ElDatePicker, ElButton, ElMessage } from 'element-plus'
+import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
+import type { IPMonitorPageData } from './desktop/ts/IPMonitorPageDesktop'
+
+// ==================== 常量定义 ====================
+
+/** 颜色块数量 */
+const COLOR_BLOCK_COUNT = 15
+
+/** IP范围起始值 */
+const IP_START = 151
+
+/** IP前缀 */
+const IP_PREFIX = '10.0.48.'
+
+// ==================== 响应式数据 ====================
+
+/**
+ * 页面数据
+ * 存储从IPMonitorPageDesktop获取的所有数据
+ */
+const pageData = ref<IPMonitorPageData>({
+	ipCounts: null,
+	scanCount: null,
+	fangIPs: null,
+	ipRange: null
+})
+
+/**
+ * 时间范围
+ * 用于选择数据查询的时间范围
+ */
+const timeRange = ref<[Date, Date] | null>(null)
+
+/**
+ * 选中的颜色块索引
+ * 用于筛选显示特定次数范围的IP
+ */
+const selectedColorIndex = ref<number | null>(null)
+
+// ==================== 计算属性 ====================
+
+/**
+ * IP计数器
+ * 从页面数据中提取IP出现次数统计
+ */
+const ipCounter = computed(() => {
+	if (!pageData.value.ipCounts?.ip_counts) {
+		return new Map<string, number>()
+	}
+	return new Map(Object.entries(pageData.value.ipCounts.ip_counts))
+})
+
+/**
+ * 坊内IP列表
+ * 从页面数据中提取坊内IP列表
+ */
+const fangIPs = computed(() => {
+	return pageData.value.fangIPs?.fang_ips || []
+})
+
+/**
+ * 最近7天扫描次数
+ * 从页面数据中提取扫描次数
+ */
+const recent7DScans = computed(() => {
+	return pageData.value.scanCount?.scan_count || 0
+})
+
+/**
+ * 最大次数
+ * 计算所有IP中出现次数的最大值
+ */
+const maxCount = computed(() => {
+	let max = 0
+	ipCounter.value.forEach((count) => {
+		if (count > max) {
+			max = count
+		}
+	})
+	return max
+})
+
+/**
+ * 最小次数（非零）
+ * 计算所有IP中出现次数的最小值（排除0次）
+ */
+const minCount = computed(() => {
+	let min = Infinity
+	ipCounter.value.forEach((count) => {
+		if (count > 0 && count < min) {
+			min = count
+		}
+	})
+	return min === Infinity ? 0 : min
+})
+
+/**
+ * 颜色块数据
+ * 生成颜色筛选横条的数据
+ */
+const colorBlocks = computed(() => {
+	if (maxCount.value === 0) {
+		return []
+	}
+
+	const blocks = []
+	const rangeSize = (maxCount.value - minCount.value) / COLOR_BLOCK_COUNT
+
+	for (let i = 0; i < COLOR_BLOCK_COUNT; i++) {
+		// 计算当前颜色块对应的次数值（使用区间中点）
+		const countValue = minCount.value + (i + 0.5) * rangeSize
+		const color = calculateColor(minCount.value, maxCount.value, countValue)
+
+		// 计算范围标签
+		const minRange = i === 0 ? Math.floor(minCount.value) : Math.floor(minCount.value + i * rangeSize) + 1
+		const maxRange = i === COLOR_BLOCK_COUNT - 1
+			? Math.floor(maxCount.value)
+			: Math.floor(minCount.value + (i + 1) * rangeSize)
+
+		const label = minRange === maxRange ? `${minRange}` : `${minRange}-${maxRange}`
+
+		blocks.push({
+			color: `rgb(${color.r}, ${color.g}, ${color.b})`,
+			label,
+			minRange: minCount.value + i * rangeSize,
+			maxRange: i === COLOR_BLOCK_COUNT - 1 ? maxCount.value + 0.1 : minCount.value + (i + 1) * rangeSize
+		})
+	}
+
+	return blocks
+})
+
+// ==================== 方法 ====================
+
+/**
+ * 获取IP编号
+ * 根据行列计算IP的最后一位编号
+ *
+ * @param {number} row - 行号（1-10）
+ * @param {number} col - 列号（1-10）
+ * @returns {number} IP编号
+ */
+function getIPNumber(row: number, col: number): number {
+	return IP_START + (row - 1) * 10 + (col - 1)
+}
+
+/**
+ * 获取完整IP地址
+ * 根据行列计算完整的IP地址
+ *
+ * @param {number} row - 行号（1-10）
+ * @param {number} col - 列号（1-10）
+ * @returns {string} 完整IP地址
+ */
+function getFullIP(row: number, col: number): string {
+	return `${IP_PREFIX}${getIPNumber(row, col)}`
+}
+
+/**
+ * 获取IP出现次数
+ * 从ipCounter中获取指定IP的出现次数
+ *
+ * @param {number} row - 行号（1-10）
+ * @param {number} col - 列号（1-10）
+ * @returns {number} IP出现次数
+ */
+function getIPCount(row: number, col: number): number {
+	const ip = getFullIP(row, col)
+	return ipCounter.value.get(ip) || 0
+}
+
+/**
+ * 判断是否为非坊内IP
+ * 检查指定IP是否在坊内IP列表中
+ *
+ * @param {number} row - 行号（1-10）
+ * @param {number} col - 列号（1-10）
+ * @returns {boolean} 是否为非坊内IP
+ */
+function isNonFangIP(row: number, col: number): boolean {
+	const ipNumber = getIPNumber(row, col)
+	return !fangIPs.value.includes(ipNumber.toString())
+}
+
+/**
+ * 获取单元格样式类
+ * 根据IP状态返回对应的CSS类名
+ *
+ * @param {number} row - 行号（1-10）
+ * @param {number} col - 列号（1-10）
+ * @returns {string} CSS类名
+ */
+function getCellClass(row: number, col: number): string {
+	const classes = ['ip-monitor-page-desktop-ip-cell']
+
+	if (isNonFangIP(row, col)) {
+		classes.push('ip-monitor-page-desktop-non-fang')
+	} else if (getIPCount(row, col) === 0) {
+		classes.push('ip-monitor-page-desktop-count-zero')
+	} else {
+		classes.push('ip-monitor-page-desktop-heatmap-cell')
+	}
+
+	// 添加筛选状态类
+	if (selectedColorIndex.value !== null) {
+		const count = getIPCount(row, col)
+		const block = colorBlocks.value[selectedColorIndex.value]
+		if (block && count >= block.minRange && count < block.maxRange) {
+			classes.push('ip-monitor-page-desktop-filtered-in')
+		} else if (!isNonFangIP(row, col) && getIPCount(row, col) > 0) {
+			classes.push('ip-monitor-page-desktop-filtered-out')
+		}
+	}
+
+	return classes.join(' ')
+}
+
+/**
+ * 获取单元格样式
+ * 根据IP出现次数返回对应的背景色样式
+ *
+ * @param {number} row - 行号（1-10）
+ * @param {number} col - 列号（1-10）
+ * @returns {object} 样式对象
+ */
+function getCellStyle(row: number, col: number): Record<string, string> {
+	if (isNonFangIP(row, col) || getIPCount(row, col) === 0) {
+		return {}
+	}
+
+	const count = getIPCount(row, col)
+	const color = calculateColor(minCount.value, maxCount.value, count)
+
+	// 计算文字颜色
+	const brightness = color.r * 0.299 + color.g * 0.587 + color.b * 0.114
+	const textColor = brightness < 180 ? 'white' : '#333333'
+
+	return {
+		backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
+		color: textColor
+	}
+}
+
+/**
+ * 计算颜色RGB值
+ * 根据次数计算对应的热力图颜色
+ *
+ * @param {number} min - 最小次数
+ * @param {number} max - 最大次数
+ * @param {number} count - 当前次数
+ * @returns {object} RGB颜色对象
+ */
+function calculateColor(min: number, max: number, count: number): { r: number; g: number; b: number } {
+	const lightOrange = { r: 255, g: 218, b: 185 }
+	const darkOrange = { r: 255, g: 69, b: 0 }
+
+	if (max === min) {
+		return lightOrange
+	}
+
+	const intensity = ((count - min) / (max - min)) * 255
+	const r = Math.round(lightOrange.r - (intensity / 255) * (lightOrange.r - darkOrange.r))
+	const g = Math.round(lightOrange.g - (intensity / 255) * (lightOrange.g - darkOrange.g))
+	const b = Math.round(lightOrange.b - (intensity / 255) * (lightOrange.b - darkOrange.b))
+
+	return { r, g, b }
+}
+
+/**
+ * 处理单元格点击
+ * 点击IP单元格时的处理函数
+ *
+ * @param {number} row - 行号
+ * @param {number} col - 列号
+ */
+function handleCellClick(row: number, col: number): void {
+	const ip = getFullIP(row, col)
+	const count = getIPCount(row, col)
+	ElMessage.info(`IP: ${ip}, 出现次数: ${count}`)
+}
+
+/**
+ * 处理颜色块点击
+ * 点击颜色筛选块时的处理函数
+ *
+ * @param {number} index - 颜色块索引
+ */
+function handleColorBlockClick(index: number): void {
+	if (selectedColorIndex.value === index) {
+		selectedColorIndex.value = null
+	} else {
+		selectedColorIndex.value = index
+	}
+}
+
+/**
+ * 重置筛选
+ * 清除颜色筛选状态，显示所有IP
+ */
+function resetFilter(): void {
+	selectedColorIndex.value = null
+}
+
+/**
+ * 处理时间范围变化
+ * 当用户选择新的时间范围时刷新数据
+ */
+async function handleTimeRangeChange(): Promise<void> {
+	if (!timeRange.value || timeRange.value.length !== 2) {
+		return
+	}
+
+	const startTime = Math.floor(timeRange.value[0].getTime() / 1000)
+	const endTime = Math.floor(timeRange.value[1].getTime() / 1000)
+
+	const pageDataManager = IPMonitorPageDesktop.getInstance()
+	await pageDataManager.refreshIPDataByTimeRange(startTime, endTime)
+
+	// 更新本地数据
+	pageData.value = pageDataManager.getData()
+}
+
+/**
+ * 处理刷新按钮点击
+ * 重新加载所有数据
+ */
+async function handleRefresh(): Promise<void> {
+	const pageDataManager = IPMonitorPageDesktop.getInstance()
+	await pageDataManager.init_data()
+	pageData.value = pageDataManager.getData()
+
+	// 重置时间选择器
+	timeRange.value = null
+}
+
+/**
+ * 初始化页面数据
+ * 组件挂载时调用，加载初始数据
+ */
+async function initPageData(): Promise<void> {
+	const pageDataManager = IPMonitorPageDesktop.getInstance()
+	await pageDataManager.init_data()
+	pageData.value = pageDataManager.getData()
+}
+
+// ==================== 生命周期钩子 ====================
+
+/**
+ * 组件挂载时初始化数据
+ */
+onMounted(() => {
+	initPageData()
+})
 </script>
-</html>
+
+<style scoped>
+/**
+ * IP监控页面桌面端样式
+ * 使用kebab-case命名规范，前缀与文件名一致
+ */
+
+/* 页面容器 */
+.ip-monitor-page-desktop {
+	padding: 20px;
+	background-color: #f8f9fa;
+	min-height: 100vh;
+}
+
+/* 头部容器 */
+.ip-monitor-page-desktop-header-container {
+	position: relative;
+	margin-bottom: 30px;
+}
+
+/* 扫描统计 */
+.ip-monitor-page-desktop-scan-stats {
+	color: #666;
+	font-size: 16px;
+	font-weight: 600;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* 页面标题 */
+.ip-monitor-page-desktop-title {
+	text-align: center;
+	color: #333;
+	margin: 0;
+	padding: 10px 0;
+}
+
+/* 时间选择器容器 */
+.ip-monitor-page-desktop-time-selector {
+	width: 90%;
+	margin: 0 auto 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 15px;
+}
+
+/* 刷新按钮 */
+.ip-monitor-page-desktop-refresh-btn {
+	margin-left: 10px;
+}
+
+/* IP表格 */
+.ip-monitor-page-desktop-ip-table {
+	width: 90%;
+	margin: 0 auto;
+	border-collapse: collapse;
+	background-color: #fff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* IP单元格 */
+.ip-monitor-page-desktop-ip-cell {
+	width: 10%;
+	height: 60px;
+	text-align: center;
+	border: 1px solid #ddd;
+	padding: 5px;
+	font-size: 14px;
+	position: relative;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.ip-monitor-page-desktop-ip-cell:hover {
+	transform: scale(1.05);
+	z-index: 1;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* IP编号 */
+.ip-monitor-page-desktop-ip-number {
+	font-weight: bold;
+	margin-bottom: 5px;
+	display: block;
+}
+
+/* 次数编号 */
+.ip-monitor-page-desktop-count-number {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+/* 0次：白色背景 */
+.ip-monitor-page-desktop-count-zero {
+	background-color: #ffffff;
+}
+
+.ip-monitor-page-desktop-count-zero .ip-monitor-page-desktop-ip-number,
+.ip-monitor-page-desktop-count-zero .ip-monitor-page-desktop-count-number {
+	color: #718096;
+}
+
+/* 非坊内IP：斜纹背景 */
+.ip-monitor-page-desktop-non-fang {
+	background: repeating-linear-gradient(
+		45deg,
+		#f5f5f5,
+		#f5f5f5 8px,
+		#e8e8e8 8px,
+		#e8e8e8 16px
+	);
+	border: 2px dashed #cccccc;
+	opacity: 0.7;
+}
+
+.ip-monitor-page-desktop-non-fang .ip-monitor-page-desktop-ip-number {
+	color: #999999;
+	font-weight: normal;
+}
+
+/* 热力图单元格 */
+.ip-monitor-page-desktop-heatmap-cell {
+	transition: all 0.3s ease;
+}
+
+/* 颜色筛选容器 */
+.ip-monitor-page-desktop-color-filter-container {
+	width: 90%;
+	margin: 20px auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 颜色筛选标题 */
+.ip-monitor-page-desktop-color-filter-title {
+	text-align: center;
+	color: #333;
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 15px;
+}
+
+/* 颜色筛选横条 */
+.ip-monitor-page-desktop-color-filter-bar {
+	display: flex;
+	width: 100%;
+	gap: 2px;
+	margin-bottom: 10px;
+}
+
+/* 颜色块包装器 */
+.ip-monitor-page-desktop-color-block-wrapper {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* 颜色块 */
+.ip-monitor-page-desktop-color-block {
+	width: 100%;
+	height: 40px;
+	transition: all 0.2s ease;
+	border-radius: 4px;
+	position: relative;
+	cursor: pointer;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.ip-monitor-page-desktop-color-block:hover {
+	transform: scaleY(1.1);
+	z-index: 1;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.ip-monitor-page-desktop-color-block.selected {
+	border: 3px solid #1890ff;
+	box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.3);
+	z-index: 2;
+}
+
+/* 颜色块标签 */
+.ip-monitor-page-desktop-color-block-label {
+	margin-top: 5px;
+	font-size: 11px;
+	color: #666;
+	text-align: center;
+	white-space: nowrap;
+	font-weight: 500;
+}
+
+@media (max-width: 768px) {
+	.ip-monitor-page-desktop-color-block-label {
+		font-size: 9px;
+	}
+}
+
+/* 颜色筛选控制按钮 */
+.ip-monitor-page-desktop-color-filter-controls {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 15px;
+}
+
+/* 筛选状态样式 */
+.ip-monitor-page-desktop-filtered-out {
+	opacity: 0.25;
+	filter: grayscale(50%);
+	transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.ip-monitor-page-desktop-filtered-in {
+	opacity: 1;
+	filter: brightness(1.1);
+	transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* 图例 */
+.ip-monitor-page-desktop-legend {
+	width: 90%;
+	margin: 20px auto 0;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	flex-wrap: wrap;
+	background-color: #fff;
+	padding: 10px;
+	border-radius: 4px;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 图例项 */
+.ip-monitor-page-desktop-legend-item {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 13px;
+}
+
+/* 图例颜色 */
+.ip-monitor-page-desktop-legend-color {
+	width: 20px;
+	height: 20px;
+	border-radius: 2px;
+}
+
+/* 调试信息 */
+.ip-monitor-page-desktop-debug-info {
+	margin-top: 20px;
+	padding: 10px;
+	background: #f0f0f0;
+	text-align: center;
+	font-size: 12px;
+	color: #666;
+}
+</style>
