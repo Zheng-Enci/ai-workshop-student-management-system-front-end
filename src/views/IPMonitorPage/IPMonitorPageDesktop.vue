@@ -125,10 +125,16 @@
  * @component IPMonitorPageDesktop
  * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
  */
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { ElDatePicker, ElButton, ElMessage } from 'element-plus'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
 import type { IPMonitorPageData } from './desktop/ts/IPMonitorPageDesktop'
+
+// Element Plus 基础样式导入(按需导入,减小打包体积)
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-date-picker.css'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/dist/index.css'
 
 // ==================== 常量定义 ====================
 
