@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, computed, watch, onMounted, onBeforeUnmount} from 'vue'
+import {ref, computed, watch, onMounted, onBeforeUnmount, nextTick} from 'vue'
 import * as echarts from 'echarts'
 import type {ECharts} from 'echarts'
 
@@ -218,9 +218,11 @@ const updateChart = (): void => {
 watch(
 	() => [props.fangIPs, props.ipCounts, props.isDark],
 	() => {
-		updateChart()
+		if (chartInstance && chartData.value.length > 0) {
+			updateChart()
+		}
 	},
-	{deep: true}
+	{deep: true, immediate: true}
 )
 
 /**
@@ -235,8 +237,12 @@ const handleResize = (): void => {
 /**
  * 组件挂载时初始化图表
  */
-onMounted(() => {
+onMounted(async () => {
+	await nextTick()
 	initChart()
+	if (chartData.value.length > 0) {
+		updateChart()
+	}
 	window.addEventListener('resize', handleResize)
 })
 
