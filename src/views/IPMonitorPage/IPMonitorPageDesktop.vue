@@ -544,5 +544,5 @@ onMounted(() => {
  * IP监控页面桌面端样式
  * 从独立CSS文件导入
  */
-@import './css/desktop/IPMonitorPageDesktop.css';
+@import './desktop/css/IPMonitorPageDesktop.css';
 </style>
