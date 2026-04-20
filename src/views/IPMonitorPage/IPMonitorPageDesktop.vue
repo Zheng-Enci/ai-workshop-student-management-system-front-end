@@ -87,7 +87,7 @@
 			v-if条件确保数据加载完成后再渲染组件
 		-->
 		<IPHeatmapDesktop
-			v-if="pageData.fangIPs?.fang_ips?.length > 0 && ipCounts && ipRange"
+			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0 && ipCounts && ipRange"
 		/>
 		</div>
 
@@ -98,7 +98,7 @@
 			v-if条件确保数据加载完成后再渲染组件
 		-->
 		<IPLineChartDesktop
-			v-if="pageData.fangIPs?.fang_ips?.length > 0"
+			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0"
 		/>
 
 	</div>
