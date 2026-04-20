@@ -12,11 +12,13 @@
 				导航
 			</el-button>
 			<h1 class="ip-monitor-page-desktop-title">IP出现次数统计</h1>
-            <!-- Logo图片 -->
+            <!-- Logo图片 - 点击切换日间/夜间模式 -->
             <img
                 class="ip-monitor-page-desktop-logo"
                 src="/src/assets/AiWorkShop_icon.png"
                 alt="AiWorkShop Logo"
+                @click="handleLogoClick"
+                title="点击切换日间/夜间模式"
             />
 		</div>
 
@@ -95,6 +97,7 @@
 import {ref, computed, onMounted} from 'vue'
 import {ElButton, ElMessage, ElIcon} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
+import {useThemeStore} from '@/stores/ts/theme'
 import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
 import type {IPMonitorPageData} from './desktop/ts/IPMonitorPageDesktop'
 
@@ -321,6 +324,16 @@ async function initPageData(): Promise<void> {
 	const pageDataManager = IPMonitorPageDesktop.getInstance()
 	await pageDataManager.init_data()
 	pageData.value = pageDataManager.getData()
+}
+
+/**
+ * 处理Logo点击
+ * 点击Logo时切换日间/夜间模式
+ */
+function handleLogoClick(): void {
+	const themeStore = useThemeStore()
+	themeStore.toggleTheme()
+	ElMessage.success(themeStore.isDarkMode ? '已切换到夜间模式' : '已切换到日间模式')
 }
 
 // ==================== 生命周期钩子 ====================
