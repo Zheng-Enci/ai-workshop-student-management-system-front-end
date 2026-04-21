@@ -8,7 +8,7 @@
 
 // ======================== 导入 ========================
 import { ref, reactive, computed } from 'vue'
-import { ElMessage, ElDialog, ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton } from 'element-plus'
+import { ElMessage, ElDialog, ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElSwitch } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-form.css'
@@ -17,6 +17,7 @@ import 'element-plus/theme-chalk/el-input.css'
 import 'element-plus/theme-chalk/el-select.css'
 import 'element-plus/theme-chalk/el-option.css'
 import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-switch.css'
 
 // ======================== Props ========================
 const props = defineProps({
@@ -40,48 +41,53 @@ const dialogVisible = computed({
 })
 
 // ======================== 常量 ========================
-const IP_STATES = [
-	{ label: '可分配', value: 'available' },
-	{ label: '已分配', value: 'allocated' },
-	{ label: '预留', value: 'reserved' },
-	{ label: '禁用', value: 'disabled' }
+/**
+ * IP分配方式选项
+ */
+const IP_ASSIGNMENT_OPTIONS = [
+	{ label: '手动', value: 'manual' },
+	{ label: '自动(DHCP)', value: 'dhcp' }
+]
+
+/**
+ * DNS over HTTPS选项
+ */
+const DNS_OVER_HTTPS_OPTIONS = [
+	{ label: '关', value: 'off' },
+	{ label: '开', value: 'on' }
 ]
 
 // ======================== 状态 ========================
 /**
- * 网络配置数据
- * 硬编码的网络配置信息，展示在表单中
+ * IP配置表单数据
+ * 用于编辑IP设置
  */
-const networkConfig = reactive({
+const formData = reactive({
 	// IP分配方式
-	ipAssignment: '手动',
-	// IPv4地址
-	ipv4Address: '10.0.48.241',
-	// IPv4掩码
-	ipv4Mask: '255.255.255.0',
-	// IPv4网关
-	ipv4Gateway: '10.0.48.254',
-	// DNS服务器分配方式
-	dnsAssignment: '手动',
-	// IPv4 DNS服务器
-	ipv4DNS: ['211.138.156.66 (未加密)', '218.85.157.99 (未加密)'],
-	// 聚合链接速度
-	linkSpeed: '1000/1000 (Mbps)',
-	// 本地链接IPv6地址
-	ipv6Address: 'fe80::aab8:9309:a45d:2aad%19',
-	// 制造商
-	manufacturer: 'Intel',
-	// 描述
-	description: 'Intel(R) Ethernet Connection (17) I219-LM',
-	// 驱动程序版本
-	driverVersion: '12.19.2.65',
-	// 物理地址(MAC)
-	macAddress: '4C:D7:17:8D:51:FC'
+	ipAssignment: 'manual',
+	// IPv4开关
+	ipv4Enabled: true,
+	// IP地址
+	ipAddress: '10.0.48.241',
+	// 子网掩码
+	subnetMask: '255.255.255.0',
+	// 网关
+	gateway: '10.0.48.254',
+	// 首选DNS
+	preferredDNS: '211.138.156.66',
+	// 首选DNS over HTTPS
+	preferredDNSOverHTTPS: 'off',
+	// 备用DNS
+	alternateDNS: '218.85.157.99',
+	// 备用DNS over HTTPS
+	alternateDNSOverHTTPS: 'off',
+	// IPv6开关
+	ipv6Enabled: false
 })
 
 // ======================== 方法 ========================
 const handleConfirm = () => {
-	emit('confirm', { ...networkConfig })
+	emit('confirm', { ...formData })
 	dialogVisible.value = false
 }
 
@@ -98,77 +104,10 @@ const handleCancel = () => {
 		:close-on-click-modal="false"
 		class="ip-monitor-page-ip-config-desktop-form-dialog"
 	>
-		<ElForm
-			:model="networkConfig"
-			label-width="180px"
-			class="ip-monitor-page-ip-config-desktop-form"
-		>
-			<!-- IP配置信息区域 -->
-			<div class="ip-monitor-page-ip-config-desktop-form-section">
-				<h4 class="ip-monitor-page-ip-config-desktop-form-section-title">IP配置</h4>
-				<ElFormItem label="IP分配:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipAssignment }}</span>
-				</ElFormItem>
-				<ElFormItem label="IPv4 地址:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Address }}</span>
-				</ElFormItem>
-				<ElFormItem label="IPv4 掩码:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Mask }}</span>
-				</ElFormItem>
-				<ElFormItem label="IPv4 网关:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Gateway }}</span>
-				</ElFormItem>
-			</div>
-
-			<!-- DNS配置信息区域 -->
-			<div class="ip-monitor-page-ip-config-desktop-form-section">
-				<h4 class="ip-monitor-page-ip-config-desktop-form-section-title">DNS配置</h4>
-				<ElFormItem label="DNS 服务器分配:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.dnsAssignment }}</span>
-				</ElFormItem>
-				<ElFormItem label="IPv4 DNS 服务器:">
-					<div class="ip-monitor-page-ip-config-desktop-form-dns-list">
-						<span
-							v-for="(dns, index) in networkConfig.ipv4DNS"
-							:key="index"
-							class="ip-monitor-page-ip-config-desktop-form-value"
-						>
-							{{ dns }}
-						</span>
-					</div>
-				</ElFormItem>
-			</div>
-
-			<!-- 网络连接信息区域 -->
-			<div class="ip-monitor-page-ip-config-desktop-form-section">
-				<h4 class="ip-monitor-page-ip-config-desktop-form-section-title">网络连接信息</h4>
-				<ElFormItem label="聚合链接速度(接收/传输):">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.linkSpeed }}</span>
-				</ElFormItem>
-				<ElFormItem label="本地链接 IPv6 地址:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv6Address }}</span>
-				</ElFormItem>
-				<ElFormItem label="IPv4 地址:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Address }}</span>
-				</ElFormItem>
-				<ElFormItem label="IPv4 默认网关:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Gateway }}</span>
-				</ElFormItem>
-				<ElFormItem label="IPv4 DNS 服务器:">
-					<div class="ip-monitor-page-ip-config-desktop-form-dns-list">
-						<span
-							v-for="(dns, index) in networkConfig.ipv4DNS"
-							:key="index"
-							class="ip-monitor-page-ip-config-desktop-form-value"
-						>
-							{{ dns }}
-						</span>
-					</div>
-				</ElFormItem>
-			</div>
-
-
-		</ElForm>
+		<!-- 表单内容区域 -->
+		<div class="ip-monitor-page-ip-config-desktop-form">
+			<!-- 预留：IP配置表单内容 -->
+		</div>
 		<template #footer>
 			<ElButton
 				type="primary"
