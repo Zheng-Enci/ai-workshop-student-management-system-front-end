@@ -9,6 +9,7 @@
  * 对话框样式
  */
 .ip-monitor-page-ip-config-desktop-form-dialog {
+	/* 对话框样式 - 由 Element Plus 组件控制 */
 }
 
 /**
@@ -35,7 +36,7 @@
  * 位于图片上方，使用主色调
  */
 .ip-monitor-page-ip-config-desktop-form-hint {
-	margin: 0 0 15px 0;
+	margin: 0 0 15px;
 	font-size: 16px;
 	font-weight: 600;
 	color: var(--primary-color);
@@ -58,8 +59,8 @@
  * 每个区域有分隔线和标题
  */
 .ip-monitor-page-ip-config-desktop-form-section {
-	margin-bottom: 20px;
 	padding-bottom: 15px;
+	margin-bottom: 20px;
 	border-bottom: 1px solid var(--border-color);
 }
 
@@ -67,8 +68,8 @@
  * 最后一个配置区域不需要底部边框
  */
 .ip-monitor-page-ip-config-desktop-form-section:last-child {
-	margin-bottom: 0;
 	padding-bottom: 0;
+	margin-bottom: 0;
 	border-bottom: none;
 }
 
@@ -77,7 +78,7 @@
  * 使用主色调，加粗显示
  */
 .ip-monitor-page-ip-config-desktop-form-section-title {
-	margin: 0 0 15px 0;
+	margin: 0 0 15px;
 	font-size: 16px;
 	font-weight: 600;
 	color: var(--primary-color);
