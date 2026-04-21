@@ -100,7 +100,7 @@ const handleCancel = () => {
 	<ElDialog
 		v-model="dialogVisible"
 		title="IP配置流程"
-		width="600px"
+		width="1200px"
 		:close-on-click-modal="false"
 		class="ip-monitor-page-ip-config-desktop-form-dialog"
 	>
