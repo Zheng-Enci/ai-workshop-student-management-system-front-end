@@ -104,34 +104,34 @@ const handleCancel = () => {
 			class="ip-monitor-page-ip-config-desktop-form"
 		>
 			<!-- IP配置信息区域 -->
-			<div class="ip-config-section">
-				<h4 class="ip-config-section-title">IP配置</h4>
+			<div class="ip-monitor-page-ip-config-desktop-form-section">
+				<h4 class="ip-monitor-page-ip-config-desktop-form-section-title">IP配置</h4>
 				<ElFormItem label="IP分配:">
-					<span class="ip-config-value">{{ networkConfig.ipAssignment }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipAssignment }}</span>
 				</ElFormItem>
 				<ElFormItem label="IPv4 地址:">
-					<span class="ip-config-value">{{ networkConfig.ipv4Address }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Address }}</span>
 				</ElFormItem>
 				<ElFormItem label="IPv4 掩码:">
-					<span class="ip-config-value">{{ networkConfig.ipv4Mask }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Mask }}</span>
 				</ElFormItem>
 				<ElFormItem label="IPv4 网关:">
-					<span class="ip-config-value">{{ networkConfig.ipv4Gateway }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Gateway }}</span>
 				</ElFormItem>
 			</div>
 
 			<!-- DNS配置信息区域 -->
-			<div class="ip-config-section">
-				<h4 class="ip-config-section-title">DNS配置</h4>
+			<div class="ip-monitor-page-ip-config-desktop-form-section">
+				<h4 class="ip-monitor-page-ip-config-desktop-form-section-title">DNS配置</h4>
 				<ElFormItem label="DNS 服务器分配:">
-					<span class="ip-config-value">{{ networkConfig.dnsAssignment }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.dnsAssignment }}</span>
 				</ElFormItem>
 				<ElFormItem label="IPv4 DNS 服务器:">
-					<div class="ip-config-dns-list">
+					<div class="ip-monitor-page-ip-config-desktop-form-dns-list">
 						<span
 							v-for="(dns, index) in networkConfig.ipv4DNS"
 							:key="index"
-							class="ip-config-value"
+							class="ip-monitor-page-ip-config-desktop-form-value"
 						>
 							{{ dns }}
 						</span>
@@ -140,26 +140,26 @@ const handleCancel = () => {
 			</div>
 
 			<!-- 网络连接信息区域 -->
-			<div class="ip-config-section">
-				<h4 class="ip-config-section-title">网络连接信息</h4>
+			<div class="ip-monitor-page-ip-config-desktop-form-section">
+				<h4 class="ip-monitor-page-ip-config-desktop-form-section-title">网络连接信息</h4>
 				<ElFormItem label="聚合链接速度(接收/传输):">
-					<span class="ip-config-value">{{ networkConfig.linkSpeed }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.linkSpeed }}</span>
 				</ElFormItem>
 				<ElFormItem label="本地链接 IPv6 地址:">
-					<span class="ip-config-value">{{ networkConfig.ipv6Address }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv6Address }}</span>
 				</ElFormItem>
 				<ElFormItem label="IPv4 地址:">
-					<span class="ip-config-value">{{ networkConfig.ipv4Address }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Address }}</span>
 				</ElFormItem>
 				<ElFormItem label="IPv4 默认网关:">
-					<span class="ip-config-value">{{ networkConfig.ipv4Gateway }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.ipv4Gateway }}</span>
 				</ElFormItem>
 				<ElFormItem label="IPv4 DNS 服务器:">
-					<div class="ip-config-dns-list">
+					<div class="ip-monitor-page-ip-config-desktop-form-dns-list">
 						<span
 							v-for="(dns, index) in networkConfig.ipv4DNS"
 							:key="index"
-							class="ip-config-value"
+							class="ip-monitor-page-ip-config-desktop-form-value"
 						>
 							{{ dns }}
 						</span>
@@ -168,19 +168,19 @@ const handleCancel = () => {
 			</div>
 
 			<!-- 硬件信息区域 -->
-			<div class="ip-config-section">
-				<h4 class="ip-config-section-title">硬件信息</h4>
+			<div class="ip-monitor-page-ip-config-desktop-form-section">
+				<h4 class="ip-monitor-page-ip-config-desktop-form-section-title">硬件信息</h4>
 				<ElFormItem label="制造商:">
-					<span class="ip-config-value">{{ networkConfig.manufacturer }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.manufacturer }}</span>
 				</ElFormItem>
 				<ElFormItem label="描述:">
-					<span class="ip-config-value">{{ networkConfig.description }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.description }}</span>
 				</ElFormItem>
 				<ElFormItem label="驱动程序版本:">
-					<span class="ip-config-value">{{ networkConfig.driverVersion }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.driverVersion }}</span>
 				</ElFormItem>
 				<ElFormItem label="物理地址(MAC):">
-					<span class="ip-config-value">{{ networkConfig.macAddress }}</span>
+					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.macAddress }}</span>
 				</ElFormItem>
 			</div>
 		</ElForm>
