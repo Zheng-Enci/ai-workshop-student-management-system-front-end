@@ -44,7 +44,7 @@ description: 页面目录结构、入口文件规范、表单组件命名规则
              # 示例：mobile/common/ts/profile-page-common-util.ts
 # 组件目录结构
 除PageNameDesktop.vue和PageNameMobile.vue外，其他Vue组件（如热力图、折线图等）直接放在desktop或mobile文件夹中
-组件命名格式：{PageName}{功能名}{端}Component.vue（如：IPMonitorPageHeatmapComponentDesktop.vue）
+组件命名格式：{PageName}{功能名}Component{端}.vue（如：IPMonitorPageHeatmapComponentDesktop.vue）
 TS逻辑和CSS样式分别放在同级的ts和css文件夹中
 ## 桌面端
 desktop/
