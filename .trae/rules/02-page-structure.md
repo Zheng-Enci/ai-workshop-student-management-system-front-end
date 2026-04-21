@@ -44,6 +44,23 @@ description: 页面目录结构、入口文件规范、表单组件命名规则
              # 示例：mobile/common/ts/profile-page-common-util.ts
 # 表单
 forms/文件夹，desktop/mobile子文件夹，文件名+Form后缀
+表单TS代码放在forms/ts/子文件夹中
+表单CSS放在forms/css/子文件夹中
+# 表单目录结构
+## 桌面端
+forms/
+├── xxxDesktopForm.vue      # Vue组件
+├── ts/
+│   └── xxxDesktopForm.ts  # TS逻辑
+└── css/
+    └── xxxDesktopForm.css  # CSS样式
+## 移动端
+forms/
+├── xxxMobileForm.vue       # Vue组件
+├── ts/
+│   └── xxxMobileForm.ts   # TS逻辑
+└── css/
+    └── xxxMobileForm.css   # CSS样式
 # 表单组件命名
 表单组件文件名：{PageName}{功能名}DesktopForm.vue | {PageName}{功能名}MobileForm.vue
 CSS前缀：{PageName}{功能名}Desktop-{类名} | {PageName}{功能名}Mobile-{类名}
