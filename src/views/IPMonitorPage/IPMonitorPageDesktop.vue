@@ -127,7 +127,6 @@
 		<!-- IP配置流程对话框组件 -->
 		<IPMonitorPageIPConfigDesktopForm
 			v-model="showIPConfigDialog"
-			:ip-data="selectedIPData"
 			@confirm="handleConfigConfirm"
 		/>
 
@@ -258,15 +257,6 @@ const selectedTimeRange = ref<number>(180)
  * IP配置对话框显示状态
  */
 const showIPConfigDialog = ref<boolean>(false)
-
-/**
- * 当前选中的IP数据
- */
-const selectedIPData = ref<{ ip: string; state: string; note: string }>({
-	ip: '',
-	state: 'available',
-	note: ''
-})
 
 /**
  * 时间范围标签
@@ -475,11 +465,6 @@ async function handleTimeRangeChange(days: number): Promise<void> {
  * 打开IP配置对话框
  */
 function handleOpenConfig(): void {
-	selectedIPData.value = {
-		ip: '',
-		state: 'available',
-		note: ''
-	}
 	showIPConfigDialog.value = true
 }
 
