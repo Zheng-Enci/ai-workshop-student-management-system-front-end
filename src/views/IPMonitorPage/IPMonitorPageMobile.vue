@@ -54,54 +54,43 @@
 				placeholder="选择时间范围"
 				@change="handleTimeRangeChange"
 			>
-					<el-option
-						label="最近七天"
-						:value="7"
-					/>
-					<el-option
-						label="最近一个月"
-						:value="30"
-					/>
-					<el-option
-						label="两个月"
-						:value="60"
-					/>
-					<el-option
-						label="三个月"
-						:value="90"
-					/>
-					<el-option
-						label="四个月"
-						:value="120"
-					/>
-					<el-option
-						label="五个月"
-						:value="150"
-					/>
-					<el-option
-						label="六个月"
-						:value="180"
-					/>
-				</el-select>
-			</div>
-			<!-- IP热力图表格 -->
-			<!--
-				IP热力图组件
-				该组件完全自主从IPMonitorPageMobile获取数据，无需传递props
-				组件内部通过provide/inject机制或直接从单例类获取数据
-				v-if条件确保数据加载完成后再渲染组件
-			-->
-			<IPHeatmapMobile
-				v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0 && ipCounts && ipRange"
-			/>
+				<el-option
+					label="最近七天"
+					:value="7"
+				/>
+				<el-option
+					label="最近一个月"
+					:value="30"
+				/>
+				<el-option
+					label="两个月"
+					:value="60"
+				/>
+				<el-option
+					label="三个月"
+					:value="90"
+				/>
+				<el-option
+					label="四个月"
+					:value="120"
+				/>
+				<el-option
+					label="五个月"
+					:value="150"
+				/>
+				<el-option
+					label="六个月"
+					:value="180"
+				/>
+			</el-select>
 		</div>
 
-		<!--
-			IP出现次数折线图组件
-			该组件完全自主从IPMonitorPageMobile获取数据，无需传递props
-			组件内部通过直接从单例类获取数据
-			v-if条件确保数据加载完成后再渲染组件
-		-->
+		<!-- IP热力图表格 -->
+		<IPHeatmapMobile
+			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0 && ipCounts && ipRange"
+		/>
+
+		<!-- IP出现次数折线图组件 -->
 		<IPLineChartMobile
 			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0"
 		/>
@@ -128,62 +117,11 @@ import IPLineChartMobile from './mobile/IPLineChartMobile.vue'
 import LoadingMask from '@/components/LoadingMask.vue'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)
-/**
- * el-button 组件样式
- * 提供按钮的基础样式，包括:
- * - 按钮的默认/主要/成功/警告/危险等类型样式
- * - 按钮的尺寸样式(大/中/小)
- * - 按钮的悬停、点击、禁用状态样式
- * - 按钮的圆角、边框、阴影效果
- */
 import 'element-plus/theme-chalk/el-button.css'
-
-/**
- * el-message 组件样式
- * 提供消息提示组件的基础样式，包括:
- * - 消息框的定位和层级
- * - 成功/警告/错误/信息等不同类型的颜色样式
- * - 消息图标和关闭按钮的样式
- * - 消息的进入/退出动画效果
- */
 import 'element-plus/theme-chalk/el-message.css'
-
-/**
- * el-icon 组件样式
- * 提供图标组件的基础样式，包括:
- * - 图标的尺寸和颜色
- * - 图标的对齐方式
- * - 图标的旋转动画效果
- */
 import 'element-plus/theme-chalk/el-icon.css'
-
-/**
- * el-select 组件样式
- * 提供下拉选择框的基础样式，包括:
- * - 选择框的输入区域样式
- * - 下拉菜单的展开动画
- * - 选项的悬停和选中状态
- * - 清除按钮和箭头图标样式
- */
 import 'element-plus/theme-chalk/el-select.css'
-
-/**
- * el-option 组件样式
- * 提供下拉选项的基础样式，包括:
- * - 选项的默认、悬停、选中状态
- * - 选项的分组和分隔线样式
- * - 选项的禁用状态样式
- */
 import 'element-plus/theme-chalk/el-option.css'
-
-/**
- * Element Plus 全局基础样式
- * 提供组件库的基础通用样式，包括:
- * - CSS变量定义(主题色、字体、间距等)
- * - 基础动画和过渡效果
- * - 图标字体样式
- * - 通用的工具类样式
- */
 import 'element-plus/dist/index.css'
 
 // ==================== 响应式数据 ====================
@@ -197,14 +135,11 @@ const router = useRouter()
 /**
  * IP监控页面数据管理实例
  * 使用单例模式获取数据管理类实例
- * 提供数据加载、刷新和管理功能
  */
 const pageDataManager = IPMonitorPageMobile.getInstance()
 
 /**
  * 页面数据
- * 存储从IPMonitorPageMobile获取的所有数据
- * 使用ref实现响应式，数据变化会自动更新UI
  */
 const pageData = ref<IPMonitorPageData>({
 	ipCounts: null,
@@ -215,21 +150,16 @@ const pageData = ref<IPMonitorPageData>({
 
 /**
  * 向子组件提供数据管理实例
- * 使用Vue的Provide/Inject机制实现跨层级数据共享
- * 子组件可以通过inject('ipMonitorData')获取此实例
- * 避免通过props层层传递数据
  */
 provide('ipMonitorData', pageDataManager)
 
 /**
  * 选中的时间范围（天数）
- * 默认最近六个月（180天）
  */
 const selectedTimeRange = ref<number>(180)
 
 /**
  * 时间范围标签
- * 根据选择的天数返回对应的中文标签
  */
 const timeRangeLabel = computed(() => {
 	const days = selectedTimeRange.value
@@ -242,19 +172,15 @@ const timeRangeLabel = computed(() => {
 	return `最近 ${Math.floor(days / 30)} 个月`
 })
 
-
 // ==================== 计算属性 ====================
 
 /**
  * 坊内IP列表
- * 从页面数据中提取坊内IP列表
- * 使用ref+watch确保初始值为空数组，避免undefined
  */
 const fangIPs = ref<string[]>([])
 
 /**
  * 监听pageData.fangIPs变化，更新fangIPs
- * immediate: true确保初始值立即设置
  */
 watch(
 	() => pageData.value.fangIPs?.fang_ips,
@@ -266,7 +192,6 @@ watch(
 
 /**
  * IP计数器
- * 从页面数据中提取IP出现次数统计
  */
 const ipCounter = computed(() => {
 	if (!pageData.value.ipCounts?.ip_counts) {
@@ -277,7 +202,6 @@ const ipCounter = computed(() => {
 
 /**
  * IP次数对象
- * 从页面数据中提取IP次数对象用于子组件
  */
 const ipCounts = computed(() => {
 	return pageData.value.ipCounts?.ip_counts || {}
@@ -285,7 +209,6 @@ const ipCounts = computed(() => {
 
 /**
  * IP范围字符串
- * 从页面数据中提取IP范围用于子组件
  */
 const ipRange = computed(() => {
 	return pageData.value.ipRange?.ip_range || []
@@ -293,7 +216,6 @@ const ipRange = computed(() => {
 
 /**
  * 最近7天扫描次数
- * 从页面数据中提取扫描次数
  */
 const recent7DScans = computed(() => {
 	return pageData.value.scanCount?.scan_count || 0
@@ -301,7 +223,6 @@ const recent7DScans = computed(() => {
 
 /**
  * 最大次数
- * 计算所有IP中出现次数的最大值
  */
 const maxCount = computed(() => {
 	let max = 0
@@ -315,7 +236,6 @@ const maxCount = computed(() => {
 
 /**
  * 最小次数（非零）
- * 计算所有IP中出现次数的最小值（排除0次）
  */
 const minCount = computed(() => {
 	let min = Infinity
@@ -329,7 +249,6 @@ const minCount = computed(() => {
 
 /**
  * 活跃IP数
- * 统计出现次数大于0的IP数量
  */
 const activeIPCount = computed(() => {
 	let count = 0
@@ -343,7 +262,6 @@ const activeIPCount = computed(() => {
 
 /**
  * 平均次数
- * 计算所有活跃IP的平均出现次数
  */
 const avgCount = computed(() => {
 	if (activeIPCount.value === 0) {
@@ -357,8 +275,7 @@ const avgCount = computed(() => {
 })
 
 /**
- * 不活跃IP数（坊内次数为0的IP）
- * 统计坊内IP中出现次数为0的数量
+ * 不活跃IP数
  */
 const inactiveIPCount = computed(() => {
 	let count = 0
@@ -373,7 +290,6 @@ const inactiveIPCount = computed(() => {
 
 /**
  * IP利用率
- * 计算活跃IP占坊内总IP的百分比
  */
 const ipUtilizationRate = computed(() => {
 	if (fangIPs.value.length === 0) {
@@ -383,13 +299,10 @@ const ipUtilizationRate = computed(() => {
 	return rate.toFixed(1) + '%'
 })
 
-
 // ==================== 方法 ====================
 
 /**
  * 初始化页面数据
- * 组件挂载时调用，加载初始数据
- * 从localStorage读取时间段并更新下拉框显示
  */
 async function initPageData(): Promise<void> {
 	const pageDataManager = IPMonitorPageMobile.getInstance()
@@ -404,10 +317,8 @@ async function initPageData(): Promise<void> {
 	selectedTimeRange.value = Math.round((timeRange.endTime - timeRange.startTime) / (24 * 60 * 60))
 }
 
-
 /**
  * 处理Logo点击
- * 点击Logo时切换日间/夜间模式
  */
 function handleLogoClick(): void {
 	const themeStore = useThemeStore()
@@ -416,9 +327,6 @@ function handleLogoClick(): void {
 
 /**
  * 处理时间范围变化
- * 当用户选择不同时间范围时刷新数据
- *
- * @param {number} days - 选择的天数
  */
 async function handleTimeRangeChange(days: number): Promise<void> {
 	const endTime = Math.floor(Date.now() / 1000)
@@ -439,11 +347,9 @@ onMounted(() => {
 })
 </script>
 
-
 <style>
 /**
- * IP监控页面桌面端样式
- * 从独立CSS文件导入
+ * IP监控页面移动端样式
  */
 @import './mobile/css/IPMonitorPageMobile.css';
 @import './mobile/css/IPLineChartMobile.css';
