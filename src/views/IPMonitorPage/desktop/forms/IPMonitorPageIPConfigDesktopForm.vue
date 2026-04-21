@@ -133,6 +133,33 @@ const handleCancel = () => {
 					class="ip-monitor-page-ip-config-desktop-form-flowchart"
 				/>
 			</div>
+			<!-- 步骤4：点击IP分配编辑按钮 -->
+			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">步骤4：点击"IP分配"行右边的编辑按钮</p>
+				<img
+					src="@/assets/ip-config-flowchart/4.png"
+					alt="IP配置流程图-步骤4"
+					class="ip-monitor-page-ip-config-desktop-form-flowchart"
+				/>
+			</div>
+			<!-- 步骤5：将自动(DHCP)改为手动 -->
+			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">步骤5：点击"自动(DHCP)"改为"手动"</p>
+				<img
+					src="@/assets/ip-config-flowchart/5.png"
+					alt="IP配置流程图-步骤5"
+					class="ip-monitor-page-ip-config-desktop-form-flowchart"
+				/>
+			</div>
+			<!-- 步骤6：点击IPv4开关打开IPv4 -->
+			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">步骤6：点击IPv4开关打开IPv4</p>
+				<img
+					src="@/assets/ip-config-flowchart/6.png"
+					alt="IP配置流程图-步骤6"
+					class="ip-monitor-page-ip-config-desktop-form-flowchart"
+				/>
+			</div>
 		</div>
 		<template #footer>
 			<ElButton
