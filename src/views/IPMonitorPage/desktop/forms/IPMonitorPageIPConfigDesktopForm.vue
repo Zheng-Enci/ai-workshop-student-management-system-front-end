@@ -48,77 +48,141 @@ const IP_STATES = [
 ]
 
 // ======================== 状态 ========================
-const formData = reactive({
-	ip: '',
-	state: 'available',
-	note: ''
+/**
+ * 网络配置数据
+ * 硬编码的网络配置信息，展示在表单中
+ */
+const networkConfig = reactive({
+	// IP分配方式
+	ipAssignment: '手动',
+	// IPv4地址
+	ipv4Address: '10.0.48.241',
+	// IPv4掩码
+	ipv4Mask: '255.255.255.0',
+	// IPv4网关
+	ipv4Gateway: '10.0.48.254',
+	// DNS服务器分配方式
+	dnsAssignment: '手动',
+	// IPv4 DNS服务器
+	ipv4DNS: ['211.138.156.66 (未加密)', '218.85.157.99 (未加密)'],
+	// 聚合链接速度
+	linkSpeed: '1000/1000 (Mbps)',
+	// 本地链接IPv6地址
+	ipv6Address: 'fe80::aab8:9309:a45d:2aad%19',
+	// 制造商
+	manufacturer: 'Intel',
+	// 描述
+	description: 'Intel(R) Ethernet Connection (17) I219-LM',
+	// 驱动程序版本
+	driverVersion: '12.19.2.65',
+	// 物理地址(MAC)
+	macAddress: '4C:D7:17:8D:51:FC'
 })
 
 // ======================== 方法 ========================
 const handleConfirm = () => {
-	if (!formData.ip) {
-		ElMessage.warning('请输入IP地址')
-		return
-	}
-	emit('confirm', { ...formData })
+	emit('confirm', { ...networkConfig })
 	dialogVisible.value = false
-	resetForm()
 }
 
 const handleCancel = () => {
 	dialogVisible.value = false
-	resetForm()
-}
-
-const resetForm = () => {
-	formData.ip = ''
-	formData.state = 'available'
-	formData.note = ''
 }
 </script>
 
 <template>
 	<ElDialog
 		v-model="dialogVisible"
-		title="IP配置"
-		width="500px"
+		title="IP配置流程"
+		width="600px"
 		:close-on-click-modal="false"
 		class="ip-monitor-page-ip-config-desktop-form-dialog"
 	>
 		<ElForm
-			:model="formData"
-			label-width="100px"
+			:model="networkConfig"
+			label-width="180px"
 			class="ip-monitor-page-ip-config-desktop-form"
 		>
-			<ElFormItem label="IP地址">
-				<ElInput
-					v-model="formData.ip"
-					placeholder="请输入IP地址"
-					disabled
-				/>
-			</ElFormItem>
-			<ElFormItem label="分配状态">
-				<ElSelect
-					v-model="formData.state"
-					placeholder="请选择分配状态"
-					class="ip-monitor-page-ip-config-desktop-form-state-select"
-				>
-					<ElOption
-						v-for="item in IP_STATES"
-						:key="item.value"
-						:label="item.label"
-						:value="item.value"
-					/>
-				</ElSelect>
-			</ElFormItem>
-			<ElFormItem label="备注">
-				<ElInput
-					v-model="formData.note"
-					type="textarea"
-					:rows="3"
-					placeholder="请输入备注"
-				/>
-			</ElFormItem>
+			<!-- IP配置信息区域 -->
+			<div class="ip-config-section">
+				<h4 class="ip-config-section-title">IP配置</h4>
+				<ElFormItem label="IP分配:">
+					<span class="ip-config-value">{{ networkConfig.ipAssignment }}</span>
+				</ElFormItem>
+				<ElFormItem label="IPv4 地址:">
+					<span class="ip-config-value">{{ networkConfig.ipv4Address }}</span>
+				</ElFormItem>
+				<ElFormItem label="IPv4 掩码:">
+					<span class="ip-config-value">{{ networkConfig.ipv4Mask }}</span>
+				</ElFormItem>
+				<ElFormItem label="IPv4 网关:">
+					<span class="ip-config-value">{{ networkConfig.ipv4Gateway }}</span>
+				</ElFormItem>
+			</div>
+
+			<!-- DNS配置信息区域 -->
+			<div class="ip-config-section">
+				<h4 class="ip-config-section-title">DNS配置</h4>
+				<ElFormItem label="DNS 服务器分配:">
+					<span class="ip-config-value">{{ networkConfig.dnsAssignment }}</span>
+				</ElFormItem>
+				<ElFormItem label="IPv4 DNS 服务器:">
+					<div class="ip-config-dns-list">
+						<span
+							v-for="(dns, index) in networkConfig.ipv4DNS"
+							:key="index"
+							class="ip-config-value"
+						>
+							{{ dns }}
+						</span>
+					</div>
+				</ElFormItem>
+			</div>
+
+			<!-- 网络连接信息区域 -->
+			<div class="ip-config-section">
+				<h4 class="ip-config-section-title">网络连接信息</h4>
+				<ElFormItem label="聚合链接速度(接收/传输):">
+					<span class="ip-config-value">{{ networkConfig.linkSpeed }}</span>
+				</ElFormItem>
+				<ElFormItem label="本地链接 IPv6 地址:">
+					<span class="ip-config-value">{{ networkConfig.ipv6Address }}</span>
+				</ElFormItem>
+				<ElFormItem label="IPv4 地址:">
+					<span class="ip-config-value">{{ networkConfig.ipv4Address }}</span>
+				</ElFormItem>
+				<ElFormItem label="IPv4 默认网关:">
+					<span class="ip-config-value">{{ networkConfig.ipv4Gateway }}</span>
+				</ElFormItem>
+				<ElFormItem label="IPv4 DNS 服务器:">
+					<div class="ip-config-dns-list">
+						<span
+							v-for="(dns, index) in networkConfig.ipv4DNS"
+							:key="index"
+							class="ip-config-value"
+						>
+							{{ dns }}
+						</span>
+					</div>
+				</ElFormItem>
+			</div>
+
+			<!-- 硬件信息区域 -->
+			<div class="ip-config-section">
+				<h4 class="ip-config-section-title">硬件信息</h4>
+				<ElFormItem label="制造商:">
+					<span class="ip-config-value">{{ networkConfig.manufacturer }}</span>
+				</ElFormItem>
+				<ElFormItem label="描述:">
+					<span class="ip-config-value">{{ networkConfig.description }}</span>
+				</ElFormItem>
+				<ElFormItem label="驱动程序版本:">
+					<span class="ip-config-value">{{ networkConfig.driverVersion }}</span>
+				</ElFormItem>
+				<ElFormItem label="物理地址(MAC):">
+					<span class="ip-config-value">{{ networkConfig.macAddress }}</span>
+				</ElFormItem>
+			</div>
 		</ElForm>
 		<template #footer>
 			<ElButton

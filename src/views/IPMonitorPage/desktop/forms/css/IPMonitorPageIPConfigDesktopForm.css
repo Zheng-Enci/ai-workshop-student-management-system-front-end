@@ -15,6 +15,57 @@
  * 表单容器样式
  */
 .ip-monitor-page-ip-config-desktop-form {
+	max-height: 500px;
+	overflow-y: auto;
+}
+
+/**
+ * 配置信息区域样式
+ * 每个区域有分隔线和标题
+ */
+.ip-config-section {
+	margin-bottom: 20px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid var(--border-color);
+}
+
+/**
+ * 最后一个配置区域不需要底部边框
+ */
+.ip-config-section:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: none;
+}
+
+/**
+ * 区域标题样式
+ * 使用主色调，加粗显示
+ */
+.ip-config-section-title {
+	margin: 0 0 15px 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--primary-color);
+}
+
+/**
+ * 配置值显示样式
+ * 用于展示网络配置信息
+ */
+.ip-config-value {
+	font-size: 14px;
+	color: var(--text-primary);
+}
+
+/**
+ * DNS服务器列表样式
+ * 垂直排列多个DNS地址
+ */
+.ip-config-dns-list {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
 }
 
 /**
