@@ -246,12 +246,12 @@
  */
 .ip-monitor-page-mobile-ip-stats {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	flex-direction: column;
+	gap: 8px;
 	width: 90%;
-	padding: 8px 15px;
+	padding: 10px 15px;
 	margin: 0 auto 15px;
-	font-size: 14px;
+	font-size: 13px;
 	color: var(--text-secondary);
 	background-color: var(--bg-secondary);
 	border-radius: 4px;
@@ -259,10 +259,17 @@
 
 /**
  * 统计信息左侧区域
- * 包含所有统计文本
+ * 包含所有统计文本，每行单独显示
  */
+.ip-monitor-page-mobile-stats-left {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	gap: 6px;
+}
+
 .ip-monitor-page-mobile-stats-left span {
-	margin: 0 10px;
+	margin: 0;
 }
 
 /**
@@ -270,8 +277,8 @@
  * 固定在统计信息块右侧，使用small尺寸并限制最大宽度
  */
 .ip-monitor-page-mobile-time-select {
-	flex-shrink: 0;
-	max-width: 100px;
+	width: 90%;
+	margin: 0 auto 15px;
 }
 
 /* ==================== 时间选择器区域 ==================== */

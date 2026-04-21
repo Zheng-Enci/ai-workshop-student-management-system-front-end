@@ -50,13 +50,14 @@
 					<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
 					<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
 				</div>
-				<el-select
-					v-model="selectedTimeRange"
-					class="ip-monitor-page-mobile-time-select"
-					size="small"
-					placeholder="选择时间范围"
-					@change="handleTimeRangeChange"
-				>
+			</div>
+			<el-select
+				v-model="selectedTimeRange"
+				class="ip-monitor-page-mobile-time-select"
+				size="small"
+				placeholder="选择时间范围"
+				@change="handleTimeRangeChange"
+			>
 					<el-option
 						label="最近七天"
 						:value="7"
