@@ -106,12 +106,21 @@ const handleCancel = () => {
 	>
 		<!-- 表单内容区域 -->
 		<div class="ip-monitor-page-ip-config-desktop-form">
-			<!-- IP配置流程图 -->
+			<!-- 步骤1：右键网络图标 -->
 			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
-				<p class="ip-monitor-page-ip-config-desktop-form-hint">右键图中所示按钮</p>
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">步骤1：右键图中所示按钮</p>
 				<img
 					src="@/assets/ip-config-flowchart/1.jpg"
-					alt="IP配置流程图"
+					alt="IP配置流程图-步骤1"
+					class="ip-monitor-page-ip-config-desktop-form-flowchart"
+				/>
+			</div>
+			<!-- 步骤2：点击网络和Internet设置 -->
+			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">步骤2：点击 "网络和Internet设置"</p>
+				<img
+					src="@/assets/ip-config-flowchart/2.png"
+					alt="IP配置流程图-步骤2"
 					class="ip-monitor-page-ip-config-desktop-form-flowchart"
 				/>
 			</div>
