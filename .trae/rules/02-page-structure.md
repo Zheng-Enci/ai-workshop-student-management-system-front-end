@@ -42,6 +42,29 @@ description: 页面目录结构、入口文件规范、表单组件命名规则
              ├── css/       # 公用css文件，类名格式：{page-name}-common-{具体功能}-类名，页面名在前面
              └── vue/       # 公用vue组件，文件名格式：{page-name}-common-{具体功能}.vue，页面名在前面
              # 示例：mobile/common/ts/profile-page-common-util.ts
+# 组件目录结构
+除PageNameDesktop.vue和PageNameMobile.vue外，其他Vue组件（如热力图、折线图等）直接放在desktop或mobile文件夹中
+TS逻辑和CSS样式分别放在同级的ts和css文件夹中
+## 桌面端
+desktop/
+├── IPHeatmapDesktop.vue        # Vue组件
+├── IPLineChartDesktop.vue      # Vue组件
+├── ts/
+│   ├── IPHeatmapDesktop.ts    # TS逻辑
+│   └── IPLineChartDesktop.ts  # TS逻辑
+└── css/
+    ├── IPHeatmapDesktop.css    # CSS样式
+    └── IPLineChartDesktop.css  # CSS样式
+## 移动端
+mobile/
+├── IPHeatmapMobile.vue         # Vue组件
+├── IPLineChartMobile.vue       # Vue组件
+├── ts/
+│   ├── IPHeatmapMobile.ts     # TS逻辑
+│   └── IPLineChartMobile.ts   # TS逻辑
+└── css/
+    ├── IPHeatmapMobile.css     # CSS样式
+    └── IPLineChartMobile.css   # CSS样式
 # 表单
 forms/文件夹，desktop/mobile子文件夹，文件名+Form后缀
 表单TS代码放在forms/ts/子文件夹中
