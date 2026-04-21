@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * IP监控页面-IP配置表单组件(桌面端)
  *
