@@ -1,0 +1,25 @@
+/**
+ * IP监控页面-IP配置表单组件样式(桌面端)
+ *
+ * @description IP配置表单的样式定义
+ * @component IPMonitorPageIPConfigDesktopForm
+ */
+
+/**
+ * 对话框样式
+ */
+.ip-monitor-page-ip-config-desktop-form-dialog {
+}
+
+/**
+ * 表单容器样式
+ */
+.ip-monitor-page-ip-config-desktop-form {
+}
+
+/**
+ * 状态下拉选择器样式
+ */
+.ip-monitor-page-ip-config-desktop-form-state-select {
+	width: 100%;
+}
