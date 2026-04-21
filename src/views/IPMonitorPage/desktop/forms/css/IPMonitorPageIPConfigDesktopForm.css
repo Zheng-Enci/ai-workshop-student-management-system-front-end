@@ -15,7 +15,7 @@
  * 表单容器样式
  */
 .ip-monitor-page-ip-config-desktop-form {
-	max-height: 500px;
+	max-height: 800px;
 	overflow-y: auto;
 }
 
