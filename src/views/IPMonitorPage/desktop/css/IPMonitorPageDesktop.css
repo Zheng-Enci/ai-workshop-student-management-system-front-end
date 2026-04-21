@@ -277,20 +277,20 @@
 
 /**
  * 配置流程按钮样式
- * 固定宽度120px，与下拉框保持一致
+ * 固定宽度，与下拉框配合不超出容器
  */
 .ip-monitor-page-desktop-config-btn {
-	width: 80px;
+	width: 70px;
 	flex-shrink: 0;
 }
 
 /**
  * 时间范围选择器
- * 固定在统计信息块右侧，使用small尺寸并限制最大宽度
+ * 限制最大宽度，确保不超出容器
  */
 .ip-monitor-page-desktop-time-select {
 	flex-shrink: 0;
-	max-width: 100px;
+	width: 90px;
 }
 
 /* ==================== 时间选择器区域 ==================== */
