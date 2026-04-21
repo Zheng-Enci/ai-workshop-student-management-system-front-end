@@ -44,28 +44,28 @@ description: 页面目录结构、入口文件规范、表单组件命名规则
              # 示例：mobile/common/ts/profile-page-common-util.ts
 # 组件目录结构
 除PageNameDesktop.vue和PageNameMobile.vue外，其他Vue组件（如热力图、折线图等）直接放在desktop或mobile文件夹中
-组件命名需加Component后缀：{PageName}{功能名}DesktopComponent.vue
+组件命名格式：{PageName}{功能名}{端}Component.vue（如：IPMonitorPageHeatmapComponentDesktop.vue）
 TS逻辑和CSS样式分别放在同级的ts和css文件夹中
 ## 桌面端
 desktop/
-├── IPHeatmapComponentDesktop.vue        # Vue组件
-├── IPLineChartComponentDesktop.vue      # Vue组件
+├── IPMonitorPageHeatmapComponentDesktop.vue        # Vue组件
+├── IPMonitorPageLineChartComponentDesktop.vue     # Vue组件
 ├── ts/
-│   ├── IPHeatmapComponentDesktop.ts    # TS逻辑
-│   └── IPLineChartComponentDesktop.ts  # TS逻辑
+│   ├── IPMonitorPageHeatmapComponentDesktop.ts    # TS逻辑
+│   └── IPMonitorPageLineChartComponentDesktop.ts  # TS逻辑
 └── css/
-    ├── IPHeatmapComponentDesktop.css    # CSS样式
-    └── IPLineChartComponentDesktop.css  # CSS样式
+    ├── IPMonitorPageHeatmapComponentDesktop.css    # CSS样式
+    └── IPMonitorPageLineChartComponentDesktop.css  # CSS样式
 ## 移动端
 mobile/
-├── IPHeatmapComponentMobile.vue         # Vue组件
-├── IPLineChartComponentMobile.vue       # Vue组件
+├── IPMonitorPageHeatmapComponentMobile.vue         # Vue组件
+├── IPMonitorPageLineChartComponentMobile.vue      # Vue组件
 ├── ts/
-│   ├── IPHeatmapComponentMobile.ts     # TS逻辑
-│   └── IPLineChartComponentMobile.ts   # TS逻辑
+│   ├── IPMonitorPageHeatmapComponentMobile.ts     # TS逻辑
+│   └── IPMonitorPageLineChartComponentMobile.ts   # TS逻辑
 └── css/
-    ├── IPHeatmapComponentMobile.css     # CSS样式
-    └── IPLineChartComponentMobile.css   # CSS样式
+    ├── IPMonitorPageHeatmapComponentMobile.css     # CSS样式
+    └── IPMonitorPageLineChartComponentMobile.css   # CSS样式
 # 表单
 forms/文件夹，desktop/mobile子文件夹，文件名+Form后缀
 表单TS代码放在forms/ts/子文件夹中
