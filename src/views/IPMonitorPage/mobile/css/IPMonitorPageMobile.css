@@ -299,13 +299,13 @@
 /**
  * 控制按钮行
  * 包含IP配置流程按钮和时间选择器，横向排列在单独一行
+ * 使用 space-between 使按钮和下拉框均匀分布，三个间隙等宽
  */
 .ip-monitor-page-mobile-controls-row {
 	display: flex;
 	flex-direction: row;
-	gap: 8px;
 	align-items: center;
-	justify-content: flex-end;
+	justify-content: space-between;
 	width: 90%;
 	margin: 0 auto 15px;
 }
@@ -320,9 +320,8 @@
 /**
  * 时间范围选择器
  */
-.ip-monitor-page-mobile-scan-time-container .ip-monitor-page-mobile-time-select {
-	width: auto;
-	min-width: 100px;
+.ip-monitor-page-mobile-time-select {
+	width: 100px;
 	margin: 0;
 }
 
