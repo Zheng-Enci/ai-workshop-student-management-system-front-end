@@ -266,6 +266,25 @@
 }
 
 /**
+ * 统计信息右侧操作区域
+ * 包含配置按钮和时间范围选择器，横向排列
+ */
+.ip-monitor-page-desktop-stats-right {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+/**
+ * 配置流程按钮样式
+ * 固定宽度120px，与下拉框保持一致
+ */
+.ip-monitor-page-desktop-config-btn {
+	width: 80px;
+	flex-shrink: 0;
+}
+
+/**
  * 时间范围选择器
  * 固定在统计信息块右侧，使用small尺寸并限制最大宽度
  */
