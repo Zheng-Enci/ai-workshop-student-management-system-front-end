@@ -1,0 +1,166 @@
+/* ==================== IP热力图区域 ==================== */
+
+/**
+ * IP表格
+ * 10x10的IP热力图表格，使用主题背景和阴影
+ */
+.ip-monitor-page-mobile-heatmap-table {
+	width: 90%;
+	margin: 0 auto;
+	border-collapse: collapse;
+	background-color: var(--bg-primary);
+	box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+/**
+ * IP单元格
+ * 表格中的每个IP单元格基础样式，使用主题边框色
+ */
+.ip-monitor-page-mobile-heatmap-cell {
+	position: relative;
+	width: 10%;
+	height: 60px;
+	padding: 5px;
+	font-size: 14px;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid var(--border-color);
+	transition: transform 0.2s ease;
+	will-change: transform;
+}
+
+.ip-monitor-page-mobile-heatmap-cell:hover {
+	z-index: 1;
+	box-shadow: 0 2px 8px var(--shadow-hover);
+	transform: scale(1.05);
+}
+
+/**
+ * IP编号
+ * 单元格中显示的IP最后一位数字
+ */
+.ip-monitor-page-mobile-heatmap-ip-number {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+/**
+ * 次数编号
+ * 单元格中显示的出现次数
+ */
+.ip-monitor-page-mobile-heatmap-count-number {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+/**
+ * 0次IP样式
+ * 出现次数为0的IP单元格样式，使用主题背景
+ */
+.ip-monitor-page-mobile-heatmap-count-zero {
+	background-color: var(--bg-primary);
+}
+
+.ip-monitor-page-mobile-heatmap-count-zero .ip-monitor-page-mobile-heatmap-ip-number,
+.ip-monitor-page-mobile-heatmap-count-zero .ip-monitor-page-mobile-heatmap-count-number {
+	color: var(--text-tertiary);
+}
+
+/**
+ * 非坊内IP样式
+ * 不在坊内IP列表中的IP单元格样式，使用主题次背景色的斜纹背景
+ */
+.ip-monitor-page-mobile-heatmap-non-fang {
+	background: repeating-linear-gradient(
+		45deg,
+		var(--bg-secondary),
+		var(--bg-secondary) 8px,
+		var(--bg-tertiary) 8px,
+		var(--bg-tertiary) 16px
+	);
+	border: 2px dashed var(--border-color);
+	opacity: 0.7;
+}
+
+.ip-monitor-page-mobile-heatmap-non-fang .ip-monitor-page-mobile-heatmap-ip-number {
+	font-weight: normal;
+	color: var(--text-tertiary);
+}
+
+/* ==================== 图例区域 ==================== */
+
+/**
+ * 图例容器
+ * 使用主题背景和阴影
+ */
+.ip-monitor-page-mobile-heatmap-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: center;
+	width: 90%;
+	padding: 10px;
+	margin: 20px auto 0;
+	background-color: var(--bg-primary);
+	border-radius: 4px;
+	box-shadow: 0 1px 5px var(--shadow-color);
+}
+
+/**
+ * 图例项
+ * 使用主题次文字色
+ */
+.ip-monitor-page-mobile-heatmap-legend-item {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	font-size: 12px;
+	color: var(--text-secondary);
+}
+
+/**
+ * 图例颜色块
+ */
+.ip-monitor-page-mobile-heatmap-legend-color {
+	width: 20px;
+	height: 20px;
+	border-radius: 2px;
+}
+
+/**
+ * 图例颜色渐变
+ */
+.ip-monitor-page-mobile-heatmap-legend-gradient {
+	background: linear-gradient(to right, rgb(91 217 212), rgb(45 85 130));
+}
+
+/**
+ * 图例坊内标识
+ */
+.ip-monitor-page-mobile-heatmap-legend-fang {
+	background-color: var(--bg-secondary);
+	border: 1px solid var(--border-color);
+}
+
+/**
+ * 图例外坊内标识
+ */
+.ip-monitor-page-mobile-heatmap-legend-non-fang {
+	background: repeating-linear-gradient(
+		45deg,
+		var(--bg-secondary),
+		var(--bg-secondary) 4px,
+		var(--bg-tertiary) 4px,
+		var(--bg-tertiary) 8px
+	);
+	border: 1px dashed var(--border-color);
+}
+
+/**
+ * 图例可分配IP标识
+ */
+.ip-monitor-page-mobile-heatmap-legend-available {
+	background-color: var(--bg-primary);
+	border: 1px solid var(--border-color);
+}

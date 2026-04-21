@@ -1,0 +1,23 @@
+/* ==================== IP出现次数折线图区域 ==================== */
+
+.ip-monitor-page-mobile-line-chart {
+	width: 90%;
+	padding: 15px;
+	margin: 30px auto 0;
+	background-color: var(--bg-primary);
+	border-radius: 4px;
+	box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.ip-monitor-page-mobile-line-chart-title {
+	margin: 0 0 15px;
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--text-secondary);
+	text-align: center;
+}
+
+.ip-monitor-page-mobile-line-chart-container {
+	width: 100% !important;
+	height: 300px;
+}

@@ -1,0 +1,490 @@
+/**
+ * IP监控页面桌面端样式
+ * 使用kebab-case命名规范，前缀与文件名一致
+ * 配色方案使用全局主题变量：冰川青(主色)、深空蓝(辅色)、纯白/极浅灰(背景)
+ *
+ * @file ip-monitor-page-mobile.css
+ * @description IPMonitorPageDesktop.vue 组件的样式文件
+ */
+
+/* ==================== 入场动画关键帧定义 ==================== */
+
+/**
+ * 页面容器入场动画
+ * 效果：淡入 + 弹性缩放（先缩小至0.95倍，再放大至1.02倍，最后回弹至正常大小）
+ * 时长：500ms
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-mobile-container-entrance {
+	0% {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: scale(1.02);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/**
+ * 从上方滑入+弹性缩放动画
+ * 适用：页面标题、头部元素
+ * 时长：400ms，延迟0.05s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-mobile-slideInFromTop {
+	0% {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/**
+ * 从左侧滑入+弹性缩放动画
+ * 适用：左侧导航按钮
+ * 时长：400ms，延迟0.1s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-mobile-slideInFromLeft {
+	0% {
+		opacity: 0;
+		transform: translateX(-60px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/**
+ * 从右侧滑入+弹性缩放动画
+ * 适用：右上角Logo
+ * 时长：400ms，延迟0.15s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-mobile-slideInFromRight {
+	0% {
+		opacity: 0;
+		transform: translateX(60px) scale(0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) scale(1.05);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+/**
+ * 从下方滑入+弹性缩放动画
+ * 适用：主内容区域、卡片
+ * 时长：400ms，延迟0.3s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-mobile-slideInFromBottom {
+	0% {
+		opacity: 0;
+		transform: translateY(30px) scale(0.95);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateY(0) scale(1.03);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/**
+ * 旋转滑入+弹性缩放动画
+ * 适用：Logo图标
+ * 时长：400ms，延迟0.15s
+ * 缓动函数：cubic-bezier(0.34, 1.56, 0.64, 1)
+ */
+@keyframes ip-monitor-page-mobile-rotateSlideIn {
+	0% {
+		opacity: 0;
+		transform: translateX(30px) rotate(-15deg) scale(0.7);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1.15);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateX(0) rotate(0deg) scale(1);
+	}
+}
+
+/* ==================== 页面布局 ==================== */
+
+/**
+ * 页面容器
+ * 整个IP监控页面的根容器，使用主题背景色
+ * 入场动画：淡入+弹性缩放，时长500ms
+ */
+.ip-monitor-page-mobile {
+	min-height: 100vh;
+	padding: 20px;
+	background-color: var(--bg-primary);
+	animation: ip-monitor-page-mobile-container-entrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ==================== 头部区域 ==================== */
+
+/**
+ * 头部容器
+ * 包含左侧区域（导航按钮+扫描统计）、页面标题和Logo，使用flex布局
+ * 左侧区域在左，标题居中，Logo在右
+ * 入场动画：从上方滑入+弹性缩放，时长400ms，延迟0.05s
+ */
+.ip-monitor-page-mobile-header-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 30px;
+	animation: ip-monitor-page-mobile-slideInFromTop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.05s both;
+}
+
+/**
+ * 头部左侧区域
+ * 包含导航按钮和扫描统计信息，水平排列且垂直居中对齐
+ * 入场动画：从左侧滑入+弹性缩放，时长400ms，延迟0.1s
+ */
+.ip-monitor-page-mobile-header-left {
+	position: absolute;
+	left: 0;
+	display: flex;
+	flex-direction: row;
+	gap: 12px;
+	align-items: center;
+	animation: ip-monitor-page-mobile-slideInFromLeft 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+}
+
+/**
+ * 导航按钮
+ * 返回导航页面的按钮
+ */
+.ip-monitor-page-mobile-nav-btn {
+	padding: 4px 8px;
+}
+
+/**
+ * 页面标题
+ * IP出现次数统计标题，在头部居中显示，使用主题主文字色
+ */
+.ip-monitor-page-mobile-title {
+	padding: 10px 0;
+	margin: 0;
+	color: var(--text-primary);
+}
+
+/**
+ * Logo图片
+ * AiWorkShop Logo，位于头部右侧
+ * 入场动画：旋转滑入+弹性缩放，时长400ms，延迟0.15s
+ */
+.ip-monitor-page-mobile-logo {
+	position: absolute;
+	right: 0;
+	width: 60px;
+	height: 60px;
+	object-fit: contain;
+	animation: ip-monitor-page-mobile-rotateSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+}
+
+/**
+ * 扫描统计信息
+ * 显示最近7天扫描次数，位于头部左侧区域，使用主题主文字色
+ */
+.ip-monitor-page-mobile-scan-stats {
+	padding: 6px 12px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--text-primary);
+	text-align: center;
+	background-color: var(--bg-secondary);
+	border-radius: 4px;
+}
+
+/**
+ * IP统计信息
+ * 显示最大次数和总IP数，使用主题次文字色
+ * 宽度与表格保持一致（90%），使用flex布局使下拉框靠右
+ */
+.ip-monitor-page-mobile-ip-stats {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 90%;
+	padding: 8px 15px;
+	margin: 0 auto 15px;
+	font-size: 14px;
+	color: var(--text-secondary);
+	background-color: var(--bg-secondary);
+	border-radius: 4px;
+}
+
+/**
+ * 统计信息左侧区域
+ * 包含所有统计文本
+ */
+.ip-monitor-page-mobile-stats-left span {
+	margin: 0 10px;
+}
+
+/**
+ * 时间范围选择器
+ * 固定在统计信息块右侧，使用small尺寸并限制最大宽度
+ */
+.ip-monitor-page-mobile-time-select {
+	flex-shrink: 0;
+	max-width: 100px;
+}
+
+/* ==================== 时间选择器区域 ==================== */
+
+/**
+ * 时间选择器容器
+ * 包含日期范围选择器和刷新按钮
+ */
+.ip-monitor-page-mobile-time-selector {
+	display: flex;
+	gap: 15px;
+	align-items: center;
+	justify-content: center;
+	width: 90%;
+	margin: 0 auto 20px;
+}
+
+/**
+ * 刷新按钮
+ * 刷新数据按钮的额外样式
+ */
+.ip-monitor-page-mobile-refresh-btn {
+	margin-left: 10px;
+}
+
+/* ==================== 主内容区域 ==================== */
+
+/**
+ * 主内容区域：扫描统计和IP表格
+ * 入场动画：从下方滑入+弹性缩放，时长400ms，延迟0.3s
+ */
+.ip-monitor-page-mobile-main-content {
+	width: 100%;
+	animation: ip-monitor-page-mobile-slideInFromBottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+
+/* ==================== IP表格区域 ==================== */
+
+/**
+ * IP表格
+ * 10x10的IP热力图表格，使用主题背景和阴影
+ */
+.ip-monitor-page-mobile-ip-table {
+	width: 90%;
+	margin: 0 auto;
+	border-collapse: collapse;
+	background-color: var(--bg-primary);
+	box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+/**
+ * IP单元格
+ * 表格中的每个IP单元格基础样式，使用主题边框色
+ */
+.ip-monitor-page-mobile-ip-cell {
+	position: relative;
+	width: 10%;
+	height: 60px;
+	padding: 5px;
+	font-size: 14px;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid var(--border-color);
+	transition: transform 0.2s ease;
+	will-change: transform;
+}
+
+.ip-monitor-page-mobile-ip-cell:hover {
+	z-index: 1;
+	box-shadow: 0 2px 8px var(--shadow-hover);
+	transform: scale(1.05);
+}
+
+/**
+ * IP编号
+ * 单元格中显示的IP最后一位数字
+ */
+.ip-monitor-page-mobile-ip-number {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+/**
+ * 次数编号
+ * 单元格中显示的出现次数
+ */
+.ip-monitor-page-mobile-count-number {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+/**
+ * 0次IP样式
+ * 出现次数为0的IP单元格样式，使用主题背景
+ */
+.ip-monitor-page-mobile-count-zero {
+	background-color: var(--bg-primary);
+}
+
+.ip-monitor-page-mobile-count-zero .ip-monitor-page-mobile-ip-number,
+.ip-monitor-page-mobile-count-zero .ip-monitor-page-mobile-count-number {
+	color: var(--text-tertiary);
+}
+
+/**
+ * 非坊内IP样式
+ * 不在坊内IP列表中的IP单元格样式，使用主题次背景色的斜纹背景
+ */
+.ip-monitor-page-mobile-non-fang {
+	background: repeating-linear-gradient(
+		45deg,
+		var(--bg-secondary),
+		var(--bg-secondary) 8px,
+		var(--bg-tertiary) 8px,
+		var(--bg-tertiary) 16px
+	);
+	border: 2px dashed var(--border-color);
+	opacity: 0.7;
+}
+
+.ip-monitor-page-mobile-non-fang .ip-monitor-page-mobile-ip-number {
+	font-weight: normal;
+	color: var(--text-tertiary);
+}
+
+/**
+ * 热力图单元格
+ * 有出现次数的IP单元格基础样式
+ */
+.ip-monitor-page-mobile-heatmap-cell {
+	transition: opacity 0.3s ease;
+	will-change: opacity;
+}
+
+/* ==================== 图例区域 ==================== */
+
+/**
+ * 图例容器
+ * 使用主题背景和阴影
+ */
+.ip-monitor-page-mobile-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: center;
+	width: 90%;
+	padding: 10px;
+	margin: 20px auto 0;
+	background-color: var(--bg-primary);
+	border-radius: 4px;
+	box-shadow: 0 1px 5px var(--shadow-color);
+}
+
+/**
+ * 图例项
+ * 使用主题次文字色
+ */
+.ip-monitor-page-mobile-legend-item {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+	font-size: 13px;
+	color: var(--text-secondary);
+}
+
+/**
+ * 图例颜色块
+ */
+.ip-monitor-page-mobile-legend-color {
+	width: 20px;
+	height: 20px;
+	border-radius: 2px;
+}
+
+/**
+ * 坊内IP图例颜色
+ * 使用主题主色表示坊内IP
+ */
+.ip-monitor-page-mobile-legend-fang {
+	background-color: var(--primary-color);
+}
+
+/**
+ * 非坊内IP图例颜色
+ * 使用灰色表示非坊内IP
+ */
+.ip-monitor-page-mobile-legend-non-fang {
+	background-color: var(--bg-tertiary, #e0e0e0);
+	border: 1px solid var(--border-color, #ccc);
+}
+
+/**
+ * 可分配IP图例颜色
+ * 使用主题背景色表示可分配的IP（日间为白色，夜间为深色）
+ */
+.ip-monitor-page-mobile-legend-available {
+	background-color: var(--bg-primary);
+	border: 1px solid var(--border-color);
+}
+
+/* ==================== 可访问性：减少动画 ==================== */
+
+/**
+ * 尊重用户的减少动画偏好设置
+ * 当用户设置了 prefers-reduced-motion 时，禁用所有入场动画
+ */
+@media (prefers-reduced-motion: reduce) {
+	.ip-monitor-page-mobile,
+	.ip-monitor-page-mobile-header-container,
+	.ip-monitor-page-mobile-header-left,
+	.ip-monitor-page-mobile-logo,
+	.ip-monitor-page-mobile-main-content {
+		animation: none !important;
+	}
+}
