@@ -16,7 +16,7 @@
 		<!--
 			图表容器
 			ref绑定用于获取DOM元素，传递给ECharts初始化
-			图表实例在script中通过IPLineChartDesktop类管理
+			图表实例在script中通过IPLineChartMobile类管理
 		-->
 		<div
 			ref="chartContainerRef"
@@ -29,9 +29,9 @@
 /**
  * IP折线图桌面端组件脚本（重构后）
  *
- * @component IPLineChartDesktop
+ * @component IPLineChartMobile
  * @description 展示坊内IP出现次数趋势的折线图组件
- * 重构后，所有业务逻辑已移至IPLineChartDesktop类中
+ * 重构后，所有业务逻辑已移至IPLineChartMobile类中
  * Vue组件仅负责模板渲染和事件绑定
  */
 
@@ -49,7 +49,7 @@ const chartContainerRef = ref<HTMLDivElement | null>(null)
 
 /**
  * IP折线图核心类实例
- * 创建IPLineChartDesktop类的实例
+ * 创建IPLineChartMobile类的实例
  * 该类封装了图表的所有业务逻辑，包括：
  * - 数据管理和获取
  * - ECharts实例管理
@@ -87,8 +87,8 @@ onBeforeUnmount(() => {
 /**
  * IP折线图组件样式导入
  *
- * 样式文件路径：./css/IPLineChartDesktop.css
+ * 样式文件路径：./css/IPLineChartMobile.css
  * 包含所有组件相关的CSS样式定义
  */
-@import './css/IPLineChartDesktop.css';
+@import './css/IPLineChartMobile.css';
 </style>

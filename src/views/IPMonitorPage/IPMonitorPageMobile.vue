@@ -84,22 +84,22 @@
 			<!-- IP热力图表格 -->
 			<!--
 				IP热力图组件
-				该组件完全自主从IPMonitorPageDesktop获取数据，无需传递props
+				该组件完全自主从IPMonitorPageMobile获取数据，无需传递props
 				组件内部通过provide/inject机制或直接从单例类获取数据
 				v-if条件确保数据加载完成后再渲染组件
 			-->
-			<IPHeatmapDesktop
+			<IPHeatmapMobile
 				v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0 && ipCounts && ipRange"
 			/>
 		</div>
 
 		<!--
 			IP出现次数折线图组件
-			该组件完全自主从IPMonitorPageDesktop获取数据，无需传递props
+			该组件完全自主从IPMonitorPageMobile获取数据，无需传递props
 			组件内部通过直接从单例类获取数据
 			v-if条件确保数据加载完成后再渲染组件
 		-->
-		<IPLineChartDesktop
+		<IPLineChartMobile
 			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0"
 		/>
 
@@ -108,21 +108,21 @@
 
 <script setup lang="ts">
 /**
- * IP监控页面桌面端组件
+ * IP监控页面移动端组件
  * 展示IP出现次数统计热力图
  *
- * @component IPMonitorPageDesktop
- * @description 使用IPMonitorPageDesktop.ts管理数据，展示IP出现次数热力图
+ * @component IPMonitorPageMobile
+ * @description 使用IPMonitorPageMobile.ts管理数据，展示IP出现次数热力图
  */
 import {computed, onMounted, provide, ref, watch} from 'vue'
 import {useRouter} from 'vue-router'
 import {ElButton, ElIcon, ElOption, ElSelect} from 'element-plus'
 import {ArrowLeft} from '@element-plus/icons-vue'
 import {useThemeStore} from '@/stores/ts/theme'
-import type {IPMonitorPageData} from './mobile/ts/IPMonitorPageDesktop'
-import IPMonitorPageDesktop from './mobile/ts/IPMonitorPageDesktop'
-import IPHeatmapDesktop from './mobile/IPHeatmapDesktop.vue'
-import IPLineChartDesktop from './mobile/IPLineChartDesktop.vue'
+import type {IPMonitorPageData} from './mobile/ts/IPMonitorPageMobile'
+import IPMonitorPageMobile from './mobile/ts/IPMonitorPageMobile'
+import IPHeatmapMobile from './mobile/IPHeatmapMobile.vue'
+import IPLineChartMobile from './mobile/IPLineChartMobile.vue'
 import LoadingMask from '@/components/LoadingMask.vue'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)
@@ -197,11 +197,11 @@ const router = useRouter()
  * 使用单例模式获取数据管理类实例
  * 提供数据加载、刷新和管理功能
  */
-const pageDataManager = IPMonitorPageDesktop.getInstance()
+const pageDataManager = IPMonitorPageMobile.getInstance()
 
 /**
  * 页面数据
- * 存储从IPMonitorPageDesktop获取的所有数据
+ * 存储从IPMonitorPageMobile获取的所有数据
  * 使用ref实现响应式，数据变化会自动更新UI
  */
 const pageData = ref<IPMonitorPageData>({
@@ -390,7 +390,7 @@ const ipUtilizationRate = computed(() => {
  * 从localStorage读取时间段并更新下拉框显示
  */
 async function initPageData(): Promise<void> {
-	const pageDataManager = IPMonitorPageDesktop.getInstance()
+	const pageDataManager = IPMonitorPageMobile.getInstance()
 	await pageDataManager.init_data()
 	pageData.value = pageDataManager.getData()
 
@@ -422,7 +422,7 @@ async function handleTimeRangeChange(days: number): Promise<void> {
 	const endTime = Math.floor(Date.now() / 1000)
 	const startTime = endTime - days * 24 * 60 * 60
 
-	const pageDataManager = IPMonitorPageDesktop.getInstance()
+	const pageDataManager = IPMonitorPageMobile.getInstance()
 	await pageDataManager.refreshIPDataByTimeRange(startTime, endTime)
 	pageData.value = pageDataManager.getData()
 }
@@ -443,6 +443,6 @@ onMounted(() => {
  * IP监控页面桌面端样式
  * 从独立CSS文件导入
  */
-@import './mobile/css/IPMonitorPageDesktop.css';
-@import './mobile/css/IPLineChartDesktop.css';
+@import './mobile/css/IPMonitorPageMobile.css';
+@import './mobile/css/IPLineChartMobile.css';
 </style>

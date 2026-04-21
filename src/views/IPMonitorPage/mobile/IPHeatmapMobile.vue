@@ -15,7 +15,7 @@
 			IP热力图表格
 
 			使用HTML table元素构建网格布局：
-			- 行数(rowCount)和列数(colCount)由IPHeatmapDesktop类根据ipRange计算得出
+			- 行数(rowCount)和列数(colCount)由IPHeatmapMobile类根据ipRange计算得出
 			- 每个单元格代表一个IP地址
 			- 单元格样式通过heatmap.getCellClass和heatmap.getCellStyle动态计算
 
@@ -145,9 +145,9 @@
 /**
  * IP热力图桌面端组件脚本（重构后）
  *
- * @component IPHeatmapDesktop
+ * @component IPHeatmapMobile
  * @description 展示IP地址使用频率的热力图组件
- * 重构后，所有业务逻辑已移至IPHeatmapDesktop类中
+ * 重构后，所有业务逻辑已移至IPHeatmapMobile类中
  * Vue组件仅负责模板渲染和事件绑定
  */
 
@@ -159,7 +159,7 @@ import {IPHeatmapMobile} from './ts/IPHeatmapMobile'
 
 /**
  * IP热力图核心类实例
- * 创建IPHeatmapDesktop类的实例
+ * 创建IPHeatmapMobile类的实例
  * 该类封装了热力图的所有业务逻辑，包括：
  * - 数据管理和获取
  * - 单元格样式计算
@@ -195,8 +195,8 @@ onBeforeUnmount(() => {
 /**
  * IP热力图组件样式导入
  *
- * 样式文件路径：./css/IPHeatmapDesktop.css
+ * 样式文件路径：./css/IPHeatmapMobile.css
  * 包含所有组件相关的CSS样式定义
  */
-@import './css/IPHeatmapDesktop.css';
+@import './css/IPHeatmapMobile.css';
 </style>
