@@ -7,8 +7,8 @@
  */
 
 // ======================== 导入 ========================
-import { ref, reactive, computed } from 'vue'
-import { ElMessage, ElDialog, ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElSwitch } from 'element-plus'
+import { reactive, computed } from 'vue'
+import { ElDialog, ElButton } from 'element-plus'
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-dialog.css'
 import 'element-plus/theme-chalk/el-form.css'
@@ -41,22 +41,6 @@ const dialogVisible = computed({
 })
 
 // ======================== 常量 ========================
-/**
- * IP分配方式选项
- */
-const IP_ASSIGNMENT_OPTIONS = [
-	{ label: '手动', value: 'manual' },
-	{ label: '自动(DHCP)', value: 'dhcp' }
-]
-
-/**
- * DNS over HTTPS选项
- */
-const DNS_OVER_HTTPS_OPTIONS = [
-	{ label: '关', value: 'off' },
-	{ label: '开', value: 'on' }
-]
-
 // ======================== 状态 ========================
 /**
  * IP配置表单数据
@@ -86,11 +70,6 @@ const formData = reactive({
 })
 
 // ======================== 方法 ========================
-const handleConfirm = () => {
-	emit('confirm', { ...formData })
-	dialogVisible.value = false
-}
-
 const handleCancel = () => {
 	dialogVisible.value = false
 }
