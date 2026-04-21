@@ -106,7 +106,15 @@ const handleCancel = () => {
 	>
 		<!-- 表单内容区域 -->
 		<div class="ip-monitor-page-ip-config-desktop-form">
-			<!-- 预留：IP配置表单内容 -->
+			<!-- IP配置流程图 -->
+			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">右键图中所示按钮</p>
+				<img
+					src="@/assets/ip-config-flowchart/1.jpg"
+					alt="IP配置流程图"
+					class="ip-monitor-page-ip-config-desktop-form-flowchart"
+				/>
+			</div>
 		</div>
 		<template #footer>
 			<ElButton

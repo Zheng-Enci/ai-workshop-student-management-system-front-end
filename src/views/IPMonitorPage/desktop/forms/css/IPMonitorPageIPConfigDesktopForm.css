@@ -20,6 +20,40 @@
 }
 
 /**
+ * 图片容器样式
+ * 居中显示图片和提示文字
+ */
+.ip-monitor-page-ip-config-desktop-form-image-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+}
+
+/**
+ * 提示文字样式
+ * 位于图片上方，使用主色调
+ */
+.ip-monitor-page-ip-config-desktop-form-hint {
+	margin: 0 0 15px 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--primary-color);
+	text-align: center;
+}
+
+/**
+ * 流程图图片样式
+ * 自适应宽度，保持比例
+ */
+.ip-monitor-page-ip-config-desktop-form-flowchart {
+	max-width: 100%;
+	height: auto;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/**
  * 配置信息区域样式
  * 每个区域有分隔线和标题
  */
