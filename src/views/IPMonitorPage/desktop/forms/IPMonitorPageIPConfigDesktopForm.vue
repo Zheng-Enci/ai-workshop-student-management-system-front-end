@@ -102,6 +102,7 @@ const handleCancel = () => {
 		title="IP配置流程"
 		width="1200px"
 		:close-on-click-modal="false"
+		:show-close="false"
 		class="ip-monitor-page-ip-config-desktop-form-dialog"
 	>
 		<!-- 表单内容区域 -->
