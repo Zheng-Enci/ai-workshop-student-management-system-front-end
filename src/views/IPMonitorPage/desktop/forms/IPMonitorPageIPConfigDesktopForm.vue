@@ -167,22 +167,7 @@ const handleCancel = () => {
 				</ElFormItem>
 			</div>
 
-			<!-- 硬件信息区域 -->
-			<div class="ip-monitor-page-ip-config-desktop-form-section">
-				<h4 class="ip-monitor-page-ip-config-desktop-form-section-title">硬件信息</h4>
-				<ElFormItem label="制造商:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.manufacturer }}</span>
-				</ElFormItem>
-				<ElFormItem label="描述:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.description }}</span>
-				</ElFormItem>
-				<ElFormItem label="驱动程序版本:">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.driverVersion }}</span>
-				</ElFormItem>
-				<ElFormItem label="物理地址(MAC):">
-					<span class="ip-monitor-page-ip-config-desktop-form-value">{{ networkConfig.macAddress }}</span>
-				</ElFormItem>
-			</div>
+
 		</ElForm>
 		<template #footer>
 			<ElButton
