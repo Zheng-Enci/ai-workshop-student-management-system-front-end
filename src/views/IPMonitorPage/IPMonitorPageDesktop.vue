@@ -34,6 +34,7 @@
 		<div class="ip-monitor-page-desktop-main-content">
 			<!-- IP统计信息 -->
 			<div class="ip-monitor-page-desktop-ip-stats">
+				<!-- 左侧统计数据显示区域 -->
 				<div class="ip-monitor-page-desktop-stats-left">
 					<span>坊内总IP: {{ fangIPs.length }}</span>
 					<span v-if="maxCount > 0">| 活跃: {{ activeIPCount }}</span>
@@ -43,51 +44,63 @@
 					<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
 					<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
 				</div>
-				<div>
-				<el-button
-					type="primary"
-					size="small"
-					class="ip-monitor-page-desktop-config-btn"
-					@click="handleOpenConfig"
-				>
-					配置流程
-				</el-button>
-				<el-select
+				<!-- 右侧操作按钮区域 -->
+				<div class="ip-monitor-page-desktop-stats-right">
+					<!-- IP配置流程按钮 - 点击打开IP配置对话框 -->
+					<el-button
+						type="primary"
+						size="small"
+						class="ip-monitor-page-desktop-config-btn"
+						@click="handleOpenConfig"
+					>
+						配置流程
+					</el-button>
+					<!-- 时间范围下拉选择器 - 用于筛选IP统计数据的时间范围 -->
+					<el-select
 					v-model="selectedTimeRange"
 					class="ip-monitor-page-desktop-time-select"
 					size="small"
 					placeholder="选择时间范围"
 					@change="handleTimeRangeChange"
 				>
+					<!-- 最近七天选项 -->
 					<el-option
 						label="最近七天"
 						:value="7"
 					/>
+					<!-- 最近一个月选项 -->
 					<el-option
 						label="最近一个月"
 						:value="30"
 					/>
+					<!-- 两个月选项 -->
 					<el-option
 						label="两个月"
 						:value="60"
 					/>
+					<!-- 三个月选项 -->
 					<el-option
 						label="三个月"
 						:value="90"
 					/>
+					<!-- 四个月选项 -->
 					<el-option
 						label="四个月"
 						:value="120"
 					/>
+					<!-- 五个月选项 -->
 					<el-option
 						label="五个月"
 						:value="150"
 					/>
+					<!-- 六个月选项 -->
 					<el-option
 						label="六个月"
 						:value="180"
 					/>
 				</el-select>
+				<!-- 右侧操作按钮区域结束 -->
+				</div>
 			</div>
 			<!-- IP热力图表格 -->
 			<!--
@@ -111,6 +124,7 @@
 			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0"
 		/>
 
+		<!-- IP配置流程对话框组件 -->
 		<IPMonitorPageIPConfigDesktopForm
 			v-model="showIPConfigDialog"
 			:ip-data="selectedIPData"
