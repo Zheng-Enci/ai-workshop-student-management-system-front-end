@@ -43,6 +43,15 @@
 					<span v-if="maxCount > 0">| 最小: {{ minCount }}</span>
 					<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
 				</div>
+				<div>
+				<el-button
+					type="primary"
+					size="small"
+					class="ip-monitor-page-desktop-config-btn"
+					@click="handleOpenConfig"
+				>
+					配置流程
+				</el-button>
 				<el-select
 					v-model="selectedTimeRange"
 					class="ip-monitor-page-desktop-time-select"
@@ -102,6 +111,12 @@
 			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0"
 		/>
 
+		<IPMonitorPageIPConfigDesktopForm
+			v-model="showIPConfigDialog"
+			:ip-data="selectedIPData"
+			@confirm="handleConfigConfirm"
+		/>
+
 	</div>
 </template>
 
@@ -123,6 +138,7 @@ import IPMonitorPageDesktop from './desktop/ts/IPMonitorPageDesktop'
 import IPHeatmapDesktop from './desktop/IPHeatmapDesktop.vue'
 import IPLineChartDesktop from './desktop/IPLineChartDesktop.vue'
 import LoadingMask from '@/components/LoadingMask.vue'
+import IPMonitorPageIPConfigDesktopForm from './desktop/forms/IPMonitorPageIPConfigDesktopForm.vue'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)
 /**
@@ -223,6 +239,20 @@ provide('ipMonitorData', pageDataManager)
  * 默认最近六个月（180天）
  */
 const selectedTimeRange = ref<number>(180)
+
+/**
+ * IP配置对话框显示状态
+ */
+const showIPConfigDialog = ref<boolean>(false)
+
+/**
+ * 当前选中的IP数据
+ */
+const selectedIPData = ref<{ ip: string; state: string; note: string }>({
+	ip: '',
+	state: 'available',
+	note: ''
+})
 
 /**
  * 时间范围标签
@@ -424,6 +454,27 @@ async function handleTimeRangeChange(days: number): Promise<void> {
 	const pageDataManager = IPMonitorPageDesktop.getInstance()
 	await pageDataManager.refreshIPDataByTimeRange(startTime, endTime)
 	pageData.value = pageDataManager.getData()
+}
+
+
+/**
+ * 打开IP配置对话框
+ */
+function handleOpenConfig(): void {
+	selectedIPData.value = {
+		ip: '',
+		state: 'available',
+		note: ''
+	}
+	showIPConfigDialog.value = true
+}
+
+/**
+ * 处理IP配置确认
+ * @param {Object} data - 表单数据
+ */
+function handleConfigConfirm(data: { ip: string; state: string; note: string }): void {
+	console.log('IP配置确认:', data)
 }
 
 // ==================== 生命周期钩子 ====================
