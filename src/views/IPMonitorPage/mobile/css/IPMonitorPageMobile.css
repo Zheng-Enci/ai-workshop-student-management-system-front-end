@@ -297,11 +297,32 @@
 }
 
 /**
+ * 控制按钮行
+ * 包含IP配置流程按钮和时间选择器，横向排列在单独一行
+ */
+.ip-monitor-page-mobile-controls-row {
+	display: flex;
+	flex-direction: row;
+	gap: 8px;
+	align-items: center;
+	justify-content: flex-end;
+	width: 90%;
+	margin: 0 auto 15px;
+}
+
+/**
+ * IP配置流程按钮
+ */
+.ip-monitor-page-mobile-config-btn {
+	white-space: nowrap;
+}
+
+/**
  * 时间范围选择器
  */
 .ip-monitor-page-mobile-scan-time-container .ip-monitor-page-mobile-time-select {
-	flex: 1;
 	width: auto;
+	min-width: 100px;
 	margin: 0;
 }
 

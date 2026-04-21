@@ -1,0 +1,140 @@
+/**
+ * IP监控页面-IP配置表单组件样式(移动端)
+ *
+ * @description IP配置表单的样式定义，适配移动端屏幕
+ * @component IPMonitorPageIPConfigMobileForm
+ */
+
+/**
+ * 对话框样式
+ * 移动端全屏显示
+ */
+.ip-monitor-page-ip-config-mobile-form-dialog {
+	/* 对话框样式 - 由 Element Plus 组件控制 */
+	--el-dialog-width: 90% !important;
+}
+
+/**
+ * 表单容器样式
+ * 移动端适配，减小最大高度
+ */
+.ip-monitor-page-ip-config-mobile-form {
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
+/**
+ * 图片容器样式
+ * 居中显示图片和提示文字，移动端减小内边距
+ */
+.ip-monitor-page-ip-config-mobile-form-image-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 12px;
+}
+
+/**
+ * 提示文字样式
+ * 位于图片上方，使用主色调，移动端减小字体
+ */
+.ip-monitor-page-ip-config-mobile-form-hint {
+	margin: 0 0 10px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--primary-color);
+	text-align: center;
+	line-height: 1.4;
+}
+
+/**
+ * 流程图图片样式
+ * 自适应宽度，保持比例，移动端优化显示
+ */
+.ip-monitor-page-ip-config-mobile-form-flowchart {
+	max-width: 100%;
+	height: auto;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/**
+ * 配置信息区域样式
+ * 每个区域有分隔线和标题
+ */
+.ip-monitor-page-ip-config-mobile-form-section {
+	padding-bottom: 12px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid var(--border-color);
+}
+
+/**
+ * 最后一个配置区域不需要底部边框
+ */
+.ip-monitor-page-ip-config-mobile-form-section:last-child {
+	padding-bottom: 0;
+	margin-bottom: 0;
+	border-bottom: none;
+}
+
+/**
+ * 区域标题样式
+ * 使用主色调，加粗显示，移动端减小字体
+ */
+.ip-monitor-page-ip-config-mobile-form-section-title {
+	margin: 0 0 12px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--primary-color);
+}
+
+/**
+ * 配置值显示样式
+ * 用于展示网络配置信息，移动端减小字体
+ */
+.ip-monitor-page-ip-config-mobile-form-value {
+	font-size: 13px;
+	color: var(--text-primary);
+}
+
+/**
+ * DNS服务器列表样式
+ * 垂直排列多个DNS地址
+ */
+.ip-monitor-page-ip-config-mobile-form-dns-list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+/**
+ * 状态下拉选择器样式
+ */
+.ip-monitor-page-ip-config-mobile-form-state-select {
+	width: 100%;
+}
+
+/**
+ * 移动端对话框底部按钮样式优化
+ */
+.ip-monitor-page-ip-config-mobile-form-dialog .el-dialog__footer {
+	padding: 10px 15px;
+}
+
+/**
+ * 移动端对话框标题样式优化
+ */
+.ip-monitor-page-ip-config-mobile-form-dialog .el-dialog__header {
+	padding: 15px;
+}
+
+.ip-monitor-page-ip-config-mobile-form-dialog .el-dialog__title {
+	font-size: 16px;
+}
+
+/**
+ * 移动端对话框内容区域样式优化
+ */
+.ip-monitor-page-ip-config-mobile-form-dialog .el-dialog__body {
+	padding: 10px;
+}

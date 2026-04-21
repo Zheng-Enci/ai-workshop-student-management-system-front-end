@@ -48,6 +48,17 @@
 				<div class="ip-monitor-page-mobile-scan-stats">
 					{{ timeRangeLabel }}扫描次数：{{ recent7DScans }}
 				</div>
+			</div>
+			<div class="ip-monitor-page-mobile-controls-row">
+				<!-- IP配置流程按钮 - 点击打开IP配置对话框 -->
+				<el-button
+					type="primary"
+					class="ip-monitor-page-mobile-config-btn"
+					size="small"
+					@click="showIPConfigDialog = true"
+				>
+					IP配置流程
+				</el-button>
 				<el-select
 					v-model="selectedTimeRange"
 					class="ip-monitor-page-mobile-time-select"
@@ -96,6 +107,13 @@
 		<IPLineChartMobile
 			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0"
 		/>
+
+		<!-- IP配置流程对话框组件 -->
+		<IPMonitorPageIPConfigMobileForm
+			v-if="showIPConfigDialog"
+			v-model="showIPConfigDialog"
+			@confirm="handleConfigConfirm"
+		/>
 	</div>
 </template>
 
@@ -117,6 +135,7 @@ import IPMonitorPageMobile from './mobile/ts/IPMonitorPageMobile'
 import IPHeatmapMobile from './mobile/IPHeatmapMobile.vue'
 import IPLineChartMobile from './mobile/IPLineChartMobile.vue'
 import LoadingMask from '@/components/LoadingMask.vue'
+import IPMonitorPageIPConfigMobileForm from './mobile/forms/IPMonitorPageIPConfigMobileForm.vue'
 
 // Element Plus 基础样式导入(按需导入,减小打包体积)
 import 'element-plus/theme-chalk/el-button.css'
@@ -154,6 +173,11 @@ const pageData = ref<IPMonitorPageData>({
  * 向子组件提供数据管理实例
  */
 provide('ipMonitorData', pageDataManager)
+
+/**
+ * 是否显示IP配置对话框
+ */
+const showIPConfigDialog = ref<boolean>(false)
 
 /**
  * 选中的时间范围（天数）
@@ -325,6 +349,13 @@ async function initPageData(): Promise<void> {
 function handleLogoClick(): void {
 	const themeStore = useThemeStore()
 	themeStore.toggleTheme()
+}
+
+/**
+ * 处理IP配置确认
+ */
+function handleConfigConfirm(): void {
+	showIPConfigDialog.value = false
 }
 
 /**
