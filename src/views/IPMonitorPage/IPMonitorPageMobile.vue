@@ -105,7 +105,6 @@
 		<IPLineChartMobile
 			v-if="(pageData.fangIPs?.fang_ips?.length ?? 0) > 0"
 		/>
-
 	</div>
 </template>
 
