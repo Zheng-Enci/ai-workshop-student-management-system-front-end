@@ -1,7 +1,6 @@
 <template>
+    <LoadingMask/>
 	<div class="ip-monitor-page-desktop">
-		<!-- 加载蒙版组件 -->
-		<LoadingMask/>
 		<!-- 页面头部 -->
 		<div class="ip-monitor-page-desktop-header-container">
 			<!-- 左侧区域：导航按钮和扫描统计 -->
