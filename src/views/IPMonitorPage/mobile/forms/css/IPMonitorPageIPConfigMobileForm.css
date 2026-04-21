@@ -42,9 +42,9 @@
 	margin: 0 0 10px;
 	font-size: 14px;
 	font-weight: 600;
+	line-height: 1.4;
 	color: var(--primary-color);
 	text-align: center;
-	line-height: 1.4;
 }
 
 /**
