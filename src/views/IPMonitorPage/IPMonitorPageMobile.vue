@@ -37,13 +37,9 @@
 			<div class="ip-monitor-page-mobile-ip-stats">
 				<div class="ip-monitor-page-mobile-stats-left">
 					<span>坊内总IP: {{ fangIPs.length }}</span>
-				</div>
-				<div class="ip-monitor-page-mobile-stats-left">
-					<span v-if="maxCount > 0">活跃: {{ activeIPCount }}</span>
+					<span v-if="maxCount > 0">| 活跃: {{ activeIPCount }}</span>
 					<span v-if="maxCount > 0">| 不活跃: {{ inactiveIPCount }}</span>
-				</div>
-				<div class="ip-monitor-page-mobile-stats-left">
-					<span v-if="maxCount > 0">利用率: {{ ipUtilizationRate }}</span>
+					<span v-if="maxCount > 0">| 利用率: {{ ipUtilizationRate }}</span>
 				</div>
 				<div class="ip-monitor-page-mobile-stats-left">
 					<span v-if="maxCount > 0">最大: {{ maxCount }}</span>
