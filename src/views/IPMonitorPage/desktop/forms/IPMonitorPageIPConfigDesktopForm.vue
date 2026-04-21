@@ -124,6 +124,15 @@ const handleCancel = () => {
 					class="ip-monitor-page-ip-config-desktop-form-flowchart"
 				/>
 			</div>
+			<!-- 步骤3：点击以太网 -->
+			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">步骤3：点击"以太网"</p>
+				<img
+					src="@/assets/ip-config-flowchart/3.png"
+					alt="IP配置流程图-步骤3"
+					class="ip-monitor-page-ip-config-desktop-form-flowchart"
+				/>
+			</div>
 		</div>
 		<template #footer>
 			<ElButton
