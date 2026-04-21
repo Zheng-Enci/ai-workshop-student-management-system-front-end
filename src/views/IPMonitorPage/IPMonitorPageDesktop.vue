@@ -126,6 +126,7 @@
 
 		<!-- IP配置流程对话框组件 -->
 		<IPMonitorPageIPConfigDesktopForm
+			v-if="showIPConfigDialog"
 			v-model="showIPConfigDialog"
 			@confirm="handleConfigConfirm"
 		/>
