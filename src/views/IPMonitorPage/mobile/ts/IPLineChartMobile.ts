@@ -291,19 +291,9 @@ export class IPLineChartMobile {
 			grid: {
 				left: '3%',
 				right: '4%',
-				bottom: '15%',
+				bottom: '3%',
 				containLabel: true
 			},
-			dataZoom: [
-				{
-					type: 'slider',
-					show: true,
-					start: 0,
-					end: 100,
-					height: 20,
-					bottom: 5
-				}
-			],
 			xAxis: {
 				type: 'category',
 				data: data.map((d) => d.ip),
