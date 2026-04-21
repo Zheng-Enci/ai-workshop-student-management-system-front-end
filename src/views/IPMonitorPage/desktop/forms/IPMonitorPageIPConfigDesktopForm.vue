@@ -160,6 +160,24 @@ const handleCancel = () => {
 					class="ip-monitor-page-ip-config-desktop-form-flowchart"
 				/>
 			</div>
+			<!-- 步骤7：填写IP配置信息（上） -->
+			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">步骤7：抄写本图内容到目标机子上，IP地址请选择页面上无人使用的IP</p>
+				<img
+					src="@/assets/ip-config-flowchart/7.png"
+					alt="IP配置流程图-步骤7"
+					class="ip-monitor-page-ip-config-desktop-form-flowchart"
+				/>
+			</div>
+			<!-- 步骤8：填写IP配置信息（下） -->
+			<div class="ip-monitor-page-ip-config-desktop-form-image-container">
+				<p class="ip-monitor-page-ip-config-desktop-form-hint">步骤8：继续填写DNS信息，然后点击保存</p>
+				<img
+					src="@/assets/ip-config-flowchart/8.png"
+					alt="IP配置流程图-步骤8"
+					class="ip-monitor-page-ip-config-desktop-form-flowchart"
+				/>
+			</div>
 		</div>
 		<template #footer>
 			<ElButton
