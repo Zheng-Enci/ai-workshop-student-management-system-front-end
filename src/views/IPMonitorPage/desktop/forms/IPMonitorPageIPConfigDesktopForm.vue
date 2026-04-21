@@ -180,14 +180,8 @@ const handleCancel = () => {
 			</div>
 		</div>
 		<template #footer>
-			<ElButton
-				type="primary"
-				@click="handleConfirm"
-			>
-				确认
-			</ElButton>
 			<ElButton @click="handleCancel">
-				取消
+				关闭
 			</ElButton>
 		</template>
 	</ElDialog>
