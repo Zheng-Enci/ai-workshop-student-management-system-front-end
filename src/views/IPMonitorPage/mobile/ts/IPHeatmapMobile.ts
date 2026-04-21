@@ -120,7 +120,7 @@ export class IPHeatmapMobile {
 	 * 同时初始化数据管理实例和响应式数据
 	 *
 	 * @example
-	 * const heatmap = new IPHeatmapDesktop({
+	 * const heatmap = new IPHeatmapMobile({
 	 *   fangIPs: ['10.0.48.151', '10.0.48.152'],
 	 *   ipCounts: { '10.0.48.151': 5, '10.0.48.152': 10 }
 	 * })
@@ -197,18 +197,18 @@ export class IPHeatmapMobile {
 	 * @returns {number} 热力图行数
 	 */
 	public get rowCount(): number {
-		return Math.ceil(this.ipRange.length / 10)
+		return Math.ceil(this.ipRange.length / 4)
 	}
 
 	/**
 	 * 热力图列数计算属性
-	 * 默认每行显示10个IP
+	 * 默认每行显示4个IP
 	 *
 	 * @public
-	 * @returns {number} 热力图列数，固定为10
+	 * @returns {number} 热力图列数，固定为4
 	 */
 	public get colCount(): number {
-		return 10
+		return 4
 	}
 
 	/**
@@ -358,7 +358,7 @@ export class IPHeatmapMobile {
 	 * @param {number} value - 当前IP的出现次数
 	 * @returns {{r: number; g: number; b: number}} RGB颜色对象，包含r、g、b三个分量（0-255）
 	 * @example
-	 * const color = IPHeatmapDesktop.calculateColor(1, 10, 5)
+	 * const color = IPHeatmapMobile.calculateColor(1, 10, 5)
 	 * // 返回中间过渡色
 	 */
 	public static calculateColor(
@@ -389,7 +389,7 @@ export class IPHeatmapMobile {
 	 *
 	 * 计算逻辑：
 	 * - 将行列位置转换为一维索引
-	 * - 每行10个IP，行号从1开始
+	 * - 每行4个IP，行号从1开始
 	 * - 列号从1开始
 	 *
 	 * @public
@@ -399,10 +399,10 @@ export class IPHeatmapMobile {
 	 * @example
 	 * getIPIndex(1, 1) // 返回 0
 	 * getIPIndex(1, 2) // 返回 1
-	 * getIPIndex(2, 1) // 返回 10
+	 * getIPIndex(2, 1) // 返回 4
 	 */
 	public getIPIndex(row: number, col: number): number {
-		return (row - 1) * 10 + (col - 1)
+		return (row - 1) * 4 + (col - 1)
 	}
 
 	/**
