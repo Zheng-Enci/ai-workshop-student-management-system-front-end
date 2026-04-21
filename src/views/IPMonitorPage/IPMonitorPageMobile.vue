@@ -16,9 +16,6 @@
 					</el-icon>
 					导航
 				</el-button>
-				<div class="ip-monitor-page-mobile-scan-stats">
-					{{ timeRangeLabel }}扫描次数：{{ recent7DScans }}
-				</div>
 			</div>
 			<h1 class="ip-monitor-page-mobile-title">IP出现次数统计</h1>
 			<!-- Logo图片 - 点击切换日间/夜间模式 -->
@@ -47,6 +44,10 @@
 					<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
 				</div>
 			</div>
+            <div>
+            <div class="ip-monitor-page-mobile-scan-stats">
+					{{ timeRangeLabel }}扫描次数：{{ recent7DScans }}
+				</div>
 			<el-select
 				v-model="selectedTimeRange"
 				class="ip-monitor-page-mobile-time-select"
@@ -83,6 +84,7 @@
 					:value="180"
 				/>
 			</el-select>
+            </div>
 		</div>
 
 		<!-- IP热力图表格 -->
