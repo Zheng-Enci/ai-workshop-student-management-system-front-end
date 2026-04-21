@@ -44,47 +44,47 @@
 					<span v-if="maxCount > 0">| 平均: {{ avgCount }}</span>
 				</div>
 			</div>
-            <div>
-            <div class="ip-monitor-page-mobile-scan-stats">
+			<div class="ip-monitor-page-mobile-scan-time-container">
+				<div class="ip-monitor-page-mobile-scan-stats">
 					{{ timeRangeLabel }}扫描次数：{{ recent7DScans }}
 				</div>
-			<el-select
-				v-model="selectedTimeRange"
-				class="ip-monitor-page-mobile-time-select"
-				size="small"
-				placeholder="选择时间范围"
-				@change="handleTimeRangeChange"
-			>
-				<el-option
-					label="最近七天"
-					:value="7"
-				/>
-				<el-option
-					label="最近一个月"
-					:value="30"
-				/>
-				<el-option
-					label="两个月"
-					:value="60"
-				/>
-				<el-option
-					label="三个月"
-					:value="90"
-				/>
-				<el-option
-					label="四个月"
-					:value="120"
-				/>
-				<el-option
-					label="五个月"
-					:value="150"
-				/>
-				<el-option
-					label="六个月"
-					:value="180"
-				/>
-			</el-select>
-            </div>
+				<el-select
+					v-model="selectedTimeRange"
+					class="ip-monitor-page-mobile-time-select"
+					size="small"
+					placeholder="选择时间范围"
+					@change="handleTimeRangeChange"
+				>
+					<el-option
+						label="最近七天"
+						:value="7"
+					/>
+					<el-option
+						label="最近一个月"
+						:value="30"
+					/>
+					<el-option
+						label="两个月"
+						:value="60"
+					/>
+					<el-option
+						label="三个月"
+						:value="90"
+					/>
+					<el-option
+						label="四个月"
+						:value="120"
+					/>
+					<el-option
+						label="五个月"
+						:value="150"
+					/>
+					<el-option
+						label="六个月"
+						:value="180"
+					/>
+				</el-select>
+			</div>
 		</div>
 
 		<!-- IP热力图表格 -->
