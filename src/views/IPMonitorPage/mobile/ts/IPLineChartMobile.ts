@@ -291,9 +291,19 @@ export class IPLineChartMobile {
 			grid: {
 				left: '3%',
 				right: '4%',
-				bottom: '3%',
+				bottom: '15%',
 				containLabel: true
 			},
+			dataZoom: [
+				{
+					type: 'slider',
+					show: true,
+					start: 0,
+					end: 100,
+					height: 20,
+					bottom: 5
+				}
+			],
 			xAxis: {
 				type: 'category',
 				data: data.map((d) => d.ip),
@@ -304,10 +314,11 @@ export class IPLineChartMobile {
 				},
 				axisLabel: {
 					color: colors.textColor,
-					rotate: 45,
-					fontSize: 9,
-					interval: 0,
-					overflow: 'none'
+					rotate: 90,
+					fontSize: 8,
+					interval: 'auto',
+					overflow: 'truncate',
+					width: 60
 				},
 				axisTick: {
 					alignWithLabel: true
