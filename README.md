@@ -510,9 +510,11 @@ API 接口定义在 `src/api/` 目录：
 
 ## 👥 作者
 
-**郑恩慈**
+**郑恩赐**
 
 - Gitee: [@zheng-enci050704](https://gitee.com/zheng-enci050704)
+- GitHub: [@Zheng-Enci](https://github.com/Zheng-Enci)
+- GitCode: [@ZhengEnCi](https://gitcode.com/ZhengEnCi)
 
 ## 🙏 致谢
 
@@ -535,6 +537,6 @@ API 接口定义在 `src/api/` 目录：
 
 **⭐ 如果这个项目对你有帮助，欢迎 Star！**
 
-Made with ❤️ by 郑恩慈
+Made with ❤️ by 郑恩赐
 
 </div>
