@@ -1,0 +1,71 @@
+/**
+ * 个人信息页面设备检测样式文件
+ * 定义设备检测加载页面的样式
+ *
+ * @file ProfilePage.css
+ * @description 个人信息页面设备检测时的加载动画样式
+ */
+
+/**
+ * 设备检测容器
+ * 全屏居中布局，紫色渐变背景
+ */
+.device-detection {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	/* 系统字体栈，确保跨平台兼容性 */
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+		'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial,
+		sans-serif;
+	/* 紫色渐变背景 */
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/**
+ * 加载容器
+ * 白色文本，居中对齐
+ */
+.loading-container {
+	color: white;
+	text-align: center;
+}
+
+/**
+ * 加载旋转动画
+ * 圆形边框，顶部边框为白色，形成旋转效果
+ */
+.loading-spinner {
+	width: 40px;
+	height: 40px;
+	margin: 0 auto 20px;
+	border: 4px solid rgb(255 255 255 / 0.3); /* 半透明边框 */
+	border-top: 4px solid white; /* 顶部白色边框，形成旋转效果 */
+	border-radius: 50%; /* 圆形 */
+	animation: spin 1s linear infinite; /* 持续旋转动画 */
+}
+
+/**
+ * 旋转动画关键帧
+ * 从0度旋转到360度
+ */
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/**
+ * 加载提示文本样式
+ */
+.loading-container p {
+	margin: 0;
+	font-size: 16px;
+	opacity: 0.9; /* 轻微透明 */
+}
+

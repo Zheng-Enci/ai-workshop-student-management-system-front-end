@@ -1,0 +1,246 @@
+/**
+ * 签到页面移动端签到按钮样式
+ * @file attendance-mobile-sign-button.css
+ * @description 签到页面移动端的签到按钮样式，包括按钮容器、主按钮、图标、文本、波纹效果等
+ */
+
+/* ==================== 签到按钮容器 ==================== */
+
+.attendance-mobile-sign-button-container-mobile {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ==================== 签到按钮 ==================== */
+
+.attendance-mobile-sign-button-button-mobile {
+	width: 160px;
+	height: 160px;
+	border-radius: 50%;
+	border: none;
+	color: white;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 8px 28px rgba(102, 126, 234, 0.3),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 上午签到按钮 - 暖橙色渐变 */
+.attendance-mobile-sign-button-button-mobile.morning {
+	background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+	box-shadow: 0 8px 28px rgba(255, 152, 0, 0.4),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 下午签到按钮 - 天蓝色渐变 */
+.attendance-mobile-sign-button-button-mobile.afternoon {
+	background: linear-gradient(135deg, #2196F3 0%, #00BCD4 100%);
+	box-shadow: 0 8px 28px rgba(33, 150, 243, 0.4),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* 晚上签到按钮 - 蓝紫色渐变 */
+.attendance-mobile-sign-button-button-mobile.evening {
+	background: linear-gradient(135deg, #673AB7 0%, #3F51B5 100%);
+	box-shadow: 0 8px 28px rgba(103, 58, 183, 0.4),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.attendance-mobile-sign-button-button-mobile:hover:not(:disabled) {
+	transform: translateY(-2px) scale(1.02);
+}
+
+.attendance-mobile-sign-button-button-mobile.morning:hover:not(:disabled) {
+	box-shadow: 0 12px 36px rgba(255, 152, 0, 0.5),
+	0 0 0 1px rgba(255, 255, 255, 0.2),
+	inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.attendance-mobile-sign-button-button-mobile.afternoon:hover:not(:disabled) {
+	box-shadow: 0 12px 36px rgba(33, 150, 243, 0.5),
+	0 0 0 1px rgba(255, 255, 255, 0.2),
+	inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.attendance-mobile-sign-button-button-mobile.evening:hover:not(:disabled) {
+	box-shadow: 0 12px 36px rgba(103, 58, 183, 0.5),
+	0 0 0 1px rgba(255, 255, 255, 0.2),
+	inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.attendance-mobile-sign-button-button-mobile:active:not(:disabled) {
+	transform: translateY(-1px) scale(0.98);
+}
+
+.attendance-mobile-sign-button-button-mobile:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	transform: scale(0.95);
+}
+
+.attendance-mobile-sign-button-button-mobile.disabled {
+	background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
+	box-shadow: 0 6px 20px rgba(158, 158, 158, 0.3),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.attendance-mobile-sign-button-button-mobile.success.morning,
+.attendance-mobile-sign-button-button-mobile.success.afternoon,
+.attendance-mobile-sign-button-button-mobile.success.evening {
+	background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+	box-shadow: 0 8px 28px rgba(76, 175, 80, 0.3),
+	0 0 0 1px rgba(255, 255, 255, 0.1),
+	inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.attendance-mobile-sign-button-button-mobile.loading {
+	animation: attendance-mobile-sign-button-pulse-mobile 2s ease-in-out infinite;
+}
+
+/* ==================== 按钮背景层 ==================== */
+
+.attendance-mobile-sign-button-background-mobile {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 50%;
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.4) 0%,
+		rgba(255, 255, 255, 0.1) 20%,
+		rgba(255, 255, 255, 0.4) 40%,
+		rgba(255, 255, 255, 0.1) 60%,
+		rgba(255, 255, 255, 0.4) 80%,
+		rgba(255, 255, 255, 0.1) 100%
+	);
+	background-size: 400% 400%;
+	animation: attendance-mobile-sign-button-gradient-flow 2s linear infinite;
+	z-index: 1;
+}
+
+.attendance-mobile-sign-button-button-mobile.success .attendance-mobile-sign-button-background-mobile {
+	background: linear-gradient(135deg, rgba(76, 175, 80, 0.5) 0%, rgba(76, 175, 80, 0.2) 50%, rgba(76, 175, 80, 0.5) 100%);
+	background-size: 400% 400%;
+	animation: none;
+}
+
+/* ==================== 渐变流动动画 ==================== */
+
+@keyframes attendance-mobile-sign-button-gradient-flow {
+	0% {
+		background-position: 0% 0%;
+	}
+	100% {
+		background-position: 100% 100%;
+	}
+}
+
+/* ==================== 按钮内容层 ==================== */
+
+.attendance-mobile-sign-button-content-mobile {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	gap: 8px;
+}
+
+/* ==================== 图标容器 ==================== */
+
+.attendance-mobile-sign-button-icon-container-mobile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* ==================== 主图标 ==================== */
+
+.attendance-mobile-sign-button-main-icon-mobile {
+	filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+	transition: all 0.3s ease;
+}
+
+.attendance-mobile-sign-button-main-icon-mobile.success-icon-mobile {
+	filter: drop-shadow(0 3px 6px rgba(76, 175, 80, 0.4));
+}
+
+.attendance-mobile-sign-button-main-icon-mobile.disabled-icon-mobile {
+	opacity: 0.6;
+	filter: grayscale(100%) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+}
+
+.attendance-mobile-sign-button-main-icon-mobile.loading-icon-mobile {
+	animation: attendance-mobile-sign-button-spin-mobile 1s linear infinite;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* ==================== 按钮文本 ==================== */
+
+.attendance-mobile-sign-button-text-mobile {
+	font-size: 14px;
+	font-weight: 700;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+	letter-spacing: 0.5px;
+	color: white;
+	transition: all 0.3s ease;
+}
+
+.attendance-mobile-sign-button-text-mobile.loading-text-mobile {
+	font-size: 12px;
+	font-weight: 600;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+	color: white;
+}
+
+/* ==================== 波纹效果 ==================== */
+
+.attendance-mobile-sign-button-ripple-mobile {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.3);
+	transform: translate(-50%, -50%);
+	transition: all 0.6s ease;
+}
+
+.attendance-mobile-sign-button-button-mobile:active:not(:disabled) .attendance-mobile-sign-button-ripple-mobile {
+	width: 200px;
+	height: 200px;
+}
+
+/* ==================== 动画 ==================== */
+
+@keyframes attendance-mobile-sign-button-pulse-mobile {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.7;
+	}
+}
+
+@keyframes attendance-mobile-sign-button-spin-mobile {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}

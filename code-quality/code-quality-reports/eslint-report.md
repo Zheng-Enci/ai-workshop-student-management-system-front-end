@@ -1,0 +1,2794 @@
+# ESLint 代码规范检查报告
+
+## 📊 总体统计
+
+| 指标 | 数值 |
+|------|------|
+| 检查文件数 | 75 |
+| 错误总数 | 1156 |
+| 警告总数 | 955 |
+| 问题总数 | 2111 |
+
+## 📈 状态评估
+
+❌ **发现 1156 个错误**，需要立即修复。
+
+## 📋 按文件类型统计
+
+| 文件类型 | 文件数 | 错误 | 警告 |
+|---------|--------|------|------|
+| Vue | 33 | 1090 | 460 |
+| JavaScript | 42 | 66 | 495 |
+
+## ⚠️ 有问题的文件
+
+| 文件路径 | 错误数 | 警告数 | 状态 |
+|---------|--------|--------|------|
+| src\views\AdminPage\AdminPageMobile.vue | 421 | 14 | ❌ |
+| src\views\StudentManagerPage\StudentManagerPageMobile.vue | 148 | 49 | ❌ |
+| src\views\AdminPage\AdminPageDesktop.vue | 165 | 0 | ❌ |
+| src\views\AdminPage\AdminPage.js | 29 | 98 | ❌ |
+| src\views\AttendancePage\AttendancePageMobile.vue | 92 | 28 | ❌ |
+| src\views\StudentManagerPage\StudentManagerPageDesktop.vue | 66 | 40 | ❌ |
+| src\api\student.js | 0 | 82 | ⚠️ |
+| src\api\attendance.js | 0 | 63 | ⚠️ |
+| src\views\AllMembersPage\AllMembersPageDesktop.vue | 23 | 40 | ❌ |
+| src\views\PointsDashboardPage\PointsDashboardPageMobile.vue | 15 | 48 | ❌ |
+| src\views\ProfilePage\ProfilePageMobile.vue | 22 | 34 | ❌ |
+| src\views\PointsDashboardPage\PointsDashboardPageDesktop.vue | 26 | 28 | ❌ |
+| src\views\ProfilePage\ProfilePageDesktop.vue | 1 | 46 | ❌ |
+| src\composables\admin\StudentAttendance.js | 10 | 29 | ❌ |
+| src\views\HomePage\HomePageDesktop.vue | 34 | 4 | ❌ |
+| src\views\AttendancePage\AttendancePageDesktop.vue | 18 | 16 | ❌ |
+| src\views\AllMembersPage\AllMembersPageMobile.vue | 3 | 27 | ❌ |
+| src\composables\admin\StudentPoints.js | 6 | 23 | ❌ |
+| src\composables\admin\StudentLevel.js | 7 | 18 | ❌ |
+| src\composables\admin\StudentPersonalInformation.js | 2 | 20 | ❌ |
+| src\views\StudentManagerPage\js\StudentManagerPage-Attendance_Records_Dialog.js | 2 | 19 | ❌ |
+| src\views\NavigationPage\NavigationPageDesktop.vue | 0 | 19 | ⚠️ |
+| src\composables\admin\StudentAvatar.js | 3 | 14 | ❌ |
+| src\views\DashboardPage\DashboardPageDesktop.vue | 0 | 17 | ⚠️ |
+| src\api\StudentApi.js | 0 | 14 | ⚠️ |
+| src\api\points.js | 0 | 14 | ⚠️ |
+| src\views\NavigationPage\NavigationPageMobile.vue | 2 | 11 | ❌ |
+| src\views\HomePage\HomePageMobile.vue | 10 | 1 | ❌ |
+| src\api\AttendanceApi.js | 0 | 10 | ⚠️ |
+| src\views\LoginPage\LoginPage.vue | 6 | 4 | ❌ |
+| src\App.vue | 7 | 2 | ❌ |
+| src\stores\admin.js | 5 | 4 | ❌ |
+| src\views\PointsDashboardPage\js\PointsDashboardPageUtils.js | 0 | 9 | ⚠️ |
+| src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageMobile.vue | 5 | 4 | ❌ |
+| src\views\AllMembersPage\js\AllMembersPageUtils.js | 0 | 8 | ⚠️ |
+| src\views\AllMembersPage\js\PointsServer.js | 0 | 8 | ⚠️ |
+| src\views\AttendancePage\AttendancePage.vue | 6 | 2 | ❌ |
+| src\views\PointsDashboardPage\js\PointsDashboardPage.js | 1 | 7 | ❌ |
+| src\views\RegisterPage\RegisterPage.vue | 1 | 7 | ❌ |
+| src\api\PointsApi.js | 0 | 6 | ⚠️ |
+| src\views\AdminPage\AdminPage.vue | 4 | 2 | ❌ |
+| src\views\AllMembersPage\js\AdjustRecordsDialogManager.js | 0 | 6 | ⚠️ |
+| src\views\AllMembersPage\js\PersonalInformation.js | 0 | 6 | ⚠️ |
+| src\views\StudentManagerPage\js\StudentManagerPageStudentAttendanceServer.js | 0 | 6 | ⚠️ |
+| src\components\ThemeToggle.vue | 1 | 4 | ❌ |
+| src\views\StudentManagerPage\js\StudentManagerPage.js | 1 | 4 | ❌ |
+| src\api\StatisticsApi.js | 0 | 4 | ⚠️ |
+| src\router\index.js | 0 | 4 | ⚠️ |
+| src\views\DashboardPage\DashboardPage.vue | 3 | 1 | ❌ |
+| src\views\PointsDashboardPage\PointsDashboardPage.vue | 3 | 1 | ❌ |
+| src\views\ProfilePage\ProfilePage.vue | 3 | 1 | ❌ |
+| src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageDesktop.vue | 0 | 4 | ⚠️ |
+| src\views\StudentManagerPage\js\StudentManagerPageUtils.js | 0 | 4 | ⚠️ |
+| src\api\super_admin.js | 0 | 3 | ⚠️ |
+| src\stores\user.js | 0 | 3 | ⚠️ |
+| src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPage.vue | 2 | 1 | ❌ |
+| src\views\StudentManagerPage\StudentManagerPage.vue | 2 | 1 | ❌ |
+| src\api\StudentManagementApi.js | 0 | 2 | ⚠️ |
+| src\composables\ApiInterceptor.js | 0 | 2 | ⚠️ |
+| src\views\AllMembersPage\AllMembersPage.vue | 1 | 1 | ❌ |
+| src\views\HomePage\HomePage.vue | 0 | 2 | ⚠️ |
+| src\views\HomePage\js\HomePage.js | 0 | 2 | ⚠️ |
+| src\views\ProfilePage\js\ProfilePageUtils.js | 0 | 2 | ⚠️ |
+| src\stores\theme.js | 0 | 1 | ⚠️ |
+| src\views\NavigationPage\NavigationPage.vue | 0 | 1 | ⚠️ |
+
+## 📝 详细问题列表
+
+### 1. src\views\AdminPage\AdminPageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 9 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "features". |
+| 17 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 17 | 40 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 21 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 21 | 21 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 29 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 29 | 1 | ❌ 错误 | import/order | `element-plus` import should occur before import of `vue` |
+| 30 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局提示组件'. |
+| 31 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图标容器组件'. |
+| 32 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 输入框组件'. |
+| 33 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 按钮组件'. |
+| 34 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 下拉选择器组件'. |
+| 35 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 下拉选项组件'. |
+| 36 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 对话框组件'. |
+| 37 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 表单组件'. |
+| 38 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 表单项组件'. |
+| 39 | 15 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 41 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标签页组件'. |
+| 42 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标签页面板组件'. |
+| 43 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标签组件'. |
+| 44 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 提示框组件'. |
+| 46 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件'. |
+| 76 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `vue` |
+| 77 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户图标'. |
+| 78 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历图标'. |
+| 79 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图图标'. |
+| 80 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索图标'. |
+| 81 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 刷新图标'. |
+| 82 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 切换按钮图标'. |
+| 83 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑图标'. |
+| 84 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 填充用户图标'. |
+| 85 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 时钟图标'. |
+| 86 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 警告图标'. |
+| 87 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 文档图标'. |
+| 88 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载图标'. |
+| 89 | 6 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 盒子图标'. |
+| 90 | 6 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 锁图标'. |
+| 95 | 1 | ❌ 错误 | import/order | `@/api/student` import should occur before import of `./AdminPage.js` |
+| 95 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 95 | 21 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 100 | 1 | ❌ 错误 | import/order | `element-plus/dist/locale/zh-cn.mjs` import should occur before import of `vue` |
+| 116 | 7 | ❌ 错误 | no-unused-vars | 'monthMap' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 133 | 7 | ❌ 错误 | no-unused-vars | 'monthObserver' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 150 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 是否已通过身份验证（布...'. |
+| 151 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 超级管理员验证密码（字...'. |
+| 152 | 2 | ❌ 错误 | no-unused-vars | 'authError' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 152 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 身份验证错误信息（字符...'. |
+| 153 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 身份验证加载状态（布尔...'. |
+| 154 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局数据加载状态（布尔...'. |
+| 155 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 核心数据是否加载完成（...'. |
+| 156 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 数据加载进度（百分比，...'. |
+| 157 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 数据加载状态文本（字符...'. |
+| 158 | 2 | ❌ 错误 | no-unused-vars | 'students' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 158 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 所有学生原始数据列表（...'. |
+| 159 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生搜索关键词（字符串...'. |
+| 160 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 分页当前页码（数字）'. |
+| 161 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 分页每页条数（数字）'. |
+| 162 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生总数（数字）'. |
+| 163 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 今日签到人数（数字）'. |
+| 164 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 本月签到人数（数字）'. |
+| 165 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生等级映射表（对象，...'. |
+| 167 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生所属管理员映射表（...'. |
+| 168 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生积分信息映射表（对...'. |
+| 169 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前激活的学生等级标签...'. |
+| 170 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑学生信息对话框显示...'. |
+| 171 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单引用（Ref）'. |
+| 172 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单数据（对象）'. |
+| 174 | 25 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 今日考勤记录列表（数组...'. |
+| 176 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前选中的学生信息（对...'. |
+| 177 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件选中日期（日期...'. |
+| 178 | 2 | ❌ 错误 | no-unused-vars | 'scrollPosition' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 178 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 页面滚动位置（数字）'. |
+| 180 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历时间段配置（数组）'. |
+| 181 | 2 | ❌ 错误 | no-unused-vars | 'filteredStudentAttendanceRecords' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 183 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图对话框显示状态（...'. |
+| 184 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图容器引用（Ref...'. |
+| 185 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图容器引用（Ref...'. |
+| 186 | 2 | ❌ 错误 | no-unused-vars | 'heatmapInstance' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 186 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图实例（Ref）'. |
+| 187 | 2 | ❌ 错误 | no-unused-vars | 'lineInstance' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 187 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图实例（Ref）'. |
+| 189 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选中的日期（字符串）'. |
+| 190 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡对话框显示状态（布...'. |
+| 191 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作加载状态（布尔...'. |
+| 192 | 23 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 193 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡步骤（date:选...'. |
+| 194 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单引用（Ref）'. |
+| 195 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期选择器引用（Ref...'. |
+| 196 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单数据（对象）'. |
+| 197 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分修改对话框显示状态...'. |
+| 198 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分修改加载状态（布尔...'. |
+| 199 | 23 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 200 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单引用（Ref）'. |
+| 201 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单数据（对象）'. |
+| 203 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分变动记录加载状态（...'. |
+| 204 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分变动记录列表（数组...'. |
+| 206 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期快捷选择配置（数组...'. |
+| 207 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生等级选项（数组）'. |
+| 208 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 管理员选项（数组）'. |
+| 209 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 筛选后的学生列表（数组...'. |
+| 211 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单校验规则（对象...'. |
+| 212 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单校验规则（对象...'. |
+| 213 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡日期表单校验规则（...'. |
+| 214 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 考勤时间段配置（数组）'. |
+| 229 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 237 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 247 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentLevels' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 253 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentAttendanceCounts' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 259 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentAdmins' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 272 | 2 | ❌ 错误 | no-unused-vars | 'loadStatistics' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 282 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 343 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 428 | 2 | ❌ 错误 | no-unused-vars | 'generateHeatmapData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 432 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 434 | 2 | ❌ 错误 | no-unused-vars | 'generateLineData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 438 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 445 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 467 | 2 | ❌ 错误 | no-unused-vars | 'getShortcutDate' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 471 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 502 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "shortcut" type "Object"; prefer: "object". |
+| 509 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "shortcut" type "Object"; prefer: "object". |
+| 532 | 2 | ❌ 错误 | no-unused-vars | 'updateAttendanceTime' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 542 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 567 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 612 | 24 | ❌ 错误 | no-undef | 'adminStore' is not defined. |
+| 626 | 4 | ❌ 错误 | no-undef | 'adminStore' is not defined. |
+| 648 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 重新初始化趋势图'. |
+| 800 | 6 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 881 | 6 | ❌ 错误 | vue/attributes-order | Attribute ":loading" should go before "@click". |
+| 882 | 6 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 946 | 1 | ❌ 错误 | max-len | This line has a length of 185. Maximum allowed is 120. |
+| 974 | 9 | ❌ 错误 | vue/attributes-order | Attribute ":loading" should go before "@click". |
+| 975 | 9 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 985 | 9 | ❌ 错误 | vue/attributes-order | Attribute ":loading" should go before "@click". |
+| 986 | 9 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 996 | 9 | ❌ 错误 | vue/attributes-order | Attribute ":loading" should go before "@click". |
+| 997 | 9 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 1010 | 35 | ❌ 错误 | vue/attributes-order | Attribute "v-if" should go before "class". |
+| 1197 | 1 | ❌ 错误 | max-len | This line has a length of 149. Maximum allowed is 120. |
+| 1226 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
+| 1227 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 8 tabs. |
+| 1237 | 1 | ❌ 错误 | max-len | This line has a length of 200. Maximum allowed is 120. |
+| 1237 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
+| 1238 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
+| 1242 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
+| 1243 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
+| 1245 | 1 | ❌ 错误 | max-len | This line has a length of 127. Maximum allowed is 120. |
+| 1245 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 10 tabs. |
+| 1246 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 9 tabs. |
+| 1547 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1548 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1549 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1550 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1552 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1553 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1554 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1555 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1556 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1557 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1558 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1559 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1560 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1561 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1562 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1563 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1564 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1565 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1566 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1567 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1568 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1569 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1570 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1571 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1572 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1573 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1574 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1575 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1576 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1577 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1578 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1579 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1580 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1581 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1582 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1583 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1584 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1585 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1586 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1587 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1588 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1589 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1590 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1591 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1592 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1593 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1594 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1595 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1596 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1597 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1598 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1599 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1600 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1601 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1602 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1603 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1604 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1605 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1606 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1607 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1608 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1609 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1610 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1611 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1612 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1613 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1614 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1688 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1689 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1690 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1691 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1692 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1694 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1695 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1696 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1697 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1698 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1699 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1700 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1701 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1702 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1703 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1704 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1705 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1706 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1707 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1708 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1709 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1710 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1712 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1713 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1714 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1715 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1716 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1717 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1718 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1719 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1720 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1721 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1722 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1723 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1724 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1725 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1726 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1727 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1728 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1729 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1730 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1731 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1732 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1733 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1742 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1743 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1744 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1745 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1746 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1747 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1748 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1749 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1750 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1751 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1904 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1905 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1906 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1907 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1908 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1910 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1911 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1912 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1913 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1914 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1915 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1916 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1917 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1918 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1919 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1920 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1921 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1923 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1924 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 1925 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1926 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1927 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1928 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1929 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1930 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1931 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1932 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1933 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1934 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1935 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1936 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1937 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1938 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1939 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1940 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1942 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1943 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1944 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1945 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1946 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1947 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1948 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1949 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1950 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1951 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1952 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1953 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1954 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1955 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1956 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1957 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1958 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1959 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1960 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1961 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1962 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1963 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1964 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1965 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1966 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1967 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1968 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1969 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1970 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1971 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1972 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1973 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1974 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1975 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1976 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1977 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1978 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1979 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1980 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1981 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1982 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1983 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1984 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1985 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 1986 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 1987 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 1988 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 1989 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 1990 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 1991 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1992 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1994 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1995 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 1996 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1997 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1998 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 1999 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2000 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2001 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2002 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2003 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2004 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2005 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2006 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2007 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2008 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2009 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2010 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 2011 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 2012 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2013 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2014 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2015 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2016 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2017 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2018 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 2019 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 10 tabs but found 9 tabs. |
+| 2020 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 9 tabs but found 8 tabs. |
+| 2021 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2022 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2023 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2024 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2025 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2026 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2027 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2028 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2029 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 8 tabs but found 7 tabs. |
+| 2030 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2031 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 7 tabs but found 6 tabs. |
+| 2032 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2033 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2034 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2035 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 2037 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 2038 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 2039 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2040 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2041 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2042 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2043 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2044 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2045 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2046 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2047 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2048 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2049 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2050 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2051 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2052 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2053 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2054 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2055 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2056 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2057 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2058 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2059 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2060 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2061 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2062 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2063 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2064 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2065 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2066 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2067 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2068 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 6 tabs but found 5 tabs. |
+| 2069 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2070 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 2071 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 2072 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+
+### 2. src\views\StudentManagerPage\StudentManagerPageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 7 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 9 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "date". |
+| 11 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "dependency". |
+| 16 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 17 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局消息提示组件'. |
+| 18 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 按钮组件'. |
+| 19 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图标容器组件'. |
+| 20 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 输入框组件'. |
+| 21 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗组件'. |
+| 22 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件'. |
+| 23 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期时间选择器组件'. |
+| 24 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 消息确认框组件'. |
+| 32 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 33 | 6 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 响应式数据创建'. |
+| 34 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 生命周期钩子-组件挂载...'. |
+| 35 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 计算属性创建'. |
+| 36 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 异步DOM更新完成回调'. |
+| 37 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 响应式数据监听'. |
+| 57 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 57 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 58 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户图标'. |
+| 59 | 10 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 60 | 2 | ❌ 错误 | no-unused-vars | 'Star' is defined but never used. Allowed unused vars must match /^_/u. |
+| 60 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 星星/热力图图标'. |
+| 61 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 刷新图标'. |
+| 62 | 2 | ❌ 错误 | no-unused-vars | 'Loading' is defined but never used. Allowed unused vars must match /^_/u. |
+| 62 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载中图标'. |
+| 63 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 返回箭头图标'. |
+| 64 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 时钟/补卡图标'. |
+| 65 | 2 | ❌ 错误 | no-unused-vars | 'InfoFilled' is defined but never used. Allowed unused vars must match /^_/u. |
+| 65 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 信息提示图标'. |
+| 66 | 2 | ❌ 错误 | no-unused-vars | 'Check' is defined but never used. Allowed unused vars must match /^_/u. |
+| 66 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认勾选图标'. |
+| 67 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索图标'. |
+| 68 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 排序图标'. |
+| 69 | 2 | ❌ 错误 | no-unused-vars | 'TrendCharts' is defined but never used. Allowed unused vars must match /^_/u. |
+| 69 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图图标'. |
+| 73 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 73 | 18 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 77 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 78 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取学生签到次数'. |
+| 79 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生补卡操作'. |
+| 84 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 85 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取学生/管理员权限等...'. |
+| 89 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 89 | 22 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 90 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 90 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 90 | 21 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 90 | 43 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户状态管理'. |
+| 97 | 7 | ❌ 错误 | no-unused-vars | 'studentManagerPageUtils' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 102 | 1 | ❌ 错误 | import/order | `echarts/core` import should occur before import of `element-plus` |
+| 104 | 1 | ❌ 错误 | import/order | `echarts/charts` import should occur before import of `element-plus` |
+| 104 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 104 | 32 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 106 | 1 | ❌ 错误 | import/order | `echarts/components` import should occur before import of `element-plus` |
+| 107 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标题组件'. |
+| 108 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 提示框组件'. |
+| 109 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 网格组件'. |
+| 110 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图例组件'. |
+| 111 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 视觉映射组件（热力图用...'. |
+| 114 | 1 | ❌ 错误 | import/order | `echarts/renderers` import should occur before import of `element-plus` |
+| 114 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 114 | 23 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 129 | 27 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 路由实例'. |
+| 130 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户状态实例'. |
+| 131 | 35 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 主题状态实例'. |
+| 132 | 32 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 管理员管理的学生列表'. |
+| 133 | 27 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局加载状态'. |
+| 134 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索框输入内容'. |
+| 135 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索过滤后的学生列表'. |
+| 136 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 排序方式：defaul...'. |
+| 139 | 31 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图容器DOM引用'. |
+| 140 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图容器DOM引用'. |
+| 141 | 34 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图ECharts实...'. |
+| 142 | 31 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图ECharts实...'. |
+| 143 | 37 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗内热力图容器DOM...'. |
+| 144 | 35 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗内趋势图容器DOM...'. |
+| 147 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生签到次数缓存 {s...'. |
+| 148 | 36 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 是否显示补卡时间选择对...'. |
+| 149 | 39 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前补卡学生对象'. |
+| 150 | 25 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单数据'. |
+| 151 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡时间'. |
+| 153 | 7 | ❌ 错误 | no-unused-vars | 'makeupLoading' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 153 | 33 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作加载状态'. |
+| 154 | 34 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前选中的学生对象'. |
+| 166 | 2 | ❌ 错误 | no-use-before-define | 'handleMakeupTimeChange' was used before it was defined. |
+| 185 | 1 | ⚠️ 警告 | jsdoc/require-param | Missing JSDoc @param "student" declaration. |
+| 188 | 25 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 204 | 5 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'input'. |
+| 212 | 41 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选中学生的考勤记录列表'. |
+| 213 | 38 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件当前选中日期'. |
+| 214 | 44 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 考勤记录加载状态'. |
+| 217 | 40 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图弹窗显示状态'. |
+| 218 | 43 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图弹窗显示状态'. |
+| 225 | 7 | ❌ 错误 | no-unused-vars | 'totalAttendanceCount' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 225 | 45 | ❌ 错误 | arrow-body-style | Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`. |
+| 232 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 233 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 235 | 45 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 235 | 59 | ❌ 错误 | arrow-body-style | Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`. |
+| 241 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 241 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 242 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 244 | 30 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 245 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 246 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 263 | 55 | ❌ 错误 | sonarjs/no-redundant-boolean | Refactor the code to avoid using this boolean literal. |
+| 272 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 278 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 280 | 28 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 282 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'event'. |
+| 294 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 295 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 297 | 7 | ❌ 错误 | no-unused-vars | 'formatAttendanceTime' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 297 | 31 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 314 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 315 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 317 | 30 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 333 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 333 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 340 | 9 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 363 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 383 | 7 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 385 | 7 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 387 | 7 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 401 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 402 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 403 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 551 | 7 | ❌ 错误 | no-unused-vars | 'totalAttendanceCount' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 551 | 7 | ❌ 错误 | no-shadow | 'totalAttendanceCount' is already declared in the upper scope on line 225 column 7. |
+| 614 | 1 | ❌ 错误 | no-multiple-empty-lines | More than 2 blank lines not allowed. |
+| 617 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 617 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 618 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 709 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 709 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 711 | 7 | ❌ 错误 | no-unused-vars | 'openHeatmapDialog' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 711 | 34 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 724 | 10 | ❌ 错误 | no-use-before-define | 'initializeHeatmapDialogChart' was used before it was defined. |
+| 751 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 751 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 753 | 7 | ❌ 错误 | no-unused-vars | 'openTrendChartDialog' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 753 | 37 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 766 | 10 | ❌ 错误 | no-use-before-define | 'initializeTrendDialogChart' was used before it was defined. |
+| 795 | 47 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 796 | 33 | ❌ 错误 | curly | Expected { after 'if' condition. |
+| 877 | 45 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 878 | 31 | ❌ 错误 | curly | Expected { after 'if' condition. |
+| 964 | 1 | ❌ 错误 | no-multiple-empty-lines | More than 2 blank lines not allowed. |
+| 970 | 2 | ❌ 错误 | no-use-before-define | 'initHeatmapChart' was used before it was defined. |
+| 971 | 2 | ❌ 错误 | no-use-before-define | 'initLineChart' was used before it was defined. |
+| 977 | 7 | ❌ 错误 | no-unused-vars | 'initDialogHeatmapChart' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 978 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 979 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 980 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 996 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1004 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1005 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1005 | 23 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1005 | 23 | ❌ 错误 | no-undef | 'StudentManagerPageAttendance_Records_Dialog' is not defined. |
+| 1100 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1109 | 7 | ❌ 错误 | no-unused-vars | 'initDialogLineChart' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 1110 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1111 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1112 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1128 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1136 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1137 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1137 | 23 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1137 | 23 | ❌ 错误 | no-undef | 'StudentManagerPageAttendance_Records_Dialog' is not defined. |
+| 1153 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1153 | 11 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 1153 | 17 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 1375 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1375 | 11 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 1375 | 17 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 1454 | 1 | ⚠️ 警告 | jsdoc/require-returns | Missing JSDoc @returns declaration. |
+| 1463 | 4 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'input'. |
+| 1464 | 4 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'input'. |
+| 1478 | 1 | ⚠️ 警告 | jsdoc/require-param | Missing JSDoc @param "event" declaration. |
+| 1481 | 33 | ❌ 错误 | arrow-parens | Unexpected parentheses around single function argument. |
+| 1482 | 8 | ❌ 错误 | prefer-destructuring | Use object destructuring. |
+| 1650 | 6 | ❌ 错误 | vue/attributes-order | Attribute "class" should go before "@click". |
+| 1786 | 9 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1787 | 4 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1787 | 5 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 1835 | 5 | ❌ 错误 | vue/html-self-closing | Require self-closing on Vue.js custom components (<el-date-picker>). |
+| 1984 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1985 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1985 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 1993 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 1994 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 1994 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 2002 | 16 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 2003 | 11 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 2003 | 12 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+
+### 3. src\views\AdminPage\AdminPageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 10 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 11 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局消息提示'. |
+| 12 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图标容器'. |
+| 13 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 输入框'. |
+| 14 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 按钮'. |
+| 15 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 下拉选择器'. |
+| 16 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 下拉选项'. |
+| 17 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 弹窗'. |
+| 18 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 表单'. |
+| 19 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 表单项'. |
+| 20 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 数字输入框'. |
+| 21 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期选择器'. |
+| 22 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标签页'. |
+| 23 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标签页面板'. |
+| 24 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标签'. |
+| 25 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 提示框'. |
+| 26 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 分页组件'. |
+| 27 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件'. |
+| 61 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 62 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 用户图标'. |
+| 63 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历图标'. |
+| 64 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图图标'. |
+| 65 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索图标'. |
+| 66 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 刷新图标'. |
+| 67 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 切换按钮图标'. |
+| 68 | 7 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑图标'. |
+| 69 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 填充用户图标'. |
+| 70 | 8 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 时钟图标'. |
+| 71 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 警告图标'. |
+| 72 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 文档图标'. |
+| 73 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载图标'. |
+| 74 | 6 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 盒子图标'. |
+| 75 | 6 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 锁图标'. |
+| 88 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 是否已完成身份验证'. |
+| 89 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 超级管理员验证密码'. |
+| 90 | 2 | ❌ 错误 | no-unused-vars | 'authError' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 90 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 认证错误信息'. |
+| 91 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 认证加载状态'. |
+| 93 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 全局加载状态'. |
+| 94 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 核心数据是否加载完成'. |
+| 95 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载进度（百分比）'. |
+| 96 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载状态文本提示'. |
+| 98 | 2 | ❌ 错误 | no-unused-vars | 'students' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 98 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 所有学生列表'. |
+| 99 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生搜索关键词'. |
+| 100 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前分页页码'. |
+| 101 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 每页显示数量'. |
+| 102 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生总数'. |
+| 104 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 今日签到人数'. |
+| 105 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 本月签到人数'. |
+| 106 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生等级映射（stud...'. |
+| 108 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生所属管理员映射（s...'. |
+| 109 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生积分信息映射（st...'. |
+| 111 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前激活的学生等级标签...'. |
+| 112 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑学生信息弹窗是否显...'. |
+| 113 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单引用'. |
+| 114 | 11 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑表单数据'. |
+| 116 | 25 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 今日签到记录列表'. |
+| 118 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前选中的学生信息'. |
+| 119 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历选中日期'. |
+| 120 | 2 | ❌ 错误 | no-unused-vars | 'scrollPosition' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 120 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 滚动位置'. |
+| 121 | 30 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 当前学生所有考勤记录'. |
+| 122 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历时间段配置'. |
+| 123 | 2 | ❌ 错误 | no-unused-vars | 'filteredStudentAttendanceRecords' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 125 | 23 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图弹窗是否显示'. |
+| 126 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图弹窗是否显示'. |
+| 127 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图容器引用'. |
+| 128 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图容器引用'. |
+| 129 | 2 | ❌ 错误 | no-unused-vars | 'heatmapInstance' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 129 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图实例'. |
+| 130 | 2 | ❌ 错误 | no-unused-vars | 'lineInstance' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 130 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 趋势图实例'. |
+| 133 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选中的详情日期'. |
+| 135 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡弹窗是否显示'. |
+| 136 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡操作加载状态'. |
+| 138 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡步骤（date-选...'. |
+| 139 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单引用'. |
+| 140 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期选择器引用'. |
+| 141 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 补卡表单数据'. |
+| 143 | 22 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 修改积分弹窗是否显示'. |
+| 144 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分修改加载状态'. |
+| 145 | 24 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选中的积分修改学生'. |
+| 146 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单引用'. |
+| 147 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分表单数据'. |
+| 149 | 28 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 改分记录加载状态'. |
+| 150 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 改分记录列表'. |
+| 153 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期快捷选择配置'. |
+| 154 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 学生等级选项（[{la...'. |
+| 155 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 管理员选项列表'. |
+| 157 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 搜索筛选后的学生列表'. |
+| 158 | 22 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 160 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 编辑学生表单校验规则'. |
+| 161 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 积分修改表单校验规则'. |
+| 165 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 根据等级筛选学生'. |
+| 166 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 修改学生等级'. |
+| 167 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 分配学生所属管理员'. |
+| 168 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentLevels' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 168 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载学生等级数据'. |
+| 169 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentAttendanceCounts' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 170 | 2 | ❌ 错误 | no-unused-vars | 'loadStudentAdmins' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 170 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载学生所属管理员'. |
+| 171 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 头像加载失败处理'. |
+| 172 | 2 | ❌ 错误 | no-unused-vars | 'loadStatistics' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 172 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载统计数据'. |
+| 173 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 刷新所有数据'. |
+| 174 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开编辑学生弹窗'. |
+| 175 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 取消编辑'. |
+| 176 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认编辑'. |
+| 178 | 22 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 179 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取时间段样式类'. |
+| 180 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取时间段名称'. |
+| 181 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 判断时间段是否签到'. |
+| 182 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开日期详情弹窗'. |
+| 185 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 关闭热力图弹窗'. |
+| 186 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 关闭趋势图弹窗'. |
+| 187 | 22 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 189 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历切换到上个月'. |
+| 190 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历切换到下个月'. |
+| 191 | 10 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历回到今天'. |
+| 192 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取时间段标签'. |
+| 194 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 初始化热力图'. |
+| 195 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 初始化趋势图'. |
+| 196 | 2 | ❌ 错误 | no-unused-vars | 'generateHeatmapData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 197 | 2 | ❌ 错误 | no-unused-vars | 'generateLineData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 197 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 生成趋势图数据'. |
+| 198 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开热力图弹窗'. |
+| 199 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开趋势图弹窗'. |
+| 200 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 身份验证'. |
+| 201 | 9 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 退出登录'. |
+| 202 | 2 | ❌ 错误 | no-unused-vars | 'getShortcutDate' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 202 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 获取快捷日期'. |
+| 203 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开补卡弹窗'. |
+| 204 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 取消补卡'. |
+| 205 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日期选择变化处理'. |
+| 206 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 格式化选中日期'. |
+| 207 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认补卡日期步骤'. |
+| 210 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 选择补卡小时'. |
+| 211 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 判断小时是否选中'. |
+| 212 | 2 | ❌ 错误 | no-unused-vars | 'updateAttendanceTime' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 212 | 22 | ❌ 错误 | comma-spacing | A space is required after ','. |
+| 213 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 提交补卡'. |
+| 214 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 打开修改积分弹窗'. |
+| 216 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 取消积分修改'. |
+| 217 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 确认积分修改'. |
+| 220 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 格式化时间'. |
+| 221 | 14 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 加载所有核心数据'. |
+| 222 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 时间段配置'. |
+| 224 | 25 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 总积分调整值'. |
+| 225 | 13 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 切换主题'. |
+| 229 | 7 | ❌ 错误 | no-unused-vars | 'monthMap' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 245 | 7 | ❌ 错误 | no-unused-vars | 'monthObserver' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 260 | 24 | ❌ 错误 | no-undef | 'adminStore' is not defined. |
+| 271 | 4 | ❌ 错误 | no-undef | 'adminStore' is not defined. |
+| 489 | 1 | ❌ 错误 | max-len | This line has a length of 173. Maximum allowed is 120. |
+| 509 | 1 | ❌ 错误 | max-len | This line has a length of 237. Maximum allowed is 120. |
+| 512 | 1 | ❌ 错误 | max-len | This line has a length of 143. Maximum allowed is 120. |
+| 513 | 1 | ❌ 错误 | max-len | This line has a length of 162. Maximum allowed is 120. |
+| 881 | 1 | ❌ 错误 | max-len | This line has a length of 126. Maximum allowed is 120. |
+| 935 | 1 | ❌ 错误 | max-len | This line has a length of 139. Maximum allowed is 120. |
+| 1067 | 1 | ❌ 错误 | max-len | This line has a length of 130. Maximum allowed is 120. |
+| 1209 | 1 | ❌ 错误 | max-len | This line has a length of 133. Maximum allowed is 120. |
+| 1276 | 1 | ❌ 错误 | max-len | This line has a length of 123. Maximum allowed is 120. |
+| 1286 | 1 | ❌ 错误 | max-len | This line has a length of 141. Maximum allowed is 120. |
+| 1313 | 1 | ❌ 错误 | max-len | This line has a length of 145. Maximum allowed is 120. |
+
+### 4. src\views\AdminPage\AdminPage.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 65 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 65 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 295 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 352 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "shortcut" type "Object"; prefer: "object". |
+| 352 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 353 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 354 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 368 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 411 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 538 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 539 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 563 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 564 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 565 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 628 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 629 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 630 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 694 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 728 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 764 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 810 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 846 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 854 | 60 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 859 | 6 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 860 | 6 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 870 | 6 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 871 | 6 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 877 | 7 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 881 | 7 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 882 | 7 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 888 | 6 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 889 | 6 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 903 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 903 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 906 | 3 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 907 | 3 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 914 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 942 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 985 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 985 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1022 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1075 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1101 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1102 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1122 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1123 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1146 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1147 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1170 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1171 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1172 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1176 | 17 | ❌ 错误 | no-use-before-define | 'getDateAttendanceTimes' was used before it was defined. |
+| 1186 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1197 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 1197 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1198 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1223 | 5 | ❌ 错误 | no-use-before-define | 'initHeatmapChart' was used before it was defined. |
+| 1224 | 5 | ❌ 错误 | no-use-before-define | 'initLineChart' was used before it was defined. |
+| 1332 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1333 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1348 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1349 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1391 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1392 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1410 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1411 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1429 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1444 | 23 | ❌ 错误 | no-use-before-define | 'generateHeatmapData' was used before it was defined. |
+| 1468 | 12 | ❌ 错误 | no-shadow | 'timeSlots' is already declared in the upper scope on line 373 column 8. |
+| 1567 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1582 | 20 | ❌ 错误 | no-use-before-define | 'generateLineData' was used before it was defined. |
+| 1724 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1735 | 9 | ❌ 错误 | no-shadow | 'timeSlots' is already declared in the upper scope on line 373 column 8. |
+| 1792 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 1792 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1853 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 1853 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1854 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1900 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 1900 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1901 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1912 | 28 | ❌ 错误 | sonarjs/no-identical-functions | Update this function so that its implementation is not identical to the one on line 1865. |
+| 1947 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1977 | 11 | ❌ 错误 | no-use-before-define | 'loadAllData' was used before it was defined. |
+| 2023 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 2044 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 2087 | 7 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'label'. |
+| 2116 | 10 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'node'. |
+| 2119 | 10 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'node'. |
+| 2120 | 10 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'node'. |
+| 2121 | 10 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'node'. |
+| 2122 | 10 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'node'. |
+| 2146 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 2146 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2147 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2253 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2268 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2289 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "shortcut" type "Object"; prefer: "object". |
+| 2289 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2290 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2291 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2292 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2293 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2304 | 3 | ❌ 错误 | no-use-before-define | 'updateAttendanceTime' was used before it was defined. |
+| 2314 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "shortcut" type "Object"; prefer: "object". |
+| 2314 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2315 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2336 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2344 | 3 | ❌ 错误 | no-use-before-define | 'updateAttendanceTime' was used before it was defined. |
+| 2351 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2352 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2380 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2381 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2382 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2400 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2464 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 2464 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2531 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2589 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 2589 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2590 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2662 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2663 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2685 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2686 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 2694 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 2695 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+
+### 5. src\views\AttendancePage\AttendancePageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 13 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 13 | 55 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 15 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 15 | 36 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 26 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 26 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 26 | 88 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 28 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 28 | 18 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 31 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 31 | 15 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 32 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 32 | 48 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 34 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 34 | 22 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 35 | 8 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 35 | 21 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 47 | 7 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 47 | 19 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 84 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 104 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 120 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 160 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 174 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 204 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 212 | 10 | ❌ 错误 | no-use-before-define | 'isSlotSigned' was used before it was defined. |
+| 227 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 228 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 264 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 278 | 30 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 278 | 76 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 282 | 29 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 282 | 75 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 286 | 28 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 286 | 74 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 300 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 302 | 42 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 320 | 30 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 320 | 76 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 325 | 28 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 325 | 74 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 337 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 346 | 25 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 346 | 71 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 366 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 379 | 3 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 379 | 33 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 380 | 3 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 380 | 34 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 381 | 3 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 381 | 34 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 428 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 430 | 35 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 459 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 461 | 33 | ⚠️ 警告 | complexity | Async arrow function has a complexity of 23. Maximum allowed is 15. |
+| 541 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 551 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 563 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 587 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "onMounted". |
+| 590 | 20 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 604 | 28 | ❌ 错误 | object-curly-spacing | A space is required after '{'. |
+| 604 | 74 | ❌ 错误 | object-curly-spacing | A space is required before '}'. |
+| 611 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "onUnmounted". |
+| 654 | 10 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 654 | 37 | ❌ 错误 | vue/max-attributes-per-line | ':class' should be on a new line. |
+| 655 | 5 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 655 | 6 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 664 | 7 | ❌ 错误 | vue/component-name-in-template-casing | Component name "User" is not kebab-case. |
+| 681 | 9 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Clock" is not kebab-case. |
+| 688 | 9 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Calendar" is not kebab-case. |
+| 711 | 18 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 711 | 76 | ❌ 错误 | vue/max-attributes-per-line | 'size' should be on a new line. |
+| 712 | 10 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 712 | 11 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 713 | 10 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Check" is not kebab-case. |
+| 716 | 18 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 716 | 80 | ❌ 错误 | vue/max-attributes-per-line | 'size' should be on a new line. |
+| 717 | 10 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 717 | 11 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 718 | 10 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Check" is not kebab-case. |
+| 721 | 18 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 721 | 56 | ❌ 错误 | vue/max-attributes-per-line | 'size' should be on a new line. |
+| 722 | 10 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 722 | 11 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 723 | 10 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Clock" is not kebab-case. |
+| 727 | 10 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Loading" is not kebab-case. |
+| 745 | 11 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 746 | 6 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 746 | 7 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 749 | 9 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Sunrise" is not kebab-case. |
+| 762 | 11 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 763 | 1 | ❌ 错误 | max-len | This line has a length of 122. Maximum allowed is 120. |
+| 763 | 6 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 763 | 7 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 766 | 9 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Sunny" is not kebab-case. |
+| 779 | 11 | ⚠️ 警告 | vue/first-attribute-linebreak | Expected a linebreak before this attribute. |
+| 780 | 6 | ❌ 错误 | no-mixed-spaces-and-tabs | Mixed spaces and tabs. |
+| 780 | 7 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 783 | 9 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Moon" is not kebab-case. |
+| 800 | 8 | ❌ 错误 | vue/component-name-in-template-casing | Component name "Monitor" is not kebab-case. |
+| 822 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+| 823 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 824 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 825 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 826 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 827 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 828 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 829 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 830 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 831 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 832 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 833 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 834 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 835 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 836 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 837 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 838 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 5 tabs but found 4 tabs. |
+| 839 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 4 tabs but found 3 tabs. |
+| 840 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 3 tabs but found 2 tabs. |
+
+### 6. src\views\StudentManagerPage\StudentManagerPageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 14 | 1 | ❌ 错误 | import/order | `vue` import should occur after import of `echarts/renderers` |
+| 15 | 1 | ❌ 错误 | import/order | `element-plus` import should occur after import of `echarts/renderers` |
+| 16 | 1 | ❌ 错误 | import/order | `element-plus/dist/locale/zh-cn.mjs` import should occur after import of `echarts/renderers` |
+| 16 | 8 | ❌ 错误 | no-unused-vars | 'zhCn' is defined but never used. Allowed unused vars must match /^_/u. |
+| 29 | 1 | ❌ 错误 | import/order | There should be no empty line within import group |
+| 33 | 2 | ❌ 错误 | no-unused-vars | 'Loading' is defined but never used. Allowed unused vars must match /^_/u. |
+| 54 | 8 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 67 | 1 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 196 | 20 | ❌ 错误 | no-use-before-define | 'getStudentAttendanceCountFromCache' was used before it was defined. |
+| 197 | 20 | ❌ 错误 | no-use-before-define | 'getStudentAttendanceCountFromCache' was used before it was defined. |
+| 216 | 19 | ❌ 错误 | no-use-before-define | 'getStudentAttendanceCountFromCache' was used before it was defined. |
+| 217 | 19 | ❌ 错误 | no-use-before-define | 'getStudentAttendanceCountFromCache' was used before it was defined. |
+| 238 | 19 | ❌ 错误 | no-use-before-define | 'getStudentAttendanceCountFromCache' was used before it was defined. |
+| 239 | 19 | ❌ 错误 | no-use-before-define | 'getStudentAttendanceCountFromCache' was used before it was defined. |
+| 264 | 19 | ❌ 错误 | no-use-before-define | 'getStudentAttendanceCountFromCache' was used before it was defined. |
+| 265 | 19 | ❌ 错误 | no-use-before-define | 'getStudentAttendanceCountFromCache' was used before it was defined. |
+| 274 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 281 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 287 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 293 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 335 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 398 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 399 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 408 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 408 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 409 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 424 | 55 | ❌ 错误 | sonarjs/no-redundant-boolean | Refactor the code to avoid using this boolean literal. |
+| 440 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 444 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'event'. |
+| 466 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 498 | 7 | ❌ 错误 | no-unused-vars | 'totalAttendanceCount' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 537 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 585 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 585 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 711 | 3 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 714 | 4 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 720 | 5 | ❌ 错误 | no-use-before-define | 'initDialogHeatmapChart' was used before it was defined. |
+| 728 | 3 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 736 | 2 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 748 | 3 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 751 | 4 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 757 | 5 | ❌ 错误 | no-use-before-define | 'initDialogLineChart' was used before it was defined. |
+| 765 | 3 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 773 | 2 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 786 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 787 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 789 | 7 | ❌ 错误 | no-unused-vars | 'formatAttendanceTime' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 809 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 810 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 831 | 24 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 833 | 2 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 842 | 24 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 844 | 2 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 853 | 2 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 877 | 3 | ❌ 错误 | no-use-before-define | 'initCharts' was used before it was defined. |
+| 885 | 4 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 897 | 2 | ❌ 错误 | no-use-before-define | 'initHeatmapChart' was used before it was defined. |
+| 898 | 2 | ❌ 错误 | no-use-before-define | 'initLineChart' was used before it was defined. |
+| 910 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 913 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 914 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 915 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 931 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 938 | 22 | ❌ 错误 | no-use-before-define | 'generateHeatmapData' was used before it was defined. |
+| 939 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 940 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 940 | 23 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1060 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1075 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1078 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1079 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1080 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1096 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1103 | 19 | ❌ 错误 | no-use-before-define | 'generateLineData' was used before it was defined. |
+| 1104 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1105 | 2 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 1105 | 23 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1125 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1233 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1248 | 22 | ❌ 错误 | no-use-before-define | 'generateHeatmapData' was used before it was defined. |
+| 1378 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1393 | 19 | ❌ 错误 | no-use-before-define | 'generateLineData' was used before it was defined. |
+| 1413 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1517 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 1517 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1533 | 2 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1535 | 9 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1566 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1589 | 4 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1599 | 53 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 1599 | 61 | ❌ 错误 | brace-style | Closing curly brace does not appear on the same line as the subsequent block. |
+| 1600 | 59 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 1600 | 67 | ❌ 错误 | brace-style | Closing curly brace does not appear on the same line as the subsequent block. |
+| 1601 | 59 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 1637 | 13 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 1880 | 1 | ❌ 错误 | max-len | This line has a length of 125. Maximum allowed is 120. |
+| 1893 | 1 | ❌ 错误 | max-len | This line has a length of 195. Maximum allowed is 120. |
+| 1913 | 1 | ❌ 错误 | max-len | This line has a length of 270. Maximum allowed is 120. |
+| 1915 | 1 | ❌ 错误 | max-len | This line has a length of 206. Maximum allowed is 120. |
+| 1920 | 1 | ❌ 错误 | max-len | This line has a length of 272. Maximum allowed is 120. |
+| 1922 | 1 | ❌ 错误 | max-len | This line has a length of 208. Maximum allowed is 120. |
+| 1927 | 1 | ❌ 错误 | max-len | This line has a length of 270. Maximum allowed is 120. |
+| 1929 | 1 | ❌ 错误 | max-len | This line has a length of 206. Maximum allowed is 120. |
+| 1972 | 1 | ❌ 错误 | max-len | This line has a length of 232. Maximum allowed is 120. |
+| 2012 | 1 | ❌ 错误 | max-len | This line has a length of 230. Maximum allowed is 120. |
+
+### 7. src\api\student.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 52 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 53 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.studentId" type. |
+| 54 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.password" type. |
+| 55 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 87 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 88 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.studentId" type. |
+| 89 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.password" type. |
+| 90 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.name" type. |
+| 91 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.gender" type. |
+| 92 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.phoneNumber" type. |
+| 93 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.college" type. |
+| 94 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.major" type. |
+| 95 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.grade" type. |
+| 96 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.classNum" type. |
+| 97 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 126 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 127 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 166 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 167 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 198 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 199 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 200 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.name" type. |
+| 201 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.gender" type. |
+| 202 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.phoneNumber" type. |
+| 203 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.college" type. |
+| 204 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.major" type. |
+| 205 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.grade" type. |
+| 206 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.classNum" type. |
+| 207 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 241 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 242 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 243 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.oldPassword" type. |
+| 244 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data.newPassword" type. |
+| 245 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 279 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 304 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 329 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 354 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "levelCode" type. |
+| 355 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 384 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 385 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 412 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 413 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 440 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 441 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 472 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 473 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 500 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 501 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "fieldName" type. |
+| 502 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 532 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "specialPassword" type. |
+| 533 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 564 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "specialPassword" type. |
+| 565 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 566 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "levelCode" type. |
+| 567 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 601 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "specialPassword" type. |
+| 602 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 603 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData" type. |
+| 604 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData.name" type. |
+| 605 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData.gender" type. |
+| 606 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData.phoneNumber" type. |
+| 607 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData.college" type. |
+| 608 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData.major" type. |
+| 609 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData.grade" type. |
+| 610 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData.classNum" type. |
+| 611 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentData.password" type. |
+| 612 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 646 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "specialPassword" type. |
+| 647 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 648 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "adminStudentId" type. |
+| 649 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 683 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "managedStudentId" type. |
+| 684 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 715 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "adminStudentId" type. |
+| 716 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 747 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 748 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "file" type. |
+| 749 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 835 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 836 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "avatarSize" type. |
+| 837 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 8. src\api\attendance.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 52 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 53 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "verificationCode" type. |
+| 54 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 94 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 95 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 96 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "attendanceTime" type. |
+| 97 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 131 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "specialPassword" type. |
+| 132 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "targetStudentId" type. |
+| 133 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "targetAttendanceDateTime" type. |
+| 134 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 169 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 194 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 219 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "date" type. |
+| 220 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 247 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 248 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 277 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 302 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 303 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 340 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 365 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 366 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 396 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 425 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "startTime" type. |
+| 426 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "endTime" type. |
+| 427 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 428 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 456 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 483 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "date" type. |
+| 484 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 485 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 497 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "weekStart" type. |
+| 498 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 499 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 513 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "year" type. |
+| 514 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "month" type. |
+| 515 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 516 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 529 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "year" type. |
+| 530 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "quarter" type. |
+| 531 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 532 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 556 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "year" type. |
+| 557 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "semester" type. |
+| 558 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 559 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 579 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "year" type. |
+| 580 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 581 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 593 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 594 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 610 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 611 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 627 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "startDate" type. |
+| 628 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "endDate" type. |
+| 629 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "topN" type. |
+| 630 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 643 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "startTime" type. |
+| 644 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "endTime" type. |
+| 645 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 722 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "top" type. |
+| 723 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 9. src\views\AllMembersPage\AllMembersPageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 8 | 1 | ❌ 错误 | import/order | `vue` import should occur after import of `element-plus` |
+| 9 | 1 | ❌ 错误 | import/order | `vue-router` import should occur after import of `element-plus` |
+| 11 | 1 | ❌ 错误 | import/order | `@/stores/theme` import should occur after import of `@/api/attendance` |
+| 30 | 47 | ❌ 错误 | no-unused-vars | 'ElTooltip' is defined but never used. Allowed unused vars must match /^_/u. |
+| 80 | 7 | ❌ 错误 | no-unused-vars | 'totalRankingTopN' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 339 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 425 | 7 | ❌ 错误 | no-unused-vars | 'recordsDialogVisible' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 431 | 7 | ❌ 错误 | no-unused-vars | 'currentStudent' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 437 | 7 | ❌ 错误 | no-unused-vars | 'allRecords' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 443 | 7 | ❌ 错误 | no-unused-vars | 'recordsLoading' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 525 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 527 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 527 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 592 | 13 | ❌ 错误 | no-shadow | 'totalCount' is already declared in the upper scope on line 130 column 7. |
+| 622 | 17 | ❌ 错误 | no-use-before-define | 'formatGrade' was used before it was defined. |
+| 650 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 652 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 652 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 717 | 13 | ❌ 错误 | no-shadow | 'totalCount' is already declared in the upper scope on line 130 column 7. |
+| 747 | 17 | ❌ 错误 | no-use-before-define | 'formatGrade' was used before it was defined. |
+| 775 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 777 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 777 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 890 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "student" type. |
+| 891 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 891 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 894 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 895 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 907 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 907 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 909 | 7 | ❌ 错误 | no-unused-vars | 'loadSignInRanking' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 947 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "list" type. |
+| 948 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "targetLength" type. |
+| 949 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 966 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 966 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 990 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "students" type. |
+| 991 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 991 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1047 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1047 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1060 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1060 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1088 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "grade" type. |
+| 1089 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1093 | 19 | ❌ 错误 | radix | Missing radix parameter. |
+| 1110 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "timeString" type. |
+| 1111 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1133 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1133 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1144 | 53 | ⚠️ 警告 | complexity | Arrow function has a complexity of 17. Maximum allowed is 15. |
+| 1165 | 31 | ❌ 错误 | no-undefined | Unexpected use of undefined. |
+| 1168 | 32 | ❌ 错误 | no-undefined | Unexpected use of undefined. |
+| 1171 | 45 | ❌ 错误 | no-undefined | Unexpected use of undefined. |
+| 1232 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "student" type. |
+| 1233 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1233 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1243 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1243 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1357 | 12 | ❌ 错误 | vue/component-name-in-template-casing | Component name "View" is not kebab-case. |
+| 1442 | 1 | ❌ 错误 | max-len | This line has a length of 124. Maximum allowed is 120. |
+| 1497 | 14 | ❌ 错误 | vue/component-name-in-template-casing | Component name "View" is not kebab-case. |
+
+### 10. src\views\PointsDashboardPage\PointsDashboardPageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 2 | 1 | ❌ 错误 | import/order | `vue` import should occur after import of `element-plus` |
+| 3 | 1 | ❌ 错误 | import/order | `vue-router` import should occur after import of `element-plus` |
+| 5 | 1 | ❌ 错误 | import/order | `@/stores/theme` import should occur after import of `@/api/StudentApi` |
+| 45 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 100 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 172 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 254 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 271 | 2 | ❌ 错误 | no-use-before-define | 'handleTabChange' was used before it was defined. |
+| 278 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "data" type "Object"; prefer: "object". |
+| 278 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 279 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 280 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 281 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 282 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 391 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "data" type "Object"; prefer: "object". |
+| 391 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 392 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 393 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 394 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 395 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 494 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "data" type "Object"; prefer: "object". |
+| 494 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 495 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 496 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 497 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 498 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 499 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 500 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 604 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 604 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 605 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 606 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 609 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 610 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 622 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 630 | 1 | ❌ 错误 | max-len | This line has a length of 121. Maximum allowed is 120. |
+| 643 | 4 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
+| 698 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "list" type "Object"; prefer: "object". |
+| 698 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 699 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 700 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 700 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 717 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 772 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 773 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 836 | 54 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 870 | 7 | ❌ 错误 | no-unused-vars | 'refreshTimer' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 876 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 878 | 7 | ❌ 错误 | no-unused-vars | 'refreshData' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 942 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 942 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 943 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 944 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 945 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1011 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1012 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1016 | 19 | ❌ 错误 | radix | Missing radix parameter. |
+| 1033 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1034 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1298 | 12 | ❌ 错误 | vue/component-name-in-template-casing | Component name "View" is not kebab-case. |
+| 1336 | 1 | ❌ 错误 | max-len | This line has a length of 165. Maximum allowed is 120. |
+| 1349 | 1 | ❌ 错误 | max-len | This line has a length of 128. Maximum allowed is 120. |
+| 1395 | 15 | ❌ 错误 | vue/component-name-in-template-casing | Component name "View" is not kebab-case. |
+
+### 11. src\views\ProfilePage\ProfilePageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 34 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 322 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 348 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 406 | 5 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
+| 424 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 434 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 450 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 481 | 10 | ❌ 错误 | no-use-before-define | 'loadAvatar' was used before it was defined. |
+| 504 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 551 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 561 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 575 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 576 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 591 | 9 | ❌ 错误 | no-use-before-define | 'showCropDialog' was used before it was defined. |
+| 598 | 4 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'event'. |
+| 608 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 612 | 3 | ❌ 错误 | no-use-before-define | 'resetForm' was used before it was defined. |
+| 627 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 642 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 647 | 3 | ❌ 错误 | no-use-before-define | 'resetPasswordForm' was used before it was defined. |
+| 657 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 672 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 688 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 745 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 808 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 809 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 812 | 35 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 832 | 7 | ❌ 错误 | no-use-before-define | 'initCrop' was used before it was defined. |
+| 865 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 913 | 9 | ❌ 错误 | no-shadow | 'imgMinSide' is already declared in the upper scope on line 894 column 8. |
+| 915 | 3 | ⚠️ 警告 | no-console | Unexpected console statement. |
+| 922 | 2 | ❌ 错误 | no-use-before-define | 'drawCropCanvas' was used before it was defined. |
+| 923 | 2 | ❌ 错误 | no-use-before-define | 'setupCropEvents' was used before it was defined. |
+| 1046 | 2 | ❌ 错误 | no-use-before-define | 'removeCropEvents' was used before it was defined. |
+| 1111 | 10 | ❌ 错误 | no-shadow | 'canvas' is already declared in the upper scope on line 1048 column 8. |
+| 1161 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1162 | 11 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1186 | 10 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1187 | 10 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1231 | 10 | ❌ 错误 | prefer-destructuring | Use array destructuring. |
+| 1256 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1294 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1333 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1370 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1386 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1426 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1428 | 30 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 1492 | 11 | ❌ 错误 | no-use-before-define | 'uploadAvatarFile' was used before it was defined. |
+| 1515 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1516 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1517 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1520 | 7 | ❌ 错误 | no-unused-vars | 'compressImage' is assigned a value but never used. Allowed unused vars must match /^_/u. |
+| 1601 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1602 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 12. src\views\PointsDashboardPage\PointsDashboardPageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 8 | 1 | ❌ 错误 | import/order | `vue` import should occur after import of `element-plus` |
+| 9 | 1 | ❌ 错误 | import/order | `vue-router` import should occur after import of `element-plus` |
+| 11 | 1 | ❌ 错误 | import/order | `@/stores/theme` import should occur after import of `@/api/StudentApi` |
+| 89 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 316 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 405 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 489 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 506 | 2 | ❌ 错误 | no-use-before-define | 'handleTabChange' was used before it was defined. |
+| 519 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 521 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 645 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 647 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 771 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 773 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 893 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 893 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 896 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 897 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 912 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 920 | 1 | ❌ 错误 | max-len | This line has a length of 121. Maximum allowed is 120. |
+| 933 | 4 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
+| 985 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 986 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 987 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1012 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1084 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1086 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1147 | 1 | ❌ 错误 | indent | Expected indentation of 3 tabs but found 4. |
+| 1147 | 55 | ❌ 错误 | sonarjs/no-identical-functions | Update this function so that its implementation is not identical to the one on line 1054. |
+| 1148 | 1 | ❌ 错误 | indent | Expected indentation of 4 tabs but found 5. |
+| 1149 | 1 | ❌ 错误 | indent | Expected indentation of 5 tabs but found 6. |
+| 1150 | 1 | ❌ 错误 | indent | Expected indentation of 4 tabs but found 5. |
+| 1151 | 1 | ❌ 错误 | indent | Expected indentation of 5 tabs but found 6. |
+| 1152 | 1 | ❌ 错误 | indent | Expected indentation of 6 tabs but found 7. |
+| 1153 | 1 | ❌ 错误 | indent | Expected indentation of 5 tabs but found 6. |
+| 1154 | 1 | ❌ 错误 | indent | Expected indentation of 4 tabs but found 5. |
+| 1155 | 1 | ❌ 错误 | indent | Expected indentation of 3 tabs but found 4. |
+| 1156 | 1 | ❌ 错误 | indent | Expected indentation of 3 tabs but found 4. |
+| 1157 | 1 | ❌ 错误 | indent | Expected indentation of 4 tabs but found 5. |
+| 1158 | 1 | ❌ 错误 | indent | Expected indentation of 3 tabs but found 4. |
+| 1159 | 1 | ❌ 错误 | indent | Expected indentation of 2 tabs but found 3. |
+| 1193 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1245 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1262 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1293 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 1293 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 1295 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1342 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 1370 | 19 | ❌ 错误 | radix | Missing radix parameter. |
+| 1679 | 12 | ❌ 错误 | vue/component-name-in-template-casing | Component name "View" is not kebab-case. |
+| 1723 | 1 | ❌ 错误 | max-len | This line has a length of 165. Maximum allowed is 120. |
+| 1736 | 1 | ❌ 错误 | max-len | This line has a length of 128. Maximum allowed is 120. |
+| 1779 | 15 | ❌ 错误 | vue/component-name-in-template-casing | Component name "View" is not kebab-case. |
+
+### 13. src\views\ProfilePage\ProfilePageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 281 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 307 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 321 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 332 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 393 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 457 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 493 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 608 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 676 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 721 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 722 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 769 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 771 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 815 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 829 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 845 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 855 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 870 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 918 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 918 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 926 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 926 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 935 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "event" type. |
+| 936 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 936 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 967 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 967 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1000 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1000 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1033 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1033 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1044 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1044 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1073 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1073 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1162 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1162 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1176 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1176 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1187 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1187 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1196 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1196 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 1246 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 1246 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 14. src\composables\admin\StudentAttendance.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 20 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 21 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 21 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 54 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 76 | 4 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 77 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 78 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "_params" type "Object"; prefer: "object". |
+| 78 | 1 | ⚠️ 警告 | jsdoc/no-defaults | Defaults are not permitted on @param. |
+| 78 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 79 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 79 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 102 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 104 | 42 | ❌ 错误 | no-return-await | Redundant use of `await` on a return value. |
+| 108 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 109 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 129 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "attendanceInfo" type. |
+| 159 | 4 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 160 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 160 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 197 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "time" type. |
+| 198 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 212 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "time" type. |
+| 213 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 232 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "time" type. |
+| 233 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 253 | 4 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 254 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 255 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 255 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 271 | 6 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 274 | 6 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 277 | 6 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 280 | 6 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 290 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "status" type. |
+| 291 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 306 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "status" type. |
+| 307 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 328 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 330 | 27 | ❌ 错误 | no-return-await | Redundant use of `await` on a return value. |
+
+### 15. src\views\HomePage\HomePageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 5 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 37 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @typedef "HomePageDesktopProps" type "Object"; prefer: "object". |
+| 42 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @typedef "HomePageDesktopEmits" type "Object"; prefer: "object". |
+| 76 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 81 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 82 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 87 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 89 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 94 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 95 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 96 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 98 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 108 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 109 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 110 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 111 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 112 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 114 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 115 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 116 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 117 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 118 | 1 | ❌ 错误 | indent | Expected indentation of 2 tabs but found 4. |
+| 119 | 1 | ❌ 错误 | indent | Expected indentation of 2 tabs but found 4. |
+| 120 | 1 | ❌ 错误 | indent | Expected indentation of 2 tabs but found 4. |
+| 121 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 123 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 124 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 126 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 127 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 128 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 129 | 1 | ❌ 错误 | indent | Expected indentation of 2 tabs but found 4. |
+| 130 | 1 | ❌ 错误 | indent | Expected indentation of 1 tab but found 3. |
+| 131 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 133 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 134 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 2. |
+| 138 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @property "setup" type "Object"; prefer: "object". |
+| 150 | 1 | ❌ 错误 | indent | Expected indentation of 0 tabs but found 1. |
+| 152 | 5 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+
+### 16. src\views\AttendancePage\AttendancePageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 14 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "date". |
+| 58 | 17 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 标题组件'. |
+| 59 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 提示框组件'. |
+| 60 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 网格组件'. |
+| 61 | 18 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 图例组件'. |
+| 62 | 20 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 日历组件'. |
+| 63 | 21 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 视觉映射组件（热力图颜...'. |
+| 64 | 15 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 热力图图表'. |
+| 65 | 12 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 折线图图表'. |
+| 66 | 16 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// Canvas渲染器'. |
+| 159 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 160 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 185 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 186 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 199 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 200 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 220 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 221 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 229 | 1 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 235 | 1 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 273 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 274 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 275 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 319 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 362 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 362 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 728 | 37 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 晚上19-22点'. |
+| 732 | 19 | ❌ 错误 | no-multi-spaces | Multiple spaces found before '// 下次签到时间'. |
+| 964 | 1 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 965 | 1 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 966 | 1 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 968 | 1 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+| 969 | 1 | ❌ 错误 | vue/html-indent | Expected "\t" character, but found " " character. |
+
+### 17. src\views\AllMembersPage\AllMembersPageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 8 | 35 | ❌ 错误 | no-unused-vars | 'View' is defined but never used. Allowed unused vars must match /^_/u. |
+| 114 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 114 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 117 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 118 | 2 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+| 125 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 125 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 136 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 137 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 152 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 169 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 169 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 170 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 171 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 197 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 197 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 198 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 199 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 221 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 221 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 222 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 223 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 240 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 268 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "student" type "Object"; prefer: "object". |
+| 268 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 269 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 294 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 295 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 296 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 18. src\composables\admin\StudentPoints.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 20 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 21 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 21 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 79 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 80 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 91 | 51 | ❌ 错误 | no-undefined | Unexpected use of undefined. |
+| 109 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentIds" type. |
+| 110 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 122 | 20 | ⚠️ 警告 | no-await-in-loop | Unexpected `await` inside a loop. |
+| 142 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 143 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 149 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "student" type. |
+| 174 | 3 | ❌ 错误 | no-use-before-define | 'resetPointsForm' was used before it was defined. |
+| 180 | 4 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 181 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @param "formRef" type "Object"; prefer: "object". |
+| 181 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 182 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 182 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 250 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "formRef" type. |
+| 261 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "student" type. |
+| 262 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 317 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "records" type. |
+| 318 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 329 | 17 | ❌ 错误 | no-use-before-define | 'formatTime' was used before it was defined. |
+| 335 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "time" type. |
+| 336 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 353 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 367 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 369 | 24 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+
+### 19. src\composables\admin\StudentLevel.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 10 | 1 | ⚠️ 警告 | jsdoc/require-returns | Missing JSDoc @returns declaration. |
+| 25 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 26 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 35 | 10 | ❌ 错误 | no-use-before-define | 'getStudentLevelText' was used before it was defined. |
+| 37 | 15 | ❌ 错误 | no-use-before-define | 'getStudentLevelName' was used before it was defined. |
+| 43 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "identity" type. |
+| 44 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 58 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "identity" type. |
+| 59 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 73 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 84 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 95 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 96 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "newLevel" type. |
+| 97 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "specialPassword" type. |
+| 98 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 113 | 11 | ❌ 错误 | no-use-before-define | 'loadStudentLevels' was used before it was defined. |
+| 128 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 130 | 37 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 161 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "level" type. |
+| 162 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 168 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 179 | 36 | ❌ 错误 | no-undefined | Unexpected use of undefined. |
+| 180 | 5 | ❌ 错误 | no-plusplus | Unary operator '++' used. |
+| 195 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 197 | 27 | ❌ 错误 | no-return-await | Redundant use of `await` on a return value. |
+
+### 20. src\composables\admin\StudentPersonalInformation.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 10 | 1 | ⚠️ 警告 | jsdoc/require-returns | Missing JSDoc @returns declaration. |
+| 61 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "student" type. |
+| 92 | 4 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
+| 102 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "formRef" type. |
+| 103 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "specialPassword" type. |
+| 104 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 130 | 29 | ❌ 错误 | no-undefined | Unexpected use of undefined. |
+| 158 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "formRef" type. |
+| 169 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "phone" type. |
+| 170 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 179 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "email" type. |
+| 180 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 189 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentNumber" type. |
+| 190 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 199 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentNumber" type. |
+| 200 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "excludeStudentId" type. |
+| 201 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 214 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "student" type. |
+| 215 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 231 | 4 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
+| 241 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 243 | 24 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+
+### 21. src\views\StudentManagerPage\js\StudentManagerPage-Attendance_Records_Dialog.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 8 | 7 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+| 23 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentManagerPageStudentAttendanceServer" type. |
+| 31 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "student" type. |
+| 32 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 32 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 70 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 70 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 78 | 1 | ⚠️ 警告 | jsdoc/require-param-description | Missing JSDoc @param "value" description. |
+| 78 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "value" type. |
+| 86 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 86 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 94 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 94 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 102 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 102 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 110 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "date" type. |
+| 118 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 118 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 126 | 1 | ⚠️ 警告 | jsdoc/require-param-description | Missing JSDoc @param "value" description. |
+| 126 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "value" type. |
+| 133 | 16 | ❌ 错误 | camelcase | Identifier 'StudentManagerPageAttendance_Records_Dialog' is not in camel case. |
+
+### 22. src\views\NavigationPage\NavigationPageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 142 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "levelCode" type. |
+| 143 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 148 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 163 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "levelCode" type. |
+| 164 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 169 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 269 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 269 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 309 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 309 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 389 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 389 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 413 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 413 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 443 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 443 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 550 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 550 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 23. src\composables\admin\StudentAvatar.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 9 | 1 | ⚠️ 警告 | jsdoc/require-returns | Missing JSDoc @returns declaration. |
+| 19 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 20 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 45 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "students" type. |
+| 46 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 48 | 44 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+| 79 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "event" type. |
+| 80 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 96 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 99 | 3 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
+| 99 | 21 | ❌ 错误 | no-undefined | Unexpected use of undefined. |
+| 108 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "students" type. |
+| 109 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 145 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 151 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 161 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 163 | 24 | ❌ 错误 | require-await | Async arrow function has no 'await' expression. |
+
+### 24. src\views\DashboardPage\DashboardPageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 175 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "year" type. |
+| 176 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "month" type. |
+| 177 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 201 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "monthlyCount" type. |
+| 202 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 247 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 260 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "levelCode" type. |
+| 261 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 286 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "monthlyCount" type. |
+| 287 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 304 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "index" type. |
+| 305 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 319 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "index" type. |
+| 320 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 335 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 416 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+| 501 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "data" type. |
+
+### 25. src\api\StudentApi.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 29 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 30 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 31 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 31 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 66 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 67 | 1 | ⚠️ 警告 | jsdoc/no-defaults | Defaults are not permitted on @param. |
+| 67 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 68 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 83 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 84 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 84 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 115 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 116 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 116 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 26. src\api\points.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 52 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "specialPassword" type. |
+| 53 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "adjustReason" type. |
+| 54 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "changePoints" type. |
+| 55 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "targetStudentInfoId" type. |
+| 56 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 91 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "top" type. |
+| 92 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 121 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 122 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "top" type. |
+| 123 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 155 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 156 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 187 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 188 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 27. src\views\NavigationPage\NavigationPageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 5 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 12 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 137 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 138 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 143 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 158 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 159 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 164 | 1 | ⚠️ 警告 | jsdoc/check-types | Use object shorthand or index signatures instead of `Object`, e.g., `{[key: string]: string}` |
+| 263 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 303 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 384 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 439 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 28. src\views\HomePage\HomePageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 77 | 2 | ❌ 错误 | no-undef | 'ElMessage' is not defined. |
+| 350 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 351 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 352 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 353 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 354 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 355 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 356 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+| 368 | 1 | ❌ 错误 | vue/html-indent | Expected indentation of 2 tabs but found 1 tab. |
+
+### 29. src\api\AttendanceApi.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 8 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 9 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 23 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "top" type. |
+| 24 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 38 | 1 | ⚠️ 警告 | jsdoc/require-param-description | Missing JSDoc @param "studentId" description. |
+| 38 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 39 | 1 | ⚠️ 警告 | jsdoc/require-returns-description | Missing JSDoc @returns description. |
+| 39 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 53 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "date" type. |
+| 54 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 30. src\views\LoginPage\LoginPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 65 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 88 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 115 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 124 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 126 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 134 | 1 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 176 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 186 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+
+### 31. src\App.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 1 | 1 | ❌ 错误 | import/namespace | Resolve error: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './es/locale/lang/zh-cn' is not defined by "exports" in D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\element-plus\package.json
+    at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:656:13)
+    at resolveExports (node:internal/modules/cjs/loader:679:36)
+    at Module._findPath (node:internal/modules/cjs/loader:746:31)
+    at findModulePath (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:99:27)
+    at exports.resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:75:10)
+    at withResolver (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:180:23)
+    at fullResolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:201:22)
+    at relative (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:217:10)
+    at resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:233:12)
+    at ExportMapBuilder.get (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\exportMap\builder.js:37:45)
+    at processBodyStatement (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\namespace.js:12:38)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\namespace.js:85:40
+    at Array.forEach (<anonymous>)
+    at Program (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\namespace.js:85:18)
+    at ruleErrorHandler (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1076:28)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:58
+    at Array.forEach (<anonymous>)
+    at Object.emit (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:38)
+    at NodeEventGenerator.applySelector (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:297:26)
+    at NodeEventGenerator.applySelectors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:326:22)
+    at NodeEventGenerator.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:340:14)
+    at CodePathAnalyzer.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\code-path-analysis\code-path-analyzer.js:803:23)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1111:32
+    at Array.forEach (<anonymous>)
+    at runRules (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1106:15)
+    at Linter._verifyWithoutProcessors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1355:31)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1913:29
+    at Array.map (<anonymous>)
+    at Linter._verifyWithProcessor (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1908:37)
+    at Linter._verifyWithConfigArray (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1800:25)
+    at Linter.verify (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1437:65)
+    at Linter.verifyAndFix (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:2068:29)
+    at verifyText (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:254:48)
+    at CLIEngine.executeOnFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:834:28)
+    at ESLint.lintFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\eslint\eslint.js:551:23)
+    at Object.execute (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli.js:421:36)
+    at async main (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\bin\eslint.js:152:22) |
+| 1 | 1 | ❌ 错误 | import/order | Resolve error: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './es/locale/lang/zh-cn' is not defined by "exports" in D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\element-plus\package.json
+    at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:656:13)
+    at resolveExports (node:internal/modules/cjs/loader:679:36)
+    at Module._findPath (node:internal/modules/cjs/loader:746:31)
+    at findModulePath (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:99:27)
+    at exports.resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:75:10)
+    at withResolver (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:180:23)
+    at fullResolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:201:22)
+    at relative (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:217:10)
+    at resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:233:12)
+    at resolveImportType (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\core\importType.js:126:2822)
+    at computeRank (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\order.js:529:43)
+    at registerNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\order.js:556:14)
+    at ImportDeclaration (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\order.js:1140:15)
+    at ruleErrorHandler (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1076:28)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:58
+    at Array.forEach (<anonymous>)
+    at Object.emit (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:38)
+    at NodeEventGenerator.applySelector (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:297:26)
+    at NodeEventGenerator.applySelectors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:326:22)
+    at NodeEventGenerator.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:340:14)
+    at CodePathAnalyzer.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\code-path-analysis\code-path-analyzer.js:803:23)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1111:32
+    at Array.forEach (<anonymous>)
+    at runRules (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1106:15)
+    at Linter._verifyWithoutProcessors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1355:31)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1913:29
+    at Array.map (<anonymous>)
+    at Linter._verifyWithProcessor (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1908:37)
+    at Linter._verifyWithConfigArray (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1800:25)
+    at Linter.verify (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1437:65)
+    at Linter.verifyAndFix (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:2068:29)
+    at verifyText (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:254:48)
+    at CLIEngine.executeOnFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:834:28)
+    at ESLint.lintFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\eslint\eslint.js:551:23)
+    at Object.execute (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli.js:421:36)
+    at async main (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\bin\eslint.js:152:22) |
+| 1 | 1 | ❌ 错误 | import/no-unresolved | Resolve error: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './es/locale/lang/zh-cn' is not defined by "exports" in D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\element-plus\package.json
+    at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:656:13)
+    at resolveExports (node:internal/modules/cjs/loader:679:36)
+    at Module._findPath (node:internal/modules/cjs/loader:746:31)
+    at findModulePath (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:99:27)
+    at exports.resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:75:10)
+    at withResolver (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:180:23)
+    at fullResolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:201:22)
+    at relative (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:217:10)
+    at resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:233:12)
+    at checkSourceValue (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\no-unresolved.js:40:53)
+    at checkSourceValue (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\moduleVisitor.js:32:5)
+    at checkSource (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\moduleVisitor.js:38:5)
+    at ruleErrorHandler (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1076:28)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:58
+    at Array.forEach (<anonymous>)
+    at Object.emit (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:38)
+    at NodeEventGenerator.applySelector (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:297:26)
+    at NodeEventGenerator.applySelectors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:326:22)
+    at NodeEventGenerator.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:340:14)
+    at CodePathAnalyzer.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\code-path-analysis\code-path-analyzer.js:803:23)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1111:32
+    at Array.forEach (<anonymous>)
+    at runRules (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1106:15)
+    at Linter._verifyWithoutProcessors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1355:31)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1913:29
+    at Array.map (<anonymous>)
+    at Linter._verifyWithProcessor (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1908:37)
+    at Linter._verifyWithConfigArray (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1800:25)
+    at Linter.verify (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1437:65)
+    at Linter.verifyAndFix (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:2068:29)
+    at verifyText (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:254:48)
+    at CLIEngine.executeOnFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:834:28)
+    at ESLint.lintFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\eslint\eslint.js:551:23)
+    at Object.execute (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli.js:421:36)
+    at async main (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\bin\eslint.js:152:22) |
+| 1 | 1 | ❌ 错误 | import/default | Resolve error: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './es/locale/lang/zh-cn' is not defined by "exports" in D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\element-plus\package.json
+    at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:656:13)
+    at resolveExports (node:internal/modules/cjs/loader:679:36)
+    at Module._findPath (node:internal/modules/cjs/loader:746:31)
+    at findModulePath (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:99:27)
+    at exports.resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:75:10)
+    at withResolver (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:180:23)
+    at fullResolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:201:22)
+    at relative (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:217:10)
+    at resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:233:12)
+    at ExportMapBuilder.get (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\exportMap\builder.js:37:45)
+    at checkDefault (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\default.js:22:44)
+    at ruleErrorHandler (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1076:28)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:58
+    at Array.forEach (<anonymous>)
+    at Object.emit (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:38)
+    at NodeEventGenerator.applySelector (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:297:26)
+    at NodeEventGenerator.applySelectors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:326:22)
+    at NodeEventGenerator.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:340:14)
+    at CodePathAnalyzer.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\code-path-analysis\code-path-analyzer.js:803:23)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1111:32
+    at Array.forEach (<anonymous>)
+    at runRules (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1106:15)
+    at Linter._verifyWithoutProcessors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1355:31)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1913:29
+    at Array.map (<anonymous>)
+    at Linter._verifyWithProcessor (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1908:37)
+    at Linter._verifyWithConfigArray (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1800:25)
+    at Linter.verify (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1437:65)
+    at Linter.verifyAndFix (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:2068:29)
+    at verifyText (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:254:48)
+    at CLIEngine.executeOnFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:834:28)
+    at ESLint.lintFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\eslint\eslint.js:551:23)
+    at Object.execute (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli.js:421:36)
+    at async main (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\bin\eslint.js:152:22) |
+| 1 | 1 | ❌ 错误 | import/no-duplicates | Resolve error: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './es/locale/lang/zh-cn' is not defined by "exports" in D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\element-plus\package.json
+    at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:656:13)
+    at resolveExports (node:internal/modules/cjs/loader:679:36)
+    at Module._findPath (node:internal/modules/cjs/loader:746:31)
+    at findModulePath (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:99:27)
+    at exports.resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:75:10)
+    at withResolver (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:180:23)
+    at fullResolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:201:22)
+    at relative (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:217:10)
+    at resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:233:12)
+    at defaultResolver (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\no-duplicates.js:320:112)
+    at ImportDeclaration (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\no-duplicates.js:359:32)
+    at ruleErrorHandler (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1076:28)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:58
+    at Array.forEach (<anonymous>)
+    at Object.emit (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:38)
+    at NodeEventGenerator.applySelector (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:297:26)
+    at NodeEventGenerator.applySelectors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:326:22)
+    at NodeEventGenerator.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:340:14)
+    at CodePathAnalyzer.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\code-path-analysis\code-path-analyzer.js:803:23)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1111:32
+    at Array.forEach (<anonymous>)
+    at runRules (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1106:15)
+    at Linter._verifyWithoutProcessors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1355:31)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1913:29
+    at Array.map (<anonymous>)
+    at Linter._verifyWithProcessor (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1908:37)
+    at Linter._verifyWithConfigArray (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1800:25)
+    at Linter.verify (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1437:65)
+    at Linter.verifyAndFix (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:2068:29)
+    at verifyText (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:254:48)
+    at CLIEngine.executeOnFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:834:28)
+    at ESLint.lintFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\eslint\eslint.js:551:23)
+    at Object.execute (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli.js:421:36)
+    at async main (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\bin\eslint.js:152:22) |
+| 1 | 1 | ⚠️ 警告 | import/no-cycle | Resolve error: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './es/locale/lang/zh-cn' is not defined by "exports" in D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\element-plus\package.json
+    at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:656:13)
+    at resolveExports (node:internal/modules/cjs/loader:679:36)
+    at Module._findPath (node:internal/modules/cjs/loader:746:31)
+    at findModulePath (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:99:27)
+    at exports.resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:75:10)
+    at withResolver (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:180:23)
+    at fullResolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:201:22)
+    at relative (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:217:10)
+    at resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:233:12)
+    at ExportMapBuilder.get (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\exportMap\builder.js:37:45)
+    at checkSourceValue (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\no-cycle.js:101:45)
+    at checkSourceValue (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\moduleVisitor.js:32:5)
+    at checkSource (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\moduleVisitor.js:38:5)
+    at ruleErrorHandler (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1076:28)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:58
+    at Array.forEach (<anonymous>)
+    at Object.emit (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:38)
+    at NodeEventGenerator.applySelector (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:297:26)
+    at NodeEventGenerator.applySelectors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:326:22)
+    at NodeEventGenerator.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:340:14)
+    at CodePathAnalyzer.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\code-path-analysis\code-path-analyzer.js:803:23)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1111:32
+    at Array.forEach (<anonymous>)
+    at runRules (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1106:15)
+    at Linter._verifyWithoutProcessors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1355:31)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1913:29
+    at Array.map (<anonymous>)
+    at Linter._verifyWithProcessor (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1908:37)
+    at Linter._verifyWithConfigArray (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1800:25)
+    at Linter.verify (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1437:65)
+    at Linter.verifyAndFix (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:2068:29)
+    at verifyText (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:254:48)
+    at CLIEngine.executeOnFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:834:28)
+    at ESLint.lintFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\eslint\eslint.js:551:23)
+    at Object.execute (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli.js:421:36)
+    at async main (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\bin\eslint.js:152:22) |
+| 1 | 1 | ❌ 错误 | import/no-self-import | Resolve error: Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: Package subpath './es/locale/lang/zh-cn' is not defined by "exports" in D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\element-plus\package.json
+    at exportsNotFound (node:internal/modules/esm/resolve:313:10)
+    at packageExportsResolve (node:internal/modules/esm/resolve:656:13)
+    at resolveExports (node:internal/modules/cjs/loader:679:36)
+    at Module._findPath (node:internal/modules/cjs/loader:746:31)
+    at findModulePath (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:99:27)
+    at exports.resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-import-resolver-alias\index.js:75:10)
+    at withResolver (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:180:23)
+    at fullResolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:201:22)
+    at relative (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:217:10)
+    at resolve (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\resolve.js:233:12)
+    at isImportingSelf (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\no-self-import.js:16:70)
+    at commonjs (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-plugin-import\lib\rules\no-self-import.js:38:9)
+    at checkSourceValue (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\moduleVisitor.js:32:5)
+    at checkSource (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint-module-utils\moduleVisitor.js:38:5)
+    at ruleErrorHandler (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1076:28)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:58
+    at Array.forEach (<anonymous>)
+    at Object.emit (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\safe-emitter.js:45:38)
+    at NodeEventGenerator.applySelector (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:297:26)
+    at NodeEventGenerator.applySelectors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:326:22)
+    at NodeEventGenerator.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\node-event-generator.js:340:14)
+    at CodePathAnalyzer.enterNode (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\code-path-analysis\code-path-analyzer.js:803:23)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1111:32
+    at Array.forEach (<anonymous>)
+    at runRules (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1106:15)
+    at Linter._verifyWithoutProcessors (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1355:31)
+    at D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1913:29
+    at Array.map (<anonymous>)
+    at Linter._verifyWithProcessor (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1908:37)
+    at Linter._verifyWithConfigArray (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1800:25)
+    at Linter.verify (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:1437:65)
+    at Linter.verifyAndFix (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\linter\linter.js:2068:29)
+    at verifyText (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:254:48)
+    at CLIEngine.executeOnFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli-engine\cli-engine.js:834:28)
+    at ESLint.lintFiles (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\eslint\eslint.js:551:23)
+    at Object.execute (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\lib\cli.js:421:36)
+    at async main (D:\BaiduSyncdisk\ZhengEnCi\AiWorkShop\AiWorkshopStudentManagementSystem\front-end\node_modules\eslint\bin\eslint.js:152:22) |
+| 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 24 | 18 | ❌ 错误 | import/no-unresolved | Unable to resolve path to module 'element-plus/es/locale/lang/zh-cn'. |
+
+### 32. src\stores\admin.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 18 | 4 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 19 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 33 | 5 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 34 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 56 | 5 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 57 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 71 | 5 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 72 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 33. src\views\PointsDashboardPage\js\PointsDashboardPageUtils.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 15 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 16 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 36 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "startRank" type. |
+| 37 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "endRank" type. |
+| 38 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 85 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "top" type. |
+| 86 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 112 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "top" type. |
+| 113 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 34. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageMobile.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 16 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 16 | 21 | ❌ 错误 | no-unused-vars | 'Loading' is defined but never used. Allowed unused vars must match /^_/u. |
+| 18 | 1 | ❌ 错误 | import/order | `@/api/points` import should occur before import of `@/stores/theme` |
+| 19 | 1 | ❌ 错误 | import/order | `@/api/student` import should occur before import of `@/stores/theme` |
+| 96 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 97 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 128 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 297 | 1 | ❌ 错误 | max-len | This line has a length of 149. Maximum allowed is 120. |
+
+### 35. src\views\AllMembersPage\js\AllMembersPageUtils.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 18 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "attendanceRankingData" type. |
+| 19 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "pointsRankingData" type. |
+| 20 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 46 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentIds" type. |
+| 47 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 64 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "startRank" type. |
+| 65 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "endRank" type. |
+| 66 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 36. src\views\AllMembersPage\js\PointsServer.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 13 | 3 | ⚠️ 警告 | jsdoc/require-description | Missing JSDoc block description. |
+| 14 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "adjustReason" type. |
+| 15 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "adjustPoints" type. |
+| 16 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "createTime" type. |
+| 26 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "serverData" type. |
+| 27 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 40 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 41 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 37. src\views\AttendancePage\AttendancePage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 11 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 17 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 45 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 51 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 52 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 69 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 94 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+
+### 38. src\views\PointsDashboardPage\js\PointsDashboardPage.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 49 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 66 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 68 | 8 | ❌ 错误 | sonarjs/no-identical-functions | Update this function so that its implementation is not identical to the one on line 51. |
+| 82 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 83 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 84 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 118 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 157 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 39. src\views\RegisterPage\RegisterPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 13 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 15 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "date". |
+| 34 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 79 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 112 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @type type "Object"; prefer: "object". |
+| 153 | 12 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
+| 178 | 5 | ⚠️ 警告 | no-negated-condition | Unexpected negated condition. |
+| 201 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 40. src\api\PointsApi.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 8 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 9 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 23 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "top" type. |
+| 24 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 37 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 38 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 41. src\views\AdminPage\AdminPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 15 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 28 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 30 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 46 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+
+### 42. src\views\AllMembersPage\js\AdjustRecordsDialogManager.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 27 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "student" type. |
+| 77 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 85 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "time" type. |
+| 86 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 110 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "points" type. |
+| 111 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 43. src\views\AllMembersPage\js\PersonalInformation.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 30 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 31 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 31 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 67 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 68 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 68 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 44. src\views\StudentManagerPage\js\StudentManagerPageStudentAttendanceServer.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 12 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentId" type. |
+| 13 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 36 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "dateStr" type. |
+| 37 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "slot" type. |
+| 38 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentAttendanceRecords" type. |
+| 39 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 45. src\components\ThemeToggle.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 1 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 23 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag (preference). Replace "const" JSDoc tag with "constant". |
+| 23 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @const "themeStore" type "Object"; prefer: "object". |
+| 29 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag (preference). Replace "const" JSDoc tag with "constant". |
+| 30 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag (preference). Replace "const" JSDoc tag with "constant". |
+
+### 46. src\views\StudentManagerPage\js\StudentManagerPage.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 16 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 17 | 1 | ⚠️ 警告 | jsdoc/require-param-description | Missing JSDoc @param "adminStudentDatabaseTableId" description. |
+| 17 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "adminStudentDatabaseTableId" type. |
+| 18 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 30 | 5 | ❌ 错误 | no-param-reassign | Assignment to property of function parameter 'student'. |
+
+### 47. src\api\StatisticsApi.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 33 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 34 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 35 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 35 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 48. src\router\index.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 492 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 493 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 508 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 509 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "isValid" type. |
+
+### 49. src\views\DashboardPage\DashboardPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 26 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `vue` |
+| 27 | 1 | ❌ 错误 | import/order | There should be at least one empty line between import groups |
+| 27 | 1 | ❌ 错误 | import/order | `element-plus` import should occur before import of `vue` |
+
+### 50. src\views\PointsDashboardPage\PointsDashboardPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 1 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 15 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 26 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 27 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 51. src\views\ProfilePage\ProfilePage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 1 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 11 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 12 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 17 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+
+### 52. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPageDesktop.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 97 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 98 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+| 129 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 53. src\views\StudentManagerPage\js\StudentManagerPageUtils.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 8 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "studentInfoId" type. |
+| 9 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 17 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 18 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 54. src\api\super_admin.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 31 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 32 | 1 | ⚠️ 警告 | jsdoc/check-types | Invalid JSDoc @returns type "Object"; prefer: "object". |
+| 32 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 55. src\stores\user.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 36 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "info" type. |
+| 37 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 55 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "level" type. |
+
+### 56. src\views\ScoreChangeRecordsPage\ScoreChangeRecordsPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 1 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 26 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 27 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 57. src\views\StudentManagerPage\StudentManagerPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 4 | 1 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 20 | 3 | ❌ 错误 | no-trailing-spaces | Trailing spaces not allowed. |
+| 21 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 58. src\api\StudentManagementApi.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 8 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "token" type. |
+| 9 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 59. src\composables\ApiInterceptor.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 26 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 51 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "api" type. |
+
+### 60. src\views\AllMembersPage\AllMembersPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 15 | 1 | ❌ 错误 | import/order | `@element-plus/icons-vue` import should occur before import of `element-plus` |
+| 27 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 61. src\views\HomePage\HomePage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 6 | 1 | ⚠️ 警告 | jsdoc/check-tag-names | Invalid JSDoc tag name "component". |
+| 18 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+### 62. src\views\HomePage\js\HomePage.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 19 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+| 110 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "event" type. |
+
+### 63. src\views\ProfilePage\js\ProfilePageUtils.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 21 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @param. |
+| 22 | 1 | ⚠️ 警告 | jsdoc/no-types | Types are not permitted on @returns. |
+
+### 64. src\stores\theme.js
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 82 | 1 | ⚠️ 警告 | jsdoc/require-param-type | Missing JSDoc @param "theme" type. |
+
+### 65. src\views\NavigationPage\NavigationPage.vue
+
+| 行号 | 列号 | 严重程度 | 规则 | 消息 |
+|------|------|----------|------|------|
+| 27 | 1 | ⚠️ 警告 | jsdoc/require-returns-type | Missing JSDoc @returns type. |
+
+## 💡 修复建议
+
+1. 运行 `npm run lint:fix` 自动修复可修复的问题
+2. 运行 `npm run lint` 查看所有问题详情
+3. 手动修复无法自动修复的问题
+
+---
+
+*报告生成时间: 2026/1/7 11:00:53*

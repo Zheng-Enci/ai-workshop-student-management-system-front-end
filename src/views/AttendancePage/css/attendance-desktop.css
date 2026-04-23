@@ -1,0 +1,950 @@
+/**
+ * ============================================================================
+ * 考勤页面 - 桌面端样式
+ * ============================================================================
+ * @file attendance-desktop.css
+ * 设计特点：
+ * 1. 采用玻璃拟态设计，营造现代感
+ * 2. 渐变背景配合浮动光球动画，增强视觉层次
+ * 3. 响应式网格布局，适配不同屏幕尺寸
+ * 4. 丰富的交互动画和过渡效果
+ * 5. 支持深色/浅色主题切换
+ * ============================================================================
+ */
+
+/* ==================== 页面容器 ==================== */
+.attendance-container-desktop {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: 20px;
+	overflow: hidden;
+	background: linear-gradient(
+		135deg,
+		rgb(99 102 241 / 0.1) 0%,
+		rgb(168 85 247 / 0.08) 25%,
+		rgb(236 72 153 / 0.06) 50%,
+		rgb(251 146 60 / 0.08) 75%,
+		rgb(34 197 94 / 0.1) 100%
+	);
+	animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 背景特效层 */
+.background-effects-desktop {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+}
+
+/* 渐变光球 */
+.gradient-orb-desktop {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(80px);
+	animation: float-desktop 25s ease-in-out infinite;
+}
+
+/* 光球1 - 左上角蓝色光球 */
+.orb-1 {
+	top: 5%;
+	left: 5%;
+	width: 400px;
+	height: 400px;
+	background: radial-gradient(circle, rgb(99 102 241 / 0.15) 0%, rgb(99 102 241 / 0.05) 70%, transparent 100%);
+	animation-delay: 0s;
+}
+
+/* 光球2 - 右侧紫色光球 */
+.orb-2 {
+	top: 50%;
+	right: 5%;
+	width: 350px;
+	height: 350px;
+	background: radial-gradient(circle, rgb(168 85 247 / 0.12) 0%, rgb(168 85 247 / 0.04) 70%, transparent 100%);
+	animation-delay: 8s;
+}
+
+/* 光球3 - 左下角绿色光球 */
+.orb-3 {
+	bottom: 10%;
+	left: 15%;
+	width: 300px;
+	height: 300px;
+	background: radial-gradient(circle, rgb(34 197 94 / 0.1) 0%, rgb(34 197 94 / 0.03) 70%, transparent 100%);
+	animation-delay: 16s;
+}
+
+/* 浮动动画定义 - 光球平滑移动效果 */
+@keyframes float-desktop {
+	0%, 100% {
+		opacity: 0.6;
+		transform: translateY(0) translateX(0) rotate(0deg);
+	}
+
+	25% {
+		opacity: 0.8;
+		transform: translateY(-20px) translateX(10px) rotate(90deg);
+	}
+
+	50% {
+		opacity: 1;
+		transform: translateY(-10px) translateX(-15px) rotate(180deg);
+	}
+
+	75% {
+		opacity: 0.7;
+		transform: translateY(15px) translateX(5px) rotate(270deg);
+	}
+}
+
+/* ==================== 基础元素选择器（最低特异性） ==================== */
+/* 页面主标题 */
+h1 {
+	margin: 0 0 8px;
+	font-size: 32px;
+	font-weight: 700;
+	color: var(--text-primary);
+	letter-spacing: 1px;
+	text-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/* 日历表头样式 */
+.el-calendar-table th {
+	font-size: 14px;
+	font-size: 0;
+	font-weight: 500;
+	color: var(--text-primary);
+	background-color: var(--bg-secondary);
+	border-color: var(--border-color);
+}
+
+/* 日历表头文字 - 使用伪元素显示星期 */
+.el-calendar-table th::before {
+	font-size: 14px;
+	font-weight: 500;
+}
+
+/* 星期一到星期日文字 */
+.el-calendar-table th:nth-child(1)::before { content: '日'; }
+.el-calendar-table th:nth-child(2)::before { content: '一'; }
+.el-calendar-table th:nth-child(3)::before { content: '二'; }
+.el-calendar-table th:nth-child(4)::before { content: '三'; }
+.el-calendar-table th:nth-child(5)::before { content: '四'; }
+.el-calendar-table th:nth-child(6)::before { content: '五'; }
+.el-calendar-table th:nth-child(7)::before { content: '六'; }
+
+/* 时间段标签 */
+.time-label {
+	font-size: 9px;
+	font-weight: 600;
+	line-height: 1;
+	color: var(--text-secondary);
+}
+
+/* ==================== 单类选择器（中等特异性） ==================== */
+/* 副标题 */
+.subtitle {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 400;
+	color: var(--text-secondary);
+	opacity: 0.8;
+}
+
+/* ==================== 页面布局 ==================== */
+/* 内容包装器 */
+.content-wrapper-desktop {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+	max-width: 1200px;
+	padding-top: 20px;
+}
+
+/* 页面标题区域 */
+.page-title-desktop {
+	display: flex;
+	gap: 15px;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+/* 标题Logo */
+.title-logo-desktop {
+	width: 48px;
+	height: 48px;
+	cursor: pointer;
+	border-radius: 8px;
+
+	/* 仅保留 transform 过渡（性能最优，无报错） */
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.title-logo-desktop:hover {
+	box-shadow: 0 8px 32px var(--shadow-color);
+	transform: scale(1.1); /* 仅保留缩放效果，移除旋转 */
+}
+
+/* ==================== 顶部导航栏 ==================== */
+/* 顶部固定导航栏 */
+.top-bar-desktop {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+	z-index: 1000;
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	animation: fadeInDown 0.6s ease-out;
+}
+
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		transform: translateY(-30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 导航按钮 */
+.nav-button-desktop {
+	min-width: 100px;
+	height: 48px;
+	padding: 0 20px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--text-primary);
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	border-radius: 24px;
+	box-shadow: 0 4px 16px var(--shadow-color);
+	backdrop-filter: blur(20px);
+
+	/* 仅保留 transform 过渡（性能最优，无报错） */
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-button-desktop:hover {
+	color: #fff;
+	background: var(--primary-color);
+	box-shadow: 0 8px 24px var(--shadow-color);
+	transform: translateY(-2px); /* 用 transform 实现位移，舍弃其他属性过渡 */
+}
+
+/* ==================== 右侧座右铭 ==================== */
+/* 座右铭容器 */
+.motto-corner-desktop {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 999;
+
+	/* 仅保留 transform 过渡（性能最优，无报错） */
+	transition: transform 0.3s ease;
+	animation: fadeInRight 0.6s ease-out 0.2s both;
+}
+
+@keyframes fadeInRight {
+	from {
+		opacity: 0;
+		transform: translateX(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.motto-corner-desktop:hover {
+	transform: translateY(-2px);
+}
+
+/* 座右铭图片 */
+.motto-image-desktop {
+	width: 150px;
+	height: auto;
+	opacity: 0.9;
+
+	/* 仅保留 transform 过渡（性能最优，无报错） */
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.motto-image-desktop:hover {
+	opacity: 1;
+	transform: scale(1.05);
+}
+
+/* ==================== 主内容区域 ==================== */
+/* 主内容容器 */
+.main-content-desktop {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	align-items: center;
+	width: 100%;
+}
+
+/* 网格布局 */
+.layout-grid-desktop {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 80px;
+	align-items: start;
+	width: 100%;
+	max-width: 1400px;
+}
+
+/* 左侧面板 */
+.left-panel-desktop {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	align-items: center;
+}
+
+/* ==================== 日历容器 ==================== */
+/* 日历外层容器 */
+.calendar-container-desktop {
+	width: 100%;
+	padding: 20px;
+	overflow: visible !important;
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	border-radius: 20px;
+	box-shadow: 0 8px 32px var(--shadow-color);
+	backdrop-filter: blur(20px);
+	animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+/* 考勤日历主体 */
+.attendance-calendar-desktop {
+	background: transparent;
+}
+
+/* ==================== 日历单元格样式 ==================== */
+/* 日历单元格 */
+.calendar-cell-desktop {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	padding: 8px;
+}
+
+/* 有出勤记录的单元格 - 设置为可点击 */
+.calendar-cell-desktop.has-attendance {
+	cursor: pointer;
+}
+
+/* 自定义提示框 */
+.custom-tooltip-desktop {
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	z-index: 2000;
+	pointer-events: none;
+	opacity: 0;
+	transform: translateX(-50%) translateY(-4px) scale(0.95);
+
+	/* 仅保留 transform + opacity 过渡（性能最优，无报错） */
+	transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+}
+
+/* 提示框悬停显示 */
+.calendar-cell-desktop.has-attendance:hover .custom-tooltip-desktop {
+	visibility: visible;
+	pointer-events: auto;
+	opacity: 1;
+	transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* 提示框箭头 */
+.custom-tooltip-desktop::after {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	content: '';
+	border: 6px solid transparent;
+	border-top-color: rgb(102 126 234 / 0.2);
+	transform: translateX(-50%);
+}
+
+/* 单元格日期文字 */
+.cell-date-desktop {
+	margin-bottom: 4px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--text-primary);
+}
+
+/* 单元格状态容器 */
+.cell-status-desktop {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	align-items: center;
+}
+
+/* ==================== 图表卡片样式 ==================== */
+/* 图表项容器 */
+.chart-item-desktop {
+	position: relative;
+	width: 100%;
+	padding: 25px;
+	margin-top: 30px;
+	overflow: hidden;
+	background: rgb(255 255 255 / 0.03);
+	border: 1px solid rgb(255 255 255 / 0.08);
+	border-radius: 20px;
+
+	/* 仅保留 transform 过渡（性能最优，无报错） */
+	transition: transform 0.3s ease;
+	animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+/* 图表顶部渐变线 */
+.chart-item-desktop::before {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	height: 2px;
+	content: '';
+	background: linear-gradient(90deg, #4fc3f7, #29b6f6, #0288d1);
+}
+
+/* 图表悬停效果 */
+.chart-item-desktop:hover {
+	border-color: rgb(79 195 247 / 0.2);
+	box-shadow: 0 12px 40px rgb(0 0 0 / 0.15);
+	transform: translateY(-2px); /* 用 transform 实现位移，舍弃其他属性过渡 */
+}
+
+/* 图表标题 */
+.chart-title-desktop {
+	position: relative;
+	margin-bottom: 20px;
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--text-primary);
+	text-align: center;
+}
+
+/* 图表标题下划线 */
+.chart-title-desktop::after {
+	position: absolute;
+	bottom: -8px;
+	left: 50%;
+	width: 30px;
+	height: 2px;
+	content: '';
+	background: linear-gradient(90deg, #4fc3f7, #29b6f6);
+	border-radius: 1px;
+	transform: translateX(-50%);
+}
+
+/* 图表内容区域 */
+.chart-content-desktop {
+	width: 100%;
+	height: 350px;
+	overflow: hidden;
+	border-radius: 12px;
+}
+
+/* ==================== 时间段状态显示 ==================== */
+/* 时间段状态容器 */
+.time-slot-status {
+	display: flex;
+	flex-direction: row;
+	gap: 2px;
+	justify-content: center;
+	margin-top: 4px;
+}
+
+/* 时间段槽位 */
+.time-slot {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	min-width: 24px;
+	height: 20px;
+	padding: 2px 3px;
+	background-color: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: 3px;
+}
+
+/* 已签到的时间段 */
+.time-slot.signed {
+	background-color: var(--success-color);
+	border-color: var(--success-color);
+}
+
+/* 时间段图标 */
+.slot-icon {
+	margin-left: 2px;
+	font-size: 7px;
+	color: #fff;
+}
+
+/* ==================== 日历单元格包装器 ==================== */
+/* 单元格包装器 */
+.calendar-cell-wrapper-desktop {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	padding: 4px;
+	pointer-events: auto;
+	cursor: pointer;
+
+	/* 仅保留 transform 过渡（性能最优，无报错）- 舍弃 background-color 过渡 */
+	transition: transform 0.2s ease;
+}
+
+/* 单元格悬停效果 */
+.calendar-cell-wrapper-desktop:hover {
+	background-color: var(--bg-secondary);
+	border-radius: 4px;
+	transform: scale(1.02); /* 用轻微缩放模拟hover效果，替代背景色过渡 */
+}
+
+/* ==================== 日历头部 ==================== */
+/* 日历头部区域 */
+.calendar-header-desktop {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 24px;
+	background-color: var(--bg-primary);
+	border-bottom: 1px solid var(--border-color);
+}
+
+/* 头部标题 */
+.header-title {
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--text-primary);
+}
+
+/* 头部操作按钮组 */
+.header-actions {
+	display: flex;
+	gap: 8px;
+	margin-left: 20px;
+}
+
+/* ==================== 提示框内容 ==================== */
+/* 提示框内容容器 */
+.tooltip-content-desktop {
+	position: relative;
+	z-index: 1;
+	min-width: 200px;
+	padding: 4px 0;
+}
+
+/* 提示框时间列表 */
+.tooltip-times-desktop {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+/* 提示框时间项 */
+.tooltip-time-item-desktop {
+	position: relative;
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 14px;
+	overflow: hidden;
+	cursor: default;
+	background: rgb(255 255 255 / 0.6);
+	border: 1px solid rgb(102 126 234 / 0.15);
+	border-radius: 8px;
+
+	/* 仅保留 transform 过渡（性能最优，无报错） */
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 时间项左侧渐变条 */
+.tooltip-time-item-desktop::before {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 3px;
+	content: '';
+	background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+	transform: scaleY(0);
+	transition: transform 0.3s ease; /* 仅保留 transform 过渡 */
+}
+
+/* 时间项悬停效果 */
+.tooltip-time-item-desktop:hover {
+	background: rgb(102 126 234 / 0.1);
+	border-color: rgb(102 126 234 / 0.3);
+	box-shadow: 0 2px 8px rgb(102 126 234 / 0.2);
+	transform: translateX(2px); /* 用 transform 实现位移，舍弃其他属性过渡 */
+}
+
+/* 悬停时显示渐变条 */
+.tooltip-time-item-desktop:hover::before {
+	transform: scaleY(1);
+}
+
+/* 提示框时间段标签 */
+.tooltip-time-slot-desktop {
+	min-width: 36px;
+	padding: 4px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #667eea;
+	text-align: center;
+	letter-spacing: 0.5px;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.1) 0%, rgb(118 75 162 / 0.1) 100%);
+	border-radius: 6px;
+
+	/* 仅保留 transform 过渡（性能最优，无报错） */
+	transition: transform 0.3s ease;
+}
+
+/* 提示框时间文字 */
+.tooltip-time-text-desktop {
+	position: relative;
+	padding-left: 20px;
+	font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1a202c;
+	letter-spacing: 0.3px;
+}
+
+/* 时间文字时钟图标 */
+.tooltip-time-text-desktop::before {
+	position: absolute;
+	left: 0;
+	font-size: 12px;
+	content: '🕐';
+	opacity: 0.6;
+	transition: opacity 0.3s ease; /* 仅保留 opacity 过渡（性能最优，无报错） */
+}
+
+/* 提示框淡入动画 */
+@keyframes tooltipFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-4px) scale(0.95);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+
+
+/* ==================== 复合类选择器（较高特异性） ==================== */
+/* 页面标题中的主标题 */
+.page-title-desktop h1 {
+	margin: 0;
+	font-size: 36px;
+	font-weight: 700;
+	color: var(--text-primary);
+	letter-spacing: 2px;
+	text-shadow: 0 2px 8px var(--shadow-color);
+}
+
+/* ==================== 媒体查询 ==================== */
+/* 中小屏幕适配 */
+@media (width <= 1024px) {
+	/* 调整为单列布局 */
+	.layout-grid-desktop {
+		grid-template-columns: 1fr;
+		gap: 32px;
+	}
+
+	/* 调整左侧面板顺序 */
+	.left-panel-desktop {
+		order: 1;
+	}
+
+	/* 调整图表高度 */
+	.chart-content-desktop {
+		height: 250px;
+	}
+}
+
+/* ==================== 深色模式样式 ==================== */
+/* Element Plus 消息组件深色模式变量 */
+html.dark {
+	--el-message-bg-color: #000 !important;
+	--el-message-text-color: #fff !important;
+	--el-message-border-color: #333 !important;
+	--el-color-success: #67c23a !important;
+	--el-color-error: #f56c6c !important;
+}
+
+/* 深色模式页面标题 */
+html.dark .page-title-desktop h1 {
+	color: var(--text-primary);
+}
+
+/* 深色模式Logo反转 */
+html.dark .title-logo-desktop {
+	filter: invert(1) hue-rotate(180deg);
+}
+
+/* 浅色模式Logo正常显示 */
+html.light .title-logo-desktop {
+	filter: none;
+}
+
+/* 深色模式座右铭图片反转 */
+html.dark .motto-image-desktop {
+	filter: invert(1) hue-rotate(180deg);
+	transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 浅色模式座右铭图片正常显示 */
+html.light .motto-image-desktop {
+	filter: none;
+	transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 深色模式提示框箭头 */
+html.dark .custom-tooltip-desktop::after {
+	border-top-color: rgb(102 126 234 / 0.3);
+}
+
+/* Element Plus 消息组件深色模式样式 */
+html.dark .el-message {
+	color: var(--el-message-text-color) !important;
+	background-color: var(--el-message-bg-color) !important;
+	border-color: var(--el-message-border-color) !important;
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.8) !important;
+}
+
+/* 成功消息边框 */
+html.dark .el-message--success {
+	border-color: var(--el-color-success) !important;
+}
+
+/* 错误消息边框 */
+html.dark .el-message--error {
+	border-color: var(--el-color-error) !important;
+}
+
+/* 消息内容和图标 */
+html.dark .el-message__content,
+html.dark .el-message__icon {
+	font-weight: 500 !important;
+	color: var(--el-message-text-color) !important;
+}
+
+/* 消息关闭按钮 */
+html.dark .el-message__closeBtn {
+	color: #ccc !important;
+}
+
+/* 消息关闭按钮悬停 */
+html.dark .el-message__closeBtn:hover {
+	color: var(--el-message-text-color) !important;
+}
+
+/* Element Plus 日历组件深色模式 */
+html.dark .el-calendar,
+html.dark .el-calendar__header,
+html.dark .el-calendar__button-group,
+html.dark .el-calendar-table {
+	color: var(--text-primary) !important;
+	background-color: var(--bg-primary) !important;
+	border-bottom-color: var(--border-color) !important;
+}
+
+/* 日历标题 */
+html.dark .el-calendar__title {
+	color: var(--text-primary) !important;
+}
+
+/* 日历按钮 */
+html.dark .el-button {
+	color: var(--text-primary) !important;
+	background-color: var(--bg-secondary) !important;
+	border-color: var(--border-color) !important;
+}
+
+/* 日历按钮悬停 */
+html.dark .el-button:hover {
+	background-color: var(--bg-tertiary) !important;
+	border-color: var(--primary-color) !important;
+}
+
+/* 日历表头深色模式 */
+html.dark .el-calendar-table th {
+	color: var(--text-primary) !important;
+	background-color: var(--bg-secondary) !important;
+	border-color: var(--border-color) !important;
+}
+
+/* 今天标记深色模式 */
+html.dark .el-calendar-day.is-today {
+	color: #fff !important;
+	background-color: var(--primary-color) !important;
+}
+
+/* 日历单元格深色模式 */
+html.dark .calendar-cell-desktop {
+	background-color: transparent !important;
+}
+
+/* 单元格文字深色模式 */
+html.dark .cell-date-desktop,
+html.dark .cell-status-desktop,
+html.dark .header-title {
+	color: var(--text-primary) !important;
+}
+
+/* 时间标签深色模式 */
+html.dark .time-label {
+	color: var(--text-secondary);
+}
+
+/* 时间段槽位深色模式 */
+html.dark .time-slot {
+	background-color: var(--bg-tertiary);
+	border-color: var(--border-color);
+}
+
+/* 已签到时间标签 */
+.time-slot.signed .time-label {
+	color: #fff;
+}
+
+/* 槽位图标深色模式 */
+html.dark .slot-icon {
+	color: #fff;
+}
+
+/* 已签到时间段深色模式 - 确保绿色显示 */
+html.dark .time-slot.signed {
+	background-color: #67c23a !important;
+	border-color: #67c23a !important;
+}
+
+/* 已签到时间标签深色模式 */
+html.dark .time-slot.signed .time-label {
+	color: #fff !important;
+}
+
+/* 单元格包装器悬停深色模式 */
+html.dark .calendar-cell-wrapper-desktop:hover {
+	background-color: var(--bg-tertiary);
+}
+
+/* 日历头部深色模式 */
+html.dark .calendar-header-desktop {
+	background-color: var(--bg-primary);
+	border-bottom-color: var(--border-color);
+}
+
+/* ==================== 浅色模式样式 ==================== */
+/* 浅色模式提示框时间项 */
+html:not(.dark) .tooltip-time-item-desktop {
+	background: rgb(255 255 255 / 0.7);
+	border-color: rgb(102 126 234 / 0.2);
+}
+
+/* 浅色模式提示框时间段 */
+html:not(.dark) .tooltip-time-slot-desktop {
+	color: #667eea;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.12) 0%, rgb(118 75 162 / 0.12) 100%);
+}
+
+/* 浅色模式提示框时间文字 */
+html:not(.dark) .tooltip-time-text-desktop {
+	color: #1a202c;
+}
+
+/* ==================== 深色模式提示框样式 ==================== */
+/* 深色模式提示框时间项 */
+html.dark .tooltip-time-item-desktop {
+	background: rgb(30 30 40 / 0.8);
+	border-color: rgb(102 126 234 / 0.3);
+}
+
+/* 深色模式提示框时间段 */
+html.dark .tooltip-time-slot-desktop {
+	color: #8b9aff;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.2) 0%, rgb(118 75 162 / 0.2) 100%);
+}
+
+/* 深色模式提示框时间文字 */
+html.dark .tooltip-time-text-desktop {
+	color: #e2e8f0;
+}
+
+/* 深色模式提示框时钟图标 */
+html.dark .tooltip-time-text-desktop::before {
+	opacity: 0.8;
+}
+
+/* ==================== 提示框悬停效果 ==================== */
+/* 提示框时间段悬停 */
+.tooltip-time-item-desktop:hover .tooltip-time-slot-desktop {
+	color: #764ba2;
+	background: linear-gradient(135deg, rgb(102 126 234 / 0.2) 0%, rgb(118 75 162 / 0.2) 100%);
+	transform: scale(1.05); /* 用 transform 实现缩放，舍弃其他属性过渡 */
+}
+
+/* 提示框时钟图标悬停 */
+.tooltip-time-item-desktop:hover .tooltip-time-text-desktop::before {
+	opacity: 1;
+}
+
+/* 浅色模式提示框时间项悬停 */
+html:not(.dark) .tooltip-time-item-desktop:hover {
+	background: rgb(102 126 234 / 0.12);
+	border-color: rgb(102 126 234 / 0.4);
+	box-shadow: 0 4px 12px rgb(102 126 234 / 0.25);
+}
+
+/* 深色模式提示框时间项悬停 */
+html.dark .tooltip-time-item-desktop:hover {
+	background: rgb(102 126 234 / 0.15);
+	border-color: rgb(102 126 234 / 0.5);
+	box-shadow: 0 4px 12px rgb(102 126 234 / 0.3);
+}

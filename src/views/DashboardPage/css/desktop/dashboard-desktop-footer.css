@@ -1,0 +1,38 @@
+/* ==================== 页脚容器 ==================== */
+
+.dashboard-desktop-footer-container {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 8px 40px;
+  background: #667eea;
+}
+
+/* ==================== el-progress 进度条样式 ==================== */
+
+.dashboard-desktop-footer-container .el-progress {
+  width: 100%;
+}
+
+.dashboard-desktop-footer-container .el-progress-bar__outer {
+  background: rgb(255 255 255 / 0.3);
+  border-radius: 2px;
+}
+
+.dashboard-desktop-footer-container .el-progress-bar__inner {
+  border-radius: 3px;
+}
+
+/* ==================== 响应式样式 ==================== */
+
+@media (width <= 768px) {
+  .dashboard-desktop-footer-container {
+    padding: 6px 20px;
+  }
+
+  .dashboard-desktop-footer-container .el-progress-bar__outer {
+    height: 3px !important;
+  }
+}

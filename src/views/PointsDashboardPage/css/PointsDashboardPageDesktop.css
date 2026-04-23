@@ -1,0 +1,1866 @@
+/* 积分看板页面容器样式 - 桌面版 */
+/* 定义整个积分看板页面的基础布局和样式 */
+.points-dashboard-container {
+	/* 高度为视口高度，占满整个屏幕 */
+	height: 100vh;
+	/* 隐藏溢出内容，防止出现滚动条 */
+	overflow: hidden;
+	/* 使用CSS变量设置背景色，支持主题切换 */
+	background: var(--bg-primary);
+	/* 使用弹性布局 */
+	display: flex;
+	/* 垂直方向排列子元素 */
+	flex-direction: column;
+}
+
+/* 页面头部样式 */
+/* 积分看板页面的顶部导航栏 */
+.header {
+	/* 顶部对齐 */
+	top: 0;
+	/* 设置较高的层级，确保在其他元素之上 */
+	z-index: 100;
+	/* 半透明白色背景，创建玻璃效果 */
+	background: rgba(255, 255, 255, 0.05);
+	/* 背景模糊效果，增强视觉层次 */
+	backdrop-filter: blur(20px);
+	/* 底部边框，使用半透明白色 */
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	/* 内边距：上下12px，左右24px */
+	padding: 12px 24px;
+	/* 弹性布局 */
+	display: flex;
+	/* 子元素之间均匀分布 */
+	justify-content: space-between;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 最小高度72px */
+	min-height: 72px;
+	/* 不收缩，保持固定高度 */
+	flex-shrink: 0;
+}
+
+/* 头部左侧区域 */
+/* 包含返回按钮和Logo */
+.header-left {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 元素间距12px */
+	gap: 12px;
+	/* 绝对定位 */
+	position: absolute;
+	/* 距离左侧24px */
+	left: 24px;
+	/* 设置层级 */
+	z-index: 1;
+}
+
+/* 头部左侧的返回按钮和Logo */
+/* 确保这些元素不收缩 */
+.header-left .back-btn,
+.header-left .logo {
+	/* 不收缩 */
+	flex-shrink: 0;
+}
+
+/* 头部右侧区域 */
+/* 包含其他操作按钮 */
+.header-right {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 元素间距20px */
+	gap: 20px;
+	/* 绝对定位 */
+	position: absolute;
+	/* 距离右侧24px */
+	right: 24px;
+	/* 设置层级 */
+	z-index: 1;
+}
+
+/* 标语区域 */
+/* 页面标语图片的容器 */
+.slogan {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 内边距：上下16px和0，左右16px */
+	padding: 16px 16px 0 16px;
+	/* 右侧外边距8px */
+	margin-right: 8px;
+}
+
+/* 标语图片样式 */
+/* 标语图片的尺寸和过渡效果 */
+.slogan-img {
+	/* 高度80px */
+	height: 80px;
+	/* 滤镜过渡动画，用于暗色模式切换 */
+	transition: filter 0.3s ease;
+}
+
+/* 暗色模式下的标语图片 */
+/* 暗色模式下反转图片颜色 */
+html.dark .slogan-img {
+	/* 反转颜色，使图片在暗色背景下可见 */
+	filter: invert(1);
+}
+
+/* 返回按钮样式 */
+/* 返回上一页的按钮 */
+.back-btn {
+	/* 宽度48px */
+	width: 48px;
+	/* 高度48px */
+	height: 48px;
+	/* 使用CSS变量设置主色背景 */
+	background: var(--primary-color);
+	/* 无边框 */
+	border: none;
+
+}
+
+/* Logo样式 */
+/* 网站Logo图片 */
+.logo {
+	/* 宽度64px */
+	width: 64px;
+	/* 高度64px */
+	height: 64px;
+	/* 鼠标悬停时显示手型指针 */
+	cursor: pointer;
+	/* 无圆角 */
+	border-radius: 0;
+}
+
+/* 标题区域样式 */
+/* 页面主标题的容器 */
+.title-section {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 水平居中对齐 */
+	align-items: center;
+	/* 文本居中对齐 */
+	text-align: center;
+	/* 占据剩余空间 */
+	flex: 1;
+}
+
+/* 标题区域的主标题 */
+/* 使用渐变文字效果 */
+.title-section .main-title {
+	/* 字体大小32px */
+	font-size: 32px;
+	/* 字体粗细800，超粗 */
+	font-weight: 800;
+	/* 外边距0 */
+	margin: 0;
+	/* 内边距0 */
+	padding: 0;
+	/* 行高1.2 */
+	line-height: 1.2;
+	/* 渐变背景，从紫色到深紫色 */
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	/* WebKit浏览器中将背景裁剪到文字形状 */
+	-webkit-background-clip: text;
+	/* WebKit浏览器中使文字透明，显示背景渐变 */
+	-webkit-text-fill-color: transparent;
+	/* 将背景裁剪到文字形状 */
+	background-clip: text;
+	/* 字母间距2px */
+	letter-spacing: 2px;
+	
+	/* 块级显示 */
+	display: block;
+}
+
+/* 标题区域的h1标题 */
+/* 备用标题样式 */
+.title-section h1 {
+	/* 字体大小32px */
+	font-size: 32px;
+	/* 字体粗细700，加粗 */
+	font-weight: 700;
+	/* 外边距0 */
+	margin: 0;
+	/* 渐变背景，从紫色到深紫色 */
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	/* WebKit浏览器中将背景裁剪到文字形状 */
+	-webkit-background-clip: text;
+	/* WebKit浏览器中使文字透明，显示背景渐变 */
+	-webkit-text-fill-color: transparent;
+	/* 将背景裁剪到文字形状 */
+	background-clip: text;
+}
+
+/* 标题区域的段落文字 */
+/* 副标题或描述文字 */
+.title-section p {
+	/* 字体大小16px */
+	font-size: 16px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 外边距：上下8px和0，左右0 */
+	margin: 8px 0 0 0;
+	/* 字体粗细500，中等 */
+	font-weight: 500;
+}
+
+/* 看板布局样式 */
+/* 主内容区域的网格布局 */
+.dashboard-layout {
+	/* 网格布局 */
+	display: grid;
+	/* 两列布局：第一列自动宽度，第二列占据剩余空间 */
+	grid-template-columns: auto 1fr;
+	/* 列间距20px */
+	gap: 20px;
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小高度0，允许收缩 */
+	min-height: 0;
+	/* 隐藏溢出内容 */
+	overflow: hidden;
+}
+
+/* 看板主区域样式 */
+/* 左侧排名列表区域 */
+.dashboard-main {
+	/* 最小宽度0，允许收缩 */
+	min-width: 0;
+	/* 宽度适应内容 */
+	width: fit-content;
+	/* 最大宽度550px */
+	max-width: 550px;
+}
+
+/* 排名标签页样式 */
+/* 排名列表的容器 */
+.ranking-tabs {
+	/* 宽度550px */
+	width: 550px;
+	/* 左侧外边距0 */
+	margin-left: 0;
+	/* 顶部外边距0 */
+	margin-top: 0;
+	/* 高度100% */
+	height: 100%;
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+}
+
+/* 排名顶部栏样式 */
+/* 排名列表的顶部操作栏 */
+.ranking-topbar {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 子元素之间均匀分布 */
+	justify-content: space-between;
+	/* 元素间距12px */
+	gap: 12px;
+	/* 底部外边距32px */
+	margin-bottom: 32px;
+	/* 允许换行 */
+	flex-wrap: wrap;
+}
+
+/* 排名箭头按钮组样式 */
+/* 用于切换排名页面的箭头按钮 */
+.ranking-arrows {
+	/* 弹性布局 */
+	display: flex;
+	/* 元素间距6px */
+	gap: 6px;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 底部外边距0 */
+	margin-bottom: 0;
+	/* 半透明白色背景 */
+	background: rgba(255, 255, 255, 0.6);
+	/* 边框，使用半透明紫色 */
+	border: 1px solid rgba(102, 126, 234, 0.2);
+	/* 圆角14px */
+	border-radius: 14px;
+	/* 内边距：上下4px，左右8px */
+	padding: 4px 8px;
+	/* 背景模糊效果 */
+	backdrop-filter: blur(6px);
+}
+
+/* 暗色模式下的排名箭头按钮组 */
+/* 暗色模式下的背景和边框颜色调整 */
+html.dark .ranking-arrows {
+	/* 半透明深色背景 */
+	background: rgba(15, 23, 42, 0.65);
+	/* 边框，使用半透明白色 */
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 排名标签样式 */
+/* 显示当前排名范围的标签 */
+.ranking-label {
+	/* 字体大小12px */
+	font-size: 12px;
+	/* 字体粗细700，加粗 */
+	font-weight: 700;
+	/* 使用CSS变量设置文本主色 */
+	color: var(--text-primary);
+	/* 内边距：上下2px，左右8px */
+	padding: 2px 8px;
+	/* 圆角12px */
+	border-radius: 12px;
+	/* 半透明紫色背景 */
+	background: rgba(102, 126, 234, 0.1);
+	/* 边框，使用半透明紫色 */
+	border: 1px solid rgba(102, 126, 234, 0.2);
+	/* 行高18px */
+	line-height: 18px;
+	/* 不换行 */
+	white-space: nowrap;
+}
+
+/* 暗色模式下的排名标签 */
+/* 暗色模式下的背景和边框颜色调整 */
+html.dark .ranking-label {
+	/* 半透明白色背景 */
+	background: rgba(255, 255, 255, 0.08);
+	/* 边框，使用半透明白色 */
+	border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* 看板侧边区域样式 */
+/* 右侧积分展示区域 */
+.dashboard-side {
+	/* 最小宽度0，允许收缩 */
+	min-width: 0;
+	/* 宽度100% */
+	width: 100%;
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 隐藏溢出内容 */
+	overflow: hidden;
+}
+
+/* 侧边卡片样式 */
+/* 右侧积分展示的卡片容器 */
+.side-card {
+	/* 渐变背景，从半透明紫色到半透明青色 */
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(0, 242, 254, 0.08) 100%);
+	/* 边框，使用半透明紫色 */
+	border: 1px solid rgba(102, 126, 234, 0.2);
+	/* 圆角20px */
+	border-radius: 20px;
+	/* 内边距：上下0和24px，左右24px */
+	padding: 0 24px 24px 24px;
+	/* 背景模糊效果 */
+	backdrop-filter: blur(20px);
+
+	/* 宽度100% */
+	width: 100%;
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 隐藏溢出内容 */
+	overflow: hidden;
+	/* 高度100% */
+	height: 100%;
+}
+
+/* 侧边卡片头部样式 */
+/* 卡片标题和随机名言区域 */
+.side-card-header {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 子元素之间均匀分布 */
+	justify-content: space-between;
+	/* 元素间距12px */
+	gap: 12px;
+	/* 底部外边距12px */
+	margin-bottom: 12px;
+	/* 顶部外边距1% */
+	margin-top: 1%;
+	/* 顶部内边距0 */
+	padding-top: 0;
+	/* 底部内边距10px */
+	padding-bottom: 10px;
+	/* 底部边框，使用半透明紫色 */
+	border-bottom: 1px solid rgba(102, 126, 234, 0.15);
+	/* 不收缩 */
+	flex-shrink: 0;
+	/* 相对定位，用于子元素定位 */
+	position: relative;
+}
+
+/* 随机名言容器样式 */
+/* 显示随机名言的容器 */
+.random-quote-container {
+	/* 绝对定位 */
+	position: absolute;
+	/* 右侧对齐 */
+	right: 0;
+	/* 垂直居中 */
+	top: 50%;
+	/* 垂直居中变换 */
+	transform: translateY(-50%);
+	/* 宽度适应内容 */
+	width: fit-content;
+	/* 内边距：上下12px，左右18px */
+	padding: 12px 18px;
+	/* 透明背景 */
+	background: transparent;
+	/* 圆角12px */
+	border-radius: 12px;
+	/* 无边框 */
+	border: none;
+	/* 无背景模糊 */
+	backdrop-filter: none;
+	/* 无阴影 */
+	box-shadow: none;
+	/* 设置层级 */
+	z-index: 5;
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 右对齐 */
+	justify-content: flex-end;
+	/* 右侧外边距0 */
+	margin-right: 0;
+}
+
+/* 随机名言文字样式 */
+/* 随机名言的内容文字 */
+.random-quote {
+	/* 字体大小14px */
+	font-size: 14px;
+	/* 使用CSS变量设置文本主色 */
+	color: var(--text-primary);
+	/* 行高1.8 */
+	line-height: 1.8;
+	/* 文本右对齐 */
+	text-align: right;
+	/* 初始透明度0，不可见 */
+	opacity: 0;
+	/* 透明度过渡动画，持续0.5秒 */
+	transition: opacity 0.5s ease-in-out;
+	/* 字体粗细500，中等 */
+	font-weight: 500;
+	/* 字母间距1px */
+	letter-spacing: 1px;
+	/* 允许在单词内换行 */
+	word-break: break-word;
+	/* 允许在单词内换行 */
+	overflow-wrap: break-word;
+
+}
+
+/* 随机名言淡入效果 */
+/* 当名言显示时，淡入动画 */
+.random-quote.fade-in {
+	/* 透明度0.95，几乎完全不透明 */
+	opacity: 0.95;
+}
+
+/* 卡片头部左侧区域样式 */
+/* 卡片标题的容器 */
+.card-header-left {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 不收缩 */
+	flex-shrink: 0;
+}
+
+/* 侧边卡片标题样式 */
+/* 使用渐变文字效果 */
+.side-card-title {
+	/* 字体大小24px */
+	font-size: 24px;
+	/* 字体粗细800，超粗 */
+	font-weight: 800;
+	/* 使用CSS变量设置文本主色 */
+	color: var(--text-primary);
+	/* 渐变背景，从主色到青色 */
+	background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+	/* WebKit浏览器中将背景裁剪到文字形状 */
+	-webkit-background-clip: text;
+	/* WebKit浏览器中使文字透明，显示背景渐变 */
+	-webkit-text-fill-color: transparent;
+	/* 将背景裁剪到文字形状 */
+	background-clip: text;
+	/* 字母间距1px */
+	letter-spacing: 1px;
+
+	/* 相对定位 */
+	position: relative;
+	/* 行内块级显示 */
+	display: inline-block;
+}
+
+/* 侧边卡片副标题样式 */
+/* 卡片标题下方的描述文字 */
+.side-card-subtitle {
+	/* 字体大小11px */
+	font-size: 11px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 顶部外边距4px */
+	margin-top: 4px;
+	/* 透明度0.85 */
+	opacity: 0.85;
+}
+
+/* 侧边卡片主体样式 */
+/* 学生积分卡片的网格容器 */
+.side-card-body {
+	/* 网格布局 */
+	display: grid;
+	/* 8列等宽布局 */
+	grid-template-columns: repeat(8, minmax(0, 1fr));
+	/* 自动行高，根据内容调整 */
+	grid-auto-rows: min-content;
+	/* 网格间距6px */
+	gap: 6px;
+	/* 宽度100% */
+	width: 100%;
+	/* 顶部对齐 */
+	align-items: start;
+	/* 相对定位，用于伪元素定位 */
+	position: relative;
+	/* 隐藏溢出内容 */
+	overflow: hidden;
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小高度0，允许收缩 */
+	min-height: 0;
+	/* 顶部内边距10px */
+	padding-top: 10px;
+}
+
+/* 积分看板块对角线光影扫过效果 */
+/* 在卡片主体上添加对角线光影动画效果 */
+.side-card-body::after {
+	/* 伪元素内容为空 */
+	content: '';
+	/* 绝对定位 */
+	position: absolute;
+	/* 顶部偏移-50% */
+	top: -50%;
+	/* 左侧偏移-50% */
+	left: -50%;
+	/* 宽度200% */
+	width: 200%;
+	/* 高度200% */
+	height: 200%;
+	/* 线性渐变背景，创建光影效果 */
+	background: linear-gradient(
+		135deg,
+		transparent 30%,
+		rgba(255, 255, 255, 0.15) 50%,
+		transparent 70%
+	);
+	/* 初始位置在左上角外部 */
+	transform: translate(-100%, -100%);
+	/* 对角线扫过动画，持续3秒，无限循环 */
+	animation: diagonal-sweep 3s ease-in-out infinite;
+	/* 不响应鼠标事件 */
+	pointer-events: none;
+	/* 设置层级 */
+	z-index: 10;
+}
+
+/* 对角线扫过动画关键帧 */
+/* 定义光影从左上角到右下角的扫过效果 */
+@keyframes diagonal-sweep {
+	/* 起始状态 */
+	0% {
+		/* 位置在左上角外部 */
+		transform: translate(-100%, -100%);
+		/* 完全透明 */
+		opacity: 0;
+	}
+	/* 10%时 */
+	10% {
+		/* 完全不透明 */
+		opacity: 1;
+	}
+	/* 90%时 */
+	90% {
+		/* 完全不透明 */
+		opacity: 1;
+	}
+	/* 结束状态 */
+	100% {
+		/* 位置在右下角外部 */
+		transform: translate(100%, 100%);
+		/* 完全透明 */
+		opacity: 0;
+	}
+}
+
+
+/* 侧边学生卡片样式 */
+/* 单个学生积分信息的卡片 */
+.side-student {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 元素间距7px */
+	gap: 7px;
+	/* 内边距12px */
+	padding: 12px;
+	/* 圆角10px */
+	border-radius: 10px;
+	/* 渐变背景，从半透明白色到更透明的白色 */
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+
+	/* 相对定位，用于伪元素定位 */
+	position: relative;
+	/* 溢出可见，允许阴影等效果 */
+	overflow: visible;
+	/* 最小高度0，允许收缩 */
+	min-height: 0;
+	/* 所有属性过渡动画，使用缓动函数 */
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	/* 卡片入场动画，持续0.6秒 */
+	animation: card-enter 0.6s ease-out backwards;
+}
+
+/* 侧边学生卡片边框效果 */
+/* 使用伪元素创建渐变边框 */
+.side-student::before {
+	/* 伪元素内容为空 */
+	content: '';
+	/* 绝对定位 */
+	position: absolute;
+	/* 覆盖整个元素 */
+	inset: 0;
+	/* 圆角10px */
+	border-radius: 10px;
+	/* 内边距2px，创建边框效果 */
+	padding: 2px;
+	/* 渐变背景，从透明到半透明紫色 */
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(102, 126, 234, 0.08) 100%);
+	/* WebKit浏览器中的遮罩合成模式 */
+	-webkit-mask-composite: xor;
+	/* 遮罩合成模式，排除内部区域 */
+	mask-composite: exclude;
+	/* 不响应鼠标事件 */
+	pointer-events: none;
+	/* 设置层级 */
+	z-index: 0;
+}
+
+/* 社团成员等级的学生卡片 */
+/* 使用蓝色渐变背景 */
+.side-student.level-club-member {
+	/* 渐变背景，从半透明蓝色到更透明的蓝色 */
+	background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.06) 100%);
+}
+
+/* 社团成员等级的学生卡片边框 */
+/* 使用蓝色渐变边框 */
+.side-student.level-club-member::before {
+	/* 渐变背景，从透明到半透明蓝色 */
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(59, 130, 246, 0.12) 100%);
+}
+
+/* 普通成员等级的学生卡片 */
+/* 使用绿色渐变背景 */
+.side-student.level-normal-member {
+	/* 渐变背景，从半透明绿色到更透明的绿色 */
+	background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%);
+}
+
+/* 普通成员等级的学生卡片边框 */
+/* 使用绿色渐变边框 */
+.side-student.level-normal-member::before {
+	/* 渐变背景，从透明到半透明绿色 */
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(34, 197, 94, 0.12) 100%);
+}
+
+/* 核心成员等级的学生卡片 */
+/* 使用黄色渐变背景 */
+.side-student.level-core-member {
+	/* 渐变背景，从半透明黄色到更透明的黄色 */
+	background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(251, 191, 36, 0.06) 100%);
+}
+
+/* 核心成员等级的学生卡片边框 */
+/* 使用黄色渐变边框 */
+.side-student.level-core-member::before {
+	/* 渐变背景，从透明到半透明黄色 */
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(251, 191, 36, 0.12) 100%);
+}
+
+/* 管理员等级的学生卡片 */
+/* 使用红色渐变背景 */
+.side-student.level-admin {
+	/* 渐变背景，从半透明红色到更透明的红色 */
+	background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%);
+}
+
+/* 管理员等级的学生卡片边框 */
+/* 使用红色渐变边框 */
+.side-student.level-admin::before {
+	/* 渐变背景，从透明到半透明红色 */
+	background: linear-gradient(135deg, transparent 0%, transparent 60%, rgba(239, 68, 68, 0.12) 100%);
+}
+
+
+/* 占位符学生卡片样式 */
+/* 用于填充空位的占位符卡片 */
+.side-student.is-placeholder {
+	/* 透明度0.6 */
+	opacity: 0.6;
+	/* 无阴影 */
+	box-shadow: none;
+	/* 半透明白色背景 */
+	background: rgba(255, 255, 255, 0.02);
+	/* 虚线边框，使用半透明紫色 */
+	border: 2px dashed rgba(102, 126, 234, 0.2);
+}
+
+/* 占位符学生卡片的边框效果 */
+/* 占位符卡片不显示边框效果 */
+.side-student.is-placeholder::before {
+	/* 隐藏伪元素 */
+	display: none;
+}
+
+
+
+/* 侧边学生信息区域样式 */
+/* 学生卡片中的信息内容区域 */
+.side-info {
+	/* 最小宽度0，允许收缩 */
+	min-width: 0;
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 元素间距8px */
+	gap: 8px;
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 顶部对齐 */
+	justify-content: flex-start;
+	/* 相对定位 */
+	position: relative;
+	/* 设置层级，确保在边框效果之上 */
+	z-index: 2;
+	/* 最小高度0，允许收缩 */
+	min-height: 0;
+	/* 隐藏溢出内容 */
+	overflow: hidden;
+}
+
+/* 侧边头像区域样式 */
+/* 学生头像的容器 */
+.side-avatar-section {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 水平居中对齐 */
+	align-items: center;
+	/* 元素间距7px */
+	gap: 7px;
+	/* 底部外边距0 */
+	margin-bottom: 0;
+}
+
+/* 侧边头像样式 */
+/* 学生头像图片或图标 */
+.side-avatar {
+	/* 宽度56px */
+	width: 56px;
+	/* 高度56px */
+	height: 56px;
+	/* 渐变背景，从紫色到深紫色，作为默认背景 */
+	background: linear-gradient(135deg, #667eea, #764ba2);
+	/* 圆角8px */
+	border-radius: 8px;
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 水平居中对齐 */
+	justify-content: center;
+	/* 白色文字或图标 */
+	color: white;
+
+	/* 不收缩 */
+	flex-shrink: 0;
+	/* 相对定位，用于伪元素定位 */
+	position: relative;
+	/* 隐藏溢出内容 */
+	overflow: hidden;
+}
+
+/* 侧边头像光泽效果 */
+/* 在头像上添加光泽扫过动画 */
+.side-avatar::before {
+	/* 伪元素内容为空 */
+	content: '';
+	/* 绝对定位 */
+	position: absolute;
+	/* 顶部偏移-200% */
+	top: -200%;
+	/* 左侧偏移-200% */
+	left: -200%;
+	/* 宽度400% */
+	width: 400%;
+	/* 高度400% */
+	height: 400%;
+	/* 线性渐变背景，创建光泽效果 */
+	background: linear-gradient(135deg,
+	rgba(255, 255, 255, 0) 0%,
+	rgba(255, 255, 255, 0) 40%,
+	rgba(255, 255, 255, 0.6) 50%,
+	rgba(255, 255, 255, 0) 60%,
+	rgba(255, 255, 255, 0) 100%
+	);
+	/* 光泽扫过动画，持续3秒，无限循环 */
+	animation: avatarShine 3s infinite linear;
+	/* 不响应鼠标事件 */
+	pointer-events: none;
+	/* 设置层级 */
+	z-index: 1;
+}
+
+/* 头像光泽动画关键帧 */
+/* 定义光泽从左上角到右下角的扫过效果 */
+@keyframes avatarShine {
+	/* 起始状态 */
+	0% {
+		/* 位置在左上角外部 */
+		top: -200%;
+		left: -200%;
+	}
+	/* 结束状态 */
+	100% {
+		/* 位置在右下角外部 */
+		top: 200%;
+		left: 200%;
+	}
+}
+
+/* 有头像的头像样式 */
+/* 当学生有头像时，背景透明 */
+.side-avatar.has-avatar {
+	/* 透明背景 */
+	background: transparent;
+}
+
+/* 无头像的头像样式 */
+/* 当学生没有头像时，使用渐变背景 */
+.side-avatar.no-avatar {
+	/* 渐变背景，从紫色到深紫色 */
+	background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* 头像图片样式 */
+/* 学生头像的实际图片 */
+.side-avatar .avatar-image {
+	/* 宽度100% */
+	width: 100%;
+	/* 高度100% */
+	height: 100%;
+	/* 对象适应方式：覆盖 */
+	object-fit: cover;
+	/* 圆角8px */
+	border-radius: 8px;
+	/* 相对定位 */
+	position: relative;
+	/* 设置层级 */
+	z-index: 0;
+}
+
+/* 头像图标样式 */
+/* 当没有头像时显示的图标 */
+.side-avatar .avatar-icon {
+	/* 白色图标 */
+	color: white;
+	/* 相对定位 */
+	position: relative;
+	/* 设置层级 */
+	z-index: 0;
+}
+
+
+/* 侧边学生姓名样式 */
+/* 学生姓名文字 */
+.side-name {
+	/* 字体大小12px */
+	font-size: 12px;
+	/* 字体粗细700，加粗 */
+	font-weight: 700;
+	/* 使用CSS变量设置文本主色 */
+	color: var(--text-primary);
+	/* 允许在单词内换行 */
+	word-break: break-word;
+	/* 行高1.3 */
+	line-height: 1.3;
+	/* 字母间距0 */
+	letter-spacing: 0;
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小宽度0，允许收缩 */
+	min-width: 0;
+}
+
+
+/* 侧边内容区域样式 */
+/* 学生卡片中的主要内容区域 */
+.side-content {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 元素间距9px */
+	gap: 9px;
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小宽度0，允许收缩 */
+	min-width: 0;
+}
+
+/* 侧边元数据区域样式 */
+/* 学生等级、年级等元信息的容器 */
+.side-meta {
+	/* 弹性布局 */
+	display: flex;
+	/* 水平方向排列 */
+	flex-direction: row;
+	/* 元素间距4px */
+	gap: 4px;
+	/* 字体大小10px */
+	font-size: 10px;
+	/* 使用CSS变量设置文本主色 */
+	color: var(--text-primary);
+	/* 最小高度0，允许收缩 */
+	min-height: 0;
+	/* 不换行 */
+	flex-wrap: nowrap;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 水平居中对齐 */
+	justify-content: center;
+	/* 宽度100% */
+	width: 100%;
+}
+
+/* 侧边元数据行样式 */
+/* 单个元数据标签 */
+.side-meta .meta-line {
+	/* 内边距：上下2px，左右4px */
+	padding: 2px 4px;
+	/* 圆角4px */
+	border-radius: 4px;
+	/* 渐变背景，从半透明紫色到半透明青色 */
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.08) 100%);
+	/* 边框，使用半透明紫色 */
+	border: 1px solid rgba(102, 126, 234, 0.2);
+	/* 行高1.3 */
+	line-height: 1.3;
+	/* 默认鼠标样式 */
+	cursor: default;
+	/* 宽度适应内容 */
+	width: fit-content;
+	/* 不收缩，不增长 */
+	flex: 0 0 auto;
+	/* 盒模型：包含边框和内边距 */
+	box-sizing: border-box;
+	/* 字体粗细500，中等 */
+	font-weight: 500;
+	
+	/* 相对定位 */
+	position: relative;
+	/* 字体大小10px */
+	font-size: 10px;
+	/* 不换行 */
+	white-space: nowrap;
+	/* 文本居中对齐 */
+	text-align: center;
+}
+
+
+
+/* 侧边元数据第二行样式 */
+/* 元数据的第二行文字 */
+.side-meta .meta-line-second {
+	/* 最小高度0，允许收缩 */
+	min-height: 0;
+	/* 字体大小9px */
+	font-size: 9px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+}
+
+/* 统一图例样式 */
+/* 积分类型和等级类型的图例容器 */
+.unified-legend {
+	/* 弹性布局 */
+	display: flex;
+	/* 水平方向排列 */
+	flex-direction: row;
+	/* 允许换行 */
+	flex-wrap: wrap;
+	/* 元素间距16px */
+	gap: 16px;
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小宽度0，允许收缩 */
+	min-width: 0;
+	/* 内边距0 */
+	padding: 0;
+	/* 无底部边框 */
+	border-bottom: none;
+	/* 垂直居中对齐 */
+	align-items: center;
+}
+
+/* 统一图例区域样式 */
+/* 图例的分组区域 */
+.unified-legend .legend-section {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 元素间距16px */
+	gap: 16px;
+	/* 允许换行 */
+	flex-wrap: wrap;
+}
+
+/* 统一图例项目样式 */
+/* 单个图例项 */
+.unified-legend .legend-item {
+	/* 行内弹性布局 */
+	display: inline-flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 元素间距8px */
+	gap: 8px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 字体大小12px */
+	font-size: 12px;
+}
+
+/* 统一图例点样式 */
+/* 图例中的颜色点 */
+.unified-legend .legend-dot {
+	/* 宽度10px */
+	width: 10px;
+	/* 高度10px */
+	height: 10px;
+	/* 圆形 */
+	border-radius: 50%;
+	/* 行内块级显示 */
+	display: inline-block;
+	
+	/* 不收缩 */
+	flex-shrink: 0;
+}
+
+/* 社团成员图例点样式 */
+/* 使用蓝色渐变 */
+.unified-legend .legend-club-member {
+	/* 渐变背景，从半透明蓝色到更透明的蓝色 */
+	background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%);
+}
+
+/* 普通成员图例点样式 */
+/* 使用绿色渐变 */
+.unified-legend .legend-normal-member {
+	/* 渐变背景，从半透明绿色到更透明的绿色 */
+	background: linear-gradient(135deg, rgba(34, 197, 94, 0.8) 0%, rgba(34, 197, 94, 0.6) 100%);
+}
+
+/* 核心成员图例点样式 */
+/* 使用黄色渐变 */
+.unified-legend .legend-core-member {
+	/* 渐变背景，从半透明黄色到更透明的黄色 */
+	background: linear-gradient(135deg, rgba(251, 191, 36, 0.8) 0%, rgba(251, 191, 36, 0.6) 100%);
+}
+
+/* 管理员图例点样式 */
+/* 使用红色渐变 */
+.unified-legend .legend-admin {
+	/* 渐变背景，从半透明红色到更透明的红色 */
+	background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(239, 68, 68, 0.6) 100%);
+}
+
+/* 总积分图例点样式 */
+/* 使用主色到青色的渐变 */
+.unified-legend .legend-total {
+	/* 渐变背景，从主色到青色 */
+	background: linear-gradient(135deg, var(--primary-color), #00d4ff, #00f2fe);
+}
+
+/* 签到积分图例点样式 */
+/* 使用绿色渐变 */
+.unified-legend .legend-signin {
+	/* 渐变背景，从绿色到深绿色 */
+	background: linear-gradient(135deg, #10b981, #059669, #047857);
+}
+
+/* 活动积分图例点样式 */
+/* 使用橙色渐变 */
+.unified-legend .legend-activity {
+	/* 渐变背景，从橙色到深橙色 */
+	background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+}
+
+/* 统一图例文字样式 */
+/* 图例中的文字说明 */
+.unified-legend .legend-text {
+	/* 字体大小12px */
+	font-size: 12px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 不换行 */
+	white-space: nowrap;
+}
+
+/* 统一图例提示图标样式 */
+/* 图例中的提示图标 */
+.unified-legend .hint-icon {
+	/* 字体大小14px */
+	font-size: 14px;
+	/* 使用CSS变量设置主色 */
+	color: var(--primary-color);
+	/* 不收缩 */
+	flex-shrink: 0;
+}
+
+
+/* 侧边积分区域样式 */
+/* 学生积分信息的容器 */
+.side-points {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 元素间距3px */
+	gap: 3px;
+	/* 顶部内边距7px */
+	padding-top: 7px;
+	/* 顶部边框，使用半透明紫色 */
+	border-top: 1px solid rgba(102, 126, 234, 0.1);
+	/* 不收缩 */
+	flex-shrink: 0;
+}
+
+/* 积分总计行样式 */
+/* 显示总积分的行 */
+.points-total-row {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 子元素之间均匀分布 */
+	justify-content: space-between;
+	/* 元素间距6px */
+	gap: 6px;
+	/* 允许换行 */
+	flex-wrap: wrap;
+}
+
+/* 积分公式样式 */
+/* 积分计算公式的容器 */
+.points-formula {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 元素间距4px */
+	gap: 4px;
+	/* 不换行 */
+	flex-wrap: nowrap;
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小宽度0，允许收缩 */
+	min-width: 0;
+}
+
+/* 积分总计样式 */
+/* 总积分的文字 */
+.points-total {
+	/* 字体大小14px */
+	font-size: 14px;
+	/* 字体粗细800，超粗 */
+	font-weight: 800;
+	/* 字母间距0 */
+	letter-spacing: 0;
+	/* 不收缩 */
+	flex-shrink: 0;
+}
+
+/* 积分总计主值样式 */
+/* 总积分的主要数值，使用蓝色 */
+.points-total-main,
+.points-total-main * {
+	/* 使用更明显的蓝色 */
+	color: #1e88e5 !important;  /* 使用更明显的蓝色 */
+}
+
+/* 确保总积分颜色在各种等级下都正确显示 */
+/* 无论学生等级如何，总积分都使用蓝色 */
+.side-student.level-club-member .points-total-main,
+.side-student.level-club-member .points-total-main *,
+.side-student.level-normal-member .points-total-main,
+.side-student.level-normal-member .points-total-main *,
+.side-student.level-core-member .points-total-main,
+.side-student.level-core-member .points-total-main *,
+.side-student.level-admin .points-total-main,
+.side-student.level-admin .points-total-main * {
+	/* 使用更明显的蓝色 */
+	color: #1e88e5 !important;
+}
+
+/* 确保暗黑模式下总积分颜色正确 */
+/* 暗色模式下总积分也使用蓝色 */
+html.dark .points-total-main,
+html.dark .points-total-main *,
+html.dark .side-student.level-club-member .points-total-main,
+html.dark .side-student.level-club-member .points-total-main *,
+html.dark .side-student.level-normal-member .points-total-main,
+html.dark .side-student.level-normal-member .points-total-main *,
+html.dark .side-student.level-core-member .points-total-main,
+html.dark .side-student.level-core-member .points-total-main *,
+html.dark .side-student.level-admin .points-total-main,
+html.dark .side-student.level-admin .points-total-main * {
+	/* 使用更明显的蓝色 */
+	color: #1e88e5 !important;
+}
+
+/* 积分数字样式 */
+/* 积分数值的文字 */
+.points-number {
+	/* 字体粗细700，加粗 */
+	font-weight: 700;
+	/* 字体大小11px */
+	font-size: 11px;
+	/* 不收缩 */
+	flex-shrink: 0;
+}
+
+/* 签到积分数字样式 */
+/* 签到积分使用绿色 */
+.points-number.points-signin,
+.points-number.points-signin * {
+	/* 使用绿色 */
+	color: #10b981 !important;
+}
+
+/* 活动积分数字样式 */
+/* 活动积分使用橙色 */
+.points-number.points-activity,
+.points-number.points-activity * {
+	/* 使用橙色 */
+	color: #f59e0b !important;
+}
+
+/* 积分等号样式 */
+/* 积分公式中的等号 */
+.points-equals {
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 字体大小12px */
+	font-size: 12px;
+	/* 字体粗细600，半粗 */
+	font-weight: 600;
+	/* 不收缩 */
+	flex-shrink: 0;
+	/* 左右外边距1px */
+	margin: 0 1px;
+}
+
+/* 积分加号样式 */
+/* 积分公式中的加号 */
+.points-plus {
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 字体大小12px */
+	font-size: 12px;
+	/* 字体粗细600，半粗 */
+	font-weight: 600;
+	/* 不收缩 */
+	flex-shrink: 0;
+	/* 左右外边距1px */
+	margin: 0 1px;
+}
+
+/* 积分占位符样式 */
+/* 当积分数据为空时显示的占位符 */
+.points-placeholder {
+	/* 字体大小11px */
+	font-size: 11px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 透明度0.6 */
+	opacity: 0.6;
+}
+
+
+/* 侧边空状态样式 */
+/* 当没有学生数据时显示的空状态 */
+.side-empty {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 水平居中对齐 */
+	align-items: center;
+	/* 垂直居中对齐 */
+	justify-content: center;
+	/* 元素间距8px */
+	gap: 8px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 内边距：上下32px，左右12px */
+	padding: 32px 12px;
+	/* 字体大小13px */
+	font-size: 13px;
+}
+
+/* 排名箭头按钮组样式（重复定义） */
+/* 用于切换排名页面的箭头按钮，绝对定位版本 */
+.ranking-arrows {
+	/* 弹性布局 */
+	display: flex;
+	/* 元素间距6px */
+	gap: 6px;
+	/* 绝对定位 */
+	position: absolute;
+	/* 距离顶部8px */
+	top: 8px;
+	/* 距离左侧8px */
+	left: 8px;
+	/* 垂直居中对齐 */
+	align-items: center;
+}
+
+
+/* 排名标签样式（重复定义） */
+/* 显示当前排名范围的标签，绝对定位版本 */
+.ranking-label {
+	/* 字体大小12px */
+	font-size: 12px;
+	/* 字体粗细700，加粗 */
+	font-weight: 700;
+	/* 使用CSS变量设置文本主色 */
+	color: var(--text-primary);
+	/* 内边距：上下2px，左右8px */
+	padding: 2px 8px;
+	/* 圆角12px */
+	border-radius: 12px;
+	/* 半透明白色背景 */
+	background: rgba(255, 255, 255, 0.08);
+	/* 边框，使用半透明白色 */
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	/* 行高18px */
+	line-height: 18px;
+}
+
+/* 排名标签页样式 */
+/* 排名列表的容器，带背景和边框 */
+.ranking-tabs {
+	/* 半透明白色背景 */
+	background: rgba(255, 255, 255, 0.05);
+	/* 圆角20px */
+	border-radius: 20px;
+	/* 内边距20px */
+	padding: 20px;
+	/* 边框，使用半透明白色 */
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	/* 背景模糊效果 */
+	backdrop-filter: blur(20px);
+}
+
+/* 排名列表容器样式 */
+/* 排名列表的滚动容器 */
+.ranking-list-container {
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小高度0，允许收缩 */
+	min-height: 0;
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+}
+
+/* 图表容器样式 */
+/* 积分图表的容器 */
+.chart-container {
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小高度0，允许收缩 */
+	min-height: 0;
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+}
+
+/* 加载和空状态容器样式 */
+/* 加载中和空状态的容器 */
+.loading-container,
+.empty-container {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 水平居中对齐 */
+	align-items: center;
+	/* 垂直居中对齐 */
+	justify-content: center;
+	/* 内边距：上下80px，左右20px */
+	padding: 80px 20px;
+	/* 元素间距16px */
+	gap: 16px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+}
+
+/* 积分图表样式 */
+/* 积分图表的实际图表区域 */
+.points-chart {
+	/* 宽度100% */
+	width: 100%;
+	/* 占据剩余空间 */
+	flex: 1;
+	/* 最小高度400px */
+	min-height: 400px;
+	/* 相对定位 */
+	position: relative;
+}
+
+
+/* 图例项目样式 */
+/* 图表图例中的单个项目 */
+.legend-item {
+	/* 行内弹性布局 */
+	display: inline-flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 元素间距8px */
+	gap: 8px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 字体大小13px */
+	font-size: 13px;
+}
+
+/* 图例点样式 */
+/* 图例中的颜色点 */
+.legend-dot {
+	/* 宽度12px */
+	width: 12px;
+	/* 高度12px */
+	height: 12px;
+	/* 圆形 */
+	border-radius: 50%;
+	/* 行内块级显示 */
+	display: inline-block;
+	
+}
+
+/* 签到积分图例点样式 */
+/* 使用蓝色渐变 */
+.legend-signin {
+	/* 渐变背景，从蓝色到浅蓝色 */
+	background: linear-gradient(135deg, #4facfe, #60a5fa);
+}
+
+/* 活动积分图例点样式 */
+/* 使用青色渐变 */
+.legend-activity {
+	/* 渐变背景，从青色到浅青色 */
+	background: linear-gradient(135deg, #00f2fe, #00d4ff);
+}
+
+/* 公式卡片样式 */
+/* 积分计算公式的卡片容器 */
+.formula-card {
+	/* 渐变背景，从半透明紫色到半透明青色 */
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
+	/* 圆角12px */
+	border-radius: 12px;
+	/* 内边距：上下16px，左右20px */
+	padding: 16px 20px;
+	/* 底部外边距20px */
+	margin-bottom: 20px;
+	/* 边框，使用半透明紫色 */
+	border: 1px solid rgba(102, 126, 234, 0.15);
+	/* 背景模糊效果 */
+	backdrop-filter: blur(10px);
+
+}
+
+/* 公式内容样式 */
+/* 公式卡片中的内容区域 */
+.formula-content {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 元素间距10px */
+	gap: 10px;
+}
+
+/* 公式项目样式 */
+/* 单个公式项 */
+.formula-item {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 元素间距8px */
+	gap: 8px;
+	/* 字体大小14px */
+	font-size: 14px;
+	/* 使用CSS变量设置文本主色 */
+	color: var(--text-primary);
+	/* 允许换行 */
+	flex-wrap: wrap;
+	/* 行高1.5 */
+	line-height: 1.5;
+}
+
+/* 公式标签样式 */
+/* 公式中的标签文字 */
+.formula-label {
+	/* 字体粗细600，半粗 */
+	font-weight: 600;
+	/* 使用CSS变量设置主色 */
+	color: var(--primary-color);
+	/* 字体大小14px */
+	font-size: 14px;
+	/* 字母间距0 */
+	letter-spacing: 0;
+}
+
+/* 公式等号样式 */
+/* 公式中的等号 */
+.formula-equals {
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 字体粗细500，中等 */
+	font-weight: 500;
+	/* 左右外边距2px */
+	margin: 0 2px;
+	/* 字体大小15px */
+	font-size: 15px;
+}
+
+/* 公式值样式 */
+/* 公式中的数值 */
+.formula-value {
+	/* 渐变背景，从半透明紫色到半透明青色 */
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(0, 242, 254, 0.12) 100%);
+	/* 内边距：上下4px，左右12px */
+	padding: 4px 12px;
+	/* 圆角6px */
+	border-radius: 6px;
+	/* 使用CSS变量设置主色 */
+	color: var(--primary-color);
+	/* 字体粗细500，中等 */
+	font-weight: 500;
+	/* 边框，使用半透明紫色 */
+	border: 1px solid rgba(102, 126, 234, 0.2);
+	/* 字体大小13px */
+	font-size: 13px;
+}
+
+/* 公式运算符样式 */
+/* 公式中的加号或减号 */
+.formula-operator {
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 字体粗细600，半粗 */
+	font-weight: 600;
+	/* 左右外边距4px */
+	margin: 0 4px;
+	/* 字体大小16px */
+	font-size: 16px;
+	/* 透明度0.8 */
+	opacity: 0.8;
+}
+
+
+/* 迷你公式卡片样式 */
+/* 较小尺寸的公式卡片 */
+.formula-card.formula-mini {
+	/* 内边距：上下14px，左右18px */
+	padding: 14px 18px;
+	/* 底部外边距16px */
+	margin-bottom: 16px;
+	/* 不收缩 */
+	flex-shrink: 0;
+}
+
+/* 迷你公式卡片中的公式项 */
+/* 较小尺寸的公式项 */
+.formula-card.formula-mini .formula-item {
+	/* 字体大小13px */
+	font-size: 13px;
+	/* 元素间距6px */
+	gap: 6px;
+}
+
+/* 迷你公式卡片中的标签、值和等号 */
+/* 较小尺寸的公式元素 */
+.formula-card.formula-mini .formula-label,
+.formula-card.formula-mini .formula-value,
+.formula-card.formula-mini .formula-equals {
+	/* 字体大小13px */
+	font-size: 13px;
+}
+
+/* 迷你公式卡片中的值 */
+/* 较小尺寸的公式值 */
+.formula-card.formula-mini .formula-value {
+	/* 内边距：上下3px，左右10px */
+	padding: 3px 10px;
+	/* 字体大小12px */
+	font-size: 12px;
+}
+
+/* 迷你公式卡片中的运算符 */
+/* 较小尺寸的公式运算符 */
+.formula-card.formula-mini .formula-operator {
+	/* 字体大小14px */
+	font-size: 14px;
+	/* 左右外边距3px */
+	margin: 0 3px;
+}
+
+/* 迷你公式卡片中的签到积分 */
+/* 签到积分的高亮背景 */
+.formula-card.formula-mini .formula-signin {
+	/* 半透明蓝色背景 */
+	background-color: rgba(64, 158, 255, 0.15);
+	/* 内边距：上下2px，左右6px */
+	padding: 2px 6px;
+	/* 圆角4px */
+	border-radius: 4px;
+}
+
+/* 迷你公式卡片中的活动积分 */
+/* 活动积分的高亮背景 */
+.formula-card.formula-mini .formula-activity {
+	/* 半透明橙色背景 */
+	background-color: rgba(250, 173, 20, 0.15);
+	/* 内边距：上下2px，左右6px */
+	padding: 2px 6px;
+	/* 圆角4px */
+	border-radius: 4px;
+}
+
+
+/* 查看记录按钮样式 */
+/* 用于查看积分记录的按钮 */
+.view-records-btn {
+	/* 宽度24px */
+	width: 24px;
+	/* 高度24px */
+	height: 24px;
+	/* 内边距0 */
+	padding: 0;
+	/* 不收缩 */
+	flex-shrink: 0;
+	/* 背景模糊效果 */
+	backdrop-filter: blur(10px);
+	/* 渐变背景，从半透明紫色到半透明青色 */
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(0, 242, 254, 0.1) 100%);
+	/* 边框，使用半透明紫色 */
+	border: 1px solid rgba(102, 126, 234, 0.35);
+	
+}
+
+/* 记录加载和空状态样式 */
+/* 积分记录加载中和空状态的容器 */
+.records-loading,
+.records-empty {
+	/* 弹性布局 */
+	display: flex;
+	/* 垂直方向排列 */
+	flex-direction: column;
+	/* 水平居中对齐 */
+	align-items: center;
+	/* 垂直居中对齐 */
+	justify-content: center;
+	/* 内边距：上下60px，左右20px */
+	padding: 60px 20px;
+	/* 元素间距16px */
+	gap: 16px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+}
+
+/* 记录网格样式 */
+/* 积分记录的网格布局 */
+.records-grid {
+	/* 网格布局 */
+	display: grid;
+	/* 自动填充列，每列最小280px，等宽 */
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	/* 网格间距16px */
+	gap: 16px;
+}
+
+/* 记录卡片样式 */
+/* 单个积分记录的卡片 */
+.record-card {
+	/* 渐变背景，从半透明紫色到半透明青色 */
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(0, 242, 254, 0.05) 100%);
+	/* 边框，使用半透明紫色 */
+	border: 1px solid rgba(102, 126, 234, 0.15);
+	/* 圆角12px */
+	border-radius: 12px;
+	/* 内边距16px */
+	padding: 16px;
+	/* 背景模糊效果 */
+	backdrop-filter: blur(10px);
+
+}
+
+/* 记录头部样式 */
+/* 积分记录卡片的头部区域 */
+.record-header {
+	/* 弹性布局 */
+	display: flex;
+	/* 子元素之间均匀分布 */
+	justify-content: space-between;
+	/* 垂直居中对齐 */
+	align-items: center;
+	/* 底部外边距12px */
+	margin-bottom: 12px;
+}
+
+/* 记录时间样式 */
+/* 积分记录的时间文字 */
+.record-time {
+	/* 字体大小13px */
+	font-size: 13px;
+	/* 使用CSS变量设置文本次要颜色 */
+	color: var(--text-secondary);
+	/* 字体粗细500，中等 */
+	font-weight: 500;
+}
+
+/* 记录积分徽章样式 */
+/* 积分变化值的徽章 */
+.record-points-badge {
+	/* 字体大小16px */
+	font-size: 16px;
+	/* 字体粗细700，加粗 */
+	font-weight: 700;
+	/* 内边距：上下4px，左右12px */
+	padding: 4px 12px;
+	/* 圆角6px */
+	border-radius: 6px;
+	/* 最小宽度60px */
+	min-width: 60px;
+	/* 文本居中对齐 */
+	text-align: center;
+}
+
+/* 正数积分徽章样式 */
+/* 获得积分时使用绿色 */
+.record-points-badge.positive {
+	/* 绿色文字 */
+	color: #10b981;
+	/* 半透明绿色背景 */
+	background: rgba(16, 185, 129, 0.15);
+	/* 边框，使用半透明绿色 */
+	border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* 负数积分徽章样式 */
+/* 扣除积分时使用红色 */
+.record-points-badge.negative {
+	/* 红色文字 */
+	color: #ef4444;
+	/* 半透明红色背景 */
+	background: rgba(239, 68, 68, 0.15);
+	/* 边框，使用半透明红色 */
+	border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* 动画关键帧定义 */
+/* 卡片入场动画 */
+@keyframes card-enter {
+	/* 起始状态 */
+	0% {
+		/* 完全透明 */
+		opacity: 0;
+		/* 向下偏移20px并缩小到95% */
+		transform: translateY(20px) scale(0.95);
+	}
+	/* 结束状态 */
+	100% {
+		/* 完全不透明 */
+		opacity: 1;
+		/* 回到原位置和原始大小 */
+		transform: translateY(0) scale(1);
+	}
+}
+
+
+/* 积分渐变流动动画关键帧 */
+/* 定义积分背景渐变的流动效果 */
+@keyframes points-gradient-flow {
+	/* 起始状态 */
+	0% {
+		/* 背景位置在左侧中间 */
+		background-position: 0 50%;
+	}
+	/* 中间状态 */
+	50% {
+		/* 背景位置在右侧中间 */
+		background-position: 100% 50%;
+	}
+	/* 结束状态 */
+	100% {
+		/* 背景位置回到左侧中间 */
+		background-position: 0 50%;
+	}
+}
+
+/* 记录原因文字样式 */
+/* 积分记录的原因说明文字 */
+.record-reason-text {
+	/* 字体大小14px */
+	font-size: 14px;
+	/* 使用CSS变量设置文本主色 */
+	color: var(--text-primary);
+	/* 行高1.6 */
+	line-height: 1.6;
+	/* 允许在单词内换行 */
+	word-break: break-word;
+}

@@ -1,0 +1,172 @@
+/**
+ * 用户卡片样式
+ * @file user-card.css
+ * @description 导航页面移动端的用户信息卡片样式，包括头像、用户名、等级等
+ */
+
+/* ==================== 用户资料区域 ==================== */
+
+.user-card-profile {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  animation: user-card-fadeInUp 0.6s ease-out 0.2s both;
+}
+
+@keyframes user-card-fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== 用户头像 ==================== */
+
+.user-card-avatar {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  color: white;
+  cursor: pointer;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgb(102 126 234 / 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-card-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgb(102 126 234 / 0.45);
+}
+
+.user-card-avatar.has-avatar {
+  background: transparent;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.2);
+}
+
+.user-card-avatar.no-avatar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ==================== 头像图片 ==================== */
+
+.user-card-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==================== 头像图标 ==================== */
+
+.user-card-avatar-icon {
+  font-size: 30px;
+}
+
+/* ==================== 头像加载状态 ==================== */
+
+.user-card-avatar-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: rgb(0 0 0 / 0.3);
+}
+
+.user-card-loading-gif {
+  width: 28px;
+  height: 28px;
+}
+
+/* ==================== 用户详情 ==================== */
+
+.user-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ==================== 用户名 ==================== */
+
+.user-card-name {
+  font-size: 19px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==================== 用户等级 ==================== */
+
+.user-card-level {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  align-self: flex-start;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 8px rgb(102 126 234 / 0.3);
+}
+
+.user-card-level .level-icon {
+  font-size: 12px;
+}
+
+.user-card-level.club-member {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 8px rgb(102 126 234 / 0.3);
+}
+
+.user-card-level.normal-member {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  box-shadow: 0 2px 8px rgb(17 153 142 / 0.3);
+}
+
+.user-card-level.core-member {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 2px 8px rgb(240 147 251 / 0.3);
+}
+
+.user-card-level.admin {
+  background: linear-gradient(135deg, #e6c200 0%, #e67e00 100%);
+  box-shadow: 0 2px 8px rgb(230 194 0 / 0.3);
+}
+
+/* ==================== 考勤次数 ==================== */
+
+.user-card-attendance {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: rgb(255 255 255 / 0.75);
+}
+
+.user-card-attendance .attendance-icon {
+  font-size: 13px;
+  color: rgb(255 255 255 / 0.85);
+}

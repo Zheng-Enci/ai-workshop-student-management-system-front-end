@@ -1,0 +1,474 @@
+/**
+ * 登录页面样式文件
+ * 定义登录页面的所有样式规则，包括背景效果、表单样式、响应式布局等
+ *
+ * @file LoginPage.css
+ * @description 登录页面的完整样式定义，包含毛玻璃效果、渐变背景、动画等
+ */
+
+/**
+ * 登录容器
+ * 全屏居中布局，使用主题背景色
+ */
+.login-container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	overflow: hidden;
+	background: var(--bg-primary);
+}
+
+/**
+ * 背景特效容器
+ * 固定定位，覆盖整个视口，用于放置动画背景元素
+ */
+.background-effects {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none; /* 不拦截鼠标事件 */
+}
+
+/**
+ * 渐变光球基础样式
+ * 用于创建浮动的背景装饰效果
+ */
+.gradient-orb {
+	position: absolute;
+	border-radius: 50%; /* 圆形 */
+	opacity: 0.3; /* 半透明 */
+	filter: blur(100px); /* 模糊效果 */
+	animation: float 20s ease-in-out infinite; /* 浮动动画 */
+}
+
+/**
+ * 第一个光球
+ * 位于左上角，紫色渐变
+ */
+.orb-1 {
+	top: 10%;
+	left: 10%;
+	width: 300px;
+	height: 300px;
+	background: linear-gradient(135deg, #667eea, var(--secondary-color));
+	animation-delay: 0s;
+}
+
+/**
+ * 第二个光球
+ * 位于右上角，粉红色渐变
+ */
+.orb-2 {
+	top: 60%;
+	right: 10%;
+	width: 200px;
+	height: 200px;
+	background: linear-gradient(135deg, #f093fb, #f5576c);
+	animation-delay: -7s; /* 延迟启动，错开动画 */
+}
+
+/**
+ * 第三个光球
+ * 位于底部中央，蓝色渐变
+ */
+.orb-3 {
+	bottom: 20%;
+	left: 50%;
+	width: 250px;
+	height: 250px;
+	background: linear-gradient(135deg, #4facfe, #00f2fe);
+	animation-delay: -14s; /* 延迟启动，错开动画 */
+}
+
+/**
+ * 浮动动画关键帧
+ * 定义光球的上下浮动和旋转动画
+ */
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0) rotate(0deg);
+	}
+
+	33% {
+		transform: translateY(-30px) rotate(120deg);
+	}
+
+	66% {
+		transform: translateY(30px) rotate(240deg);
+	}
+}
+
+/**
+ * 返回首页按钮
+ * 位于左上角，圆形按钮
+ */
+.home-btn {
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	z-index: 10;
+	width: 48px;
+	height: 48px;
+	background: var(--primary-color);
+	border: none;
+	box-shadow: 0 8px 32px rgb(102 126 234 / 0.3);
+}
+
+/**
+ * 登录内容容器
+ * 相对定位，确保在背景之上
+ */
+.login-content {
+	position: relative;
+	z-index: 10;
+	width: 100%;
+	max-width: 400px;
+	padding: 20px;
+}
+
+/**
+ * 登录卡片
+ * 毛玻璃效果卡片，包含登录表单
+ */
+.login-card {
+	padding: 40px;
+	background: rgb(255 255 255 / 0.1); /* 半透明白色背景 */
+	border: 1px solid rgb(255 255 255 / 0.2);
+	border-radius: 24px;
+	box-shadow: 0 20px 40px rgb(0 0 0 / 0.1);
+	backdrop-filter: blur(20px); /* 毛玻璃模糊效果 */
+	transition: transform 0.3s ease;
+}
+
+/**
+ * 登录卡片悬停效果
+ * 增强背景透明度和阴影
+ */
+.login-card:hover {
+	background: rgb(255 255 255 / 0.15);
+	border-color: rgb(255 255 255 / 0.3);
+	box-shadow: 0 25px 50px rgb(0 0 0 / 0.15);
+}
+
+/**
+ * 卡片头部
+ * 包含Logo和标题
+ */
+.card-header {
+	margin-bottom: 32px;
+	text-align: center;
+}
+
+/**
+ * Logo样式
+ * 可点击的Logo，带悬停动画效果
+ */
+.logo {
+	width: 80px;
+	height: 80px;
+	margin-bottom: 20px;
+	cursor: pointer;
+	border-radius: 16px;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/**
+ * Logo悬停效果
+ * 放大、旋转并增加亮度
+ */
+.logo:hover {
+	filter: brightness(1.2);
+	transform: scale(1.1) rotate(5deg);
+}
+
+/**
+ * 卡片标题
+ * 渐变文字效果
+ */
+.card-header h1 {
+	margin: 0 0 8px;
+	font-size: 28px;
+	font-weight: 700;
+	background: linear-gradient(135deg, #667eea, var(--secondary-color));
+	background-clip: text; /* 文字渐变效果 */
+	-webkit-text-fill-color: transparent;
+}
+
+/**
+ * 副标题
+ * 次要文本样式
+ */
+.subtitle {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--text-secondary);
+}
+
+/**
+ * 登录表单容器
+ */
+.login-form {
+	margin-bottom: 24px;
+}
+
+/**
+ * 表单项基础样式
+ */
+.form-item {
+	margin-bottom: 0;
+}
+
+/**
+ * Element Plus表单项内容样式覆盖
+ * 确保内容区域占满宽度
+ */
+.form-item :deep(.el-form-item__content) {
+	width: 100%;
+}
+
+/**
+ * 输入组容器
+ * 相对定位，用于放置图标和输入框
+ */
+.input-group {
+	position: relative;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+/**
+ * 输入框图标
+ * 绝对定位在输入框左侧
+ */
+.input-icon {
+	position: absolute;
+	top: 50%;
+	left: 16px;
+	z-index: 2;
+	font-size: 18px;
+	color: var(--text-tertiary);
+	transform: translateY(-50%);
+}
+
+/**
+ * 自定义输入框容器
+ */
+.custom-input {
+	width: 100%;
+}
+
+/**
+ * Element Plus输入框样式覆盖
+ */
+.custom-input :deep(.el-input) {
+	width: 100%;
+}
+
+/**
+ * Element Plus输入框包装器样式
+ * 毛玻璃效果，左侧留出图标空间
+ */
+.custom-input :deep(.el-input__wrapper) {
+	width: 100%;
+	padding-left: 48px; /* 为左侧图标留出空间 */
+	background: rgb(255 255 255 / 0.1);
+	border: 1px solid rgb(255 255 255 / 0.2);
+	border-radius: 12px;
+	box-shadow: none;
+	transition: transform 0.3s ease;
+}
+
+/**
+ * 输入框悬停效果
+ */
+.custom-input :deep(.el-input__wrapper:hover) {
+	background: rgb(255 255 255 / 0.15);
+	border-color: rgb(255 255 255 / 0.4);
+}
+
+/**
+ * 输入框聚焦效果
+ * 增强背景和边框，添加焦点环
+ */
+.custom-input :deep(.el-input__wrapper.is-focus) {
+	background: rgb(255 255 255 / 0.2);
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 2px rgb(102 126 234 / 0.2);
+}
+
+/**
+ * 输入框内部文本样式
+ */
+.custom-input :deep(.el-input__inner) {
+	font-size: 16px;
+	color: var(--text-primary);
+	background: transparent;
+	border: none;
+}
+
+/**
+ * 输入框占位符样式
+ */
+.custom-input :deep(.el-input__inner::placeholder) {
+	color: var(--text-tertiary);
+}
+
+/**
+ * 表单选项容器
+ * 包含记住密码和忘记密码链接
+ */
+.form-options {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 24px;
+}
+
+/**
+ * 记住密码复选框样式
+ */
+.remember-checkbox {
+	color: var(--text-secondary);
+}
+
+/**
+ * 登录按钮
+ * 渐变背景，带阴影和悬停效果
+ */
+.login-button {
+	width: 100%;
+	height: 48px;
+	font-size: 16px;
+	font-weight: 600;
+	background: linear-gradient(135deg, #667eea, var(--secondary-color));
+	border: none;
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgb(102 126 234 / 0.3);
+	transition: transform 0.3s ease;
+}
+
+/**
+ * 登录按钮悬停效果
+ * 增强阴影并上移
+ */
+.login-button:hover {
+	box-shadow: 0 12px 32px rgb(102 126 234 / 0.4);
+	transform: translateY(-2px);
+}
+
+/**
+ * 登录按钮点击效果
+ * 恢复原位置
+ */
+.login-button:active {
+	transform: translateY(0);
+}
+
+/**
+ * 卡片底部
+ * 包含注册链接
+ */
+.card-footer {
+	padding-top: 20px;
+	text-align: center;
+	border-top: 1px solid rgb(255 255 255 / 0.1);
+}
+
+/**
+ * 注册链接容器
+ */
+.register-link {
+	margin: 0;
+	font-size: 14px;
+	color: var(--text-secondary);
+}
+
+/**
+ * 链接样式
+ * 主题色，带悬停效果
+ */
+.link {
+	font-weight: 600;
+	color: var(--primary-color);
+	text-decoration: none;
+	transition: transform 0.3s ease;
+}
+
+/**
+ * 链接悬停效果
+ * 改变颜色并显示下划线
+ */
+.link:hover {
+	color: var(--secondary-color);
+	text-decoration: underline;
+}
+
+/**
+ * 平板及以下设备响应式样式
+ * 屏幕宽度小于等于768px
+ */
+@media (width <= 768px) {
+	.home-btn {
+		top: 20px;
+		left: 20px;
+		width: 44px;
+		height: 44px;
+	}
+
+	.login-content {
+		padding: 16px;
+	}
+
+	.login-card {
+		padding: 32px 24px;
+		border-radius: 20px;
+	}
+
+	.card-header h1 {
+		font-size: 24px;
+	}
+
+	.logo {
+		width: 70px;
+		height: 70px;
+	}
+
+	.custom-input :deep(.el-input__inner) {
+		font-size: 16px;
+	}
+
+	.login-button {
+		height: 44px;
+		font-size: 15px;
+	}
+}
+
+/**
+ * 小屏手机响应式样式
+ * 屏幕宽度小于等于480px
+ */
+@media (width <= 480px) {
+	.login-card {
+		padding: 24px 20px;
+		border-radius: 16px;
+	}
+
+	.card-header h1 {
+		font-size: 22px;
+	}
+
+	.logo {
+		width: 60px;
+		height: 60px;
+	}
+
+	.subtitle {
+		font-size: 14px;
+	}
+}

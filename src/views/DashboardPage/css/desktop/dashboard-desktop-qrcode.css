@@ -1,0 +1,105 @@
+/* ==================== 二维码区域 ==================== */
+
+.dashboard-desktop-qrcode-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 180px;
+  padding: 15px;
+  background: rgb(255 255 255 / 0.95);
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+.dashboard-desktop-qrcode-website-section,
+.dashboard-desktop-qrcode-wechat-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 180px;
+  padding: 15px;
+  background: rgb(255 255 255 / 0.95);
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+.dashboard-desktop-qrcode-code,
+.dashboard-desktop-qrcode-website-code {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+}
+
+.dashboard-desktop-qrcode-text,
+.dashboard-desktop-qrcode-website-text {
+  max-width: 140px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #2c3e50;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.dashboard-desktop-qrcode-website-text {
+  font-weight: 700;
+  color: #667eea;
+}
+
+.dark .dashboard-desktop-qrcode-text,
+.dark .dashboard-desktop-qrcode-website-text {
+  color: #fff !important;
+}
+
+.dark .dashboard-desktop-qrcode-website-text {
+  color: #60a5fa !important;
+}
+
+.dark .dashboard-desktop-qrcode-wechat-section .dashboard-desktop-qrcode-text {
+  font-weight: 700 !important;
+  color: #fff !important;
+  text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important;
+}
+
+html.dark .dashboard-desktop-qrcode-wechat-section .dashboard-desktop-qrcode-text {
+  font-weight: 700 !important;
+  color: #fff !important;
+  text-shadow: 0 0 5px rgb(255 255 255 / 0.8) !important;
+}
+
+/* ==================== 手机图片 ==================== */
+
+.dashboard-desktop-qrcode-phone-image {
+  width: 200px;
+  height: auto;
+}
+
+/* ==================== 响应式样式 ==================== */
+
+@media (width <= 768px) {
+  .dashboard-desktop-qrcode-section,
+  .dashboard-desktop-qrcode-website-section,
+  .dashboard-desktop-qrcode-wechat-section {
+    width: 100%;
+    height: auto;
+    min-height: 150px;
+  }
+
+  .dashboard-desktop-qrcode-code,
+  .dashboard-desktop-qrcode-website-code {
+    width: 100px;
+    height: 100px;
+  }
+
+  .dashboard-desktop-qrcode-phone-image {
+    width: 150px;
+  }
+}
