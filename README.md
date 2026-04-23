@@ -304,27 +304,25 @@ yarn preview
 
 ### API 配置
 
-项目配置文件位于 `src/config/index.js`：
+项目配置文件位于 `src/config/index.js` 或 `src/config/ts/Config.ts`：
 
 ```javascript
-const isProduction = process.env.NODE_ENV === 'production'
-
 export const config = {
-  // 开发环境: http://10.0.48.168:7001
-  // 生产环境: https://1231ye546ts77.vicp.fun/zheng_en_ci
-  API_BASE_URL: isProduction 
-    ? 'https://1231ye546ts77.vicp.fun/zheng_en_ci'
-    : 'http://10.0.48.168:7001',
+  // 主后端API服务地址
+  API_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-main_backend',
   
-  // 验证码接口（统一使用开发环境地址）
+  // 验证码服务地址
   VERIFICATION_CODE_URL: 'http://10.0.48.168:7001/api/v1/attendance/verification-code',
   
-  APP_TITLE: 'AI Workshop 学生管理系统',
+  // IP监控服务地址
+  IP_MONITOR_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-ip_monitor',
+  
+  APP_TITLE: 'AI坊学生管理系统',
   APP_VERSION: '1.0.0'
 }
 ```
 
-> 📌 **生产环境说明**: 项目部署在 <https://1231ye546ts77.vicp.fun/>，生产环境 API 基础地址为 `https://1231ye546ts77.vicp.fun/zheng_en_ci`
+> 📌 **生产环境说明**: 项目部署在 <https://1231ye546ts77.vicp.fun/>，API 基础地址为 `https://1231ye546ts77.vicp.fun/zheng_en_ci-main_backend`
 
 ### 路由配置
 
