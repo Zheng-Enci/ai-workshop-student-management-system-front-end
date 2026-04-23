@@ -493,8 +493,8 @@ API 接口定义在 `src/api/` 目录：
 
 ## 📚 相关文档
 
-- [API 文档](Note/接口文档/接口文档.md) - 完整的后端 API 接口文档
-- [开发规范](.trae/rules/) - 项目开发规范和最佳实践
+- [API 文档](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/tree/master/Note/接口文档/接口文档.md) - 完整的后端 API 接口文档
+- [开发规范](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/tree/master/.trae/rules) - 项目开发规范和最佳实践
 
 ## 🐛 问题反馈
 
@@ -516,7 +516,7 @@ API 接口定义在 `src/api/` 目录：
 
 ## 📄 许可证
 
-本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+本项目采用 MIT 许可证。
 
 ## 👥 作者
 
