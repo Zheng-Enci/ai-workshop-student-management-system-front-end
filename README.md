@@ -2,6 +2,8 @@
 
 <div align="center">
 
+<img src="public/favicon.ico" alt="AI Workshop Logo" width="80" height="80">
+
 ![Vue](https://img.shields.io/badge/Vue-3.2.13-4FC08D?style=flat-square\&logo=vue.js)
 ![Element Plus](https://img.shields.io/badge/Element%20Plus-2.11.2-409EFF?style=flat-square\&logo=element)
 ![ECharts](https://img.shields.io/badge/ECharts-5.5.0-AA344D?style=flat-square\&logo=apache)
