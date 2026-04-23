@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="public/favicon.ico" alt="AI Workshop Logo" width="80" height="80">
+<img src="https://gitee.com/zheng-enci050704/ai-workshop-student-management-system-front-end/raw/master/public/favicon.ico" alt="AI Workshop Logo" width="80" height="80">
 
 ![Vue](https://img.shields.io/badge/Vue-3.2.13-4FC08D?style=flat-square\&logo=vue.js)
 ![Element Plus](https://img.shields.io/badge/Element%20Plus-2.11.2-409EFF?style=flat-square\&logo=element)
