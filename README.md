@@ -424,7 +424,7 @@ export const config = {
 
 > **⚠️ 关于 JavaScript 与 TypeScript 混用**
 >
-> 本项目历经技术迭代，由最初的 JavaScript 逐步演进为 TypeScript。开发团队始终遵循<strong>"宁愿多写一行新代码，也不修改一行旧代码"</strong>的设计哲学：对运行稳定的既有代码保持敬畏，通过编写新代码实现新需求，由此形成 JavaScript 与 TypeScript 并存的现状。
+> 本项目历经技术迭代，由最初的 JavaScript 逐步演进为 TypeScript。我始终遵循<strong>"宁愿多写一行新代码，也不修改一行旧代码"</strong>的设计哲学：对运行稳定的既有代码保持敬畏，通过编写新代码实现新需求，由此形成 JavaScript 与 TypeScript 并存的现状。
 >
 > 这种设计哲学体现了对现有功能的尊重——如果旧代码能正常工作，就不去触碰它，而是通过编写新代码来实现新功能。这确保了系统的稳定性，同时也为项目提供了渐进式迁移的路径。
 >
