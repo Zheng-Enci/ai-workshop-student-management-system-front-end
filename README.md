@@ -181,10 +181,8 @@ front-end/
 │   ├── code-quality-config/  # 代码质量配置
 │   ├── code-quality-reports/ # 代码质量报告
 │   └── vite-plugins/     # Vite插件
-├── Note/                  # 项目文档和经验总结
-│   ├── 接口文档/         # API 接口文档
-│   ├── 更新日志/         # 更新日志
-│   └── 要求.md           # 开发规范
+├── Note/                  # 项目文档
+│   └── 接口文档/         # API 接口文档
 ├── scripts/              # 脚本文件
 ├── .gitignore            # Git 忽略文件
 ├── .editorconfig         # 编辑器配置
