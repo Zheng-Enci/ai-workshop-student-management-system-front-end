@@ -12,7 +12,7 @@
 
 **基于 Vue3 + Element Plus 构建的现代化学生管理系统前端**
 
-[功能特性](#-功能特性) • [快速开始](#-快速开始) • [项目结构](#-项目结构) • [开发指南](#-开发指南) • [English Version](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/blob/main/README_EN.md)
+[功能特性](#-功能特性) • [快速开始](#-快速开始) • [项目结构](#-项目结构) • [开发指南](#-开发指南) • [English Version](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/blob/master/README_EN.md)
 
 </div>
 
