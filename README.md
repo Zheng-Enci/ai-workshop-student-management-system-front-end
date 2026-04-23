@@ -435,7 +435,7 @@ export const config = {
 
 #### 关键规范
 
-1. **代码中不添加注释**
+1. **代码必须添加高质量注释** - 越多越好，表单组件必须包含完整功能注释，API文件必须包含函数说明和参数类型
 2. **所有库必须按需导入**
 3. **Element Plus 组件必须同时导入样式文件**
 4. **页面必须支持日间/夜间模式切换**
@@ -454,10 +454,20 @@ export const config = {
 
 API 接口定义在 `src/api/` 目录：
 
-- `student.js` - 学生相关接口
-- `attendance.js` - 考勤相关接口
+**JavaScript 函数式接口：**
+- `student.js` - 学生相关接口（登录、注册、个人信息管理、数据统计）
+- `attendance.js` - 考勤相关接口（签到、补卡、考勤统计）
+- `points.js` - 积分相关接口（积分调整、积分查询、积分排名）
+- `super_admin.js` - 超级管理员接口
 
-所有接口使用统一的错误处理和响应格式。
+**TypeScript 面向对象 API 类：**
+- `StudentApi.js` - 学生 API 类（使用 Class 封装）
+- `AttendanceApi.js` - 考勤 API 类（使用 Class 封装）
+- `PointsApi.js` - 积分 API 类（使用 Class 封装）
+- `StatisticsApi.js` - 统计数据接口类
+- `StudentManagementApi.js` - 学生管理 API 类
+
+所有接口使用统一的错误处理和响应格式，包含响应拦截器处理网络错误和超时错误。
 
 ## 📚 相关文档
 
