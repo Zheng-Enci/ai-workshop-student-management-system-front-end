@@ -244,12 +244,19 @@ yarn install
 
 1. **配置 API 地址**
 
-编辑 `src/config/index.js` 配置后端 API 地址：
+编辑 `src/config/index.js` 或 `src/config/ts/Config.ts` 配置后端 API 地址：
 
 ```javascript
 export const config = {
+  // 主后端API服务地址
   API_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-main_backend',
+  
+  // 验证码服务地址
   VERIFICATION_CODE_URL: 'http://10.0.48.168:7001/api/v1/attendance/verification-code',
+  
+  // IP监控服务地址
+  IP_MONITOR_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-ip_monitor',
+  
   APP_TITLE: 'AI坊学生管理系统',
   APP_VERSION: '1.0.0'
 }
