@@ -1,427 +1,554 @@
-# AI坊学生管理系统 - 前端项目
+# AI Workshop Student Management System - Frontend
 
 <div align="center">
 
-![Vue](https://img.shields.io/badge/Vue-3.2.13-4FC08D?style=flat-square&logo=vue.js)
-![Element Plus](https://img.shields.io/badge/Element%20Plus-2.11.2-409EFF?style=flat-square&logo=element)
-![ECharts](https://img.shields.io/badge/ECharts-5.5.0-AA344D?style=flat-square&logo=apache)
-![Vite](https://img.shields.io/badge/Vite-4.5.14-646CFF?style=flat-square&logo=vite)
+<img src="https://gitee.com/zheng-enci050704/ai-workshop-student-management-system-front-end/raw/master/public/favicon.ico" alt="AI Workshop Logo" width="80" height="80">
+
+![Vue](https://img.shields.io/badge/Vue-3.2.13-4FC08D?style=flat-square\&logo=vue.js)
+![Element Plus](https://img.shields.io/badge/Element%20Plus-2.11.2-409EFF?style=flat-square\&logo=element)
+![ECharts](https://img.shields.io/badge/ECharts-5.5.0-AA344D?style=flat-square\&logo=apache)
+![Vite](https://img.shields.io/badge/Vite-4.5.14-646CFF?style=flat-square\&logo=vite)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
-**基于 Vue3 + Element Plus 构建的现代化学生管理系统前端应用**
+**A modern student management system frontend built with Vue3 + Element Plus**
 
-[功能特性](#-功能特性) • [快速开始](#-快速开始) • [项目结构](#-项目结构) • [开发指南](#-开发指南)
+[Features](#-features) • [Quick Start](#-quick-start) • [Project Structure](#-project-structure) • [Development Guide](#-development-guide)
 
 </div>
 
----
+***
 
-## 🌐 在线演示
+## 🌐 Online Demo
 
-**项目已部署并运行在以下地址：**
+**The project is deployed and running:**
 
-- 🚀 **生产环境**: [https://10257qh6684dd.vicp.fun/](https://10257qh6684dd.vicp.fun/)
-- 📱 **移动端访问**: 支持响应式设计，自动适配移动设备
-- 💻 **桌面端访问**: 完美支持桌面浏览器
+- 🚀 **Production Environment**: <https://1231ye546ts77.vicp.fun/>
+- 📱 **Mobile Access**: Responsive design, automatically adapts to mobile devices
+- 💻 **Desktop Access**: Full desktop browser support
 
-> 💡 **提示**: 访问在线演示需要有效的账号和 Token，请先注册或登录。
+> 💡 **Note**: Accessing the online demo requires a valid account and Token. Please register or log in first.
 
----
+***
 
-## 📖 项目简介
+## 📖 Project Overview
 
-AI坊学生管理系统是一个基于 Vue3 和 Spring Boot 构建的现代化学生管理系统，提供智能化的学生信息管理、考勤统计、数据分析等功能。本项目为前端部分，采用 Vue3 Composition API、Element Plus UI 组件库和 ECharts 数据可视化，支持响应式设计，完美适配桌面端和移动端。
+**Xiamen University of Technology AI Workshop Student Management System** is the exclusive management platform for the AI Workshop (Artificial Intelligence Creation Workshop) at Xiamen University of Technology. It provides AI Workshop members with complete attendance management, points system, member management, and other functions. The system is built with Vue3 + Vite, uses the Element Plus UI component library and ECharts data visualization, supports responsive design, and perfectly adapts to both desktop and mobile devices.
 
-### 核心特性
+The AI Workshop is a practical creation base established by the school based on the development characteristics of intelligent disciplines, combined with actual social needs, and relying on the strong faculty of the School of Artificial Intelligence. It is oriented towards students majoring in artificial intelligence and builds an innovative platform integrating learning, research, and display promotion.
 
-- 🎨 **现代化 UI 设计**：采用极简主义设计风格，界面简洁美观
-- 🌓 **主题切换**：支持白天/夜间模式切换，保护用户视力
-- 📱 **响应式布局**：完美适配桌面端和移动端设备
-- 📊 **数据可视化**：使用 ECharts 提供丰富的数据图表展示
-- 🔐 **安全认证**：基于 JWT Token 的身份认证机制
-- ⚡ **性能优化**：按需加载、代码分割、请求缓存等优化策略
+### Core Features
 
-## ✨ 功能特性
+- 🎨 **Modern UI Design**: Simple design style, clean and beautiful interface, supports day/night theme switching
+- 📱 **Responsive Layout**: Automatically identifies device types, perfectly adapts to desktop and mobile devices
+- 📊 **Data Visualization**: Uses ECharts to display points ranking, attendance statistics, IP monitoring, and other data
+- 🔐 **Secure Authentication**: JWT Token-based authentication mechanism to ensure system security
+- ⚡ **High Performance**: Built with Vite, supports on-demand loading, code splitting, and other optimization strategies
 
-### 核心功能模块
+## ✨ Features
 
-#### 1. 学生管理
-- ✅ 学生注册和登录
-- ✅ Token 验证和自动跳转
-- ✅ 个人信息查看和编辑
-- ✅ 密码修改功能
+### Core Function Modules
 
-#### 2. 考勤管理
-- ✅ 分时段签到（上午/下午/晚上）
-- ✅ 验证码验证机制
-- ✅ 签到记录查询
-- ✅ 考勤统计分析
+#### 1. User Authentication
+- ✅ Student registration and login (invitation code required)
+- ✅ Token verification and automatic redirection
+- ✅ Personal profile management (avatar upload, password change)
 
-#### 3. 数据看板
-- ✅ 实时数据统计
-- ✅ 排行榜展示
-- ✅ 多维度数据分析
-- ✅ 可视化图表展示
+#### 2. Attendance Management
+- ✅ Personal attendance record viewing (calendar display of morning/afternoon/evening check-ins)
+- ✅ Check-in heatmap (statistics of check-in times by week/time slot)
+- ✅ Check-in trend chart (line chart of cumulative check-in times)
+- ✅ Real-time detection of check-in time slots and next check-in time
+- ✅ Makeup attendance application processing (administrator review)
 
-#### 4. 签到分析
-- ✅ 签到时段分布分析
-- ✅ 签到时间线展示
-- ✅ 今日签到排行榜
-- ✅ 数据趋势分析
+#### 3. Points System
+- ✅ Points dashboard (three-dimensional ranking of total points/check-in points/activity points)
+- ✅ Personal points detail query
+- ✅ Points change records (score change records)
+- ✅ Administrator points adjustment (add/subtract points)
 
-#### 5. 管理员功能
-- ✅ 学生信息管理
-- ✅ 权限等级设置
-- ✅ 管理员分配
-- ✅ 数据统计查看
+#### 4. Data Dashboard
+- ✅ Check-in ranking list (multi-time range filtering)
+- ✅ Member level distribution statistics
+- ✅ Grade/major distribution charts
+- ✅ Real-time attendance data statistics
+- ✅ Verification code generation (for check-in use)
 
-#### 6. 邀请码管理
-- ✅ 查询个人邀请码
-- ✅ 复制邀请码到剪贴板
-- ✅ 刷新邀请码
-- ✅ 注册时验证邀请码
-- ✅ 桌面端和移动端支持
+#### 5. Member Management
+- ✅ All member information display (supports search and filtering)
+- ✅ Student information query and editing
+- ✅ Permission level management (regular member/team leader/administrator/super administrator)
+- ✅ Assigned administrator allocation
 
-## 🛠 技术栈
+#### 6. Administrator Backend
+- ✅ Member information management (modify level, assigned administrator)
+- ✅ Attendance record viewing and makeup attendance processing
+- ✅ Points record creation and viewing
+- ✅ Score change record query
+- ✅ Data export and download
+- ✅ Attendance heatmap and trend charts
 
-### 核心框架
-- **Vue 3.2.13** - 渐进式 JavaScript 框架
-- **Vue Router 4.5.1** - 官方路由管理器
-- **Pinia 3.0.3** - 新一代状态管理库
+#### 7. IP Monitoring
+- ✅ AI Workshop internal IP activity monitoring
+- ✅ IP scan count statistics
+- ✅ IP distribution heatmap
+- ✅ IP configuration process description
 
-### UI 组件库
-- **Element Plus 2.11.2** - 基于 Vue 3 的组件库
-- **@element-plus/icons-vue 2.3.2** - Element Plus 图标库
+#### 8. Invitation Code System
+- ✅ Personal invitation code query and copy
+- ✅ Invitation code refresh function
+- ✅ Invitation code verification during registration
+- ✅ Desktop and mobile support
 
-### 数据可视化
-- **ECharts 5.5.0** - 强大的数据可视化库
-- **echarts-wordcloud 2.1.0** - 词云图插件
+## 🛠 Tech Stack
 
-### 工具库
-- **Axios 1.11.0** - HTTP 客户端
-- **core-js 3.8.3** - JavaScript 标准库 polyfill
+### Core Framework
 
-### 开发工具
-- **Vue CLI 5.0** - Vue.js 开发工具
-- **ESLint** - 代码质量检查
-- **Babel** - JavaScript 编译器
+- **Vue 3.2.13** - Progressive JavaScript framework
+- **Vue Router 4.5.1** - Official routing manager
+- **Pinia 3.0.3** - Next-generation state management library
 
-## 📁 项目结构
+### UI Component Library
+
+- **Element Plus 2.11.2** - Vue 3-based component library
+- **@element-plus/icons-vue 2.3.2** - Element Plus icon library
+
+### Data Visualization
+
+- **ECharts 5.5.0** - Powerful data visualization library
+- **echarts-wordcloud 2.1.0** - Word cloud plugin
+
+### Tool Libraries
+
+- **Axios 1.11.0** - HTTP client
+- **core-js 3.8.3** - JavaScript standard library polyfill
+
+### Development Tools
+
+- **Vite 4.5.14** - Next-generation frontend build tool
+- **ESLint** - Code quality checker
+- **Stylelint** - CSS code checker
+- **Prettier** - Code formatting tool
+- **Husky** - Git hooks manager
+
+## 📁 Project Structure
 
 ```
 front-end/
-├── public/                 # 静态资源目录
-│   ├── favicon.ico        # 网站图标
-│   └── index.html         # HTML 模板
-├── src/                   # 源代码目录
-│   ├── api/              # API 接口定义
-│   │   ├── attendance.js # 考勤相关接口
-│   │   └── student.js    # 学生相关接口
-│   ├── assets/           # 静态资源
-│   │   ├── styles/       # 全局样式
-│   │   └── *.png         # 图片资源
-│   ├── components/       # 公共组件
+├── public/                 # Static resources directory
+│   ├── favicon.ico        # Website icon
+│   ├── index.html         # HTML template
+│   └── sitemap.xml        # Sitemap
+├── src/                   # Source code directory
+│   ├── api/              # API interface definitions
+│   │   ├── attendance.js # Attendance-related interfaces
+│   │   ├── points.js     # Points-related interfaces
+│   │   ├── StatisticsApi.js  # Statistics data interfaces
+│   │   └── student.js    # Student-related interfaces
+│   ├── assets/           # Static resources
+│   │   ├── styles/       # Global styles
+│   │   ├── ip-config-flowchart/  # IP configuration flowchart
+│   │   └── *.png         # Image resources
+│   ├── components/       # Common components
+│   │   ├── LoadingMask.vue
 │   │   └── ThemeToggle.vue
-│   ├── config/           # 配置文件
-│   │   └── index.js      # 应用配置
-│   ├── router/           # 路由配置
-│   │   └── index.js      # 路由定义
-│   ├── stores/           # 状态管理
-│   │   ├── admin.js     # 管理员状态
-│   │   ├── theme.js     # 主题状态
-│   │   └── user.js      # 用户状态
-│   ├── views/            # 页面组件
-│   │   ├── AdminPage/    # 管理员页面
-│   │   ├── AttendancePage/      # 签到页面
-│   │   ├── AttendanceAnalysisPage/  # 签到分析页面
-│   │   ├── DashboardPage/       # 数据看板页面
-│   │   ├── HomePage.vue         # 首页
-│   │   ├── LoginPage/           # 登录页面
-│   │   ├── NavigationPage/      # 导航页面
-│   │   ├── ProfilePage/         # 个人信息页面
-│   │   ├── RegisterPage/         # 注册页面
-│   │   └── StudentManagerPage/   # 学生管理页面
-│   ├── App.vue           # 根组件
-│   └── main.js           # 入口文件
-├── Note/                  # 项目文档和经验总结
-│   ├── YourExperience/   # 开发经验文档
-│   ├── 你的身份.md       # 开发规范
-│   └── 接口文档/         # API 接口文档（@Note/接口文档）
-├── .gitignore            # Git 忽略文件
-├── babel.config.js       # Babel 配置
-├── jsconfig.json         # JavaScript 配置
-├── package.json          # 项目依赖
-├── README.md             # 项目说明文档
-├── tsconfig.json         # TypeScript 配置
-└── vue.config.js         # Vue CLI 配置
+│   ├── composables/      # Composable functions
+│   │   ├── admin/        # Administrator-related composables
+│   │   └── ts/           # TypeScript composables
+│   ├── config/           # Configuration files
+│   │   ├── index.js      # Application configuration
+│   │   └── Config.ts     # TypeScript configuration
+│   ├── router/           # Routing configuration
+│   │   └── index.js      # Route definitions
+│   ├── stores/           # State management
+│   │   ├── admin.js     # Administrator state
+│   │   ├── theme.js     # Theme state
+│   │   └── user.js      # User state
+│   ├── views/            # Page components
+│   │   ├── AdminPage/    # Administrator backend
+│   │   ├── AllMembersPage/      # All members page
+│   │   ├── AttendancePage/      # Attendance management page
+│   │   ├── DashboardPage/       # Data dashboard page
+│   │   ├── HomePage/            # Home page
+│   │   ├── IPMonitorPage/       # IP monitoring page
+│   │   ├── LoginPage/           # Login page
+│   │   ├── NavigationPage/      # Navigation center
+│   │   ├── PointsDashboardPage/ # Points dashboard page
+│   │   ├── ProfilePage/         # Personal center
+│   │   ├── RegisterPage/        # Registration page
+│   │   ├── ScoreChangeRecordsPage/  # Score change records page
+│   │   └── StudentManagerPage/  # Student management page
+│   ├── App.vue           # Root component
+│   └── main.js           # Entry file
+├── code-quality/         # Code quality tools
+│   ├── code-quality-config/  # Code quality configuration
+│   ├── code-quality-reports/ # Code quality reports
+│   └── vite-plugins/     # Vite plugins
+├── Note/                  # Project documentation
+│   └── 接口文档/         # API interface documentation
+├── .trae/                # Trae IDE configuration
+│   ├── project-members.md    # Project member information
+│   └── rules/                # Development specification rules
+│       ├── 01-code-style.md      # Code style specifications
+│       ├── 02-page-structure.md  # Page structure specifications
+│       ├── 03-naming-conventions.md  # Naming conventions
+│       ├── 04-git-commit.md      # Git commit specifications
+│       ├── 05-development-notes.md   # Development notes
+│       ├── 06-oop-classes.md     # Object-oriented programming specifications
+│       ├── 07-element-plus-import.md # Element Plus import specifications
+│       ├── 08-color-scheme.md    # Project color scheme
+│       └── 09-page-entrance-animation.md # Page entrance animation specifications
+├── scripts/              # Script files
+├── .gitignore            # Git ignore file
+├── .editorconfig         # Editor configuration
+├── .eslintrc.js          # ESLint configuration
+├── .stylelintrc.js       # Stylelint configuration
+├── commitlint.config.js  # Commitlint configuration
+├── index.html            # Vite HTML entry
+├── package.json          # Project dependencies
+├── README.md             # Project documentation
+├── tsconfig.json         # TypeScript configuration
+├── vite.config.js        # Vite configuration
+└── vite.config.mjs       # Vite ESM configuration
 ```
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 环境要求
+### Environment Requirements
 
-- **Node.js**: >= 14.0.0
-- **npm**: >= 6.0.0 或 **yarn**: >= 1.22.0
-- **现代浏览器**: Chrome、Firefox、Safari、Edge 最新版本
+- **Node.js**: v24.12.0
+- **npm**: v10.9.0
+- **Modern Browsers**: Chrome, Firefox, Safari, Edge latest versions
 
-### 安装步骤
+### Installation Steps
 
-1. **克隆项目**
+1. **Clone the project**
+
 ```bash
+# Gitee (recommended for China)
 git clone https://gitee.com/zheng-enci050704/ai-workshop-student-management-system-front-end.git
+
+# GitHub
+git clone https://github.com/Zheng-Enci/ai-workshop-student-management-system-front-end.git
+
+# GitCode
+git clone https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end.git
+
 cd ai-workshop-student-management-system-front-end
 ```
 
-2. **安装依赖**
+1. **Install dependencies**
+
 ```bash
 npm install
-# 或
+# or
 yarn install
 ```
 
-3. **配置 API 地址**
+1. **Configure API address**
 
-编辑 `src/config/index.js`，配置后端 API 地址：
+Edit `src/config/index.js` or `src/config/ts/Config.ts` to configure the backend API address:
 
 ```javascript
 export const config = {
-  API_BASE_URL: 'http://your-api-server:7001',  // 修改为实际的后端地址
-  VERIFICATION_CODE_URL: 'http://your-api-server:7001/api/v1/attendance/verification-code',
-  APP_TITLE: 'AI坊学生管理系统',
+  // Main backend API service address
+  API_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-main_backend',
+  
+  // Verification code service address
+  VERIFICATION_CODE_URL: 'http://10.0.48.168:7001/api/v1/attendance/verification-code',
+  
+  // IP monitoring service address
+  IP_MONITOR_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-ip_monitor',
+  
+  APP_TITLE: 'AI Workshop Student Management System',
   APP_VERSION: '1.0.0'
 }
 ```
 
-4. **启动开发服务器**
+1. **Start the development server**
+
 ```bash
 npm run dev
-# 或
+# or
 yarn dev
 ```
 
-5. **访问应用**
+1. **Access the application**
 
-打开浏览器访问：`http://localhost:8084`
+Open your browser and visit: `http://localhost:3000`
 
-> 💡 **项目现已迁移到 Vite 构建工具，显著提升开发和构建速度**
+> 💡 **The project has been migrated to the Vite build tool, significantly improving development and build speed**
 
-### 构建生产版本
+### Build Production Version
 
 ```bash
 npm run build
-# 或
+# or
 yarn build
 ```
 
-构建产物将输出到 `dist/` 目录。
+The build output will be in the `dist/` directory.
 
-> ⚡ **使用 Vite 构建，速度比原来的 Vue CLI 快 2-10 倍**
+> ⚡ **Using Vite for building is 2-10x faster than the original Vue CLI**
 
-### 预览生产构建
+### Preview Production Build
 
 ```bash
 npm run preview
-# 或
+# or
 yarn preview
 ```
 
-> 🚀 **Vite 提供的本地预览服务器，用于预览生产构建产物**
+> 🚀 **Vite provides a local preview server for previewing production build artifacts**
 
-### 代码检查
+### Code Checking
 
-## ⚙️ 配置说明
+## ⚙️ Configuration
 
-### API 配置
+### API Configuration
 
-项目配置文件位于 `src/config/index.js`：
+The project configuration file is located at `src/config/index.js` or `src/config/ts/Config.ts`:
 
 ```javascript
-const isProduction = process.env.NODE_ENV === 'production'
-
 export const config = {
-  // 开发环境：http://10.0.48.168:7001
-  // 生产环境：https://10257qh6684dd.vicp.fun/zheng_en_ci
-  API_BASE_URL: isProduction 
-    ? 'https://10257qh6684dd.vicp.fun/zheng_en_ci'
-    : 'http://10.0.48.168:7001',
+  // Main backend API service address
+  API_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-main_backend',
   
-  // 验证码接口（统一使用开发环境地址）
+  // Verification code service address
   VERIFICATION_CODE_URL: 'http://10.0.48.168:7001/api/v1/attendance/verification-code',
   
-  APP_TITLE: 'AI坊学生管理系统',
+  // IP monitoring service address
+  IP_MONITOR_BASE_URL: 'https://1231ye546ts77.vicp.fun/zheng_en_ci-ip_monitor',
+  
+  APP_TITLE: 'AI Workshop Student Management System',
   APP_VERSION: '1.0.0'
 }
 ```
 
-> 📌 **生产环境说明**: 项目已部署在 [https://10257qh6684dd.vicp.fun/](https://10257qh6684dd.vicp.fun/)，生产环境的 API 基础地址为 `https://10257qh6684dd.vicp.fun/zheng_en_ci`
+> 📌 **Production Environment Note**: The project is deployed at <https://1231ye546ts77.vicp.fun/>, and the API base address is `https://1231ye546ts77.vicp.fun/zheng_en_ci-main_backend`
 
-### 路由配置
+### Routing Configuration
 
-路由配置文件位于 `src/router/index.js`，包含以下主要路由：
+The routing configuration file is located at `src/router/index.js` and includes the following main routes:
 
-- `/` - 首页
-- `/login` - 登录页
-- `/register` - 注册页
-- `/navigation` - 导航页（需登录）
-- `/attendance` - 签到页（需登录）
-- `/dashboard` - 数据看板（需登录）
-- `/profile` - 个人信息（需登录）
-- `/attendance-analysis` - 签到分析（需登录）
-- `/student-manager` - 学生管理（需登录）
-- `/admin` - 管理员页面
+**Public pages (no login required):**
+- `/` - Home page
+- `/login` - Login page
+- `/register` - Registration page
+- `/dashboard` - Data dashboard (no login required)
+- `/points-dashboard` - Points dashboard (no login required)
 
-### 主题配置
+**Pages requiring login:**
+- `/navigation` - Navigation center
+- `/attendance` - Attendance management
+- `/profile` - Personal center
+- `/all-members` - All members
+- `/student-manager` - Student management
+- `/score-change-records` - Score change records
+- `/ip-monitor` - IP monitoring
 
-项目支持白天/夜间主题切换，主题配置位于 `src/stores/theme.js` 和 `src/assets/styles/theme.css`。
+**Administrator pages (no routing authentication, password verification within the page):**
+- `/admin` - Administrator backend
 
-## 📱 多端适配
+### Theme Configuration
 
-项目采用设备检测机制，自动适配桌面端和移动端：
+The project supports day/night theme switching. Theme configuration is located at `src/stores/theme.js` and `src/assets/styles/theme.css`.
 
-- **桌面端** (`*Desktop.vue`): 屏幕宽度 >= 768px
-- **移动端** (`*Mobile.vue`): 屏幕宽度 < 768px
-- **入口文件** (`*.vue`): 设备检测和路由跳转
+## 📱 Multi-platform Adaptation
 
-### 页面列表
+The project uses a device detection mechanism to automatically adapt to desktop and mobile devices:
 
-| 页面 | 桌面端 | 移动端 |
-|------|--------|--------|
-| 签到页面 | `AttendancePageDesktop.vue` | `AttendancePageMobile.vue` |
-| 数据看板 | `DashboardPageDesktop.vue` | `DashboardPageMobile.vue` |
-| 个人信息 | `ProfilePageDesktop.vue` | `ProfilePageMobile.vue` |
-| 签到分析 | `AttendanceAnalysisPageDesktop.vue` | `AttendanceAnalysisPageMobile.vue` |
+- **Desktop** (`*Desktop.vue`): Screen width >= 768px
+- **Mobile** (`*Mobile.vue`): Screen width < 768px
+- **Entry file** (`*.vue`): Device detection and routing
 
-## 🎨 功能展示
+### Page List
 
-### 主要页面
+| Page | Desktop | Mobile |
+| -------- | --------------------------------- | -------------------------------- |
+| Home | `HomePageDesktop.vue` | `HomePageMobile.vue` |
+| Login | `LoginPageDesktop.vue` | `LoginPageMobile.vue` |
+| Register | `RegisterPageDesktop.vue` | `RegisterPageMobile.vue` |
+| Navigation Center | `NavigationPageDesktop.vue` | `NavigationPageMobile.vue` |
+| Attendance Management | `AttendancePageDesktop.vue` | `AttendancePageMobile.vue` |
+| Data Dashboard | `DashboardPageDesktop.vue` | `DashboardPageMobile.vue` |
+| Points Dashboard | `PointsDashboardPageDesktop.vue` | `PointsDashboardPageMobile.vue` |
+| Personal Center | `ProfilePageDesktop.vue` | `ProfilePageMobile.vue` |
+| All Members | `AllMembersPageDesktop.vue` | `AllMembersPageMobile.vue` |
+| Student Management | `StudentManagerPageDesktop.vue` | `StudentManagerPageMobile.vue` |
+| Score Change Records | `ScoreChangeRecordsPageDesktop.vue` | `ScoreChangeRecordsPageMobile.vue` |
+| IP Monitoring | `IPMonitorPageDesktop.vue` | `IPMonitorPageMobile.vue` |
+| Administrator | `AdminPageDesktop.vue` | `AdminPageMobile.vue` |
 
-- **首页** - 项目介绍和功能导航
-- **登录/注册** - 用户认证入口
-- **导航页** - 功能模块导航中心
-- **签到页** - 分时段签到功能
-- **数据看板** - 数据统计和可视化
-- **个人信息** - 个人资料管理
-- **签到分析** - 考勤数据分析
-- **学生管理** - 管理员学生管理
-- **管理员控制台** - 系统管理功能
+## 🎨 Feature Showcase
 
-### 核心特性
+### Main Pages
 
-#### 1. 主题切换
-- 点击页面左上角的 AI坊 图标即可切换主题
-- 支持白天模式和夜间模式
-- 主题状态持久化存储
+- **Home** - Project introduction and feature navigation
+- **Login/Register** - User authentication entry (invitation code required)
+- **Navigation Center** - Feature module navigation entry
+- **Attendance Management** - Personal attendance record viewing and statistics
+- **Data Dashboard** - Check-in ranking and member data statistics
+- **Points Dashboard** - Points ranking (total points/check-in points/activity points)
+- **Personal Center** - Personal profile management and password change
+- **All Members** - Member information display and search
+- **Student Management** - Student information query and management
+- **Score Change Records** - Points change record query
+- **IP Monitoring** - AI Workshop internal IP activity monitoring
+- **Administrator Backend** - Member management, points adjustment, makeup attendance processing
 
-#### 2. Token 验证
-- 路由守卫自动验证 Token
-- Token 验证结果缓存（5秒）
-- 自动跳转到登录页（Token 无效时）
+### Core Features
 
-#### 3. 响应式设计
-- 自动检测设备类型
-- 桌面端和移动端独立页面
-- 完美适配各种屏幕尺寸
+#### 1. Theme Switching
 
-#### 4. 数据可视化
-- ECharts 图表展示
-- 实时数据更新
-- 交互式数据探索
+- Click the theme toggle button in the upper right corner (ThemeToggle component)
+- Supports automatic switching between day mode and night mode
+- Theme state persistent storage
 
-## 🔧 开发指南
+#### 2. Token Verification
 
-### 代码规范
+- Route guard automatically verifies Token
+- Token verification result caching (5 seconds)
+- Automatic redirection to the login page (when Token is invalid)
 
-- 遵循 ESLint 规范
-- 使用 Vue3 Composition API
-- 组件按需导入
-- 样式使用 scoped 或全局样式块
+#### 3. Responsive Design
 
-### 开发规范
+- Automatically detects device type
+- Independent pages for desktop and mobile
+- Perfectly adapts to various screen sizes
 
-详细开发规范请参考：`Note/你的身份.md`
+#### 4. Data Visualization
 
-#### 关键规范
+- ECharts chart display
+- Real-time data updates
+- Interactive data exploration
 
-1. **代码中不能有任何注释**
-2. **所有库必须按需引入**
-3. **Element Plus 组件必须同时导入样式文件**
-4. **页面必须支持白天/夜间模式切换**
-5. **所有页面必须有返回导航按钮**
-6. **代码必须符合 ESLint 规范**
+## 🔧 Development Guide
 
-### 状态管理
+> **⚠️ About JavaScript and TypeScript Mixing**
+>
+> This project has undergone technical iteration, gradually evolving from the initial JavaScript to TypeScript. I always follow the design philosophy of <strong>"would rather write one more line of new code than modify one line of old code"</strong>: maintaining respect for existing stable code, implementing new requirements by writing new code, thus forming the current situation where JavaScript and TypeScript coexist.
+>
+> This design philosophy reflects respect for existing functions—if the old code works normally, don't touch it, but implement new functions by writing new code. This ensures system stability while also providing a path for gradual migration for the project.
+>
+> **I hope subsequent developers can also adhere to this principle**: prioritize writing new code rather than modifying old code, keeping the project stable as it continues to evolve.
 
-使用 Pinia 进行状态管理，主要 Store：
+### Code Standards
 
-- `useUserStore` - 用户信息管理
-- `useThemeStore` - 主题状态管理
-- `useAdminStore` - 管理员状态管理
+- Follow ESLint specifications
+- Use Vue3 Composition API
+- Import components on demand
+- Use scoped or global style blocks for styles
 
-### API 调用
+### Development Standards
 
-API 接口定义在 `src/api/` 目录下：
+For detailed development standards, please refer to the specification files in the `.trae/rules/` directory:
 
-- `student.js` - 学生相关接口
-- `attendance.js` - 考勤相关接口
+| Specification File | Description |
+|---------|------|
+| `01-code-style.md` | Code style specifications (indentation, naming, directory structure) |
+| `02-page-structure.md` | Page structure specifications |
+| `03-naming-conventions.md` | Naming conventions |
+| `04-git-commit.md` | Git commit specifications |
+| `05-development-notes.md` | Development notes |
+| `06-oop-classes.md` | Object-oriented programming specifications |
+| `07-element-plus-import.md` | Element Plus import specifications |
+| `08-color-scheme.md` | Project color scheme |
+| `09-page-entrance-animation.md` | Page entrance animation specifications |
 
-所有接口使用统一的错误处理和响应格式。
+#### Key Standards
 
-## 📚 相关文档
+1. **Code must include high-quality comments** - the more the better, form components must include complete functional comments, API files must include function descriptions and parameter types
+2. **All libraries must be imported on demand**
+3. **Element Plus components must import style files simultaneously**
+4. **Pages must support day/night mode switching**
+5. **All pages must have a back navigation button**
+6. **Code must comply with ESLint specifications**
 
-- [接口文档](Note/接口文档/接口文档.md) - 完整的后端 API 接口文档
-- [开发经验](./Note/YourExperience/) - 开发过程中积累的经验总结
-- [开发规范](./Note/你的身份.md) - 项目开发规范和最佳实践
+### State Management
 
-## 🐛 问题反馈
+Use Pinia for state management, main Stores:
 
-如果您在使用过程中遇到问题，可以通过以下方式反馈：
+- `useUserStore` - User information management
+- `useThemeStore` - Theme state management
+- `useAdminStore` - Administrator state management
 
-1. 提交 Issue 到 Gitee 仓库
-2. 查看 `Note/YourExperience/` 目录下的经验文档
-3. 参考接口文档排查问题
+### API Calls
 
-## 🤝 贡献指南
+API interfaces are defined in the `src/api/` directory:
 
-欢迎贡献代码！在提交 PR 之前，请确保：
+**JavaScript functional interfaces:**
+- `student.js` - Student-related interfaces (login, registration, personal information management, data statistics)
+- `attendance.js` - Attendance-related interfaces (check-in, makeup attendance, attendance statistics)
+- `points.js` - Points-related interfaces (points adjustment, points query, points ranking)
+- `super_admin.js` - Super administrator interfaces
 
-1. 代码符合 ESLint 规范
-2. 所有库按需引入
-3. 组件样式正确导入
-4. 支持白天/夜间模式
-5. 代码中无注释
-6. 通过所有测试
+**TypeScript object-oriented API classes:**
+- `StudentApi.js` - Student API class (encapsulated using Class)
+- `AttendanceApi.js` - Attendance API class (encapsulated using Class)
+- `PointsApi.js` - Points API class (encapsulated using Class)
+- `StatisticsApi.js` - Statistics data interface class
+- `StudentManagementApi.js` - Student management API class
 
-## 📄 许可证
+All interfaces use unified error handling and response formats, including response interceptors for handling network errors and timeout errors.
 
-本项目采用 MIT 许可证。详情请参阅 [LICENSE](LICENSE) 文件。
+## 📚 Related Documentation
 
-## 👥 作者
+- [API Documentation](Note/接口文档/接口文档.md) - Complete backend API interface documentation
+- [Development Standards](.trae/rules/) - Project development standards and best practices
 
-**郑恩赐**
+## 🐛 Issue Feedback
+
+If you encounter any problems during use, you can provide feedback through the following methods:
+
+1. Submit an Issue to the Gitee repository
+2. Refer to the API documentation to troubleshoot issues
+
+## 🤝 Contribution Guide
+
+Contributions are welcome! Before submitting a PR, please ensure:
+
+1. Code complies with ESLint specifications
+2. All libraries are imported on demand
+3. Component styles are correctly imported
+4. Supports day/night mode
+5. No comments in code
+6. Passes all tests
+
+## 📄 License
+
+This project uses the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 👥 Author
+
+**Zheng Enci**
 
 - Gitee: [@zheng-enci050704](https://gitee.com/zheng-enci050704)
+- GitHub: [@Zheng-Enci](https://github.com/Zheng-Enci)
+- GitCode: [@ZhengEnCi](https://gitcode.com/ZhengEnCi)
 
-## 🙏 致谢
+## 🙏 Acknowledgments
 
-感谢以下开源项目的支持：
+Thanks to the following open source projects for their support:
 
-- [Vue.js](https://vuejs.org/) - 渐进式 JavaScript 框架
-- [Element Plus](https://element-plus.org/) - 基于 Vue 3 的组件库
-- [ECharts](https://echarts.apache.org/) - 强大的数据可视化库
-- [Pinia](https://pinia.vuejs.org/) - Vue 的状态管理库
+- [Vue.js](https://vuejs.org/) - Progressive JavaScript framework
+- [Element Plus](https://element-plus.org/) - Vue 3-based component library
+- [ECharts](https://echarts.apache.org/) - Powerful data visualization library
+- [Pinia](https://pinia.vuejs.org/) - Vue state management library
 
-## 📞 联系方式
+## 📞 Contact
 
-如有任何问题或建议，欢迎通过以下方式联系：
+If you have any questions or suggestions, welcome to provide feedback through the following methods:
 
-- 提交 Issue: [Gitee Issues](https://gitee.com/zheng-enci050704/ai-workshop-student-management-system-front-end/issues)
+- Gitee Issues: [Submit Issue](https://gitee.com/zheng-enci050704/ai-workshop-student-management-system-front-end/issues)
+- GitHub Issues: [Submit Issue](https://github.com/Zheng-Enci/ai-workshop-student-management-system-front-end/issues)
+- GitCode Issues: [Submit Issue](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/issues)
 
----
+***
 
 <div align="center">
 
-**⭐ 如果这个项目对您有帮助，欢迎 Star！**
+**⭐ If this project is helpful to you, please Star!**
 
-Made with ❤️ by 郑恩赐
+Made with ❤️ by Zheng Enci
 
 </div>
