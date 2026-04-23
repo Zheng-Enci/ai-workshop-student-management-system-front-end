@@ -222,7 +222,15 @@ front-end/
 1. **克隆项目**
 
 ```bash
+# Gitee（国内推荐）
 git clone https://gitee.com/zheng-enci050704/ai-workshop-student-management-system-front-end.git
+
+# GitHub
+git clone https://github.com/Zheng-Enci/ai-workshop-student-management-system-front-end.git
+
+# GitCode
+git clone https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end.git
+
 cd ai-workshop-student-management-system-front-end
 ```
 
