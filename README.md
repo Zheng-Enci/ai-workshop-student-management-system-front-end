@@ -431,7 +431,19 @@ export const config = {
 
 ### 开发规范
 
-详细开发规范请参考：`Note/你的身份.md`
+详细开发规范请参考：`.trae/rules/` 目录下的规范文件
+
+| 规范文件 | 说明 |
+|---------|------|
+| `01-code-style.md` | 代码风格规范（缩进、命名、目录结构） |
+| `02-page-structure.md` | 页面结构规范 |
+| `03-naming-conventions.md` | 命名约定规范 |
+| `04-git-commit.md` | Git 提交规范 |
+| `05-development-notes.md` | 开发注意事项 |
+| `06-oop-classes.md` | 面向对象编程规范 |
+| `07-element-plus-import.md` | Element Plus 导入规范 |
+| `08-color-scheme.md` | 项目配色方案 |
+| `09-page-entrance-animation.md` | 页面入场动画规范 |
 
 #### 关键规范
 
