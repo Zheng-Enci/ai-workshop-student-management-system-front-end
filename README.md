@@ -134,18 +134,27 @@ AI坊是学校根据智能学科发展特点，结合社会实际需求，依托
 front-end/
 ├── public/                 # 静态资源目录
 │   ├── favicon.ico        # 网站图标
-│   └── index.html         # HTML 模板
+│   ├── index.html         # HTML 模板
+│   └── sitemap.xml        # 站点地图
 ├── src/                   # 源代码目录
 │   ├── api/              # API 接口定义
 │   │   ├── attendance.js # 考勤相关接口
+│   │   ├── points.js     # 积分相关接口
+│   │   ├── StatisticsApi.js  # 统计数据接口
 │   │   └── student.js    # 学生相关接口
 │   ├── assets/           # 静态资源
 │   │   ├── styles/       # 全局样式
+│   │   ├── ip-config-flowchart/  # IP配置流程图
 │   │   └── *.png         # 图片资源
 │   ├── components/       # 公共组件
+│   │   ├── LoadingMask.vue
 │   │   └── ThemeToggle.vue
+│   ├── composables/      # 组合式函数
+│   │   ├── admin/        # 管理员相关组合式函数
+│   │   └── ts/           # TypeScript组合式函数
 │   ├── config/           # 配置文件
-│   │   └── index.js      # 应用配置
+│   │   ├── index.js      # 应用配置
+│   │   └── Config.ts     # TypeScript配置
 │   ├── router/           # 路由配置
 │   │   └── index.js      # 路由定义
 │   ├── stores/           # 状态管理
@@ -155,8 +164,7 @@ front-end/
 │   ├── views/            # 页面组件
 │   │   ├── AdminPage/    # 管理员后台
 │   │   ├── AllMembersPage/      # 全部成员页面
-│   │   ├── AttendancePage/      # 考勤签到页面
-│   │   ├── AttendanceAnalysisPage/  # 考勤分析页面
+│   │   ├── AttendancePage/      # 考勤管理页面
 │   │   ├── DashboardPage/       # 数据看板页面
 │   │   ├── HomePage/            # 首页
 │   │   ├── IPMonitorPage/       # IP监控页面
@@ -169,17 +177,26 @@ front-end/
 │   │   └── StudentManagerPage/  # 学生管理页面
 │   ├── App.vue           # 根组件
 │   └── main.js           # 入口文件
+├── code-quality/         # 代码质量工具
+│   ├── code-quality-config/  # 代码质量配置
+│   ├── code-quality-reports/ # 代码质量报告
+│   └── vite-plugins/     # Vite插件
 ├── Note/                  # 项目文档和经验总结
-│   ├── YourExperience/   # 开发经验文档
-│   ├── 你的身份.md       # 开发规范
-│   └── 接口文档/         # API 接口文档
+│   ├── 接口文档/         # API 接口文档
+│   ├── 更新日志/         # 更新日志
+│   └── 要求.md           # 开发规范
+├── scripts/              # 脚本文件
 ├── .gitignore            # Git 忽略文件
-├── babel.config.js       # Babel 配置
-├── jsconfig.json         # JavaScript 配置
+├── .editorconfig         # 编辑器配置
+├── .eslintrc.js          # ESLint 配置
+├── .stylelintrc.js       # Stylelint 配置
+├── commitlint.config.js  # Commitlint 配置
+├── index.html            # Vite HTML 入口
 ├── package.json          # 项目依赖
 ├── README.md             # 项目文档
 ├── tsconfig.json         # TypeScript 配置
-└── vue.config.js         # Vue CLI 配置
+├── vite.config.js        # Vite 配置
+└── vite.config.mjs       # Vite ESM 配置
 ```
 
 ## 🚀 快速开始
