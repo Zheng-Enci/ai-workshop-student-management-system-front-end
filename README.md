@@ -527,9 +527,11 @@ API 接口定义在 `src/api/` 目录：
 
 ## 📞 联系方式
 
-如有任何问题或建议，欢迎联系我们：
+如有任何问题或建议，欢迎通过以下方式反馈：
 
-- 提交 Issue: [Gitee Issues](https://gitee.com/zheng-enci050704/ai-workshop-student-management-system-front-end/issues)
+- Gitee Issues: [提交 Issue](https://gitee.com/zheng-enci050704/ai-workshop-student-management-system-front-end/issues)
+- GitHub Issues: [提交 Issue](https://github.com/Zheng-Enci/ai-workshop-student-management-system-front-end/issues)
+- GitCode Issues: [提交 Issue](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/issues)
 
 ***
 
