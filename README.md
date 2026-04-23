@@ -328,16 +328,24 @@ export const config = {
 
 路由配置文件位于 `src/router/index.js`，包含以下主要路由：
 
+**公共页面（无需登录）：**
 - `/` - 首页
 - `/login` - 登录页面
 - `/register` - 注册页面
-- `/navigation` - 导航页面（需要登录）
-- `/attendance` - 考勤页面（需要登录）
-- `/dashboard` - 数据看板（需要登录）
-- `/profile` - 个人资料页面（需要登录）
-- `/attendance-analysis` - 考勤分析（需要登录）
-- `/student-manager` - 学生管理（需要登录）
-- `/admin` - 管理员页面
+- `/dashboard` - 数据看板（无需登录）
+- `/points-dashboard` - 积分看板（无需登录）
+
+**需要登录的页面：**
+- `/navigation` - 导航中心
+- `/attendance` - 考勤管理
+- `/profile` - 个人中心
+- `/all-members` - 全部成员
+- `/student-manager` - 学生管理
+- `/score-change-records` - 改分记录
+- `/ip-monitor` - IP监控
+
+**管理员页面（无需路由认证，页面内密码验证）：**
+- `/admin` - 管理员后台
 
 ### 主题配置
 
