@@ -183,6 +183,18 @@ front-end/
 │   └── vite-plugins/     # Vite插件
 ├── Note/                  # 项目文档
 │   └── 接口文档/         # API 接口文档
+├── .trae/                # Trae IDE 配置
+│   ├── project-members.md    # 项目成员信息
+│   └── rules/                # 开发规范规则
+│       ├── 01-code-style.md      # 代码风格规范
+│       ├── 02-page-structure.md  # 页面结构规范
+│       ├── 03-naming-conventions.md  # 命名规范
+│       ├── 04-git-commit.md      # Git 提交规范
+│       ├── 05-development-notes.md   # 开发注意事项
+│       ├── 06-oop-classes.md     # 面向对象编程规范
+│       ├── 07-element-plus-import.md # Element Plus 导入规范
+│       ├── 08-color-scheme.md    # 项目配色方案
+│       └── 09-page-entrance-animation.md # 页面入场动画规范
 ├── scripts/              # 脚本文件
 ├── .gitignore            # Git 忽略文件
 ├── .editorconfig         # 编辑器配置
