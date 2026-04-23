@@ -361,12 +361,21 @@ export const config = {
 
 ### 页面列表
 
-| 页面   | 桌面端                                 | 移动端                                |
-| ---- | ----------------------------------- | ---------------------------------- |
-| 考勤页面 | `AttendancePageDesktop.vue`         | `AttendancePageMobile.vue`         |
-| 数据看板 | `DashboardPageDesktop.vue`          | `DashboardPageMobile.vue`          |
-| 个人资料 | `ProfilePageDesktop.vue`            | `ProfilePageMobile.vue`            |
-| 考勤分析 | `AttendanceAnalysisPageDesktop.vue` | `AttendanceAnalysisPageMobile.vue` |
+| 页面     | 桌面端                            | 移动端                           |
+| -------- | --------------------------------- | -------------------------------- |
+| 首页     | `HomePageDesktop.vue`             | `HomePageMobile.vue`             |
+| 登录     | `LoginPageDesktop.vue`            | `LoginPageMobile.vue`            |
+| 注册     | `RegisterPageDesktop.vue`         | `RegisterPageMobile.vue`         |
+| 导航中心 | `NavigationPageDesktop.vue`       | `NavigationPageMobile.vue`       |
+| 考勤管理 | `AttendancePageDesktop.vue`       | `AttendancePageMobile.vue`       |
+| 数据看板 | `DashboardPageDesktop.vue`        | `DashboardPageMobile.vue`        |
+| 积分看板 | `PointsDashboardPageDesktop.vue`  | `PointsDashboardPageMobile.vue`  |
+| 个人中心 | `ProfilePageDesktop.vue`          | `ProfilePageMobile.vue`          |
+| 全部成员 | `AllMembersPageDesktop.vue`       | `AllMembersPageMobile.vue`       |
+| 学生管理 | `StudentManagerPageDesktop.vue`   | `StudentManagerPageMobile.vue`   |
+| 改分记录 | `ScoreChangeRecordsPageDesktop.vue` | `ScoreChangeRecordsPageMobile.vue` |
+| IP监控   | `IPMonitorPageDesktop.vue`        | `IPMonitorPageMobile.vue`        |
+| 管理员   | `AdminPageDesktop.vue`            | `AdminPageMobile.vue`            |
 
 ## 🎨 功能展示
 
