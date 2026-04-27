@@ -46,11 +46,11 @@ import { useRouter } from 'vue-router'
 
 // ===================== 业务模块导入区 =====================
 // 签到相关API：获取当前用户签到记录
-import { getMyAttendanceRecords } from '@/api/attendance'
+import AttendanceApi from '@/api/ts/AttendanceApi'
 // 状态管理：主题（暗黑/亮色）
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/ts/theme'
 // 状态管理：用户信息
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/ts/user'
 // 状态管理：全局加载蒙版
 import { useLoadingMaskStore } from '@/stores/ts/loading'
 // 全局加载蒙版组件
@@ -683,10 +683,16 @@ const loadAttendanceRecords = async () => {
 	try {
 		// 显示加载蒙版
 		loadingMaskStore.showLoadingMask('正在加载签到记录...')
+		// 从本地存储获取学生ID
+		const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+		const studentId = userInfo.studentId
+		if (!studentId) {
+			throw new Error('未找到学生ID，请重新登录')
+		}
 		// 调用API获取签到记录
-		const response = await getMyAttendanceRecords()
+		const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
 		// 接口返回成功且有数据时更新记录并初始化图表
-		if (response && response.code === 200 && response.data) {
+		if (response && response.data) {
 			attendanceRecords.value = response.data
 			// 等待DOM更新完成后初始化图表
 			await nextTick()
