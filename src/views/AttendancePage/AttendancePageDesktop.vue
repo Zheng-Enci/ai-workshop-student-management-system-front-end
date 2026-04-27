@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 签到页面组件(桌面端)
  *
@@ -35,7 +35,7 @@ import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 // Element Plus 基础组件：按钮、图标、日历
 import { ElButton, ElIcon, ElCalendar } from 'element-plus'
-// Vue3 核心API：响应式、生命周期、DOM更新、监听
+// Vue3 核心API：响应式、生命周期、DOM更新、监听、类型
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
 // Element Plus 基础样式（按需引入）
 import 'element-plus/theme-chalk/el-button.css'
