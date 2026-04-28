@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * 签到页面组件(桌面端)
  *
@@ -14,7 +14,7 @@
  * @date 2026-01
  * @version 1.0.0
  */
-
+/////
 // ===================== 第三方依赖导入区 =====================
 // Element Plus 图标组件：签到勾选、返回箭头
 import { Check, ArrowLeft } from '@element-plus/icons-vue'
@@ -35,8 +35,8 @@ import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 // Element Plus 基础组件：按钮、图标、日历
 import { ElButton, ElIcon, ElCalendar } from 'element-plus'
-// Vue3 核心API：响应式、生命周期、DOM更新、监听
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
+// Vue3 核心API：响应式、生命周期、DOM更新、监听、类型
+import {ref, onMounted, onUnmounted, nextTick, watch, type Ref} from 'vue'
 // Element Plus 基础样式（按需引入）
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
@@ -46,15 +46,24 @@ import { useRouter } from 'vue-router'
 
 // ===================== 业务模块导入区 =====================
 // 签到相关API：获取当前用户签到记录
-import { getMyAttendanceRecords } from '@/api/attendance'
+import AttendanceApi from '@/api/ts/AttendanceApi'
 // 状态管理：主题（暗黑/亮色）
-import { useThemeStore } from '@/stores/theme'
+import { useThemeStore } from '@/stores/ts/theme'
 // 状态管理：用户信息
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/ts/user'
 // 状态管理：全局加载蒙版
 import { useLoadingMaskStore } from '@/stores/ts/loading'
 // 全局加载蒙版组件
 import LoadingMask from '@/components/LoadingMask.vue'
+
+// ===================== 类型定义区 =====================
+/**
+ * 签到记录接口
+ * @interface MyAttendanceRecord
+ */
+interface MyAttendanceRecord {
+	attendanceDateTime: string
+}
 
 // ===================== ECharts 组件注册 =====================
 // 注册ECharts所需组件（按需引入，减小打包体积）
@@ -87,67 +96,67 @@ const loadingMaskStore = useLoadingMaskStore()
  * 学生等级（用于后续等级展示/权限控制）
  * @type {Ref<number>}
  */
-const studentLevel = ref(0)
+const studentLevel: Ref<number> = ref(0)
 
 /**
  * 是否处于签到时间段内
  * @type {Ref<boolean>}
  */
-const isInSignTime = ref(false)
+const isInSignTime: Ref<boolean> = ref(false)
 
 /**
  * 当前时间字符串（格式：HH:MM:SS）
  * @type {Ref<string>}
  */
-const currentTime = ref('')
+const currentTime: Ref<string> = ref('')
 
 /**
  * 下次签到时间提示文本
  * @type {Ref<string>}
  */
-const nextSignTime = ref('')
+const nextSignTime: Ref<string> = ref('')
 
 /**
  * 时间检测定时器实例（用于实时更新时间/签到状态）
- * @type {Ref<number | null>}
+ * @type {Ref<ReturnType<typeof setInterval> | null>}
  */
-const timeInterval = ref(null)
+const timeInterval: Ref<ReturnType<typeof setInterval> | null> = ref<ReturnType<typeof setInterval> | null>(null)
 
 /**
  * 热力图DOM容器引用
  * @type {Ref<HTMLElement | null>}
  */
-const heatmapChart = ref(null)
+const heatmapChart: Ref<HTMLElement | null> = ref<HTMLElement | null>(null)
 
 /**
  * 折线图DOM容器引用
  * @type {Ref<HTMLElement | null>}
  */
-const lineChart = ref(null)
+const lineChart: Ref<HTMLElement | null> = ref<HTMLElement | null>(null)
 
 /**
  * 热力图ECharts实例
- * @type {Ref<echarts.ECharts | null>}
+ * @type {Ref<any>}
  */
-const heatmapInstance = ref(null)
+const heatmapInstance: Ref<any> = ref<any>(null)
 
 /**
  * 折线图ECharts实例
- * @type {Ref<echarts.ECharts | null>}
+ * @type {Ref<any>}
  */
-const lineInstance = ref(null)
+const lineInstance: Ref<any> = ref<any>(null)
 
 /**
  * 签到记录列表（接口返回数据）
- * @type {Ref<Array<{attendanceDateTime: string}>>}
+ * @type {Ref<AttendanceRecord[]>}
  */
-const attendanceRecords = ref([])
+const attendanceRecords: Ref<MyAttendanceRecord[]> = ref<MyAttendanceRecord[]>([])
 
 /**
  * 日历当前选中日期
  * @type {Ref<Date>}
  */
-const calendarValue = ref(new Date())
+const calendarValue: Ref<Date> = ref(new Date())
 
 // ===================== 页面交互方法区 =====================
 /**
@@ -160,12 +169,12 @@ const goToNavigation = () => {
 }
 
 /**
- * 获取指定日期的所有签到时间
- * @function getDateAttendanceTimes
- * @param {string} dateStr - 目标日期（格式：YYYY-MM-DD）
- * @returns {Array<string>} 该日期下的所有签到时间字符串数组
- */
-const getDateAttendanceTimes = dateStr => {
+  * 获取指定日期的所有签到时间
+  * @function getDateAttendanceTimes
+  * @param {string} dateStr - 目标日期（格式：YYYY-MM-DD）
+  * @returns {Array<string>} 该日期下的所有签到时间字符串数组
+  */
+ const getDateAttendanceTimes = (dateStr: string): string[] => {
 	// 无签到记录时返回空数组
 	if (!attendanceRecords.value || attendanceRecords.value.length === 0) {
 		return []
@@ -191,7 +200,7 @@ const getDateAttendanceTimes = dateStr => {
  * @param {string} timeStr - 原始时间字符串（ISO格式）
  * @returns {string} 格式化后的时间字符串（HH:MM:SS）
  */
-const formatAttendanceTime = timeStr => {
+const formatAttendanceTime = (timeStr: string): string => {
 	const date = new Date(timeStr)
 	const hours = date.getHours().toString().padStart(2, '0')
 	const minutes = date.getMinutes().toString().padStart(2, '0')
@@ -205,7 +214,7 @@ const formatAttendanceTime = timeStr => {
  * @param {string} timeStr - 原始时间字符串（ISO格式）
  * @returns {string} 时段标签文本
  */
-const getTimeSlotLabel = timeStr => {
+const getTimeSlotLabel = (timeStr: string): string => {
 	const date = new Date(timeStr)
 	const hour = date.getHours()
 
@@ -226,7 +235,7 @@ const getTimeSlotLabel = timeStr => {
  * @param {Date | string} date - 目标日期
  * @returns {string} 格式化后的日历标题
  */
-const formatCalendarTitle = date => {
+const formatCalendarTitle = (date: Date | string): string => {
 	const dateObj = new Date(date)
 	const year = dateObj.getFullYear()
 	const month = dateObj.getMonth() + 1
@@ -280,7 +289,7 @@ const goToday = () => {
  * @param {string} timeSlot - 目标时段（morning/afternoon/evening）
  * @returns {boolean} 该时段是否已签到
  */
-const isTimeSlotSigned = (dateStr, timeSlot) => {
+const isTimeSlotSigned = (dateStr: string, timeSlot: string): boolean => {
 	// 无签到记录时返回false
 	if (!attendanceRecords.value || attendanceRecords.value.length === 0) {
 		return false
@@ -324,20 +333,26 @@ const isTimeSlotSigned = (dateStr, timeSlot) => {
  * @description 按「周几+时段」维度统计签到次数，格式：[周几索引, 时段索引, 签到次数]
  * @returns {Array<[number, number, number]>} 热力图数据数组
  */
-const generateHeatmapData = () => {
-	const data = []
+const generateHeatmapData = (): [number, number, number][] => {
+	const data: [number, number, number][] = []
 	// 周几文本映射（索引0-6对应周一到周日）
 	const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 	// 时段文本映射（索引0-2对应上午、下午、晚上）
 	const timeSlots = ['上午', '下午', '晚上']
 
 	// 遍历所有周几和时段组合
-	weekDays.forEach((day, dayIndex) => {
+	weekDays.forEach((_day, dayIndex) => {
 		timeSlots.forEach((slot, slotIndex) => {
 			let count = 0 // 该组合下的签到次数
 			// 遍历签到记录统计次数
 			attendanceRecords.value.forEach(record => {
+				if (!record.attendanceDateTime) {
+					return
+				}
 				const date = new Date(record.attendanceDateTime)
+				if (isNaN(date.getTime())) {
+					return
+				}
 				// 转换周几：周日(0) → 6，周一(1) → 0，以此类推
 				const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
 				const hour = date.getHours()
@@ -369,13 +384,19 @@ const generateHeatmapData = () => {
  * @property {Array<string>} dates - 排序后的日期数组（YYYY-MM-DD）
  * @property {Array<number>} values - 对应日期的累计签到次数
  */
-const generateLineData = () => {
+const generateLineData = (): { dates: string[]; values: number[] } => {
 	// 日期→当日签到次数 映射表
-	const dateMap = new Map()
+	const dateMap = new Map<string, number>()
 
 	// 统计每日签到次数
 	attendanceRecords.value.forEach(record => {
+		if (!record.attendanceDateTime) {
+			return
+		}
 		const date = new Date(record.attendanceDateTime)
+		if (isNaN(date.getTime())) {
+			return
+		}
 		const [dateStr] = date.toISOString().split('T')
 		dateMap.set(dateStr, (dateMap.get(dateStr) || 0) + 1)
 	})
@@ -388,7 +409,7 @@ const generateLineData = () => {
 	// 计算累计签到次数
 	let cumulativeSum = 0
 	const cumulativeValues = dailyValues.map(value => {
-		cumulativeSum += value
+		cumulativeSum += value || 0
 		return cumulativeSum
 	})
 
@@ -440,16 +461,16 @@ const initHeatmapChart = () => {
 			splitArea: { // 分割区域样式
 				show: true,
 				areaStyle: {
-					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+					color: themeStore.isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 				}
 			},
 			axisLabel: { // 轴标签样式（适配主题）
-				color: themeStore.isDark ? '#ccc' : '#666',
+				color: themeStore.isDarkMode ? '#ccc' : '#666',
 				fontSize: 12
 			},
 			axisLine: { // 轴线样式（适配主题）
 				lineStyle: {
-					color: themeStore.isDark ? '#444' : '#ddd'
+					color: themeStore.isDarkMode ? '#444' : '#ddd'
 				}
 			}
 		},
@@ -459,16 +480,16 @@ const initHeatmapChart = () => {
 			splitArea: { // 分割区域样式
 				show: true,
 				areaStyle: {
-					color: themeStore.isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
+					color: themeStore.isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 				}
 			},
 			axisLabel: { // 轴标签样式（适配主题）
-				color: themeStore.isDark ? '#ccc' : '#666',
+				color: themeStore.isDarkMode ? '#ccc' : '#666',
 				fontSize: 12
 			},
 			axisLine: { // 轴线样式（适配主题）
 				lineStyle: {
-					color: themeStore.isDark ? '#444' : '#ddd'
+					color: themeStore.isDarkMode ? '#444' : '#ddd'
 				}
 			}
 		},
@@ -482,11 +503,11 @@ const initHeatmapChart = () => {
 			itemWidth: 20, // 滑块宽度
 			itemHeight: 200, // 滑块高度
 			textStyle: { // 文本样式（适配主题）
-				color: themeStore.isDark ? '#ccc' : '#666',
+				color: themeStore.isDarkMode ? '#ccc' : '#666',
 				fontSize: 11
 			},
 			inRange: { // 颜色范围（适配主题）
-				color: themeStore.isDark
+				color: themeStore.isDarkMode
 					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8'] // 暗黑模式
 					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e'] // 亮色模式
 			}
@@ -497,7 +518,7 @@ const initHeatmapChart = () => {
 			data: heatmapData, // 数据源
 			label: { // 标签样式（显示签到次数）
 				show: true,
-				color: themeStore.isDark ? '#ffffff' : '#1f2937',
+				color: themeStore.isDarkMode ? '#ffffff' : '#1f2937',
 				fontSize: 11,
 				fontWeight: 'bold'
 			},
@@ -512,7 +533,7 @@ const initHeatmapChart = () => {
 			itemStyle: { // 基础样式
 				borderRadius: 4, // 圆角
 				borderWidth: 1,
-				borderColor: themeStore.isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+				borderColor: themeStore.isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
 			}
 		}]
 	}
@@ -546,13 +567,13 @@ const initLineChart = () => {
 		backgroundColor: 'transparent', // 透明背景
 		tooltip: { // 提示框配置
 			trigger: 'axis', // 轴触发
-			backgroundColor: themeStore.isDark ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.9)',
+			backgroundColor: themeStore.isDarkMode ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.9)',
 			borderColor: '#ddd',
 			textStyle: { // 文本样式（适配主题）
-				color: themeStore.isDark ? '#000' : '#333'
+				color: themeStore.isDarkMode ? '#000' : '#333'
 			},
 			// 自定义提示框内容
-			formatter(params) {
+			formatter(params: any) {
 				const date = new Date(params[0].axisValue)
 				const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 				return `${formattedDate}<br/>累计签到次数: ${params[0].value}`
@@ -569,24 +590,24 @@ const initLineChart = () => {
 			type: 'time',
 			boundaryGap: false, // 无边界间隙
 			axisLabel: { // 轴标签样式
-				color: themeStore.isDark ? '#ccc' : '#666',
+				color: themeStore.isDarkMode ? '#ccc' : '#666',
 				fontSize: 11,
 				rotate: 45, // 旋转45度防止重叠
 				// 自定义日期格式（月/日）
-				formatter(value) {
+				formatter(value: string | number | Date) {
 					const date = new Date(value)
 					return `${date.getMonth() + 1}/${date.getDate()}`
 				}
 			},
 			axisLine: { // 轴线样式
 				lineStyle: {
-					color: themeStore.isDark ? '#444' : '#ddd'
+					color: themeStore.isDarkMode ? '#444' : '#ddd'
 				}
 			},
 			splitLine: { // 分割线样式
 				show: true,
 				lineStyle: {
-					color: themeStore.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+					color: themeStore.isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
 				}
 			}
 		},
@@ -594,21 +615,21 @@ const initLineChart = () => {
 			type: 'value',
 			name: '累计签到次数', // 轴名称
 			nameTextStyle: { // 轴名称样式
-				color: themeStore.isDark ? '#ccc' : '#666',
+				color: themeStore.isDarkMode ? '#ccc' : '#666',
 				fontSize: 12
 			},
 			axisLabel: { // 轴标签样式
-				color: themeStore.isDark ? '#ccc' : '#666',
+				color: themeStore.isDarkMode ? '#ccc' : '#666',
 				fontSize: 11
 			},
 			axisLine: { // 轴线样式
 				lineStyle: {
-					color: themeStore.isDark ? '#444' : '#ddd'
+					color: themeStore.isDarkMode ? '#444' : '#ddd'
 				}
 			},
 			splitLine: { // 分割线样式
 				lineStyle: {
-					color: themeStore.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+					color: themeStore.isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
 				}
 			}
 		},
@@ -683,18 +704,24 @@ const loadAttendanceRecords = async () => {
 	try {
 		// 显示加载蒙版
 		loadingMaskStore.showLoadingMask('正在加载签到记录...')
+		// 从本地存储获取学生ID
+		const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+		const studentId = userInfo.studentId
+		if (!studentId) {
+			loadingMaskStore.hideLoadingMask()
+			return
+		}
 		// 调用API获取签到记录
-		const response = await getMyAttendanceRecords()
+		const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
 		// 接口返回成功且有数据时更新记录并初始化图表
-		if (response && response.code === 200 && response.data) {
-			attendanceRecords.value = response.data
+		if (response && response.data) {
+			attendanceRecords.value = (response.data as unknown) as MyAttendanceRecord[]
 			// 等待DOM更新完成后初始化图表
 			await nextTick()
 			initCharts()
 		}
-	} catch (error) {
+	} catch {
 		// 错误容错（可扩展：添加错误提示、日志上报）
-		console.error('加载签到记录失败：', error)
 	} finally {
 		// 隐藏加载蒙版
 		loadingMaskStore.hideLoadingMask()
@@ -711,9 +738,8 @@ const loadStudentLevel = () => {
 		// 优先从用户仓库获取，仓库无数据则从本地存储读取
 		const userInfo = userStore.userInfo || JSON.parse(localStorage.getItem('userInfo') || '{}')
 		studentLevel.value = userInfo.level || 0
-	} catch (error) {
+	} catch {
 		// 解析失败时默认等级为0
-		console.error('加载学生等级失败：', error)
 		studentLevel.value = 0
 	}
 }
@@ -786,8 +812,8 @@ onMounted(async () => {
 		loadStudentLevel()
 		// 加载签到记录
 		await loadAttendanceRecords()
-	} catch (error) {
-		console.error('组件挂载初始化失败：', error)
+	} catch {
+		// 组件挂载初始化失败
 	}
 })
 
@@ -795,7 +821,7 @@ onMounted(async () => {
  * 监听主题变化
  * @description 主题切换时重新渲染图表（适配暗黑/亮色样式）
  */
-watch(() => themeStore.isDark, () => {
+watch(() => themeStore.isDarkMode, () => {
 	// 等待DOM更新完成后重新初始化图表
 	nextTick(() => {
 		initHeatmapChart()
