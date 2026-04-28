@@ -928,7 +928,7 @@ onUnmounted(() => {
 									<div class="header-title">{{ formatCalendarTitle(date) }}</div>
 									<div class="header-actions">
 										<el-button size="small" @click="prevMonth">上个月</el-button>
-										<el-button size="small" @click="goToday">今</el-button>
+										<el-button size="small" @click="goToday">今天</el-button>
 										<el-button size="small" @click="nextMonth">下个月</el-button>
 									</div>
 								</div>
