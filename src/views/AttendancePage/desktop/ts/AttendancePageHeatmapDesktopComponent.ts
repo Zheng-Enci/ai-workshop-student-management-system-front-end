@@ -22,8 +22,7 @@ import {
 } from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
 import {useThemeStore} from '@/stores/ts/theme'
-import AttendanceApi from '@/api/ts/AttendanceApi'
-import studentManager from '@/stores/ts/StudentStore'
+import attendancePageDesktop from './AttendancePageDesktop'
 
 // ===================== 类型定义区 =====================
 /**
@@ -97,12 +96,8 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 */
 	public async loadData(): Promise<void> {
 		try {
-			const studentId = studentManager.getStudentId()
-			if (!studentId) {
-				return
-			}
-			const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
-			this.attendanceRecords = response.data
+			await attendancePageDesktop.initData()
+			this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
 			this.initChart()
 			this.updateChart()
 		} catch (error) {
