@@ -66,18 +66,18 @@ class AttendancePageDesktop {
 	 * @async
 	 */
 	private async loadData(): Promise<void> {
+		const studentId = studentManager.getStudentId()
+		if (!studentId) {
+			ElMessage.error('学生ID不存在，请重新登录')
+			this.initDataPromise = null
+			return
+		}
 		try {
-			const studentId = studentManager.getStudentId()
-			if (!studentId) {
-				throw new Error('学生ID不存在，请重新登录')
-			}
 			const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
 			this.attendanceRecords = response.data
 		} catch (error) {
 			ElMessage.error('加载签到记录失败')
 			this.initDataPromise = null
-			// 重新抛出错误，让调用者处理
-			return Promise.reject(error)
 		}
 	}
 
