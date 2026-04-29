@@ -96,6 +96,19 @@ class AttendancePageDesktop {
 	public getAttendanceRecords(): AttendanceRecord[] {
 		return this.attendanceRecords
 	}
+
+	/**
+	 * 等待数据就绪
+	 * @function waitForReady
+	 * @description 等待单例数据初始化完成，可安全地获取数据
+	 * @returns {Promise<void>}
+	 * @example
+	 * await attendancePageDesktop.waitForReady()
+	 * const records = attendancePageDesktop.getAttendanceRecords()
+	 */
+	public async waitForReady(): Promise<void> {
+		return this.initData()
+	}
 }
 
 /**
@@ -103,8 +116,5 @@ class AttendancePageDesktop {
  * 确保全局只有一个实例，所有组件获取的数据一致
  */
 const attendancePageDesktop = new AttendancePageDesktop()
-
-// 模块加载时自动初始化数据，并导出初始化Promise
-export const attendanceDataReady = attendancePageDesktop.initData()
 
 export default attendancePageDesktop
