@@ -38,7 +38,7 @@ interface AttendanceRecordsResponse {
  * 签到页面桌面端数据加载类
  * @class AttendancePageDesktop
  */
-export default class AttendancePageDesktop {
+class AttendancePageDesktop {
 	/**
 	 * 签到记录数据缓存Promise
 	 * 用于确保initData只发起一次请求
