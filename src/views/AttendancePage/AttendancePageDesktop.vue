@@ -286,7 +286,7 @@ const goToday = () => {
  * 判断指定日期的指定时段是否已签到
  * @function isTimeSlotSigned
  * @param {string} dateStr - 目标日期（格式：YYYY-MM-DD）
- * @param {string} timeSlot - 目标时段（morning/afternoon/evening）
+ * @param {string} timeSlot - 目标时段（morning/afternoon/vening）
  * @returns {boolean} 该时段是否已签到
  */
 const isTimeSlotSigned = (dateStr: string, timeSlot: string): boolean => {
