@@ -115,18 +115,14 @@ export interface StudentCountResponse {
  * 与StudentStore中的StudentInfo接口对应
  */
 export interface StudentProfileData {
-	databaseId: number
 	studentId: string
 	name: string
 	gender: string
-	phone: string
+	phoneNumber: string
 	college: string
 	grade: number
 	major: string
-	className: string
-	level: number
-	avatar?: string
-	nickname?: string
+	classNum: number
 }
 
 /**

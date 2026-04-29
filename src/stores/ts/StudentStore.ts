@@ -15,32 +15,24 @@ import {useRouter} from 'vue-router'
 /**
  * 学生信息接口定义
  * @interface StudentInfo
- * @property {number} databaseId - 数据库自增ID
  * @property {string} studentId - 学号
  * @property {string} name - 姓名
  * @property {string} gender - 性别
- * @property {string} phone - 手机号
+ * @property {string} phoneNumber - 手机号
  * @property {string} college - 学院
  * @property {number} grade - 年级
  * @property {string} major - 专业
- * @property {string} className - 班级
- * @property {number} level - 等级
- * @property {string} [avatar] - 头像URL（可选）
- * @property {string} [nickname] - 昵称（可选）
+ * @property {number} classNum - 班级
  */
 export interface StudentInfo {
-	databaseId: number
 	studentId: string
 	name: string
 	gender: string
-	phone: string
+	phoneNumber: string
 	college: string
 	grade: number
 	major: string
-	className: string
-	level: number
-	avatar?: string
-	nickname?: string
+	classNum: number
 }
 
 /**
@@ -83,14 +75,6 @@ class StudentManager {
 	}
 
 	/**
-	 * 获取学生数据库ID
-	 * @returns {number | null} 数据库ID或null
-	 */
-	public getStudentDbId(): number | null {
-		return this.studentInfo?.databaseId ?? null
-	}
-
-	/**
 	 * 获取学号
 	 * @returns {string | null} 学号或null
 	 */
@@ -118,8 +102,8 @@ class StudentManager {
 	 * 获取手机号
 	 * @returns {string | null} 手机号或null
 	 */
-	public getPhone(): string | null {
-		return this.studentInfo?.phone ?? null
+	public getPhoneNumber(): string | null {
+		return this.studentInfo?.phoneNumber ?? null
 	}
 
 	/**
@@ -148,26 +132,10 @@ class StudentManager {
 
 	/**
 	 * 获取班级
-	 * @returns {string | null} 班级或null
+	 * @returns {number | null} 班级或null
 	 */
-	public getClassName(): string | null {
-		return this.studentInfo?.className ?? null
-	}
-
-	/**
-	 * 获取学生等级
-	 * @returns {number | null} 等级或null
-	 */
-	public getLevel(): number | null {
-		return this.studentInfo?.level ?? null
-	}
-
-	/**
-	 * 获取用户名（兼容旧代码）
-	 * @returns {string | null} 用户名或null
-	 */
-	public getUsername(): string | null {
-		return this.studentInfo?.name ?? null
+	public getClassNum(): number | null {
+		return this.studentInfo?.classNum ?? null
 	}
 
 	/**
