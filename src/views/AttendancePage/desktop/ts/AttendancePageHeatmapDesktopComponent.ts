@@ -22,16 +22,7 @@ import {
 } from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
 import {useThemeStore} from '@/stores/ts/theme'
-import attendancePageDesktop from './AttendancePageDesktop'
-
-// ===================== 类型定义区 =====================
-/**
- * 签到记录接口
- * @interface AttendanceRecord
- */
-interface AttendanceRecord {
-	attendanceDateTime: string
-}
+import attendancePageDesktop, {type AttendanceRecord} from './AttendancePageDesktop'
 
 // ===================== ECharts 组件注册 =====================
 echarts.use([

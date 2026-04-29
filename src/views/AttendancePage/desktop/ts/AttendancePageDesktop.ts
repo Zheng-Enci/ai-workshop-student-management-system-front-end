@@ -18,11 +18,8 @@ import studentManager from '@/stores/ts/StudentStore'
  * 签到记录接口
  * @interface AttendanceRecord
  */
-interface AttendanceRecord {
-	id: string
-	studentId: string
-	studentName: string
-	checkInTime: string
+export interface AttendanceRecord {
+	attendanceDateTime: string
 }
 
 // ===================== 类定义区 =====================
