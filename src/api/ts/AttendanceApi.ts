@@ -26,8 +26,12 @@ interface TimeRangeTopStudentsResponse {
 	}>
 }
 
+interface AttendanceRecord {
+	attendanceTime: string
+}
+
 interface AttendanceRecordsResponse {
-	data: string[]
+	data: AttendanceRecord[]
 }
 
 interface DailySignInCountResponse {

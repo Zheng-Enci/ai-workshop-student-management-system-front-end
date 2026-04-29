@@ -13,6 +13,15 @@ import AttendanceApi from '@/api/ts/AttendanceApi'
 import {ElMessage} from 'element-plus'
 import studentManager from '@/stores/ts/StudentStore'
 
+// ===================== 类型定义区 =====================
+/**
+ * 签到记录接口
+ * @interface AttendanceRecord
+ */
+export interface AttendanceRecord {
+	attendanceTime: string
+}
+
 // ===================== 类定义区 =====================
 /**
  * 签到页面桌面端数据加载类
@@ -27,10 +36,10 @@ class AttendancePageDesktop {
 	private initDataPromise: Promise<void> | null = null
 
 	/**
-	 * 签到记录数据 - 日期时间字符串数组
+	 * 签到记录数据
 	 * @private
 	 */
-	private attendanceRecords: string[] = []
+	private attendanceRecords: AttendanceRecord[] = []
 
 	/**
 	 * 初始化数据 - 加载学生签到记录
@@ -44,9 +53,7 @@ class AttendancePageDesktop {
 			return this.initDataPromise
 		}
 
-		this.initDataPromise = (async () => {
-			await this.loadData()
-		})()
+		this.initDataPromise = this.loadData()
 		return this.initDataPromise
 	}
 
@@ -74,9 +81,9 @@ class AttendancePageDesktop {
 	/**
 	 * 获取签到记录
 	 * @function getAttendanceRecords
-	 * @returns 签到记录日期时间字符串数组
+	 * @returns 签到记录数组
 	 */
-	public getAttendanceRecords(): string[] {
+	public getAttendanceRecords(): AttendanceRecord[] {
 		return this.attendanceRecords
 	}
 
