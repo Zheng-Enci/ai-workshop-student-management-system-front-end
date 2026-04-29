@@ -93,16 +93,10 @@ export default class AttendancePageHeatmapDesktopComponent {
 	/**
 	 * 加载签到记录数据
 	 * @private
-	 * @async
 	 */
-	private async loadData(): Promise<void> {
-		try {
-			await attendancePageDesktop.initData()
-			this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
-			this.updateChart()
-		} catch (error) {
-			console.error('加载签到记录失败:', error)
-		}
+	private loadData(): void {
+		this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
+		this.updateChart()
 	}
 
 	/**
