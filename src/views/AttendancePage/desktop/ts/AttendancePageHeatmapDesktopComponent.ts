@@ -22,7 +22,7 @@ import {
 } from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
 import {useThemeStore} from '@/stores/ts/theme'
-import attendancePageDesktop, {type AttendanceRecord} from './AttendancePageDesktop'
+import attendancePageDesktop from './AttendancePageDesktop'
 
 // ===================== ECharts 组件注册 =====================
 echarts.use([
@@ -55,10 +55,10 @@ export default class AttendancePageHeatmapDesktopComponent {
 	private chartContainer: HTMLElement | null = null
 
 	/**
-	 * 签到记录数据
+	 * 签到记录数据 - 日期时间字符串数组
 	 * @private
 	 */
-	private attendanceRecords: AttendanceRecord[] = []
+	private attendanceRecords: string[] = []
 
 	/**
 	 * 主题Store
