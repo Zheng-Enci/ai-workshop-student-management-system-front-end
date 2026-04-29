@@ -16,17 +16,27 @@ import {defineStore} from 'pinia'
  * 学生信息接口定义
  * @interface StudentInfo
  * @property {number} id - 数据库自增ID
- * @property {string} studentId - 学号（10位数字，如2021001001）
- * @property {string} username - 用户名
- * @property {string} email - 用户邮箱
+ * @property {string} studentId - 学号
+ * @property {string} name - 姓名
+ * @property {string} gender - 性别
+ * @property {string} phone - 手机号
+ * @property {string} college - 学院
+ * @property {number} grade - 年级
+ * @property {string} major - 专业
+ * @property {string} className - 班级
  * @property {string} [avatar] - 头像URL（可选）
  * @property {string} [nickname] - 昵称（可选）
  */
 export interface StudentInfo {
 	id: number
 	studentId: string
-	username: string
-	email: string
+	name: string
+	gender: string
+	phone: string
+	college: string
+	grade: number
+	major: string
+	className: string
 	avatar?: string
 	nickname?: string
 }
@@ -101,12 +111,66 @@ export const useStudentStore = defineStore('student', {
 		},
 
 		/**
-		 * 获取用户名
+		 * 获取学生姓名
 		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 用户名或null
+		 * @returns {string | null} 姓名或null
 		 */
-		username: (state: StudentState): string | null => {
-			return state.studentInfo?.username ?? null
+		name: (state: StudentState): string | null => {
+			return state.studentInfo?.name ?? null
+		},
+
+		/**
+		 * 获取性别
+		 * @param {StudentState} state - Store状态
+		 * @returns {string | null} 性别或null
+		 */
+		gender: (state: StudentState): string | null => {
+			return state.studentInfo?.gender ?? null
+		},
+
+		/**
+		 * 获取手机号
+		 * @param {StudentState} state - Store状态
+		 * @returns {string | null} 手机号或null
+		 */
+		phone: (state: StudentState): string | null => {
+			return state.studentInfo?.phone ?? null
+		},
+
+		/**
+		 * 获取学院
+		 * @param {StudentState} state - Store状态
+		 * @returns {string | null} 学院或null
+		 */
+		college: (state: StudentState): string | null => {
+			return state.studentInfo?.college ?? null
+		},
+
+		/**
+		 * 获取年级
+		 * @param {StudentState} state - Store状态
+		 * @returns {number | null} 年级或null
+		 */
+		grade: (state: StudentState): number | null => {
+			return state.studentInfo?.grade ?? null
+		},
+
+		/**
+		 * 获取专业
+		 * @param {StudentState} state - Store状态
+		 * @returns {string | null} 专业或null
+		 */
+		major: (state: StudentState): string | null => {
+			return state.studentInfo?.major ?? null
+		},
+
+		/**
+		 * 获取班级
+		 * @param {StudentState} state - Store状态
+		 * @returns {string | null} 班级或null
+		 */
+		className: (state: StudentState): string | null => {
+			return state.studentInfo?.className ?? null
 		},
 
 		/**
@@ -116,6 +180,15 @@ export const useStudentStore = defineStore('student', {
 		 */
 		isAuthenticated: (state: StudentState): boolean => {
 			return state.isLoggedIn && state.token !== null
+		},
+
+		/**
+		 * 获取用户名（兼容旧代码）
+		 * @param {StudentState} state - Store状态
+		 * @returns {string | null} 用户名或null
+		 */
+		username: (state: StudentState): string | null => {
+			return state.studentInfo?.name ?? null
 		}
 	},
 
