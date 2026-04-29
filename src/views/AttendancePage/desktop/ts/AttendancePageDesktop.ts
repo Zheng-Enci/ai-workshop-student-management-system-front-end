@@ -10,19 +10,9 @@
 
 // ===================== 第三方依赖导入区 =====================
 import AttendanceApi from '@/api/ts/AttendanceApi'
-import { useUserStore } from '@/stores/ts/user'
+import studentManager from '@/stores/ts/StudentStore'
 
 // ===================== 类型定义区 =====================
-/**
- * 用户信息接口
- * @interface UserInfo
- */
-interface UserInfo {
-	studentId?: string
-	studentName?: string
-	[key: string]: unknown
-}
-
 /**
  * 签到记录接口
  * @interface AttendanceRecord
@@ -49,12 +39,6 @@ interface AttendanceRecordsResponse {
  */
 export default class AttendancePageDesktop {
 	/**
-	 * 用户信息（全局变量，自动从用户信息中获取并保存到内存）
-	 * @private
-	 */
-	private userInfo: UserInfo = {}
-
-	/**
 	 * 学生ID（从用户信息中提取）
 	 * @private
 	 */
@@ -68,20 +52,18 @@ export default class AttendancePageDesktop {
 
 	/**
 	 * 构造函数
-	 * 自动获取用户信息并保存到内存
+	 * 自动获取学生信息并保存到内存
 	 */
 	constructor() {
 		this.initUserInfo()
 	}
 
 	/**
-	 * 初始化用户信息 - 从用户仓库中自动获取并保存到内存
+	 * 初始化用户信息 - 从studentManager中自动获取并保存到内存
 	 * @private
 	 */
 	private initUserInfo(): void {
-		const userStore = useUserStore()
-		this.userInfo = userStore.userInfo || JSON.parse(localStorage.getItem('userInfo') || '{}')
-		this.studentId = this.userInfo.studentId || ''
+		this.studentId = studentManager.getStudentId() || ''
 	}
 
 	/**
@@ -121,14 +103,5 @@ export default class AttendancePageDesktop {
 	 */
 	public getStudentId(): string {
 		return this.studentId
-	}
-
-	/**
-	 * 获取用户信息
-	 * @function getUserInfo
-	 * @returns 用户信息对象
-	 */
-	public getUserInfo(): UserInfo {
-		return this.userInfo
 	}
 }
