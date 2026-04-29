@@ -23,7 +23,7 @@ let currentToken: string | null = null
 /**
  * 学生信息接口定义
  * @interface StudentInfo
- * @property {number} id - 数据库自增ID
+ * @property {number} databaseId - 数据库自增ID
  * @property {string} studentId - 学号
  * @property {string} name - 姓名
  * @property {string} gender - 性别
@@ -37,7 +37,7 @@ let currentToken: string | null = null
  * @property {string} [nickname] - 昵称（可选）
  */
 export interface StudentInfo {
-	id: number
+	databaseId: number
 	studentId: string
 	name: string
 	gender: string
@@ -87,7 +87,7 @@ export const useStudentStore = defineStore('student', {
 		 * @returns {number | null} 数据库ID或null
 		 */
 		studentDbId: (state: StudentState): number | null => {
-			return state.studentInfo?.id ?? null
+			return state.studentInfo?.databaseId ?? null
 		},
 
 		/**
