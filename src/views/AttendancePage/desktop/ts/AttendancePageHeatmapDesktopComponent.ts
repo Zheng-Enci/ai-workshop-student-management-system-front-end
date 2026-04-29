@@ -242,8 +242,8 @@ export default class AttendancePageHeatmapDesktopComponent {
 				},
 				inRange: {
 					color: this.themeStore.isDarkMode
-						? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8']
-						: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e']
+						? ['#1a3d3a', '#236b64', '#2c9990', '#35c7bc', '#3CBDB1', '#5ecdc3']
+						: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58']
 				}
 			},
 			series: [{
