@@ -40,6 +40,13 @@ interface AttendanceRecordsResponse {
  */
 export default class AttendancePageDesktop {
 	/**
+	 * 签到记录数据缓存Promise
+	 * 用于确保initData只发起一次请求
+	 * @private
+	 */
+	private initDataPromise: Promise<AttendanceRecord[]> | null = null
+
+	/**
 	 * 签到记录数据
 	 * @private
 	 */
@@ -47,12 +54,27 @@ export default class AttendancePageDesktop {
 
 	/**
 	 * 初始化数据 - 加载学生签到记录
+	 * 多次调用只发起一次请求，后续调用返回缓存的Promise
 	 * @async
 	 * @function initData
 	 * @returns 签到记录数组
 	 * @throws 如果加载失败则抛出错误
 	 */
 	public async initData(): Promise<AttendanceRecord[]> {
+		if (this.initDataPromise) {
+			return this.initDataPromise
+		}
+
+		this.initDataPromise = this.loadData()
+		return this.initDataPromise
+	}
+
+	/**
+	 * 实际加载数据
+	 * @private
+	 * @async
+	 */
+	private async loadData(): Promise<AttendanceRecord[]> {
 		try {
 			const studentId = studentManager.getStudentId()
 			if (!studentId) {
@@ -63,6 +85,7 @@ export default class AttendancePageDesktop {
 			return this.attendanceRecords
 		} catch (error) {
 			ElMessage.error('加载签到记录失败')
+			this.initDataPromise = null
 			throw error
 		}
 	}
@@ -76,3 +99,11 @@ export default class AttendancePageDesktop {
 		return this.attendanceRecords
 	}
 }
+
+/**
+ * 签到页面数据单例实例
+ * 确保全局只有一个实例，所有组件获取的数据一致
+ */
+const attendancePageDesktop = new AttendancePageDesktop()
+
+export default attendancePageDesktop
