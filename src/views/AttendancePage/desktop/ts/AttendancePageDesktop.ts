@@ -76,7 +76,8 @@ class AttendancePageDesktop {
 		} catch (error) {
 			ElMessage.error('加载签到记录失败')
 			this.initDataPromise = null
-			throw error
+			// 重新抛出错误，让调用者处理
+			return Promise.reject(error)
 		}
 	}
 
