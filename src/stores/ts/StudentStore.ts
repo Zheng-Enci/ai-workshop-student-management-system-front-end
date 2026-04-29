@@ -4,6 +4,7 @@
  *
  * @module stores/student
  * @description 提供学生登录、登出，信息管理等功能
+ * @author ZhengEnCi zheng_enci_work@foxmail.com
  * @remarks 区别于user.ts，本文件专门针对学生用户，包含学号(studentId)等学生特有字段
  * @important 本文件准备替代user.ts，为了保持项目稳定，user.ts暂时保留
  *            新代码应优先使用student.ts，逐步迁移旧代码
