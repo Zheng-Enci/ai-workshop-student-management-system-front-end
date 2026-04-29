@@ -27,7 +27,7 @@ interface TimeRangeTopStudentsResponse {
 }
 
 interface AttendanceRecord {
-	attendanceTime: string
+	attendanceDateTime: string
 }
 
 interface AttendanceRecordsResponse {

@@ -19,7 +19,7 @@ import studentManager from '@/stores/ts/StudentStore'
  * @interface AttendanceRecord
  */
 export interface AttendanceRecord {
-	attendanceTime: string
+	attendanceDateTime: string
 }
 
 // ===================== 类定义区 =====================
