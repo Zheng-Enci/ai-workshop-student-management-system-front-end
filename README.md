@@ -468,9 +468,12 @@ export const config = {
 
 使用 Pinia 进行状态管理，主要 Store：
 
-- `useUserStore` - 用户信息管理
+- `useUserStore` - 用户信息管理（暂时保留，逐步迁移到 student.ts）
+- `useStudentStore` - 学生信息管理（新增，包含学号等学生特有字段，推荐使用）
 - `useThemeStore` - 主题状态管理
 - `useAdminStore` - 管理员状态管理
+
+> ⚠️ **重要更新**：`stores/ts/student.ts` 是专门为学生设计的 Store，准备替代 `user.ts`。为了保持项目稳定，`user.ts` 暂时保留，新代码应优先使用 `student.ts`，逐步迁移旧代码。
 
 ### API 调用
 

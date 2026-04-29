@@ -468,9 +468,12 @@ For detailed development standards, please refer to the specification files in t
 
 Use Pinia for state management, main Stores:
 
-- `useUserStore` - User information management
+- `useUserStore` - User information management (temporarily preserved, gradually migrating to student.ts)
+- `useStudentStore` - Student information management (new, contains student ID and other student-specific fields, recommended)
 - `useThemeStore` - Theme state management
 - `useAdminStore` - Administrator state management
+
+> ⚠️ **Important Update**: `stores/ts/student.ts` is a Store specifically designed for students, prepared to replace `user.ts`. To maintain project stability, `user.ts` is temporarily preserved. New code should prioritize using `student.ts`, gradually migrating old code.
 
 ### API Calls
 
