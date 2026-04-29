@@ -45,8 +45,8 @@ import 'element-plus/theme-chalk/el-calendar.css'
 import { useRouter } from 'vue-router'
 
 // ===================== 业务模块导入区 =====================
-// 签到页面数据单例
-import attendancePageDesktop from './desktop/ts/AttendancePageDesktop'
+// 签到相关API：获取当前用户签到记录
+import AttendanceApi from '@/api/ts/AttendanceApi'
 // 状态管理：主题（暗黑/亮色）
 import { useThemeStore } from '@/stores/ts/theme'
 // 状态管理：用户信息
@@ -532,20 +532,29 @@ const initCharts = () => {
 /**
  * 加载用户签到记录
  * @function loadAttendanceRecords
- * @description 调用单例获取签到记录，成功后初始化图表
+ * @description 调用API获取签到记录，成功后初始化图表
  * @async
  */
 const loadAttendanceRecords = async () => {
 	try {
 		// 显示加载蒙版
 		loadingMaskStore.showLoadingMask('正在加载签到记录...')
-		// 调用单例初始化数据
-		await attendancePageDesktop.initData()
-		// 从单例获取数据
-		attendanceRecords.value = attendancePageDesktop.getAttendanceRecords() as MyAttendanceRecord[]
-		// 等待DOM更新完成后初始化图表
-		await nextTick()
-		initCharts()
+		// 从本地存储获取学生ID
+		const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+		const studentId = userInfo.studentId
+		if (!studentId) {
+			loadingMaskStore.hideLoadingMask()
+			return
+		}
+		// 调用API获取签到记录
+		const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
+		// 接口返回成功且有数据时更新记录并初始化图表
+		if (response && response.data) {
+			attendanceRecords.value = (response.data as unknown) as MyAttendanceRecord[]
+			// 等待DOM更新完成后初始化图表
+			await nextTick()
+			initCharts()
+		}
 	} catch {
 		// 错误容错（可扩展：添加错误提示、日志上报）
 	} finally {

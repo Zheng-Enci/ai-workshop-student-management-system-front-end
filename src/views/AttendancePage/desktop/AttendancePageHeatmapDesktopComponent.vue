@@ -20,10 +20,10 @@ import AttendancePageHeatmapDesktopComponent from './ts/AttendancePageHeatmapDes
 const chartRef = ref<HTMLElement | null>(null)
 let heatmapComponent: AttendancePageHeatmapDesktopComponent | null = null
 
-onMounted(() => {
+onMounted(async () => {
 	heatmapComponent = new AttendancePageHeatmapDesktopComponent()
 	heatmapComponent.chartRef = chartRef
-	heatmapComponent.loadData()
+	await heatmapComponent.loadData()
 })
 
 onUnmounted(() => {
