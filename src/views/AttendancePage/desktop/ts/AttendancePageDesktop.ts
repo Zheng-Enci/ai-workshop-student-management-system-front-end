@@ -75,13 +75,4 @@ export default class AttendancePageDesktop {
 	public getAttendanceRecords(): AttendanceRecord[] {
 		return this.attendanceRecords
 	}
-
-	/**
-	 * 获取学生ID
-	 * @function getStudentId
-	 * @returns 学生ID
-	 */
-	public getStudentId(): string {
-		return studentManager.getStudentId() || ''
-	}
 }
