@@ -1,24 +1,16 @@
 /**
- * 学生状态管理Store - TypeScript版本
- * 使用Pinia管理学生登录状态、学生信息和token
+ * 学生信息管理类
+ * 使用单例模式管理学生个人信息
+ * 类创建时自动从localStorage获取token并调用接口获取学生信息
  *
- * @module stores/student
- * @description 提供学生登录、登出，信息管理等功能
+ * @module stores/ts/StudentManager
+ * @description 提供学生信息管理、登录状态检查等功能
  * @author ZhengEnCi zheng_enci_work@foxmail.com
  * @remarks 区别于user.ts，本文件专门针对学生用户，包含学号(studentId)等学生特有字段
- * @important 本文件准备替代user.ts，为了保持项目稳定，user.ts暂时保留
- *            新代码应优先使用student.ts，逐步迁移旧代码
  */
 
-import {defineStore} from 'pinia'
-import {useRouter} from 'vue-router'
 import StudentApi from '@/api/ts/StudentApi'
-
-/**
- * 模块级token变量
- * 用于存储当前学生的认证token，避免重复从localStorage获取
- */
-let currentToken: string | null = null
+import {useRouter} from 'vue-router'
 
 /**
  * 学生信息接口定义
@@ -52,305 +44,196 @@ export interface StudentInfo {
 }
 
 /**
- * Student Store状态接口定义
- * @interface StudentState
+ * 学生信息管理类
+ * 使用单例模式，应用启动时自动初始化
  */
-interface StudentState {
-	/** 学生信息对象 */
-	studentInfo: StudentInfo | null
-	/** 学生认证token */
-	token: string | null
+class StudentManager {
+	/** 学生信息 */
+	public studentInfo: StudentInfo | null = null
+
+	/** 用户认证token */
+	public token: string | null = null
+
+	/**
+	 * 构造函数
+	 * 创建实例时自动初始化：从localStorage获取token，token不存在则跳转登录，存在则调用接口获取学生信息
+	 */
+	constructor() {
+		const token = localStorage.getItem('token')
+		if (!token) {
+			useRouter().push('/login')
+			return
+		}
+
+		this.token = token
+
+		StudentApi.getStudentProfile(token)
+			.then((response) => {
+				if (response.code === 200) {
+					this.studentInfo = response.data
+				} else {
+					this.logout()
+					useRouter().push('/login')
+				}
+			})
+			.catch(() => {
+				this.logout()
+				useRouter().push('/login')
+			})
+	}
+
+	/**
+	 * 获取学生数据库ID
+	 * @returns {number | null} 数据库ID或null
+	 */
+	public getStudentDbId(): number | null {
+		return this.studentInfo?.databaseId ?? null
+	}
+
+	/**
+	 * 获取学号
+	 * @returns {string | null} 学号或null
+	 */
+	public getStudentId(): string | null {
+		return this.studentInfo?.studentId ?? null
+	}
+
+	/**
+	 * 获取学生姓名
+	 * @returns {string | null} 姓名或null
+	 */
+	public getName(): string | null {
+		return this.studentInfo?.name ?? null
+	}
+
+	/**
+	 * 获取性别
+	 * @returns {string | null} 性别或null
+	 */
+	public getGender(): string | null {
+		return this.studentInfo?.gender ?? null
+	}
+
+	/**
+	 * 获取手机号
+	 * @returns {string | null} 手机号或null
+	 */
+	public getPhone(): string | null {
+		return this.studentInfo?.phone ?? null
+	}
+
+	/**
+	 * 获取学院
+	 * @returns {string | null} 学院或null
+	 */
+	public getCollege(): string | null {
+		return this.studentInfo?.college ?? null
+	}
+
+	/**
+	 * 获取年级
+	 * @returns {number | null} 年级或null
+	 */
+	public getGrade(): number | null {
+		return this.studentInfo?.grade ?? null
+	}
+
+	/**
+	 * 获取专业
+	 * @returns {string | null} 专业或null
+	 */
+	public getMajor(): string | null {
+		return this.studentInfo?.major ?? null
+	}
+
+	/**
+	 * 获取班级
+	 * @returns {string | null} 班级或null
+	 */
+	public getClassName(): string | null {
+		return this.studentInfo?.className ?? null
+	}
+
+	/**
+	 * 获取学生等级
+	 * @returns {number | null} 等级或null
+	 */
+	public getLevel(): number | null {
+		return this.studentInfo?.level ?? null
+	}
+
+	/**
+	 * 检查是否已登录
+	 * @returns {boolean} 是否已登录
+	 */
+	public isAuthenticated(): boolean {
+		return this.token !== null && this.studentInfo !== null
+	}
+
+	/**
+	 * 获取用户名（兼容旧代码）
+	 * @returns {string | null} 用户名或null
+	 */
+	public getUsername(): string | null {
+		return this.studentInfo?.name ?? null
+	}
+
+	/**
+	 * 学生登出
+	 * 清除所有学生相关状态
+	 *
+	 * @returns {void}
+	 */
+	public logout(): void {
+		this.studentInfo = null
+		this.token = null
+		localStorage.removeItem('token')
+	}
+
+	/**
+	 * 更新学生信息（部分更新）
+	 * 只更新提供的字段，保留其他现有字段
+	 *
+	 * @param {Partial<StudentInfo>} updates - 要更新的学生信息字段
+	 * @returns {void}
+	 */
+	public updateStudentInfo(updates: Partial<StudentInfo>): void {
+		if (this.studentInfo) {
+			this.studentInfo = {...this.studentInfo, ...updates}
+		}
+	}
+
+	/**
+	 * 调用API获取数据并解析
+	 * 通用的API调用方法，自动获取token并处理响应
+	 *
+	 * @async
+	 * @template T - API响应数据类型
+	 * @param {() => Promise<any>} apiFunc - API调用函数
+	 * @returns {Promise<T>} API响应数据
+	 * @throws {Error} 无token或API调用失败时抛出错误
+	 */
+	public async fetchApiData<T>(apiFunc: () => Promise<any>): Promise<T> {
+		if (!this.token) {
+			const router = useRouter()
+			await router.push('/login')
+			throw new Error('未登录，请先登录')
+		}
+
+		const response = await apiFunc()
+
+		if (response.code === 200) {
+			return response.data as T
+		} else {
+			throw new Error(response.message || '获取数据失败')
+		}
+	}
 }
 
 /**
- * 学生Store定义
- * 管理学生登录状态、学生信息、token和学生等级
+ * 学生管理单例实例
+ * 应用启动时自动创建并初始化
  */
-export const useStudentStore = defineStore('student', {
-	/**
-	 * Store状态定义
-	 *
-	 * @returns {StudentState} Store状态对象
-	 */
-	state: (): StudentState => ({
-		studentInfo: null,
-		token: null
-	}),
+const studentManager = new StudentManager()
 
-	/**
-	 * Store计算属性
-	 */
-	getters: {
-		/**
-		 * 获取学生数据库ID
-		 * @param {StudentState} state - Store状态
-		 * @returns {number | null} 数据库ID或null
-		 */
-		studentDbId: (state: StudentState): number | null => {
-			return state.studentInfo?.databaseId ?? null
-		},
-
-		/**
-		 * 获取学号
-		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 学号或null
-		 */
-		studentId: (state: StudentState): string | null => {
-			return state.studentInfo?.studentId ?? null
-		},
-
-		/**
-		 * 获取学生姓名
-		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 姓名或null
-		 */
-		name: (state: StudentState): string | null => {
-			return state.studentInfo?.name ?? null
-		},
-
-		/**
-		 * 获取性别
-		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 性别或null
-		 */
-		gender: (state: StudentState): string | null => {
-			return state.studentInfo?.gender ?? null
-		},
-
-		/**
-		 * 获取手机号
-		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 手机号或null
-		 */
-		phone: (state: StudentState): string | null => {
-			return state.studentInfo?.phone ?? null
-		},
-
-		/**
-		 * 获取学院
-		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 学院或null
-		 */
-		college: (state: StudentState): string | null => {
-			return state.studentInfo?.college ?? null
-		},
-
-		/**
-		 * 获取年级
-		 * @param {StudentState} state - Store状态
-		 * @returns {number | null} 年级或null
-		 */
-		grade: (state: StudentState): number | null => {
-			return state.studentInfo?.grade ?? null
-		},
-
-		/**
-		 * 获取专业
-		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 专业或null
-		 */
-		major: (state: StudentState): string | null => {
-			return state.studentInfo?.major ?? null
-		},
-
-		/**
-		 * 获取班级
-		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 班级或null
-		 */
-		className: (state: StudentState): string | null => {
-			return state.studentInfo?.className ?? null
-		},
-
-		/**
-		 * 获取学生等级
-		 * @param {StudentState} state - Store状态
-		 * @returns {number | null} 等级或null
-		 */
-		level: (state: StudentState): number | null => {
-			return state.studentInfo?.level ?? null
-		},
-
-		/**
-		 * 检查是否已登录
-		 * @param {StudentState} state - Store状态
-		 * @returns {boolean} 是否已登录
-		 */
-		isAuthenticated: (state: StudentState): boolean => {
-			return currentToken !== null && state.studentInfo !== null
-		},
-
-		/**
-		 * 获取用户名（兼容旧代码）
-		 * @param {StudentState} state - Store状态
-		 * @returns {string | null} 用户名或null
-		 */
-		username: (state: StudentState): string | null => {
-			return state.studentInfo?.name ?? null
-		}
-	},
-
-	actions: {
-		/**
-		 * 设置学生信息和token
-		 * 只将token保存到localStorage中，学生信息保存到内存
-		 *
-		 * @param {StudentInfo | null} info - 学生信息对象
-		 * @param {string | null} token - 学生认证token
-		 * @returns {void}
-		 */
-		setStudentInfo(info: StudentInfo | null, token: string | null): void {
-			this.studentInfo = info
-			this.token = token
-
-			// 保存到模块级全局变量
-			currentToken = token
-
-			// 持久化保存token到本地存储
-			if (token) {
-				localStorage.setItem('token', token)
-			} else {
-				localStorage.removeItem('token')
-			}
-		},
-
-		/**
-		 * 学生登出
-		 * 清除所有学生相关状态和本地存储数据
-		 *
-		 * @returns {void}
-		 */
-		logout(): void {
-			this.studentInfo = null
-			this.token = null
-
-			// 清除模块级token变量
-			currentToken = null
-
-			// 清除本地存储中的token
-			localStorage.removeItem('token')
-		},
-
-		/**
-		 * 从本地存储初始化学生状态
-		 * 应用启动时调用，获取token
-		 *
-		 * @returns {string | null} token或null
-		 */
-		initFromStorage(): string | null {
-			const token = localStorage.getItem('token')
-
-			// 如果存在token，保存到模块级变量
-			if (token) {
-				this.token = token
-				currentToken = token
-				return token
-			}
-
-			return null
-		},
-
-		/**
-		 * 更新学生信息（部分更新）
-		 * 只更新提供的字段，保留其他现有字段
-		 *
-		 * @param {Partial<StudentInfo>} updates - 要更新的学生信息字段
-		 * @returns {void}
-		 */
-		updateStudentInfo(updates: Partial<StudentInfo>): void {
-			if (this.studentInfo) {
-				this.studentInfo = { ...this.studentInfo, ...updates }
-			}
-		},
-
-		/**
-		 * 清除错误状态并重置
-		 * 用于登录失败后的状态清理
-		 *
-		 * @returns {void}
-		 */
-		clearStudentState(): void {
-			this.studentInfo = null
-			this.token = null
-			currentToken = null
-		},
-
-		/**
-		 * 调用API获取数据并解析
-		 * 通用的API调用方法，自动获取token并处理响应
-		 *
-		 * @async
-		 * @template T - API响应数据类型
-		 * @param {() => Promise<any>} apiFunc - API调用函数
-		 * @returns {Promise<T>} API响应数据
-		 * @throws {Error} 无token或API调用失败时抛出错误
-		 */
-		async fetchApiData<T>(apiFunc: () => Promise<any>): Promise<T> {
-			if (!currentToken) {
-				const router = useRouter()
-				await router.push('/login')
-				throw new Error('未登录，请先登录')
-			}
-
-			const response = await apiFunc()
-
-			if (response.code === 200) {
-				return response.data as T
-			} else {
-				throw new Error(response.message || '获取数据失败')
-			}
-		},
-
-		/**
-		 * 初始化学生状态
-		 * 从localStorage获取token，如果token不存在则跳转到登录页面
-		 * 如果token存在，则调用接口获取学生个人信息并保存到内存
-		 *
-		 * @async
-		 * @returns {Promise<void>}
-		 */
-		async initStudentState(): Promise<void> {
-			// 从localStorage获取token
-			const token = this.initFromStorage()
-			if (!token) {
-				const router = useRouter()
-				await router.push('/login')
-				return
-			}
-
-			try {
-				const response = await StudentApi.getStudentProfile(token)
-				if (response.code === 200) {
-					this.setStudentInfo(response.data, token)
-				} else {
-					this.logout()
-					const router = useRouter()
-					await router.push('/login')
-				}
-			} catch (error) {
-				this.logout()
-				const router = useRouter()
-				await router.push('/login')
-			}
-		},
-
-		/**
-		 * 自动初始化
-		 * Store创建时自动调用，从localStorage获取token并获取学生信息
-		 * 使用setTimeout确保Vue Router已准备好
-		 *
-		 * @returns {void}
-		 */
-		autoInit(): void {
-			setTimeout(() => {
-				this.initStudentState()
-			}, 0)
-		}
-	}
-})
-
-// Store创建时自动初始化
-const studentStore = useStudentStore()
-studentStore.autoInit()
-
-export default useStudentStore
+export default studentManager
