@@ -39,32 +39,10 @@ interface AttendanceRecordsResponse {
  */
 export default class AttendancePageDesktop {
 	/**
-	 * 学生ID（从用户信息中提取）
-	 * @private
-	 */
-	private studentId: string = ''
-
-	/**
 	 * 签到记录数据
 	 * @private
 	 */
 	private attendanceRecords: AttendanceRecord[] = []
-
-	/**
-	 * 构造函数
-	 * 自动获取学生信息并保存到内存
-	 */
-	constructor() {
-		this.initUserInfo()
-	}
-
-	/**
-	 * 初始化用户信息 - 从studentManager中自动获取并保存到内存
-	 * @private
-	 */
-	private initUserInfo(): void {
-		this.studentId = studentManager.getStudentId() || ''
-	}
 
 	/**
 	 * 初始化数据 - 加载学生签到记录
@@ -75,10 +53,11 @@ export default class AttendancePageDesktop {
 	 */
 	public async initData(): Promise<AttendanceRecord[]> {
 		try {
-			if (!this.studentId) {
+			const studentId = studentManager.getStudentId()
+			if (!studentId) {
 				throw new Error('学生ID不存在，请重新登录')
 			}
-			const response = await AttendanceApi.getStudentAttendanceRecords(this.studentId)
+			const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
 			this.attendanceRecords = response.data
 			return this.attendanceRecords
 		} catch (error) {
@@ -102,6 +81,6 @@ export default class AttendancePageDesktop {
 	 * @returns 学生ID
 	 */
 	public getStudentId(): string {
-		return this.studentId
+		return studentManager.getStudentId() || ''
 	}
 }
