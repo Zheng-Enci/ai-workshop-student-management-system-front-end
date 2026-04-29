@@ -193,7 +193,7 @@ export const useStudentStore = defineStore('student', {
 	actions: {
 		/**
 		 * 设置学生信息和token
-		 * 同时将信息保存到localStorage中
+		 * 只将token保存到localStorage中，学生信息保存到内存
 		 *
 		 * @param {StudentInfo | null} info - 学生信息对象
 		 * @param {string | null} token - 学生认证token
@@ -212,13 +212,6 @@ export const useStudentStore = defineStore('student', {
 			} else {
 				localStorage.removeItem('token')
 			}
-
-			// 持久化保存学生信息到本地存储
-			if (info) {
-				localStorage.setItem('studentInfo', JSON.stringify(info))
-			} else {
-				localStorage.removeItem('studentInfo')
-			}
 		},
 
 		/**
@@ -234,35 +227,27 @@ export const useStudentStore = defineStore('student', {
 			// 清除模块级token变量
 			currentToken = null
 
-			// 清除本地存储中的学生数据
+			// 清除本地存储中的token
 			localStorage.removeItem('token')
-			localStorage.removeItem('studentInfo')
 		},
 
 		/**
 		 * 从本地存储初始化学生状态
-		 * 应用启动时调用，恢复学生登录状态
-		 * 如果解析失败，清除所有本地存储数据
+		 * 应用启动时调用，获取token
 		 *
-		 * @returns {void}
+		 * @returns {string | null} token或null
 		 */
-		initFromStorage(): void {
+		initFromStorage(): string | null {
 			const token = localStorage.getItem('token')
-			const studentInfoStr = localStorage.getItem('studentInfo')
 
-			// 如果存在token和学生信息，尝试恢复状态
-			if (token && studentInfoStr) {
-				try {
-					const studentInfo: StudentInfo = JSON.parse(studentInfoStr)
-					this.token = token
-					this.studentInfo = studentInfo
-					currentToken = token
-				} catch (error) {
-					// 解析失败，清除所有本地存储数据
-					console.error('Failed to parse student data from storage:', error)
-					this.logout()
-				}
+			// 如果存在token，保存到模块级变量
+			if (token) {
+				this.token = token
+				currentToken = token
+				return token
 			}
+
+			return null
 		},
 
 		/**
@@ -275,7 +260,6 @@ export const useStudentStore = defineStore('student', {
 		updateStudentInfo(updates: Partial<StudentInfo>): void {
 			if (this.studentInfo) {
 				this.studentInfo = { ...this.studentInfo, ...updates }
-				localStorage.setItem('studentInfo', JSON.stringify(this.studentInfo))
 			}
 		},
 
@@ -320,28 +304,24 @@ export const useStudentStore = defineStore('student', {
 		/**
 		 * 初始化学生状态
 		 * 从localStorage获取token，如果token不存在则跳转到登录页面
-		 * 如果token存在，则获取学生个人信息
+		 * 如果token存在，则调用接口获取学生个人信息并保存到内存
 		 *
 		 * @async
 		 * @returns {Promise<void>}
 		 */
 		async initStudentState(): Promise<void> {
-			// 先从localStorage获取token并保存到模块级变量
-			const token = localStorage.getItem('token')
-			if (token) {
-				currentToken = token
-			}
-
-			if (!currentToken) {
+			// 从localStorage获取token
+			const token = this.initFromStorage()
+			if (!token) {
 				const router = useRouter()
 				await router.push('/login')
 				return
 			}
 
 			try {
-				const response = await StudentApi.getStudentProfile(currentToken)
+				const response = await StudentApi.getStudentProfile(token)
 				if (response.code === 200) {
-					this.setStudentInfo(response.data, currentToken)
+					this.setStudentInfo(response.data, token)
 				} else {
 					this.logout()
 					const router = useRouter()
@@ -352,8 +332,25 @@ export const useStudentStore = defineStore('student', {
 				const router = useRouter()
 				await router.push('/login')
 			}
+		},
+
+		/**
+		 * 自动初始化
+		 * Store创建时自动调用，从localStorage获取token并获取学生信息
+		 * 使用setTimeout确保Vue Router已准备好
+		 *
+		 * @returns {void}
+		 */
+		autoInit(): void {
+			setTimeout(() => {
+				this.initStudentState()
+			}, 0)
 		}
 	}
 })
+
+// Store创建时自动初始化
+const studentStore = useStudentStore()
+studentStore.autoInit()
 
 export default useStudentStore
