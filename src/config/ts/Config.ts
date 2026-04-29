@@ -88,6 +88,14 @@ interface ConfigServerType {
 		 */
 		label: string
 	}>
+
+	/**
+	 * 学生信息本地缓存时长（毫秒）
+	 * 控制学生信息在本地存储的过期时间，超过此时间后重新从服务器获取
+	 * 默认24小时：24 * 60 * 60 * 1000 = 86400000
+	 * @example 86400000 // 24小时
+	 */
+	STUDENT_INFO_CACHE_DURATION: number
 }
 
 /**
@@ -167,7 +175,13 @@ export const ConfigServer: ConfigServerType = {
 		{ value: 1, label: '普通成员' },
 		{ value: 2, label: '核心成员' },
 		{ value: 3, label: '管理员' }
-	]
+	],
+
+	/**
+	 * 学生信息本地缓存时长（毫秒）
+	 * 默认24小时
+	 */
+	STUDENT_INFO_CACHE_DURATION: 24 * 60 * 60 * 1000
 }
 
 /**

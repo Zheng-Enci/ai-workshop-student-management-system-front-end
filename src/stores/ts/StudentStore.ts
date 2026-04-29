@@ -11,6 +11,7 @@
 
 import StudentApi from '@/api/ts/StudentApi'
 import {useRouter} from 'vue-router'
+import Config from '@/config/ts/Config'
 
 /**
  * 学生信息接口定义
@@ -58,9 +59,8 @@ class StudentManager {
 
 		if (cachedData && cachedTime) {
 			const cacheAge = Date.now() - parseInt(cachedTime)
-			const twentyFourHours = 24 * 60 * 60 * 1000
 
-			if (cacheAge < twentyFourHours) {
+			if (cacheAge < Config.STUDENT_INFO_CACHE_DURATION) {
 				this.studentInfo = JSON.parse(cachedData)
 				this.token = localStorage.getItem('token')
 				return
