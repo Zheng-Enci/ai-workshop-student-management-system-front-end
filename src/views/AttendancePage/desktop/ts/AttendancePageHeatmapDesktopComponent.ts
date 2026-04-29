@@ -9,15 +9,15 @@
  */
 
 // ===================== 第三方依赖导入区 =====================
-import {ref, watch, onUnmounted, type Ref} from 'vue'
+import {ref, type Ref, watch} from 'vue'
 import * as echarts from 'echarts/core'
 import {HeatmapChart} from 'echarts/charts'
 import {
-	TitleComponent,
-	TooltipComponent,
+	CalendarComponent,
 	GridComponent,
 	LegendComponent,
-	CalendarComponent,
+	TitleComponent,
+	TooltipComponent,
 	VisualMapComponent
 } from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
@@ -97,8 +97,8 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 */
 	private async loadData(): Promise<void> {
 		try {
-			const records = await attendancePageDesktop.initData()
-			this.attendanceRecords = records
+			await attendancePageDesktop.initData()
+			this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
 			this.updateChart()
 		} catch (error) {
 			console.error('加载签到记录失败:', error)

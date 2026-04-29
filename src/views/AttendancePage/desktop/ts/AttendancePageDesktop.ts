@@ -44,7 +44,7 @@ class AttendancePageDesktop {
 	 * 用于确保initData只发起一次请求
 	 * @private
 	 */
-	private initDataPromise: Promise<AttendanceRecord[]> | null = null
+	private initDataPromise: Promise<void> | null = null
 
 	/**
 	 * 签到记录数据
@@ -54,13 +54,12 @@ class AttendancePageDesktop {
 
 	/**
 	 * 初始化数据 - 加载学生签到记录
-	 * 多次调用只发起一次请求，后续调用返回缓存的Promise
+	 * 多次调用只发起一次请求
 	 * @async
 	 * @function initData
-	 * @returns 签到记录数组
 	 * @throws 如果加载失败则抛出错误
 	 */
-	public async initData(): Promise<AttendanceRecord[]> {
+	public async initData(): Promise<void> {
 		if (this.initDataPromise) {
 			return this.initDataPromise
 		}
@@ -74,7 +73,7 @@ class AttendancePageDesktop {
 	 * @private
 	 * @async
 	 */
-	private async loadData(): Promise<AttendanceRecord[]> {
+	private async loadData(): Promise<void> {
 		try {
 			const studentId = studentManager.getStudentId()
 			if (!studentId) {
@@ -82,7 +81,6 @@ class AttendancePageDesktop {
 			}
 			const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
 			this.attendanceRecords = response.data
-			return this.attendanceRecords
 		} catch (error) {
 			ElMessage.error('加载签到记录失败')
 			this.initDataPromise = null
