@@ -242,7 +242,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 				},
 				inRange: {
 					color: this.themeStore.isDarkMode
-						? ['#0a1f1d', '#134442', '#1a6967', '#238e8c', '#3CBDB1', '#6fd4cd']
+						? ['#6fd4cd', '#3CBDB1', '#238e8c', '#1a6967', '#134442', '#0a1f1d']
 						: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58']
 				}
 			},
