@@ -26,16 +26,8 @@ interface TimeRangeTopStudentsResponse {
 	}>
 }
 
-interface AttendanceRecord {
-	id: string
-	studentId: string
-	studentName: string
-	checkInTime: string
-	// 根据实际需求添加更多字段
-}
-
 interface AttendanceRecordsResponse {
-	data: AttendanceRecord[]
+	data: string[]
 }
 
 interface DailySignInCountResponse {
