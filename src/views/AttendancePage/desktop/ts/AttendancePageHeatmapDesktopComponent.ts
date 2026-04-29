@@ -90,12 +90,12 @@ export default class AttendancePageHeatmapDesktopComponent {
 	}
 
 	/**
-	 * 更新签到记录数据
+	 * 加载签到记录数据
 	 * @public
-	 * @function updateData
 	 */
-	public updateData(): void {
+	public loadData(): void {
 		this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
+		this.initChart()
 		this.updateChart()
 	}
 
