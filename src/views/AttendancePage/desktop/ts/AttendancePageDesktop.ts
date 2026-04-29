@@ -10,6 +10,7 @@
 
 // ===================== 第三方依赖导入区 =====================
 import AttendanceApi from '@/api/ts/AttendanceApi'
+import {ElMessage} from 'element-plus'
 import studentManager from '@/stores/ts/StudentStore'
 
 // ===================== 类型定义区 =====================
@@ -61,7 +62,7 @@ export default class AttendancePageDesktop {
 			this.attendanceRecords = response.data
 			return this.attendanceRecords
 		} catch (error) {
-			console.error('加载签到记录失败:', error)
+			ElMessage.error('加载签到记录失败')
 			throw error
 		}
 	}
