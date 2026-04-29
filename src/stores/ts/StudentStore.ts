@@ -15,6 +15,12 @@ import {useRouter} from 'vue-router'
 import StudentApi from '@/api/ts/StudentApi'
 
 /**
+ * 模块级token变量
+ * 用于存储当前学生的认证token，避免重复从localStorage获取
+ */
+let currentToken: string | null = null
+
+/**
  * 学生信息接口定义
  * @interface StudentInfo
  * @property {number} id - 数据库自增ID
@@ -208,6 +214,9 @@ export const useStudentStore = defineStore('student', {
 			this.token = token
 			this.isLoggedIn = info !== null && token !== null
 
+			// 保存到模块级全局变量
+			currentToken = token
+
 			// 持久化保存token到本地存储
 			if (token) {
 				localStorage.setItem('token', token)
@@ -252,6 +261,9 @@ export const useStudentStore = defineStore('student', {
 			this.studentLevel = null
 			this.isLoggedIn = false
 
+			// 清除模块级token变量
+			currentToken = null
+
 			// 清除本地存储中的学生数据
 			localStorage.removeItem('token')
 			localStorage.removeItem('studentInfo')
@@ -277,6 +289,7 @@ export const useStudentStore = defineStore('student', {
 					this.token = token
 					this.studentInfo = studentInfo
 					this.isLoggedIn = true
+					currentToken = token
 
 					// 如果存在学生等级信息，也进行恢复
 					if (studentLevelStr) {
@@ -328,9 +341,7 @@ export const useStudentStore = defineStore('student', {
 		 * @throws {Error} 无token或API调用失败时抛出错误
 		 */
 		async fetchApiData<T>(apiFunc: () => Promise<any>): Promise<T> {
-			const token = localStorage.getItem('token')
-
-			if (!token) {
+			if (!currentToken) {
 				const router = useRouter()
 				router.push('/login')
 				throw new Error('未登录，请先登录')
@@ -354,18 +365,22 @@ export const useStudentStore = defineStore('student', {
 		 * @returns {Promise<void>}
 		 */
 		async initStudentState(): Promise<void> {
+			// 先从localStorage获取token并保存到模块级变量
 			const token = localStorage.getItem('token')
+			if (token) {
+				currentToken = token
+			}
 
-			if (!token) {
+			if (!currentToken) {
 				const router = useRouter()
 				router.push('/login')
 				return
 			}
 
 			try {
-				const response = await StudentApi.getStudentProfile(token)
+				const response = await StudentApi.getStudentProfile(currentToken)
 				if (response.code === 200) {
-					this.setStudentInfo(response.data, token)
+					this.setStudentInfo(response.data, currentToken)
 				} else {
 					this.logout()
 					const router = useRouter()
