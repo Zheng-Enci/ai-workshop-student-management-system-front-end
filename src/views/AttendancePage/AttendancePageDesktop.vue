@@ -737,7 +737,7 @@ onUnmounted(() => {
 				<!-- 热力图组件 -->
 				<div class="chart-item-desktop">
 					<div class="chart-title-desktop">签到热力图</div>
-					<AttendancePageHeatmapDesktopComponent :attendance-records="attendanceRecords"/>
+					<AttendancePageHeatmapDesktopComponent/>
 				</div>
 
 				<!-- 折线图组件 -->

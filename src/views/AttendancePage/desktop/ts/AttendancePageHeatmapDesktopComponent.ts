@@ -9,7 +9,7 @@
  */
 
 // ===================== 第三方依赖导入区 =====================
-import {ref, watch, type Ref} from 'vue'
+import {ref, watch, onUnmounted, type Ref} from 'vue'
 import * as echarts from 'echarts/core'
 import {HeatmapChart} from 'echarts/charts'
 import {
@@ -22,6 +22,7 @@ import {
 } from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
 import {useThemeStore} from '@/stores/ts/theme'
+import attendancePageDesktop from './AttendancePageDesktop'
 
 // ===================== 类型定义区 =====================
 /**
@@ -85,18 +86,23 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * @constructor
 	 */
 	constructor() {
-		this.initChart()
+		this.loadData()
 		this.watchTheme()
 	}
 
 	/**
-	 * 设置签到记录数据
-	 * @function setData
-	 * @param {AttendanceRecord[]} records - 签到记录数组
+	 * 加载签到记录数据
+	 * @private
+	 * @async
 	 */
-	public setData(records: AttendanceRecord[]): void {
-		this.attendanceRecords = records
-		this.updateChart()
+	private async loadData(): Promise<void> {
+		try {
+			const records = await attendancePageDesktop.initData()
+			this.attendanceRecords = records
+			this.updateChart()
+		} catch (error) {
+			console.error('加载签到记录失败:', error)
+		}
 	}
 
 	/**
