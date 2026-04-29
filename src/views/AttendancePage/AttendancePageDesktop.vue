@@ -55,6 +55,7 @@ import { useUserStore } from '@/stores/ts/user'
 import { useLoadingMaskStore } from '@/stores/ts/loading'
 // 全局加载蒙版组件
 import LoadingMask from '@/components/LoadingMask.vue'
+import AttendancePageHeatmapDesktopComponent from './desktop/AttendancePageHeatmapDesktopComponent.vue'
 
 // ===================== 类型定义区 =====================
 /**
@@ -123,22 +124,10 @@ const nextSignTime: Ref<string> = ref('')
 const timeInterval: Ref<ReturnType<typeof setInterval> | null> = ref<ReturnType<typeof setInterval> | null>(null)
 
 /**
- * 热力图DOM容器引用
- * @type {Ref<HTMLElement | null>}
- */
-const heatmapChart: Ref<HTMLElement | null> = ref<HTMLElement | null>(null)
-
-/**
  * 折线图DOM容器引用
  * @type {Ref<HTMLElement | null>}
  */
 const lineChart: Ref<HTMLElement | null> = ref<HTMLElement | null>(null)
-
-/**
- * 热力图ECharts实例
- * @type {Ref<any>}
- */
-const heatmapInstance: Ref<any> = ref<any>(null)
 
 /**
  * 折线图ECharts实例
@@ -346,55 +335,6 @@ const isTimeSlotSigned = (dateStr: string, timeSlot: string): boolean => {
 
 // ===================== 图表数据生成区 =====================
 /**
- * 生成热力图所需数据
- * @function generateHeatmapData
- * @description 按「周几+时段」维度统计签到次数，格式：[周几索引, 时段索引, 签到次数]
- * @returns {Array<[number, number, number]>} 热力图数据数组
- */
-const generateHeatmapData = (): [number, number, number][] => {
-	const data: [number, number, number][] = []
-	// 周几文本映射（索引0-6对应周一到周日）
-	const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-	// 时段文本映射（索引0-2对应上午、下午、晚上）
-	const timeSlots = ['上午', '下午', '晚上']
-
-	// 遍历所有周几和时段组合
-	weekDays.forEach((_day, dayIndex) => {
-		timeSlots.forEach((slot, slotIndex) => {
-			let count = 0 // 该组合下的签到次数
-			// 遍历签到记录统计次数
-			attendanceRecords.value.forEach(record => {
-				if (!record.attendanceDateTime) {
-					return
-				}
-				const date = new Date(record.attendanceDateTime)
-				if (isNaN(date.getTime())) {
-					return
-				}
-				// 转换周几：周日(0) → 6，周一(1) → 0，以此类推
-				const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
-				const hour = date.getHours()
-
-				// 匹配周几且匹配时段时计数+1
-				if (dayOfWeek === dayIndex) {
-					if (slot === '上午' && hour >= 8 && hour < 11) {
-						count += 1
-					} else if (slot === '下午' && hour >= 14 && hour < 17) {
-						count += 1
-					} else if (slot === '晚上' && hour >= 19 && hour < 22) {
-						count += 1
-					}
-				}
-			})
-			// 添加该组合的统计结果
-			data.push([dayIndex, slotIndex, count])
-		})
-	})
-
-	return data
-}
-
-/**
  * 生成折线图所需数据
  * @function generateLineData
  * @description 按日期统计累计签到次数，用于展示签到趋势
@@ -438,128 +378,6 @@ const generateLineData = (): { dates: string[]; values: number[] } => {
 }
 
 // ===================== 图表初始化区 =====================
-/**
- * 初始化签到热力图
- * @function initHeatmapChart
- * @description 销毁旧实例→创建新实例→生成数据→配置选项→渲染图表
- */
-const initHeatmapChart = () => {
-	// DOM容器不存在时直接返回
-	if (!heatmapChart.value) { return }
-
-	// 销毁旧实例（防止内存泄漏）
-	if (heatmapInstance.value) {
-		heatmapInstance.value.dispose()
-	}
-
-	// 创建新的ECharts实例
-	heatmapInstance.value = echarts.init(heatmapChart.value)
-
-	// 生成热力图数据
-	const heatmapData = generateHeatmapData()
-	// 计算最大值（用于视觉映射的颜色梯度），保底值1避免无数据时出错
-	const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
-
-	// 热力图配置项
-	const option = {
-		backgroundColor: 'transparent', // 透明背景（适配主题）
-		tooltip: {
-			show: false // 关闭默认提示框（自定义展示）
-		},
-		grid: { // 网格布局
-			height: '60%',
-			top: '15%',
-			left: '10%',
-			right: '10%',
-			bottom: '20%'
-		},
-		xAxis: { // X轴：周几
-			type: 'category',
-			data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-			splitArea: { // 分割区域样式
-				show: true,
-				areaStyle: {
-					color: themeStore.isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
-				}
-			},
-			axisLabel: { // 轴标签样式（适配主题）
-				color: themeStore.isDarkMode ? '#ccc' : '#666',
-				fontSize: 12
-			},
-			axisLine: { // 轴线样式（适配主题）
-				lineStyle: {
-					color: themeStore.isDarkMode ? '#444' : '#ddd'
-				}
-			}
-		},
-		yAxis: { // Y轴：时段
-			type: 'category',
-			data: ['上午', '下午', '晚上'],
-			splitArea: { // 分割区域样式
-				show: true,
-				areaStyle: {
-					color: themeStore.isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
-				}
-			},
-			axisLabel: { // 轴标签样式（适配主题）
-				color: themeStore.isDarkMode ? '#ccc' : '#666',
-				fontSize: 12
-			},
-			axisLine: { // 轴线样式（适配主题）
-				lineStyle: {
-					color: themeStore.isDarkMode ? '#444' : '#ddd'
-				}
-			}
-		},
-		visualMap: { // 视觉映射（热力图颜色）
-			min: 0, // 最小值
-			max: maxValue, // 最大值
-			calculable: false, // 关闭拖拽调整
-			orient: 'horizontal', // 水平布局
-			left: 'center', // 水平居中
-			bottom: '5%', // 距离底部5%
-			itemWidth: 20, // 滑块宽度
-			itemHeight: 200, // 滑块高度
-			textStyle: { // 文本样式（适配主题）
-				color: themeStore.isDarkMode ? '#ccc' : '#666',
-				fontSize: 11
-			},
-			inRange: { // 颜色范围（适配主题）
-				color: themeStore.isDarkMode
-					? ['#0f172a', '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8'] // 暗黑模式
-					: ['#fef3c7', '#fde68a', '#f59e0b', '#d97706', '#b45309', '#92400e'] // 亮色模式
-			}
-		},
-		series: [{ // 系列数据
-			name: '签到次数',
-			type: 'heatmap', // 热力图类型
-			data: heatmapData, // 数据源
-			label: { // 标签样式（显示签到次数）
-				show: true,
-				color: themeStore.isDarkMode ? '#ffffff' : '#1f2937',
-				fontSize: 11,
-				fontWeight: 'bold'
-			},
-			emphasis: { // 高亮样式
-				itemStyle: {
-					shadowBlur: 15,
-					shadowColor: 'rgba(0, 0, 0, 0.3)',
-					borderWidth: 2,
-					borderColor: '#fff'
-				}
-			},
-			itemStyle: { // 基础样式
-				borderRadius: 4, // 圆角
-				borderWidth: 1,
-				borderColor: themeStore.isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
-			}
-		}]
-	}
-
-	// 应用配置项渲染图表
-	heatmapInstance.value.setOption(option)
-}
-
 /**
  * 初始化签到趋势折线图
  * @function initLineChart
@@ -704,10 +522,9 @@ const initLineChart = () => {
 /**
  * 初始化所有图表
  * @function initCharts
- * @description 统一初始化热力图和折线图
+ * @description 统一初始化折线图（热力图已抽离为独立组件）
  */
 const initCharts = () => {
-	initHeatmapChart()
 	initLineChart()
 }
 
@@ -842,7 +659,6 @@ onMounted(async () => {
 watch(() => themeStore.isDarkMode, () => {
 	// 等待DOM更新完成后重新初始化图表
 	nextTick(() => {
-		initHeatmapChart()
 		initLineChart()
 	})
 })
@@ -855,10 +671,6 @@ onUnmounted(() => {
 	// 清除时间检测定时器
 	if (timeInterval.value) {
 		clearInterval(timeInterval.value)
-	}
-	// 销毁热力图实例
-	if (heatmapInstance.value) {
-		heatmapInstance.value.dispose()
 	}
 	// 销毁折线图实例
 	if (lineInstance.value) {
@@ -925,7 +737,7 @@ onUnmounted(() => {
 				<!-- 热力图组件 -->
 				<div class="chart-item-desktop">
 					<div class="chart-title-desktop">签到热力图</div>
-					<div ref="heatmapChart" class="chart-content-desktop"/>
+					<AttendancePageHeatmapDesktopComponent :attendance-records="attendanceRecords"/>
 				</div>
 
 				<!-- 折线图组件 -->
