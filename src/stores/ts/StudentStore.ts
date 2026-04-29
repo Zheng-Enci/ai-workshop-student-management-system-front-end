@@ -32,6 +32,7 @@ let currentToken: string | null = null
  * @property {number} grade - 年级
  * @property {string} major - 专业
  * @property {string} className - 班级
+ * @property {number} level - 等级
  * @property {string} [avatar] - 头像URL（可选）
  * @property {string} [nickname] - 昵称（可选）
  */
@@ -45,23 +46,9 @@ export interface StudentInfo {
 	grade: number
 	major: string
 	className: string
+	level: number
 	avatar?: string
 	nickname?: string
-}
-
-/**
- * 学生等级信息接口定义
- * @interface StudentLevel
- * @property {number} level - 等级数值
- * @property {string} name - 等级名称
- * @property {number} points - 当前积分
- * @property {number} nextLevelPoints - 下一等级所需积分
- */
-export interface StudentLevel {
-	level: number
-	name: string
-	points: number
-	nextLevelPoints: number
 }
 
 /**
@@ -73,8 +60,6 @@ interface StudentState {
 	studentInfo: StudentInfo | null
 	/** 学生认证token */
 	token: string | null
-	/** 学生等级信息 */
-	studentLevel: StudentLevel | null
 }
 
 /**
@@ -89,8 +74,7 @@ export const useStudentStore = defineStore('student', {
 	 */
 	state: (): StudentState => ({
 		studentInfo: null,
-		token: null,
-		studentLevel: null
+		token: null
 	}),
 
 	/**
@@ -179,6 +163,15 @@ export const useStudentStore = defineStore('student', {
 		},
 
 		/**
+		 * 获取学生等级
+		 * @param {StudentState} state - Store状态
+		 * @returns {number | null} 等级或null
+		 */
+		level: (state: StudentState): number | null => {
+			return state.studentInfo?.level ?? null
+		},
+
+		/**
 		 * 检查是否已登录
 		 * @param {StudentState} state - Store状态
 		 * @returns {boolean} 是否已登录
@@ -229,23 +222,6 @@ export const useStudentStore = defineStore('student', {
 		},
 
 		/**
-		 * 设置学生等级信息
-		 * 将等级信息保存到localStorage中
-		 *
-		 * @param {StudentLevel | null} level - 学生等级信息对象
-		 * @returns {void}
-		 */
-		setStudentLevel(level: StudentLevel | null): void {
-			this.studentLevel = level
-
-			if (level) {
-				localStorage.setItem('studentLevel', JSON.stringify(level))
-			} else {
-				localStorage.removeItem('studentLevel')
-			}
-		},
-
-		/**
 		 * 学生登出
 		 * 清除所有学生相关状态和本地存储数据
 		 *
@@ -254,7 +230,6 @@ export const useStudentStore = defineStore('student', {
 		logout(): void {
 			this.studentInfo = null
 			this.token = null
-			this.studentLevel = null
 
 			// 清除模块级token变量
 			currentToken = null
@@ -262,7 +237,6 @@ export const useStudentStore = defineStore('student', {
 			// 清除本地存储中的学生数据
 			localStorage.removeItem('token')
 			localStorage.removeItem('studentInfo')
-			localStorage.removeItem('studentLevel')
 		},
 
 		/**
@@ -275,7 +249,6 @@ export const useStudentStore = defineStore('student', {
 		initFromStorage(): void {
 			const token = localStorage.getItem('token')
 			const studentInfoStr = localStorage.getItem('studentInfo')
-			const studentLevelStr = localStorage.getItem('studentLevel')
 
 			// 如果存在token和学生信息，尝试恢复状态
 			if (token && studentInfoStr) {
@@ -284,11 +257,6 @@ export const useStudentStore = defineStore('student', {
 					this.token = token
 					this.studentInfo = studentInfo
 					currentToken = token
-
-					// 如果存在学生等级信息，也进行恢复
-					if (studentLevelStr) {
-						this.studentLevel = JSON.parse(studentLevelStr)
-					}
 				} catch (error) {
 					// 解析失败，清除所有本地存储数据
 					console.error('Failed to parse student data from storage:', error)
@@ -320,7 +288,6 @@ export const useStudentStore = defineStore('student', {
 		clearStudentState(): void {
 			this.studentInfo = null
 			this.token = null
-			this.studentLevel = null
 			currentToken = null
 		},
 

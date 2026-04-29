@@ -124,6 +124,7 @@ export interface StudentProfileData {
 	grade: number
 	major: string
 	className: string
+	level: number
 	avatar?: string
 	nickname?: string
 }
