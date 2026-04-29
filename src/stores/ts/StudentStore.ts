@@ -9,7 +9,7 @@
  *            新代码应优先使用student.ts，逐步迁移旧代码
  */
 
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 
 /**
  * 学生信息接口定义
@@ -20,9 +20,6 @@ import { defineStore } from 'pinia'
  * @property {string} email - 用户邮箱
  * @property {string} [avatar] - 头像URL（可选）
  * @property {string} [nickname] - 昵称（可选）
- * @property {number} [level] - 等级
- * @property {string} [major] - 专业
- * @property {number} [grade] - 年级
  */
 export interface StudentInfo {
 	id: number
@@ -31,9 +28,6 @@ export interface StudentInfo {
 	email: string
 	avatar?: string
 	nickname?: string
-	level?: number
-	major?: string
-	grade?: number
 }
 
 /**
@@ -210,8 +204,7 @@ export const useStudentStore = defineStore('student', {
 
 					// 如果存在学生等级信息，也进行恢复
 					if (studentLevelStr) {
-						const studentLevel: StudentLevel = JSON.parse(studentLevelStr)
-						this.studentLevel = studentLevel
+						this.studentLevel = JSON.parse(studentLevelStr)
 					}
 				} catch (error) {
 					// 解析失败，清除所有本地存储数据
