@@ -14,7 +14,7 @@
  */
 
 import {ref, onMounted, onUnmounted, watch} from 'vue'
-import AttendancePageHeatmapDesktopComponent from '../ts/AttendancePageHeatmapDesktopComponent'
+import AttendancePageHeatmapDesktopComponent from './ts/AttendancePageHeatmapDesktopComponent'
 
 /**
  * 签到记录接口
