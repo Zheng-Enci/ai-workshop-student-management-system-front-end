@@ -318,6 +318,34 @@ export const useStudentStore = defineStore('student', {
 		},
 
 		/**
+		 * 调用API获取数据并解析
+		 * 通用的API调用方法，自动获取token并处理响应
+		 *
+		 * @async
+		 * @template T - API响应数据类型
+		 * @param {() => Promise<any>} apiFunc - API调用函数
+		 * @returns {Promise<T>} API响应数据
+		 * @throws {Error} 无token或API调用失败时抛出错误
+		 */
+		async fetchApiData<T>(apiFunc: () => Promise<any>): Promise<T> {
+			const token = localStorage.getItem('token')
+
+			if (!token) {
+				const router = useRouter()
+				router.push('/login')
+				throw new Error('未登录，请先登录')
+			}
+
+			const response = await apiFunc()
+
+			if (response.code === 200) {
+				return response.data as T
+			} else {
+				throw new Error(response.message || '获取数据失败')
+			}
+		},
+
+		/**
 		 * 初始化学生状态
 		 * 从localStorage获取token，如果token不存在则跳转到登录页面
 		 * 如果token存在，则获取学生个人信息
