@@ -476,6 +476,28 @@ class StudentApi {
 		})
 		return response.data
 	}
+
+	/**
+	 * 获取学生数据库表主键ID
+	 * 通过JWT Token获取当前登录学生在数据库中的唯一ID
+	 *
+	 * @static
+	 * @param {string} token - 用户认证token
+	 * @returns {Promise<ApiResponse<number>>} 响应数据对象，包含学生数据库表ID
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * const result = await StudentApi.getStudentDatabaseId('your-jwt-token')
+	 * console.log(result.data) // 输出：123
+	 */
+	static async getStudentDatabaseId(token: string): Promise<ApiResponse<number>> {
+		const response = await this.api.get('/api/v1/students/get-student-database-table-id', {
+			params: { token }
+		}).catch((error: AxiosError<{ message: string }>) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
 }
 
 export default StudentApi

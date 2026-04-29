@@ -15,6 +15,7 @@ import {useRouter} from 'vue-router'
 /**
  * 学生信息接口定义
  * @interface StudentInfo
+ * @property {number} databaseId - 数据库表ID
  * @property {string} studentId - 学号
  * @property {string} name - 姓名
  * @property {string} gender - 性别
@@ -25,6 +26,7 @@ import {useRouter} from 'vue-router'
  * @property {number} classNum - 班级
  */
 export interface StudentInfo {
+	databaseId: number
 	studentId: string
 	name: string
 	gender: string
@@ -48,7 +50,7 @@ class StudentManager {
 
 	/**
 	 * 构造函数
-	 * 创建实例时自动初始化：从localStorage获取token，token不存在则跳转登录，存在则调用接口获取学生信息
+	 * 创建实例时自动初始化：从localStorage获取token，token不存在则跳转登录，存在则调用接口获取学生信息和数据库ID
 	 */
 	constructor() {
 		const token = localStorage.getItem('token')
@@ -59,10 +61,16 @@ class StudentManager {
 
 		this.token = token
 
-		StudentApi.getStudentProfile(token)
-			.then((response) => {
-				if (response.code === 200) {
-					this.studentInfo = response.data
+		Promise.all([
+			StudentApi.getStudentProfile(token),
+			StudentApi.getStudentDatabaseId(token)
+		])
+			.then(([profileRes, idRes]) => {
+				if (profileRes.code === 200 && idRes.code === 200) {
+					this.studentInfo = {
+						...profileRes.data,
+						databaseId: idRes.data
+					}
 				} else {
 					this.logout()
 					useRouter().push('/login')
@@ -80,6 +88,14 @@ class StudentManager {
 	 */
 	public getStudentId(): string | null {
 		return this.studentInfo?.studentId ?? null
+	}
+
+	/**
+	 * 获取学生数据库ID
+	 * @returns {number | null} 数据库ID或null
+	 */
+	public getDatabaseId(): number | null {
+		return this.studentInfo?.databaseId ?? null
 	}
 
 	/**
