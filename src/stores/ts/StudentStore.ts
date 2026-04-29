@@ -165,32 +165,6 @@ class StudentManager {
 		this.token = null
 		localStorage.removeItem('token')
 	}
-
-	/**
-	 * 调用API获取数据并解析
-	 * 通用的API调用方法，自动获取token并处理响应
-	 *
-	 * @async
-	 * @template T - API响应数据类型
-	 * @param {() => Promise<any>} apiFunc - API调用函数
-	 * @returns {Promise<T>} API响应数据
-	 * @throws {Error} 无token或API调用失败时抛出错误
-	 */
-	public async fetchApiData<T>(apiFunc: () => Promise<any>): Promise<T> {
-		if (!this.token) {
-			const router = useRouter()
-			await router.push('/login')
-			throw new Error('未登录，请先登录')
-		}
-
-		const response = await apiFunc()
-
-		if (response.code === 200) {
-			return response.data as T
-		} else {
-			throw new Error(response.message || '获取数据失败')
-		}
-	}
 }
 
 /**
