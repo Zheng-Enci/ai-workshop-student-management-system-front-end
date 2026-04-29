@@ -135,10 +135,10 @@ export default class AttendancePageHeatmapDesktopComponent {
 			timeSlots.forEach((slot, slotIndex) => {
 				let count = 0
 				this.attendanceRecords.forEach(record => {
-					if (!record.attendanceDateTime) {
+					if (!record) {
 						return
 					}
-					const date = new Date(record.attendanceDateTime)
+					const date = new Date(record)
 					if (isNaN(date.getTime())) {
 						return
 					}
