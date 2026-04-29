@@ -110,6 +110,33 @@ export interface StudentCountResponse {
 }
 
 /**
+ * 学生个人信息数据类型
+ * 与StudentStore中的StudentInfo接口对应
+ */
+export interface StudentProfileData {
+	id: number
+	studentId: string
+	name: string
+	gender: string
+	phone: string
+	college: string
+	grade: number
+	major: string
+	className: string
+	avatar?: string
+	nickname?: string
+}
+
+/**
+ * 学生个人信息响应类型
+ */
+export interface StudentProfileResponse {
+	code: number
+	message: string
+	data: StudentProfileData
+}
+
+/**
  * 学生总数响应类型（返回对象格式）
  */
 export interface TotalStudentCountResponse {
@@ -434,6 +461,35 @@ class StudentApi {
 		}).catch((error: AxiosError<{ message: string }>) => {
 			const msg = error.response?.data?.message
 			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
+	/**
+	 * 获取学生个人信息接口
+	 * 根据token获取当前登录学生的个人信息
+	 *
+	 * @static
+	 * @param {string} token - 用户认证token
+	 * @returns {Promise<StudentProfileResponse>} 学生个人信息数据
+	 * @throws {Error} 获取失败时抛出错误
+	 * @example
+	 * // 获取当前登录学生的个人信息
+	 * const result = await StudentApi.getStudentProfile('your-jwt-token')
+	 * console.log(result.data.name) // 输出：学生姓名
+	 */
+	static async getStudentProfile(token: string): Promise<StudentProfileResponse> {
+		const response = await this.api.get<StudentProfileResponse>('/api/v1/students/profile', {
+			params: { token }
+		}).catch((error: AxiosError<{ message: string }>) => {
+			const { status } = error.response || {}
+			if (status === 401) {
+				throw new Error('Token无效，请重新登录')
+			} else if (status !== undefined && status >= 500) {
+				throw new Error('服务器错误，请稍后重试')
+			} else {
+				throw new Error(error.response?.data?.message || '获取个人信息失败')
+			}
 		})
 		return response.data
 	}
