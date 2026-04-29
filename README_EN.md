@@ -12,7 +12,7 @@
 
 **A modern student management system frontend built with Vue3 + Element Plus**
 
-[Features](#-features) • [Quick Start](#-quick-start) • [Project Structure](#-project-structure) • [Development Guide](#-development-guide)
+[Features](#-features) • [Quick Start](#-quick-start) • [Project Structure](#-project-structure) • [Development Guide](#-development-guide) • [中文版](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/blob/master/README.md)
 
 </div>
 
@@ -493,8 +493,8 @@ All interfaces use unified error handling and response formats, including respon
 
 ## 📚 Related Documentation
 
-- [API Documentation](Note/接口文档/接口文档.md) - Complete backend API interface documentation
-- [Development Standards](.trae/rules/) - Project development standards and best practices
+- [API Documentation](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/tree/master/Note/接口文档/接口文档.md) - Complete backend API interface documentation
+- [Development Standards](https://gitcode.com/ZhengEnCi/ai-workshop-student-management-system-front-end/tree/master/.trae/rules) - Project development standards and best practices
 
 ## 🐛 Issue Feedback
 
@@ -516,7 +516,7 @@ Contributions are welcome! Before submitting a PR, please ensure:
 
 ## 📄 License
 
-This project uses the MIT License. See the [LICENSE](LICENSE) file for details.
+This project uses the MIT License.
 
 ## 👥 Author
 

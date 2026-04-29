@@ -252,6 +252,21 @@ const formatCalendarTitle = (date: Date | string): string => {
 }
 
 /**
+ * 日历标题文本（响应式变量）
+ * @type {Ref<string>}
+ */
+const calendarTitle: Ref<string> = ref(formatCalendarTitle(calendarValue.value))
+
+/**
+ * 更新日历标题文本
+ * @function updateCalendarTitle
+ * @description 根据calendarValue更新日历标题，用于手动触发标题更新
+ */
+const updateCalendarTitle = () => {
+	calendarTitle.value = formatCalendarTitle(calendarValue.value)
+}
+
+/**
  * 日历切换到上个月
  * @function prevMonth
  * @description 点击上个月按钮时触发，更新日历选中日期
@@ -260,6 +275,7 @@ const prevMonth = () => {
 	const date = new Date(calendarValue.value)
 	date.setMonth(date.getMonth() - 1)
 	calendarValue.value = date
+	updateCalendarTitle()
 }
 
 /**
@@ -271,6 +287,7 @@ const nextMonth = () => {
 	const date = new Date(calendarValue.value)
 	date.setMonth(date.getMonth() + 1)
 	calendarValue.value = date
+	updateCalendarTitle()
 }
 
 /**
@@ -280,6 +297,7 @@ const nextMonth = () => {
  */
 const goToday = () => {
 	calendarValue.value = new Date()
+	updateCalendarTitle()
 }
 
 /**
@@ -923,9 +941,9 @@ onUnmounted(() => {
 						<!-- Element Plus日历组件 -->
 						<el-calendar v-model="calendarValue" class="attendance-calendar-desktop" @click.stop>
 							<!-- 日历头部自定义模板 -->
-							<template #header="{ date }">
+							<template #header="">
 								<div class="calendar-header-desktop">
-									<div class="header-title">{{ formatCalendarTitle(date) }}</div>
+									<div class="header-title">{{ calendarTitle }}</div>
 									<div class="header-actions">
 										<el-button size="small" @click="prevMonth">上个月</el-button>
 										<el-button size="small" @click="goToday">今天</el-button>
