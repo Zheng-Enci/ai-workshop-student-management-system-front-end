@@ -44,7 +44,9 @@ class AttendancePageDesktop {
 			return this.initDataPromise
 		}
 
-		this.initDataPromise = this.loadData()
+		this.initDataPromise = (async () => {
+			await this.loadData()
+		})()
 		return this.initDataPromise
 	}
 
