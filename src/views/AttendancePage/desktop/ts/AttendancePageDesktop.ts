@@ -104,4 +104,7 @@ class AttendancePageDesktop {
  */
 const attendancePageDesktop = new AttendancePageDesktop()
 
+// 模块加载时自动初始化数据，并导出初始化Promise
+export const attendanceDataReady = attendancePageDesktop.initData()
+
 export default attendancePageDesktop

@@ -22,7 +22,7 @@ import {
 } from 'echarts/components'
 import {CanvasRenderer} from 'echarts/renderers'
 import {useThemeStore} from '@/stores/ts/theme'
-import attendancePageDesktop from './AttendancePageDesktop'
+import attendancePageDesktop, {attendanceDataReady} from './AttendancePageDesktop'
 
 // ===================== 类型定义区 =====================
 /**
@@ -96,7 +96,8 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 */
 	public async loadData(): Promise<void> {
 		try {
-			await attendancePageDesktop.initData()
+			// 等待单例数据初始化完成
+			await attendanceDataReady
 			this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
 			this.initChart()
 			this.updateChart()
