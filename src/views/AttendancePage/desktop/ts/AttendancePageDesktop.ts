@@ -25,14 +25,6 @@ interface AttendanceRecord {
 	checkInTime: string
 }
 
-/**
- * 签到记录响应接口
- * @interface AttendanceRecordsResponse
- */
-interface AttendanceRecordsResponse {
-	data: AttendanceRecord[]
-}
-
 // ===================== 类定义区 =====================
 /**
  * 签到页面桌面端数据加载类
