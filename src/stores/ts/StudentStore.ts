@@ -69,8 +69,6 @@ export interface StudentLevel {
  * @interface StudentState
  */
 interface StudentState {
-	/** 学生是否已登录 */
-	isLoggedIn: boolean
 	/** 学生信息对象 */
 	studentInfo: StudentInfo | null
 	/** 学生认证token */
@@ -90,7 +88,6 @@ export const useStudentStore = defineStore('student', {
 	 * @returns {StudentState} Store状态对象
 	 */
 	state: (): StudentState => ({
-		isLoggedIn: false,
 		studentInfo: null,
 		token: null,
 		studentLevel: null
@@ -187,7 +184,7 @@ export const useStudentStore = defineStore('student', {
 		 * @returns {boolean} 是否已登录
 		 */
 		isAuthenticated: (state: StudentState): boolean => {
-			return state.isLoggedIn && state.token !== null
+			return currentToken !== null && state.studentInfo !== null
 		},
 
 		/**
@@ -212,7 +209,6 @@ export const useStudentStore = defineStore('student', {
 		setStudentInfo(info: StudentInfo | null, token: string | null): void {
 			this.studentInfo = info
 			this.token = token
-			this.isLoggedIn = info !== null && token !== null
 
 			// 保存到模块级全局变量
 			currentToken = token
@@ -259,7 +255,6 @@ export const useStudentStore = defineStore('student', {
 			this.studentInfo = null
 			this.token = null
 			this.studentLevel = null
-			this.isLoggedIn = false
 
 			// 清除模块级token变量
 			currentToken = null
@@ -288,7 +283,6 @@ export const useStudentStore = defineStore('student', {
 					const studentInfo: StudentInfo = JSON.parse(studentInfoStr)
 					this.token = token
 					this.studentInfo = studentInfo
-					this.isLoggedIn = true
 					currentToken = token
 
 					// 如果存在学生等级信息，也进行恢复
@@ -327,7 +321,7 @@ export const useStudentStore = defineStore('student', {
 			this.studentInfo = null
 			this.token = null
 			this.studentLevel = null
-			this.isLoggedIn = false
+			currentToken = null
 		},
 
 		/**
@@ -343,7 +337,7 @@ export const useStudentStore = defineStore('student', {
 		async fetchApiData<T>(apiFunc: () => Promise<any>): Promise<T> {
 			if (!currentToken) {
 				const router = useRouter()
-				router.push('/login')
+				await router.push('/login')
 				throw new Error('未登录，请先登录')
 			}
 
@@ -373,7 +367,7 @@ export const useStudentStore = defineStore('student', {
 
 			if (!currentToken) {
 				const router = useRouter()
-				router.push('/login')
+				await router.push('/login')
 				return
 			}
 
@@ -384,12 +378,12 @@ export const useStudentStore = defineStore('student', {
 				} else {
 					this.logout()
 					const router = useRouter()
-					router.push('/login')
+					await router.push('/login')
 				}
 			} catch (error) {
 				this.logout()
 				const router = useRouter()
-				router.push('/login')
+				await router.push('/login')
 			}
 		}
 	}
