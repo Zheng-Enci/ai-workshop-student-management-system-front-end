@@ -54,7 +54,7 @@ class StudentManager {
 	 */
 	constructor() {
 		const cachedData = localStorage.getItem('studentInfo')
-		const cachedTime = localStorage.getItem('studentInfoTime')
+		const cachedTime = localStorage.getItem('studentInfoSavedTime')
 
 		if (cachedData && cachedTime) {
 			const cacheAge = Date.now() - parseInt(cachedTime)
@@ -86,7 +86,7 @@ class StudentManager {
 						databaseId: idRes.data
 					}
 					localStorage.setItem('studentInfo', JSON.stringify(this.studentInfo))
-					localStorage.setItem('studentInfoTime', Date.now().toString())
+					localStorage.setItem('studentInfoSavedTime', Date.now().toString())
 				} else {
 					this.logout()
 					useRouter().push('/login')
@@ -181,7 +181,7 @@ class StudentManager {
 		this.token = null
 		localStorage.removeItem('token')
 		localStorage.removeItem('studentInfo')
-		localStorage.removeItem('studentInfoTime')
+		localStorage.removeItem('studentInfoSavedTime')
 	}
 }
 
