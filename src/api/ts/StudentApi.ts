@@ -4,6 +4,7 @@
  *
  * @module api/StudentApi
  * @description 封装学生信息查询、头像获取、等级查询、登录注册等API接口
+ * @author ZhengEnCi zheng_enci_work@foxmail.com
  */
 
 import ApiInterceptor from '@/composables/ts/ApiInterceptor'
