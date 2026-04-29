@@ -11,6 +11,8 @@
  */
 
 import {defineStore} from 'pinia'
+import {useRouter} from 'vue-router'
+import StudentApi from '@/api/ts/StudentApi'
 
 /**
  * 学生信息接口定义
@@ -313,6 +315,39 @@ export const useStudentStore = defineStore('student', {
 			this.token = null
 			this.studentLevel = null
 			this.isLoggedIn = false
+		},
+
+		/**
+		 * 初始化学生状态
+		 * 从localStorage获取token，如果token不存在则跳转到登录页面
+		 * 如果token存在，则获取学生个人信息
+		 *
+		 * @async
+		 * @returns {Promise<void>}
+		 */
+		async initStudentState(): Promise<void> {
+			const token = localStorage.getItem('token')
+
+			if (!token) {
+				const router = useRouter()
+				router.push('/login')
+				return
+			}
+
+			try {
+				const response = await StudentApi.getStudentProfile(token)
+				if (response.code === 200) {
+					this.setStudentInfo(response.data, token)
+				} else {
+					this.logout()
+					const router = useRouter()
+					router.push('/login')
+				}
+			} catch (error) {
+				this.logout()
+				const router = useRouter()
+				router.push('/login')
+			}
 		}
 	}
 })
