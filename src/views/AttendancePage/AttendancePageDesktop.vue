@@ -118,6 +118,12 @@ const currentTime: Ref<string> = ref('')
 const nextSignTime: Ref<string> = ref('')
 
 /**
+ * 热力图组件引用
+ * @type {Ref<any>}
+ */
+const heatmapComponentRef: Ref<any> = ref<any>(null)
+
+/**
  * 时间检测定时器实例（用于实时更新时间/签到状态）
  * @type {Ref<ReturnType<typeof setInterval> | null>}
  */
@@ -554,6 +560,8 @@ const loadAttendanceRecords = async () => {
 			// 等待DOM更新完成后初始化图表
 			await nextTick()
 			initCharts()
+			// 更新热力图组件数据
+			heatmapComponentRef.value?.updateData()
 		}
 	} catch {
 		// 错误容错（可扩展：添加错误提示、日志上报）
@@ -737,7 +745,7 @@ onUnmounted(() => {
 				<!-- 热力图组件 -->
 				<div class="chart-item-desktop">
 					<div class="chart-title-desktop">签到热力图</div>
-					<AttendancePageHeatmapDesktopComponent/>
+					<AttendancePageHeatmapDesktopComponent ref="heatmapComponentRef"/>
 				</div>
 
 				<!-- 折线图组件 -->

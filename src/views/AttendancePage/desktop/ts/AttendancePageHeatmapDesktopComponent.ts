@@ -86,15 +86,15 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * @constructor
 	 */
 	constructor() {
-		this.loadData()
 		this.watchTheme()
 	}
 
 	/**
-	 * 加载签到记录数据
-	 * @private
+	 * 更新签到记录数据
+	 * @public
+	 * @function updateData
 	 */
-	private loadData(): void {
+	public updateData(): void {
 		this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
 		this.updateChart()
 	}
