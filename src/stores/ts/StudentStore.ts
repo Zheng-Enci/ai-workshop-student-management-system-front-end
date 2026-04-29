@@ -53,6 +53,20 @@ class StudentManager {
 	 * 创建实例时自动初始化：从localStorage获取token，token不存在则跳转登录，存在则调用接口获取学生信息和数据库ID
 	 */
 	constructor() {
+		const cachedData = localStorage.getItem('studentInfo')
+		const cachedTime = localStorage.getItem('studentInfoTime')
+
+		if (cachedData && cachedTime) {
+			const cacheAge = Date.now() - parseInt(cachedTime)
+			const twentyFourHours = 24 * 60 * 60 * 1000
+
+			if (cacheAge < twentyFourHours) {
+				this.studentInfo = JSON.parse(cachedData)
+				this.token = localStorage.getItem('token')
+				return
+			}
+		}
+
 		const token = localStorage.getItem('token')
 		if (!token) {
 			useRouter().push('/login')
@@ -71,6 +85,8 @@ class StudentManager {
 						...profileRes.data,
 						databaseId: idRes.data
 					}
+					localStorage.setItem('studentInfo', JSON.stringify(this.studentInfo))
+					localStorage.setItem('studentInfoTime', Date.now().toString())
 				} else {
 					this.logout()
 					useRouter().push('/login')
@@ -164,6 +180,8 @@ class StudentManager {
 		this.studentInfo = null
 		this.token = null
 		localStorage.removeItem('token')
+		localStorage.removeItem('studentInfo')
+		localStorage.removeItem('studentInfoTime')
 	}
 }
 
