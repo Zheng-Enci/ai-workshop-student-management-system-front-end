@@ -167,19 +167,6 @@ class StudentManager {
 	}
 
 	/**
-	 * 更新学生信息（部分更新）
-	 * 只更新提供的字段，保留其他现有字段
-	 *
-	 * @param {Partial<StudentInfo>} updates - 要更新的学生信息字段
-	 * @returns {void}
-	 */
-	public updateStudentInfo(updates: Partial<StudentInfo>): void {
-		if (this.studentInfo) {
-			this.studentInfo = {...this.studentInfo, ...updates}
-		}
-	}
-
-	/**
 	 * 调用API获取数据并解析
 	 * 通用的API调用方法，自动获取token并处理响应
 	 *
