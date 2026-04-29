@@ -163,14 +163,6 @@ class StudentManager {
 	}
 
 	/**
-	 * 检查是否已登录
-	 * @returns {boolean} 是否已登录
-	 */
-	public isAuthenticated(): boolean {
-		return this.token !== null && this.studentInfo !== null
-	}
-
-	/**
 	 * 获取用户名（兼容旧代码）
 	 * @returns {string | null} 用户名或null
 	 */
