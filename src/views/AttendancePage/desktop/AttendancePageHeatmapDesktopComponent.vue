@@ -16,6 +16,7 @@
 
 import {ref, onMounted, onUnmounted} from 'vue'
 import AttendancePageHeatmapDesktopComponent from './ts/AttendancePageHeatmapDesktopComponent'
+import './css/AttendancePageHeatmapDesktopComponent.css'
 
 const chartRef = ref<HTMLElement | null>(null)
 let heatmapComponent: AttendancePageHeatmapDesktopComponent | null = null
@@ -33,11 +34,3 @@ onUnmounted(() => {
 	}
 })
 </script>
-
-<style scoped>
-.attendance-page-heatmap-desktop-component-chart {
-	width: 100%;
-	height: 100%;
-	min-height: 300px;
-}
-</style>
