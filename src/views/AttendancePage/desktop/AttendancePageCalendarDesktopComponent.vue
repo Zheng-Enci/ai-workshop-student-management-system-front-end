@@ -33,39 +33,59 @@
 				>
 					<div class="attendance-page-calendar-desktop-component-cell-wrapper">
 						<!-- 日期数字：显示日期号数 -->
-						<div class="attendance-page-calendar-desktop-component-cell-date">
+						<div
+							class="attendance-page-calendar-desktop-component-cell-date"
+							:class="{
+								'dark-text': calendarComponent.attendanceRecords.value.length > 0 && calendarComponent.getDateAttendanceTimes(data.day).length > 0
+							}"
+						>
 							{{ data.day.split('-')[2] }}
 						</div>
 						<!-- 时段签到状态：显示早/午/晚签到情况 -->
 						<div class="attendance-page-calendar-desktop-component-cell-status">
 							<div class="attendance-page-calendar-desktop-component-time-slot-status">
 								<!-- 早上时段 -->
-								<div
-									class="attendance-page-calendar-desktop-component-time-slot morning"
+							<div
+								class="attendance-page-calendar-desktop-component-time-slot morning"
+								:class="{
+									'signed': calendarComponent.isTimeSlotSigned(data.day, 'morning')
+								}"
+							>
+								<span
+									class="attendance-page-calendar-desktop-component-time-label"
 									:class="{
-										'signed': calendarComponent.isTimeSlotSigned(data.day, 'morning')
+										'dark-text': calendarComponent.isTimeSlotSigned(data.day, 'morning')
 									}"
-								>
-									<span class="attendance-page-calendar-desktop-component-time-label">早</span>
-								</div>
-								<!-- 下午时段 -->
-								<div
-									class="attendance-page-calendar-desktop-component-time-slot afternoon"
+								>早</span>
+							</div>
+							<!-- 下午时段 -->
+							<div
+								class="attendance-page-calendar-desktop-component-time-slot afternoon"
+								:class="{
+									'signed': calendarComponent.isTimeSlotSigned(data.day, 'afternoon')
+								}"
+							>
+								<span
+									class="attendance-page-calendar-desktop-component-time-label"
 									:class="{
-										'signed': calendarComponent.isTimeSlotSigned(data.day, 'afternoon')
+										'dark-text': calendarComponent.isTimeSlotSigned(data.day, 'afternoon')
 									}"
-								>
-									<span class="attendance-page-calendar-desktop-component-time-label">午</span>
-								</div>
-								<!-- 晚上时段 -->
-								<div
-									class="attendance-page-calendar-desktop-component-time-slot evening"
+								>午</span>
+							</div>
+							<!-- 晚上时段 -->
+							<div
+								class="attendance-page-calendar-desktop-component-time-slot evening"
+								:class="{
+									'signed': calendarComponent.isTimeSlotSigned(data.day, 'evening')
+								}"
+							>
+								<span
+									class="attendance-page-calendar-desktop-component-time-label"
 									:class="{
-										'signed': calendarComponent.isTimeSlotSigned(data.day, 'evening')
+										'dark-text': calendarComponent.isTimeSlotSigned(data.day, 'evening')
 									}"
-								>
-									<span class="attendance-page-calendar-desktop-component-time-label">晚</span>
-								</div>
+								>晚</span>
+							</div>
 							</div>
 						</div>
 					</div>
