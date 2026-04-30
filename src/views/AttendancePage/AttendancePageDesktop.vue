@@ -81,36 +81,36 @@ const goToNavigation = () => {
 
 <template>
 	<!-- 签到页面根容器（桌面端） -->
-	<div class="attendance-container-desktop">
+	<div class="attendance-page-desktop-container">
 		<!-- 全局加载蒙版 -->
 		<LoadingMask/>
 		<!-- 背景装饰效果 -->
-		<div class="background-effects-desktop">
-			<div class="gradient-orb-desktop orb-1"/>
-			<div class="gradient-orb-desktop orb-2"/>
-			<div class="gradient-orb-desktop orb-3"/>
+		<div class="attendance-page-desktop-background-effects">
+			<div class="attendance-page-desktop-gradient-orb attendance-page-desktop-orb-1"/>
+			<div class="attendance-page-desktop-gradient-orb attendance-page-desktop-orb-2"/>
+			<div class="attendance-page-desktop-gradient-orb attendance-page-desktop-orb-3"/>
 		</div>
 
 		<!-- 内容包裹层 -->
-		<div class="content-wrapper-desktop">
+		<div class="attendance-page-desktop-content-wrapper">
 			<!-- 页面标题区 -->
-			<div class="page-title-desktop">
+			<div class="attendance-page-desktop-page-title">
 				<!-- 系统logo（点击切换主题） -->
 				<img
 					src="@/assets/AiWorkShop_icon.png"
 					alt="AI坊学生管理系统"
-					class="title-logo-desktop"
+					class="attendance-page-desktop-title-logo"
 					title="切换主题模式"
 					@click="toggleTheme"/>
 				<h1>AI坊学生签到</h1>
 			</div>
 
 			<!-- 顶部操作栏 -->
-			<div class="top-bar-desktop">
+			<div class="attendance-page-desktop-top-bar">
 				<!-- 返回导航按钮 -->
 				<el-button
 					type="primary"
-					class="nav-button-desktop"
+					class="attendance-page-desktop-nav-button"
 					:icon="ArrowLeft"
 					@click="goToNavigation"
 				>
@@ -119,36 +119,36 @@ const goToNavigation = () => {
 			</div>
 
 			<!-- 标语角标 -->
-			<div class="motto-corner-desktop">
+			<div class="attendance-page-desktop-motto-corner">
 				<img
 					src="@/assets/QunCeQunLiChuangXingGongXing.png"
 					alt="群策群力 创新共行"
-					class="motto-image-desktop"
+					class="attendance-page-desktop-motto-image"
 				/>
 			</div>
 
 			<!-- 主内容区 -->
-			<div class="main-content-desktop">
+			<div class="attendance-page-desktop-main-content">
 				<!-- 布局网格（预留左侧面板） -->
-				<div class="layout-grid-desktop">
-					<div class="left-panel-desktop"/>
+				<div class="attendance-page-desktop-layout-grid">
+					<div class="attendance-page-desktop-left-panel"/>
 				</div>
 
 				<!-- 热力图组件 -->
-				<div class="chart-item-desktop">
-					<div class="chart-title-desktop">签到热力图</div>
+				<div class="attendance-page-desktop-chart-item">
+					<div class="attendance-page-desktop-chart-title">签到热力图</div>
 					<AttendancePageHeatmapDesktopComponent/>
 				</div>
 
 				<!-- 趋势图组件 -->
-				<div class="chart-item-desktop">
-					<div class="chart-title-desktop">签到趋势图</div>
+				<div class="attendance-page-desktop-chart-item">
+					<div class="attendance-page-desktop-chart-title">签到趋势图</div>
 					<AttendancePageTrendDesktopComponent/>
 				</div>
 
 				<!-- 签到记录日历组件 -->
-				<div class="chart-item-desktop">
-					<div class="chart-title-desktop">签到记录</div>
+				<div class="attendance-page-desktop-chart-item">
+					<div class="attendance-page-desktop-chart-title">签到记录</div>
 					<AttendancePageCalendarDesktopComponent/>
 				</div>
 			</div>
@@ -158,7 +158,7 @@ const goToNavigation = () => {
 
 <style scoped>
 /* 导入桌面端专属样式文件（包含布局、颜色、交互等样式） */
-@import './desktop/css/attendance-desktop.css';
+@import './desktop/css/AttendancePageDesktop.css';
 
 /**
  * 样式说明：
