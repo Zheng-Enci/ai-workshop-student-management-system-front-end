@@ -427,15 +427,15 @@ export default class AttendancePageTrendDesktopComponent {
 				type: 'line',							// 折线图类型
 				smooth: false,							// 平滑曲线
 				symbol: 'circle',						// 标记点形状
-				symbolSize: 4,							// 标记点大小
+				symbolSize: 5,							// 标记点大小
 				lineStyle: {
-				// 根据主题设置线条颜色：暗黑模式使用更亮的青色，亮色模式使用标准青色
-				color: this.themeStore.isDarkMode ? '#6fd5ff' : '#4fc3f7',
+				// 根据主题设置线条颜色：使用项目主色冰川青
+				color: this.themeStore.isDarkMode ? '#6fd4cd' : '#3CBDB1',
 				width: 3						// 线条宽度
 			},
 			itemStyle: {
-				// 根据主题设置标记点颜色
-				color: this.themeStore.isDarkMode ? '#6fd5ff' : '#4fc3f7',
+				// 根据主题设置标记点颜色：使用项目主色冰川青
+				color: this.themeStore.isDarkMode ? '#6fd4cd' : '#3CBDB1',
 				// 根据主题设置标记点边框颜色：暗黑模式使用深色边框，亮色模式使用白色边框
 				borderColor: this.themeStore.isDarkMode ? '#1a1a1a' : '#fff',
 				borderWidth: 2						// 标记点边框宽度
@@ -450,26 +450,26 @@ export default class AttendancePageTrendDesktopComponent {
 					y2: 1,
 					colorStops: [{
 						offset: 0,
-						// 根据主题设置渐变顶部颜色：暗黑模式使用更高透明度的亮色
-						color: this.themeStore.isDarkMode ? 'rgba(111, 213, 255, 0.4)' : 'rgba(79, 195, 247, 0.3)'
+						// 根据主题设置渐变顶部颜色：使用冰川青色系
+						color: this.themeStore.isDarkMode ? 'rgba(111, 212, 205, 0.4)' : 'rgba(60, 189, 177, 0.3)'
 					}, {
 						offset: 1,
-						// 根据主题设置渐变底部颜色：暗黑模式使用更高透明度的亮色
-						color: this.themeStore.isDarkMode ? 'rgba(111, 213, 255, 0.1)' : 'rgba(79, 195, 247, 0.05)'
+						// 根据主题设置渐变底部颜色：使用冰川青色系
+						color: this.themeStore.isDarkMode ? 'rgba(111, 212, 205, 0.1)' : 'rgba(60, 189, 177, 0.05)'
 					}]
 				}
 			},
 			emphasis: {
 				// 高亮样式
 				itemStyle: {
-					// 根据主题设置高亮标记点颜色：暗黑模式使用更亮的颜色
-					color: this.themeStore.isDarkMode ? '#8fe0ff' : '#0288d1',
+					// 根据主题设置高亮标记点颜色：使用更亮的冰川青
+					color: this.themeStore.isDarkMode ? '#8fe8e0' : '#238e8c',
 					// 根据主题设置高亮边框颜色
 					borderColor: this.themeStore.isDarkMode ? '#1a1a1a' : '#fff',
 					borderWidth: 3,
 					shadowBlur: 10,
-					// 根据主题设置阴影颜色
-					shadowColor: this.themeStore.isDarkMode ? 'rgba(111, 213, 255, 0.6)' : 'rgba(79, 195, 247, 0.5)'
+					// 根据主题设置阴影颜色：使用冰川青色系
+					shadowColor: this.themeStore.isDarkMode ? 'rgba(111, 212, 205, 0.6)' : 'rgba(60, 189, 177, 0.5)'
 				},
 				lineStyle: {
 					width: 4					// 高亮线条宽度
