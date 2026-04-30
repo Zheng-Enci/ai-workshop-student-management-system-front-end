@@ -36,7 +36,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 // Element Plus 基础组件：按钮
 import { ElButton } from 'element-plus'
 // Vue3 核心API：响应式、生命周期、类型
-import {ref, onMounted, onUnmounted, type Ref} from 'vue'
+import {ref, onMounted, type Ref} from 'vue'
 // Vue Router 路由跳转
 import { useRouter } from 'vue-router'
 
@@ -45,8 +45,6 @@ import { useRouter } from 'vue-router'
 import AttendanceApi from '@/api/ts/AttendanceApi'
 // 状态管理：主题（暗黑/亮色）
 import { useThemeStore } from '@/stores/ts/theme'
-// 状态管理：用户信息
-import { useUserStore } from '@/stores/ts/user'
 // 状态管理：全局加载蒙版
 import { useLoadingMaskStore } from '@/stores/ts/loading'
 // 全局加载蒙版组件
@@ -78,8 +76,6 @@ echarts.use([
 ])
 
 // ===================== 状态管理实例化 =====================
-// 用户信息仓库实例
-const userStore = useUserStore()
 // 主题仓库实例
 const themeStore = useThemeStore()
 // 解构主题切换方法
@@ -90,36 +86,6 @@ const router = useRouter()
 const loadingMaskStore = useLoadingMaskStore()
 
 // ===================== 响应式变量定义区 =====================
-/**
- * 学生等级（用于后续等级展示/权限控制）
- * @type {Ref<number>}
- */
-const studentLevel: Ref<number> = ref(0)
-
-/**
- * 是否处于签到时间段内
- * @type {Ref<boolean>}
- */
-const isInSignTime: Ref<boolean> = ref(false)
-
-/**
- * 当前时间字符串（格式：HH:MM:SS）
- * @type {Ref<string>}
- */
-const currentTime: Ref<string> = ref('')
-
-/**
- * 下次签到时间提示文本
- * @type {Ref<string>}
- */
-const nextSignTime: Ref<string> = ref('')
-
-/**
- * 时间检测定时器实例（用于实时更新时间/签到状态）
- * @type {Ref<ReturnType<typeof setInterval> | null>}
- */
-const timeInterval: Ref<ReturnType<typeof setInterval> | null> = ref<ReturnType<typeof setInterval> | null>(null)
-
 /**
  * 签到记录列表（接口返回数据）
  * @type {Ref<AttendanceRecord[]>}
@@ -168,103 +134,18 @@ const loadAttendanceRecords = async () => {
 	}
 }
 
-/**
- * 加载学生等级
- * @function loadStudentLevel
- * @description 从用户仓库/本地存储中获取学生等级
- */
-const loadStudentLevel = () => {
-	try {
-		// 优先从用户仓库获取，仓库无数据则从本地存储读取
-		const userInfo = userStore.userInfo || JSON.parse(localStorage.getItem('userInfo') || '{}')
-		studentLevel.value = userInfo.level || 0
-	} catch {
-		// 解析失败时默认等级为0
-		studentLevel.value = 0
-	}
-}
-
-/**
- * 检测当前是否处于签到时段
- * @function checkSignTime
- * @description 1. 更新当前时间 2. 判断是否在签到时段 3. 计算下次签到时间
- */
-const checkSignTime = () => {
-	// 获取当前时间
-	const now = new Date()
-	const hour = now.getHours()
-	const minute = now.getMinutes()
-	const second = now.getSeconds()
-	// 格式化当前时间为HH:MM:SS
-	currentTime.value = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
-
-	// 签到时段配置
-	const signTimeRanges = [
-		{ start: 8, end: 11, name: '上午' }, // 上午8-11点
-		{ start: 14, end: 17, name: '下午' }, // 下午14-17点
-		{ start: 19, end: 22, name: '晚上' }  // 晚上19-22点
-	]
-
-	let inTime = false // 是否在签到时段
-	let nextTime = ''  // 下次签到时间
-
-	// 判断当前是否在任意签到时段内
-	for (const range of signTimeRanges) {
-		if (hour >= range.start && hour < range.end) {
-			inTime = true
-			break
-		}
-	}
-
-	// 不在签到时段时计算下次签到时间
-	if (!inTime) {
-		// 查找当前时间之后的第一个签到时段
-		for (const range of signTimeRanges) {
-			if (hour < range.start) {
-				nextTime = `${range.name} ${range.start.toString().padStart(2, '0')}:00`
-				break
-			}
-		}
-		// 所有时段都已过（如22点后），提示明天上午
-		if (!nextTime) {
-			nextTime = '明天上午 08:00'
-		}
-	}
-
-	// 更新响应式变量
-	isInSignTime.value = inTime
-	nextSignTime.value = nextTime
-}
-
 // ===================== 生命周期钩子 =====================
 /**
  * 组件挂载完成钩子
- * @description 1. 初始化签到时间检测 2. 启动时间定时器 3. 加载学生等级 4. 加载签到记录
+ * @description 加载签到记录
  * @async
  */
 onMounted(async () => {
 	try {
-		// 首次检测签到时间
-		checkSignTime()
-		// 启动定时器（每秒更新时间/签到状态）
-		timeInterval.value = setInterval(checkSignTime, 1000)
-		// 加载学生等级
-		loadStudentLevel()
 		// 加载签到记录
 		await loadAttendanceRecords()
 	} catch {
 		// 组件挂载初始化失败
-	}
-})
-
-/**
- * 组件卸载钩子
- * @description 1. 清除定时器（防止内存泄漏）
- */
-onUnmounted(() => {
-	// 清除时间检测定时器
-	if (timeInterval.value) {
-		clearInterval(timeInterval.value)
 	}
 })
 </script>
