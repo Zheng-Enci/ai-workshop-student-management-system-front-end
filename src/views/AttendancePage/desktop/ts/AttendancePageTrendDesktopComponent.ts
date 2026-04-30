@@ -438,7 +438,7 @@ export default class AttendancePageTrendDesktopComponent {
 				color: this.themeStore.isDarkMode ? '#6fd4cd' : '#3CBDB1',
 				// 根据主题设置标记点边框颜色：暗黑模式使用深色边框，亮色模式使用白色边框
 				borderColor: this.themeStore.isDarkMode ? '#1a1a1a' : '#fff',
-				borderWidth: 2						// 标记点边框宽度
+				borderWidth: 1						// 标记点边框宽度，减小避免点密集时边框重叠遮挡
 			},
 			areaStyle: {
 				// 区域填充样式（渐变）
