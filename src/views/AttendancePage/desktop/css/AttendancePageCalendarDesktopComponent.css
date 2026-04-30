@@ -132,8 +132,8 @@
 }
 
 .attendance-page-calendar-desktop-component-time-slot.signed {
-	background-color: var(--success-color);
-	border-color: var(--success-color);
+	background-color: #3CBDB1;
+	border-color: #3CBDB1;
 }
 
 .attendance-page-calendar-desktop-component-time-slot.signed .attendance-page-calendar-desktop-component-time-label {
