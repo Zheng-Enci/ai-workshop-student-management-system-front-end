@@ -38,7 +38,10 @@ import { ElButton } from 'element-plus'
 // Vue3 核心API：响应式、生命周期、类型
 import {ref, onMounted, onUnmounted, type Ref} from 'vue'
 // Element Plus 基础样式（按需引入）
+import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-calendar.css'
 // Vue Router 路由跳转
 import { useRouter } from 'vue-router'
 
