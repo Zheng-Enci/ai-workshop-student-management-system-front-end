@@ -31,7 +31,7 @@ import {HeatmapChart} from 'echarts/charts'
 
 /**
  * ECharts组件导入
- * @description 
+ * @description
  * - CalendarComponent: 日历组件
  * - GridComponent: 网格组件
  * - LegendComponent: 图例组件
@@ -99,7 +99,7 @@ echarts.use([
 /**
  * 签到热力图组件类
  * @class AttendancePageHeatmapDesktopComponent
- * @description 
+ * @description
  * 封装ECharts热力图的所有功能，包括：
  * 1. 数据加载：从AttendancePageDesktop单例获取签到记录
  * 2. 数据处理：按周几和时段统计签到次数
@@ -167,7 +167,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * 加载签到记录数据
 	 * @public
 	 * @async
-	 * @description 
+	 * @description
 	 * 从AttendancePageDesktop单例加载签到记录数据
 	 * 流程：
 	 * 1. 调用waitForReady()等待单例数据初始化完成
@@ -180,13 +180,13 @@ export default class AttendancePageHeatmapDesktopComponent {
 		try {
 			// 等待单例数据初始化完成，确保数据已加载
 			await attendancePageDesktop.waitForReady()
-			
+
 			// 从单例获取签到记录数据
 			this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
-			
+
 			// 初始化ECharts图表实例
 			this.initChart()
-			
+
 			// 更新图表配置并渲染
 			this.updateChart()
 		} catch (error) {
@@ -198,7 +198,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 	/**
 	 * 初始化图表
 	 * @private
-	 * @description 
+	 * @description
 	 * 初始化ECharts图表实例
 	 * 流程：
 	 * 1. 检查chartRef.value是否存在
@@ -214,10 +214,10 @@ export default class AttendancePageHeatmapDesktopComponent {
 
 		// 保存DOM容器引用，用于后续图表操作
 		this.chartContainer = this.chartRef.value
-		
+
 		// 创建ECharts图表实例，使用Canvas渲染
 		this.chartInstance = echarts.init(this.chartContainer)
-		
+
 		// 初始化完成后立即更新图表
 		this.updateChart()
 	}
@@ -225,7 +225,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 	/**
 	 * 监听主题变化
 	 * @private
-	 * @description 
+	 * @description
 	 * 使用Vue的watch监听themeStore.isDarkMode变化
 	 * 当主题切换时，自动调用updateChart()重新渲染图表
 	 * 实现暗黑/亮色模式的无缝切换
@@ -242,7 +242,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * 生成热力图所需数据
 	 * @private
 	 * @returns {Array<[number, number, number]>} 热力图数据数组
-	 * @description 
+	 * @description
 	 * 将签到记录按周几和时段统计，生成热力图数据
 	 * 数据结构：[周几索引, 时段索引, 签到次数]
 	 * 周几索引：0=周一, 1=周二, ..., 6=周日
@@ -254,10 +254,10 @@ export default class AttendancePageHeatmapDesktopComponent {
 	private generateHeatmapData(): [number, number, number][] {
 		// 初始化热力图数据数组，存储[周几索引, 时段索引, 签到次数]三元组
 		const data: [number, number, number][] = []
-		
+
 		// 定义周几标签，用于遍历和显示
 		const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-		
+
 		// 定义时段标签，用于遍历和显示
 		const timeSlots = ['上午', '下午', '晚上']
 
@@ -267,26 +267,26 @@ export default class AttendancePageHeatmapDesktopComponent {
 			timeSlots.forEach((slot, slotIndex) => {
 				// 初始化当前时段的签到次数计数器
 				let count = 0
-				
+
 				// 遍历所有签到记录，统计符合条件的记录数
 				this.attendanceRecords.forEach(record => {
 					// 检查记录是否包含有效的日期时间字段
 					if (!record.attendanceDateTime) {
 						return
 					}
-					
+
 					// 将日期时间字符串解析为Date对象
 					const date = new Date(record.attendanceDateTime)
-					
+
 					// 检查日期是否有效(解析失败会返回Invalid Date)
 					if (isNaN(date.getTime())) {
 						return
 					}
-					
+
 					// 获取周几，JavaScript的getDay()返回0-6(0=周日)
 					// 转换为0-6(0=周一, 6=周日)的格式
 					const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
-					
+
 					// 获取小时数，用于判断时段
 					const hour = date.getHours()
 
@@ -305,7 +305,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 						}
 					}
 				})
-				
+
 				// 将统计结果添加到数据数组
 				data.push([dayIndex, slotIndex, count])
 			})
@@ -318,7 +318,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 	/**
 	 * 更新图表
 	 * @private
-	 * @description 
+	 * @description
 	 * 更新ECharts图表配置并渲染
 	 * 流程：
 	 * 1. 检查chartInstance和chartContainer是否存在，不存在则初始化
@@ -337,21 +337,25 @@ export default class AttendancePageHeatmapDesktopComponent {
 
 		// 生成热力图数据
 		const heatmapData = this.generateHeatmapData()
-		
+
 		// 计算数据最大值，用于视觉映射的颜色范围
 		// 使用Math.max确保最大值至少为1，避免全为0时视觉映射异常
 		const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
+
+		// 计算数据最小值，用于视觉映射的颜色范围
+		const minValue = Math.min(...heatmapData.map(item => item[2]), maxValue)
+
 
 		// 构建ECharts配置对象
 		const option = {
 			// 设置背景色为透明，使用外部CSS控制背景
 			backgroundColor: 'transparent',
-			
+
 			// 禁用提示框，热力图不需要显示详细提示
 			tooltip: {
 				show: false
 			},
-			
+
 			// 网格配置，控制图表在容器中的位置和大小
 			grid: {
 				height: '60%',		// 图表高度占容器的60%
@@ -360,7 +364,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 				right: '10%',		// 距离右侧10%
 				bottom: '20%'		// 距离底部20%
 			},
-			
+
 			// X轴配置，显示周一到周日
 			xAxis: {
 				type: 'category',					// 类目轴，用于显示离散的周几
@@ -384,7 +388,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 					}
 				}
 			},
-			
+
 			// Y轴配置，显示上午/下午/晚上
 			yAxis: {
 				type: 'category',					// 类目轴
@@ -408,12 +412,12 @@ export default class AttendancePageHeatmapDesktopComponent {
 					}
 				}
 			},
-			
+
 			// 视觉映射组件配置，控制热力图的颜色映射
 			visualMap: {
-				min: 0,								// 最小值
+				min: minValue,						// 最小值
 				max: maxValue,						// 最大值
-				calculable: false,					// 禁用拖拽选择范围
+				calculable: true,					// 禁用拖拽选择范围
 				orient: 'horizontal',				// 水平方向显示
 				left: 'center',						// 水平居中
 				bottom: '5%',						// 距离底部5%
@@ -431,7 +435,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 						: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58']		// 亮色模式：浅青到深青
 				}
 			},
-			
+
 			// 图表系列配置
 			series: [{
 				name: '签到次数',					// 系列名称
@@ -441,7 +445,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 					show: true,							// 显示标签
 					// 根据主题设置标签颜色
 					color: this.themeStore.isDarkMode ? '#ffffff' : '#1f2937',
-					fontSize: 11,
+					fontSize: 16,
 					fontWeight: 'bold'				// 标签字体加粗
 				},
 				emphasis: {
@@ -454,7 +458,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 					}
 				},
 				itemStyle: {
-					borderRadius: 4,					// 圆角半径
+					borderRadius: 10,					// 圆角半径
 					borderWidth: 1,						// 边框宽度
 					// 根据主题设置边框颜色
 					borderColor: this.themeStore.isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
@@ -469,7 +473,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 	/**
 	 * 销毁图表实例
 	 * @function dispose
-	 * @description 
+	 * @description
 	 * 销毁ECharts图表实例，释放资源
 	 * 在Vue组件的onUnmounted生命周期中调用
 	 * 防止内存泄漏
@@ -479,7 +483,7 @@ export default class AttendancePageHeatmapDesktopComponent {
 		if (this.chartInstance) {
 			// 调用ECharts的dispose方法销毁实例
 			this.chartInstance.dispose()
-			
+
 			// 清空实例引用，避免内存泄漏
 			this.chartInstance = null
 		}
