@@ -16,6 +16,8 @@
  */
 /////
 // ===================== 第三方依赖导入区 =====================
+// Element Plus Message 组件样式（确保样式加载顺序正确）
+import 'element-plus/theme-chalk/el-message.css'
 // Element Plus 图标组件：返回箭头
 import { ArrowLeft } from '@element-plus/icons-vue'
 // ECharts 图表类型：热力图
@@ -167,4 +169,20 @@ const goToNavigation = () => {
  * 3. 布局采用响应式适配桌面端（1920×1080及以上分辨率）
  * 4. 交互样式（hover/active）在外部CSS文件中定义
  */
+</style>
+
+<style>
+/* ===================== Element Plus Message 全局样式覆盖 ===================== */
+/**
+ * 修复 Message 提示位置
+ * 确保 Message 显示在页面顶部而不是底部
+ * 使用非 scoped 样式覆盖全局组件
+ */
+html body .el-message.el-message--info,
+html body .el-message.el-message--success,
+html body .el-message.el-message--warning,
+html body .el-message.el-message--error {
+	top: 20px !important;
+	bottom: auto !important;
+}
 </style>

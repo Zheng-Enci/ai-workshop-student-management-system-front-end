@@ -525,19 +525,4 @@ html.light .attendance-page-desktop-motto-image {
 	transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ===================== Element Plus Message 样式修复 ===================== */
-
-/**
- * 修复 Message 提示位置
- * 确保 Message 显示在页面顶部而不是底部
- * 使用最高优先级选择器覆盖 Element Plus 默认样式
- */
-html body .el-message.el-message--info,
-html body .el-message.el-message--success,
-html body .el-message.el-message--warning,
-html body .el-message.el-message--error {
-	top: 20px !important;
-	bottom: auto !important;
-}
-
 
