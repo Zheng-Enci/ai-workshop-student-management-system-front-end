@@ -178,12 +178,19 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 */
 	public async loadData(): Promise<void> {
 		try {
-			// 等待单例数据初始化完成
+			// 等待单例数据初始化完成，确保数据已加载
 			await attendancePageDesktop.waitForReady()
+			
+			// 从单例获取签到记录数据
 			this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
+			
+			// 初始化ECharts图表实例
 			this.initChart()
+			
+			// 更新图表配置并渲染
 			this.updateChart()
 		} catch (error) {
+			// 数据加载失败，输出错误信息到控制台
 			console.error('加载签到记录失败:', error)
 		}
 	}
@@ -200,12 +207,18 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * 4. 调用updateChart()渲染图表
 	 */
 	private initChart(): void {
+		// 检查图表容器引用是否存在，不存在则直接返回
 		if (!this.chartRef.value) {
 			return
 		}
 
+		// 保存DOM容器引用，用于后续图表操作
 		this.chartContainer = this.chartRef.value
+		
+		// 创建ECharts图表实例，使用Canvas渲染
 		this.chartInstance = echarts.init(this.chartContainer)
+		
+		// 初始化完成后立即更新图表
 		this.updateChart()
 	}
 
@@ -218,7 +231,9 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * 实现暗黑/亮色模式的无缝切换
 	 */
 	private watchTheme(): void {
+		// 监听主题Store的isDarkMode属性变化
 		watch(() => this.themeStore.isDarkMode, () => {
+			// 主题变化时重新渲染图表，应用新的配色方案
 			this.updateChart()
 		})
 	}
@@ -237,38 +252,66 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * [[0, 0, 5], [0, 1, 3], [0, 2, 2], ...] // 周一上午5次，下午3次，晚上2次
 	 */
 	private generateHeatmapData(): [number, number, number][] {
+		// 初始化热力图数据数组，存储[周几索引, 时段索引, 签到次数]三元组
 		const data: [number, number, number][] = []
+		
+		// 定义周几标签，用于遍历和显示
 		const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+		
+		// 定义时段标签，用于遍历和显示
 		const timeSlots = ['上午', '下午', '晚上']
 
+		// 遍历每一天(周一到周日)
 		weekDays.forEach((_day, dayIndex) => {
+			// 遍历每个时段(上午/下午/晚上)
 			timeSlots.forEach((slot, slotIndex) => {
+				// 初始化当前时段的签到次数计数器
 				let count = 0
+				
+				// 遍历所有签到记录，统计符合条件的记录数
 				this.attendanceRecords.forEach(record => {
+					// 检查记录是否包含有效的日期时间字段
 					if (!record.attendanceDateTime) {
 						return
 					}
+					
+					// 将日期时间字符串解析为Date对象
 					const date = new Date(record.attendanceDateTime)
+					
+					// 检查日期是否有效(解析失败会返回Invalid Date)
 					if (isNaN(date.getTime())) {
 						return
 					}
+					
+					// 获取周几，JavaScript的getDay()返回0-6(0=周日)
+					// 转换为0-6(0=周一, 6=周日)的格式
 					const dayOfWeek = date.getDay() === 0 ? 6 : date.getDay() - 1
+					
+					// 获取小时数，用于判断时段
 					const hour = date.getHours()
 
+					// 检查是否匹配当前遍历的周几
 					if (dayOfWeek === dayIndex) {
+						// 检查是否匹配当前遍历的时段
 						if (slot === '上午' && hour >= 8 && hour < 11) {
+							// 上午时段：8点到11点
 							count += 1
 						} else if (slot === '下午' && hour >= 14 && hour < 17) {
+							// 下午时段：14点到17点
 							count += 1
 						} else if (slot === '晚上' && hour >= 19 && hour < 22) {
+							// 晚上时段：19点到22点
 							count += 1
 						}
 					}
 				})
+				
+				// 将统计结果添加到数据数组
 				data.push([dayIndex, slotIndex, count])
 			})
 		})
 
+		// 返回生成的热力图数据
 		return data
 	}
 
@@ -286,109 +329,140 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * 配置项包括：背景色、坐标轴、视觉映射、热力图系列等
 	 */
 	private updateChart(): void {
+		// 检查图表实例和容器是否存在，不存在则初始化
 		if (!this.chartInstance || !this.chartContainer) {
 			this.initChart()
 			return
 		}
 
+		// 生成热力图数据
 		const heatmapData = this.generateHeatmapData()
+		
+		// 计算数据最大值，用于视觉映射的颜色范围
+		// 使用Math.max确保最大值至少为1，避免全为0时视觉映射异常
 		const maxValue = Math.max(...heatmapData.map(item => item[2]), 1)
 
+		// 构建ECharts配置对象
 		const option = {
+			// 设置背景色为透明，使用外部CSS控制背景
 			backgroundColor: 'transparent',
+			
+			// 禁用提示框，热力图不需要显示详细提示
 			tooltip: {
 				show: false
 			},
+			
+			// 网格配置，控制图表在容器中的位置和大小
 			grid: {
-				height: '60%',
-				top: '15%',
-				left: '10%',
-				right: '10%',
-				bottom: '20%'
+				height: '60%',		// 图表高度占容器的60%
+				top: '15%',			// 距离顶部15%
+				left: '10%',			// 距离左侧10%
+				right: '10%',		// 距离右侧10%
+				bottom: '20%'		// 距离底部20%
 			},
+			
+			// X轴配置，显示周一到周日
 			xAxis: {
-				type: 'category',
+				type: 'category',					// 类目轴，用于显示离散的周几
 				data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
 				splitArea: {
-					show: true,
+					show: true,						// 显示分隔区域
 					areaStyle: {
+						// 根据主题设置分隔区域背景色
 						color: this.themeStore.isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 					}
 				},
 				axisLabel: {
+					// 根据主题设置坐标轴标签颜色
 					color: this.themeStore.isDarkMode ? '#ccc' : '#666',
 					fontSize: 12
 				},
 				axisLine: {
 					lineStyle: {
+						// 根据主题设置坐标轴线颜色
 						color: this.themeStore.isDarkMode ? '#444' : '#ddd'
 					}
 				}
 			},
+			
+			// Y轴配置，显示上午/下午/晚上
 			yAxis: {
-				type: 'category',
+				type: 'category',					// 类目轴
 				data: ['上午', '下午', '晚上'],
 				splitArea: {
 					show: true,
 					areaStyle: {
+						// 根据主题设置分隔区域背景色
 						color: this.themeStore.isDarkMode ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'
 					}
 				},
 				axisLabel: {
+					// 根据主题设置坐标轴标签颜色
 					color: this.themeStore.isDarkMode ? '#ccc' : '#666',
 					fontSize: 12
 				},
 				axisLine: {
 					lineStyle: {
+						// 根据主题设置坐标轴线颜色
 						color: this.themeStore.isDarkMode ? '#444' : '#ddd'
 					}
 				}
 			},
+			
+			// 视觉映射组件配置，控制热力图的颜色映射
 			visualMap: {
-				min: 0,
-				max: maxValue,
-				calculable: false,
-				orient: 'horizontal',
-				left: 'center',
-				bottom: '5%',
-				itemWidth: 20,
-				itemHeight: 200,
+				min: 0,								// 最小值
+				max: maxValue,						// 最大值
+				calculable: false,					// 禁用拖拽选择范围
+				orient: 'horizontal',				// 水平方向显示
+				left: 'center',						// 水平居中
+				bottom: '5%',						// 距离底部5%
+				itemWidth: 20,						// 图例项宽度
+				itemHeight: 200,					// 图例项高度
 				textStyle: {
+					// 根据主题设置文字颜色
 					color: this.themeStore.isDarkMode ? '#ccc' : '#666',
 					fontSize: 11
 				},
 				inRange: {
+					// 根据主题设置颜色范围
 					color: this.themeStore.isDarkMode
-						? ['#6fd4cd', '#3CBDB1', '#238e8c', '#1a6967', '#134442', '#0a1f1d']
-						: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58']
+						? ['#6fd4cd', '#3CBDB1', '#238e8c', '#1a6967', '#134442', '#0a1f1d']	// 暗黑模式：冰川青渐变
+						: ['#e6f7f6', '#b3e8e4', '#80d9d2', '#4dcac0', '#3CBDB1', '#2A5C58']		// 亮色模式：浅青到深青
 				}
 			},
+			
+			// 图表系列配置
 			series: [{
-				name: '签到次数',
-				type: 'heatmap',
-				data: heatmapData,
+				name: '签到次数',					// 系列名称
+				type: 'heatmap',						// 图表类型为热力图
+				data: heatmapData,					// 热力图数据
 				label: {
-					show: true,
+					show: true,							// 显示标签
+					// 根据主题设置标签颜色
 					color: this.themeStore.isDarkMode ? '#ffffff' : '#1f2937',
 					fontSize: 11,
-					fontWeight: 'bold'
+					fontWeight: 'bold'				// 标签字体加粗
 				},
 				emphasis: {
+					// 高亮样式配置
 					itemStyle: {
-						shadowBlur: 15,
-						shadowColor: 'rgba(0, 0, 0, 0.3)',
-						borderWidth: 2,
-						borderColor: '#fff'
+						shadowBlur: 15,					// 阴影模糊度
+						shadowColor: 'rgba(0, 0, 0, 0.3)',	// 阴影颜色
+						borderWidth: 2,					// 边框宽度
+						borderColor: '#fff'				// 边框颜色
 					}
 				},
 				itemStyle: {
-					borderRadius: 4,
-					borderWidth: 1,
+					borderRadius: 4,					// 圆角半径
+					borderWidth: 1,						// 边框宽度
+					// 根据主题设置边框颜色
 					borderColor: this.themeStore.isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
 				}
 			}]
 		}
 
+		// 应用配置并渲染图表
 		this.chartInstance.setOption(option)
 	}
 
@@ -401,8 +475,12 @@ export default class AttendancePageHeatmapDesktopComponent {
 	 * 防止内存泄漏
 	 */
 	public dispose(): void {
+		// 检查图表实例是否存在
 		if (this.chartInstance) {
+			// 调用ECharts的dispose方法销毁实例
 			this.chartInstance.dispose()
+			
+			// 清空实例引用，避免内存泄漏
 			this.chartInstance = null
 		}
 	}
