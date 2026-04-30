@@ -279,3 +279,12 @@ html.dark .attendance-page-calendar-desktop-component-slot-icon {
 html.dark .attendance-page-calendar-desktop-component-tooltip::after {
 	border-top-color: rgb(60 189 177 / 0.3);
 }
+
+html.dark .attendance-page-calendar-desktop-component-tooltip-time-item {
+	background: rgb(50 50 50 / 0.95);
+	border-color: rgb(60 189 177 / 0.3);
+}
+
+html.dark .attendance-page-calendar-desktop-component-tooltip-time-text {
+	color: #e0e0e0;
+}
