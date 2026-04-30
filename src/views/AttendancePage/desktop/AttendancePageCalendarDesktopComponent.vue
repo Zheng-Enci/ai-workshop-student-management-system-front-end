@@ -150,6 +150,7 @@ import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-calendar.css'
 import 'element-plus/theme-chalk/el-button.css'
 import 'element-plus/theme-chalk/el-icon.css'
+import 'element-plus/theme-chalk/el-popper.css'
 
 // ===================== 日历组件类导入 =====================
 /**
