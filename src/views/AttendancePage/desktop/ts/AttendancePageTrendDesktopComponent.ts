@@ -425,48 +425,56 @@ export default class AttendancePageTrendDesktopComponent {
 			series: [{
 				name: '累计签到次数',						// 系列名称
 				type: 'line',							// 折线图类型
-				smooth: true,							// 平滑曲线
+				smooth: false,							// 平滑曲线
 				symbol: 'circle',						// 标记点形状
-				symbolSize: 6,							// 标记点大小
+				symbolSize: 4,							// 标记点大小
 				lineStyle: {
-					color: '#4fc3f7',					// 线条颜色
-					width: 3						// 线条宽度
-				},
+				// 根据主题设置线条颜色：暗黑模式使用更亮的青色，亮色模式使用标准青色
+				color: this.themeStore.isDarkMode ? '#6fd5ff' : '#4fc3f7',
+				width: 3						// 线条宽度
+			},
+			itemStyle: {
+				// 根据主题设置标记点颜色
+				color: this.themeStore.isDarkMode ? '#6fd5ff' : '#4fc3f7',
+				// 根据主题设置标记点边框颜色：暗黑模式使用深色边框，亮色模式使用白色边框
+				borderColor: this.themeStore.isDarkMode ? '#1a1a1a' : '#fff',
+				borderWidth: 2						// 标记点边框宽度
+			},
+			areaStyle: {
+				// 区域填充样式（渐变）
+				color: {
+					type: 'linear',						// 线性渐变
+					x: 0,
+					y: 0,
+					x2: 0,
+					y2: 1,
+					colorStops: [{
+						offset: 0,
+						// 根据主题设置渐变顶部颜色：暗黑模式使用更高透明度的亮色
+						color: this.themeStore.isDarkMode ? 'rgba(111, 213, 255, 0.4)' : 'rgba(79, 195, 247, 0.3)'
+					}, {
+						offset: 1,
+						// 根据主题设置渐变底部颜色：暗黑模式使用更高透明度的亮色
+						color: this.themeStore.isDarkMode ? 'rgba(111, 213, 255, 0.1)' : 'rgba(79, 195, 247, 0.05)'
+					}]
+				}
+			},
+			emphasis: {
+				// 高亮样式
 				itemStyle: {
-					color: '#4fc3f7',					// 标记点颜色
-					borderColor: '#fff',					// 标记点边框颜色
-					borderWidth: 2						// 标记点边框宽度
+					// 根据主题设置高亮标记点颜色：暗黑模式使用更亮的颜色
+					color: this.themeStore.isDarkMode ? '#8fe0ff' : '#0288d1',
+					// 根据主题设置高亮边框颜色
+					borderColor: this.themeStore.isDarkMode ? '#1a1a1a' : '#fff',
+					borderWidth: 3,
+					shadowBlur: 10,
+					// 根据主题设置阴影颜色
+					shadowColor: this.themeStore.isDarkMode ? 'rgba(111, 213, 255, 0.6)' : 'rgba(79, 195, 247, 0.5)'
 				},
-				areaStyle: {
-					// 区域填充样式（渐变）
-					color: {
-						type: 'linear',						// 线性渐变
-						x: 0,
-						y: 0,
-						x2: 0,
-						y2: 1,
-						colorStops: [{
-							offset: 0,
-							color: 'rgba(79, 195, 247, 0.3)'	// 顶部颜色
-						}, {
-							offset: 1,
-							color: 'rgba(79, 195, 247, 0.05)'	// 底部颜色
-						}]
-					}
-				},
-				emphasis: {
-					// 高亮样式
-					itemStyle: {
-						color: '#0288d1',					// 高亮标记点颜色
-						borderColor: '#fff',
-						borderWidth: 3,
-						shadowBlur: 10,
-						shadowColor: 'rgba(79, 195, 247, 0.5)'
-					},
-					lineStyle: {
-						width: 4						// 高亮线条宽度
-					}
-				},
+				lineStyle: {
+					width: 4					// 高亮线条宽度
+				}
+			},
 				// 数据格式：[日期, 累计次数]
 				data: lineData.dates.map((date, index) => [date, lineData.values[index]])
 			}]
