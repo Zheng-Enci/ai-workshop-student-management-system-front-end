@@ -91,19 +91,22 @@
 	color: var(--text-primary);
 }
 
+/* ===================== Flex容器基础样式 ===================== */
+.attendance-page-calendar-desktop-component-cell-status,
+.attendance-page-calendar-desktop-component-time-slot-status {
+	display: flex;
+	gap: 2px;
+}
+
 /* ===================== 签到状态区域 ===================== */
 .attendance-page-calendar-desktop-component-cell-status {
-	display: flex;
 	flex-direction: column;
-	gap: 2px;
 	align-items: center;
 }
 
 /* ===================== 时段状态容器 ===================== */
 .attendance-page-calendar-desktop-component-time-slot-status {
-	display: flex;
 	flex-direction: row;
-	gap: 2px;
 	justify-content: center;
 	margin-top: 4px;
 }
