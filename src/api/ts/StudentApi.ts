@@ -4,6 +4,7 @@
  *
  * @module api/StudentApi
  * @description 封装学生信息查询、头像获取、等级查询、登录注册等API接口
+ * @author ZhengEnCi zheng_enci_work@foxmail.com
  */
 
 import ApiInterceptor from '@/composables/ts/ApiInterceptor'
@@ -107,6 +108,21 @@ export interface MajorStatisticsResponse {
  */
 export interface StudentCountResponse {
 	data: number
+}
+
+/**
+ * 学生个人信息数据类型
+ * 与StudentStore中的StudentInfo接口对应
+ */
+export interface StudentProfileData {
+	studentId: string
+	name: string
+	gender: string
+	phoneNumber: string
+	college: string
+	grade: number
+	major: string
+	classNum: number
 }
 
 /**
@@ -431,6 +447,51 @@ class StudentApi {
 	static async getStudentCountByLevel(levelCode: number): Promise<StudentCountResponse> {
 		const response = await this.api.get<StudentCountResponse>('/api/v1/students/student-count-by-level-code', {
 			params: { 'level-code': levelCode }
+		}).catch((error: AxiosError<{ message: string }>) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
+	/**
+	 * 获取学生个人信息接口
+	 * 根据token获取当前登录学生的个人信息
+	 *
+	 * @static
+	 * @param {string} token - 用户认证token
+	 * @returns {Promise<ApiResponse<StudentProfileData>>} 响应数据对象，包含学生个人信息
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * // 获取当前登录学生的个人信息
+	 * const result = await StudentApi.getStudentProfile('your-jwt-token')
+	 * console.log(result.data.name) // 输出：学生姓名
+	 */
+	static async getStudentProfile(token: string): Promise<ApiResponse<StudentProfileData>> {
+		const response = await this.api.get('/api/v1/students/profile', {
+			params: { token }
+		}).catch((error: AxiosError<{ message: string }>) => {
+			const msg = error.response?.data?.message
+			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
+		})
+		return response.data
+	}
+
+	/**
+	 * 获取学生数据库表主键ID
+	 * 通过JWT Token获取当前登录学生在数据库中的唯一ID
+	 *
+	 * @static
+	 * @param {string} token - 用户认证token
+	 * @returns {Promise<ApiResponse<number>>} 响应数据对象，包含学生数据库表ID
+	 * @throws {Error} 网络错误或服务器错误时抛出异常
+	 * @example
+	 * const result = await StudentApi.getStudentDatabaseId('your-jwt-token')
+	 * console.log(result.data) // 输出：123
+	 */
+	static async getStudentDatabaseId(token: string): Promise<ApiResponse<number>> {
+		const response = await this.api.get('/api/v1/students/get-student-database-table-id', {
+			params: { token }
 		}).catch((error: AxiosError<{ message: string }>) => {
 			const msg = error.response?.data?.message
 			throw new Error(error.response?.status !== undefined && error.response.status >= 500 ? '服务器错误，请稍后重试' : msg)
