@@ -18,8 +18,8 @@
 // ===================== 第三方依赖导入区 =====================
 // Element Plus 图标组件：签到勾选、返回箭头
 import { Check, ArrowLeft } from '@element-plus/icons-vue'
-// ECharts 图表类型：热力图、折线图
-import { HeatmapChart, LineChart } from 'echarts/charts'
+// ECharts 图表类型：热力图
+import { HeatmapChart } from 'echarts/charts'
 // ECharts 组件：标题、提示框、网格、图例、日历、视觉映射
 import {
 	TitleComponent,
@@ -56,6 +56,7 @@ import { useLoadingMaskStore } from '@/stores/ts/loading'
 // 全局加载蒙版组件
 import LoadingMask from '@/components/LoadingMask.vue'
 import AttendancePageHeatmapDesktopComponent from './desktop/AttendancePageHeatmapDesktopComponent.vue'
+import AttendancePageTrendDesktopComponent from './desktop/AttendancePageTrendDesktopComponent.vue'
 
 // ===================== 类型定义区 =====================
 /**
@@ -76,7 +77,6 @@ echarts.use([
 	CalendarComponent,    // 日历组件
 	VisualMapComponent,   // 视觉映射组件（热力图颜色映射）
 	HeatmapChart,         // 热力图图表
-	LineChart,            // 折线图图表
 	CanvasRenderer        // Canvas渲染器
 ])
 
@@ -122,18 +122,6 @@ const nextSignTime: Ref<string> = ref('')
  * @type {Ref<ReturnType<typeof setInterval> | null>}
  */
 const timeInterval: Ref<ReturnType<typeof setInterval> | null> = ref<ReturnType<typeof setInterval> | null>(null)
-
-/**
- * 折线图DOM容器引用
- * @type {Ref<HTMLElement | null>}
- */
-const lineChart: Ref<HTMLElement | null> = ref<HTMLElement | null>(null)
-
-/**
- * 折线图ECharts实例
- * @type {Ref<any>}
- */
-const lineInstance: Ref<any> = ref<any>(null)
 
 /**
  * 签到记录列表（接口返回数据）
@@ -333,206 +321,11 @@ const isTimeSlotSigned = (dateStr: string, timeSlot: string): boolean => {
 	})
 }
 
-// ===================== 图表数据生成区 =====================
-/**
- * 生成折线图所需数据
- * @function generateLineData
- * @description 按日期统计累计签到次数，用于展示签到趋势
- * @returns {Object} 包含日期数组和累计值数组的对象
- * @property {Array<string>} dates - 排序后的日期数组（YYYY-MM-DD）
- * @property {Array<number>} values - 对应日期的累计签到次数
- */
-const generateLineData = (): { dates: string[]; values: number[] } => {
-	// 日期→当日签到次数 映射表
-	const dateMap = new Map<string, number>()
-
-	// 统计每日签到次数
-	attendanceRecords.value.forEach(record => {
-		if (!record.attendanceDateTime) {
-			return
-		}
-		const date = new Date(record.attendanceDateTime)
-		if (isNaN(date.getTime())) {
-			return
-		}
-		const [dateStr] = date.toISOString().split('T')
-		dateMap.set(dateStr, (dateMap.get(dateStr) || 0) + 1)
-	})
-
-	// 日期排序（保证折线图时间顺序正确）
-	const sortedDates = Array.from(dateMap.keys()).sort()
-	// 每日签到次数数组
-	const dailyValues = sortedDates.map(date => dateMap.get(date))
-
-	// 计算累计签到次数
-	let cumulativeSum = 0
-	const cumulativeValues = dailyValues.map(value => {
-		cumulativeSum += value || 0
-		return cumulativeSum
-	})
-
-	return {
-		dates: sortedDates,
-		values: cumulativeValues
-	}
-}
-
-// ===================== 图表初始化区 =====================
-/**
- * 初始化签到趋势折线图
- * @function initLineChart
- * @description 销毁旧实例→创建新实例→生成数据→配置选项→渲染图表
- */
-const initLineChart = () => {
-	// DOM容器不存在时直接返回
-	if (!lineChart.value) { return }
-
-	// 销毁旧实例（防止内存泄漏）
-	if (lineInstance.value) {
-		lineInstance.value.dispose()
-	}
-
-	// 创建新的ECharts实例
-	lineInstance.value = echarts.init(lineChart.value)
-
-	// 生成折线图数据
-	const lineData = generateLineData()
-
-	// 折线图配置项
-	const option = {
-		backgroundColor: 'transparent', // 透明背景
-		tooltip: { // 提示框配置
-			trigger: 'axis', // 轴触发
-			backgroundColor: themeStore.isDarkMode ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.9)',
-			borderColor: '#ddd',
-			textStyle: { // 文本样式（适配主题）
-				color: themeStore.isDarkMode ? '#000' : '#333'
-			},
-			// 自定义提示框内容
-			formatter(params: any) {
-				const date = new Date(params[0].axisValue)
-				const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
-				return `${formattedDate}<br/>累计签到次数: ${params[0].value}`
-			}
-		},
-		grid: { // 网格布局
-			left: '8%',
-			right: '8%',
-			bottom: '15%',
-			top: '15%',
-			containLabel: true // 包含标签
-		},
-		xAxis: { // X轴：时间
-			type: 'time',
-			boundaryGap: false, // 无边界间隙
-			axisLabel: { // 轴标签样式
-				color: themeStore.isDarkMode ? '#ccc' : '#666',
-				fontSize: 11,
-				rotate: 45, // 旋转45度防止重叠
-				// 自定义日期格式（月/日）
-				formatter(value: string | number | Date) {
-					const date = new Date(value)
-					return `${date.getMonth() + 1}/${date.getDate()}`
-				}
-			},
-			axisLine: { // 轴线样式
-				lineStyle: {
-					color: themeStore.isDarkMode ? '#444' : '#ddd'
-				}
-			},
-			splitLine: { // 分割线样式
-				show: true,
-				lineStyle: {
-					color: themeStore.isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
-				}
-			}
-		},
-		yAxis: { // Y轴：累计次数
-			type: 'value',
-			name: '累计签到次数', // 轴名称
-			nameTextStyle: { // 轴名称样式
-				color: themeStore.isDarkMode ? '#ccc' : '#666',
-				fontSize: 12
-			},
-			axisLabel: { // 轴标签样式
-				color: themeStore.isDarkMode ? '#ccc' : '#666',
-				fontSize: 11
-			},
-			axisLine: { // 轴线样式
-				lineStyle: {
-					color: themeStore.isDarkMode ? '#444' : '#ddd'
-				}
-			},
-			splitLine: { // 分割线样式
-				lineStyle: {
-					color: themeStore.isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
-				}
-			}
-		},
-		series: [{ // 系列数据
-			name: '累计签到次数',
-			type: 'line', // 折线图类型
-			smooth: true, // 平滑曲线
-			symbol: 'circle', // 标记点形状
-			symbolSize: 6, // 标记点大小
-			lineStyle: { // 线条样式
-				color: '#4fc3f7',
-				width: 3
-			},
-			itemStyle: { // 标记点样式
-				color: '#4fc3f7',
-				borderColor: '#fff',
-				borderWidth: 2
-			},
-			areaStyle: { // 区域填充样式（渐变）
-				color: {
-					type: 'linear', // 线性渐变
-					x: 0,
-					y: 0,
-					x2: 0,
-					y2: 1,
-					colorStops: [{
-						offset: 0, color: 'rgba(79, 195, 247, 0.3)' // 顶部颜色
-					}, {
-						offset: 1, color: 'rgba(79, 195, 247, 0.05)' // 底部颜色
-					}]
-				}
-			},
-			emphasis: { // 高亮样式
-				itemStyle: {
-					color: '#0288d1',
-					borderColor: '#fff',
-					borderWidth: 3,
-					shadowBlur: 10,
-					shadowColor: 'rgba(79, 195, 247, 0.5)'
-				},
-				lineStyle: {
-					width: 4
-				}
-			},
-			// 数据格式：[日期, 累计次数]
-			data: lineData.dates.map((date, index) => [date, lineData.values[index]])
-		}]
-	}
-
-	// 应用配置项渲染图表
-	lineInstance.value.setOption(option)
-}
-
-/**
- * 初始化所有图表
- * @function initCharts
- * @description 统一初始化折线图（热力图已抽离为独立组件）
- */
-const initCharts = () => {
-	initLineChart()
-}
-
 // ===================== 数据加载区 =====================
 /**
  * 加载用户签到记录
  * @function loadAttendanceRecords
- * @description 调用API获取签到记录，成功后初始化图表
+ * @description 调用API获取签到记录
  * @async
  */
 const loadAttendanceRecords = async () => {
@@ -548,12 +341,9 @@ const loadAttendanceRecords = async () => {
 		}
 		// 调用API获取签到记录
 		const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
-		// 接口返回成功且有数据时更新记录并初始化图表
+		// 接口返回成功且有数据时更新记录
 		if (response && response.data) {
 			attendanceRecords.value = (response.data as unknown) as MyAttendanceRecord[]
-			// 等待DOM更新完成后初始化图表
-			await nextTick()
-			initCharts()
 		}
 	} catch {
 		// 错误容错（可扩展：添加错误提示、日志上报）
@@ -653,28 +443,13 @@ onMounted(async () => {
 })
 
 /**
- * 监听主题变化
- * @description 主题切换时重新渲染图表（适配暗黑/亮色样式）
- */
-watch(() => themeStore.isDarkMode, () => {
-	// 等待DOM更新完成后重新初始化图表
-	nextTick(() => {
-		initLineChart()
-	})
-})
-
-/**
  * 组件卸载钩子
- * @description 1. 清除定时器 2. 销毁ECharts实例（防止内存泄漏）
+ * @description 1. 清除定时器（防止内存泄漏）
  */
 onUnmounted(() => {
 	// 清除时间检测定时器
 	if (timeInterval.value) {
 		clearInterval(timeInterval.value)
-	}
-	// 销毁折线图实例
-	if (lineInstance.value) {
-		lineInstance.value.dispose()
 	}
 })
 </script>
@@ -740,10 +515,10 @@ onUnmounted(() => {
 					<AttendancePageHeatmapDesktopComponent/>
 				</div>
 
-				<!-- 折线图组件 -->
+				<!-- 趋势图组件 -->
 				<div class="chart-item-desktop">
 					<div class="chart-title-desktop">签到趋势图</div>
-					<div ref="lineChart" class="chart-content-desktop"/>
+					<AttendancePageTrendDesktopComponent/>
 				</div>
 
 				<!-- 签到记录日历组件 -->
