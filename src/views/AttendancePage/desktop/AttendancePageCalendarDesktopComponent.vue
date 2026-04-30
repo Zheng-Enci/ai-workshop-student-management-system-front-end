@@ -28,7 +28,7 @@
 				<div
 					class="attendance-page-calendar-desktop-component-cell"
 					:class="{
-						'has-attendance': calendarComponent.getDateAttendanceTimes(data.day).length > 0
+						'has-attendance': calendarComponent.attendanceRecords.value.length > 0 && calendarComponent.getDateAttendanceTimes(data.day).length > 0
 					}"
 				>
 					<div class="attendance-page-calendar-desktop-component-cell-wrapper">
@@ -89,14 +89,14 @@
 					</div>
 					<!-- 签到时间提示框：有签到记录时显示详细时间 -->
 					<div
-						v-if="calendarComponent.getDateAttendanceTimes(data.day).length > 0"
+						v-if="calendarComponent.attendanceRecords.value.length > 0 && calendarComponent.getDateAttendanceTimes(data.day).length > 0"
 						class="attendance-page-calendar-desktop-component-tooltip"
 						:data-date="data.day"
 					>
 						<div class="attendance-page-calendar-desktop-component-tooltip-content">
 							<div class="attendance-page-calendar-desktop-component-tooltip-times">
 								<div
-									v-for="(time, index) in calendarComponent.getDateAttendanceTimes(data.day)"
+									v-for="(time, index) in calendarComponent.attendanceRecords.value.length > 0 ? calendarComponent.getDateAttendanceTimes(data.day) : []"
 									:key="index"
 									class="attendance-page-calendar-desktop-component-tooltip-time-item"
 								>

@@ -55,11 +55,12 @@ interface AttendanceRecord {
 export default class AttendancePageCalendarDesktopComponent {
 	/**
 	 * 签到记录数据
-	 * @private
-	 * @description 存储从单例获取的签到记录数组
-	 * 在loadData()方法中赋值，在其他方法中使用
+	 * @public
+	 * @description 存储从单例获取的签到记录数组，使用ref实现响应式
+	 * 在loadData()方法中赋值，在模板中通过.value访问
+	 * 使用响应式数据确保数据变化时UI自动更新
 	 */
-	private attendanceRecords: AttendanceRecord[] = []
+	public attendanceRecords: Ref<AttendanceRecord[]> = ref([])
 
 	/**
 	 * 日历当前选中日期
@@ -93,8 +94,8 @@ export default class AttendancePageCalendarDesktopComponent {
 			// 等待单例数据初始化完成，确保数据已加载
 			await attendancePageDesktop.waitForReady()
 
-			// 从单例获取签到记录数据
-			this.attendanceRecords = attendancePageDesktop.getAttendanceRecords()
+			// 从单例获取签到记录数据，使用.value赋值以保持响应式
+			this.attendanceRecords.value = attendancePageDesktop.getAttendanceRecords()
 		} catch (error) {
 			// 数据加载失败，显示错误提示信息
 			ElMessage.error('加载签到记录失败')
@@ -182,13 +183,13 @@ export default class AttendancePageCalendarDesktopComponent {
 	 * - evening: 18-24点
 	 */
 	public isTimeSlotSigned(dateStr: string, timeSlot: string): boolean {
-		// 无签到记录时返回false
-		if (!this.attendanceRecords || this.attendanceRecords.length === 0) {
+		// 无签到记录时返回false，使用.value访问响应式数据
+		if (!this.attendanceRecords.value || this.attendanceRecords.value.length === 0) {
 			return false
 		}
 
-		// 检测是否存在指定日期+时段的签到记录
-		return this.attendanceRecords.some(record => {
+		// 检测是否存在指定日期+时段的签到记录，使用.value访问响应式数据
+		return this.attendanceRecords.value.some(record => {
 			// 数据容错
 			if (!record || !record.attendanceDateTime) {
 				return false
@@ -228,13 +229,13 @@ export default class AttendancePageCalendarDesktopComponent {
 	 * @description 过滤指定日期的所有签到记录，返回签到时间数组
 	 */
 	public getDateAttendanceTimes(dateStr: string): string[] {
-		// 无签到记录时返回空数组
-		if (!this.attendanceRecords || this.attendanceRecords.length === 0) {
+		// 无签到记录时返回空数组，使用.value访问响应式数据
+		if (!this.attendanceRecords.value || this.attendanceRecords.value.length === 0) {
 			return []
 		}
 
-		// 过滤指定日期的签到记录，并提取签到时间
-		return this.attendanceRecords
+		// 过滤指定日期的签到记录，并提取签到时间，使用.value访问响应式数据
+		return this.attendanceRecords.value
 			.filter(record => {
 				// 数据容错：排除空记录/无时间字段的记录
 				if (!record || !record.attendanceDateTime) {
