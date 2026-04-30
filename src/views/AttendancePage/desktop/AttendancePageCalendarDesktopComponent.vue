@@ -47,12 +47,6 @@
 									}"
 								>
 									<span class="attendance-page-calendar-desktop-component-time-label">早</span>
-									<el-icon
-										v-if="calendarComponent.isTimeSlotSigned(data.day, 'morning')"
-										class="attendance-page-calendar-desktop-component-slot-icon"
-									>
-										<Check />
-									</el-icon>
 								</div>
 								<!-- 下午时段 -->
 								<div
@@ -62,12 +56,6 @@
 									}"
 								>
 									<span class="attendance-page-calendar-desktop-component-time-label">午</span>
-									<el-icon
-										v-if="calendarComponent.isTimeSlotSigned(data.day, 'afternoon')"
-										class="attendance-page-calendar-desktop-component-slot-icon"
-									>
-										<Check />
-									</el-icon>
 								</div>
 								<!-- 晚上时段 -->
 								<div
@@ -77,12 +65,6 @@
 									}"
 								>
 									<span class="attendance-page-calendar-desktop-component-time-label">晚</span>
-									<el-icon
-										v-if="calendarComponent.isTimeSlotSigned(data.day, 'evening')"
-										class="attendance-page-calendar-desktop-component-slot-icon"
-									>
-										<Check />
-									</el-icon>
 								</div>
 							</div>
 						</div>
@@ -139,18 +121,13 @@ import { onMounted } from 'vue'
 /**
  * ElCalendar: Element Plus日历组件
  * ElButton: Element Plus按钮组件
- * ElIcon: Element Plus图标组件
- * Check: Element Plus勾选图标
  */
-import { ElCalendar, ElButton, ElIcon } from 'element-plus'
-import { Check } from '@element-plus/icons-vue'
+import { ElCalendar, ElButton } from 'element-plus'
 
 // Element Plus 基础样式（按需引入）
 import 'element-plus/theme-chalk/base.css'
 import 'element-plus/theme-chalk/el-calendar.css'
 import 'element-plus/theme-chalk/el-button.css'
-import 'element-plus/theme-chalk/el-icon.css'
-import 'element-plus/theme-chalk/el-popper.css'
 
 // ===================== 日历组件类导入 =====================
 /**
