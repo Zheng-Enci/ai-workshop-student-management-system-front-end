@@ -122,6 +122,12 @@
 	border-radius: 3px;
 }
 
+/* ===================== 时段文字标签 ===================== */
+.attendance-page-calendar-desktop-component-time-label {
+	font-size: 10px;
+	color: var(--text-secondary);
+}
+
 .attendance-page-calendar-desktop-component-time-slot.signed {
 	background-color: var(--success-color);
 	border-color: var(--success-color);
@@ -129,12 +135,6 @@
 
 .attendance-page-calendar-desktop-component-time-slot.signed .attendance-page-calendar-desktop-component-time-label {
 	color: #fff;
-}
-
-/* ===================== 时段文字标签 ===================== */
-.attendance-page-calendar-desktop-component-time-label {
-	font-size: 10px;
-	color: var(--text-secondary);
 }
 
 /* ===================== 勾选图标 ===================== */
@@ -233,7 +233,7 @@
 	font-weight: 600;
 	color: #3E9EAC;
 	text-align: center;
-	letter-spacing: 0.5px;
+	letter-spacing: 1px;
 	background: linear-gradient(135deg, rgb(62 158 172 / 0.1) 0%, rgb(31 66 119 / 0.1) 100%);
 	border-radius: 6px;
 	transition: transform 0.3s ease;
@@ -247,7 +247,7 @@
 	font-size: 14px;
 	font-weight: 600;
 	color: #1a202c;
-	letter-spacing: 0.3px;
+	letter-spacing: 0;
 }
 
 .attendance-page-calendar-desktop-component-tooltip-time-text::before {
