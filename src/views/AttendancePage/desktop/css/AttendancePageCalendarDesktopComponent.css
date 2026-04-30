@@ -181,7 +181,11 @@
 	position: relative;
 	z-index: 1;
 	min-width: 200px;
-	padding: 4px 0;
+	padding: 8px;
+	background: rgb(255 255 255 / 0.95);
+	border: 1px solid rgb(60 189 177 / 0.2);
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
 }
 
 .attendance-page-calendar-desktop-component-tooltip-times {
@@ -280,9 +284,15 @@ html.dark .attendance-page-calendar-desktop-component-tooltip::after {
 	border-top-color: rgb(60 189 177 / 0.3);
 }
 
-html.dark .attendance-page-calendar-desktop-component-tooltip-time-item {
-	background: rgb(50 50 50 / 0.95);
+html.dark .attendance-page-calendar-desktop-component-tooltip-content {
+	background: rgb(40 40 40 / 0.98);
 	border-color: rgb(60 189 177 / 0.3);
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.4);
+}
+
+html.dark .attendance-page-calendar-desktop-component-tooltip-time-item {
+	background: rgb(60 60 60 / 0.8);
+	border-color: rgb(60 189 177 / 0.2);
 }
 
 html.dark .attendance-page-calendar-desktop-component-tooltip-time-text {
