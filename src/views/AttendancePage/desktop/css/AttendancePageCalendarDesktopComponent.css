@@ -281,6 +281,10 @@ html.dark .attendance-page-calendar-desktop-component-time-slot.signed {
 	border-color: #3CBDB1;
 }
 
+html.dark .attendance-page-calendar-desktop-component-time-slot.signed .attendance-page-calendar-desktop-component-time-label {
+	color: #1a1a1a;
+}
+
 html.dark .attendance-page-calendar-desktop-component-cell.has-attendance .attendance-page-calendar-desktop-component-cell-date {
 	color: #1a1a1a;
 }
