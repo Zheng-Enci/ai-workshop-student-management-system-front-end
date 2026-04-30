@@ -1,0 +1,278 @@
+/**
+ * 签到记录日历组件样式(桌面端)
+ *
+ * @description 签到记录日历组件的样式定义
+ * @file AttendancePageCalendarDesktopComponent.css
+ * @author ZhengEnCi zheng_enci_work@foxmail.com
+ * @date 2026-01
+ * @version 1.0.0
+ */
+
+/* ===================== 日历容器 ===================== */
+.attendance-page-calendar-desktop-component-container {
+	width: 100%;
+	padding: 20px;
+	overflow: visible !important;
+	background: var(--glass-bg);
+	border: 1px solid var(--glass-border);
+	border-radius: 20px;
+	box-shadow: 0 8px 32px var(--shadow-color);
+	backdrop-filter: blur(20px);
+}
+
+/* ===================== 日历组件 ===================== */
+.attendance-page-calendar-desktop-component-calendar {
+	background: transparent;
+}
+
+/* ===================== 日历头部 ===================== */
+.attendance-page-calendar-desktop-component-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 24px;
+	background-color: var(--bg-primary);
+	border-bottom: 1px solid var(--border-color);
+}
+
+.attendance-page-calendar-desktop-component-header-title {
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--text-primary);
+}
+
+.attendance-page-calendar-desktop-component-header-actions {
+	display: flex;
+	gap: 8px;
+	margin-left: 20px;
+}
+
+/* ===================== 日历单元格 ===================== */
+.attendance-page-calendar-desktop-component-cell {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	padding: 8px;
+}
+
+.attendance-page-calendar-desktop-component-cell.has-attendance {
+	cursor: pointer;
+}
+
+/* ===================== 单元格包装器 ===================== */
+.attendance-page-calendar-desktop-component-cell-wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	padding: 4px;
+	pointer-events: auto;
+	cursor: pointer;
+	transition: transform 0.2s ease;
+}
+
+.attendance-page-calendar-desktop-component-cell-wrapper:hover {
+	background-color: var(--bg-secondary);
+	border-radius: 4px;
+	transform: scale(1.02);
+}
+
+/* ===================== 日期数字 ===================== */
+.attendance-page-calendar-desktop-component-cell-date {
+	margin-bottom: 4px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--text-primary);
+}
+
+/* ===================== 签到状态区域 ===================== */
+.attendance-page-calendar-desktop-component-cell-status {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	align-items: center;
+}
+
+/* ===================== 时段状态容器 ===================== */
+.attendance-page-calendar-desktop-component-time-slot-status {
+	display: flex;
+	flex-direction: row;
+	gap: 2px;
+	justify-content: center;
+	margin-top: 4px;
+}
+
+/* ===================== 时段标签 ===================== */
+.attendance-page-calendar-desktop-component-time-slot {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	min-width: 24px;
+	height: 20px;
+	padding: 2px 3px;
+	background-color: var(--bg-tertiary);
+	border: 1px solid var(--border-color);
+	border-radius: 3px;
+}
+
+.attendance-page-calendar-desktop-component-time-slot.signed {
+	background-color: var(--success-color);
+	border-color: var(--success-color);
+}
+
+.attendance-page-calendar-desktop-component-time-slot.signed .attendance-page-calendar-desktop-component-time-label {
+	color: #fff;
+}
+
+/* ===================== 时段文字标签 ===================== */
+.attendance-page-calendar-desktop-component-time-label {
+	font-size: 10px;
+	color: var(--text-secondary);
+}
+
+/* ===================== 勾选图标 ===================== */
+.attendance-page-calendar-desktop-component-slot-icon {
+	margin-left: 2px;
+	font-size: 7px;
+	color: #fff;
+}
+
+/* ===================== 自定义提示框 ===================== */
+.attendance-page-calendar-desktop-component-tooltip {
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	z-index: 2000;
+	pointer-events: none;
+	opacity: 0;
+	transform: translateX(-50%) translateY(-4px) scale(0.95);
+	transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.attendance-page-calendar-desktop-component-cell.has-attendance:hover .attendance-page-calendar-desktop-component-tooltip {
+	visibility: visible;
+	pointer-events: auto;
+	opacity: 1;
+	transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.attendance-page-calendar-desktop-component-tooltip::after {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	content: '';
+	border: 6px solid transparent;
+	border-top-color: rgb(102 126 234 / 0.2);
+	transform: translateX(-50%);
+}
+
+/* ===================== 提示框内容 ===================== */
+.attendance-page-calendar-desktop-component-tooltip-content {
+	position: relative;
+	z-index: 1;
+	min-width: 200px;
+	padding: 4px 0;
+}
+
+.attendance-page-calendar-desktop-component-tooltip-times {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.attendance-page-calendar-desktop-component-tooltip-time-item {
+	position: relative;
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 14px;
+	overflow: hidden;
+	cursor: default;
+	background: rgb(255 255 255 / 0.6);
+	border: 1px solid rgb(102 126 234 / 0.15);
+	border-radius: 8px;
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.attendance-page-calendar-desktop-component-tooltip-time-item::before {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 3px;
+	content: '';
+	background: linear-gradient(180deg, #3E9EAC 0%, #1F4277 100%);
+	transform: scaleY(0);
+	transition: transform 0.3s ease;
+}
+
+.attendance-page-calendar-desktop-component-tooltip-time-item:hover {
+	background: rgb(62 158 172 / 0.1);
+	border-color: rgb(62 158 172 / 0.3);
+	box-shadow: 0 2px 8px rgb(62 158 172 / 0.2);
+	transform: translateX(2px);
+}
+
+.attendance-page-calendar-desktop-component-tooltip-time-item:hover::before {
+	transform: scaleY(1);
+}
+
+/* ===================== 提示框时段标签 ===================== */
+.attendance-page-calendar-desktop-component-tooltip-time-slot {
+	min-width: 36px;
+	padding: 4px 8px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #3E9EAC;
+	text-align: center;
+	letter-spacing: 0.5px;
+	background: linear-gradient(135deg, rgb(62 158 172 / 0.1) 0%, rgb(31 66 119 / 0.1) 100%);
+	border-radius: 6px;
+	transition: transform 0.3s ease;
+}
+
+/* ===================== 提示框时间文本 ===================== */
+.attendance-page-calendar-desktop-component-tooltip-time-text {
+	position: relative;
+	padding-left: 20px;
+	font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', 'Courier New', monospace;
+	font-size: 14px;
+	font-weight: 600;
+	color: #1a202c;
+	letter-spacing: 0.3px;
+}
+
+.attendance-page-calendar-desktop-component-tooltip-time-text::before {
+	position: absolute;
+	left: 0;
+	font-size: 12px;
+	content: '🕐';
+	opacity: 0.6;
+	transition: opacity 0.3s ease;
+}
+
+/* ===================== 暗黑模式适配 ===================== */
+html.dark .attendance-page-calendar-desktop-component-cell {
+	background-color: transparent !important;
+}
+
+html.dark .attendance-page-calendar-desktop-component-time-slot {
+	background-color: var(--bg-tertiary);
+	border-color: var(--border-color);
+}
+
+html.dark .attendance-page-calendar-desktop-component-slot-icon {
+	color: #fff;
+}
+
+html.dark .attendance-page-calendar-desktop-component-tooltip::after {
+	border-top-color: rgb(102 126 234 / 0.3);
+}
