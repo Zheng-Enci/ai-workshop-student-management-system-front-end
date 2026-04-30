@@ -18,6 +18,12 @@
 import {ref, type Ref, watch} from 'vue'
 
 /**
+ * Element Plus消息组件导入
+ * @description ElMessage用于显示错误提示信息
+ */
+import {ElMessage} from 'element-plus'
+
+/**
  * ECharts核心模块导入
  * @description echarts/core提供ECharts核心功能
  */
@@ -193,8 +199,8 @@ export default class AttendancePageTrendDesktopComponent {
 			// 更新图表配置并渲染
 			this.updateChart()
 		} catch (error) {
-			// 数据加载失败，输出错误信息到控制台
-			console.error('加载签到记录失败:', error)
+			// 数据加载失败，显示错误提示信息
+			ElMessage.error('加载签到记录失败')
 		}
 	}
 
