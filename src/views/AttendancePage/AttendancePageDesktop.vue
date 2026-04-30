@@ -173,16 +173,5 @@ const goToNavigation = () => {
 
 <style>
 /* ===================== Element Plus Message 全局样式覆盖 ===================== */
-/**
- * 修复 Message 提示位置
- * 确保 Message 显示在页面顶部而不是底部
- * 使用非 scoped 样式覆盖全局组件
- */
-html body .el-message.el-message--info,
-html body .el-message.el-message--success,
-html body .el-message.el-message--warning,
-html body .el-message.el-message--error {
-	top: 20px !important;
-	bottom: auto !important;
-}
+
 </style>
