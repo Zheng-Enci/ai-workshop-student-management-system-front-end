@@ -199,14 +199,3 @@ html.light {
 html.light * {
   color: var(--text-primary) !important; /* 使用主文字颜色 */
 }
-
-/* ==================== Element Plus 组件样式覆盖 ==================== */
-
-/**
- * Element Plus Message 组件位置修复
- * 确保 Message 提示显示在页面顶部而不是底部
- */
-.el-message {
-  top: 20px !important; /* 距离顶部 20px */
-  bottom: auto !important; /* 取消底部定位 */
-}
