@@ -35,32 +35,17 @@ import * as echarts from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 // Element Plus 基础组件：按钮
 import { ElButton } from 'element-plus'
-// Vue3 核心API：响应式、生命周期、类型
-import {ref, onMounted, type Ref} from 'vue'
 // Vue Router 路由跳转
 import { useRouter } from 'vue-router'
 
 // ===================== 业务模块导入区 =====================
-// 签到相关API：获取当前用户签到记录
-import AttendanceApi from '@/api/ts/AttendanceApi'
 // 状态管理：主题（暗黑/亮色）
 import { useThemeStore } from '@/stores/ts/theme'
-// 状态管理：全局加载蒙版
-import { useLoadingMaskStore } from '@/stores/ts/loading'
 // 全局加载蒙版组件
 import LoadingMask from '@/components/LoadingMask.vue'
 import AttendancePageHeatmapDesktopComponent from './desktop/AttendancePageHeatmapDesktopComponent.vue'
 import AttendancePageTrendDesktopComponent from './desktop/AttendancePageTrendDesktopComponent.vue'
 import AttendancePageCalendarDesktopComponent from './desktop/AttendancePageCalendarDesktopComponent.vue'
-
-// ===================== 类型定义区 =====================
-/**
- * 签到记录接口
- * @interface MyAttendanceRecord
- */
-interface MyAttendanceRecord {
-	attendanceDateTime: string
-}
 
 // ===================== ECharts 组件注册 =====================
 // 注册ECharts所需组件（按需引入，减小打包体积）
@@ -82,15 +67,6 @@ const themeStore = useThemeStore()
 const { toggleTheme } = themeStore
 // 路由实例
 const router = useRouter()
-// 全局加载蒙版 Store
-const loadingMaskStore = useLoadingMaskStore()
-
-// ===================== 响应式变量定义区 =====================
-/**
- * 签到记录列表（接口返回数据）
- * @type {Ref<AttendanceRecord[]>}
- */
-const attendanceRecords: Ref<MyAttendanceRecord[]> = ref<MyAttendanceRecord[]>([])
 
 // ===================== 页面交互方法区 =====================
 /**
@@ -101,53 +77,6 @@ const attendanceRecords: Ref<MyAttendanceRecord[]> = ref<MyAttendanceRecord[]>([
 const goToNavigation = () => {
 	router.push('/navigation')
 }
-
-// ===================== 数据加载区 =====================
-/**
- * 加载用户签到记录
- * @function loadAttendanceRecords
- * @description 调用API获取签到记录
- * @async
- */
-const loadAttendanceRecords = async () => {
-	try {
-		// 显示加载蒙版
-		loadingMaskStore.showLoadingMask('正在加载签到记录...')
-		// 从本地存储获取学生ID
-		const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
-		const studentId = userInfo.studentId
-		if (!studentId) {
-			loadingMaskStore.hideLoadingMask()
-			return
-		}
-		// 调用API获取签到记录
-		const response = await AttendanceApi.getStudentAttendanceRecords(studentId)
-		// 接口返回成功且有数据时更新记录
-		if (response && response.data) {
-			attendanceRecords.value = (response.data as unknown) as MyAttendanceRecord[]
-		}
-	} catch {
-		// 错误容错（可扩展：添加错误提示、日志上报）
-	} finally {
-		// 隐藏加载蒙版
-		loadingMaskStore.hideLoadingMask()
-	}
-}
-
-// ===================== 生命周期钩子 =====================
-/**
- * 组件挂载完成钩子
- * @description 加载签到记录
- * @async
- */
-onMounted(async () => {
-	try {
-		// 加载签到记录
-		await loadAttendanceRecords()
-	} catch {
-		// 组件挂载初始化失败
-	}
-})
 </script>
 
 <template>
