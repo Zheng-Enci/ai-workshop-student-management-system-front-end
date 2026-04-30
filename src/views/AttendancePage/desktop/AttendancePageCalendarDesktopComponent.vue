@@ -145,6 +145,12 @@ import { onMounted } from 'vue'
 import { ElCalendar, ElButton, ElIcon } from 'element-plus'
 import { Check } from '@element-plus/icons-vue'
 
+// Element Plus 基础样式（按需引入）
+import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/el-calendar.css'
+import 'element-plus/theme-chalk/el-button.css'
+import 'element-plus/theme-chalk/el-icon.css'
+
 // ===================== 日历组件类导入 =====================
 /**
  * AttendancePageCalendarDesktopComponent: 日历组件的TypeScript逻辑类
