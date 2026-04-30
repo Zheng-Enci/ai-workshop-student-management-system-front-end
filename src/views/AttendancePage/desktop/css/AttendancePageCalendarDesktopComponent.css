@@ -169,7 +169,7 @@
 	left: 50%;
 	content: '';
 	border: 6px solid transparent;
-	border-top-color: rgb(102 126 234 / 0.2);
+	border-top-color: rgb(60 189 177 / 0.2);
 	transform: translateX(-50%);
 }
 
@@ -209,15 +209,15 @@
 	left: 0;
 	width: 3px;
 	content: '';
-	background: linear-gradient(180deg, #3E9EAC 0%, #1F4277 100%);
+	background: linear-gradient(180deg, #3CBDB1 0%, #238e8c 100%);
 	transform: scaleY(0);
 	transition: transform 0.3s ease;
 }
 
 .attendance-page-calendar-desktop-component-tooltip-time-item:hover {
-	background: rgb(62 158 172 / 0.1);
-	border-color: rgb(62 158 172 / 0.3);
-	box-shadow: 0 2px 8px rgb(62 158 172 / 0.2);
+	background: rgb(60 189 177 / 0.1);
+	border-color: rgb(60 189 177 / 0.3);
+	box-shadow: 0 2px 8px rgb(60 189 177 / 0.2);
 	transform: translateX(2px);
 }
 
@@ -231,10 +231,10 @@
 	padding: 4px 8px;
 	font-size: 12px;
 	font-weight: 600;
-	color: #3E9EAC;
+	color: #3CBDB1;
 	text-align: center;
 	letter-spacing: 1px;
-	background: linear-gradient(135deg, rgb(62 158 172 / 0.1) 0%, rgb(31 66 119 / 0.1) 100%);
+	background: linear-gradient(135deg, rgb(60 189 177 / 0.1) 0%, rgb(42 92 88 / 0.1) 100%);
 	border-radius: 6px;
 	transition: transform 0.3s ease;
 }
@@ -274,5 +274,5 @@ html.dark .attendance-page-calendar-desktop-component-slot-icon {
 }
 
 html.dark .attendance-page-calendar-desktop-component-tooltip::after {
-	border-top-color: rgb(102 126 234 / 0.3);
+	border-top-color: rgb(60 189 177 / 0.3);
 }
