@@ -340,11 +340,11 @@ export default class AttendancePageTrendDesktopComponent {
 			// 提示框配置
 			tooltip: {
 				trigger: 'axis',						// 轴触发模式
-				backgroundColor: this.themeStore.isDarkMode ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.9)',
-				borderColor: '#ddd',
+				backgroundColor: this.themeStore.isDarkMode ? 'rgba(50,50,50,0.95)' : 'rgba(255,255,255,0.9)',
+				borderColor: this.themeStore.isDarkMode ? '#555' : '#ddd',
 				textStyle: {
 					// 根据主题设置文字颜色
-					color: this.themeStore.isDarkMode ? '#000' : '#333'
+					color: this.themeStore.isDarkMode ? '#fff' : '#333'
 				},
 				// 自定义提示框内容格式
 				formatter: (params: any) => {
