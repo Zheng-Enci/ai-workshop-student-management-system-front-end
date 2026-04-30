@@ -16,8 +16,8 @@
  */
 /////
 // ===================== 第三方依赖导入区 =====================
-// Element Plus 图标组件：签到勾选、返回箭头
-import { Check, ArrowLeft } from '@element-plus/icons-vue'
+// Element Plus 图标组件：返回箭头
+import { ArrowLeft } from '@element-plus/icons-vue'
 // ECharts 图表类型：热力图
 import { HeatmapChart } from 'echarts/charts'
 // ECharts 组件：标题、提示框、网格、图例、日历、视觉映射
@@ -33,14 +33,12 @@ import {
 import * as echarts from 'echarts/core'
 // ECharts 渲染器：Canvas渲染（适配桌面端性能）
 import { CanvasRenderer } from 'echarts/renderers'
-// Element Plus 基础组件：按钮、图标、日历
-import { ElButton, ElIcon, ElCalendar } from 'element-plus'
-// Vue3 核心API：响应式、生命周期、DOM更新、监听、类型
-import {ref, onMounted, onUnmounted, nextTick, watch, type Ref} from 'vue'
+// Element Plus 基础组件：按钮
+import { ElButton } from 'element-plus'
+// Vue3 核心API：响应式、生命周期、类型
+import {ref, onMounted, onUnmounted, type Ref} from 'vue'
 // Element Plus 基础样式（按需引入）
 import 'element-plus/theme-chalk/el-button.css'
-import 'element-plus/theme-chalk/el-icon.css'
-import 'element-plus/theme-chalk/el-calendar.css'
 // Vue Router 路由跳转
 import { useRouter } from 'vue-router'
 
